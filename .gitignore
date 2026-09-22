@@ -1,0 +1,11 @@
+# Local Claude Code overrides (per-developer)
+.claude/settings.local.json
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+*.swp
+
+# Clay CLI exports / scratch output
+*.csv
+!**/fixtures/**/*.csv
