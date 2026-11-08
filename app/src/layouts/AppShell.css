@@ -370,6 +370,12 @@
   }
   .drawer.open .drawer-panel {
     transform: none;
+    visibility: visible;
+    transition: transform 0.24s ease, visibility 0s;
+  }
+  .drawer:not(.open) .drawer-panel {
+    visibility: hidden;
+    transition: transform 0.24s ease, visibility 0s 0.24s;
   }
   .drawer-head {
     display: flex;

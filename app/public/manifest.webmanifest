@@ -1,0 +1,14 @@
+{
+  "name": "Facet",
+  "short_name": "Facet",
+  "description": "Evidence-based facial and body analysis with a personalised 12-month glow-up plan.",
+  "start_url": "/protocols",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f7f8f8",
+  "theme_color": "#f7f8f8",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

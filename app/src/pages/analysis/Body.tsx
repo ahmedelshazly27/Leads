@@ -125,7 +125,7 @@ export function BodyOverview(p: SectionProps) {
             <Metric
               label="Body fat"
               value={m.bodyFatEstimate ? `${m.bodyFatEstimate.toFixed(0)}%` : "—"}
-              note={m.bodyFatMethod === "navy" ? "US Navy method" : m.bodyFatMethod === "deurenberg" ? "Deurenberg (BMI) estimate" : "Needs measurements"}
+              note={m.bodyFatMethod === "navy" ? "US Navy method" : m.bodyFatMethod === "rfm-photo" ? "BMI + photo waist estimate (±5)" : m.bodyFatMethod === "deurenberg" ? "BMI estimate (±4)" : "Needs height & weight"}
               tone="muted"
             />
             <Metric label="Waist : height" value={m.whtr ? m.whtr.toFixed(2) : "—"} note={m.whtr ? (m.whtr >= 0.5 ? "≥ 0.5 — raised risk" : "< 0.5 — healthy") : "Needs height + side photo"} tone={m.whtr && m.whtr >= 0.5 ? "warn" : "muted"} />

@@ -1,0 +1,4 @@
+public/__test
+test*.html
+node_modules
+dist

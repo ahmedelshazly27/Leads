@@ -612,6 +612,10 @@
   gap: 10px;
 }
 
+.vz-slots.vz-slots-4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
 /* ---------------- Settings ---------------- */
 .st-row {
   display: flex;

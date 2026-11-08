@@ -96,7 +96,7 @@ export function ProtocolViewer() {
           <ChevronLeft size={18} />
         </Link>
         <div className="pv-title">Protocol</div>
-        <div className="pv-group">
+        <div className="pv-group pv-zoomgroup">
           <button className="pv-btn" onClick={() => setZoom((z) => Math.max(0.5, +(z - 0.1).toFixed(2)))} aria-label="Zoom out">
             <ZoomOut size={20} />
           </button>

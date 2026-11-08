@@ -620,7 +620,7 @@
     width: auto;
     flex: 1;
   }
-  .pv-bar > .pv-group:first-of-type,
+  .pv-zoomgroup,
   .pv-sep,
   .pv-expand {
     display: none;

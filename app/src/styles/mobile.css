@@ -265,3 +265,88 @@
     width: 100%;
   }
 }
+
+@media (max-width: 560px) {
+  .pr-src {
+    white-space: normal;
+    text-align: start;
+  }
+  .pr-rec-foot,
+  .pr-rec-meta {
+    flex-wrap: wrap;
+  }
+}
+
+/* ---------- second pass: overlays, wizard, slots ---------- */
+@media (max-width: 900px) {
+  .vz-slots.vz-slots-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  /* score cards laid over photos: smaller so the photo stays visible */
+  .bd-score,
+  .skn-score {
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+  }
+  .bd-score .scorecard,
+  .bd-score.scorecard,
+  .skn-score.scorecard,
+  .fv-photo .scorecard {
+    min-height: 96px;
+    padding: 10px 12px;
+  }
+  .bd-score .scorecard-value,
+  .bd-score.scorecard .scorecard-value,
+  .skn-score .scorecard-value {
+    font-size: 44px;
+  }
+  .bd-left-two .bd-pane {
+    aspect-ratio: 0.55;
+  }
+
+  /* wizard: sticky action bar above the tab bar */
+  .wz-foot {
+    position: sticky;
+    bottom: calc(64px + env(safe-area-inset-bottom));
+    z-index: 5;
+    margin: 12px -14px -14px;
+    padding: 12px 14px;
+    gap: 12px;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-top: 1px solid var(--line);
+    border-radius: 0 0 16px 16px;
+  }
+  .wz-foot .btn {
+    flex: none;
+  }
+  .wz-steps {
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .wz-check {
+    height: auto;
+    min-height: 44px;
+  }
+  .field input[type="checkbox"],
+  .wz-check input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    flex: none;
+  }
+  .drop {
+    min-height: 260px;
+  }
+  .drop-preview {
+    min-height: 220px;
+  }
+  .drop-empty {
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    padding: 18px;
+  }
+}

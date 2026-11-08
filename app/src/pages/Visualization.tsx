@@ -95,7 +95,7 @@ function BodyVisuals({ scanId, visuals, bodyPhoto, sidePhoto, afterText }: { sca
     <section className="vz-section">
       <h2 className="title-md">Body</h2>
       <p className="lead">The same approach as the face: a standardized physique model of you on the studio background, then the end-of-plan body — only fat loss, natural muscle and posture changes.</p>
-      <div className="vz-slots" style={{ gridTemplateColumns: "repeat(4, minmax(0, 1fr))", marginTop: 16 }}>
+      <div className="vz-slots vz-slots-4" style={{ marginTop: 16 }}>
         <Slot label="Front model" tag="Before" value={b.front} onChange={set("front")} fallback={bodyPhoto} />
         <Slot label="Side model" tag="Before" value={b.side} onChange={set("side")} fallback={sidePhoto} />
         <Slot label="After · front" tag="After" value={b.afterFront} onChange={set("afterFront")} />
