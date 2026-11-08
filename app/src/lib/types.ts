@@ -233,12 +233,15 @@ export interface AppState {
   activeProfileId: string | null;
   // planItemId -> ISO date completed, per profile
   progress: Record<string, Record<string, string>>;
-  settings: { units: "metric" | "imperial"; currency: "EUR" | "USD" | "GBP"; photoMode?: "studio" | "original" };
+  settings: { units: "metric" | "imperial"; currency: Currency; photoMode?: "studio" | "original"; staff?: boolean };
   visuals: Record<string, Visuals>; // scanId -> generated images (data URLs or https)
   bookings?: Booking[];
 }
 
 /** A partner booking request. The team confirms availability with the partner (human in the loop). */
+/** Plan costs are stored in EUR and converted for display. */
+export type Currency = "AED" | "SAR" | "EUR";
+
 export interface Booking {
   id: string;
   profileId: string;

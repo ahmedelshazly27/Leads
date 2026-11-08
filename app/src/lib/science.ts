@@ -540,6 +540,123 @@ export const REFS: Record<string, Reference> = {
     finding: "Classic study of the human hair cycle; scalp hair grows on the order of 1 cm per month (~0.35 mm/day reported across studies).",
     doi: "10.1111/1523-1747.ep12551679",
   },
+  koletsi2018: {
+    id: "koletsi2018",
+    authors: "Koletsi D, Makou M, Pandis N",
+    year: 2018,
+    title: "Effect of orthodontic management and orofacial muscle training protocols on the correction of myofunctional and myoskeletal problems in developing dentition. A systematic review and meta-analysis",
+    source: "Orthodontics & Craniofacial Research 21:202–215",
+    finding: "Systematic review of 15 controlled studies of myofunctional / tongue-posture training — all in children with developing teeth and specific problems (e.g. open bite); it provides no evidence on adults or cosmetic jaw reshaping.",
+    doi: "10.1111/ocr.12240",
+  },
+  conti2011: {
+    id: "conti2011",
+    authors: "Conti PCR, Silva RS, Araujo CRP, Rosseti LMN, Yassuda S, Silva ROF, Pegoraro LF",
+    year: 2011,
+    title: "Effect of experimental chewing on masticatory muscle pain onset",
+    source: "Journal of Applied Oral Science 19(1):34–40",
+    finding: "A sustained chewing exercise increased jaw-muscle pain in 76% of 29 women with myofascial jaw pain (15 healthy controls also tested).",
+    doi: "10.1590/S1678-77572011000100008",
+  },
+  cavallini2014: {
+    id: "cavallini2014",
+    authors: "Cavallini M, Cirillo P, Fundarò SP, Quartucci S, Sciuto C, Sito G, Tonini D, Trocchi G, Signorini M",
+    year: 2014,
+    title: "Safety of botulinum toxin A in aesthetic treatments: a systematic review of clinical studies",
+    source: "Dermatologic Surgery 40(5):525–536",
+    finding: "Systematic review of clinical trials: short-term safety of the three aesthetic BoNT-A products was confirmed, but treatment-related side effects such as eyelid or brow drooping were reported.",
+    doi: "10.1111/dsu.12463",
+  },
+  funt2013: {
+    id: "funt2013",
+    authors: "Funt D, Pavicic T",
+    year: 2013,
+    title: "Dermal fillers in aesthetics: an overview of adverse events and treatment approaches",
+    source: "Clinical, Cosmetic and Investigational Dermatology 6:295–316",
+    finding: "Review: all dermal fillers can cause complications, from swelling and nodules to rare serious events such as vascular occlusion; prevention and management depend on practitioner skill.",
+    doi: "10.2147/CCID.S50546",
+  },
+  mesko2004: {
+    id: "mesko2004",
+    authors: "Mesko N, Bereczkei T",
+    year: 2004,
+    title: "Hairstyle as an adaptive means of displaying phenotypic quality",
+    source: "Human Nature 15:251–270",
+    finding: "Adding different hairstyles to the same female faces changed ratings of attractiveness, femininity, youth and health — hairstyle alters how a face is judged. (Female faces only; specific cut-to-face-shape rules were not tested.)",
+    doi: "10.1007/s12110-004-1008-6",
+  },
+  lynch2010: {
+    id: "lynch2010",
+    authors: "Lynch SS, Thigpen CA, Mihalik JP, Prentice WE, Padua D",
+    year: 2010,
+    title: "The effects of an exercise intervention on forward head and rounded shoulder postures in elite swimmers",
+    source: "British Journal of Sports Medicine 44(5):376–381",
+    finding: "Controlled trial (n≈28): an 8-week stretching and strengthening programme reduced forward head and forward-shoulder posture vs. no exercise.",
+    doi: "10.1136/bjsm.2009.066837",
+  },
+  sundelin2013: {
+    id: "sundelin2013",
+    authors: "Sundelin T, Lekander M, Kecklund G, Van Someren EJW, Olsson A, Axelsson J",
+    year: 2013,
+    title: "Cues of fatigue: effects of sleep deprivation on facial appearance",
+    source: "Sleep 36(9):1355–1360",
+    finding: "After sleep deprivation, faces were rated as having more hanging eyelids, redder and more swollen eyes, darker under-eye circles, paler skin and droopier mouth corners.",
+    doi: "10.5665/sleep.2964",
+  },
+  garthe2011: {
+    id: "garthe2011",
+    authors: "Garthe I, Raastad T, Refsnes PE, Koivisto A, Sundgot-Borgen J",
+    year: 2011,
+    title: "Effect of two different weight-loss rates on body composition and strength and power-related performance in elite athletes",
+    source: "International Journal of Sport Nutrition and Exercise Metabolism 21(2):97–104",
+    finding: "In athletes who kept strength training, losing ~0.7% of body weight per week increased lean mass, whereas a faster rate did not.",
+    doi: "10.1123/ijsnem.21.2.97",
+  },
+  hartmannboyce2018: {
+    id: "hartmannboyce2018",
+    authors: "Hartmann-Boyce J, Chepkin SC, Ye W, Bullen C, Lancaster T",
+    year: 2018,
+    title: "Nicotine replacement therapy versus control for smoking cessation",
+    source: "Cochrane Database of Systematic Reviews 5:CD000146",
+    finding: "Across 133 trials, nicotine replacement raised 6-month quit rates by ~55% vs. control (RR 1.55; high-certainty evidence).",
+    doi: "10.1002/14651858.CD000146.pub5",
+  },
+  mclester2020: {
+    id: "mclester2020",
+    authors: "McLester CN, Nickerson BS, Kliszczewicz BM, McLester JR",
+    year: 2020,
+    title: "Reliability and agreement of various InBody body composition analyzers as compared to dual-energy X-ray absorptiometry in healthy men and women",
+    source: "Journal of Clinical Densitometry 23(3):443–450",
+    finding: "InBody analysers were reliable and usable as a DXA surrogate, but systematically under-estimated body fat — use the same device for repeat scans.",
+    doi: "10.1016/j.jocd.2018.10.008",
+  },
+  hubal2005: {
+    id: "hubal2005",
+    authors: "Hubal MJ, Gordish-Dressman H, Thompson PD, et al.",
+    year: 2005,
+    title: "Variability in muscle size and strength gain after unilateral resistance training",
+    source: "Medicine & Science in Sports & Exercise 37(6):964–972",
+    finding: "In 585 adults doing the same 12-week arm programme, muscle-size change ranged from about −2% to +59% — individual responses vary widely.",
+    doi: "10.1249/01.mss.0000170469.90461.5f",
+  },
+  maisey1999: {
+    id: "maisey1999",
+    authors: "Maisey DS, Vale EL, Cornelissen PL, Tovée MJ",
+    year: 1999,
+    title: "Characteristics of male attractiveness for women",
+    source: "The Lancet 353(9163):1500",
+    finding: "Waist-to-chest ratio (a V-shaped torso) was the main predictor of women's ratings of male bodies, ahead of BMI.",
+    doi: "10.1016/S0140-6736(99)00438-9",
+  },
+  re2016: {
+    id: "re2016",
+    authors: "Re DE, Rule NO",
+    year: 2016,
+    title: "Heavy matters",
+    source: "Social Psychological and Personality Science 7:69–76",
+    finding: "A change of roughly 1.3 BMI units was the smallest noticeable in the face; about twice that was needed to shift attractiveness judgements.",
+    doi: "10.1177/1948550615599829",
+  },
 };
 
 export const ref = (id: string) => REFS[id];
@@ -556,13 +673,13 @@ export interface Method {
 
 export const METHODS: Record<string, Method> = {
   symmetry: {
-    how: "17 bilateral landmark pairs are mirrored across the facial midline after correcting head roll; the mean mirrored displacement is expressed relative to face width.",
-    norm: "Mean displacement below ~1.5% of face width is typical of faces rated highly symmetric.",
+    how: "17 bilateral landmark pairs are mirrored across the facial midline after 3D head-pose correction (roll, yaw, pitch); the mean mirrored displacement is expressed relative to face width.",
+    norm: "Studies associate greater facial symmetry with higher attractiveness ratings. The 0–100 scale and its cut-offs are our own calibration, not a published norm.",
     refs: ["grammer1994", "rhodes2006"],
   },
   averageness: {
     how: "Ten proportion ratios are compared with anthropometric population means; the score falls as the average standardised deviation grows.",
-    norm: "Faces close to the population mean on most ratios score above 75.",
+    norm: "Averaged (composite) faces are rated more attractive than most individual faces. Faces close to the anthropometric means on most ratios score above 75 on our scale (our calibration).",
     refs: ["langlois1990", "farkas1994", "rhodes2006"],
   },
   dimorphism: {
@@ -572,7 +689,7 @@ export const METHODS: Record<string, Method> = {
   },
   fwhr: {
     how: "Bizygomatic width divided by the distance from the lower brow to the upper lip.",
-    norm: "Typical adult range 1.7–2.1. Higher values are perceived as more dominant.",
+    norm: "Meta-analysis: higher fWHR is perceived as more dominant/threatening. Our reference band (≈1.7–2.1) is our own calibration; published values vary with how fWHR is measured.",
     refs: ["carre2008", "geniole2015"],
   },
   proportions: {
@@ -587,7 +704,7 @@ export const METHODS: Record<string, Method> = {
   },
   adiposity: {
     how: "Face width-to-height and cheek-to-jaw width ratios approximate facial fullness.",
-    norm: "Facial adiposity tracks BMI; moderate values are rated healthiest.",
+    norm: "Perceived facial adiposity tracks BMI and is linked to perceived health and attractiveness. Our reference range is our own calibration.",
     refs: ["coetzee2009"],
   },
   contrast: {
@@ -612,8 +729,8 @@ export const METHODS: Record<string, Method> = {
   },
   brows: {
     how: "Brow landmarks give arch height (relative to brow length), peak position, tilt, thickness and brow-to-lid distance.",
-    norm: "Brows are more important for recognising a face than the eyes themselves; lower, straighter brows read as more masculine.",
-    refs: ["sadr2003", "perrett1998"],
+    norm: "In one study, removing the eyebrows impaired recognition of famous faces more than removing the eyes. Brow-to-eye distance differs on average between male and female faces (anthropometric norms).",
+    refs: ["sadr2003", "farkas1994"],
   },
   impression: {
     how: "Trait indices combine shape cues identified in face-perception research (e.g. mouth-corner tilt and symmetry for trust, fWHR and jaw width for dominance).",
@@ -622,12 +739,12 @@ export const METHODS: Record<string, Method> = {
   },
   body: {
     how: "33 pose landmarks plus a person-segmentation mask; widths are measured from the silhouette at shoulder, natural waist and hip levels.",
-    norm: "Shoulder-to-waist ≈ 1.4–1.6 (men) and waist-to-hip ≈ 0.7 (women) are commonly preferred; WHO waist-to-hip health thresholds 0.90 (men) / 0.85 (women).",
-    refs: ["sell2017", "singh1993", "who2008"],
+    norm: "In men, a lower waist-to-chest ratio (V-shaped torso) was the main body-shape predictor of rated attractiveness; our shoulder-to-waist reference of ≈1.4–1.6 is our own band. Female figures with waist-to-hip ≈ 0.7 were rated most attractive. WHO waist-to-hip health thresholds: 0.90 (men) / 0.85 (women).",
+    refs: ["maisey1999", "sell2017", "singh1993", "who2008"],
   },
   posture: {
     how: "Frontal-plane tilt of the shoulder and pelvis lines, and lateral head offset from the body midline.",
-    norm: "Ideal standing alignment has level shoulders and pelvis (≈0°) with the head centred.",
+    norm: "Textbook reference alignment has level shoulders and pelvis (≈0°) with the head centred. Small deviations are common and not a diagnosis.",
     refs: ["kendall2005"],
   },
   composition: {
@@ -640,7 +757,7 @@ export const METHODS: Record<string, Method> = {
 Object.assign(METHODS, {
   sidePosture: {
     how: "From the side photo: angle of the ear–shoulder line from horizontal (a proxy for the craniovertebral angle, which clinically uses C7), how far the ear and shoulder sit ahead of the hip, and trunk lean.",
-    norm: "Ideal standing alignment stacks ear, shoulder and hip on one vertical line. Because the shoulder joint sits in front of C7, the proxy angle reads higher than clinical CVA values (clinical forward-head cut-offs ≈ 48–50°).",
+    norm: "Textbook reference alignment stacks ear, shoulder and hip on one vertical line. Because the shoulder joint sits in front of C7, the proxy angle reads higher than clinical CVA values (clinical forward-head cut-offs ≈ 48–50°).",
     refs: ["yip2008", "kendall2005"],
   },
   core: {
@@ -650,13 +767,13 @@ Object.assign(METHODS, {
   },
   bodySymmetry: {
     how: "Left and right half-widths from the body midline at shoulder, waist and hip level, plus arm length comparison.",
-    norm: "Differences under ~3% are within normal variation and photo error.",
+    norm: "Differences under ~3% are treated as normal variation and photo error (our threshold).",
     refs: ["kendall2005"],
   },
   physique: {
     how: "Combines shoulder-to-waist ratio, upper-arm thickness relative to shoulders and central fat cues — the cues raters use to judge strength and fitness.",
-    norm: "Perceived upper-body strength explains most of the variance in men's bodily attractiveness; waist-to-hip ≈ 0.7 is most preferred in women.",
-    refs: ["sell2017", "singh1993"],
+    norm: "In rating studies, perceived upper-body strength explained most of the variance in men's bodily attractiveness, and a V-shaped torso was preferred; female figures with waist-to-hip ≈ 0.7 were rated most attractive. The combined score is our own composite.",
+    refs: ["sell2017", "maisey1999", "singh1993"],
   },
 });
 
@@ -665,4 +782,6 @@ export const LIMITATIONS = [
   "Expression, head rotation and lighting affect landmark placement and skin readings. Use neutral expression, even front lighting, and the same set-up for each check-in.",
   "Attractiveness research is mostly based on Western, young-adult rater samples; norms vary across cultures and ethnicities.",
   "Scores are estimates for tracking change over time, not medical diagnoses. Consult a board-certified dermatologist or physician before starting prescription or clinical treatments.",
+  "The overall score, sub-scores (e.g. Skin quality, Facial leanness, Rested look, Proportional harmony) and bands (Excellent … Needs work) are our own composites of literature-based measures, with weights and cut-offs we chose. They are not validated clinical or attractiveness scales and not population percentiles; 12-month projections are model estimates, not guaranteed results.",
+  "12-month \"after\" images are AI-generated illustrations of the plan's target changes, not photos or predictions of your actual result.",
 ];

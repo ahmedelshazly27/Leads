@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useRef, useState } from "react";
 import { PageHeader, Toggle } from "../components/ui";
 import { Download } from "../components/icons";
-import { exportAll, importAll, resetAll, setCurrency, setUnits, useAppState } from "../lib/store";
+import { exportAll, importAll, resetAll, setCurrency, setStaff, useAppState } from "../lib/store";
 import "./pages.css";
 
 export function Settings() {
@@ -29,7 +29,6 @@ export function Settings() {
         lead="Display preferences and your data."
         right={
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-            <Link to="/review" className="btn btn-ghost">Review console (staff)</Link>
             <Link to="/" className="btn btn-ghost">About &amp; pricing</Link>
           </div>
         }
@@ -37,30 +36,33 @@ export function Settings() {
       <div className="bt-card" style={{ padding: "4px 22px" }}>
         <div className="st-row">
           <div>
-            <div className="title-md">Units</div>
-            <p className="lead">Used for height, weight and tape measurements.</p>
-          </div>
-          <Toggle
-            value={s.settings.units}
-            onChange={setUnits}
-            options={[
-              { value: "metric", label: "Metric" },
-              { value: "imperial", label: "Imperial" },
-            ]}
-          />
-        </div>
-        <div className="st-row">
-          <div>
             <div className="title-md">Currency</div>
-            <p className="lead">Used for plan cost estimates (approximate retail prices).</p>
+            <p className="lead">Plan cost estimates, converted at an approximate fixed rate.</p>
           </div>
           <Toggle
             value={s.settings.currency}
             onChange={setCurrency}
             options={[
+              { value: "AED", label: "AED" },
+              { value: "SAR", label: "SAR" },
               { value: "EUR", label: "EUR" },
-              { value: "USD", label: "USD" },
-              { value: "GBP", label: "GBP" },
+            ]}
+          />
+        </div>
+      </div>
+
+      <div className="bt-card" style={{ padding: "4px 22px" }}>
+        <div className="st-row">
+          <div>
+            <div className="title-md">Staff mode</div>
+            <p className="lead">Shows the review console on this device. For the founder's own device only — real staff access arrives with accounts.</p>
+          </div>
+          <Toggle
+            value={s.settings.staff ? "on" : "off"}
+            onChange={(v) => setStaff(v === "on")}
+            options={[
+              { value: "off", label: "Off" },
+              { value: "on", label: "On" },
             ]}
           />
         </div>

@@ -42,7 +42,8 @@ export function AppShell() {
   const [collapsed, setCollapsed] = useState(false);
   const [drawer, setDrawer] = useState(false);
   const inAnalysis = loc.pathname.startsWith("/analysis");
-  const { profile, facePhoto } = useActive();
+  const { profile, facePhoto, state: appState } = useActive();
+  const staffOn = !!appState.settings.staff;
   useEffect(() => {
     setDrawer(false);
     window.scrollTo(0, 0);
@@ -83,7 +84,7 @@ export function AppShell() {
           </button>
         </div>
         <nav className="rail-nav">
-          {RAIL.map(({ to, label, icon: Icon, staff }) => (
+          {RAIL.filter((r) => !r.staff || staffOn).map(({ to, label, icon: Icon, staff }) => (
             <NavLink key={to} to={to} className={({ isActive }) => `rail-item ${isActive ? "active" : ""} ${staff ? "rail-staff" : ""}`}>
               <span className="rail-icon"><Icon size={16} /></span>
               <span className="rail-label">{label}</span>

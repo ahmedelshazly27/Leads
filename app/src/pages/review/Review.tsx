@@ -4,6 +4,7 @@ import { PageHeader } from "../../components/ui";
 import { photoUrl, useAppState } from "../../lib/store";
 import type { ReviewStatus, Scan } from "../../lib/types";
 import { checklistFor } from "./checklist";
+import { StaffOnly } from "./StaffOnly";
 import "./review.css";
 
 const LABEL: Record<ReviewStatus, string> = { awaiting: "Awaiting review", "in-review": "In review", approved: "Approved" };
@@ -13,6 +14,7 @@ export const statusOf = (s: Scan): ReviewStatus => s.review?.status ?? "awaiting
 /** Reviewer queue: every scan on this device, oldest waiting first. */
 export function Review() {
   const state = useAppState();
+  if (!state.settings.staff) return <StaffOnly />;
   const [filter, setFilter] = useState<ReviewStatus | "all">("all");
   const rows = state.scans
     .map((s) => ({ s, p: state.profiles.find((p) => p.id === s.profileId) }))

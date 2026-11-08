@@ -10,6 +10,7 @@ import type { Review, Scan } from "../../lib/types";
 import { checklistFor, type Check } from "./checklist";
 import { statusOf } from "./Review";
 import { BodyVisuals, MeshViewer, PoseViewer, PromptBlock, RealismPanel, Slot, StyleGallery, StyleLibrary } from "./tools";
+import { StaffOnly } from "./StaffOnly";
 import "./review.css";
 
 const SECTIONS: { id: Check["section"]; n: string; title: string }[] = [
@@ -23,6 +24,7 @@ const SECTIONS: { id: Check["section"]; n: string; title: string }[] = [
 export function ReviewScan() {
   const { scanId } = useParams();
   const state = useAppState();
+  if (!state.settings.staff) return <StaffOnly />;
   const raw = state.scans.find((s) => s.id === scanId);
   const profile = raw && state.profiles.find((p) => p.id === raw.profileId);
   const scan: Scan | undefined = useMemo(

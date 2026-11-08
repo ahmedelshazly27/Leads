@@ -23,7 +23,7 @@ export const SOURCE_KINDS: { kind: SourceKind; label: string; note: string }[] =
   { kind: "behaviour", label: "Search behaviour", note: "What people in the launch markets actually look up" },
   { kind: "editorial", label: "Editorial", note: "Established fashion desks with a regional edition" },
   { kind: "practitioner", label: "Partner barbers", note: "Most-requested cuts from partner bookings — replaces editorial once live" },
-  { kind: "research", label: "Research", note: "Peer-reviewed; explains why trends cycle, not which cut is in" },
+  { kind: "research", label: "Research", note: "Peer-reviewed; shows hair and facial hair change how a face is judged and why trends cycle — not which cut is in" },
 ];
 
 export const TREND_SOURCES: { kind: SourceKind; name: string; url?: string }[] = [
@@ -36,7 +36,12 @@ export const TREND_SOURCES: { kind: SourceKind; name: string; url?: string }[] =
   { kind: "practitioner", name: "Partner barber request log (Dubai, Riyadh) — pending first partners" },
   { kind: "research", name: "Janif, Brooks & Dixson 2014 — facial-hair preferences are negatively frequency-dependent (Biology Letters)", url: "https://doi.org/10.1098/rsbl.2013.0958" },
   { kind: "research", name: "Dixson & Brooks 2013 — heavy stubble rated most attractive (Evolution and Human Behavior)", url: "https://doi.org/10.1016/j.evolhumbehav.2013.02.003" },
+  { kind: "research", name: "Mesko & Bereczkei 2004 — hairstyle changes rated attractiveness of the same (female) faces (Human Nature)", url: "https://doi.org/10.1007/s12110-004-1008-6" },
 ];
+
+/** Face-fit rules below (height/sides/fringe, beard shape) are grooming guidance — not tested in studies. */
+export const FACE_FIT_NOTE =
+  "Face-fit reasons are expert grooming guidance. Research shows hairstyle and facial hair change how a face is judged, but specific cut-to-face-shape rules have not been tested.";
 
 export type TrendStatus = "trending" | "classic" | "fading";
 export type HairType = Intake["hairType"];

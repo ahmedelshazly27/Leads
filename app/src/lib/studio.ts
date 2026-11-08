@@ -74,7 +74,9 @@ export function useDisplayScan(
   photos: { face: string | null; body: string | null; side: string | null },
   mode: "studio" | "original",
 ): DisplayScan | null {
-  const urls = { face: visuals.baseline, body: visuals.body?.front, side: visuals.body?.side };
+  // only re-detect when the studio image is actually a different picture (saves ~34 MB of models)
+  const diff = (u: string | undefined, orig: string | null) => (u && u !== orig ? u : undefined);
+  const urls = { face: diff(visuals.baseline, photos.face), body: diff(visuals.body?.front, photos.body), side: diff(visuals.body?.side, photos.side) };
   const available = !!(urls.face || urls.body || urls.side);
   const [res, setRes] = useState<{ key: string; face: StudioFace | null; body: BodyResult | null; side: SideResult | null } | null>(null);
   const key = `${scan?.id}|${urls.face}|${urls.body}|${urls.side}`;

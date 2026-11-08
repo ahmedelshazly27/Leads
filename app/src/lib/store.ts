@@ -60,7 +60,7 @@ const empty = (): AppState => ({
   scans: [sampleScan],
   activeProfileId: sampleProfile.id,
   progress: {},
-  settings: { units: "metric", currency: "EUR" },
+  settings: { units: "metric", currency: "AED" },
   visuals: { [SAMPLE_SCAN_ID]: sampleVisuals },
   bookings: [],
 });
@@ -86,6 +86,7 @@ export async function initStore() {
   try {
     const saved = await idbGet<AppState>(STATE_KEY);
     if (saved && saved.version === 1) state = { ...empty(), ...saved, settings: { ...empty().settings, ...saved.settings }, visuals: saved.visuals ?? {}, bookings: saved.bookings ?? [] };
+    if (!["AED", "SAR", "EUR"].includes(state.settings.currency)) state = { ...state, settings: { ...state.settings, currency: "AED" } };
     // keep the built-in sample in sync with the shipped sample data
     if (state.profiles.some((p) => p.id === SAMPLE_PROFILE_ID)) {
       state = {
@@ -224,11 +225,15 @@ export function setUnits(units: "metric" | "imperial") {
   set({ ...state, settings: { ...state.settings, units } });
 }
 
+export function setStaff(staff: boolean) {
+  set({ ...state, settings: { ...state.settings, staff } });
+}
+
 export function setPhotoMode(photoMode: "studio" | "original") {
   set({ ...state, settings: { ...state.settings, photoMode } });
 }
 
-export function setCurrency(currency: "EUR" | "USD" | "GBP") {
+export function setCurrency(currency: import("./types").Currency) {
   set({ ...state, settings: { ...state.settings, currency } });
 }
 

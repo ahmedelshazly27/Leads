@@ -16,7 +16,7 @@ interface Ctx {
   plan: Plan;
   visuals: Visuals;
   facePhoto: string | null;
-  currency: "EUR" | "USD" | "GBP";
+  currency: import("../lib/types").Currency;
 }
 
 interface PageDef {

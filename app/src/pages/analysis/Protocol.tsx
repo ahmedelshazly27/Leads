@@ -166,7 +166,7 @@ export function Recommendations(p: SectionProps) {
   );
 }
 
-function RecCard({ item, cur }: { item: PlanItem; cur: "EUR" | "USD" | "GBP" }) {
+function RecCard({ item, cur }: { item: PlanItem; cur: import("../../lib/types").Currency }) {
   const [open, setOpen] = useState(false);
   const cost =
     item.monthly[1] > 0
@@ -339,7 +339,7 @@ export function Estimations(p: SectionProps) {
           </div>
         ))}
       </div>
-      <p className="pr-fine">Typical EU retail prices; gym and barber costs vary widely by city. Clinical items exclude consultation fees unless stated. Currency can be changed in Settings.</p>
+      <p className="pr-fine">Approximate retail prices, converted at a fixed rate; gym, barber and clinic prices vary widely by city. Clinical items exclude consultation fees unless stated.</p>
     </div>
   );
 }

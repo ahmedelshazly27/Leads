@@ -124,7 +124,7 @@ export function buildNutrition(scan: Scan, intake: Intake, plan: Plan): Nutritio
       startWeight: weight,
       endWeight: end,
       meals: meals(m1),
-      rationale: `A ${round(tdee - kcal, 10)} kcal/day deficit targets ~${actualWeekly.toFixed(2)} kg/week (≈0.6 % of body weight), the pace that best preserves muscle. High protein (2.0 g/kg) protects lean mass while you lose fat.`,
+      rationale: `A ${round(tdee - kcal, 10)} kcal/day deficit targets ~${actualWeekly.toFixed(2)} kg/week (≈0.6 % of body weight). In a trial of strength-training athletes, ~0.7 %/week increased lean mass while a faster rate did not. High protein (2.0 g/kg) is recommended to help retain lean mass while you lose fat.`,
     });
     if (months < 12) {
       const tdee2 = (10 * end + 6.25 * intake.heightCm! - 5 * intake.age + (male ? 5 : intake.gender === "female" ? -161 : -78)) * af * 1.05;
@@ -139,7 +139,7 @@ export function buildNutrition(scan: Scan, intake: Intake, plan: Plan): Nutritio
         startWeight: end,
         endWeight: end + 0.05 * (12 - months) * 4.33,
         meals: meals(m2),
-        rationale: "Eat at maintenance plus ~5 % to keep building muscle without regaining fat. Recalculated from your new weight.",
+        rationale: "Eat at maintenance plus ~5 % to support muscle gain while limiting fat regain (our guidance). Recalculated from your new weight.",
       });
     }
   } else {
@@ -154,7 +154,7 @@ export function buildNutrition(scan: Scan, intake: Intake, plan: Plan): Nutritio
       startWeight: weight,
       endWeight: weight,
       meals: meals(m),
-      rationale: "Eat at maintenance with high protein while training — body fat slowly falls as muscle increases (recomposition).",
+      rationale: "Eat at maintenance with high protein while training — body fat can slowly fall as muscle increases (recomposition); results vary between people.",
     });
   }
 
@@ -166,9 +166,9 @@ export function buildNutrition(scan: Scan, intake: Intake, plan: Plan): Nutritio
     activityFactor: af,
     bodyFat: bf,
     phases,
-    refs: ["mifflin1990", "helms2014", "morton2018", "hall2011"],
+    refs: ["mifflin1990", "helms2014", "garthe2011", "morton2018", "hall2011"],
     notes: [
-      "Energy needs are estimates (±10 %). Weigh yourself daily, compare weekly averages, and adjust by 100–150 kcal if the trend is off after 2–3 weeks.",
+      "Energy needs are estimates; your real needs can differ by 10 % or more. Weigh yourself daily, compare weekly averages, and adjust by 100–150 kcal if the trend is off after 2–3 weeks.",
       "Activity assumes the plan's training schedule (3–4 sessions/week) plus daily steps.",
       "Not medical nutrition therapy. If you have a medical condition, are on medication, or have a history of disordered eating, see a registered dietitian first.",
     ],

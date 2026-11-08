@@ -158,7 +158,7 @@ export function Landing() {
             <a href="#faq">FAQ</a>
             <Link to="/analysis/methodology">Methodology</Link>
           </div>
-          <p className="lp-foot-note">Not medical advice · Product imagery uses a synthetic person · © {new Date().getFullYear()}</p>
+          <p className="lp-foot-note">Not medical advice · Product imagery uses a synthetic person · After images are AI illustrations, not results · © {new Date().getFullYear()}</p>
         </div>
       </footer>
     </div>
@@ -177,7 +177,7 @@ function Hero() {
         <div className="lp-hero-text">
           <span className="lp-hero-eyebrow">Facial &amp; body analysis</span>
           <h1 className="lp-hero-title">
-            Look your best,
+            See where you stand,
             <br />
             <span>measured, not guessed.</span>
           </h1>
@@ -193,9 +193,9 @@ function Hero() {
         </div>
         <div className="lp-trust">
           {[
-            ["Science-referenced", "Every step cited"],
+            ["Science-referenced", "Every step evidence-graded"],
             ["Human-reviewed", "Before you see it"],
-            ["Non-surgical", "Achievable in 12 months"],
+            ["Non-surgical", "A habit-based 12-month plan"],
           ].map(([a, b]) => (
             <div key={a}>
               <b>{a}</b>
@@ -218,7 +218,7 @@ function Realistic() {
   return (
     <section className="lp-sec lp-split" id="why">
       <div className="lp-split-text">
-        <Head kicker="Realistic" dark="Real change," muted="rendered honestly." lead="Your 12-month result is limited to what habits, skin care and training can actually change." />
+        <Head kicker="Realistic" dark="Real change," muted="rendered honestly." lead="Your 12-month visual is an AI illustration limited to what habits, skin care and training can realistically change — not a prediction or guarantee. The plan targets:" />
         <ol className="lp-numlist">
           {points.map((p, i) => (
             <li key={p}>
@@ -232,12 +232,12 @@ function Realistic() {
         <BeforeAfter
           aspect={0.75}
           before={<img src={`${S}face.jpg`} alt="Before (synthetic sample)" />}
-          after={<img src={`${S}face_after.jpg`} alt="12 months (synthetic sample)" />}
+          after={<img src={`${S}face_after.jpg`} alt="AI-generated 12-month visual (synthetic sample)" />}
         />
         <BeforeAfter
           aspect={0.75}
           before={<img src={`${S}body_front.jpg`} alt="Body before (synthetic sample)" />}
-          after={<img src={`${S}body_after_front.jpg`} alt="Body after 12 months (synthetic sample)" />}
+          after={<img src={`${S}body_after_front.jpg`} alt="AI-generated body visual after 12 months (synthetic sample)" />}
         />
       </div>
     </section>
@@ -324,11 +324,11 @@ function Research() {
 /* ------------------------------------------------------------------ */
 
 function BetterWay() {
-  const old = ["Copy a trend", "Guess products", "One-size advice", "Unneeded procedures", "Little change"];
-  const ours = ["Measure 40+ markers", "Evidence-graded plan", "See your 12-month self", "Human review", "Track monthly"];
+  const old = ["Copy a trend", "Guess products", "One-size advice", "Procedures first", "No tracking"];
+  const ours = ["Measure 40+ markers", "Evidence-graded plan", "See a 12-month visual", "Human review", "Track monthly"];
   return (
     <section className="lp-sec">
-      <Head center kicker="A different approach" dark="A better way to" muted="glow up." lead="Most advice ignores your face, your body and the evidence. Ours starts from all three." />
+      <Head center kicker="A different approach" dark="A different way to" muted="glow up." lead="Advice that starts from your face, your body and the evidence." />
       <div className="lp-rails">
         <Rail label="The usual way" steps={old} />
         <Rail label="Our way" steps={ours} dark />
@@ -377,7 +377,7 @@ function AnalysisBand({ data }: { data: ReturnType<typeof useSample> }) {
   return (
     <section className="lp-band">
       <div className="lp-band-in">
-        <Head center light kicker="Personal analysis" dark="Your complete" muted="analysis." lead="40+ measurements across face, skin and body, each compared with a published reference." />
+        <Head center light kicker="Personal analysis" dark="Your complete" muted="analysis." lead="40+ measurements across face, skin and body, each compared with a reference range — published norms where they exist." />
         <div className="lp-scan">
           <div className="lp-scan-photo">
             <FacePhoto src={`${S}face.jpg`} aspect={a}>
@@ -414,9 +414,9 @@ function PlanSection({ data }: { data: ReturnType<typeof useSample> }) {
   return (
     <section className="lp-sec lp-split">
       <div className="lp-split-text">
-        <Head kicker="Your plan" dark="Simply follow your plan." muted="See the change." lead="A 12-month protocol built from your measurements — no surgery, no guesswork." />
+        <Head kicker="Your plan" dark="Follow your plan." muted="Track the change." lead="A 12-month protocol built from your measurements and answers — no surgery." />
         <ul className="lp-checks">
-          {["Every step triggered by one of your measurements", "Graded A–C by the strength of its evidence", "Calories and macros sized to your goal and timeline", "Specialist partners coming soon in the UAE & Saudi Arabia"].map((t) => (
+          {["Every step tied to a measurement or your answers", "Graded A–C by the strength of its evidence", "Calories and macros sized to your goal and timeline", "Specialist partners coming soon in the UAE & Saudi Arabia"].map((t) => (
             <li key={t}>
               <Verified size={16} />
               {t}
@@ -478,13 +478,13 @@ function PlanSection({ data }: { data: ReturnType<typeof useSample> }) {
 function FutureSelf() {
   const tiles: { t: string; d: string; v: ReactNode }[] = [
     { t: "Realistic", d: "Only changes that skin care, fat loss, grooming and training can make.", v: <VizPair /> },
-    { t: "Ethnicity-aware", d: "Same skin tone, same features — never a different face.", v: <VizSwatches /> },
-    { t: "Achievable without surgery", d: "Bone structure is never changed in your visual.", v: <VizBars /> },
+    { t: "Ethnicity-aware", d: "Generated to keep your skin tone and features — checked by a human.", v: <VizSwatches /> },
+    { t: "Non-surgical changes only", d: "Bone structure is kept the same in your visual.", v: <VizBars /> },
     { t: "Reviewed by a human", d: "Every image is checked before it reaches you.", v: <VizCheck /> },
   ];
   return (
     <section className="lp-sec">
-      <Head center kicker="Visualisation" dark="See your" muted="12-month self." mutedFirst={false} />
+      <Head center kicker="Visualisation" dark="See a" muted="12-month visual." mutedFirst={false} lead="An AI illustration of the plan's target changes — not a photo or a guaranteed result." />
       <div className="lp-future">
         <div className="lp-future-col">
           {tiles.slice(0, 2).map((x) => (
@@ -492,8 +492,8 @@ function FutureSelf() {
           ))}
         </div>
         <figure className="lp-future-photo">
-          <img src={`${S}face_after.jpg`} alt="12-month visual (synthetic sample)" />
-          <figcaption>12 months · synthetic sample</figcaption>
+          <img src={`${S}face_after.jpg`} alt="AI-generated 12-month visual (synthetic sample)" />
+          <figcaption>AI illustration · 12 months · synthetic sample</figcaption>
         </figure>
         <div className="lp-future-col">
           {tiles.slice(2).map((x) => (
@@ -559,7 +559,7 @@ function Track({ data }: { data: ReturnType<typeof useSample> }) {
   const right = cards.slice(3);
   return (
     <section className="lp-sec">
-      <Head center kicker="Your biometrics" dark="Track your progress," muted="predict the change." lead="Monthly check-ins in the same set-up, measured against your baseline." />
+      <Head center kicker="Your biometrics" dark="Track your progress," muted="estimate the change." lead="Monthly check-ins in the same set-up, measured against your baseline. Scores are our composites of literature-based measures, not clinical scores." />
       <div className="lp-track">
         <div className="lp-track-col">
           {left.map((c) => (
@@ -606,7 +606,7 @@ function Chart({ now, next }: { now: number; next: number }) {
         </span>
       </div>
       <div className="lp-chart-big">
-        <span className="mono-sm">Overall score</span>
+        <span className="mono-sm">Overall score (composite)</span>
         <b>
           {Math.round(now)} <i>→</i> {Math.round(next)}
         </b>
@@ -636,7 +636,7 @@ function Chart({ now, next }: { now: number; next: number }) {
           </text>
         ))}
       </svg>
-      <span className="mono-sm">Now → 12 months · synthetic sample</span>
+      <span className="mono-sm">Projected estimate, not a guarantee · synthetic sample</span>
     </div>
   );
 }
@@ -654,7 +654,7 @@ const MEASURES: { name: string; n: number; text: string; method?: string; refs?:
   { name: "Skin", n: 6, text: "Six regions read in CIELAB colour space: pigment, redness, texture and evenness.", method: "skin" },
   { name: "Body proportions", n: 6, text: "Shoulder-to-waist, waist-to-hip, chest and arm widths, left/right balance.", method: "body" },
   { name: "Posture", n: 5, text: "Shoulder and pelvis lines from the front; head and shoulder position from the side.", method: "sidePosture" },
-  { name: "Composition", n: 4, text: "BMI, photo-estimated waist, waist-to-height and body-fat estimate.", method: "composition" },
+  { name: "Composition", n: 4, text: "BMI, photo-estimated waist, waist-to-height and body-fat estimate (±4–5 points).", method: "composition" },
   { name: "Nutrition", n: 6, text: "Energy needs, calorie target, protein, fat, carbs and fibre for each phase.", refs: ["mifflin1990", "morton2018"] },
 ];
 
@@ -666,7 +666,7 @@ const PARTNERS = [
   {
     k: "derm",
     name: "Dermatologists",
-    who: "Licensed, DHA / MOH registered",
+    who: "Licensed (DHA / MOH registration required)",
     out: "Your skin findings & photos you choose to share",
     back: "Prescriptions and notes update your skin plan",
     cadence: "Follow-ups at weeks 6 and 12",
@@ -762,7 +762,7 @@ function CareNetwork() {
           })}
         </div>
         <div className="lp-care-card">
-          <span className="lp-mono">Integration</span>
+          <span className="lp-mono">Planned integration</span>
           <h3>{p.name}</h3>
           <p className="lp-care-who">{p.who}</p>
           <div className="lp-care-rows">
@@ -783,7 +783,7 @@ function CareNetwork() {
           </div>
         ))}
       </div>
-      <p className="lp-care-launch lp-mono">Partner network launching in the UAE & Saudi Arabia</p>
+      <p className="lp-care-launch lp-mono">Partner network not yet live · launching in the UAE & Saudi Arabia</p>
     </section>
   );
 }
@@ -893,7 +893,7 @@ function How() {
 function Pricing() {
   const [cur, setCur] = useState<Cur>("AED");
   const features: [string, string][] = [
-    ["Complete face & body analysis", "40+ measurements against published references."],
+    ["Face & body analysis", "40+ measurements against reference ranges."],
     ["Evidence-graded 12-month plan", "Every step graded A–C and cited."],
     ["Your 12-month visuals", "Face and body, front and side — reviewed by a human."],
     ["Nutrition targets", "Calories and macros for each phase of your plan."],
@@ -954,7 +954,7 @@ function Pricing() {
 
 const FAQ: [string, string][] = [
   ["Is it medical advice?", "No. It's aesthetic and wellness guidance. Anything clinical points you to a licensed practitioner."],
-  ["How accurate is it?", "Measurements come from validated landmark models and are compared with published norms. Photo conditions matter, so we flag selfies, head turns and cropped body shots."],
+  ["How accurate is it?", "Measurements use established face and pose landmark models (MediaPipe) and are compared with published norms where they exist. They are estimates — body-fat estimates carry errors of roughly ±4–5 points, and photo conditions matter, so we flag selfies, head turns and cropped body shots."],
   ["Who sees my photos?", "Analysis runs on your device. Photos you send for your report are seen only by your reviewer and deleted 90 days after delivery."],
   ["Do I need special equipment?", "No. A phone, a plain wall and someone (or a timer) to take the photos from about 1.5–3 m."],
   ["Can I cancel the membership?", "Yes, anytime. Your report and plan stay yours."],

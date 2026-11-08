@@ -297,7 +297,7 @@ function priorities(scan: Scan, intake: Intake) {
 
   // Defaults
   if (male) set("chest", "build", "Default for balanced upper-body development");
-  if (female) set("glutes", "focus", "Glute development shapes the waist-to-hip silhouette (WHR ≈ 0.7 is most preferred)", ["singh1993"]);
+  if (female) set("glutes", "focus", "Glute development can change the waist-to-hip silhouette (female figures with WHR ≈ 0.7 were rated most attractive in classic studies)", ["singh1993"]);
   set("quads", "maintain", "");
   set("hamstrings", "maintain", "");
 
@@ -307,7 +307,7 @@ function priorities(scan: Scan, intake: Intake) {
     const ref = female ? "1.35" : "1.6";
     const r = `Shoulder : waist ${swr.toFixed(2)} vs ≈${ref} reference`;
     set("sideDelts", "focus", r, ["sell2017"]);
-    set("lats", "focus", `${r} — wider lats add upper-body width`, ["sell2017"]);
+    set("lats", "focus", `${r} — wider lats add upper-body width (a V-shaped torso is rated more attractive in men)`, ["sell2017", "maisey1999"]);
     set("rearDelts", "build", "Rounds out the shoulder from the side and back", ["sell2017"]);
   }
 
@@ -315,9 +315,9 @@ function priorities(scan: Scan, intake: Intake) {
   const arm = body?.armToShoulder ?? null;
   if (arm != null && arm < 0.22) {
     const p: Priority = arm < 0.19 ? "focus" : "build";
-    const r = `Upper-arm width ${(arm * 100).toFixed(0)}% of shoulder width (≈22%+ in trained men)`;
+    const r = `Upper-arm width ${(arm * 100).toFixed(0)}% of shoulder width (our reference ≈22%+)`;
     set("biceps", p, r);
-    set("triceps", p, `${r} — triceps are ~⅔ of upper-arm mass`);
+    set("triceps", p, r);
   }
 
   // Forward head / rounded shoulders
@@ -534,7 +534,7 @@ export function buildTraining(scan: Scan, intake: Intake, plan: Plan): Training 
   ];
 
   const notes = [
-    "Face and jaw muscles are not trained here: jawline 'exercises' have no evidence for visible change — fat loss reveals the jaw.",
+    "Face and jaw muscles are not trained here: we found no studies showing visible jawline change from jaw exercises — fat loss is what makes the jaw more visible.",
     "Indirect volume counts (~½ set): rows add biceps, traps and rear-delt work; presses add front-delt and triceps work — direct sets are reduced accordingly.",
   ];
   if (rampUp) notes.unshift(`You train ${intake.trainingDays}×/week now: weeks 1–4 use a 3-day full-body plan to build the habit and technique, then move to the 4-day split.`);
@@ -551,9 +551,9 @@ export function buildTraining(scan: Scan, intake: Intake, plan: Plan): Training 
       waistDropCm,
       leanGainKg,
       targetBodyFat: targetBF ?? null,
-      note: "Ranges, not promises: natural year-one gains vary 2× between people. Waist change uses ~0.8–1.2 cm per kg of fat lost; shoulder width +2–4% from delt and lat growth; frontal waist width assumed to shrink ~80% as fast as circumference.",
+      note: "Ranges, not promises: in a 585-person study, muscle growth on the same programme ranged from none to large. These ranges use our own rules of thumb (grade C): ~0.8–1.2 cm of waist per kg of fat lost; shoulder width +2–4% from delt and lat growth; frontal waist width shrinking ~80% as fast as circumference.",
     },
-    refs: ["schoenfeld2016", "schoenfeld2017", "sell2017", "sheikhhoseini2018", "morton2018", "vispute2011"],
+    refs: ["schoenfeld2016", "schoenfeld2017", "sell2017", "maisey1999", "sheikhhoseini2018", "morton2018", "vispute2011", "hubal2005"],
     notes,
   };
 }

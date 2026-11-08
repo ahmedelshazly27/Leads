@@ -3,7 +3,12 @@ import { clamp, closeness, mean, sigmoid } from "./geometry";
 
 /* ------------------------------------------------------------------ */
 /*  Derived, user-facing scores (0..100, higher = better)              */
+/*  These are OUR composites of literature-based measures (weights   */
+/*  and cut-offs are ours) — not validated clinical scores.          */
 /* ------------------------------------------------------------------ */
+
+export const SCORE_NOTE =
+  "Composite score: our weighted combination of literature-based measures, for tracking change over time. Not a validated clinical or attractiveness scale, and not a population percentile.";
 
 export type ScoreKey = "skin" | "leanness" | "rested" | "symmetry" | "harmony" | "body" | "posture" | "core";
 
@@ -113,8 +118,9 @@ export function overall(scores: Partial<Record<ScoreKey, number>>) {
 export function band(score: number) {
   if (score >= 85) return "Excellent";
   if (score >= 72) return "Good";
-  if (score >= 58) return "Average";
-  if (score >= 45) return "Below average";
+  // fixed cut-offs on our own scale, not population percentiles — so no "average" wording
+  if (score >= 58) return "Fair";
+  if (score >= 45) return "Developing";
   return "Needs work";
 }
 
@@ -145,7 +151,7 @@ export function traits(face: FaceResult): Trait[] {
       value: trust,
       axis: ["Guarded", "Neutral", "Warm"],
       features: ["Mouth corners", "Symmetry", "Brow height"],
-      text: `Trustworthiness judgements lean on upturned mouth corners, symmetry and relaxed brows. Your face reads ${pct(trust)} of the range; a genuine slight smile shifts this most (Reis 1990).`,
+      text: `Trustworthiness judgements lean on upturned mouth corners, symmetry and relaxed brows. Your face reads ${pct(trust)} of the range; smiling faces are rated more sincere and sociable (Reis 1990). This index is our own combination of these cues.`,
     },
     {
       key: "openness",
@@ -153,7 +159,7 @@ export function traits(face: FaceResult): Trait[] {
       value: open,
       axis: ["Reserved", "Neutral", "Open"],
       features: ["Eyes", "Lids", "Brows"],
-      text: `Eye openness and brow-to-lid distance drive how approachable a face looks. Yours sits ${pct(open)}; sleep and reduced under-eye puffiness open the eye area (Axelsson 2010).`,
+      text: `This index is our own combination of eye openness and brow-to-lid distance. Yours sits ${pct(open)}. Sleep loss makes eyelids look more hanging and eyes more swollen (Sundelin 2013), so rest can open up the eye area.`,
     },
     {
       key: "confidence",
@@ -161,7 +167,7 @@ export function traits(face: FaceResult): Trait[] {
       value: conf,
       axis: ["Hesitant", "Neutral", "Assured"],
       features: ["Symmetry", "Canthal tilt", "Structure"],
-      text: `Perceived self-assurance follows symmetry, eye shape and structural cues. Your face reads ${pct(conf)}.`,
+      text: `This index is our own combination of symmetry, eye-shape and structure cues; it has not been validated against how confident people are rated. Your face reads ${pct(conf)}.`,
     },
     {
       key: "dominance",
@@ -169,7 +175,7 @@ export function traits(face: FaceResult): Trait[] {
       value: dominance,
       axis: ["Soft", "Balanced", "Dominant"],
       features: ["fWHR", "Jaw", "Brow depth"],
-      text: `Dominance perception tracks facial width-to-height ratio, jaw width and low-set brows (Geniole 2015). Yours sits ${pct(dominance)}.`,
+      text: `Higher facial width-to-height ratio is reliably perceived as more dominant (Geniole 2015 meta-analysis); this index also adds jaw width and brow height (our combination). Yours sits ${pct(dominance)}.`,
     },
   ];
 }

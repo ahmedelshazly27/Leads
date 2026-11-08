@@ -1,3 +1,4 @@
+import type { Currency } from "../lib/types";
 import { useRef, useState, type ReactNode } from "react";
 import { GRADE_LABEL, REFS, type EvidenceGrade } from "../lib/science";
 import { Arrows, Infinity as InfinityIcon } from "./icons";
@@ -261,5 +262,9 @@ export function Toggle<T extends string>({ value, options, onChange }: { value: 
   );
 }
 
-export const money = (n: number, cur: "EUR" | "USD" | "GBP" = "EUR") =>
-  new Intl.NumberFormat("en", { style: "currency", currency: cur, maximumFractionDigits: 0 }).format(n);
+/** Approximate fixed conversion from EUR (plan prices are researched in EUR); rounded to 5. */
+const FX: Record<Currency, number> = { EUR: 1, AED: 4.2, SAR: 4.3 };
+export const money = (eur: number, cur: Currency = "AED") => {
+  const v = cur === "EUR" ? Math.round(eur) : Math.round((eur * FX[cur]) / 5) * 5;
+  return new Intl.NumberFormat("en", { style: "currency", currency: cur, currencyDisplay: "code", maximumFractionDigits: 0 }).format(v).replace(/\u00a0/g, " ");
+};
