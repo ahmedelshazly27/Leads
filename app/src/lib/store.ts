@@ -204,6 +204,10 @@ export function setUnits(units: "metric" | "imperial") {
   set({ ...state, settings: { ...state.settings, units } });
 }
 
+export function setPhotoMode(photoMode: "studio" | "original") {
+  set({ ...state, settings: { ...state.settings, photoMode } });
+}
+
 export function setCurrency(currency: "EUR" | "USD" | "GBP") {
   set({ ...state, settings: { ...state.settings, currency } });
 }

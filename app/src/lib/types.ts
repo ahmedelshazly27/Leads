@@ -210,6 +210,6 @@ export interface AppState {
   activeProfileId: string | null;
   // planItemId -> ISO date completed, per profile
   progress: Record<string, Record<string, string>>;
-  settings: { units: "metric" | "imperial"; currency: "EUR" | "USD" | "GBP" };
+  settings: { units: "metric" | "imperial"; currency: "EUR" | "USD" | "GBP"; photoMode?: "studio" | "original" };
   visuals: Record<string, Visuals>; // scanId -> generated images (data URLs or https)
 }

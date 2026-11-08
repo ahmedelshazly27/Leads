@@ -1,6 +1,8 @@
 import { useMemo, type ComponentType } from "react";
 import { Navigate, useParams } from "react-router-dom";
-import { Empty } from "../../components/ui";
+import { Empty, Toggle } from "../../components/ui";
+import { useDisplayScan } from "../../lib/studio";
+import { setPhotoMode } from "../../lib/store";
 import { buildPlan } from "../../lib/plan";
 import { useActive } from "../../lib/useActive";
 import { ALL_ITEMS } from "../../lib/sections";
@@ -56,11 +58,19 @@ const SECTIONS: Record<string, ComponentType<SectionProps>> = {
   summary: P.Summary,
 };
 
+/** Sections whose numbers are read from photo pixels: always show the original. */
+const ORIGINAL_ONLY = new Set(["skin", "contrast"]);
+/** Sections that don't show analysis photos (no switch needed). */
+const NO_PHOTO = new Set(["getting-started", "about-you", "methodology", "recommendations", "action-plan", "estimations", "progress"]);
+
 export function AnalysisRouter() {
   const { section = "getting-started" } = useParams();
   const { profile, scan, scans, facePhoto, bodyPhoto, sidePhoto, state } = useActive();
   const plan = useMemo(() => (scan && profile ? buildPlan(scan, profile.intake) : null), [scan, profile]);
-  if (!profile || !scan || !plan) return <Navigate to="/protocols" replace />;
+  const visuals = scan ? state.visuals[scan.id] ?? {} : {};
+  const mode = ORIGINAL_ONLY.has(section) ? "original" : state.settings.photoMode ?? "studio";
+  const display = useDisplayScan(scan, visuals, profile?.intake ?? null, { face: facePhoto, body: bodyPhoto, side: sidePhoto }, mode);
+  if (!profile || !scan || !plan || !display) return <Navigate to="/protocols" replace />;
   const item = ALL_ITEMS.find((i) => i.id === section);
   const Comp = SECTIONS[section];
   if (!item || !Comp) return <Navigate to="/analysis/getting-started" replace />;
@@ -70,17 +80,41 @@ export function AnalysisRouter() {
     return <div className="page"><Empty title="No body scan yet">Add a full-body photo in a new scan to unlock this section.</Empty></div>;
   if (item.needs === "side" && !scan.bodySide)
     return <div className="page"><Empty title="No side photo yet">Add a side-on full-body photo in a new scan to unlock side posture and core depth.</Empty></div>;
+  const showSwitch = display.available && !NO_PHOTO.has(section);
   return (
-    <Comp
-      key={section}
-      profile={profile}
-      scan={scan}
-      scans={scans}
-      facePhoto={facePhoto}
-      bodyPhoto={bodyPhoto}
-      sidePhoto={sidePhoto}
-      visuals={state.visuals[scan.id] ?? {}}
-      plan={plan}
-    />
+    <>
+      {showSwitch && (
+        <div className="page photo-switch">
+          <span className="mono-sm">
+            {ORIGINAL_ONLY.has(section)
+              ? "Original photo — this section reads real skin pixels"
+              : display.loading
+                ? "Preparing studio photo…"
+                : "Measurements always come from your original photos"}
+          </span>
+          {!ORIGINAL_ONLY.has(section) && (
+            <Toggle
+              value={state.settings.photoMode ?? "studio"}
+              options={[
+                { value: "studio", label: "Studio" },
+                { value: "original", label: "Original" },
+              ]}
+              onChange={(v) => setPhotoMode(v)}
+            />
+          )}
+        </div>
+      )}
+      <Comp
+        key={`${section}-${mode}-${display.loading}`}
+        profile={profile}
+        scan={display.scan}
+        scans={scans}
+        facePhoto={display.facePhoto}
+        bodyPhoto={display.bodyPhoto}
+        sidePhoto={display.sidePhoto}
+        visuals={visuals}
+        plan={plan}
+      />
+    </>
   );
 }

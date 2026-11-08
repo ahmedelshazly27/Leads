@@ -2,6 +2,34 @@
 
 Working draft. Brand and name to be decided later. Prices below are estimates to validate, not quotes.
 
+## 0. Decisions so far (Nov 2026)
+
+| Topic | Decision |
+|---|---|
+| Launch markets | Gulf: **UAE + Saudi Arabia first**, then Qatar and Kuwait |
+| Language | English first; layout already RTL-ready for Arabic |
+| Review | Founder reviews every order at launch; console built for one reviewer, multi-reviewer later |
+| Image models | The tested pipeline, operated through Higgsfield at launch: **FLUX 3** for the face baseline; **Nano Banana Pro** for the face after and all body images (FLUX blocks shirtless photos). Move to direct provider APIs with signed DPAs before volume grows |
+| Model | One-off paid report **plus a progress membership** (subscription) |
+| Photo retention | Set by the laws' "no longer than necessary" principle (see §4): raw photos deleted 90 days after delivery for one-off customers; members keep them while the membership is active (needed for progress comparison) and for 30 days after cancelling; anything deleted on request at any time |
+| Inputs | Photos + height + weight only. No tape measures; waist is estimated from the front and side photos |
+
+### Packages (VAT-inclusive; validate with first customers)
+
+| Package | Price | What's included |
+|---|---|---|
+| **Free scan** | Free | On-device face + body scan with headline scores only. No plan, no visuals. This is the funnel |
+| **Glow-Up Report** | **€49** · AED 199 · SAR 199 | Full face + body analysis; evidence-graded 12-month plan; your reviewed studio "before" and 12-month "after" (face and body, front and side); PDF; 30 days of tracking |
+| **Glow-Up Premium** | **€99** · AED 399 · SAR 399 | Everything in Report + 3 hairstyle/beard previews (3 angles each) + 20-min video consult + 24 h priority + 3 months of membership |
+| **Progress membership** | **€12/mo** · AED 49 · SAR 49, or **€99/yr** · AED 399 | Monthly check-in scans with progress charts; plan adjusted monthly (reviewed); refreshed "after" every quarter; habit reminders; partner discounts (InBody, meal plans, trainers). Requires a Report first |
+
+Why these numbers:
+- €49 sits in impulse range for Gulf consumers and leaves ~€30+ margin after VAT (5% UAE / 15% KSA), gateway fees, roughly €2–3 of image generation and about 10 minutes of review.
+- Premium doubles the price for features that cost little: more generations and 20 minutes of your time.
+- The membership is the business. Check-ins run on-device, so they cost almost nothing to analyse; the quarterly re-render costs about €1–2. Recurring revenue then comes from people coming back to see progress, plus partner bookings.
+
+Gulf payments: Tap Payments supports mada, KNET, Benefit, Apple Pay, cards and recurring billing. Tabby/Tamara BNPL can come later for Premium.
+
 ## 1. The product in one line
 
 A user pays once, uploads guided photos (face front + profiles, body front + side) and their height and weight. They receive a science-backed facial and body analysis, a 12-month glow-up plan, and before/after visuals reviewed by a human expert. From the plan they can book vetted partners: non-surgical clinics, InBody scans, dietitian meal services and personal trainers.
@@ -82,11 +110,7 @@ Per order (face + body package):
 | Human review | ~10 min at a reviewer's hourly rate | Largest variable cost — $3–8 |
 | **Total variable** |  | **≈ $6–15 per order** |
 
-Example price ladder (to test; local currency):
-- **Face analysis + plan:** 149–199 SAR/AED.
-- **Face + body + visuals:** 299–399.
-- **Premium:** adds a 20-minute video consult and a 3-month check-in: 599–799.
-- **Check-in rescan:** 79–99. This is the retention loop: the same photo setup, a progress chart, and an updated plan.
+Prices: see the package table in §0.
 
 Partner revenue, where legally allowed:
 - per-booking referral fee or revenue share (clinics, InBody, PTs);
@@ -104,12 +128,10 @@ Partner revenue, where legally allowed:
 
 The plan engine already tags items by category and evidence grade. Each item gets a "Book with a partner" action filtered by city. Bookings start as requests that the partner confirms.
 
-## 7. Decisions needed from you
+## 7. Still open
 
-1. Launch market(s) first: KSA, UAE or Egypt. This drives hosting region, payment gateway and legal review.
-2. Packages and prices. Face-only and face + body, or a single package?
-3. Reviewer model: you alone at first, or trained reviewers (including women reviewers for female clients)?
-4. Image provider for production: direct Google (Nano Banana Pro) plus FLUX via BFL/Replicate, or keep an aggregator.
-5. Raw-photo retention period: 30, 60 or 90 days.
-6. Partner monetisation per vertical, after legal advice.
-7. Arabic-first or English-first UI at launch. The layout is already RTL-ready.
+1. Brand and name.
+2. Partner monetisation per vertical (listing fee vs. referral fee), after legal advice in UAE and KSA.
+3. Women clients: offer a face-only flow and/or women reviewers at launch?
+4. Confirm Higgsfield's terms allow commercial client work and sign a data processing agreement, or plan the switch to direct APIs.
+5. Company set-up and hosting region (UAE free zone vs. KSA entity), which drives where data is hosted.

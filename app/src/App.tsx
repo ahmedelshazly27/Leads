@@ -8,6 +8,7 @@ import { Visualization } from "./pages/Visualization";
 import { Settings } from "./pages/Settings";
 import { ProtocolViewer } from "./pages/ProtocolViewer";
 import { Stack } from "./pages/Stack";
+import { Plans } from "./pages/Plans";
 import { useReady } from "./lib/store";
 
 export function App() {
@@ -24,6 +25,7 @@ export function App() {
         <Route path="/visualization" element={<Visualization />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/stack" element={<Stack />} />
+        <Route path="/plans" element={<Plans />} />
         <Route path="/analysis" element={<Navigate to="/analysis/getting-started" replace />} />
         <Route path="/analysis/:section" element={<AnalysisRouter />} />
         <Route path="*" element={<Navigate to="/protocols" replace />} />

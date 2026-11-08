@@ -11,6 +11,7 @@ const RAIL = [
   { to: "/biometrics", label: "Biometrics", icon: Bars },
   { to: "/visualization", label: "Visualization", icon: Scan },
   { to: "/analysis", label: "Your Analysis", icon: FaceScan },
+  { to: "/plans", label: "Plans", icon: Bag },
   { to: "/stack", label: "Stack", icon: Bag, soon: true },
   { to: "/settings", label: "Settings", icon: Gear },
 ];
