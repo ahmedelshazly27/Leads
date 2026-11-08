@@ -1,0 +1,200 @@
+.shell {
+  display: flex;
+  min-height: 100vh;
+  background: var(--surface);
+}
+
+/* ---------------- Icon rail ---------------- */
+.rail {
+  width: 236px;
+  flex: none;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 18px 14px;
+  border-right: 1px solid var(--line);
+  background: var(--surface);
+  transition: width 0.2s ease;
+}
+.rail-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2px 6px 26px;
+}
+.rail-logo {
+  color: var(--ink);
+  display: flex;
+}
+.rail-toggle {
+  color: var(--ink-3);
+  display: flex;
+  padding: 4px;
+  border-radius: 6px;
+}
+.rail-toggle:hover {
+  background: var(--card-2);
+}
+.rail-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.rail-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 36px;
+  padding: 0 6px;
+  border-radius: 9px;
+  color: var(--ink-2);
+  font-size: 13px;
+  white-space: nowrap;
+}
+.rail-item:hover {
+  background: var(--card);
+}
+.rail-icon {
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  border-radius: 7px;
+  color: var(--ink-3);
+  flex: none;
+}
+.rail-item.active {
+  background: var(--card-2);
+  color: var(--ink);
+}
+.rail-item.active .rail-icon {
+  background: var(--slate);
+  color: #fff;
+}
+.rail-soon {
+  margin-left: auto;
+  font-size: 10px;
+  color: var(--ink-3);
+  background: var(--card-2);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 2px 6px;
+}
+.rail-profile {
+  margin-top: auto;
+  position: relative;
+  padding: 12px;
+  border-radius: 12px;
+  background: var(--card);
+  border: 1px solid var(--line);
+}
+.rail-profile select {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.rail-profile-name {
+  font-size: 13px;
+  color: var(--ink);
+}
+.rail-profile-sub {
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: capitalize;
+}
+
+.is-collapsed .rail {
+  width: 68px;
+}
+.is-collapsed .rail-label,
+.is-collapsed .rail-soon,
+.is-collapsed .rail-logo,
+.is-collapsed .rail-profile {
+  display: none;
+}
+
+/* ---------------- Section nav ---------------- */
+.secnav {
+  width: 232px;
+  flex: none;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  padding: 18px 12px;
+  border-right: 1px solid var(--line);
+}
+.secnav-card {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.secnav-group.open {
+  background: var(--card);
+  border-radius: 12px;
+  padding-bottom: 6px;
+}
+.secnav-head {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 36px;
+  padding: 0 10px;
+  color: var(--ink-2);
+  font-size: 13px;
+  text-align: left;
+}
+.secnav-group.open .secnav-head {
+  color: var(--ink);
+}
+.secnav-items {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 0 6px;
+}
+.secnav-item {
+  display: block;
+  padding: 7px 10px 7px 18px;
+  border-radius: 8px;
+  font-size: 12px;
+  color: var(--ink-3);
+}
+.secnav-item:hover {
+  color: var(--ink);
+}
+.secnav-item.active {
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: 0 0 0 1px var(--line), 0 2px 6px rgba(20, 30, 35, 0.04);
+}
+.secnav-item.missing {
+  opacity: 0.45;
+}
+
+/* ---------------- Main ---------------- */
+.shell-main {
+  flex: 1;
+  min-width: 0;
+  padding: 28px 32px 64px;
+}
+.page {
+  max-width: 1080px;
+  margin: 0 auto;
+}
+.page-card {
+  border: 1px solid var(--line);
+  border-radius: var(--r-xl);
+  padding: 22px;
+  background: var(--surface);
+}
+.page-head {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 22px;
+}

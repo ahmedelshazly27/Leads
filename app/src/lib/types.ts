@@ -1,0 +1,141 @@
+export type Pt = [number, number]; // normalized image coords (0..1)
+
+export type Gender = "female" | "male" | "other";
+
+export interface Intake {
+  name: string;
+  age: number;
+  gender: Gender;
+  ethnicity: string;
+  heightCm: number | null;
+  weightKg: number | null;
+  location: string;
+  preferences: "non-invasive" | "open-to-clinical" | "open-to-surgical";
+  budget: "low" | "medium" | "high";
+  smoking: "no" | "occasionally" | "daily";
+  drinking: "never" | "occasional" | "weekly" | "daily";
+  sleepHours: number;
+  trainingDays: number; // per week
+  skinTone: 1 | 2 | 3 | 4 | 5 | 6; // Fitzpatrick
+  limitations: string;
+  allergies: string;
+  profession: string;
+  goals: string[];
+}
+
+export interface Profile {
+  id: string;
+  createdAt: string;
+  intake: Intake;
+  sample?: boolean;
+}
+
+/* ------------------------------ Face ------------------------------ */
+
+export type SkinRegionKey = "forehead" | "leftCheek" | "rightCheek" | "nose" | "underEye" | "chin";
+
+export interface SkinRegion {
+  key: SkinRegionKey;
+  coverage: number; // 0..1 share of pixels flagged uneven / damaged
+  evenness: number; // 0..100
+  redness: number; // 0..100
+  texture: number; // 0..100 (higher = rougher)
+  polygons: Pt[][]; // region outline(s) for overlays, normalized coords
+}
+
+export interface FaceMetrics {
+  // proportions
+  faceWHR: number; // bizygomatic width / face height
+  fWHR: number; // bizygomatic width / upper face height (brow → upper lip)
+  midToLowerThird: number; // ideal ≈ 1
+  lipChinRatio: number; // upper lip height : chin height (ideal ≈ 0.5)
+  eyeSpacingRatio: number; // intercanthal / eye width (ideal ≈ 1)
+  eyeWidthToFace: number; // eye width / face width (ideal ≈ 0.2)
+  noseWidthToIntercanthal: number; // ideal ≈ 1
+  noseLengthToFace: number;
+  mouthToNoseWidth: number; // ideal ≈ 1.5
+  lipRatio: number; // upper / lower vermilion height (ideal ≈ 0.62)
+  lipFullness: number; // total lip height / mouth width
+  jawToFaceWidth: number;
+  chinWidthToMouth: number;
+  foreheadToFaceWidth: number;
+  // angles (degrees)
+  canthalTilt: number; // + = outer corner higher
+  browTilt: number;
+  mouthCornerTilt: number; // + = corners up
+  headRoll: number;
+  // brow
+  browArch: number; // arch height / brow length
+  browPeak: number; // 0..1 position of peak along the brow (inner → outer)
+  browThickness: number; // avg thickness / brow length
+  browEyeDistance: number; // brow-to-lid distance / eye width
+  // eyes
+  eyeAspect: number; // height / width
+  // global
+  symmetry: number; // 0..100
+  averageness: number; // 0..100
+  dimorphism: number; // 0..1, 0 = very feminine, 1 = very masculine
+  neoteny: number; // 0..100
+  adiposity: number; // 0..100 (higher = more facial fullness)
+  contrast: number; // 0..100
+  skinScore: number; // 0..100
+}
+
+export interface FaceResult {
+  landmarks: Pt[] | null; // 478 points, null for sample data
+  imageAspect: number; // width / height
+  metrics: FaceMetrics;
+  skin: SkinRegion[];
+  faceShape: "Oval" | "Round" | "Square" | "Heart" | "Oblong" | "Diamond";
+}
+
+/* ------------------------------ Body ------------------------------ */
+
+export interface BodyMetrics {
+  shoulderWidth: number; // normalized to body height
+  waistWidth: number;
+  hipWidth: number;
+  shoulderToWaist: number;
+  waistToHip: number;
+  legToHeight: number;
+  torsoToLeg: number;
+  shoulderTilt: number; // degrees, + = left shoulder (image right) lower
+  hipTilt: number;
+  headOffset: number; // lateral head offset vs. body midline, % of shoulder width
+  armSymmetry: number; // 0..100
+  bmi: number | null;
+  bodyFatEstimate: number | null; // %
+  postureScore: number; // 0..100
+  proportionScore: number; // 0..100
+  compositionScore: number; // 0..100
+  bodyScore: number; // 0..100
+}
+
+export interface BodyResult {
+  landmarks: Pt[] | null; // 33 pose points
+  imageAspect: number;
+  metrics: BodyMetrics;
+  lines: { shoulder: [Pt, Pt]; waist: [Pt, Pt]; hip: [Pt, Pt] } | null;
+}
+
+/* ------------------------------ Scans ----------------------------- */
+
+export interface Scan {
+  id: string;
+  profileId: string;
+  createdAt: string;
+  face: FaceResult | null;
+  body: BodyResult | null;
+  hasFacePhoto: boolean;
+  hasBodyPhoto: boolean;
+}
+
+export interface AppState {
+  version: 1;
+  profiles: Profile[];
+  scans: Scan[];
+  activeProfileId: string | null;
+  // planItemId -> ISO date completed, per profile
+  progress: Record<string, Record<string, string>>;
+  settings: { units: "metric" | "imperial" };
+}

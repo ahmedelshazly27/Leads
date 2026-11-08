@@ -1,0 +1,240 @@
+/* ------------------------------------------------------------------ */
+/*  Design tokens                                                      */
+/* ------------------------------------------------------------------ */
+:root {
+  --bg: #f7f8f8;
+  --surface: #ffffff;
+  --card: #f6f7f7;
+  --card-2: #f1f3f3;
+  --line: #eaeded;
+  --line-2: #dfe4e5;
+
+  --ink: #1c2427;
+  --ink-2: #39444a;
+  --ink-3: #5d6a6f;
+  --muted: #8d9ca1;
+  --hl: #93a7ad; /* muted slate used for the first words of titles */
+  --label: #7d898d;
+
+  --photo: #a9bdc4;
+  --photo-deep: #93a9b1;
+  --slate: #8ea3aa;
+  --slate-dark: #6f868d;
+
+  --sans: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --script: "Mrs Saint Delafield", cursive;
+
+  --r-xl: 22px;
+  --r-lg: 16px;
+  --r-md: 12px;
+  --r-sm: 8px;
+
+  --shadow-sm: 0 1px 2px rgba(20, 30, 35, 0.04);
+  --shadow-md: 0 1px 2px rgba(20, 30, 35, 0.04), 0 6px 24px rgba(20, 30, 35, 0.05);
+}
+
+* {
+  box-sizing: border-box;
+}
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100%;
+}
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.45;
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: "ss01", "cv11";
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+img {
+  display: block;
+  max-width: 100%;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Typography                                                         */
+/* ------------------------------------------------------------------ */
+.title-xl {
+  font-size: 44px;
+  font-weight: 400;
+  letter-spacing: -0.045em;
+  line-height: 1.08;
+  margin: 0;
+}
+.title-lg {
+  font-size: 34px;
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+  margin: 0;
+}
+.title-md {
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  margin: 0;
+}
+.hl {
+  color: var(--hl);
+}
+.lead {
+  color: var(--ink-3);
+  font-size: 14px;
+  line-height: 1.55;
+  letter-spacing: -0.015em;
+  margin: 0;
+  max-width: 560px;
+}
+.lead b,
+.lead strong {
+  color: var(--ink);
+  font-weight: 500;
+}
+.mono {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--label);
+}
+.mono-sm {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--label);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Primitives                                                         */
+/* ------------------------------------------------------------------ */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+}
+.card-soft {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+}
+.kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 30px;
+  padding: 0 14px;
+  border-radius: 10px;
+  background: var(--surface);
+  box-shadow: 0 0 0 1px var(--line), 0 4px 14px rgba(20, 30, 35, 0.05);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  height: 28px;
+  padding: 0 10px;
+  border-radius: 7px;
+  background: var(--card-2);
+  font-size: 12px;
+  color: var(--ink-2);
+}
+.chip.mono-chip {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  padding: 0 12px;
+  height: 30px;
+}
+.glass {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.55), rgba(240, 243, 244, 0.82));
+  backdrop-filter: blur(18px) saturate(1.1);
+  -webkit-backdrop-filter: blur(18px) saturate(1.1);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+.glass-dark {
+  background: linear-gradient(180deg, rgba(120, 132, 137, 0.55), rgba(90, 100, 105, 0.6));
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #fff;
+}
+.photo-tag {
+  display: inline-flex;
+  align-items: center;
+  height: 30px;
+  padding: 0 12px;
+  border-radius: 8px;
+  background: rgba(70, 82, 88, 0.55);
+  backdrop-filter: blur(10px);
+  color: #eef3f4;
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.bullets {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.bullets li {
+  position: relative;
+  padding-left: 18px;
+  color: var(--ink-2);
+}
+.bullets li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 0.62em;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #c4cdd0;
+}
+.fig-caption {
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  padding: 12px 0 2px;
+}
+.fig-caption b {
+  color: var(--ink);
+  font-weight: 500;
+  margin-right: 6px;
+}
+.icon {
+  width: 16px;
+  height: 16px;
+  flex: none;
+}
