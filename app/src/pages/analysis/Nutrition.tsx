@@ -88,7 +88,7 @@ export function Nutrition(p: SectionProps) {
             <span>Water ≈ {ph.macros.waterL} L</span>
             <span>
               Expected {ph.weeklyChangeKg < 0 ? "loss" : "change"}: {ph.weeklyChangeKg < 0 ? "" : "+"}
-              {ph.weeklyChangeKg.toFixed(2)} kg/week
+              {Math.abs(ph.weeklyChangeKg).toFixed(2)} kg/week
             </span>
           </div>
           <p className="nu-why">{ph.rationale}</p>
