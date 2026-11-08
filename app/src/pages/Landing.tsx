@@ -118,6 +118,7 @@ export function Landing() {
           <div className="lp-nav-links">
             <a href="#why">Why it works</a>
             <a href="#how">How it works</a>
+            <a href="#care">Care network</a>
             <a href="#pricing">Pricing</a>
             <a href="#faq">FAQ</a>
           </div>
@@ -138,6 +139,7 @@ export function Landing() {
         <PlanSection data={data} />
         <FutureSelf />
         <Track data={data} />
+        <CareNetwork />
         <Measures />
         <How />
         <Pricing />
@@ -655,6 +657,136 @@ const MEASURES: { name: string; n: number; text: string; method?: string; refs?:
   { name: "Composition", n: 4, text: "BMI, photo-estimated waist, waist-to-height and body-fat estimate.", method: "composition" },
   { name: "Nutrition", n: 6, text: "Energy needs, calorie target, protein, fat, carbs and fibre for each phase.", refs: ["mifflin1990", "morton2018"] },
 ];
+
+/* ------------------------------------------------------------------ */
+/*  Care network · partners + integrations + follow-ups                */
+/* ------------------------------------------------------------------ */
+
+const PARTNERS = [
+  {
+    k: "derm",
+    name: "Dermatologists",
+    who: "Licensed, DHA / MOH registered",
+    out: "Your skin findings & photos you choose to share",
+    back: "Prescriptions and notes update your skin plan",
+    cadence: "Follow-ups at weeks 6 and 12",
+  },
+  {
+    k: "diet",
+    name: "Dietitians & meal kitchens",
+    who: "Registered dietitians, macro-matched meals",
+    out: "Calorie & macro targets, phase, allergies",
+    back: "Weekly weigh-ins adjust your targets",
+    cadence: "Check-ins every 2 weeks",
+  },
+  {
+    k: "inbody",
+    name: "Body composition",
+    who: "InBody & DEXA centres",
+    out: "Booking request only",
+    back: "Measured body fat replaces the photo estimate",
+    cadence: "Baseline, then every 3 months",
+  },
+  {
+    k: "coach",
+    name: "Coaches & trainers",
+    who: "Certified personal trainers",
+    out: "Your training split & posture priorities",
+    back: "Logged sessions feed your progress",
+    cadence: "Weekly sessions",
+  },
+  {
+    k: "clinic",
+    name: "Non-surgical clinics",
+    who: "Licensed aesthetic practitioners",
+    out: "Only the plan section you select",
+    back: "Consultation outcome added to your plan",
+    cadence: "Consultation first, always",
+  },
+];
+
+const FOLLOW = [
+  { t: "Week 0", d: "Analysis & plan, reviewed" },
+  { t: "Week 2", d: "Partner intros booked" },
+  { t: "Week 6", d: "Dermatologist follow-up" },
+  { t: "Month 3", d: "InBody re-scan · plan update" },
+  { t: "Month 6", d: "Check-in · new 12-month visual" },
+  { t: "Month 12", d: "Final report & next goals" },
+];
+
+function CareNetwork() {
+  const [active, setActive] = useState(0);
+  const p = PARTNERS[active];
+  return (
+    <section className="lp-sec" id="care">
+      <Head
+        center
+        kicker="Care network"
+        dark="Your plan, carried out"
+        muted="by specialists."
+        lead="We partner with licensed dermatologists, registered dietitians and vetted specialists. Your plan connects to them, with follow-ups built in."
+      />
+      <div className="lp-care">
+        <div className="lp-hub">
+          <svg viewBox="0 0 400 400" className="lp-hub-lines" aria-hidden>
+            {PARTNERS.map((_, i) => {
+              const a = -Math.PI / 2 + (i * 2 * Math.PI) / PARTNERS.length;
+              return (
+                <line
+                  key={i}
+                  x1={200}
+                  y1={200}
+                  x2={200 + Math.cos(a) * 150}
+                  y2={200 + Math.sin(a) * 150}
+                  className={i === active ? "on" : ""}
+                />
+              );
+            })}
+          </svg>
+          <div className="lp-hub-core">
+            <span className="lp-mono">Your plan</span>
+            <b>Targets · follow-ups · results</b>
+          </div>
+          {PARTNERS.map((x, i) => {
+            const a = -Math.PI / 2 + (i * 2 * Math.PI) / PARTNERS.length;
+            return (
+              <button
+                key={x.k}
+                className={`lp-hub-node ${i === active ? "on" : ""}`}
+                style={{ left: `${50 + Math.cos(a) * 37.5}%`, top: `${50 + Math.sin(a) * 37.5}%` }}
+                onClick={() => setActive(i)}
+              >
+                {x.name}
+              </button>
+            );
+          })}
+        </div>
+        <div className="lp-care-card">
+          <span className="lp-mono">Integration</span>
+          <h3>{p.name}</h3>
+          <p className="lp-care-who">{p.who}</p>
+          <div className="lp-care-rows">
+            <div><span className="lp-mono">Sent from your plan</span><span>{p.out}</span></div>
+            <div><span className="lp-mono">Comes back</span><span>{p.back}</span></div>
+            <div><span className="lp-mono">Follow-up</span><span>{p.cadence}</span></div>
+          </div>
+          <p className="lp-care-note">You choose what's shared, booking by booking. Photos are never shared automatically.</p>
+        </div>
+      </div>
+
+      <div className="lp-follow">
+        {FOLLOW.map((f, i) => (
+          <div key={f.t} className="lp-follow-step">
+            <i>{i + 1}</i>
+            <b>{f.t}</b>
+            <span>{f.d}</span>
+          </div>
+        ))}
+      </div>
+      <p className="lp-care-launch lp-mono">Partner network launching in the UAE & Saudi Arabia</p>
+    </section>
+  );
+}
 
 function Measures() {
   const [open, setOpen] = useState<number | null>(0);

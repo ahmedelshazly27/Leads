@@ -31,5 +31,5 @@ export const sampleVisuals: Visuals = {
   baseline: S + "face.jpg",
   after: S + "face_after.jpg",
   body: { front: S + "body_front.jpg", side: S + "body_side.jpg", afterFront: S + "body_after_front.jpg", afterSide: S + "body_after_side.jpg" },
-  styles: [{ name: "Tapered cut · groomed short beard", front: S + "face_after.jpg", left: S + "face_left.jpg", right: S + "face_right.jpg" }],
+  styles: [{ name: "Textured quiff · full groomed beard", front: S + "face_after.jpg" }],
 };
