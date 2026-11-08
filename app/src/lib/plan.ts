@@ -776,7 +776,7 @@ export function hairAdvice(intake: Intake, shape: string | null) {
  * paler skin, drooping mouth corners, rated sadder and less attractive).
  */
 export const PRESENCE =
-  "Overall the after must read as the sharper, healthier, well-rested version of the same man, not a copy of the baseline with a new haircut: alert, focused gaze with upper eyelids open (not heavy or hooded-looking from fatigue), clear eye whites, no under-eye shadows or puffiness; groomed brows; mouth corners neutral, not drooping; head held level with a long neck and shoulders back; healthy, warm, even skin colour (same skin tone); defined facial planes from fat loss — visible hollow under the cheekbones, crisp jawline and a clean chin-to-neck angle. Expression calm, confident and engaged — not sleepy, sad or blank, no broad smile.";
+  "Overall the after must read as the sharper, healthier, well-rested version of the same man, not a copy of the baseline with a new haircut: alert, focused gaze with upper eyelids open (not heavy or hooded-looking from fatigue), clear eye whites, no under-eye shadows or puffiness; brows level and relaxed (no raised inner brows or worried angle), groomed; clear bright whites with natural catchlights; mouth corners neutral, not drooping; head held level with a long neck and shoulders back; healthy, warm, even skin colour (same skin tone); defined facial planes from fat loss — visible hollow under the cheekbones, crisp jawline and a clean chin-to-neck angle. Expression calm, confident and engaged — not sleepy, sad or blank, no broad smile.";
 
 export function afterPrompt(plan: Plan, intake: Intake): string {
   const changes = plan.items.filter((i) => i.visual).map((i, n) => `${n + 1}) ${i.visual}`);
