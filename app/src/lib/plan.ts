@@ -219,9 +219,13 @@ export function buildPlan(scan: Scan, intake: Intake): Plan {
   const bf = body?.bodyFatEstimate ?? null;
   const targetBF = male ? 12 : female ? 22 : 17;
   let monthsToTarget: number | null = null;
-  const faceFull = face ? face.metrics.adiposity > 45 && !face.capture?.closeRange : false;
+  const faceReliable = face && !face.capture?.closeRange;
+  const faceFull = faceReliable ? face!.metrics.adiposity > 45 : false;
+  const unknownBF = bf == null && !faceReliable;
   const overTarget = bf != null ? bf > targetBF + 2 : faceFull;
-  if (overTarget || (body && body.compositionScore < 65)) {
+  // With no reliable body-fat data, a narrow frontal waist-to-shoulder ratio is the only hint.
+  const hint = unknownBF && male && body != null && body.shoulderToWaist < 1.5;
+  if (overTarget || hint) {
     drivers.add("Facial fullness");
     let pace = "";
     if (bf != null && intake.weightKg) {
@@ -230,11 +234,16 @@ export function buildPlan(scan: Scan, intake: Intake): Plan {
       monthsToTarget = clamp(Math.ceil(fatToLose / perWeek / 4.3), 1, 24);
       pace = ` Reaching ~${targetBF}% means losing ~${fatToLose.toFixed(1)} kg of fat — about ${monthsToTarget} months at 0.7% of body weight per week.`;
     }
+    const lead = bf != null
+      ? `Estimated body fat ${bf.toFixed(0)}%.`
+      : hint
+        ? `Your frontal shoulder-to-waist ratio is ${body!.shoulderToWaist.toFixed(2)}, which suggests body fat above ~${targetBF}% (add height, weight and waist in About You to confirm).`
+        : "Facial fullness is above the reference range.";
     items.push({
       id: "fatloss",
       category: "Body composition",
       title: `Lean out toward ~${targetBF}% body fat`,
-      why: `${bf != null ? `Estimated body fat ${bf.toFixed(0)}%.` : "Facial fullness is above the reference range."} Facial adiposity tracks body fat and is a strong cue to perceived health and attractiveness; losing fat reveals your existing cheekbones and jawline.${pace}`,
+      why: `${lead} Facial adiposity tracks body fat and is a strong cue to perceived health and attractiveness; losing fat reveals your existing cheekbones and jawline.${pace}`,
       how: [
         "Eat ~300–500 kcal/day below maintenance",
         "Aim to lose 0.5–1% of body weight per week; re-check monthly",
@@ -416,12 +425,13 @@ export function buildPlan(scan: Scan, intake: Intake): Plan {
 
   /* ------------------------------ Hair ------------------------------ */
   const reach = intake.hairLengthCm + 12;
+  const shapeForHair = face && !face.capture?.closeRange ? face.faceShape : null;
   items.push({
     id: "haircut",
     category: "Hair",
-    title: hairAdvice(intake, face?.faceShape ?? null).title,
-    why: `${hairAdvice(intake, face?.faceShape ?? null).why} Hair grows ~1 cm/month, so styles up to ~${reach} cm on top are reachable within 12 months. Evidence for specific cuts is limited — treat as grooming guidance.`,
-    how: hairAdvice(intake, face?.faceShape ?? null).how,
+    title: hairAdvice(intake, shapeForHair).title,
+    why: `${hairAdvice(intake, shapeForHair).why} Hair grows ~1 cm/month, so styles up to ~${reach} cm on top are reachable within 12 months. Evidence for specific cuts is limited — treat as grooming guidance.`,
+    how: hairAdvice(intake, shapeForHair).how,
     grade: "C",
     refs: ["saitoh1970"],
     phase: 1,
@@ -432,7 +442,7 @@ export function buildPlan(scan: Scan, intake: Intake): Plan {
     drivenBy: ["Face shape", "Hair type"],
     priority: 2,
     tasks: [{ id: "barber", label: "Barber / shape-up", cadence: "monthly" }],
-    visual: hairAdvice(intake, face?.faceShape ?? null).visual,
+    visual: hairAdvice(intake, shapeForHair).visual,
   });
   if (intake.hairLoss !== "none") {
     items.push({

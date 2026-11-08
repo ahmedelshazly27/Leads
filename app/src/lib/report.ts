@@ -39,14 +39,15 @@ export function restedScore(face: FaceResult) {
 }
 
 /** Facial leanness: prefers body-fat data when available, else facial adiposity. */
-export function leannessScore(face: FaceResult | null, body: BodyMetrics | null, intake: Intake) {
+export function leannessScore(face: FaceResult | null, body: BodyMetrics | null, intake: Intake): number | null {
   const bf = body?.bodyFatEstimate;
   if (bf != null) {
     const ideal = intake.gender === "female" ? 21 : intake.gender === "male" ? 12 : 16;
     return clamp(100 - Math.max(0, bf - ideal) * 3.2 - Math.max(0, ideal - 6 - bf) * 4, 15, 98);
   }
-  if (face) return clamp(100 - Math.max(0, face.metrics.adiposity - 30) * 1.2, 15, 98);
-  return 60;
+  // close-range selfies narrow the face, so facial adiposity is not trustworthy there
+  if (face && !face.capture?.closeRange) return clamp(100 - Math.max(0, face.metrics.adiposity - 30) * 1.2, 15, 98);
+  return null;
 }
 
 export function harmonyScore(face: FaceResult) {
@@ -73,7 +74,8 @@ export function currentScores(scan: Scan, intake: Intake): Partial<Record<ScoreK
     s.symmetry = scan.face.metrics.symmetry;
     s.harmony = harmonyScore(scan.face);
   }
-  s.leanness = leannessScore(scan.face, scan.body?.metrics ?? null, intake);
+  const lean = leannessScore(scan.face, scan.body?.metrics ?? null, intake);
+  if (lean != null) s.leanness = lean;
   if (scan.body) {
     s.body = clamp(scan.body.metrics.proportionScore * 0.5 + scan.body.metrics.compositionScore * 0.5);
     s.posture = scan.body.metrics.postureScore;
