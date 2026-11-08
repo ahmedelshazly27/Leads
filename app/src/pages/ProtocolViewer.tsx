@@ -27,14 +27,14 @@ interface PageDef {
 const chunk = <T,>(xs: T[], n: number) => Array.from({ length: Math.ceil(xs.length / n) }, (_, i) => xs.slice(i * n, i * n + n));
 
 function pagesFor(plan: Plan): PageDef[] {
-  const recPages = chunk(plan.items, 5);
+  const recPages = chunk(plan.items, 3);
   return [
     { title: "Disclaimer & Policy", render: () => <DisclaimerPage /> },
     { title: "Introduction", render: (c) => <IntroPage c={c} /> },
     { title: "Protocol", render: (c) => <ProtocolPage c={c} /> },
     ...recPages.map((items, i) => ({
       title: recPages.length > 1 ? `Recommendations ${i + 1}/${recPages.length}` : "Recommendations",
-      render: (c: Ctx) => <RecommendationsPage c={c} items={items} start={i * 5} />,
+      render: (c: Ctx) => <RecommendationsPage c={c} items={items} start={i * 3} />,
     })),
     { title: "Action Plan", render: (c) => <ActionPlanPage c={c} /> },
     { title: "Estimations", render: (c) => <EstimationsPage c={c} /> },
@@ -231,7 +231,7 @@ function DisclaimerPage() {
 }
 
 function IntroPage({ c }: { c: Ctx }) {
-  const contents = ["Disclaimer & Policy", "Introduction", `${firstName(c.profile.intake)}'s Protocol`, "Recommendations", "Action Plan", "Estimations", "References"];
+  const contents = ["Disclaimer & Policy", "Introduction", `${possessive(firstName(c.profile.intake))} Protocol`, "Recommendations", "Action Plan", "Estimations", "References"];
   return (
     <>
       <H strong="Introduction" muted="" />
@@ -412,6 +412,7 @@ function ActionPlanPage({ c }: { c: Ctx }) {
                 <span>{ph.sub}</span>
               </div>
               {items.length === 0 && <p className="pv-small">No new items — keep phase-1 habits going.</p>}
+              <div className="pv-phase-grid">
               {items.map((it) => (
                 <div key={it.id} className="pv-phase-item">
                   <div className="pv-phase-title">{it.title}</div>
@@ -422,6 +423,7 @@ function ActionPlanPage({ c }: { c: Ctx }) {
                   ))}
                 </div>
               ))}
+              </div>
             </div>
           );
         })}

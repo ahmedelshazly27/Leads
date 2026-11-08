@@ -332,7 +332,7 @@
   gap: 16px;
 }
 .pv-ba-img {
-  aspect-ratio: 0.88;
+  aspect-ratio: 1.05;
   border-radius: 6px;
   overflow: hidden;
   background: var(--photo);
@@ -485,20 +485,24 @@
   flex: 1;
 }
 .pv-phases {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.pv-phase-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 22px;
 }
 .pv-phase {
   border: 1px solid var(--line);
   border-radius: 10px;
-  padding: 14px;
-  min-height: 600px;
+  padding: 12px 14px;
 }
 .pv-phase-head {
   display: flex;
-  flex-direction: column;
-  gap: 2px;
+  align-items: baseline;
+  gap: 12px;
   padding-bottom: 10px;
   margin-bottom: 10px;
   border-bottom: 1px solid var(--line);

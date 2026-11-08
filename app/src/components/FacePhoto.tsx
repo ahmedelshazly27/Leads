@@ -21,7 +21,12 @@ export function FacePhoto({
   className?: string;
   placeholderTone?: "light" | "slate";
 }) {
-  if (!src) return <div className={`face-photo ${className}`}><Placeholder tone={placeholderTone} /></div>;
+  if (!src)
+    return (
+      <div className={`face-photo ${className}`} style={{ width: "100%", height: "100%" }}>
+        <Placeholder tone={placeholderTone} />
+      </div>
+    );
   const H = 1000 / aspect;
   const vb = crop ? [crop[0] * 1000, crop[1] * H, crop[2] * 1000, crop[3] * H] : [0, 0, 1000, H];
   return (

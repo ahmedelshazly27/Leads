@@ -156,7 +156,7 @@ export function Radar({ axes, series, title, size = 320 }: { axes: string[]; ser
   };
   return (
     <div className="radar">
-      <svg viewBox={`0 0 ${size} ${size + 10}`} width="100%">
+      <svg viewBox={`-48 0 ${size + 96} ${size + 14}`} width="100%" style={{ overflow: "visible" }}>
         {title && (
           <text x={cx} y={14} textAnchor="middle" className="radar-title">
             {title}

@@ -111,8 +111,8 @@ export function Nose({ scan, facePhoto }: SectionProps) {
   let deviation = "—";
   if (lm) {
     const mid = [10, 9, 168, 152].reduce((s, i) => s + lm[i][0], 0) / 4;
-    const off = ((lm[IDX.noseTip][0] - mid) * face.imageAspect) / Math.abs(lm[IDX.zygR][0] - lm[IDX.zygL][0]) / face.imageAspect;
-    deviation = Math.abs(off) < 0.02 ? "Straight" : `${off > 0 ? "Right" : "Left"} of midline`;
+    const off = (lm[IDX.noseTip][0] - mid) / Math.abs(lm[IDX.zygR][0] - lm[IDX.zygL][0]);
+    deviation = Math.abs(off) < 0.035 ? "Straight" : `${off > 0 ? "Right" : "Left"} of midline`;
   }
   const close = face.capture?.closeRange;
   return (
@@ -124,7 +124,7 @@ export function Nose({ scan, facePhoto }: SectionProps) {
           The nose sits at the centre of the face, so its <b>width</b> relative to the eyes strongly affects overall harmony.
         </>
       }
-      photo={photoFor(face, facePhoto, [...NOSE, ...NOSE_BASE, IDX.eyeL.inner, IDX.eyeR.inner], 1.6, (l) => (
+      photo={photoFor(face, facePhoto, [...NOSE, ...NOSE_BASE, IDX.eyeL.inner, IDX.eyeR.inner], 2.5, (l) => (
         <g>
           <ContourOverlay lm={l} aspect={face.imageAspect} groups={[NOSE]} closed={false} />
           <MeasureLine lm={l} aspect={face.imageAspect} a={129} b={358} label="ALAR" />
@@ -175,7 +175,7 @@ export function Lips({ scan, facePhoto }: SectionProps) {
           Lip fullness and the angle of the mouth corners shape how <b>warm</b> a face looks at rest.
         </>
       }
-      photo={photoFor(face, facePhoto, [...LIPS_OUTER, 2, 152], 1.4, (lm) => <ContourOverlay lm={lm} aspect={face.imageAspect} groups={[LIPS_OUTER, LIPS_INNER]} />)}
+      photo={photoFor(face, facePhoto, [...LIPS_OUTER, 2, 152], 1.9, (lm) => <ContourOverlay lm={lm} aspect={face.imageAspect} groups={[LIPS_OUTER, LIPS_INNER]} />)}
       diagram={<ContourDiagram face={face} groups={[LIPS_OUTER, LIPS_INNER]} />}
       typeLabel={lipType(m)}
       attrs={[
@@ -232,16 +232,17 @@ export function Cheeks({ scan, facePhoto, plan }: SectionProps) {
         </g>
       ))}
       diagram={<ContourDiagram face={face} groups={[JAW]} closed={false} lines={[[IDX.zygL, IDX.zygR], [IDX.gonL, IDX.gonR]]} />}
-      typeLabel={cheekType(m)}
+      typeLabel={face.capture?.closeRange ? "Retake for fullness" : cheekType(m)}
       attrs={[
         { label: "Width : height", value: fmt(m.faceWHR) },
         { label: "Cheek : jaw taper", value: fmt(1 / Math.max(0.1, m.jawToFaceWidth)) },
-        { label: "Facial fullness", value: `${Math.round(m.adiposity)}/100` },
+        { label: "Facial fullness", value: face.capture?.closeRange ? `${Math.round(m.adiposity)}/100 *` : `${Math.round(m.adiposity)}/100` },
         { label: "Cheek skin evenness", value: ev != null ? `${Math.round(ev)}/100` : "—" },
       ]}
       explanation={
         <>
           Your cheekbones are the widest point of the face, {fmt(1 / Math.max(0.1, m.jawToFaceWidth))}× your jaw width.{" "}
+          {face.capture?.closeRange && "* A close-range selfie makes the face look narrower, so facial fullness reads lower than it is. "}
           {plan.targetBodyFat != null
             ? `Reducing body fat toward ~${plan.targetBodyFat}% is the evidence-backed way to make them more visible — fat loss reveals bone structure, it doesn't change it.`
             : "Your facial fullness is already lean, so the bone outline reads clearly."}
@@ -315,7 +316,7 @@ export function Chin({ scan, facePhoto }: SectionProps) {
           The chin anchors the lower third; its <b>height and width</b> balance the mouth and jaw.
         </>
       }
-      photo={photoFor(face, facePhoto, [...CHIN, ...LIPS_OUTER], 1.2, (lm) => (
+      photo={photoFor(face, facePhoto, [...CHIN, ...LIPS_OUTER], 1.5, (lm) => (
         <g>
           <ContourOverlay lm={lm} aspect={face.imageAspect} groups={[CHIN]} closed={false} />
           <MeasureLine lm={lm} aspect={face.imageAspect} a={IDX.chinL} b={IDX.chinR} />
@@ -355,7 +356,7 @@ export function FeaturesSummary({ scan, facePhoto }: SectionProps) {
     { to: "eyes", name: "Eyes", type: eyeType(m), ids: [...EYE_L, ...EYE_R], pad: 1.15 },
     { to: "nose", name: "Nose", type: noseType(m), ids: [...NOSE, ...NOSE_BASE], pad: 1.5 },
     { to: "lips", name: "Lips", type: lipType(m), ids: LIPS_OUTER, pad: 1.5 },
-    { to: "cheeks", name: "Cheeks", type: cheekType(m), ids: [IDX.zygL, IDX.zygR, IDX.noseTip], pad: 1.1 },
+    { to: "cheeks", name: "Cheeks", type: face.capture?.closeRange ? "Retake for fullness" : cheekType(m), ids: [IDX.zygL, IDX.zygR, IDX.noseTip], pad: 1.1 },
     { to: "jaw", name: "Jaw", type: jawType(m), ids: JAW, pad: 1.1 },
     { to: "chin", name: "Chin", type: chinType(m), ids: CHIN, pad: 1.5 },
     { to: "skin", name: "Skin", type: `${Math.round(m.skinScore)}/100`, ids: [IDX.zygL, IDX.zygR, IDX.top, IDX.menton], pad: 1 },

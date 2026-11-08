@@ -57,7 +57,7 @@ function useHeatmap(photo: string | null, face: FaceResult, region: SkinRegion |
         out.data[o] = flagged ? 92 : 112;
         out.data[o + 1] = flagged ? 30 : 60;
         out.data[o + 2] = flagged ? 214 : 210;
-        out.data[o + 3] = flagged ? 230 : 70;
+        out.data[o + 3] = flagged ? 245 : 120;
       }
     }
     ctx.putImageData(out, 0, 0);
@@ -93,12 +93,12 @@ export function Skin({ scan, facePhoto, plan }: SectionProps) {
   const skinItems = plan.items.filter((i) => i.category === "Skin").slice(0, 2);
 
   // two-circle chart: areas proportional
-  const R = 78;
+  const R = 92;
   const rSmall = Math.max(4, R * Math.sqrt(Math.max(cov, 0.001) / Math.max(1 - cov, 0.01)));
 
   return (
     <div className="page">
-      <header className="sk-head">
+      <header className="skn-head">
         <h1 className="title-xl">
           Assessment of your <span className="hl">skin</span>
         </h1>
@@ -106,10 +106,10 @@ export function Skin({ scan, facePhoto, plan }: SectionProps) {
           Skin quality covers <b>pigmentation</b>, <b>redness</b> and <b>texture</b>. Even colour distribution is one of the strongest cues to perceived age and health.
         </p>
       </header>
-      <div className="sk-grid">
-        <div className="sk-photo">
+      <div className="skn-grid">
+        <div className="skn-photo">
           <FacePhoto src={facePhoto} aspect={a} crop={crop}>
-            {heat && <image href={heat} x={0} y={0} width={1000} height={1000 / a} preserveAspectRatio="none" style={{ mixBlendMode: "multiply" }} />}
+            {heat && <image href={heat} x={0} y={0} width={1000} height={1000 / a} preserveAspectRatio="none" opacity={0.9} />}
             {lm &&
               region?.polygons.map((p, i) => (
                 <polygon
@@ -123,71 +123,70 @@ export function Skin({ scan, facePhoto, plan }: SectionProps) {
                 />
               ))}
           </FacePhoto>
-          <ScoreCard label="Skin Score" value={face.metrics.skinScore} className="sk-score" />
+          <ScoreCard label="Skin Score" value={face.metrics.skinScore} className="skn-score" />
         </div>
 
-        <div className="sk-side">
-          <div className="sk-tabs">
-            <span className="sk-tabs-k">Regions</span>
-            <div className="sk-tabs-scroll" ref={scroller}>
+        <div className="skn-side">
+          <div className="skn-tabs">
+            <span className="skn-tabs-k">Regions</span>
+            <div className="skn-tabs-scroll" ref={scroller}>
               {regions.map((r) => (
-                <button key={r.key} className={`sk-tab ${r.key === key ? "on" : ""}`} onClick={() => setKey(r.key)}>
+                <button key={r.key} className={`skn-tab ${r.key === key ? "on" : ""}`} onClick={() => setKey(r.key)}>
                   {LABEL[r.key]}
                 </button>
               ))}
             </div>
-            <button className="sk-tabs-next" aria-label="More regions" onClick={() => scroller.current?.scrollBy({ left: 220 })}>
+            <button className="skn-tabs-next" aria-label="More regions" onClick={() => scroller.current?.scrollBy({ left: 220 })}>
               <ChevronRight size={16} />
             </button>
           </div>
 
-          <div className="sk-cov">
+          <div className="skn-cov">
             <div className="mono">Flagged skin coverage</div>
-            <div className="sk-cov-num">{pct < 10 ? pct.toFixed(1) : Math.round(pct)}%</div>
-            <div className="sk-cov-line">
-              <span className="sk-cov-you" style={{ left: `${Math.min(88, Math.max(12, (pct / 20) * 100))}%` }}>
+            <div className="skn-cov-num">{pct < 10 ? pct.toFixed(1) : Math.round(pct)}%</div>
+            <div className="skn-cov-line">
+              <span className="skn-cov-you" style={{ left: `${Math.min(88, Math.max(12, (pct / 20) * 100))}%` }}>
                 You <span style={{ color: "var(--muted)" }}>({pct.toFixed(1)}%)</span>
               </span>
             </div>
-            <div className="sk-cov-bar">
+            <div className="skn-cov-bar">
               <i style={{ height: `${Math.min(100, (pct / 20) * 100)}%` }} />
             </div>
-            <span className="sk-cov-tick" style={{ bottom: `calc(14px + ${(5 / 20) * 100}% * 0.86)` }}>
+            <span className="skn-cov-tick" style={{ bottom: `calc(14px + ${(5 / 20) * 100}% * 0.86)` }}>
               5%
             </span>
           </div>
 
-          <div className="sk-chart">
-            <svg viewBox="0 0 420 230" width="100%">
+          <div className="skn-chart">
+            <svg viewBox="0 0 640 250" width="100%">
               <defs>
-                <pattern id="sk-grid" width="42" height="38" patternUnits="userSpaceOnUse">
-                  <path d="M42 0H0V38" fill="none" stroke="#e6eaeb" strokeWidth="1" />
+                <pattern id="skn-grid" width="53.3" height="40" patternUnits="userSpaceOnUse">
+                  <path d="M53.3 0H0V40" fill="none" stroke="#e6eaeb" strokeWidth="1" />
                 </pattern>
-                <pattern id="sk-hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(35)">
+                <pattern id="skn-hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(35)">
                   <line x1="0" y1="0" x2="0" y2="8" stroke="#d9e0e2" strokeWidth="1" />
                 </pattern>
               </defs>
-              <rect width="420" height="200" fill="url(#sk-grid)" />
-              <line x1={58} x2={58} y1={0} y2={200} stroke="#c9d1d3" strokeDasharray="3 3" />
-              <line x1={214} x2={214} y1={0} y2={200} stroke="#c9d1d3" strokeDasharray="3 3" />
-              <line x1={310 - rSmall} x2={310 - rSmall} y1={0} y2={200} stroke="#c9d1d3" strokeDasharray="3 3" />
-              <line x1={310 + rSmall} x2={310 + rSmall} y1={0} y2={200} stroke="#c9d1d3" strokeDasharray="3 3" />
-              <circle cx={136} cy={100} r={R} fill="url(#sk-hatch)" stroke="#a9b6ba" strokeDasharray="3 3" />
-              <circle cx={136} cy={100} r={R} fill="rgba(230,236,237,.55)" />
-              <circle cx={310} cy={100} r={rSmall} fill="rgba(230,236,237,.9)" stroke="#a9b6ba" strokeDasharray="3 3" />
-              <text x={136} y={222} textAnchor="middle" className="radar-axis">
+              <rect width="640" height="220" fill="url(#skn-grid)" />
+              {[200 - R, 200 + R, 470 - rSmall, 470 + rSmall].map((x, i) => (
+                <line key={i} x1={x} x2={x} y1={0} y2={220} stroke="#c9d1d3" strokeDasharray="3 3" />
+              ))}
+              <circle cx={200} cy={110} r={R} fill="url(#skn-hatch)" stroke="#a9b6ba" strokeDasharray="3 3" />
+              <circle cx={200} cy={110} r={R} fill="rgba(230,236,237,.55)" />
+              <circle cx={470} cy={110} r={rSmall} fill="rgba(230,236,237,.9)" stroke="#a9b6ba" strokeDasharray="3 3" />
+              <text x={200} y={242} textAnchor="middle" className="radar-axis">
                 REGULAR SKIN AREA
               </text>
-              <text x={310} y={222} textAnchor="middle" className="radar-axis">
+              <text x={470} y={242} textAnchor="middle" className="radar-axis">
                 FLAGGED AREA
               </text>
             </svg>
-            <div className="sk-sentence">
+            <div className="skn-sentence">
               Your <b>{LABEL[key].toLowerCase()}</b> has the <b>{ordinal}</b> flagged coverage of your {regions.length} measured regions.
             </div>
           </div>
 
-          <div className="sk-expl">
+          <div className="skn-expl">
             <div className="mono">Explanation</div>
             <p>
               {region ? (
