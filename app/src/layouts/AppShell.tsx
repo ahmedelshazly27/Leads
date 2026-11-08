@@ -1,26 +1,23 @@
 import { useEffect, useState } from "react";
 import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Logo } from "../components/Logo";
-import { Bag, Bars, ChevronDown, ChevronRight, FaceScan, Gear, LayoutGrid, ListIcon, PanelLeft, Scan, User } from "../components/icons";
+import { Bars, ChevronDown, ChevronRight, FaceScan, Gear, LayoutGrid, ListIcon, PanelLeft, User } from "../components/icons";
 import { ALL_ITEMS, NAV, groupOf } from "../lib/sections";
 import { useActive } from "../lib/useActive";
 import "./AppShell.css";
 
 const RAIL = [
-  { to: "/protocols", label: "Protocols", icon: LayoutGrid },
-  { to: "/biometrics", label: "Biometrics", icon: Bars },
-  { to: "/visualization", label: "Visualization", icon: Scan },
-  { to: "/analysis", label: "Your Analysis", icon: FaceScan },
-  { to: "/stack", label: "Stack", icon: Bag, soon: true },
+  { to: "/home", label: "Home", icon: LayoutGrid },
+  { to: "/analysis", label: "Report", icon: FaceScan },
+  { to: "/measurements", label: "Measurements", icon: Bars },
   { to: "/settings", label: "Settings", icon: Gear },
   { to: "/review", label: "Review console", icon: ListIcon, staff: true },
 ];
 
 const TABS = [
-  { to: "/protocols", label: "Protocols", icon: LayoutGrid },
-  { to: "/analysis", label: "Analysis", icon: FaceScan },
-  { to: "/visualization", label: "Visuals", icon: Scan },
-  { to: "/biometrics", label: "Data", icon: Bars },
+  { to: "/home", label: "Home", icon: LayoutGrid },
+  { to: "/analysis", label: "Report", icon: FaceScan },
+  { to: "/measurements", label: "Data", icon: Bars },
   { to: "/settings", label: "Settings", icon: Gear },
 ];
 
@@ -30,12 +27,10 @@ function titleFor(path: string) {
     return ALL_ITEMS.find((i) => i.id === id)?.label ?? "Your Analysis";
   }
   const map: Record<string, string> = {
-    "/protocols": "Protocols",
+    "/home": "Home",
     "/new": "New analysis",
-    "/biometrics": "Biometrics",
-    "/visualization": "Visualization",
+    "/measurements": "Measurements",
     "/settings": "Settings",
-    "/stack": "Stack",
     "/review": "Review console",
   };
   const key = Object.keys(map).find((k) => path === k || path.startsWith(k + "/"));
@@ -61,10 +56,10 @@ export function AppShell() {
             <span className="mbar-btn-label">Sections</span>
           </button>
         ) : (
-          <NavLink to="/protocols" className="mbar-logo" aria-label="Home"><Logo /></NavLink>
+          <NavLink to="/home" className="mbar-logo" aria-label="Home"><Logo /></NavLink>
         )}
         <div className="mbar-title">{titleFor(loc.pathname)}</div>
-        <NavLink to={inAnalysis ? "/analysis/about-you" : "/protocols"} className="mbar-avatar" aria-label={profile?.intake.name ?? "Profile"}>
+        <NavLink to={inAnalysis ? "/analysis/about-you" : "/home"} className="mbar-avatar" aria-label={profile?.intake.name ?? "Profile"}>
           {facePhoto ? <img src={facePhoto} alt="" /> : <User size={16} />}
         </NavLink>
       </header>
@@ -82,17 +77,16 @@ export function AppShell() {
       )}
       <aside className="rail">
         <div className="rail-head">
-          <NavLink to="/protocols" className="rail-logo"><Logo /></NavLink>
+          <NavLink to="/home" className="rail-logo"><Logo /></NavLink>
           <button className="rail-toggle" onClick={() => setCollapsed((c) => !c)} aria-label="Toggle sidebar">
             <PanelLeft size={16} />
           </button>
         </div>
         <nav className="rail-nav">
-          {RAIL.map(({ to, label, icon: Icon, soon, staff }) => (
+          {RAIL.map(({ to, label, icon: Icon, staff }) => (
             <NavLink key={to} to={to} className={({ isActive }) => `rail-item ${isActive ? "active" : ""} ${staff ? "rail-staff" : ""}`}>
               <span className="rail-icon"><Icon size={16} /></span>
               <span className="rail-label">{label}</span>
-              {soon && <span className="rail-soon">Coming Soon</span>}
             </NavLink>
           ))}
         </nav>

@@ -866,10 +866,10 @@ function AfterPlaceholder({ visuals }: { visuals: SectionProps["visuals"] }) {
     <div className="bdd-after-empty">
       <div>
         <div className="title-md">Your 12-month body</div>
-        <p className="lead">Generate the standardized physique model and the end-of-plan body (fat loss, natural muscle, posture only) from the prompts in Visualization.</p>
+        <p className="lead">Your standardized physique model and end-of-plan body (fat loss, natural muscle, posture) are prepared by your reviewer and released after approval.</p>
       </div>
-      <Link to="/visualization" className="btn">
-        Open Visualization
+      <Link to="/analysis/projection" className="btn">
+        Your projection
       </Link>
     </div>
   );

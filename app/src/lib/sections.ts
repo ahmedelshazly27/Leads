@@ -71,6 +71,7 @@ export const NAV: NavGroup[] = [
     label: "Protocol",
     items: [
       { id: "your-protocol", label: "Your Protocol" },
+      { id: "projection", label: "Your Projection" },
       { id: "recommendations", label: "Recommendations" },
       { id: "action-plan", label: "Action Plan" },
       { id: "estimations", label: "Estimations" },

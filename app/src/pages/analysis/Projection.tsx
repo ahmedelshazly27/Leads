@@ -1,32 +1,14 @@
-import { useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { BeforeAfter, Empty, PageHeader } from "../components/ui";
-import { buildPlan } from "../lib/plan";
-import { useActive } from "../lib/useActive";
-import type { Visuals } from "../lib/types";
-import { ReviewBanner } from "../components/ReviewBanner";
-import "./pages.css";
+import { useState } from "react";
+import { BeforeAfter, PageHeader } from "../../components/ui";
+import type { SectionProps } from "./types";
+import "../pages.css";
 
 /**
- * Client view of the reviewed visuals. Production (prompts, uploads, QA)
- * lives in the reviewer console (/review).
+ * Client view of the reviewed visuals (only passed in once approved).
+ * Production — prompts, uploads, QA — lives in the reviewer console.
  */
-export function Visualization() {
-  const { profile, scan, facePhoto, bodyPhoto, sidePhoto, state } = useActive();
-  const nav = useNavigate();
-  const plan = useMemo(() => (scan && profile ? buildPlan(scan, profile.intake) : null), [scan, profile]);
+export function Projection({ scan, plan, facePhoto, bodyPhoto, sidePhoto, visuals: v }: SectionProps) {
   const [styleIdx, setStyleIdx] = useState(0);
-  if (!profile || !scan || !plan)
-    return (
-      <div className="page">
-        <Empty title="No scans yet">
-          <button className="btn" onClick={() => nav("/new")}>
-            Start an analysis
-          </button>
-        </Empty>
-      </div>
-    );
-  const v: Visuals = state.visuals[scan.id] ?? {};
   const approved = scan.review?.status === "approved";
   const styles = (v.styles ?? []).filter((s) => s.front);
   const faceAfter = styles[styleIdx]?.front ?? v.after;
@@ -39,12 +21,11 @@ export function Visualization() {
   return (
     <div className="page">
       <PageHeader
-        kicker="Visualization"
+        kicker="Projection"
         muted="Your 12-month"
         strong="projection"
         lead="A standardized studio portrait of you, and the same portrait after the plan's realistic 12-month changes — fat loss, skin, sleep, grooming and training. Bone structure is never changed."
       />
-      <ReviewBanner scan={scan} />
 
       {!ready ? (
         <section className="vc-pending">

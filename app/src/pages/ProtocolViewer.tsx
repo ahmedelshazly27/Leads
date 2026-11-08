@@ -80,7 +80,7 @@ export function ProtocolViewer() {
     return () => io.disconnect();
   }, [pages.length, zoom]);
 
-  if (!profile || !scan || !plan) return <Navigate to="/protocols" replace />;
+  if (!profile || !scan || !plan) return <Navigate to="/home" replace />;
   const ctx: Ctx = { profile, scan, plan, visuals: scan.review?.status === "approved" ? state.visuals[scan.id] ?? {} : {}, facePhoto, currency: state.settings.currency };
 
   const go = (i: number) => {

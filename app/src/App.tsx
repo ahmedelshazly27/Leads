@@ -4,10 +4,8 @@ import { AnalysisRouter } from "./pages/analysis/AnalysisRouter";
 import { Protocols } from "./pages/Protocols";
 import { NewScan } from "./pages/NewScan";
 import { Biometrics } from "./pages/Biometrics";
-import { Visualization } from "./pages/Visualization";
 import { Settings } from "./pages/Settings";
 import { ProtocolViewer } from "./pages/ProtocolViewer";
-import { Stack } from "./pages/Stack";
 import { Landing } from "./pages/Landing";
 import { Review } from "./pages/review/Review";
 import { ReviewScan } from "./pages/review/ReviewScan";
@@ -22,19 +20,21 @@ export function App() {
       <Route path="/protocol" element={<ProtocolViewer />} />
       <Route path="/plans" element={<Navigate to="/#reports" replace />} />
       <Route element={<AppShell />}>
-        <Route path="/protocols" element={<Protocols />} />
+        <Route path="/home" element={<Protocols />} />
+        <Route path="/protocols" element={<Navigate to="/home" replace />} />
         <Route path="/new" element={<NewScan />} />
         <Route path="/new/:profileId" element={<NewScan />} />
-        <Route path="/biometrics" element={<Biometrics />} />
-        <Route path="/visualization" element={<Visualization />} />
+        <Route path="/measurements" element={<Biometrics />} />
+        <Route path="/biometrics" element={<Navigate to="/measurements" replace />} />
+        <Route path="/visualization" element={<Navigate to="/analysis/projection" replace />} />
         <Route path="/settings" element={<Settings />} />
-        <Route path="/stack" element={<Stack />} />
+        <Route path="/stack" element={<Navigate to="/home" replace />} />
         <Route path="/requests" element={<Navigate to="/review" replace />} />
         <Route path="/review" element={<Review />} />
         <Route path="/review/:scanId" element={<ReviewScan />} />
         <Route path="/analysis" element={<Navigate to="/analysis/getting-started" replace />} />
         <Route path="/analysis/:section" element={<AnalysisRouter />} />
-        <Route path="*" element={<Navigate to="/protocols" replace />} />
+        <Route path="*" element={<Navigate to="/home" replace />} />
       </Route>
     </Routes>
   );

@@ -1,3 +1,4 @@
+import { Projection } from "./Projection";
 import { ReviewBanner } from "../../components/ReviewBanner";
 import { useMemo, type ComponentType } from "react";
 import { Navigate, useParams } from "react-router-dom";
@@ -62,13 +63,14 @@ const SECTIONS: Record<string, ComponentType<SectionProps>> = {
   training: Training,
   partners: Partners,
   progress: P.Progress,
+  projection: Projection,
   summary: P.Summary,
 };
 
 /** Sections whose numbers are read from photo pixels: always show the original. */
 const ORIGINAL_ONLY = new Set(["skin", "contrast"]);
 /** Sections that don't show analysis photos (no switch needed). */
-const NO_PHOTO = new Set(["getting-started", "about-you", "methodology", "recommendations", "action-plan", "estimations", "progress", "nutrition", "partners", "training"]);
+const NO_PHOTO = new Set(["getting-started", "about-you", "methodology", "recommendations", "action-plan", "estimations", "progress", "nutrition", "partners", "training", "projection"]);
 
 export function AnalysisRouter() {
   const { section = "getting-started" } = useParams();
@@ -78,7 +80,7 @@ export function AnalysisRouter() {
   const visuals = scan && scan.review?.status === "approved" ? state.visuals[scan.id] ?? {} : {};
   const mode = ORIGINAL_ONLY.has(section) ? "original" : state.settings.photoMode ?? "studio";
   const display = useDisplayScan(scan, visuals, profile?.intake ?? null, { face: facePhoto, body: bodyPhoto, side: sidePhoto }, mode);
-  if (!profile || !scan || !plan || !display) return <Navigate to="/protocols" replace />;
+  if (!profile || !scan || !plan || !display) return <Navigate to="/home" replace />;
   const item = ALL_ITEMS.find((i) => i.id === section);
   const Comp = SECTIONS[section];
   if (!item || !Comp) return <Navigate to="/analysis/getting-started" replace />;

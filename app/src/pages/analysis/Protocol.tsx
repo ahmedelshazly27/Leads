@@ -45,11 +45,10 @@ export function YourProtocol(p: SectionProps) {
               <div className="ba-frame pr-noafter">
                 <div className="ba-layer"><Img src={before} /></div>
                 <span className="photo-tag ba-tag ba-tag-l">Before</span>
-                <Link to="/visualization" className="pr-gen glass">
+                <div className="pr-gen glass">
                   <div className="mono-sm">After image</div>
-                  <div>Generate your after image in Visualization</div>
-                  <ChevronRight size={16} />
-                </Link>
+                  <div>In preparation — released after review</div>
+                </div>
               </div>
               <figcaption className="fig-caption"><b>FIG 1</b> LOOKS</figcaption>
             </figure>
@@ -462,7 +461,7 @@ export function Summary(p: SectionProps) {
             <span className="photo-tag pr-sum-tag">Before</span>
           </div>
           <div className="pr-sum-ph">
-            {visuals.after ? <Img src={visuals.after} /> : <Link to="/visualization" className="pr-sum-empty">Generate the after image in Visualization →</Link>}
+            {visuals.after ? <Img src={visuals.after} /> : <Link to="/analysis/projection" className="pr-sum-empty">After image in preparation in Visualization →</Link>}
             <span className="photo-tag pr-sum-tag">After</span>
           </div>
         </div>

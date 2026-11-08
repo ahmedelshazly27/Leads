@@ -124,10 +124,10 @@ export function Biometrics() {
   return (
     <div className="page">
       <PageHeader
-        kicker="Biometrics"
-        muted="Your raw"
-        strong="measurements"
-        lead="Every number behind this report, with the reference range it's compared against. Ratios are unit-free; angles are in degrees."
+        kicker="Measurements"
+        muted="Every"
+        strong="measurement"
+        lead="Each number behind your report, its published reference range and the study it comes from. Compare check-ins to track change."
         right={
           <button className="btn btn-ghost" onClick={csv}>
             <Download size={15} /> Download CSV
