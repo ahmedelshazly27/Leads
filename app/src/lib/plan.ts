@@ -477,7 +477,7 @@ export function buildPlan(scan: Scan, intake: Intake): Plan {
         ...(beardAlts.length ? [`Also suits you: ${beardAlts.map((b) => `${b.item.name} (${Math.round(b.fit)}% fit)`).join(" · ")}`] : []),
       ],
       grade: "B",
-      refs: ["dixson2013", ...(patchy ? ["ingprasert2016"] : [])],
+      refs: ["dixson2013", "janif2014", ...(patchy ? ["ingprasert2016"] : [])],
       phase: 1,
       timeToVisible: patchy ? "3–6 months for full coverage" : "2–3 weeks",
       monthly: [0, 5],
@@ -522,7 +522,7 @@ export function buildPlan(scan: Scan, intake: Intake): Plan {
     id: "haircut",
     category: "Hair",
     title: hairPick ? `Haircut: ${hairPick.name}` : hairAdvice(intake, shapeForHair).title,
-    why: `${hairPick ? `The in-style cut (library reviewed ${REVIEWED_AT}) that best balances your face${needs?.notes.length ? ` — ${needs.notes.join("; ")}` : ""}: ${hairRanked[0].reasons.join("; ") || "your proportions are balanced, so the most versatile current cut is chosen"}${hairPick.heatFriendly ? "; practical in Gulf heat" : ""}.` : hairAdvice(intake, shapeForHair).why} Hair grows ~1 cm/month, so styles up to ~${reach} cm on top are reachable within 12 months. Evidence for specific cuts is limited — treat as grooming guidance.`,
+    why: `${hairPick ? `The current cut (editorial library, reviewed ${REVIEWED_AT}) that best balances your face${needs?.notes.length ? ` — ${needs.notes.join("; ")}` : ""}: ${hairRanked[0].reasons.join("; ") || "your proportions are balanced, so the most versatile current cut is chosen"}${hairPick.heatFriendly ? "; practical in Gulf heat" : ""}.` : hairAdvice(intake, shapeForHair).why} Hair grows ~1 cm/month, so styles up to ~${reach} cm on top are reachable within 12 months. Evidence for specific cuts is limited — treat as grooming guidance.`,
     how: hairPick
       ? [
           `Ask your barber: ${hairPick.barber}`,

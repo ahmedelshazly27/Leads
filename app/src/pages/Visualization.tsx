@@ -9,7 +9,7 @@ import { setVisuals } from "../lib/store";
 import { useActive } from "../lib/useActive";
 import type { Pt, Visuals } from "../lib/types";
 import { realismCheck, type RealismRow } from "../lib/realism";
-import { HAIRSTYLES, BEARDS, REVIEWED_AT, TREND_SOURCES, faceNeeds, rankBeard, rankHair } from "../lib/styles";
+import { HAIRSTYLES, BEARDS, REVIEWED_AT, SOURCE_KINDS, TREND_SOURCES, faceNeeds, rankBeard, rankHair } from "../lib/styles";
 import type { FaceResult, Intake } from "../lib/types";
 import "./pages.css";
 
@@ -439,14 +439,14 @@ function TrendLibrary({ intake, face }: { intake: Intake; face: FaceResult | nul
           ) : null,
         )}
       </div>
-      <h2 className="title-md" style={{ marginTop: 28 }}>Style trend library · reviewed {REVIEWED_AT}</h2>
-      <p className="lead">Every haircut and beard in a plan or visual comes from this list — never improvised by the image model. Review it every few months against current barber sources.</p>
+      <h2 className="title-md" style={{ marginTop: 28 }}>Style library · editorial review {REVIEWED_AT}</h2>
+      <p className="lead">Every haircut and beard comes from this list — never improvised by the image model. Face fit decides the pick; "current" is editorial judgment and only breaks ties. No barber or brand blogs are used as sources.</p>
       <div className="tl-grid">
         {HAIRSTYLES.map((h) => (
           <div key={h.id} className={`tl-card tl-${h.status}`}>
             <div className="tl-top">
               <b>{h.name}</b>
-              <span className={`tl-status tl-s-${h.status}`}>{h.status}</span>
+              <span className={`tl-status tl-s-${h.status}`}>{h.status === "trending" ? "current" : h.status}</span>
             </div>
             <span className="tl-meta">
               {h.hairTypes.join(" · ")} · top {h.topCm[0]}–{h.topCm[1]} cm{h.heatFriendly ? " · heat-friendly" : ""}
@@ -458,21 +458,32 @@ function TrendLibrary({ intake, face }: { intake: Intake; face: FaceResult | nul
           <div key={b.id} className="tl-card">
             <div className="tl-top">
               <b>{b.name}</b>
-              <span className={`tl-status tl-s-${b.status}`}>{b.status}</span>
+              <span className={`tl-status tl-s-${b.status}`}>{b.status === "trending" ? "current" : b.status}</span>
             </div>
             <span className="tl-meta">Beard · needs {b.needsDensity} density</span>
           </div>
         ))}
       </div>
-      <ul className="tl-src">
-        {TREND_SOURCES.map((s) => (
-          <li key={s.url}>
-            <a href={s.url} target="_blank" rel="noreferrer">
-              {s.name}
-            </a>
-          </li>
+      <div className="tl-src">
+        {SOURCE_KINDS.map((k) => (
+          <div key={k.kind} className="tl-src-group">
+            <b>{k.label}</b> <span>— {k.note}</span>
+            <ul>
+              {TREND_SOURCES.filter((x) => x.kind === k.kind).map((x) => (
+                <li key={x.name}>
+                  {x.url ? (
+                    <a href={x.url} target="_blank" rel="noreferrer">
+                      {x.name}
+                    </a>
+                  ) : (
+                    x.name
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
         ))}
-      </ul>
+      </div>
     </section>
   );
 }

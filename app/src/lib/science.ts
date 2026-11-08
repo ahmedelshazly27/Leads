@@ -365,6 +365,14 @@ export const REFS: Record<string, Reference> = {
     source: "Evolution and Human Behavior 34(3):236–241",
     finding: "Heavy stubble was rated most attractive; full beards rated highest for masculinity and parenting ability.",
   },
+  janif2014: {
+    id: "janif2014",
+    authors: "Janif ZJ, Brooks RC, Dixson BJW",
+    year: 2014,
+    title: "Negative frequency-dependent preferences and variation in male facial hair",
+    source: "Biology Letters 10(4):20130958",
+    finding: "Beards and clean-shaven faces were rated more attractive when rare — style preferences cycle, so 'trending' is a moving target.",
+  },
   ingprasert2016: {
     id: "ingprasert2016",
     authors: "Ingprasert S, Tanglertsampan C, Tangphianphan N, Reanmanee C",

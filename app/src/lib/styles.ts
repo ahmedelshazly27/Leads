@@ -1,22 +1,41 @@
 import type { FaceResult, Intake } from "./types";
 
 /*
- * Hairstyle & beard trend library.
+ * Hairstyle & beard style library.
  *
  * Styles are not invented by the image model: every "after" picks from this
- * curated list. The founder reviews it periodically (see REVIEWED_AT) using
- * barber/industry sources; `status` drives what gets offered.
+ * curated list. What is "current" is editorial judgment, not science, so it
+ * is labelled that way and only weighs lightly (+4) next to face fit.
+ *
+ * Source policy — no SEO / GEO content. Barber, salon and product-brand blogs
+ * are written to rank in search and sell services; they are not cited.
+ *   1. behaviour  — search-interest data for the launch markets
+ *   2. editorial  — established regional fashion/grooming desks
+ *   3. practitioner — partner barbers' booking data (primary once live)
+ *   4. research   — peer-reviewed work on facial-hair perception
  */
 
 export const REVIEWED_AT = "2026-11";
 
-export const TREND_SOURCES = [
-  { name: "Behind the Chair — what men ask hairdressers for in 2026", url: "https://behindthechair.com/articles/what-men-are-actually-asking-their-hairdressers-for-in-2026/" },
-  { name: "Style My Fade — 7 cuts barbers recommend (2026)", url: "https://stylemyfade.com/blog/mens-hair-trends-2026-the-cuts-barbers-are-actually-recommending" },
-  { name: "Daimon Barber — men's hairstyles 2026", url: "https://www.daimonbarber.com/blogs/journal/men-s-hairstyles-2026-modern-cuts-fades-styling-tips" },
-  { name: "Jason Makki (Dubai) — short haircuts trending in Dubai 2026", url: "https://www.jasonmakki.com/post/short-haircuts-men-dubai" },
-  { name: "VIP Haircut for Men (UAE) — trending styles 2026", url: "https://vip-haircut-for-men.ae/blog/trending-mens-hairstyles-2026" },
-  { name: "Beardbrand — best beard styles 2026", url: "https://www.beardbrand.com/blogs/urbanbeardsman/beard-styles" },
+export type SourceKind = "behaviour" | "editorial" | "practitioner" | "research";
+
+export const SOURCE_KINDS: { kind: SourceKind; label: string; note: string }[] = [
+  { kind: "behaviour", label: "Search behaviour", note: "What people in the launch markets actually look up" },
+  { kind: "editorial", label: "Editorial", note: "Established fashion desks with a regional edition" },
+  { kind: "practitioner", label: "Partner barbers", note: "Most-requested cuts from partner bookings — replaces editorial once live" },
+  { kind: "research", label: "Research", note: "Peer-reviewed; explains why trends cycle, not which cut is in" },
+];
+
+export const TREND_SOURCES: { kind: SourceKind; name: string; url?: string }[] = [
+  { kind: "behaviour", name: "Google Trends — men's haircut searches, United Arab Emirates", url: "https://trends.google.com/trends/explore?geo=AE&q=men%20haircut" },
+  { kind: "behaviour", name: "Google Trends — men's haircut searches, Saudi Arabia", url: "https://trends.google.com/trends/explore?geo=SA&q=men%20haircut" },
+  { kind: "editorial", name: "GQ Middle East — The 7 best short haircuts for men in 2026", url: "https://www.gqmiddleeast.com/article/the-7-best-short-haircuts-for-men-in-2026" },
+  { kind: "editorial", name: "GQ Middle East — The best beards of the year", url: "https://www.gqmiddleeast.com/article/the-best-beards-of-the-year" },
+  { kind: "editorial", name: "GQ Middle East — Inside the Gulf's hyper-groomed masculinity", url: "https://www.gqmiddleeast.com/article/inside-the-gulfs-hyper-groomed-masculinity" },
+  { kind: "editorial", name: "GQ Middle East — The hair styling playbook for the UAE (climate)", url: "https://www.gqmiddleeast.com/article/the-hair-styling-playbook-for-a-good-mane-in-the-uae" },
+  { kind: "practitioner", name: "Partner barber request log (Dubai, Riyadh) — pending first partners" },
+  { kind: "research", name: "Janif, Brooks & Dixson 2014 — facial-hair preferences are negatively frequency-dependent (Biology Letters)", url: "https://doi.org/10.1098/rsbl.2013.0958" },
+  { kind: "research", name: "Dixson & Brooks 2013 — heavy stubble rated most attractive (Evolution and Human Behavior)", url: "https://doi.org/10.1016/j.evolhumbehav.2013.02.003" },
 ];
 
 export type TrendStatus = "trending" | "classic" | "fading";
