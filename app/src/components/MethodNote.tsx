@@ -12,7 +12,7 @@ export function MethodNote({ method }: { method: string }) {
       <button className="method-head" onClick={() => setOpen((o) => !o)}>
         <Doc size={14} />
         <span className="mono">How this is measured</span>
-        <span className="method-refs">{m.refs.length} sources</span>
+        <span className="method-refs">{m.refs.length} {m.refs.length === 1 ? "source" : "sources"}</span>
         {open ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
       </button>
       {open && (

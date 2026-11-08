@@ -455,7 +455,8 @@ export function analyseSide(det: PoseDetection, imgW: number, imgH: number): Sid
     coreScore: coreScore(waistDepth / chestDepth, bellyProtrusion),
   };
   const n = (p: Pt): Pt => [p[0] / mw, p[1] / mh];
-  const ankle = vis[S.ankle] > 0.5 && L[S.ankle][1] < 0.99 ? P[S.ankle] : P[S.knee] && vis[S.knee] > 0.5 ? P[S.knee] : hp;
+  // plumb line through the ankle when visible; otherwise through the hip joint
+  const ankle = vis[S.ankle] > 0.5 && L[S.ankle][1] < 0.99 ? P[S.ankle] : hp;
   return {
     landmarks: L,
     imageAspect: imgW / imgH,

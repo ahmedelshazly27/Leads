@@ -11,7 +11,7 @@ import type { Pt, Visuals } from "../lib/types";
 import "./pages.css";
 
 export function Visualization() {
-  const { profile, scan, facePhoto, state } = useActive();
+  const { profile, scan, facePhoto, bodyPhoto, sidePhoto, state } = useActive();
   const nav = useNavigate();
   const plan = useMemo(() => (scan && profile ? buildPlan(scan, profile.intake) : null), [scan, profile]);
   if (!profile || !scan || !plan)
@@ -60,10 +60,50 @@ export function Visualization() {
         </div>
       </section>
 
+      {(scan.body || scan.bodySide) && (
+        <BodyVisuals scanId={scan.id} visuals={v} bodyPhoto={bodyPhoto} sidePhoto={sidePhoto} afterText={bodyAfterPrompt(plan.items.map((i) => i.visual ?? ""))} />
+      )}
+
       <StyleGallery scanId={scan.id} visuals={v} />
 
       {scan.face?.landmarks && <MeshViewer photo={facePhoto} lm={scan.face.landmarks} aspect={scan.face.imageAspect} />}
     </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Body visuals                                                       */
+/* ------------------------------------------------------------------ */
+
+const BODY_BASELINE_PROMPT =
+  "Clinical standardized physique baseline photo of the exact same person from the reference photos (front body, side body, face). Strictly preserve the real body as it is now: identical body shape, proportions, shoulder width, chest, arms, waist and belly fullness, body fat level, body hair, skin tone, face, hair and facial hair. Do not slim, tone, sculpt or idealize anything, and keep the real standing posture. Re-photograph standing naturally (front view: facing the camera, arms hanging slightly away from the sides, feet hip-width; side view: strict side-on, arms relaxed), wearing plain fitted black athletic shorts. Framing from the top of the head to mid-thigh (or head to toe if the full body is visible in the references). Plain seamless studio background in flat muted slate blue-grey (#A9BDC4), soft even studio lighting, camera at chest height from about 3 m with a 70 mm lens so there is no wide-angle distortion. Photorealistic, true-to-life, no retouching.";
+
+function bodyAfterPrompt(visuals: string[]) {
+  const body = visuals.filter((x) => /body|stomach|waist|shoulder|muscle|training|standing|posture|glute|arms/i.test(x));
+  const list = body.length ? body.map((x, i) => `${i + 1}) ${x}`).join("; ") : "1) realistic improvements from 12 months of training and fat loss";
+  return [
+    "Edit the first image (the standardized physique baseline). Keep the exact same person, face, hair, skin tone, body hair, camera angle, framing, black athletic shorts, slate blue-grey studio background (#A9BDC4) and lighting so it lines up 1:1 as a before/after pair.",
+    `Show the result of a realistic 12-month, evidence-based training and nutrition plan, changing ONLY: ${list}.`,
+    "Keep the same skeleton, height, shoulder bone width, limb lengths and proportions; natural, drug-free muscle gain only (no bodybuilder or fitness-model physique), realistic skin and body hair. Photorealistic, no retouching or beauty filter.",
+  ].join(" ");
+}
+
+function BodyVisuals({ scanId, visuals, bodyPhoto, sidePhoto, afterText }: { scanId: string; visuals: Visuals; bodyPhoto: string | null; sidePhoto: string | null; afterText: string }) {
+  const b = visuals.body ?? {};
+  const set = (key: "front" | "side" | "afterFront" | "afterSide") => (x: string | undefined) => setVisuals(scanId, { body: { ...b, [key]: x } });
+  return (
+    <section className="vz-section">
+      <h2 className="title-md">Body</h2>
+      <p className="lead">The same approach as the face: a standardized physique model of you on the studio background, then the end-of-plan body — only fat loss, natural muscle and posture changes.</p>
+      <div className="vz-slots" style={{ gridTemplateColumns: "repeat(4, minmax(0, 1fr))", marginTop: 16 }}>
+        <Slot label="Front model" tag="Before" value={b.front} onChange={set("front")} fallback={bodyPhoto} />
+        <Slot label="Side model" tag="Before" value={b.side} onChange={set("side")} fallback={sidePhoto} />
+        <Slot label="After · front" tag="After" value={b.afterFront} onChange={set("afterFront")} />
+        <Slot label="After · side" tag="After" value={b.afterSide} onChange={set("afterSide")} />
+      </div>
+      <PromptBlock title="3 · Body baseline (standardized physique)" text={BODY_BASELINE_PROMPT} />
+      <PromptBlock title="4 · Body after (end of plan)" text={afterText} />
+    </section>
   );
 }
 

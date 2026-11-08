@@ -48,6 +48,7 @@ export function NewScan() {
   const [intake, setIntake] = useState<Intake>(() => ({ ...DEFAULT_INTAKE, ...(existing?.intake ?? {}) }));
   const [face, setFace] = useState<string | null>(null);
   const [body, setBody] = useState<string | null>(null);
+  const [side, setSide] = useState<string | null>(null);
 
   useEffect(() => {
     preloadVision();
@@ -73,20 +74,21 @@ export function NewScan() {
       </div>
       {step === 0 && <IntakeStep intake={intake} setIntake={setIntake} onNext={() => setStep(1)} />}
       {step === 1 && (
-        <PhotoStep face={face} body={body} setFace={setFace} setBody={setBody} onBack={() => setStep(0)} onNext={() => setStep(2)} />
+        <PhotoStep face={face} body={body} side={side} setFace={setFace} setBody={setBody} setSide={setSide} onBack={() => setStep(0)} onNext={() => setStep(2)} />
       )}
       {step === 2 && (
         <ProcessStep
           intake={intake}
           face={face}
           body={body}
+          side={side}
           onBack={() => setStep(1)}
           onDone={async (scan) => {
             // the profile is only created once the scan succeeded, so failed attempts leave nothing behind
             let pid = existing?.id;
             if (pid) updateIntake(pid, intake);
             else pid = createProfile(intake).id;
-            await addScan({ ...scan, profileId: pid }, face, body);
+            await addScan({ ...scan, profileId: pid }, face, body, side);
             setActiveProfile(pid);
             nav("/analysis/getting-started");
           }}
@@ -296,8 +298,10 @@ function F({ label, hint, children }: { label: string; hint?: string; children: 
 function PhotoStep(props: {
   face: string | null;
   body: string | null;
+  side: string | null;
   setFace: (s: string | null) => void;
   setBody: (s: string | null) => void;
+  setSide: (s: string | null) => void;
   onBack: () => void;
   onNext: () => void;
 }) {
@@ -321,6 +325,28 @@ function PhotoStep(props: {
           guide={<BodyGuide />}
           tips={["Head to toe in frame, facing the camera", "Arms slightly away from the body (A-pose)", "Fitted clothing or swimwear", "Camera at hip height, ~3 m away"]}
         />
+        <Drop
+          testId="side-input"
+          label="Side (full body)"
+          value={props.side}
+          onChange={props.setSide}
+          guide={<SideGuide />}
+          optionalNote="Optional · unlocks side posture & core depth"
+          tips={["Stand side-on to the camera, whole body in frame", "Arms relaxed at your sides, head level, eyes forward", "Camera at chest height, 2–3 m away", "Same clothing and spot as the front photo"]}
+        />
+        <div className="drop drop-soon">
+          <div className="drop-empty">
+            <BackGuide />
+            <div className="drop-tips">
+              <div className="title-md">Back (optional)</div>
+              <span className="mono-sm">Coming soon</span>
+              <ul>
+                <li>Back view will add upper-back width, shoulder-blade position and spinal alignment.</li>
+                <li>For now, front + side cover proportions, posture and core depth.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
       <div className="wz-foot" style={{ marginTop: 18 }}>
         <button className="btn btn-ghost" onClick={props.onBack}>
@@ -337,12 +363,14 @@ function PhotoStep(props: {
 function Drop({
   label,
   required,
+  optionalNote,
   value,
   onChange,
   guide,
   tips,
   testId,
 }: {
+  optionalNote?: string;
   label: string;
   required?: boolean;
   value: string | null;
@@ -387,7 +415,7 @@ function Drop({
           {guide}
           <div className="drop-tips">
             <div className="title-md">{label}</div>
-            <span className="mono-sm">{required ? "Required" : "Optional · unlocks body analysis"}</span>
+            <span className="mono-sm">{required ? "Required" : optionalNote ?? "Optional · unlocks body analysis"}</span>
             <ul>
               {tips.map((t) => (
                 <li key={t}>{t}</li>
@@ -438,6 +466,33 @@ function BodyGuide() {
   );
 }
 
+function SideGuide() {
+  return (
+    <svg className="guide" width="120" height="150" viewBox="0 0 120 150">
+      <rect width="120" height="150" rx="12" fill="#a9bdc4" />
+      <line x1="62" y1="8" x2="62" y2="142" stroke="#fff" opacity=".6" strokeDasharray="2 4" />
+      <g fill="none" stroke="#fff" strokeWidth="1.6" strokeLinecap="round" strokeDasharray="4 4">
+        <circle cx="62" cy="22" r="9" />
+        <path d="M62 31v50M62 46l2 34M62 81l-2 50" />
+      </g>
+      <circle cx="62" cy="22" r="2.4" fill="#fff" />
+      <circle cx="62" cy="46" r="2.4" fill="#fff" />
+      <circle cx="62" cy="81" r="2.4" fill="#fff" />
+    </svg>
+  );
+}
+function BackGuide() {
+  return (
+    <svg className="guide" width="120" height="150" viewBox="0 0 120 150" opacity=".55">
+      <rect width="120" height="150" rx="12" fill="#c9d4d8" />
+      <g fill="none" stroke="#fff" strokeWidth="1.6" strokeLinecap="round" strokeDasharray="4 4">
+        <circle cx="60" cy="22" r="9" />
+        <path d="M60 31v50M60 46l-24 22M60 46l24 22M60 81l-14 50M60 81l14 50" />
+      </g>
+    </svg>
+  );
+}
+
 /* ------------------------------------------------------------------ */
 /*  Step 3: processing                                                 */
 /* ------------------------------------------------------------------ */
@@ -446,7 +501,7 @@ const STAGES: { key: Stage; label: string; needs?: "face" | "body" }[] = [
   { key: "loading-models", label: "Loading on-device models" },
   { key: "face", label: "Mapping 478 facial landmarks", needs: "face" },
   { key: "skin", label: "Analysing skin regions", needs: "face" },
-  { key: "body", label: "Measuring body silhouette", needs: "body" },
+  { key: "body", label: "Measuring body silhouette (front & side)", needs: "body" },
   { key: "plan", label: "Building your evidence-based plan" },
 ];
 
@@ -454,12 +509,14 @@ function ProcessStep({
   intake,
   face,
   body,
+  side,
   onBack,
   onDone,
 }: {
   intake: Intake;
   face: string | null;
   body: string | null;
+  side: string | null;
   onBack: () => void;
   onDone: (scan: Scan) => Promise<void>;
 }) {
@@ -473,13 +530,13 @@ function ProcessStep({
     started.current = attempt;
     setError(null);
     setStage("loading-models");
-    runScan("pending", intake, face, body, setStage)
+    runScan("pending", intake, face, body, setStage, side)
       .then(onDone)
       .catch((e) => {
       console.error(e);
       setError(e instanceof ScanError ? e.message : `Something went wrong while analysing: ${e?.message ?? e}`);
     });
-  }, [attempt, intake, face, body, onDone]);
+  }, [attempt, intake, face, body, side, onDone]);
 
   const order = STAGES.map((s) => s.key);
   const idx = stage === "done" ? order.length : order.indexOf(stage);

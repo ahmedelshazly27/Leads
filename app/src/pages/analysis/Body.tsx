@@ -5,6 +5,7 @@ import { PageHeader, ScoreCard, SpectrumBar } from "../../components/ui";
 import { band } from "../../lib/report";
 import type { BodyResult, Pt } from "../../lib/types";
 import type { SectionProps } from "./types";
+import { SideLines, cropAround, sideCrop } from "./BodyDetail";
 import "./Body.css";
 
 const SKELETON: [number, number][] = [
@@ -12,10 +13,10 @@ const SKELETON: [number, number][] = [
   [23, 25], [25, 27], [24, 26], [26, 28], [27, 29], [28, 30], [29, 31], [30, 32],
 ];
 
-function BodyPhoto({ body, photo, children }: { body: BodyResult; photo: string | null; children?: React.ReactNode }) {
+function BodyPhoto({ body, photo, children, crop }: { body: BodyResult; photo: string | null; children?: React.ReactNode; crop?: [number, number, number, number] }) {
   return (
     <div className="bd-photo">
-      <FacePhoto src={photo} aspect={body.imageAspect} placeholderTone="slate">
+      <FacePhoto src={photo} aspect={body.imageAspect} crop={crop} placeholderTone="slate">
         {children}
       </FacePhoto>
     </div>
@@ -67,6 +68,7 @@ function MissingData({ fields }: { fields: string[] }) {
 
 export function BodyOverview(p: SectionProps) {
   const body = p.scan.body!;
+  const side = p.scan.bodySide ?? null;
   const m = body.metrics;
   const i = p.profile.intake;
   const missing = [
@@ -82,13 +84,38 @@ export function BodyOverview(p: SectionProps) {
       <PageHeader kicker="Body overview" muted="An overview of" strong="your physique" lead={<>Silhouette proportions, alignment and composition from your full-body photo and measurements. <b>Body shape</b> is one of the strongest cues in first impressions.</>} />
       <MissingData fields={missing} />
       <div className="bd-grid">
-        <div className="bd-left">
-          <BodyPhoto body={body} photo={p.bodyPhoto}>
-            <Skeleton body={body} />
-          </BodyPhoto>
+        <div className={`bd-left ${side ? "bd-left-two" : ""}`}>
+          <div className="bd-pane">
+            <BodyPhoto
+              body={body}
+              photo={p.bodyPhoto}
+              crop={side && body.landmarks ? cropAround([0, 11, 12, 15, 16, 23, 24].map((i) => body.landmarks![i]), body.imageAspect, 0.06, 0.42) : undefined}
+            >
+              <Skeleton body={body} />
+            </BodyPhoto>
+            <span className="photo-tag bd-pane-tag">Front</span>
+          </div>
+          {side && (
+            <div className="bd-pane">
+              <div className="bd-photo">
+                <FacePhoto src={p.sidePhoto} aspect={side.imageAspect} crop={sideCrop(side, 0.42, 0.1)} placeholderTone="slate">
+                  <SideLines side={side} showPlumb />
+                </FacePhoto>
+              </div>
+              <span className="photo-tag bd-pane-tag">Side</span>
+            </div>
+          )}
           <ScoreCard className="bd-score" label="Body Score" value={m.bodyScore} />
         </div>
         <div className="bd-right">
+          {!side && (
+            <div className="bd-missing">
+              <div>
+                <b>Add a side photo</b> to unlock side posture, belly depth and core analysis.
+              </div>
+              <Link to="/new" className="btn btn-ghost">New check-in</Link>
+            </div>
+          )}
           <div className="bd-metrics">
             <Metric label="Shoulder : waist" value={m.shoulderToWaist.toFixed(2)} note={`Reference ${swrRef}`} />
             <Metric
@@ -105,14 +132,33 @@ export function BodyOverview(p: SectionProps) {
               tone="muted"
             />
             <Metric label="Waist : height" value={m.whtr ? m.whtr.toFixed(2) : "—"} note={m.whtr ? (m.whtr >= 0.5 ? "≥ 0.5 — raised risk" : "< 0.5 — healthy") : "Needs waist & height"} tone={m.whtr && m.whtr >= 0.5 ? "warn" : "muted"} />
-            <Metric label="Posture" value={`${Math.round(m.postureScore)}`} note={band(m.postureScore)} tone="muted" />
+            <Metric label="Front posture" value={`${Math.round(m.postureScore)}`} note={band(m.postureScore)} tone="muted" />
+            {side && (
+              <Metric
+                label="Side posture"
+                value={`${Math.round(side.metrics.postureScore)}`}
+                note={`Head ${Math.max(0, side.metrics.headForward).toFixed(0)}% forward · ${band(side.metrics.postureScore)}`}
+                tone={side.metrics.headForward > 10 ? "warn" : "muted"}
+              />
+            )}
+            {side && (
+              <Metric
+                label="Core"
+                value={`${Math.round(side.metrics.coreScore)}`}
+                note={`Navel : chest depth ${side.metrics.waistToChestDepth.toFixed(2)}`}
+                tone={side.metrics.waistToChestDepth > 0.9 ? "warn" : "muted"}
+              />
+            )}
+            <Metric label="Upper arm : shoulders" value={`${Math.round(m.armToShoulder * 100)}%`} note="Strength cue · ≥ 22% trained" tone="muted" />
           </div>
           <div className="bd-subscores">
-            {[
+            {([
               ["Proportions", m.proportionScore, "/analysis/body-proportions"],
-              ["Posture & alignment", m.postureScore, "/analysis/posture"],
+              ["Front posture", m.postureScore, "/analysis/posture"],
+              ...(side ? [["Side posture", side.metrics.postureScore, "/analysis/side-posture"], ["Core & waist", side.metrics.coreScore, "/analysis/waist-core"]] : []),
+              ["Symmetry", Math.max(0, 100 - m.lrBalance * 6), "/analysis/body-symmetry"],
               ["Composition", m.compositionScore, "/analysis/composition"],
-            ].map(([l, v, to]) => (
+            ] as [string, number, string][]).map(([l, v, to]) => (
               <Link key={l as string} to={to as string} className="bd-sub">
                 <span>{l}</span>
                 <span className="bd-sub-bar"><i style={{ width: `${v}%` }} /></span>
@@ -124,10 +170,29 @@ export function BodyOverview(p: SectionProps) {
             <div className="mono-sm">Explanation</div>
             <p>
               Your frame measures <b>{m.shoulderToWaist.toFixed(2)}×</b> shoulder-to-waist{m.feetVisible ? "" : " (feet out of frame, so leg ratios were skipped)"}.
+              {side ? ` From the side, your navel-level depth is ${Math.round(side.metrics.waistToChestDepth * 100)}% of chest depth and your head sits ${Math.max(0, side.metrics.headForward).toFixed(0)}% of torso length forward.` : ""}
               {m.bodyFatEstimate ? ` Estimated body fat is ${m.bodyFatEstimate.toFixed(0)}%.` : " Add measurements for a body-fat estimate."} Composition and shoulder development are the two levers habits can move most within a year.
             </p>
           </div>
         </div>
+      </div>
+      <div className="bd-links">
+        {[
+          ["physique-impression", "Physique impression"],
+          ["body-proportions", "Shoulders & V-taper"],
+          ["chest-arms", "Chest & arms"],
+          ["waist-core", "Waist & core"],
+          ["hips-legs", "Hips & legs"],
+          ["posture", "Front posture"],
+          ["side-posture", "Side posture"],
+          ["body-symmetry", "Body symmetry"],
+          ["composition", "Composition"],
+          ["body-summary", "Summary"],
+        ].map(([id, label]) => (
+          <Link key={id} to={`/analysis/${id}`} className="bd-link">
+            {label} <span>→</span>
+          </Link>
+        ))}
       </div>
       <MethodNote method="body" />
     </div>
@@ -166,7 +231,7 @@ export function Posture(p: SectionProps) {
   const level = (d: number) => (Math.abs(d) < 1.5 ? "Level" : `${Math.abs(d).toFixed(1)}° ${d > 0 ? "right side lower" : "left side lower"}`);
   return (
     <div className="page">
-      <PageHeader kicker="Posture" muted="Your" strong="frontal alignment" lead={<>Ideal standing alignment has <b>level shoulders and pelvis</b> and the head centred over the body.</>} />
+      <PageHeader kicker="Front posture" muted="Your" strong="front posture" lead={<>Ideal standing alignment has <b>level shoulders and pelvis</b> and the head centred over the body.</>} />
       <div className="bd-grid">
         <div className="bd-left">
           <BodyPhoto body={body} photo={p.bodyPhoto}>
