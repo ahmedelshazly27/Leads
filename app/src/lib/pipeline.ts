@@ -37,7 +37,7 @@ export async function runScan(
     if (!det) throw new ScanError("We couldn't find a face in the portrait. Use a front-facing photo with your whole face visible.");
     onStage("skin");
     await tick();
-    scan.face = analyseFace(det.landmarks, det.z, imageData(img), intake.gender);
+    scan.face = analyseFace(det.landmarks, det.z, imageData(img), intake.gender, intake.frontCapture);
   }
   if (bodyPhoto) {
     const img = await loadImage(bodyPhoto);

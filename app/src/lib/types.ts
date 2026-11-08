@@ -30,6 +30,8 @@ export interface Intake {
   hairLoss: "none" | "early" | "moderate" | "advanced"; // Norwood/Ludwig self-assessment
   facialHair: "none" | "patchy" | "full"; // men: how the beard grows when left
   activeAcne: boolean;
+  /** how the front portrait was taken: arm's-length selfie distorts proportions */
+  frontCapture?: "selfie" | "distance";
 }
 
 export interface Profile {

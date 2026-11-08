@@ -1,6 +1,6 @@
 import { useSyncExternalStore } from "react";
 import type { AppState, Intake, Profile, Scan } from "./types";
-import { sampleProfile, sampleScan } from "./sample";
+import { SAMPLE_PROFILE_ID, SAMPLE_SCAN_ID, samplePhotos, sampleProfile, sampleScan, sampleVisuals } from "./sample";
 
 /* ------------------------------------------------------------------ */
 /*  Minimal IndexedDB key/value store (photos can be several MB)        */
@@ -61,7 +61,7 @@ const empty = (): AppState => ({
   activeProfileId: sampleProfile.id,
   progress: {},
   settings: { units: "metric", currency: "EUR" },
-  visuals: {},
+  visuals: { [SAMPLE_SCAN_ID]: sampleVisuals },
   bookings: [],
 });
 
@@ -86,6 +86,15 @@ export async function initStore() {
   try {
     const saved = await idbGet<AppState>(STATE_KEY);
     if (saved && saved.version === 1) state = { ...empty(), ...saved, settings: { ...empty().settings, ...saved.settings }, visuals: saved.visuals ?? {}, bookings: saved.bookings ?? [] };
+    // keep the built-in sample in sync with the shipped sample data
+    if (state.profiles.some((p) => p.id === SAMPLE_PROFILE_ID)) {
+      state = {
+        ...state,
+        profiles: state.profiles.map((p) => (p.id === SAMPLE_PROFILE_ID ? sampleProfile : p)),
+        scans: [...state.scans.filter((x) => x.id !== SAMPLE_SCAN_ID && x.profileId !== SAMPLE_PROFILE_ID), sampleScan],
+        visuals: { ...state.visuals, [SAMPLE_SCAN_ID]: sampleVisuals },
+      };
+    }
     for (const scan of state.scans) {
       for (const kind of ["face", "body", "side"] as const) {
         const url = await idbGet<string>(`photo:${scan.id}:${kind}`);
@@ -128,6 +137,7 @@ export function latestScan(s: AppState, profileId: string): Scan | undefined {
   return list[list.length - 1];
 }
 export function photoUrl(scanId: string, kind: "face" | "body" | "side") {
+  if (scanId === SAMPLE_SCAN_ID) return samplePhotos[kind];
   return photos.get(`${scanId}:${kind}`) ?? null;
 }
 

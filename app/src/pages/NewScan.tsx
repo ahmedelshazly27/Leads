@@ -190,6 +190,13 @@ function IntakeStep({ intake, setIntake, onNext }: { intake: Intake; setIntake: 
             ))}
           </select>
         </F>
+        <F label="Front photo" hint="Arm's-length selfies widen the nose ~30%; we correct our reading if you tell us">
+          <select value={intake.frontCapture ?? ""} onChange={(e) => set("frontCapture", (e.target.value || undefined) as Intake["frontCapture"])}>
+            <option value="">Not sure</option>
+            <option value="distance">Taken by someone else / timer (1.5 m+)</option>
+            <option value="selfie">Selfie at arm's length</option>
+          </select>
+        </F>
         <F label="Active acne">
           <label className="wz-check">
             <input type="checkbox" checked={intake.activeAcne} onChange={(e) => set("activeAcne", e.target.checked)} /> I currently have breakouts

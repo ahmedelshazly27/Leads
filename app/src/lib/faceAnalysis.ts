@@ -112,11 +112,12 @@ export function makeFrame(landmarks: Pt[], w: number, h: number, z?: number[]): 
 }
 
 /** Capture-quality checks that tell the user which numbers to trust. */
-export function captureQuality(f: FaceFrame): CaptureQuality {
+export function captureQuality(f: FaceFrame, captureHint?: "selfie" | "distance"): CaptureQuality {
   const faceWidthFrac = f.faceWidth / f.w;
   const warnings: string[] = [];
   const affected = new Set<string>();
-  const closeRange = faceWidthFrac > 0.42;
+  // Framing alone can't separate a tight crop from a selfie, so the user's answer wins.
+  const closeRange = captureHint ? captureHint === "selfie" : faceWidthFrac > 0.42;
   if (closeRange) {
     warnings.push(
       "Your face fills most of the frame, which usually means a close-range selfie. At ~30 cm the nose appears ~30% wider and the face narrower than at 1.5 m. Retake from 1.5 m with zoom, or crop a photo taken from further away.",
@@ -474,7 +475,7 @@ function regionMeanL(img: ImageData, polys: Pt[][], fw: number) {
   return mean(polys.map((p) => analyseRegion(img, p, fw).meanL));
 }
 
-export function analyseFace(landmarks: Pt[], z: number[] | undefined, img: ImageData, gender: Gender): FaceResult {
+export function analyseFace(landmarks: Pt[], z: number[] | undefined, img: ImageData, gender: Gender, captureHint?: "selfie" | "distance"): FaceResult {
   const f = makeFrame(landmarks, img.width, img.height, z);
   const shape = computeShape(f, gender);
   const polys = skinPolygons(f);
@@ -518,6 +519,6 @@ export function analyseFace(landmarks: Pt[], z: number[] | undefined, img: Image
     metrics,
     skin,
     faceShape: classifyFaceShape(metrics),
-    capture: captureQuality(f),
+    capture: captureQuality(f, captureHint),
   };
 }
