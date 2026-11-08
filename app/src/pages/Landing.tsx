@@ -1,113 +1,56 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Logo } from "../components/Logo";
-import { ChevronDown, Doc, Info, Scan, FaceScan, Bars, Infinity as InfinityIcon } from "../components/icons";
-import { GRADE_LABEL, LIMITATIONS, METHODS, REFS, type EvidenceGrade } from "../lib/science";
-import { MYTHS } from "../lib/plan";
-import { shortCite } from "../components/ui";
+import { BeforeAfter, shortCite } from "../components/ui";
+import { METHODS, REFS, type EvidenceGrade } from "../lib/science";
+import { buildPlan } from "../lib/plan";
+import { buildNutrition } from "../lib/nutrition";
+import { refreshBody } from "../lib/bodyAnalysis";
+import { sampleProfile, sampleScan } from "../lib/sample";
+import { IDX } from "../lib/faceAnalysis";
+import type { Pt } from "../lib/types";
 import "./Landing.css";
 
-/* ------------------------------------------------------------------ */
-/*  Content                                                            */
-/* ------------------------------------------------------------------ */
-
-const NAV = [
-  { id: "method", label: "Method" },
-  { id: "science", label: "Science" },
-  { id: "reports", label: "Reports" },
-  { id: "privacy", label: "Privacy" },
-  { id: "faq", label: "FAQ" },
-];
-
-const STEPS = [
-  {
-    n: "01",
-    title: "Capture",
-    text: "Guided front, profile and full-body photos, plus height and weight.",
-    detail: "Lens-distance, head-turn and framing checks run before anything is measured.",
-  },
-  {
-    n: "02",
-    title: "Measure",
-    text: "478 facial and 33 body landmarks, a body silhouette and per-region skin colour analysis.",
-    detail: "Head pose is corrected in 3D; skin is read in CIELAB, the colour space used in dermatology research.",
-  },
-  {
-    n: "03",
-    title: "Review",
-    text: "A human expert checks every visual and every plan item before it reaches you.",
-    detail: "Anything unrealistic, unsupported or outside the 12-month rule is corrected or removed.",
-  },
-  {
-    n: "04",
-    title: "Track",
-    text: "Monthly check-ins in the same set-up, compared against your baseline.",
-    detail: "Same capture protocol each time, so changes reflect you — not the lighting.",
-  },
-];
-
-const FAMILIES: { title: string; count: string; method: string; refs: string[] }[] = [
-  { title: "Facial proportions", count: "10 ratios", method: "Thirds, fifths, nasal and oral widths against anthropometric norms", refs: ["farkas1994"] },
-  { title: "Symmetry", count: "17 landmark pairs", method: "Mirrored displacement after 3D pose correction", refs: ["grammer1994", "rhodes2006"] },
-  { title: "Averageness", count: "1 composite", method: "Standardised distance from population means", refs: ["langlois1990"] },
-  { title: "Dimorphism", count: "5 cues", method: "Jaw, brow, fWHR, lips and eye openness (experimental index)", refs: ["perrett1998"] },
-  { title: "Skin", count: "6 regions", method: "Pigment, redness and texture flagged pixel-by-pixel in CIELAB", refs: ["fink2006", "stephen2011"] },
-  { title: "First impression", count: "4 indices", method: "Trust, openness, confidence and dominance cues", refs: ["willis2006", "oosterhof2008"] },
-  { title: "Body ratios", count: "8 measures", method: "Shoulder, chest, waist, hip and arm widths from the silhouette", refs: ["sell2017", "singh1993"] },
-  { title: "Side posture", count: "5 measures", method: "Ear–shoulder–hip alignment and trunk lean", refs: ["yip2008", "kendall2005"] },
-  { title: "Core depth", count: "3 measures", method: "Navel versus chest depth — a sagittal abdominal proxy", refs: ["pouliot1994"] },
-  { title: "Composition", count: "4 estimates", method: "BMI, photo-estimated waist, waist-to-height and body fat", refs: ["woolcott2018", "ashwell2012"] },
-];
-
-const EXAMPLES: { grade: EvidenceGrade; title: string; why: string; ref: string; kind: string }[] = [
-  { grade: "A", title: "Daily broad-spectrum SPF 30+", why: "Prevents visible skin ageing and uneven pigmentation.", ref: "hughes2013", kind: "Randomised trial" },
-  { grade: "A", title: "Protein ≈ 1.6 g/kg/day with resistance training", why: "Maximises lean-mass gains while losing fat.", ref: "morton2018", kind: "Meta-analysis" },
-  { grade: "B", title: "Forward-head correction routine", why: "Targeted exercise improves forward head posture.", ref: "sheikhhoseini2018", kind: "Systematic review" },
-];
-
-const FAQ = [
-  {
-    q: "How accurate are the measurements?",
-    a: "Landmark positions are reliable to a few pixels on a well-taken photo, but a single 2D image cannot capture depth, and lens distance changes proportions. Every screen states its method and limitations, and photo-derived estimates (like waist circumference) are labelled as such. The most reliable signal is change over time under the same capture set-up.",
-  },
-  {
-    q: "What photos do I need?",
-    a: "A front portrait from about 1.5 m at eye level, left and right profiles, and front and side full-body photos in fitted clothing. Plus your height and weight. The app checks each photo and asks for a retake if it would distort the results.",
-  },
-  {
-    q: "Who reviews my report?",
-    a: "A human reviewer checks the studio images, the 12-month visual and every plan item before release. Unrealistic visuals are regenerated or removed, and plan items that don't fit your situation are adjusted.",
-  },
-  {
-    q: "Is this medical advice?",
-    a: "No. It is educational and self-tracking guidance based on published research. Prescription treatments, clinical procedures and significant diet or training changes should be discussed with a licensed professional.",
-  },
-  {
-    q: "Can I book clinics, dietitians or trainers?",
-    a: "Where a plan item benefits from a professional — an InBody scan, a dietitian meal plan built on your calorie and protein targets, a personal trainer, or a licensed aesthetic clinic — you can request a booking with a vetted partner. Only the details needed for that booking are shared, and only with your consent.",
-  },
-  {
-    q: "What happens to my data?",
-    a: "Analysis runs on your device. Photos you send for review are encrypted and seen only by your reviewer. They are never used for advertising or to train AI models, and raw photos are deleted 90 days after delivery (members: while the membership is active, plus 30 days). You can delete everything at any time.",
-  },
-  {
-    q: "Can I get a refund?",
-    a: "Refund terms will be published before launch.",
-  },
-];
+const L = `${import.meta.env.BASE_URL}landing/`;
+const S = `${import.meta.env.BASE_URL}sample/`;
 
 type Cur = "AED" | "SAR" | "EUR";
 const PRICE: Record<string, Record<Cur, string>> = {
-  free: { AED: "Free", SAR: "Free", EUR: "Free" },
+  free: { AED: "0", SAR: "0", EUR: "0" },
   report: { AED: "AED 199", SAR: "SAR 199", EUR: "€49" },
   premium: { AED: "AED 399", SAR: "SAR 399", EUR: "€99" },
   month: { AED: "AED 49", SAR: "SAR 49", EUR: "€12" },
   year: { AED: "AED 399", SAR: "SAR 399", EUR: "€99" },
 };
 
+const STRIP = [
+  { src: "averageness", cap: "Averageness · mask" },
+  { src: "first-impression", cap: "First impression" },
+  { src: "skin", cap: "Skin · CIELAB heatmap" },
+  { src: "eyebrows", cap: "Brow geometry" },
+  { src: "body", cap: "Body overview" },
+  { src: "side", cap: "Side posture" },
+  { src: "nutrition", cap: "Nutrition plan" },
+  { src: "summary", cap: "Projected potential" },
+];
+
+const r0 = (n: number | null | undefined) => (n == null ? "—" : String(Math.round(n)));
+
 /* ------------------------------------------------------------------ */
-/*  Page                                                               */
-/* ------------------------------------------------------------------ */
+
+function useSampleData() {
+  return useMemo(() => {
+    const intake = sampleProfile.intake;
+    const scan = sampleScan.body
+      ? { ...sampleScan, body: refreshBody(sampleScan.body, intake, sampleScan.bodySide?.metrics ?? null) }
+      : sampleScan;
+    const plan = buildPlan(scan, intake);
+    const nut = buildNutrition(scan, intake, plan);
+    const grades: Record<EvidenceGrade, number> = { A: 0, B: 0, C: 0 };
+    plan.items.forEach((i) => (grades[i.grade] += 1));
+    return { scan, plan, nut, grades };
+  }, []);
+}
 
 export function Landing() {
   const { hash } = useLocation();
@@ -117,465 +60,385 @@ export function Landing() {
     return () => clearTimeout(t);
   }, [hash]);
   const [cur, setCur] = useState<Cur>("AED");
-  const [open, setOpen] = useState<number | null>(0);
+  const { scan, plan, nut, grades } = useSampleData();
+  const fm = scan.face!.metrics;
+  const bm = scan.body!.metrics;
+  const sm = scan.bodySide?.metrics;
+  const phase = nut.ok ? nut.phases[0] : null;
   const refCount = Object.keys(REFS).length;
   const methodCount = Object.keys(METHODS).length;
+  const totalGrades = grades.A + grades.B + grades.C || 1;
+  const examples = plan.items.filter((i) => i.refs.length).slice(0, 4);
 
   return (
     <div className="ld">
-      <header className="ld-nav">
+      {/* -------------------------------- Nav ------------------------------ */}
+      <nav className="ld-nav">
         <Link to="/" className="ld-brand">
-          <Logo size={22} /> <span>Facet</span>
+          <Logo size={20} /> Facet
         </Link>
-        <nav className="ld-links">
-          {NAV.map((n) => (
-            <a key={n.id} href={`#${n.id}`}>
-              {n.label}
-            </a>
-          ))}
-        </nav>
-        <Link to="/protocols" className="ld-btn ld-btn-ghost ld-open">
-          Open app
-        </Link>
-      </header>
+        <div className="ld-links">
+          <a href="#method">Method</a>
+          <a href="#science">Science</a>
+          <a href="#reports">Reports</a>
+          <a href="#privacy">Privacy</a>
+        </div>
+        <Link to="/protocols" className="ld-btn ld-btn-ghost ld-open">Open app</Link>
+      </nav>
 
-      {/* ------------------------------ Hero ------------------------------ */}
-      <section className="ld-hero ld-wrap">
+      {/* -------------------------------- Hero ----------------------------- */}
+      <header className="ld-wrap ld-hero">
         <div className="ld-hero-text">
-          <span className="kicker">
-            <InfinityIcon size={14} /> Facial &amp; body analysis
-          </span>
+          <span className="ld-kicker mono-sm">Facial &amp; body analysis · v1</span>
           <h1 className="ld-h1">
-            <span className="hl">Your face and body, measured.</span> Your plan, referenced.
+            <span className="hl">Measured.</span> <span className="hl">Referenced.</span> Reviewed.
           </h1>
-          <p className="ld-lead">
-            478 facial landmarks, 33 body landmarks and per-region skin analysis produce more than 40 measurements, each compared with a published
-            reference. Every recommendation in your 12-month plan carries an evidence grade and its citation.
-          </p>
-          <div className="ld-cta">
-            <Link to="/new" className="ld-btn">
-              Start a free scan
-            </Link>
-            <Link to="/analysis/getting-started" className="ld-btn ld-btn-ghost">
-              See a sample report
-            </Link>
+          <p className="ld-lead">Your face and body, measured against published norms — then a 12-month plan where every step is cited.</p>
+          <div className="ld-ctas">
+            <Link to="/new" className="ld-btn">Start a free scan</Link>
+            <Link to="/analysis/getting-started" className="ld-btn ld-btn-ghost">View sample report</Link>
           </div>
           <div className="ld-stats">
-            <div>
-              <b>{refCount}</b>
-              <span>peer-reviewed references</span>
-            </div>
-            <div>
-              <b>{methodCount}</b>
-              <span>documented methods</span>
-            </div>
-            <div>
-              <b>100%</b>
-              <span>human-reviewed reports</span>
-            </div>
+            <Stat n="478" l="Facial landmarks" />
+            <Stat n="40+" l="Measurements" />
+            <Stat n={String(refCount)} l="References" />
           </div>
         </div>
-        <HeroVisual />
-      </section>
+        <figure className="ld-hero-fig">
+          <div className="ld-mesh">
+            <img src={S + "face.jpg"} alt="Synthetic sample person" />
+            <MeshOverlay lm={scan.face!.landmarks!} aspect={scan.face!.imageAspect} />
+            <Chip k="Symmetry" v={r0(fm.symmetry)} unit="/100" pos="tl" />
+            <Chip k="Averageness" v={r0(fm.averageness)} unit="/100" pos="tr" />
+            <Chip k="Skin" v={r0(fm.skinScore)} unit="/100" pos="bl" />
+            <Chip k="Canthal tilt" v={`${fm.canthalTilt >= 0 ? "+" : ""}${fm.canthalTilt.toFixed(1)}`} unit="°" pos="br" />
+          </div>
+          <figcaption className="ld-fig">
+            <b>FIG. 1</b> 478-point landmark mesh · synthetic sample person
+          </figcaption>
+        </figure>
+      </header>
 
-      {/* ------------------------------ Method ---------------------------- */}
-      <section id="method" className="ld-sec ld-wrap">
-        <SecHead kicker="The method" muted="Four steps," strong="one protocol." lead="The same capture protocol, the same measurements and the same review at every check-in — so a change in the numbers means a change in you." />
-        <div className="ld-steps">
-          {STEPS.map((s) => (
-            <div key={s.n} className="ld-step">
-              <span className="ld-step-n">{s.n}</span>
-              <div className="ld-step-title">{s.title}</div>
-              <p>{s.text}</p>
-              <p className="ld-step-detail">{s.detail}</p>
+      {/* ------------------------------ Report ----------------------------- */}
+      <section id="method" className="ld-sec">
+        <div className="ld-wrap">
+          <SecHead n="01" muted="The" strong="report" cap="40+ screens. One protocol. Same set-up at every check-in." />
+          <div className="ld-browser">
+            <div className="ld-browser-bar">
+              <i /><i /><i />
+              <span className="ld-url">app / analysis / your-protocol</span>
             </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ------------------------------ Measure --------------------------- */}
-      <section id="science" className="ld-sec ld-wrap">
-        <SecHead kicker="What we measure" muted="Measured against" strong="published norms." lead="Each family below has its own screen in your report, with the exact method, the reference range and the studies behind it." />
-        <div className="ld-families">
-          {FAMILIES.map((f) => (
-            <div key={f.title} className="ld-fam">
-              <div className="ld-fam-head">
-                <span className="ld-fam-title">{f.title}</span>
-                <span className="mono-sm">{f.count}</span>
-              </div>
-              <p>{f.method}</p>
-              <div className="ld-cites">
-                {f.refs.filter((r) => REFS[r]).map((r) => (
-                  <span key={r} className="ld-cite" title={`${REFS[r].authors} (${REFS[r].year}). ${REFS[r].title}. ${REFS[r].source}.`}>
-                    {shortCite(r)}
-                  </span>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ------------------------------ Evidence -------------------------- */}
-      <section className="ld-sec ld-wrap">
-        <SecHead kicker="Evidence, graded" muted="Every step" strong="shows its evidence." lead="A recommendation only enters a plan if a measurement triggers it, and it is labelled with the strength of the research behind it." />
-        <div className="ld-grades">
-          {(Object.keys(GRADE_LABEL) as EvidenceGrade[]).map((g) => (
-            <div key={g} className="ld-grade">
-              <span className={`grade grade-${g}`}>Evidence {g}</span>
-              <p>{GRADE_LABEL[g]}</p>
-            </div>
-          ))}
-        </div>
-        <div className="ld-examples">
-          {EXAMPLES.map((e) => {
-            const r = REFS[e.ref];
-            return (
-              <div key={e.title} className="ld-ex">
-                <div className="ld-ex-top">
-                  <span className={`grade grade-${e.grade}`}>Evidence {e.grade}</span>
-                  <span className="mono-sm">{e.kind}</span>
-                </div>
-                <div className="ld-ex-title">{e.title}</div>
-                <p>{e.why}</p>
-                {r && (
-                  <p className="ld-ex-ref">
-                    {r.authors.split(",")[0]} et al. ({r.year}). <i>{r.title}</i>. {r.source}.
-                  </p>
-                )}
-              </div>
-            );
-          })}
-        </div>
-        <div className="ld-myths">
-          <div className="mono-sm">What we don't recommend</div>
-          <div className="ld-myth-grid">
-            {MYTHS.map((m) => (
-              <div key={m.title} className="ld-myth">
-                <div className="ld-myth-title">{m.title}</div>
-                <p>{m.verdict}</p>
-              </div>
+            <img src={L + "protocol-full.webp"} alt="Protocol summary screen" loading="lazy" />
+            <span className="ld-mark ld-mark-1">1</span>
+            <span className="ld-mark ld-mark-2">2</span>
+            <span className="ld-mark ld-mark-3">3</span>
+          </div>
+          <ol className="ld-callouts">
+            <li><b>1</b> Before / after reviewed by a human</li>
+            <li><b>2</b> Every plan item graded &amp; cited</li>
+            <li><b>3</b> 12-month achievability rule</li>
+          </ol>
+          <div className="ld-strip">
+            {STRIP.map((s, i) => (
+              <figure key={s.src} className="ld-tile">
+                <img src={`${L}${s.src}.webp`} alt={s.cap} loading="lazy" />
+                <figcaption className="ld-fig">
+                  <b>FIG. {i + 2}</b> {s.cap}
+                </figcaption>
+              </figure>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ------------------------------ Visuals --------------------------- */}
-      <section className="ld-sec ld-wrap ld-visuals">
-        <div>
-          <SecHead kicker="Honest visuals" muted="A realistic after," strong="not a filter." />
-          <ul className="ld-points">
-            <li>
-              <b>Studio baseline.</b> Your photos are re-photographed on a neutral background without retouching, so before and after are comparable.
-            </li>
-            <li>
-              <b>12-month rule.</b> The after image only shows what your plan can realistically change in a year: skin, body fat, muscle, posture, grooming.
-            </li>
-            <li>
-              <b>Bone structure is never changed.</b> No reshaped jaw, nose or eyes, and no skin lightening.
-            </li>
-            <li>
-              <b>Measurements come from your original photos.</b> Generated images are for visualisation only and are never measured.
-            </li>
-            <li>
-              <b>Reviewed by a person.</b> Overstated results — like a six-pack that a first year of training wouldn't produce — are corrected before release.
-            </li>
-          </ul>
+      {/* --------------------------- Data band ----------------------------- */}
+      <section className="ld-sec ld-band">
+        <div className="ld-wrap">
+          <SecHead n="02" muted="Face ·" strong="Body · Plan" cap="Sample output — real pipeline, synthetic person." />
+          <div className="ld-cols">
+            <DataCol
+              img={S + "face_left.jpg"}
+              label="Face"
+              rows={[
+                ["Symmetry", r0(fm.symmetry), "/100"],
+                ["Averageness", r0(fm.averageness), "/100"],
+                ["Skin score", r0(fm.skinScore), "/100"],
+                ["fWHR", fm.fWHR.toFixed(2), ""],
+              ]}
+            />
+            <DataCol
+              img={S + "body_side.jpg"}
+              label="Body"
+              rows={[
+                ["Shoulder : waist", bm.shoulderToWaist.toFixed(2), ""],
+                ["Waist : height", bm.whtr ? bm.whtr.toFixed(2) : "—", ""],
+                ["Body fat (est.)", r0(bm.bodyFatEstimate), "%"],
+                ["Side posture", r0(sm?.postureScore), "/100"],
+              ]}
+            />
+            <DataCol
+              img={S + "body_after_front.jpg"}
+              label="Plan"
+              rows={[
+                ["Daily target", phase ? String(phase.macros.kcal) : "—", "kcal"],
+                ["Protein", phase ? String(phase.macros.protein) : "—", "g"],
+                ["Plan items", String(plan.items.length), ""],
+                ["Overall", `${r0(plan.overallNow)}→${r0(plan.overallProjected)}`, ""],
+              ]}
+            />
+          </div>
         </div>
-        <BeforeAfterSchematic />
       </section>
 
-      {/* ------------------------------ Limitations ----------------------- */}
-      <section className="ld-sec ld-wrap">
-        <SecHead kicker="Limitations" muted="What photos" strong="can't tell us." lead="Being clear about uncertainty is part of the method. These limits are shown inside every report too." />
-        <ol className="ld-limits">
-          {LIMITATIONS.map((l, i) => (
-            <li key={i}>
-              <span className="mono-sm">{String(i + 1).padStart(2, "0")}</span>
-              <p>{l}</p>
-            </li>
-          ))}
-        </ol>
+      {/* ---------------------------- Visuals ------------------------------ */}
+      <section className="ld-sec">
+        <div className="ld-wrap">
+          <SecHead n="03" muted="12 months," strong="rendered honestly" cap="Fat loss, skin, grooming, posture. Bone structure never changes." />
+          <div className="ld-ba">
+            <BeforeAfter
+              aspect={0.75}
+              before={<img src={S + "face.jpg"} alt="Before" />}
+              after={<img src={S + "face_after.jpg"} alt="After" />}
+              caption={<><b>FIG. 10</b> Face · drag to compare</>}
+            />
+            <BeforeAfter
+              aspect={0.75}
+              before={<img src={S + "body_front.jpg"} alt="Before" />}
+              after={<img src={S + "body_after_front.jpg"} alt="After" />}
+              caption={<><b>FIG. 11</b> Body · drag to compare</>}
+            />
+          </div>
+        </div>
       </section>
 
-      {/* ------------------------------ Reports --------------------------- */}
-      <section id="reports" className="ld-sec ld-wrap">
-        <SecHead
-          kicker="Reports"
-          muted="Choose the depth"
-          strong="you need."
-          lead="Prices include VAT."
-          right={
-            <div className="ld-cur" role="group" aria-label="Currency">
+      {/* ---------------------------- Evidence ----------------------------- */}
+      <section id="science" className="ld-sec ld-band">
+        <div className="ld-wrap">
+          <SecHead n="04" muted="Evidence," strong="graded" cap="A = trials or meta-analyses · B = controlled studies · C = limited." />
+          <div className="ld-ev">
+            <div className="ld-ev-nums">
+              <Big n={String(refCount)} l="Peer-reviewed references" />
+              <Big n={String(methodCount)} l="Documented methods" />
+              <Big n={String(plan.items.length)} l="Plan items (sample)" />
+            </div>
+            <div className="ld-ev-bar">
+              <div className="mono-sm">Grade distribution · sample plan</div>
+              <div className="ld-bar">
+                {(["A", "B", "C"] as EvidenceGrade[]).map((g) => (
+                  <span key={g} className={`ld-bar-${g}`} style={{ flexGrow: grades[g] || 0.0001 }}>
+                    {grades[g] ? `${g} · ${grades[g]}` : ""}
+                  </span>
+                ))}
+              </div>
+              <div className="ld-bar-legend mono-sm">
+                <span>{Math.round((grades.A / totalGrades) * 100)}% strong</span>
+                <span>{Math.round((grades.B / totalGrades) * 100)}% moderate</span>
+                <span>{Math.round((grades.C / totalGrades) * 100)}% limited</span>
+              </div>
+            </div>
+            <table className="ld-table">
+              <thead>
+                <tr>
+                  <th>Plan item</th>
+                  <th>Grade</th>
+                  <th>Source</th>
+                </tr>
+              </thead>
+              <tbody>
+                {examples.map((i) => (
+                  <tr key={i.id}>
+                    <td>{i.title}</td>
+                    <td><span className={`grade grade-${i.grade}`}>{i.grade}</span></td>
+                    <td className="mono-sm">{i.refs.slice(0, 2).map(shortCite).join(" · ")}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      {/* ----------------------------- Phones ------------------------------ */}
+      <section className="ld-sec">
+        <div className="ld-wrap">
+          <SecHead n="05" muted="Built for" strong="your phone" cap="Monthly check-ins in the same set-up, charted against your baseline." />
+          <div className="ld-phones">
+            {[
+              ["m-protocol", "Protocol"],
+              ["m-body", "Body"],
+              ["m-nutrition", "Nutrition"],
+            ].map(([src, cap], i) => (
+              <figure key={src} className={`ld-phone ld-phone-${i}`}>
+                <div className="ld-phone-frame">
+                  <img src={`${L}${src}.webp`} alt={cap} loading="lazy" />
+                </div>
+                <figcaption className="ld-fig"><b>FIG. {12 + i}</b> {cap}</figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ----------------------------- Reports ----------------------------- */}
+      <section id="reports" className="ld-sec ld-band">
+        <div className="ld-wrap">
+          <div className="ld-rep-head">
+            <SecHead n="06" muted="" strong="Reports" cap="Prices include VAT." />
+            <div className="ld-cur">
               {(["AED", "SAR", "EUR"] as Cur[]).map((c) => (
-                <button key={c} className={c === cur ? "on" : ""} onClick={() => setCur(c)}>
-                  {c}
-                </button>
+                <button key={c} className={c === cur ? "on" : ""} onClick={() => setCur(c)}>{c}</button>
               ))}
             </div>
-          }
-        />
-        <div className="ld-tiers">
-          <Tier
-            name="Free scan"
-            price={PRICE.free[cur]}
-            items={["On-device face and body scan", "Headline scores", "Photo-quality checks"]}
-            cta="Start a free scan"
-          />
-          <Tier
-            name="Glow-Up Report"
-            price={PRICE.report[cur]}
-            items={[
-              "Full face and body analysis, 40+ measurements",
-              "Evidence-graded 12-month plan with citations",
-              "Studio before and 12-month after — face and body",
-              "Human-reviewed before delivery",
-              "Protocol document (PDF)",
-            ]}
-            cta="Order a report"
-          />
-          <Tier
-            name="Glow-Up Premium"
-            price={PRICE.premium[cur]}
-            items={["Everything in the Report", "Hairstyle and beard previews, 3 angles", "20-minute consultation", "Delivered within 24 hours", "3 months of membership"]}
-            cta="Order premium"
-          />
-        </div>
-        <div className="ld-member">
-          <div>
-            <div className="ld-tier-name">Progress membership</div>
-            <p>Monthly check-ins under the same protocol, progress charts against your baseline, a monthly plan review and a refreshed after-visual each quarter. Requires a report.</p>
           </div>
-          <div className="ld-member-price">
-            <span>
-              {PRICE.month[cur]}
-              <small>/month</small>
-            </span>
-            <span className="ld-or">or</span>
-            <span>
-              {PRICE.year[cur]}
-              <small>/year</small>
-            </span>
+          <table className="ld-table ld-price">
+            <thead>
+              <tr>
+                <th>Report</th>
+                <th>Analysis</th>
+                <th>Plan</th>
+                <th>Studio visuals</th>
+                <th>Human review</th>
+                <th className="r">Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Free scan</td><td>Scores</td><td>—</td><td>—</td><td>—</td>
+                <td className="r"><Link to="/new">{PRICE.free[cur] === "0" ? "Free" : PRICE.free[cur]}</Link></td>
+              </tr>
+              <tr>
+                <td>Report</td><td>Face + body</td><td>12 months</td><td>Before · after</td><td>✓</td>
+                <td className="r"><Link to="/new">{PRICE.report[cur]}</Link></td>
+              </tr>
+              <tr>
+                <td>Premium</td><td>Face + body</td><td>12 months</td><td>+ 3 style previews</td><td>✓ + 20-min call</td>
+                <td className="r"><Link to="/new">{PRICE.premium[cur]}</Link></td>
+              </tr>
+              <tr className="ld-member">
+                <td>Membership</td><td colSpan={4}>Monthly check-ins · plan updates · quarterly visual · partner rates</td>
+                <td className="r">{PRICE.month[cur]}/mo · {PRICE.year[cur]}/yr</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      {/* ----------------------------- Privacy ----------------------------- */}
+      <section id="privacy" className="ld-sec">
+        <div className="ld-wrap">
+          <SecHead n="07" muted="Private" strong="by design" cap="Aligned with UAE PDPL and Saudi PDPL principles." />
+          <div className="ld-priv">
+            <Big n="On-device" l="Analysis runs in your browser" />
+            <Big n="0" l="Photos shared with partners" />
+            <Big n="90 d" l="Raw photo deletion after delivery" />
+            <Big n="1 tap" l="Delete everything, anytime" />
           </div>
         </div>
       </section>
 
-      {/* ------------------------------ Privacy --------------------------- */}
-      <section id="privacy" className="ld-sec ld-wrap">
-        <SecHead kicker="Privacy" muted="Your images" strong="stay yours." />
-        <div className="ld-privacy">
-          {[
-            { icon: <Scan size={18} />, t: "On-device analysis", d: "Landmarks and measurements are computed in your browser. Nothing is uploaded to measure you." },
-            { icon: <Doc size={18} />, t: "Encrypted, single reviewer", d: "Photos you send for a report are encrypted and only visible to your reviewer." },
-            { icon: <Info size={18} />, t: "Never for ads or AI training", d: "Your images are not used in marketing or to train models — ever, unless you opt in separately." },
-            { icon: <FaceScan size={18} />, t: "Deleted on schedule", d: "Raw photos are deleted 90 days after delivery; members' photos while active plus 30 days. Delete everything anytime." },
-            { icon: <Bars size={18} />, t: "Gulf data-protection principles", d: "Built around consent, purpose limitation and minimisation under the UAE and Saudi personal data protection laws." },
-          ].map((p) => (
-            <div key={p.t} className="ld-priv">
-              <span className="ld-priv-icon">{p.icon}</span>
-              <div className="ld-priv-t">{p.t}</div>
-              <p>{p.d}</p>
-            </div>
-          ))}
+      <footer className="ld-foot">
+        <div className="ld-wrap ld-foot-in">
+          <span className="ld-brand"><Logo size={18} /> Facet</span>
+          <span className="mono-sm">Not medical advice · Synthetic person used in all product imagery</span>
+          <Link to="/protocols" className="mono-sm">Open app →</Link>
         </div>
-      </section>
-
-      {/* ------------------------------ FAQ ------------------------------- */}
-      <section id="faq" className="ld-sec ld-wrap">
-        <SecHead kicker="FAQ" muted="Common" strong="questions." />
-        <div className="ld-faq">
-          {FAQ.map((f, i) => (
-            <div key={f.q} className={`ld-q ${open === i ? "open" : ""}`}>
-              <button onClick={() => setOpen(open === i ? null : i)} aria-expanded={open === i}>
-                <span>{f.q}</span>
-                <ChevronDown size={16} />
-              </button>
-              {open === i && <p>{f.a}</p>}
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <footer className="ld-foot ld-wrap">
-        <div className="ld-brand">
-          <Logo size={20} /> <span>Facet</span>
-        </div>
-        <nav className="ld-foot-links">
-          {NAV.map((n) => (
-            <a key={n.id} href={`#${n.id}`}>
-              {n.label}
-            </a>
-          ))}
-          <Link to="/analysis/methodology">Methodology</Link>
-          <Link to="/protocols">Open app</Link>
-        </nav>
-        <p className="ld-foot-note">Educational and self-tracking guidance. Not medical advice. Consult a licensed professional before clinical or prescription treatments.</p>
       </footer>
     </div>
   );
 }
 
 /* ------------------------------------------------------------------ */
-/*  Pieces                                                             */
-/* ------------------------------------------------------------------ */
 
-function SecHead({ kicker, muted, strong, lead, right }: { kicker: string; muted: string; strong: string; lead?: string; right?: React.ReactNode }) {
+function Stat({ n, l }: { n: string; l: string }) {
+  return (
+    <div className="ld-stat">
+      <span className="ld-stat-n">{n}</span>
+      <span className="mono-sm">{l}</span>
+    </div>
+  );
+}
+
+function Big({ n, l }: { n: string; l: string }) {
+  return (
+    <div className="ld-big">
+      <span className="ld-big-n">{n}</span>
+      <span className="mono-sm">{l}</span>
+    </div>
+  );
+}
+
+function SecHead({ n, muted, strong, cap }: { n: string; muted: string; strong: string; cap: string }) {
   return (
     <div className="ld-sechead">
-      <div>
-        <span className="mono ld-kick">{kicker}</span>
-        <h2 className="ld-h2">
-          <span className="hl">{muted}</span> {strong}
-        </h2>
-        {lead && <p className="ld-lead">{lead}</p>}
-      </div>
-      {right}
+      <span className="mono-sm ld-secno">{n}</span>
+      <h2 className="ld-h2">
+        {muted && <span className="hl">{muted} </span>}
+        {strong}
+      </h2>
+      <p className="ld-cap">{cap}</p>
     </div>
   );
 }
 
-function Tier({ name, price, items, cta }: { name: string; price: string; items: string[]; cta: string }) {
+function Chip({ k, v, unit, pos }: { k: string; v: string; unit: string; pos: "tl" | "tr" | "bl" | "br" }) {
   return (
-    <div className="ld-tier">
-      <div className="ld-tier-name">{name}</div>
-      <div className="ld-tier-price">{price}</div>
-      <ul>
-        {items.map((i) => (
-          <li key={i}>{i}</li>
-        ))}
-      </ul>
-      <Link to="/new" className="ld-btn ld-btn-ghost">
-        {cta}
-      </Link>
+    <div className={`ld-chip ld-chip-${pos}`}>
+      <span className="mono-sm">{k}</span>
+      <span className="ld-chip-v">
+        {v}
+        <small>{unit}</small>
+      </span>
     </div>
   );
 }
 
-/** Deterministic face-shaped wireframe, drawn in the same style as the app's mask view. */
-function useFaceMesh() {
-  return useMemo(() => {
-    const cx = 200, cy = 220;
-    // face outline radius as a function of angle (narrower jaw, rounded cranium)
-    const outline = (t: number): [number, number] => {
-      const s = Math.sin(t), c = Math.cos(t);
-      const w = 118 * (s > 0 ? 1 - 0.28 * Math.pow(s, 3) : 1);
-      const h = s > 0 ? 160 : 150;
-      return [cx + c * w, cy + s * h];
-    };
-    const N = 30, R = 9;
-    const rings: [number, number][][] = [];
-    for (let r = 1; r <= R; r++) {
-      const k = 0.18 + 0.82 * (r / R);
-      const ring: [number, number][] = [];
-      for (let i = 0; i < N; i++) {
-        const t = (i / N) * Math.PI * 2 + (r % 2 ? Math.PI / N : 0);
-        const [x, y] = outline(t);
-        // deterministic jitter
-        const j = Math.sin(i * 12.9898 + r * 78.233) * 43758.5453;
-        const jit = (j - Math.floor(j) - 0.5) * 5 * k;
-        ring.push([cx + (x - cx) * k + jit, cy + (y - cy) * k + jit * 0.6]);
-      }
-      rings.push(ring);
-    }
-    const eyes: [number, number][] = [[156, 196], [244, 196]];
-    const inHole = (x: number, y: number) =>
-      eyes.some(([ex, ey]) => ((x - ex) / 26) ** 2 + ((y - ey) / 11) ** 2 < 1) || ((x - cx) / 34) ** 2 + ((y - 298) / 9) ** 2 < 1;
-    const tris: string[] = [];
-    for (let r = 0; r < R - 1; r++) {
-      for (let i = 0; i < N; i++) {
-        const a = rings[r][i], b = rings[r][(i + 1) % N], c = rings[r + 1][i], d = rings[r + 1][(i + 1) % N];
-        for (const tri of [[a, b, c], [b, d, c]] as [number, number][][]) {
-          const mx = (tri[0][0] + tri[1][0] + tri[2][0]) / 3, my = (tri[0][1] + tri[1][1] + tri[2][1]) / 3;
-          if (!inHole(mx, my)) tris.push(tri.map((p) => p.map((v) => v.toFixed(1)).join(",")).join(" "));
-        }
-      }
-    }
-    return { tris, outer: rings[R - 1], eyes };
-  }, []);
-}
-
-function HeroVisual() {
-  const { tris, outer, eyes } = useFaceMesh();
+function DataCol({ img, label, rows }: { img: string; label: string; rows: [string, string, string][] }) {
   return (
-    <div className="ld-visual" aria-hidden="true">
-      <svg viewBox="0 0 400 460" className="ld-mesh">
-        <defs>
-          <radialGradient id="ld-glow" cx="50%" cy="45%" r="60%">
-            <stop offset="0" stopColor="#fff" stopOpacity=".18" />
-            <stop offset="1" stopColor="#fff" stopOpacity="0" />
-          </radialGradient>
-        </defs>
-        <rect width="400" height="460" fill="url(#ld-glow)" />
-        <line x1="200" y1="30" x2="200" y2="430" stroke="#fff" strokeOpacity=".45" strokeWidth="0.8" />
-        {tris.map((t, i) => (
-          <polygon key={i} points={t} fill="none" stroke="#fff" strokeOpacity=".55" strokeWidth=".5" />
-        ))}
-        <polygon points={outer.map((p) => p.join(",")).join(" ")} fill="none" stroke="#fff" strokeOpacity=".9" strokeWidth="1" />
-        {eyes.map(([x, y]) => (
-          <ellipse key={x} cx={x} cy={y} rx="26" ry="11" fill="none" stroke="#fff" strokeOpacity=".9" strokeWidth="1" />
-        ))}
-        <path d="M168 298 Q200 312 232 298" fill="none" stroke="#fff" strokeOpacity=".9" strokeWidth="1" />
-        <path d="M200 200 L200 262 M186 262 L214 262" fill="none" stroke="#fff" strokeOpacity=".7" strokeWidth=".8" />
-        {[
-          [156, 196], [244, 196], [200, 262], [168, 298], [232, 298], [200, 378], [94, 214], [306, 214], [128, 330], [272, 330],
-        ].map(([x, y], i) => (
-          <circle key={i} cx={x} cy={y} r="3" fill="#fff" />
-        ))}
-        <circle cx="200" cy="232" r="10" fill="none" stroke="#fff" strokeOpacity=".6" />
-      </svg>
-      <div className="ld-chip ld-chip-a">
-        <span className="mono-sm">Symmetry</span>
-        <b>
-          84<small>/100</small>
-        </b>
+    <div className="ld-col">
+      <div className="ld-col-img">
+        <img src={img} alt="" loading="lazy" />
+        <span className="ld-col-tag mono-sm">{label}</span>
       </div>
-      <div className="ld-chip ld-chip-b">
-        <span className="mono-sm">Shoulder : waist</span>
-        <b>1.49</b>
-      </div>
-      <div className="ld-chip ld-chip-c">
-        <span className="mono-sm">Daily SPF</span>
-        <span className="grade grade-A">Evidence A</span>
-      </div>
-      <span className="ld-fig mono-sm">Fig. 1 · Landmark mesh</span>
+      <dl className="ld-rows">
+        {rows.map(([k, v, u]) => (
+          <div key={k} className="ld-row">
+            <dt className="mono-sm">{k}</dt>
+            <dd>
+              {v}
+              {u && <small>{u}</small>}
+            </dd>
+          </div>
+        ))}
+      </dl>
     </div>
   );
 }
 
-function BeforeAfterSchematic() {
-  const figure = (waist: number, shoulder: number, x: number) => {
-    const top = 120, waistY = 250, hipY = 300;
-    return (
-      <g transform={`translate(${x},0)`}>
-        <circle cx="0" cy="78" r="30" fill="#fff" fillOpacity=".18" stroke="#fff" strokeOpacity=".8" />
-        <path
-          d={`M${-shoulder} ${top} Q0 ${top - 18} ${shoulder} ${top} L${waist} ${waistY} L${waist + 6} ${hipY} L${-waist - 6} ${hipY} L${-waist} ${waistY} Z`}
-          fill="#fff"
-          fillOpacity=".12"
-          stroke="#fff"
-          strokeOpacity=".85"
-        />
-        {[[top + 10, shoulder], [waistY, waist], [hipY, waist + 6]].map(([y, w], i) => (
+/** Real landmarks of the sample scan drawn over the photo (object-fit: cover, centred). */
+function MeshOverlay({ lm, aspect }: { lm: Pt[]; aspect: number }) {
+  const H = 1000 / aspect;
+  const p = (i: number) => [lm[i][0] * 1000, lm[i][1] * H] as const;
+  const line = (ids: number[]) => ids.map((i) => p(i).join(",")).join(" ");
+  const jaw = [234, 93, 132, 58, 172, 136, 150, 149, 176, 148, 152, 377, 400, 378, 379, 365, 397, 288, 361, 323, 454];
+  const mid = [10, 151, 9, 8, 168, 6, 197, 195, 5, 4, 1, 2, 164, 0, 17, 18, 200, 199, 175, 152];
+  return (
+    <svg className="ld-mesh-svg" viewBox={`0 0 1000 ${H}`} preserveAspectRatio="xMidYMid slice">
+      {lm.slice(0, 468).map((q, i) => (
+        <circle key={i} cx={q[0] * 1000} cy={q[1] * H} r={2.1} fill="rgba(255,255,255,.55)" />
+      ))}
+      <polyline points={line(jaw)} fill="none" stroke="rgba(255,255,255,.85)" strokeWidth={1.4} strokeDasharray="4 4" />
+      <polyline points={line(mid)} fill="none" stroke="rgba(255,255,255,.7)" strokeWidth={1} />
+      <polyline points={line([...IDX.browL.upper].reverse())} fill="none" stroke="#fff" strokeWidth={1.6} />
+      <polyline points={line(IDX.browR.upper)} fill="none" stroke="#fff" strokeWidth={1.6} />
+      {[IDX.eyeL.outer, IDX.eyeL.inner, IDX.eyeR.inner, IDX.eyeR.outer, IDX.mouthL, IDX.mouthR, IDX.noseTip, IDX.menton, IDX.zygL, IDX.zygR].map((i) => {
+        const [x, y] = p(i);
+        return (
           <g key={i}>
-            <line x1={-w - 14} x2={w + 14} y1={y} y2={y} stroke="#fff" strokeOpacity=".7" strokeDasharray="3 3" />
-            <circle cx={-w} cy={y} r="2.5" fill="#fff" />
-            <circle cx={w} cy={y} r="2.5" fill="#fff" />
+            <circle cx={x} cy={y} r={9} fill="rgba(255,255,255,.25)" />
+            <circle cx={x} cy={y} r={4} fill="#fff" />
           </g>
-        ))}
-      </g>
-    );
-  };
-  return (
-    <div className="ld-visual ld-visual-sm" aria-hidden="true">
-      <svg viewBox="0 0 400 360" className="ld-mesh">
-        <line x1="200" y1="20" x2="200" y2="340" stroke="#fff" strokeOpacity=".5" />
-        {figure(54, 70, 105)}
-        {figure(44, 76, 295)}
-        <text x="105" y="335" textAnchor="middle" className="ld-svg-label">BASELINE</text>
-        <text x="295" y="335" textAnchor="middle" className="ld-svg-label">12 MONTHS</text>
-      </svg>
-      <span className="ld-tag ld-tag-l">Before</span>
-      <span className="ld-tag ld-tag-r">After</span>
-    </div>
+        );
+      })}
+    </svg>
   );
 }
