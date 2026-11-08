@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaceLandmarker } from "@mediapipe/tasks-vision";
 import { FacePhoto, toPhoto } from "../components/FacePhoto";
@@ -8,6 +8,8 @@ import { afterPrompt, BASELINE_PROMPT, buildPlan } from "../lib/plan";
 import { setVisuals } from "../lib/store";
 import { useActive } from "../lib/useActive";
 import type { Pt, Visuals } from "../lib/types";
+import { realismCheck, type RealismRow } from "../lib/realism";
+import { HAIRSTYLES, BEARDS, REVIEWED_AT, TREND_SOURCES } from "../lib/styles";
 import "./pages.css";
 
 export function Visualization() {
@@ -41,6 +43,8 @@ export function Visualization() {
         <Slot label="12-month after" tag="After" value={v.after} onChange={(x) => setVisuals(scan.id, { after: x })} />
       </div>
 
+      {v.after && <RealismPanel before={v.baseline ?? facePhoto} after={v.after} />}
+
       <section className="vz-section">
         <h2 className="title-md">Generation prompts</h2>
         <p className="lead">
@@ -66,6 +70,8 @@ export function Visualization() {
 
       <StyleGallery scanId={scan.id} visuals={v} />
 
+      <TrendLibrary />
+
       {scan.face?.landmarks && <MeshViewer photo={facePhoto} lm={scan.face.landmarks} aspect={scan.face.imageAspect} />}
     </div>
   );
@@ -76,7 +82,7 @@ export function Visualization() {
 /* ------------------------------------------------------------------ */
 
 const BODY_BASELINE_PROMPT =
-  "Clinical standardized physique baseline photo of the exact same person from the reference photos (front body, side body, face). Strictly preserve the real body as it is now: identical body shape, proportions, shoulder width, chest, arms, waist and belly fullness, body fat level, body hair, skin tone, face, hair and facial hair. Do not slim, tone, sculpt or idealize anything, and keep the real standing posture. Re-photograph standing naturally (front view: facing the camera, arms hanging slightly away from the sides, feet hip-width; side view: strict side-on, arms relaxed), wearing plain fitted black athletic shorts. Framing from the top of the head to mid-thigh (or head to toe if the full body is visible in the references). Plain seamless studio background in flat muted slate blue-grey (#A9BDC4), soft even studio lighting, camera at chest height from about 3 m with a 70 mm lens so there is no wide-angle distortion. Photorealistic, true-to-life, no retouching.";
+  "Clinical standardized physique baseline photo of the exact same person from the reference photos (front body, side body, face). Strictly preserve the real body as it is now: identical body shape, proportions, shoulder width, chest, arms, waist and belly fullness, body fat level, body hair, skin tone, face, hair and facial hair. Do not slim, tone, sculpt or idealize anything, and keep the real standing posture. Re-photograph standing naturally (front view: facing the camera, arms hanging slightly away from the sides, feet hip-width; side view: strict side-on, arms relaxed), wearing loose black athletic gym shorts (fitted underwear-style shorts trip image-model safety filters). Framing from the top of the head to mid-thigh (or head to toe if the full body is visible in the references). Plain seamless studio background in flat muted slate blue-grey (#A9BDC4), soft even studio lighting, camera at chest height from about 3 m with a 70 mm lens so there is no wide-angle distortion. Photorealistic, true-to-life, no retouching.";
 
 function bodyAfterPrompt(visuals: string[]) {
   const body = visuals.filter((x) => /body|stomach|waist|shoulder|muscle|training|standing|posture|glute|arms/i.test(x));
@@ -317,6 +323,123 @@ function MeshViewer({ photo, lm, aspect }: { photo: string | null; lm: Pt[]; asp
           </p>
         </div>
       </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Realism check (reviewer QA)                                        */
+/* ------------------------------------------------------------------ */
+
+function RealismPanel({ before, after }: { before: string | null; after: string }) {
+  const [res, setRes] = useState<{ rows: RealismRow[]; pass: boolean } | null | "error">(null);
+  const [busy, setBusy] = useState(false);
+  const run = async () => {
+    if (!before) return;
+    setBusy(true);
+    try {
+      setRes((await realismCheck(before, after)) ?? "error");
+    } catch {
+      setRes("error");
+    }
+    setBusy(false);
+  };
+  useEffect(() => {
+    setRes(null);
+  }, [before, after]);
+  return (
+    <section className="vz-section rl">
+      <div className="rl-head">
+        <div>
+          <h2 className="title-md">Realism check</h2>
+          <p className="lead">
+            Habits can't change bone. We re-measure the after image and compare bone-set proportions (relative to pupil distance) with the baseline. Anything outside tolerance is flagged
+            for review.
+          </p>
+        </div>
+        <button className="btn" onClick={run} disabled={busy || !before}>
+          {busy ? "Measuring…" : res && res !== "error" ? "Re-run" : "Run check"}
+        </button>
+      </div>
+      {res === "error" && <p className="lead">Couldn't detect a face in one of the images.</p>}
+      {res && res !== "error" && (
+        <>
+          <div className={`rl-verdict ${res.pass ? "ok" : "flag"}`}>{res.pass ? "Passed — bone structure and identity preserved" : "Flagged — regenerate from the baseline with identity locked"}</div>
+          <table className="rl-table">
+            <thead>
+              <tr>
+                <th>Proportion</th>
+                <th>Before</th>
+                <th>After</th>
+                <th>Change</th>
+                <th>Tolerance</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {res.rows.map((r) => (
+                <tr key={r.key} className={r.pass ? "" : "bad"}>
+                  <td>
+                    {r.label}
+                    <small>{r.note}</small>
+                  </td>
+                  <td>{r.before.toFixed(3)}</td>
+                  <td>{r.after.toFixed(3)}</td>
+                  <td>{(r.changePct > 0 ? "+" : "") + r.changePct.toFixed(1)}%</td>
+                  <td>±{r.tolerancePct}%</td>
+                  <td>{r.pass ? "✓" : "⚠"}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <p className="rl-note">Chin and lower-face outlines are excluded: beard growth moves those landmarks without any bone change.</p>
+        </>
+      )}
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Trend library (reviewed by the founder)                            */
+/* ------------------------------------------------------------------ */
+
+function TrendLibrary() {
+  return (
+    <section className="vz-section">
+      <h2 className="title-md">Style trend library · reviewed {REVIEWED_AT}</h2>
+      <p className="lead">Every haircut and beard in a plan or visual comes from this list — never improvised by the image model. Review it every few months against current barber sources.</p>
+      <div className="tl-grid">
+        {HAIRSTYLES.map((h) => (
+          <div key={h.id} className={`tl-card tl-${h.status}`}>
+            <div className="tl-top">
+              <b>{h.name}</b>
+              <span className={`tl-status tl-s-${h.status}`}>{h.status}</span>
+            </div>
+            <span className="tl-meta">
+              {h.hairTypes.join(" · ")} · top {h.topCm[0]}–{h.topCm[1]} cm{h.heatFriendly ? " · heat-friendly" : ""}
+            </span>
+            {h.status !== "fading" && <span className="tl-barber">{h.barber}</span>}
+          </div>
+        ))}
+        {BEARDS.map((b) => (
+          <div key={b.id} className="tl-card">
+            <div className="tl-top">
+              <b>{b.name}</b>
+              <span className={`tl-status tl-s-${b.status}`}>{b.status}</span>
+            </div>
+            <span className="tl-meta">Beard · needs {b.needsDensity} density</span>
+          </div>
+        ))}
+      </div>
+      <ul className="tl-src">
+        {TREND_SOURCES.map((s) => (
+          <li key={s.url}>
+            <a href={s.url} target="_blank" rel="noreferrer">
+              {s.name}
+            </a>
+          </li>
+        ))}
+      </ul>
     </section>
   );
 }

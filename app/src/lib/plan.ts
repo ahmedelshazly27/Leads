@@ -1,3 +1,4 @@
+import { REVIEWED_AT, suggestBeard, suggestHair } from "./styles";
 import type { Intake, Scan } from "./types";
 import type { EvidenceGrade } from "./science";
 import { MODIFIABLE, currentScores, overall, regionOf, type ScoreKey } from "./report";
@@ -475,7 +476,7 @@ export function buildPlan(scan: Scan, intake: Intake): Plan {
       drivenBy: ["Facial hair"],
       priority: 2,
       tasks: [{ id: "beard", label: "Trim stubble & neckline", cadence: "weekly" }],
-      visual: "even, well-groomed heavy stubble (about 10 days) with a crisp neckline above the Adam's apple and a clean natural cheek line",
+      visual: suggestBeard(intake)?.prompt ?? "even, well-groomed heavy stubble with a crisp neckline",
     });
     if (patchy && intake.preferences !== "non-invasive") {
       items.push({
@@ -502,12 +503,20 @@ export function buildPlan(scan: Scan, intake: Intake): Plan {
   /* ------------------------------ Hair ------------------------------ */
   const reach = intake.hairLengthCm + 12;
   const shapeForHair = face && !face.capture?.closeRange ? face.faceShape : null;
+  const [hairPick, ...hairAlts] = suggestHair(intake, face ?? null, 3);
   items.push({
     id: "haircut",
     category: "Hair",
-    title: hairAdvice(intake, shapeForHair).title,
-    why: `${hairAdvice(intake, shapeForHair).why} Hair grows ~1 cm/month, so styles up to ~${reach} cm on top are reachable within 12 months. Evidence for specific cuts is limited — treat as grooming guidance.`,
-    how: hairAdvice(intake, shapeForHair).how,
+    title: hairPick ? `Haircut: ${hairPick.name}` : hairAdvice(intake, shapeForHair).title,
+    why: `${hairPick ? `Chosen from our ${REVIEWED_AT} trend library for your ${intake.hairType} hair${shapeForHair ? ` and ${shapeForHair.toLowerCase()} face` : ""}${hairPick.heatFriendly ? ", and it's practical in Gulf heat" : ""}.` : hairAdvice(intake, shapeForHair).why} Hair grows ~1 cm/month, so styles up to ~${reach} cm on top are reachable within 12 months. Evidence for specific cuts is limited — treat as grooming guidance.`,
+    how: hairPick
+      ? [
+          `Ask your barber: ${hairPick.barber}`,
+          `Re-cut every ${hairPick.maintenanceWeeks} weeks`,
+          ...(hairAlts.length ? [`Also suits you: ${hairAlts.map((h) => h.name).join(" · ")}`] : []),
+          ...hairAdvice(intake, shapeForHair).how.filter((h) => /curl cream|paste|looser waves/i.test(h)),
+        ]
+      : hairAdvice(intake, shapeForHair).how,
     grade: "C",
     refs: ["saitoh1970"],
     phase: 1,
@@ -518,7 +527,7 @@ export function buildPlan(scan: Scan, intake: Intake): Plan {
     drivenBy: ["Face shape", "Hair type"],
     priority: 2,
     tasks: [{ id: "barber", label: "Barber / shape-up", cadence: "monthly" }],
-    visual: hairAdvice(intake, shapeForHair).visual,
+    visual: hairPick ? `same hair colour and natural ${intake.hairType} texture, new haircut: ${hairPick.prompt}, same hairline` : hairAdvice(intake, shapeForHair).visual,
   });
   if (intake.hairLoss !== "none") {
     items.push({
@@ -749,7 +758,7 @@ export function afterPrompt(plan: Plan, intake: Intake): string {
   return [
     "Edit the first image (baseline studio portrait). Keep the exact same person, camera angle, framing, clothing, slate blue-grey studio background (#A9BDC4) and lighting so it lines up 1:1 as a before/after pair. Any further images are identity references only.",
     `Show the result of a realistic 12-month, evidence-based self-improvement plan, changing ONLY these things: ${changes.join("; ")}.`,
-    "Must remain unmistakably the same person: identical eyes, eye shape, nose, lips, ears, bone structure, ethnicity and skin tone (do not lighten the skin). No surgery-like changes.",
+    "LOCK identity and bone: identical eye shape and eye spacing, nose width and shape, lips, ears, jaw bone width, chin, skull shape, ethnicity and skin tone (do not lighten the skin). Fat loss may slim soft tissue only. No surgery-like changes. Always edit the original baseline, never a previous after image.",
     `Neutral relaxed expression, closed lips. Photorealistic, no makeup${intake.gender === "female" ? " beyond the person's usual" : ""}, no beauty filter, natural skin texture.`,
   ].join(" ");
 }
