@@ -1,6 +1,6 @@
 import { useMemo, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
-import { Citations, GradeBadge, PageHeader } from "../../components/ui";
+import { Citations, GradeBadge, PageHeader, shortCite } from "../../components/ui";
 import { buildTraining, VOLUME, type MuscleId, type MusclePlan, type Priority, type TrainingDay } from "../../lib/training";
 import type { SectionProps } from "./types";
 import "./Training.css";
@@ -184,7 +184,7 @@ function MuscleCard({ m, compact, onClick, selected }: { m: MusclePlan; compact?
           ))}
         </ol>
       )}
-      {!compact && m.refs.length > 0 && <Citations ids={m.refs} />}
+      {!compact && m.refs.length > 0 && <div className="tr-cite mono-sm">{m.refs.map(shortCite).join(" · ")}</div>}
     </article>
   );
 }
@@ -220,8 +220,8 @@ function Split({ days, byId }: { days: TrainingDay[]; byId: Record<MuscleId, Mus
 function Stat({ label, value, next, grade }: { label: string; value: string; next: string; grade?: "C" }): ReactNode {
   return (
     <div className="tr-stat">
-      <span className="mono-sm">
-        {label}
+      <span className="mono-sm tr-stat-label">
+        <span>{label}</span>
         {grade && <i className="tr-grade">Grade {grade}</i>}
       </span>
       <div>

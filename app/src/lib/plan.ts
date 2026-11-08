@@ -359,8 +359,8 @@ export function buildPlan(scan: Scan, intake: Intake): Plan {
       { id: "log", label: "Log weights & reps", cadence: "weekly" },
     ],
     visual: male
-      ? "after 12 months of consistent training: noticeably broader, rounder shoulders and fuller upper back and arms, realistic natural muscle, not bodybuilder-size"
-      : "after 12 months of consistent training: firmer, more toned shape with rounder glutes and shoulders, realistic natural muscle",
+      ? "after 12 months of consistent training: noticeably broader, capped shoulders and wider lats sweeping down to a narrow, tight waist (clear V-taper, waist about 60% of shoulder width, shoulder-to-waist ≈ 1.6–1.7), fuller upper back and arms, realistic natural muscle, not bodybuilder-size"
+      : "after 12 months of consistent training: firmer, more toned shape with a defined narrow waist, rounder glutes and shoulders (waist-to-hip ≈ 0.7), realistic natural muscle",
   });
   if (swr != null && male && swr < 1.55) drivers.add("Narrow V-taper");
 

@@ -447,3 +447,19 @@
     align-items: flex-start;
   }
 }
+
+.tr-cite {
+  margin-top: auto;
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+}
+.tr-stat-label {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+.tr-stat-label .tr-grade {
+  margin-inline-start: 0;
+  white-space: nowrap;
+}

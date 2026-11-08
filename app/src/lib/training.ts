@@ -212,8 +212,8 @@ const LIB: Record<MuscleId, { name: string; region: MusclePlan["region"]; zone: 
     zone: "lower",
     ex: [
       { name: "Hip thrust", sets: 3, reps: "8–12" },
-      { name: "Romanian deadlift", sets: 3, reps: "8–10" },
       { name: "Bulgarian split squat", sets: 3, reps: "10 / leg" },
+      { name: "Cable kickback", sets: 3, reps: "12–15" },
     ],
   },
   quads: {
@@ -232,7 +232,7 @@ const LIB: Record<MuscleId, { name: string; region: MusclePlan["region"]; zone: 
     zone: "lower",
     ex: [
       { name: "Seated or lying leg curl", sets: 3, reps: "10–15" },
-      { name: "Romanian deadlift", sets: 3, reps: "8–10" },
+      { name: "Romanian deadlift", sets: 3, reps: "8–10", note: "Also trains glutes" },
       { name: "45° back extension", sets: 3, reps: "12–15" },
     ],
   },
@@ -379,7 +379,33 @@ export function focusMuscles(scan: Scan, intake: Intake, n = 3) {
 /*  Weekly split                                                       */
 /* ------------------------------------------------------------------ */
 
-const target = (p: Priority) => Math.round((VOLUME[p][0] + VOLUME[p][1]) / 2);
+/** Direct weekly sets: start at the low end of the range, minus indirect volume from related compounds. */
+const INDIRECT: Partial<Record<MuscleId, MuscleId>> = {
+  biceps: "lats", // pulldowns / rows
+  triceps: "chest", // presses
+  frontDelts: "chest", // presses
+  rearDelts: "traps", // rows, face pulls
+  traps: "lats",
+};
+/** Isolation muscles can go on any day to balance session length. */
+const FLEX = new Set<MuscleId>(["sideDelts", "rearDelts", "biceps", "triceps", "abs", "obliques", "calves"]);
+
+function directSets(muscles: MusclePlan[]) {
+  const map = Object.fromEntries(muscles.map((m) => [m.id, m])) as Record<MuscleId, MusclePlan>;
+  const direct = {} as Record<MuscleId, number>;
+  const order: MuscleId[] = ["lats", "chest", "traps", "sideDelts", "rearDelts", "biceps", "triceps", "frontDelts", "glutes", "quads", "hamstrings", "calves", "abs", "obliques"];
+  for (const id of order) {
+    const m = map[id];
+    const want = m.weeklySets[0];
+    const src = INDIRECT[id];
+    const indirect = src && direct[src] != null ? Math.round(direct[src] * 0.5) : 0;
+    let d = Math.max(0, want - indirect);
+    if (id === "frontDelts" && (direct.chest ?? 0) > 0 && m.priority === "maintain") d = 0; // fully covered by pressing
+    if (d > 0 && d < 4) d = 4;
+    direct[id] = d;
+  }
+  return direct;
+}
 
 function buildSplit(muscles: MusclePlan[]): TrainingDay[] {
   const days: TrainingDay[] = [
@@ -388,37 +414,48 @@ function buildSplit(muscles: MusclePlan[]): TrainingDay[] {
     { name: "Upper B", exercises: [] },
     { name: "Lower B", exercises: [] },
   ];
-  const dayIdx = (zone: MusclePlan["zone"], half: 0 | 1) => (zone === "upper" ? (half ? 2 : 0) : half ? 3 : 1);
-  for (const m of muscles) {
-    if (m.corrective || m.id === "forearms") continue;
-    const total = target(m.priority);
-    const halves = [Math.ceil(total / 2), Math.floor(total / 2)];
-    halves.forEach((sets, half) => {
-      const day = days[dayIdx(m.zone, half as 0 | 1)];
-      const primary = m.exercises[half];
-      const extra = m.exercises[2];
-      if (sets > 5) {
-        const a = Math.ceil(sets / 2);
-        day.exercises.push({ ...primary, sets: a, muscle: m.id, priority: m.priority });
-        day.exercises.push({ ...extra, sets: sets - a, muscle: m.id, priority: m.priority });
-      } else {
-        day.exercises.push({ ...primary, sets, muscle: m.id, priority: m.priority });
-      }
-    });
+  const load = (i: number) => days[i].exercises.reduce((s, e) => s + e.sets, 0);
+  const direct = directSets(muscles);
+  // Compounds first (fixed days), then flexible isolation work to balance sessions.
+  const sorted = [...muscles]
+    .filter((m) => !m.corrective && m.id !== "forearms" && (direct[m.id] ?? 0) > 0)
+    .sort((a, b) => Number(FLEX.has(a.id)) - Number(FLEX.has(b.id)) || RANK[a.priority] - RANK[b.priority]);
+  for (const m of sorted) {
+    const total = direct[m.id];
+    const n = Math.max(2, Math.ceil(total / 4)); // ≥ 2 sessions a week, ≤ 4 sets per exercise slot
+    const base = Math.floor(total / n);
+    let extra = total - base * n;
+    const zoneDays = m.zone === "upper" ? [0, 2] : [1, 3];
+    const allowed = FLEX.has(m.id) ? [0, 1, 2, 3] : zoneDays;
+    const used: number[] = [];
+    for (let k = 0; k < n; k++) {
+      const sets = base + (extra-- > 0 ? 1 : 0);
+      if (sets <= 0) continue;
+      // prefer a day this muscle hasn't been trained on yet, then the lightest day
+      const pick = [...allowed].sort((a, b) => Number(used.includes(a)) - Number(used.includes(b)) || load(a) - load(b))[0];
+      used.push(pick);
+      const ex = m.exercises[k % m.exercises.length];
+      days[pick].exercises.push({ ...ex, sets, muscle: m.id, priority: m.priority });
+    }
   }
-  for (const day of days) day.exercises.sort((a, b) => RANK[a.priority] - RANK[b.priority]);
+  for (const day of days) day.exercises.sort((a, b) => Number(FLEX.has(a.muscle)) - Number(FLEX.has(b.muscle)) || RANK[a.priority] - RANK[b.priority]);
   return days;
 }
 
 function buildRampUp(muscles: MusclePlan[]): TrainingDay[] {
-  const pick = muscles.filter((m) => !m.corrective && m.id !== "forearms" && m.id !== "obliques");
-  return ["Full body 1", "Full body 2", "Full body 3"].map((name, i) => ({
-    name,
-    exercises: pick
-      .filter((m) => m.priority !== "maintain" || ["quads", "hamstrings", "chest"].includes(m.id) || i === 1)
-      .map((m) => ({ ...m.exercises[i % 3], sets: m.priority === "focus" ? 3 : 2, muscle: m.id, priority: m.priority }))
-      .sort((a, b) => RANK[a.priority] - RANK[b.priority])
-      .slice(0, 8),
+  const by = Object.fromEntries(muscles.map((m) => [m.id, m])) as Record<MuscleId, MusclePlan>;
+  // Each day: a pull, a press, the top shoulder priority, one arm, one lower-body compound, core.
+  const plan: MuscleId[][] = [
+    ["lats", "chest", "sideDelts", "rearDelts", "biceps", "quads", "abs"],
+    ["traps", "chest", "sideDelts", "rearDelts", "triceps", "hamstrings", "obliques"],
+    ["lats", "frontDelts", "sideDelts", "traps", "biceps", "glutes", "abs"],
+  ];
+  return plan.map((ids, i) => ({
+    name: `Full body ${i + 1}`,
+    exercises: ids
+      .map((id) => by[id])
+      .map((m) => ({ ...m.exercises[i % m.exercises.length], sets: m.priority === "focus" ? 3 : 2, muscle: m.id, priority: m.priority }))
+      .sort((a, b) => RANK[a.priority] - RANK[b.priority]),
   }));
 }
 
@@ -464,7 +501,7 @@ export function buildTraining(scan: Scan, intake: Intake, plan: Plan): Training 
     // in a surplus/maintenance; roughly half that while in a deficit (grade C).
     const lo = bw * (0.0025 * deficitMonths + 0.005 * restMonths);
     const hi = bw * (0.005 * deficitMonths + 0.01 * restMonths);
-    leanGainKg = [Math.round(lo * 2) / 2, Math.min(9, Math.round(hi * 2) / 2)];
+    leanGainKg = [Math.round(lo * 2) / 2, Math.min(7, Math.round(hi * 2) / 2)];
   }
   let waistDropCm: [number, number] | null = null;
   let swrRange: [number, number] | null = null;
@@ -474,29 +511,31 @@ export function buildTraining(scan: Scan, intake: Intake, plan: Plan): Training 
     // ~0.8–1.2 cm of waist per kg of fat lost (rule of thumb, grade C)
     waistDropCm = [Math.round(fatKg * 0.8), Math.round(fatKg * 1.2)];
     const waistCm = body.waistEstCm ?? (intake.heightCm ? intake.heightCm * 0.53 : 90);
-    const shrink = (cm: number) => Math.max(0.75, (waistCm - cm) / waistCm);
+    // frontal width shrinks a little less than circumference (×0.8, conservative)
+    const shrink = (cm: number) => Math.max(0.8, 1 - (cm / waistCm) * 0.8);
     if (swrNow) {
       swrRange = [
-        Math.round(((swrNow * 1.03) / shrink(waistDropCm[0])) * 100) / 100,
-        Math.round(((swrNow * 1.05) / shrink(waistDropCm[1])) * 100) / 100,
+        Math.round(((swrNow * 1.02) / shrink(waistDropCm[0])) * 100) / 100,
+        Math.round(((swrNow * 1.04) / shrink(waistDropCm[1])) * 100) / 100,
       ];
     }
   } else if (swrNow) {
-    swrRange = [Math.round(swrNow * 1.03 * 100) / 100, Math.round(swrNow * 1.05 * 100) / 100];
+    swrRange = [Math.round(swrNow * 1.02 * 100) / 100, Math.round(swrNow * 1.04 * 100) / 100];
   }
 
   const rules = [
     "Warm up: 5 min easy cardio, then 1–2 lighter sets of the first exercise",
     "Work sets 1–3 reps short of failure (RIR 1–3)",
     "Double progression: hit the top of the rep range on all sets → add 2.5–5% load next session",
-    "Train each muscle twice a week; priority muscles first in the session",
+    "Train each muscle twice a week; compounds first, then priority isolation work",
+    "Start each muscle at the low end of its weekly range; add 1–2 sets per focus muscle each 6–8 week block, up to the high end",
     "Deload every 6–8 weeks: one week at ~half the sets",
     "Track sessions — progress shows in the log before the mirror",
   ];
 
   const notes = [
     "Face and jaw muscles are not trained here: jawline 'exercises' have no evidence for visible change — fat loss reveals the jaw.",
-    "Indirect volume counts: rows add rear-delt and biceps work; presses add front-delt and triceps work.",
+    "Indirect volume counts (~½ set): rows add biceps, traps and rear-delt work; presses add front-delt and triceps work — direct sets are reduced accordingly.",
   ];
   if (rampUp) notes.unshift(`You train ${intake.trainingDays}×/week now: weeks 1–4 use a 3-day full-body plan to build the habit and technique, then move to the 4-day split.`);
 
@@ -512,7 +551,7 @@ export function buildTraining(scan: Scan, intake: Intake, plan: Plan): Training 
       waistDropCm,
       leanGainKg,
       targetBodyFat: targetBF ?? null,
-      note: "Ranges, not promises: natural year-one gains vary 2× between people. Waist change uses ~0.8–1.2 cm per kg of fat lost; shoulder width +3–5% from delt and lat growth.",
+      note: "Ranges, not promises: natural year-one gains vary 2× between people. Waist change uses ~0.8–1.2 cm per kg of fat lost; shoulder width +2–4% from delt and lat growth; frontal waist width assumed to shrink ~80% as fast as circumference.",
     },
     refs: ["schoenfeld2016", "schoenfeld2017", "sell2017", "sheikhhoseini2018", "morton2018", "vispute2011"],
     notes,
