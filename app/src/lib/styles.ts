@@ -94,18 +94,18 @@ export const HAIRSTYLES: HairStyle[] = [
   },
   {
     id: "curly-crop-taper",
-    name: "Curly crop · taper",
+    name: "Neat curly crop · low taper",
     status: "trending",
     gender: "male",
-    hairTypes: ["curly", "coily"],
+    hairTypes: ["wavy", "curly", "coily"],
     faceShapes: "any",
-    topCm: [4, 8],
+    topCm: [4, 7],
     heatFriendly: true,
     maintenanceWeeks: 3,
-    barber: "Low or mid taper, keep 5–7 cm of curl on top, shape the curls round, light fringe.",
-    prompt: "2026 curly crop: low taper fade, defined natural curls 5-7 cm on top shaped round with a light curly fringe, curl cream, matte",
-    fx: { height: 0.4, sides: 0.2, fringe: 0.5 },
-    worksWith: ["curly", "coily"]
+    barber: "Keep 5–6 cm of curl on top, cut dry and shaped round; sides scissor-cut or #4, subtle low taper only at the sideburns and nape, clean outline around the ears. Curl cream, push up and slightly back with one or two loose curls at the front.",
+    prompt: "neat, shaped curly cut: about 5-6 cm of defined, tidy natural curls on top, shaped round and pushed slightly up and back off the forehead with one or two loose curls at the front, sides short but not shaved (scissor or #4 length, subtle low taper only at the sideburns and nape), clean outline around the ears, curl cream, matte, groomed not messy",
+    fx: { height: 0.3, sides: 0.3, fringe: 0.3 },
+    worksWith: ["wavy", "curly", "coily"]
   },
   {
     id: "medium-curls-subtle-taper",

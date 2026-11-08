@@ -220,7 +220,7 @@ export function buildPlan(scan: Scan, intake: Intake): Plan {
       drivenBy: ["Under-eye", "Sleep"],
       priority: 1,
       tasks: [{ id: "sleep-7", label: "In bed for 7.5+ h, same wake time", cadence: "daily" }],
-      visual: "rested eyes with less under-eye darkness and puffiness, eyelids slightly less heavy",
+      visual: "well-rested eyes: upper eyelids open and alert (not hanging), clear whites, no under-eye darkness or puffiness",
     });
   }
 
@@ -769,11 +769,21 @@ export function hairAdvice(intake: Intake, shape: string | null) {
 /*  "After" image prompt — only plan-achievable changes                */
 /* ------------------------------------------------------------------ */
 
+/**
+ * The combined effect of sleep, fat loss, posture and skin care on how a face reads.
+ * Without this the model edits only the listed items and keeps a tired, flat look
+ * (Sundelin 2013/2017; Axelsson 2010: sleep loss → hanging lids, dark circles,
+ * paler skin, drooping mouth corners, rated sadder and less attractive).
+ */
+export const PRESENCE =
+  "Overall the after must read as the sharper, healthier, well-rested version of the same man, not a copy of the baseline with a new haircut: alert, focused gaze with upper eyelids open (not heavy or hooded-looking from fatigue), clear eye whites, no under-eye shadows or puffiness; groomed brows; mouth corners neutral, not drooping; head held level with a long neck and shoulders back; healthy, warm, even skin colour (same skin tone); defined facial planes from fat loss — visible hollow under the cheekbones, crisp jawline and a clean chin-to-neck angle. Expression calm, confident and engaged — not sleepy, sad or blank, no broad smile.";
+
 export function afterPrompt(plan: Plan, intake: Intake): string {
   const changes = plan.items.filter((i) => i.visual).map((i, n) => `${n + 1}) ${i.visual}`);
   return [
     "Edit the first image (baseline studio portrait). Keep the exact same person, camera angle, framing, clothing, slate blue-grey studio background (#A9BDC4) and lighting so it lines up 1:1 as a before/after pair. Any further images are identity references only.",
-    `Show the result of a realistic 12-month, evidence-based self-improvement plan, changing ONLY these things: ${changes.join("; ")}.`,
+    `Show the result of a realistic 12-month, evidence-based self-improvement plan. Apply ALL of these changes clearly and visibly: ${changes.join("; ")}.`,
+    PRESENCE,
     "LOCK identity and bone: identical eye shape and eye spacing, nose width and shape, lips, ears, jaw bone width, chin, skull shape, ethnicity and skin tone (do not lighten the skin). Fat loss may slim soft tissue only. No surgery-like changes. Always edit the original baseline, never a previous after image.",
     `Neutral relaxed expression, closed lips. Photorealistic, no makeup${intake.gender === "female" ? " beyond the person's usual" : ""}, no beauty filter, natural skin texture.`,
   ].join(" ");
