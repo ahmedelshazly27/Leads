@@ -60,7 +60,8 @@ const empty = (): AppState => ({
   scans: [sampleScan],
   activeProfileId: sampleProfile.id,
   progress: {},
-  settings: { units: "metric" },
+  settings: { units: "metric", currency: "EUR" },
+  visuals: {},
 });
 
 let state: AppState = empty();
@@ -83,7 +84,7 @@ function set(next: AppState) {
 export async function initStore() {
   try {
     const saved = await idbGet<AppState>(STATE_KEY);
-    if (saved && saved.version === 1) state = saved;
+    if (saved && saved.version === 1) state = { ...empty(), ...saved, settings: { ...empty().settings, ...saved.settings }, visuals: saved.visuals ?? {} };
     for (const scan of state.scans) {
       for (const kind of ["face", "body"] as const) {
         const url = await idbGet<string>(`photo:${scan.id}:${kind}`);
@@ -197,6 +198,14 @@ export function toggleProgress(profileId: string, itemId: string) {
 
 export function setUnits(units: "metric" | "imperial") {
   set({ ...state, settings: { ...state.settings, units } });
+}
+
+export function setCurrency(currency: "EUR" | "USD" | "GBP") {
+  set({ ...state, settings: { ...state.settings, currency } });
+}
+
+export function setVisuals(scanId: string, patch: Partial<import("./types").Visuals>) {
+  set({ ...state, visuals: { ...state.visuals, [scanId]: { ...(state.visuals[scanId] ?? {}), ...patch } } });
 }
 
 /* --------------------------- Import / export ---------------------- */

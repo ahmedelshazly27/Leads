@@ -27,6 +27,11 @@ export const sampleProfile: Profile = {
     allergies: "None reported",
     profession: "Works in finance",
     goals: ["Even skin tone", "Look more rested", "Improve posture"],
+    hairType: "straight",
+    hairLengthCm: 30,
+    hairLoss: "none",
+    facialHair: "none",
+    activeAcne: false,
   },
 };
 

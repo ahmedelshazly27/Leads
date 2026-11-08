@@ -25,6 +25,11 @@ export interface Intake {
   allergies: string;
   profession: string;
   goals: string[];
+  hairType: "straight" | "wavy" | "curly" | "coily";
+  hairLengthCm: number; // current length on top
+  hairLoss: "none" | "early" | "moderate" | "advanced"; // Norwood/Ludwig self-assessment
+  facialHair: "none" | "patchy" | "full"; // men: how the beard grows when left
+  activeAcne: boolean;
 }
 
 export interface Profile {
@@ -150,6 +155,13 @@ export interface Scan {
   hasBodyPhoto: boolean;
 }
 
+/** Generated images for a scan (baseline "model", end-of-plan "after", style previews). */
+export interface Visuals {
+  baseline?: string;
+  after?: string;
+  styles?: { name: string; front?: string; left?: string; right?: string }[];
+}
+
 export interface AppState {
   version: 1;
   profiles: Profile[];
@@ -157,5 +169,6 @@ export interface AppState {
   activeProfileId: string | null;
   // planItemId -> ISO date completed, per profile
   progress: Record<string, Record<string, string>>;
-  settings: { units: "metric" | "imperial" };
+  settings: { units: "metric" | "imperial"; currency: "EUR" | "USD" | "GBP" };
+  visuals: Record<string, Visuals>; // scanId -> generated images (data URLs or https)
 }
