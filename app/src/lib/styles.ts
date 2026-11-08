@@ -109,7 +109,7 @@ export const HAIRSTYLES: HairStyle[] = [
   },
   {
     id: "medium-curls-subtle-taper",
-    name: "Medium curls · subtle taper",
+    name: "Swept-back medium curls · subtle taper",
     status: "trending",
     gender: "male",
     hairTypes: ["wavy", "curly"],
@@ -119,8 +119,23 @@ export const HAIRSTYLES: HairStyle[] = [
     maintenanceWeeks: 5,
     barber: "Keep 7–9 cm of curl on top, scissor-cut sides left with some length over the ears, only a subtle low taper at the sideburns and nape (no skin). Cut curls dry, curl cream, no gel.",
     prompt:
-      "medium-length slightly curly hair: about 7-9 cm on top of loose, soft natural curls and waves with real volume and movement, swept loosely back and to the side with a few curls falling onto the upper forehead, natural matte finish, not slick; sides kept fuller with only a subtle low taper at the sideburns and the neckline (no skin, no visible fade line), slightly longer over the ears",
+      "medium-length wavy-curly hair about 7-8 cm on top, styled with intention — swept back and slightly to one side with soft volume and defined loose curls, the front lifted off the forehead, sides fuller and tucked, subtle low taper only at the sideburns and nape, polished matte finish, groomed not messy",
     fx: { height: 0.2, sides: 0.7, fringe: 0.5 },
+    worksWith: ["wavy", "curly"]
+  },
+  {
+    id: "swept-curls-taper-fade",
+    name: "Swept-back curls · taper fade",
+    status: "trending",
+    gender: "male",
+    hairTypes: ["wavy", "curly"],
+    faceShapes: ["Oval", "Oblong", "Diamond", "Heart", "Square"],
+    topCm: [6, 9],
+    heatFriendly: true,
+    maintenanceWeeks: 3,
+    barber: "Keep 6–8 cm of curl on top, swept back and slightly to one side. Mid taper fade on the sides and back (#2 to skin at the sideburns and nape), crisp outline around the ears. Ask for the beard to be faded into the taper.",
+    prompt: "swept-back wavy-curly top about 7 cm with soft volume, swept back and slightly to one side, with a clean mid taper fade on the sides and back — blended short from about #2 down to skin at the sideburns and nape, smooth gradient, crisp outline around the ears",
+    fx: { height: 0.3, sides: -0.2, fringe: -0.4 },
     worksWith: ["wavy", "curly"]
   },
   {

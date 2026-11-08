@@ -17,7 +17,7 @@ export const sampleProfile: Profile = {
   intake: data.intake as Intake,
 };
 
-export const sampleScan: Scan = { ...(data.scan as unknown as Scan), id: SAMPLE_SCAN_ID, profileId: SAMPLE_PROFILE_ID, stylePick: { hair: "curly-crop-taper", beard: "faded-italian" } };
+export const sampleScan: Scan = { ...(data.scan as unknown as Scan), id: SAMPLE_SCAN_ID, profileId: SAMPLE_PROFILE_ID, stylePick: { hair: "medium-curls-subtle-taper", beard: "faded-italian" } };
 
 const S = `${import.meta.env.BASE_URL}sample/`;
 
@@ -31,5 +31,5 @@ export const sampleVisuals: Visuals = {
   baseline: S + "face.jpg",
   after: S + "face_after.jpg",
   body: { front: S + "body_front.jpg", side: S + "body_side.jpg", afterFront: S + "body_after_front.jpg", afterSide: S + "body_after_side.jpg" },
-  styles: [{ name: "Neat curly crop · faded Italian beard (reviewer pick)", front: S + "face_after.jpg" }, { name: "Medium curls swept back · faded Italian beard", front: S + "face_after_alt.jpg" }],
+  styles: [{ name: "Swept-back medium curls · faded Italian beard (reviewer pick)", front: S + "face_after.jpg" }, { name: "Swept-back curls · taper fade · faded beard", front: S + "face_after_alt.jpg" }],
 };
