@@ -209,6 +209,11 @@ function RecCard({ item, cur }: { item: PlanItem; cur: "EUR" | "USD" | "GBP" }) 
         )}
       </div>
       {open && <Citations ids={item.refs} />}
+      {item.id === "lifting" && (
+        <Link to="/analysis/training" className="pr-book">
+          See your muscle-by-muscle plan →
+        </Link>
+      )}
       {item.partner && (
         <Link to={`/analysis/partners?cat=${item.partner}`} className="pr-book">
           Book with a partner →

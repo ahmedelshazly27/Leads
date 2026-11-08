@@ -2,6 +2,7 @@ import type { Intake, Scan } from "./types";
 import type { EvidenceGrade } from "./science";
 import { MODIFIABLE, currentScores, overall, regionOf, type ScoreKey } from "./report";
 import { clamp } from "./geometry";
+import { focusMuscles } from "./training";
 
 /* ------------------------------------------------------------------ */
 /*  Glow-up plan engine                                                */
@@ -334,6 +335,10 @@ export function buildPlan(scan: Scan, intake: Intake): Plan {
     how: [
       `Currently ${intake.trainingDays} day(s)/week → 4 days: Upper A / Lower A / Upper B / Lower B`,
       `Priority (${focus.join("; ")}): 14–18 sets/week; everything else 10–12 sets/week`,
+      ...(() => {
+        const top = focusMuscles(scan, intake);
+        return top.length ? [`From your analysis, focus muscles: ${top.join(", ")} — see the muscle-by-muscle Training Plan`] : [];
+      })(),
       ...(male && swr != null && swr < 1.55
         ? ["Upper A: overhead press 3×6–10, pull-ups/lat pulldown 4×8–12, lateral raises 4×12–20, incline DB press 3×8–12, face pulls 3×15", "Upper B: chest-supported row 4×8–12, DB shoulder press 3×8–12, cable lateral raises 4×12–20, dips/bench 3×6–10, curls + triceps 3×10–15"]
         : ["Upper days: a press, a row, a vertical pull, lateral raises, arms", "Lower days: squat or leg press, hinge (RDL), lunges, hamstring curls, calves"]),
