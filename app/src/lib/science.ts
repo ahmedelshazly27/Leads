@@ -445,6 +445,14 @@ export const REFS: Record<string, Reference> = {
     source: "American Journal of Cardiology 73(7):460–468",
     finding: "Abdominal depth (sagittal diameter) and waist circumference track visceral fat closely.",
   },
+  woolcott2018: {
+    id: "woolcott2018",
+    authors: "Woolcott OO, Bergman RN",
+    year: 2018,
+    title: "Relative fat mass (RFM) as a new estimator of whole-body fat percentage: a cross-sectional study in American adult individuals",
+    source: "Scientific Reports 8:10980",
+    finding: "RFM = 64 − 20 × (height/waist) (+12 for women) estimated DXA body fat better than BMI.",
+  },
   saitoh1970: {
     id: "saitoh1970",
     authors: "Saitoh M, Uzuka M, Sakamoto M",
@@ -544,9 +552,9 @@ export const METHODS: Record<string, Method> = {
     refs: ["kendall2005"],
   },
   composition: {
-    how: "BMI from your height and weight; body-fat estimated with the Deurenberg equation.",
-    norm: "BMI 18.5–24.9 is the WHO healthy range; the estimate has a standard error of roughly ±4% body fat.",
-    refs: ["deurenberg1991", "who2008"],
+    how: "BMI from height and weight. Waist circumference is estimated from your front waist width and side waist depth (scaled by height, ellipse perimeter). Body fat is the average of the Deurenberg BMI equation and Relative Fat Mass (height + waist).",
+    norm: "BMI 18.5–24.9 is the WHO healthy range; waist-to-height < 0.5 is healthy. Each body-fat equation has an error of roughly ±4–5 points; photo-estimated waist adds further uncertainty — track the trend, not the exact number.",
+    refs: ["deurenberg1991", "woolcott2018", "ashwell2012", "who2008"],
   },
 };
 

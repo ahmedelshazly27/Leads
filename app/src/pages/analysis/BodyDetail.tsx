@@ -455,7 +455,6 @@ export function WaistCore(p: SectionProps) {
   const m = body.metrics;
   const side = p.scan.bodySide ?? null;
   const s = side?.metrics ?? null;
-  const i = p.profile.intake;
   const a = body.imageAspect;
   const f = frame(body);
   const score = s ? s.coreScore : null;
@@ -508,10 +507,9 @@ export function WaistCore(p: SectionProps) {
         <Card label="Waist : shoulders (front)" value={`${Math.round(wToS * 100)}%`} note="Frontal width at the WHO waist site relative to shoulder width.">
           <SpectrumBar value={clamp01((wToS - 0.5) / 0.35)} labels={["Tapered", "Straight", "Wide"]} />
         </Card>
-        <Card label="Waist : height (tape)" value={m.whtr ? m.whtr.toFixed(2) : "—"} tone={m.whtr && m.whtr >= 0.5 ? "warn" : undefined} note={m.whtr ? (m.whtr >= 0.5 ? "≥ 0.5 — raised cardiometabolic risk (Ashwell 2012)" : "< 0.5 — healthy range (Ashwell 2012)") : <Link to="/analysis/about-you">Add waist & height for the validated ratio →</Link>}>
+        <Card label="Waist : height" value={m.whtr ? m.whtr.toFixed(2) : "—"} tone={m.whtr && m.whtr >= 0.5 ? "warn" : undefined} note={m.whtr ? (m.whtr >= 0.5 ? "≥ 0.5 — raised cardiometabolic risk (Ashwell 2012)" : "< 0.5 — healthy range (Ashwell 2012)") : <Link to="/analysis/about-you">Add your height to estimate it →</Link>}>
           {m.whtr ? <SpectrumBar value={clamp01((m.whtr - 0.35) / 0.3)} labels={["0.35", "0.50", "0.65"]} /> : null}
         </Card>
-        <Card label="Waist (tape)" value={i.waistCm ? `${i.waistCm} cm` : "—"} note={i.waistCm ? "Measured at the navel, relaxed." : "Measure at the navel, relaxed, after breathing out."} />
       </div>
       <div className="bdd-expl">
         <div className="mono-sm">Explanation</div>

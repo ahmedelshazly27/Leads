@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import "./styles/global.css";
 import { App } from "./App";
 import { initStore } from "./lib/store";
+import "./styles/mobile.css"; // last: overrides page layouts on small screens
 
 initStore();
 if (import.meta.env.DEV) import("./dev").then((m) => m.installDevHooks());

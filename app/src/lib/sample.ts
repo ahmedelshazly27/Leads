@@ -108,6 +108,7 @@ export const sampleScan: Scan = {
       bmi: 22.4,
       bodyFatEstimate: 27.1,
       bodyFatMethod: "navy",
+      waistEstCm: null,
       whrTape: 0.75,
       whtr: 0.44,
       feetVisible: true,

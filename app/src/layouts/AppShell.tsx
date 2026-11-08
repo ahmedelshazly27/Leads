@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Logo } from "../components/Logo";
-import { Bag, Bars, ChevronDown, ChevronRight, FaceScan, Gear, LayoutGrid, PanelLeft, Scan } from "../components/icons";
-import { NAV, groupOf } from "../lib/sections";
+import { Bag, Bars, ChevronDown, ChevronRight, FaceScan, Gear, LayoutGrid, ListIcon, PanelLeft, Scan, User } from "../components/icons";
+import { ALL_ITEMS, NAV, groupOf } from "../lib/sections";
 import { useActive } from "../lib/useActive";
 import "./AppShell.css";
 
@@ -15,12 +15,69 @@ const RAIL = [
   { to: "/settings", label: "Settings", icon: Gear },
 ];
 
+const TABS = [
+  { to: "/protocols", label: "Protocols", icon: LayoutGrid },
+  { to: "/analysis", label: "Analysis", icon: FaceScan },
+  { to: "/visualization", label: "Visuals", icon: Scan },
+  { to: "/biometrics", label: "Data", icon: Bars },
+  { to: "/settings", label: "Settings", icon: Gear },
+];
+
+function titleFor(path: string) {
+  if (path.startsWith("/analysis/")) {
+    const id = path.split("/")[2];
+    return ALL_ITEMS.find((i) => i.id === id)?.label ?? "Your Analysis";
+  }
+  const map: Record<string, string> = {
+    "/protocols": "Protocols",
+    "/new": "New analysis",
+    "/biometrics": "Biometrics",
+    "/visualization": "Visualization",
+    "/settings": "Settings",
+    "/stack": "Stack",
+  };
+  const key = Object.keys(map).find((k) => path === k || path.startsWith(k + "/"));
+  return key ? map[key] : "Facet";
+}
+
 export function AppShell() {
   const loc = useLocation();
   const [collapsed, setCollapsed] = useState(false);
+  const [drawer, setDrawer] = useState(false);
   const inAnalysis = loc.pathname.startsWith("/analysis");
+  const { profile, facePhoto } = useActive();
+  useEffect(() => {
+    setDrawer(false);
+    window.scrollTo(0, 0);
+  }, [loc.pathname]);
   return (
-    <div className={`shell ${collapsed ? "is-collapsed" : ""}`}>
+    <div className={`shell ${collapsed ? "is-collapsed" : ""} ${inAnalysis ? "has-secnav" : ""}`}>
+      <header className="mbar">
+        {inAnalysis ? (
+          <button className="mbar-btn" onClick={() => setDrawer(true)} aria-label="Open sections">
+            <ListIcon size={18} />
+            <span className="mbar-btn-label">Sections</span>
+          </button>
+        ) : (
+          <NavLink to="/protocols" className="mbar-logo" aria-label="Home"><Logo /></NavLink>
+        )}
+        <div className="mbar-title">{titleFor(loc.pathname)}</div>
+        <NavLink to={inAnalysis ? "/analysis/about-you" : "/protocols"} className="mbar-avatar" aria-label={profile?.intake.name ?? "Profile"}>
+          {facePhoto ? <img src={facePhoto} alt="" /> : <User size={16} />}
+        </NavLink>
+      </header>
+      {inAnalysis && (
+        <div className={`drawer ${drawer ? "open" : ""}`} aria-hidden={!drawer}>
+          <div className="drawer-scrim" onClick={() => setDrawer(false)} />
+          <div className="drawer-panel" role="dialog" aria-label="Sections">
+            <div className="drawer-head">
+              <span className="title-md">Sections</span>
+              <button className="mbar-btn" onClick={() => setDrawer(false)} aria-label="Close">✕</button>
+            </div>
+            <SectionNav inDrawer />
+          </div>
+        </div>
+      )}
       <aside className="rail">
         <div className="rail-head">
           <NavLink to="/protocols" className="rail-logo"><Logo /></NavLink>
@@ -43,18 +100,26 @@ export function AppShell() {
       <main className="shell-main">
         <Outlet />
       </main>
+      <nav className="tabbar" aria-label="Main">
+        {TABS.map(({ to, label, icon: Icon }) => (
+          <NavLink key={to} to={to} className={({ isActive }) => `tab ${isActive ? "active" : ""}`}>
+            <span className="tab-icon"><Icon size={18} /></span>
+            <span className="tab-label">{label}</span>
+          </NavLink>
+        ))}
+      </nav>
     </div>
   );
 }
 
-function SectionNav() {
+function SectionNav({ inDrawer = false }: { inDrawer?: boolean }) {
   const loc = useLocation();
   const current = loc.pathname.split("/")[2] ?? "getting-started";
   const g = groupOf(current);
   const [open, setOpen] = useState<Record<string, boolean>>(() => ({ [g ?? "introduction"]: true }));
   const { scan } = useActive();
   return (
-    <aside className="secnav">
+    <aside className={inDrawer ? "secnav secnav-drawer" : "secnav"}>
       <div className="secnav-card">
         {NAV.map((group) => {
           const isOpen = open[group.id] ?? false;

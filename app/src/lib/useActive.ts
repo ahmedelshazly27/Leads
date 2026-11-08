@@ -10,7 +10,7 @@ export function useActive() {
   const rawScans = profile ? scansFor(s, profile.id) : [];
   // re-derive intake-dependent body metrics so edits to "About you" apply immediately
   const scans = useMemo(
-    () => rawScans.map((x): Scan => (x.body && profile ? { ...x, body: refreshBody(x.body, profile.intake) } : x)),
+    () => rawScans.map((x): Scan => (x.body && profile ? { ...x, body: refreshBody(x.body, profile.intake, x.bodySide?.metrics ?? null) } : x)),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [s.scans, profile],
   );

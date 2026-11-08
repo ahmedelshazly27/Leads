@@ -52,6 +52,20 @@ export function ProtocolViewer() {
 
   const pages = useMemo(() => (plan ? pagesFor(plan) : []), [plan]);
 
+  // Fit A4 pages (794 px wide) to narrow screens; user zoom multiplies on top.
+  const [fit, setFit] = useState(1);
+  useEffect(() => {
+    const el = docRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver(() => {
+      const cs = getComputedStyle(el);
+      const inner = el.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+      setFit(Math.min(1, inner / 794));
+    });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [plan]);
+
   useEffect(() => {
     const root = docRef.current;
     if (!root) return;
@@ -96,8 +110,9 @@ export function ProtocolViewer() {
           <button className="pv-btn" onClick={() => go(current - 1)} aria-label="Previous page">
             <ChevronUp size={20} />
           </button>
-          <span className="pv-zoom" style={{ width: 40 }}>
+          <span className="pv-zoom pv-pageof" style={{ width: 40 }}>
             {current + 1}
+            <span className="pv-total"> / {pages.length}</span>
           </span>
           <button className="pv-btn" onClick={() => go(current + 1)} aria-label="Next page">
             <ChevronDown size={20} />
@@ -111,7 +126,8 @@ export function ProtocolViewer() {
           <Expand size={18} />
         </button>
         <button className="pv-download" onClick={() => window.print()}>
-          Download PDF <span className="pv-div" /> <Download size={20} />
+          <span className="pv-dl-text">Download PDF</span>
+          <span className="pv-dl-short">PDF</span> <span className="pv-div" /> <Download size={20} />
         </button>
       </header>
 
@@ -129,7 +145,18 @@ export function ProtocolViewer() {
         </aside>
 
         <main className="pv-doc" ref={docRef}>
-          <div className="pv-pages" style={{ zoom }}>
+          <details className="pv-mprofile">
+            <summary>
+              <span>User profile & overview</span>
+              <ChevronDown size={16} />
+            </summary>
+            <UserProfile c={ctx} />
+            <div className="pv-card">
+              <h2>Overview</h2>
+              <p className="pv-overview">{overviewText(plan)}</p>
+            </div>
+          </details>
+          <div className="pv-pages" style={{ zoom: +(zoom * fit).toFixed(3) }}>
             {pages.map((p, i) => (
               <div key={i} data-index={i} ref={(el) => (pageRefs.current[i] = el)} className="pv-page-wrap">
                 <Page index={i} total={pages.length}>

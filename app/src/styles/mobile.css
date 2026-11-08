@@ -1,0 +1,267 @@
+/*
+ * Mobile & tablet layer. Loaded after every page stylesheet (see main.tsx),
+ * so it can override page-level layouts without touching desktop rules.
+ * Breakpoints: ≤ 900px (phones + small tablets), ≤ 560px (phones).
+ */
+
+@media (max-width: 900px) {
+  /* ---------- shared ---------- */
+  .ph-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+  }
+  .ph-right {
+    align-self: flex-start;
+    max-width: 100%;
+  }
+  .ph .title-xl {
+    font-size: clamp(28px, 7.6vw, 34px);
+  }
+  .ph {
+    margin-bottom: 18px;
+  }
+  .toggle button {
+    min-height: 36px;
+  }
+  /* every grid child may shrink below its content width */
+  [class*="-grid"] > *,
+  [class*="-row"] > *,
+  [class*="-two"] > * {
+    min-width: 0;
+  }
+  .scorecard-value {
+    font-size: 54px;
+  }
+  .radar svg {
+    max-width: 100%;
+    height: auto;
+  }
+  .radar-legend {
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+  .empty {
+    padding: 32px 18px;
+  }
+  .method-body {
+    padding: 0 14px 14px 18px;
+  }
+  .capwarn {
+    padding: 12px;
+  }
+
+  /* ---------- feature view (eyebrows, eyes, …) ---------- */
+  .fv-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .fv-photo {
+    min-height: 0;
+    aspect-ratio: 0.8;
+    max-height: 60vh;
+  }
+
+  /* ---------- assessments ---------- */
+  .ov-grid,
+  .skn-grid,
+  .fi-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .ov-fig-frame {
+    max-height: 60vh;
+  }
+  .fi-photo {
+    aspect-ratio: 0.8;
+    max-height: 62vh;
+  }
+  .fi-panel {
+    position: relative;
+    inset: auto;
+    left: auto;
+    right: auto;
+    border-radius: 0;
+    padding: 14px 12px 16px;
+  }
+  .fi-pills {
+    gap: 8px;
+  }
+  .fi-pill {
+    min-width: 0;
+    height: 34px;
+    padding: 0 14px;
+    font-size: 12.5px;
+  }
+  .fi-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .fsum-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  /* ---------- skin ---------- */
+  .skn-photo {
+    aspect-ratio: 0.8;
+    max-height: 64vh;
+  }
+  .skn-score {
+    min-height: 120px;
+  }
+  .skn-score .scorecard-value {
+    font-size: 56px;
+  }
+  .skn-side {
+    min-width: 0;
+  }
+  .skn-tabs-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .skn-tabs-scroll::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* ---------- intro ---------- */
+  .in-top,
+  .in-two,
+  .in-about,
+  .in-methods,
+  .in-prow {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .in-groups,
+  .in-grid,
+  .in-top-side {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .in-profile,
+  .in-form {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  /* ---------- body ---------- */
+  .bd-grid,
+  .bd-comp,
+  .bdd-two,
+  .bdd-row3,
+  .bdd-grid2,
+  .bdd-plan-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .bd-pane {
+    min-height: 0;
+    aspect-ratio: 0.62;
+  }
+  .bd-left:not(.bd-left-two) {
+    aspect-ratio: 0.75;
+    max-height: 64vh;
+  }
+  .bd-links {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .bd-link {
+    min-height: 44px;
+  }
+  .bd-sub {
+    grid-template-columns: 110px 1fr 32px;
+  }
+  .bdd-tiles,
+  .bdd-after {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  /* ---------- protocol ---------- */
+  .pr-hero,
+  .pr-recs,
+  .pr-phases,
+  .pr-sum-mid,
+  .pr-gain-grid,
+  .pr-myths,
+  .pr-est-top {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .pr-sum-photos,
+  .pr-sum-cards {
+    gap: 8px;
+  }
+  .pr-sum-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .pr-sum-actions .btn {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+  /* wide tables scroll inside their card */
+  .pr-table,
+  .pr-checkins,
+  .bio-table,
+  .bdd-table,
+  .fsum-table,
+  .table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .pr-tr {
+    min-width: 520px;
+  }
+
+  /* ---------- app pages ---------- */
+  .pr-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .wz-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .wz-grid > *,
+  .field {
+    min-width: 0;
+  }
+  .field input,
+  .field select,
+  .field textarea {
+    width: 100%;
+    min-width: 0;
+  }
+  .wz-photos,
+  .vz-slots,
+  .vz-mesh,
+  .proc,
+  .sk-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .vz-style-row {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .vz-add {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .vz-actions,
+  .vz-slot-actions {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 560px) {
+  .wz-grid,
+  .in-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .fsum-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .page-card {
+    padding: 12px;
+  }
+}
+
+@media (max-width: 900px) {
+  .bd-left {
+    min-height: 0;
+    width: 100%;
+  }
+}

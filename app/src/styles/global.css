@@ -238,3 +238,45 @@ img {
   height: 16px;
   flex: none;
 }
+
+/* ------------------------------------------------------------------ */
+/*  Mobile                                                             */
+/* ------------------------------------------------------------------ */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+body {
+  overflow-x: hidden;
+}
+img,
+svg,
+canvas,
+video {
+  max-width: 100%;
+}
+@media (max-width: 900px) {
+  .title-xl {
+    font-size: clamp(28px, 7.6vw, 34px);
+  }
+  .title-lg {
+    font-size: clamp(24px, 6.6vw, 30px);
+  }
+  .title-md {
+    font-size: 20px;
+  }
+  .lead {
+    font-size: 13.5px;
+    max-width: 100%;
+  }
+  button,
+  a.btn,
+  .btn {
+    min-height: 44px;
+  }
+  input,
+  select,
+  textarea {
+    font-size: 16px; /* prevents iOS zoom on focus */
+  }
+}

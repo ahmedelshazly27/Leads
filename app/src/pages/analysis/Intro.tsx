@@ -182,9 +182,6 @@ function IntakeForm({ profileId, intake }: { profileId: string; intake: Intake }
       <div className="in-grid">
         <Field label="Height (cm)"><input type="number" value={f.heightCm ?? ""} onChange={(e) => set("heightCm", num(e.target.value))} /></Field>
         <Field label="Weight (kg)"><input type="number" step="0.1" value={f.weightKg ?? ""} onChange={(e) => set("weightKg", num(e.target.value))} /></Field>
-        <Field label="Waist (cm)" hint="At the navel, relaxed"><input type="number" step="0.5" value={f.waistCm ?? ""} onChange={(e) => set("waistCm", num(e.target.value))} /></Field>
-        <Field label="Hip (cm)" hint="Widest point of the buttocks"><input type="number" step="0.5" value={f.hipCm ?? ""} onChange={(e) => set("hipCm", num(e.target.value))} /></Field>
-        <Field label="Neck (cm)" hint="Below the larynx"><input type="number" step="0.5" value={f.neckCm ?? ""} onChange={(e) => set("neckCm", num(e.target.value))} /></Field>
       </div>
       <div className="in-form-sec mono">Hair & skin</div>
       <div className="in-grid">

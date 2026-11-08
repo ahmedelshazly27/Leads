@@ -705,6 +705,14 @@
 }
 
 @media (max-width: 900px) {
+  .st-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .st-actions {
+    flex-wrap: wrap;
+  }
   .wz-grid,
   .sk-grid {
     grid-template-columns: 1fr 1fr;

@@ -133,21 +133,12 @@ function IntakeStep({ intake, setIntake, onNext }: { intake: Intake; setIntake: 
         </F>
       </Section>
 
-      <Section title="Body measurements" note="Optional. Height and weight enable BMI; tape measures enable the US Navy body-fat method and waist-to-height ratio.">
+      <Section title="Body measurements" note="Height and weight let us estimate BMI and body fat. Nothing else to measure.">
         <F label="Height (cm)">
           <input type="number" value={intake.heightCm ?? ""} onChange={(e) => set("heightCm", num(e.target.value))} />
         </F>
         <F label="Weight (kg)">
           <input type="number" value={intake.weightKg ?? ""} onChange={(e) => set("weightKg", num(e.target.value))} />
-        </F>
-        <F label="Waist (cm)" hint="At the navel, relaxed">
-          <input type="number" value={intake.waistCm ?? ""} onChange={(e) => set("waistCm", num(e.target.value))} />
-        </F>
-        <F label="Hip (cm)" hint="Widest point of the buttocks">
-          <input type="number" value={intake.hipCm ?? ""} onChange={(e) => set("hipCm", num(e.target.value))} />
-        </F>
-        <F label="Neck (cm)" hint="Just below the larynx">
-          <input type="number" value={intake.neckCm ?? ""} onChange={(e) => set("neckCm", num(e.target.value))} />
         </F>
       </Section>
 

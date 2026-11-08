@@ -40,10 +40,34 @@ export function navyBodyFat(intake: Intake) {
   return clamp(495 / (1.0324 - 0.19077 * Math.log10(w - n) + 0.15456 * Math.log10(h)) - 450, 3, 60);
 }
 
-export function bodyFat(intake: Intake): { value: number | null; method: "navy" | "deurenberg" | null } {
+/** Woolcott & Bergman (2018) Relative Fat Mass: needs only height and waist. */
+export function rfm(heightCm: number, waistCm: number, gender: Intake["gender"]) {
+  const female = gender === "female" ? 1 : gender === "other" ? 0.5 : 0;
+  return clamp(64 - 20 * (heightCm / waistCm) + 12 * female, 3, 60);
+}
+
+/**
+ * Waist circumference from photos: frontal waist width + side waist depth,
+ * scaled by height (shoulder-to-hip-joint length ≈ 0.30 × stature), treating
+ * the waist cross-section as an ellipse (Ramanujan perimeter).
+ */
+export function estimateWaistCm(body: BodyMetrics, side: SideMetrics | null, heightCm: number | null) {
+  if (!side || !heightCm) return null;
+  const torsoCm = 0.3 * heightCm;
+  const a = (body.waistWidth * torsoCm) / 2;
+  const b = (side.waistDepth * torsoCm) / 2;
+  const per = Math.PI * (3 * (a + b) - Math.sqrt((3 * a + b) * (a + 3 * b)));
+  return per > 40 && per < 200 ? per : null;
+}
+
+export function bodyFat(intake: Intake, waistEstCm: number | null = null): { value: number | null; method: "navy" | "deurenberg" | "rfm-photo" | null } {
   const navy = navyBodyFat(intake);
   if (navy != null) return { value: navy, method: "navy" };
   const d = deurenberg(bmiOf(intake), intake.age, intake.gender);
+  if (waistEstCm && intake.heightCm) {
+    const r = rfm(intake.heightCm, waistEstCm, intake.gender);
+    return { value: d != null ? (d + r) / 2 : r, method: "rfm-photo" };
+  }
   return { value: d, method: d == null ? null : "deurenberg" };
 }
 
@@ -290,6 +314,7 @@ export function analyseBody(det: PoseDetection, intake: Intake, imgW: number, im
     bmi,
     bodyFatEstimate,
     bodyFatMethod: bf.method,
+    waistEstCm: null,
     whrTape,
     whtr,
     feetVisible: hasLegs,
@@ -324,12 +349,14 @@ export function analyseBody(det: PoseDetection, intake: Intake, imgW: number, im
  * are recomputed whenever the intake changes, so editing "About you" updates
  * BMI, body fat and scores without a new scan.
  */
-export function refreshBody(body: BodyResult, intake: Intake): BodyResult {
+export function refreshBody(body: BodyResult, intake: Intake, side: SideMetrics | null = null): BodyResult {
   const m = body.metrics;
   const bmi = bmiOf(intake);
-  const bf = bodyFat(intake);
+  const waistEstCm = estimateWaistCm(m, side, intake.heightCm);
+  const bf = bodyFat(intake, waistEstCm);
   const whrTape = intake.waistCm && intake.hipCm ? intake.waistCm / intake.hipCm : null;
-  const whtr = intake.waistCm && intake.heightCm ? intake.waistCm / intake.heightCm : null;
+  const waist = intake.waistCm ?? waistEstCm;
+  const whtr = waist && intake.heightCm ? waist / intake.heightCm : null;
   const pScore = proportionScore(m.shoulderToWaist, whrTape ?? m.waistToHip, intake.gender);
   const cScore = compositionScore(bf.value, bmi, intake.gender);
   return {
@@ -339,6 +366,7 @@ export function refreshBody(body: BodyResult, intake: Intake): BodyResult {
       bmi,
       bodyFatEstimate: bf.value,
       bodyFatMethod: bf.method,
+      waistEstCm,
       whrTape,
       whtr,
       proportionScore: pScore,

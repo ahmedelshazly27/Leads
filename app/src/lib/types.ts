@@ -126,7 +126,8 @@ export interface BodyMetrics {
   armSymmetry: number; // 0..100
   bmi: number | null;
   bodyFatEstimate: number | null; // %
-  bodyFatMethod: "navy" | "deurenberg" | null;
+  bodyFatMethod: "navy" | "deurenberg" | "rfm-photo" | null;
+  waistEstCm: number | null; // photo-estimated waist circumference (front width + side depth + height)
   whrTape: number | null; // circumference waist/hip (tape)
   whtr: number | null; // waist / height (tape)
   feetVisible: boolean;

@@ -59,7 +59,7 @@ function MissingData({ fields }: { fields: string[] }) {
   return (
     <div className="bd-missing">
       <div>
-        <b>Add {fields.join(", ")}</b> to unlock validated body-composition estimates (BMI, US Navy body fat, waist-to-height).
+        <b>Add {fields.join(", ")}</b> to unlock body-composition estimates (BMI, body fat, waist-to-height).
       </div>
       <Link to="/analysis/about-you" className="btn btn-ghost">Update About You</Link>
     </div>
@@ -74,9 +74,6 @@ export function BodyOverview(p: SectionProps) {
   const missing = [
     !i.heightCm && "height",
     !i.weightKg && "weight",
-    !i.waistCm && "waist",
-    !i.neckCm && "neck",
-    i.gender === "female" && !i.hipCm && "hip",
   ].filter(Boolean) as string[];
   const swrRef = i.gender === "female" ? "≈1.35" : "≈1.6";
   return (
@@ -131,7 +128,7 @@ export function BodyOverview(p: SectionProps) {
               note={m.bodyFatMethod === "navy" ? "US Navy method" : m.bodyFatMethod === "deurenberg" ? "Deurenberg (BMI) estimate" : "Needs measurements"}
               tone="muted"
             />
-            <Metric label="Waist : height" value={m.whtr ? m.whtr.toFixed(2) : "—"} note={m.whtr ? (m.whtr >= 0.5 ? "≥ 0.5 — raised risk" : "< 0.5 — healthy") : "Needs waist & height"} tone={m.whtr && m.whtr >= 0.5 ? "warn" : "muted"} />
+            <Metric label="Waist : height" value={m.whtr ? m.whtr.toFixed(2) : "—"} note={m.whtr ? (m.whtr >= 0.5 ? "≥ 0.5 — raised risk" : "< 0.5 — healthy") : "Needs height + side photo"} tone={m.whtr && m.whtr >= 0.5 ? "warn" : "muted"} />
             <Metric label="Front posture" value={`${Math.round(m.postureScore)}`} note={band(m.postureScore)} tone="muted" />
             {side && (
               <Metric
@@ -287,7 +284,7 @@ export function Composition(p: SectionProps) {
   const body = p.scan.body!;
   const m = body.metrics;
   const i = p.profile.intake;
-  const missing = [!i.heightCm && "height", !i.weightKg && "weight", !i.waistCm && "waist", !i.neckCm && "neck", i.gender === "female" && !i.hipCm && "hip"].filter(Boolean) as string[];
+  const missing = [!i.heightCm && "height", !i.weightKg && "weight"].filter(Boolean) as string[];
   const bfIdeal = i.gender === "female" ? [18, 26] : i.gender === "male" ? [10, 18] : [14, 22];
   return (
     <div className="page">
@@ -311,9 +308,11 @@ export function Composition(p: SectionProps) {
           <p className="bd-note">
             {m.bodyFatMethod === "navy"
               ? "US Navy circumference method (Hodgdon & Beckett 1984), standard error ≈ ±3–4%."
-              : m.bodyFatMethod === "deurenberg"
-                ? "Deurenberg BMI equation (1991), standard error ≈ ±4%. Add waist and neck for the more accurate Navy method."
-                : "Needs height & weight (Deurenberg) or tape measures (US Navy)."}
+              : m.bodyFatMethod === "rfm-photo"
+                ? `Average of the Deurenberg BMI equation (1991) and Relative Fat Mass (Woolcott & Bergman 2018) using your photo-estimated waist of ~${m.waistEstCm?.toFixed(0)} cm. Treat as ±5 points.`
+                : m.bodyFatMethod === "deurenberg"
+                  ? "Deurenberg BMI equation (1991), standard error ≈ ±4%. Add a side photo to include the waist-based estimate."
+                  : "Needs height & weight."}
           </p>
         </div>
         <div className="bd-card">
@@ -321,8 +320,8 @@ export function Composition(p: SectionProps) {
             <span className="mono-sm">Waist-to-height</span>
             <span className="bd-big">{m.whtr ? m.whtr.toFixed(2) : "—"}</span>
           </div>
-          {m.whtr ? <SpectrumBar value={(m.whtr - 0.35) / 0.3} labels={["0.35", "0.50", "0.65"]} /> : <p className="bd-na">Add waist and height.</p>}
-          <p className="bd-note">Keep waist below half your height; ≥ 0.5 flags raised cardiometabolic risk (Ashwell 2012).</p>
+          {m.whtr ? <SpectrumBar value={(m.whtr - 0.35) / 0.3} labels={["0.35", "0.50", "0.65"]} /> : <p className="bd-na">Needs height and a side photo.</p>}
+          <p className="bd-note">{m.waistEstCm && !i.waistCm ? `Waist estimated from your photos (~${m.waistEstCm.toFixed(0)} cm). ` : ""}Keep waist below half your height; ≥ 0.5 flags raised cardiometabolic risk (Ashwell 2012).</p>
         </div>
         <div className="bd-card">
           <div className="bd-card-head">

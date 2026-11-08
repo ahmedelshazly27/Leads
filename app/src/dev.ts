@@ -35,8 +35,8 @@ export function installDevHooks() {
       gender: "male",
       age: 20,
       ethnicity: "Middle Eastern",
-      heightCm: null,
-      weightKg: null,
+      heightCm: 175,
+      weightKg: 82,
       waistCm: null,
       hipCm: null,
       neckCm: null,
@@ -59,8 +59,10 @@ export function installDevHooks() {
     setVisuals(id, {
       baseline: v + "baseline.jpg",
       after: v + "after.jpg",
+      body: { front: v + "body_front.jpg", side: v + "body_side.jpg", afterFront: v + "body_after_front.jpg", afterSide: v + "body_after_side.jpg" },
       styles: [
-        { name: "Natural medium hair", front: v + "after.jpg", left: v + "after_left.jpg", right: v + "after_right.jpg" },
+        { name: "Loose waves (chosen)", front: v + "after.jpg", left: v + "after_left.jpg", right: v + "after_right.jpg" },
+        { name: "Natural curls", front: v + "curls_front.jpg", left: v + "curls_left.jpg", right: v + "curls_right.jpg" },
         { name: "Wavy slick back · Italian beard", front: v + "italian_front.jpg", left: v + "italian_left.jpg", right: v + "italian_right.jpg" },
         { name: "Flowing curly slick back", front: v + "flow_front.jpg", left: v + "flow_left.jpg", right: v + "flow_right.jpg" },
       ],
