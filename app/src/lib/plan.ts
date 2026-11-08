@@ -48,6 +48,8 @@ export interface PlanItem {
   /** shown in the "after" image */
   visual?: string;
   clinical?: boolean;
+  /** partner category that can deliver this item (booking requests) */
+  partner?: import("./partners").PartnerCategory;
 }
 
 export interface Myth {
@@ -573,6 +575,87 @@ export function buildPlan(scan: Scan, intake: Intake): Plan {
       tasks: [{ id: "alcohol", label: "Alcohol-free day", cadence: "daily" }],
     });
   }
+
+  /* ----------------------- Optional clinical + partner items ----------------------- */
+  const covAvg = face ? face.skin.reduce((a, r) => a + r.coverage, 0) / Math.max(1, face.skin.length) : 0;
+  if (intake.preferences !== "non-invasive" && face && (intake.activeAcne || covAvg > 0.03)) {
+    items.push({
+      id: "derm-scars",
+      category: "Clinical (optional)",
+      title: "Dermatologist consult: acne-scar & mark treatments",
+      why: `Flagged marks/texture cover ${fmtPct(covAvg)} of measured skin. Once active acne is controlled, procedures such as microneedling and chemical peels improve residual scarring; a randomised trial found microneedling improved acne scars vs. control.`,
+      how: [
+        "Control active acne first (see the retinoid / benzoyl peroxide item)",
+        "A dermatologist assesses scar type and skin type before choosing microneedling, peels or lasers",
+        "Darker skin types need settings that limit post-inflammatory pigmentation",
+      ],
+      grade: "B",
+      refs: ["alam2014", "zaenglein2016"],
+      phase: 3,
+      timeToVisible: "3–6 months (several sessions)",
+      monthly: [0, 0],
+      oneOff: [150, 600],
+      impact: { skin: 4 },
+      drivenBy: ["Skin texture", "Marks"],
+      priority: 3,
+      tasks: [{ id: "derm", label: "Dermatology consultation", cadence: "once" }],
+      clinical: true,
+      partner: "dermatology",
+    });
+  }
+  if (intake.preferences !== "non-invasive") {
+    items.push({
+      id: "aesthetic-consult",
+      category: "Clinical (optional)",
+      title: "Non-surgical aesthetic consultation",
+      why: "You said you're open to clinical options. We don't recommend specific injectables (e.g. botulinum toxin, fillers) from photos; a licensed practitioner assesses suitability, risks and dosing in person.",
+      how: [
+        "Book a consultation only — no treatment is booked from this plan",
+        "Bring your report; the practitioner decides whether any treatment is appropriate",
+        "Prioritise the habit-based steps first: most visible change comes from skin, body fat and sleep",
+      ],
+      grade: "C",
+      refs: [],
+      phase: 3,
+      timeToVisible: "Depends on the practitioner's advice",
+      monthly: [0, 0],
+      oneOff: [0, 300],
+      impact: {},
+      drivenBy: ["Your preference"],
+      priority: 3,
+      tasks: [{ id: "aesthetic", label: "Aesthetic consultation", cadence: "once" }],
+      clinical: true,
+      partner: "aesthetic",
+    });
+  }
+  if (body) {
+    items.push({
+      id: "inbody",
+      category: "Body composition",
+      title: "Baseline InBody scan (optional)",
+      why: "Your body fat is estimated from BMI and a photo-based waist; equations like these carry errors of ±4–5 points. A bioimpedance scan (InBody) gives a better baseline and lets the plan track fat vs. muscle separately.",
+      how: ["One scan now and one every 3 months, same time of day, fasted and before training"],
+      grade: "B",
+      refs: ["deurenberg1991", "woolcott2018"],
+      phase: 1,
+      timeToVisible: "Immediate (measurement)",
+      monthly: [0, 0],
+      oneOff: [80, 200],
+      impact: {},
+      drivenBy: ["Body-fat estimate"],
+      priority: 3,
+      tasks: [{ id: "inbody", label: "InBody scan", cadence: "once" }],
+      partner: "bodycomp",
+    });
+  }
+  const partnerOf: Record<string, import("./partners").PartnerCategory> = {
+    fatloss: "nutrition",
+    protein: "nutrition",
+    lifting: "trainer",
+    acne: "dermatology",
+    haircut: "barber",
+  };
+  for (const it of items) if (!it.partner && partnerOf[it.id]) it.partner = partnerOf[it.id];
 
   if (intake.preferences === "non-invasive") {
     for (let i = items.length - 1; i >= 0; i--) if (items[i].clinical && items[i].id !== "hairloss") items.splice(i, 1);

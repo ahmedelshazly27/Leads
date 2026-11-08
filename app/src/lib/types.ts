@@ -212,4 +212,20 @@ export interface AppState {
   progress: Record<string, Record<string, string>>;
   settings: { units: "metric" | "imperial"; currency: "EUR" | "USD" | "GBP"; photoMode?: "studio" | "original" };
   visuals: Record<string, Visuals>; // scanId -> generated images (data URLs or https)
+  bookings?: Booking[];
+}
+
+/** A partner booking request. The team confirms availability with the partner (human in the loop). */
+export interface Booking {
+  id: string;
+  profileId: string;
+  partnerId: string;
+  serviceId: string;
+  createdAt: string;
+  preferredDate: string;
+  preferredTime: "morning" | "afternoon" | "evening";
+  notes: string;
+  shared: { contact: boolean; macros?: boolean; training?: boolean; allergies?: boolean; planSection?: string[]; photos: false };
+  payload: Record<string, unknown>;
+  status: "requested" | "confirmed" | "declined" | "completed";
 }

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useRef, useState } from "react";
 import { PageHeader, Toggle } from "../components/ui";
 import { Download } from "../components/icons";
@@ -21,7 +22,18 @@ export function Settings() {
 
   return (
     <div className="page" style={{ maxWidth: 860 }}>
-      <PageHeader kicker="Settings" muted="Your" strong="settings" lead="Display preferences and your data." />
+      <PageHeader
+        kicker="Settings"
+        muted="Your"
+        strong="settings"
+        lead="Display preferences and your data."
+        right={
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+            <Link to="/requests" className="btn btn-ghost">Booking requests (admin)</Link>
+            <Link to="/" className="btn btn-ghost">About &amp; pricing</Link>
+          </div>
+        }
+      />
       <div className="bt-card" style={{ padding: "4px 22px" }}>
         <div className="st-row">
           <div>

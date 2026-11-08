@@ -453,6 +453,22 @@ export const REFS: Record<string, Reference> = {
     source: "Scientific Reports 8:10980",
     finding: "RFM = 64 − 20 × (height/waist) (+12 for women) estimated DXA body fat better than BMI.",
   },
+  mifflin1990: {
+    id: "mifflin1990",
+    authors: "Mifflin MD, St Jeor ST, Hill LA, Scott BJ, Daugherty SA, Koh YO",
+    year: 1990,
+    title: "A new predictive equation for resting energy expenditure in healthy individuals",
+    source: "American Journal of Clinical Nutrition 51(2):241–247",
+    finding: "Predicts resting energy expenditure within ~10% for most adults; the most accurate common equation.",
+  },
+  alam2014: {
+    id: "alam2014",
+    authors: "Alam M, Han S, Pongprutthipan M, et al.",
+    year: 2014,
+    title: "Efficacy of a needling device for the treatment of acne scars: a randomized clinical trial",
+    source: "JAMA Dermatology 150(8):844–849",
+    finding: "Microneedling improved acne-scar appearance vs. control in a split-face randomised trial.",
+  },
   saitoh1970: {
     id: "saitoh1970",
     authors: "Saitoh M, Uzuka M, Sakamoto M",

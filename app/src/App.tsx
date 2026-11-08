@@ -8,7 +8,8 @@ import { Visualization } from "./pages/Visualization";
 import { Settings } from "./pages/Settings";
 import { ProtocolViewer } from "./pages/ProtocolViewer";
 import { Stack } from "./pages/Stack";
-import { Plans } from "./pages/Plans";
+import { Landing } from "./pages/Landing";
+import { Requests } from "./pages/Requests";
 import { useReady } from "./lib/store";
 
 export function App() {
@@ -16,7 +17,9 @@ export function App() {
   if (!ready) return null;
   return (
     <Routes>
+      <Route path="/" element={<Landing />} />
       <Route path="/protocol" element={<ProtocolViewer />} />
+      <Route path="/plans" element={<Navigate to="/#reports" replace />} />
       <Route element={<AppShell />}>
         <Route path="/protocols" element={<Protocols />} />
         <Route path="/new" element={<NewScan />} />
@@ -25,7 +28,7 @@ export function App() {
         <Route path="/visualization" element={<Visualization />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/stack" element={<Stack />} />
-        <Route path="/plans" element={<Plans />} />
+        <Route path="/requests" element={<Requests />} />
         <Route path="/analysis" element={<Navigate to="/analysis/getting-started" replace />} />
         <Route path="/analysis/:section" element={<AnalysisRouter />} />
         <Route path="*" element={<Navigate to="/protocols" replace />} />

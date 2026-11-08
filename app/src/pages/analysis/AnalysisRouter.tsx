@@ -13,6 +13,8 @@ import * as F from "./Features";
 import * as I from "./Intro";
 import * as P from "./Protocol";
 import { Skin } from "./Skin";
+import { Nutrition } from "./Nutrition";
+import { Partners } from "./Partners";
 import { Eyebrows } from "./Eyebrows";
 import { BodyProportions } from "./BodyProportions";
 import type { SectionProps } from "./types";
@@ -54,6 +56,8 @@ const SECTIONS: Record<string, ComponentType<SectionProps>> = {
   recommendations: P.Recommendations,
   "action-plan": P.ActionPlan,
   estimations: P.Estimations,
+  nutrition: Nutrition,
+  partners: Partners,
   progress: P.Progress,
   summary: P.Summary,
 };
@@ -61,7 +65,7 @@ const SECTIONS: Record<string, ComponentType<SectionProps>> = {
 /** Sections whose numbers are read from photo pixels: always show the original. */
 const ORIGINAL_ONLY = new Set(["skin", "contrast"]);
 /** Sections that don't show analysis photos (no switch needed). */
-const NO_PHOTO = new Set(["getting-started", "about-you", "methodology", "recommendations", "action-plan", "estimations", "progress"]);
+const NO_PHOTO = new Set(["getting-started", "about-you", "methodology", "recommendations", "action-plan", "estimations", "progress", "nutrition", "partners"]);
 
 export function AnalysisRouter() {
   const { section = "getting-started" } = useParams();

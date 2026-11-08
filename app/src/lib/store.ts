@@ -62,6 +62,7 @@ const empty = (): AppState => ({
   progress: {},
   settings: { units: "metric", currency: "EUR" },
   visuals: {},
+  bookings: [],
 });
 
 let state: AppState = empty();
@@ -84,7 +85,7 @@ function set(next: AppState) {
 export async function initStore() {
   try {
     const saved = await idbGet<AppState>(STATE_KEY);
-    if (saved && saved.version === 1) state = { ...empty(), ...saved, settings: { ...empty().settings, ...saved.settings }, visuals: saved.visuals ?? {} };
+    if (saved && saved.version === 1) state = { ...empty(), ...saved, settings: { ...empty().settings, ...saved.settings }, visuals: saved.visuals ?? {}, bookings: saved.bookings ?? [] };
     for (const scan of state.scans) {
       for (const kind of ["face", "body", "side"] as const) {
         const url = await idbGet<string>(`photo:${scan.id}:${kind}`);
@@ -240,4 +241,16 @@ export async function resetAll() {
   photos.clear();
   await Promise.all(keys.map((k) => idbDel(`photo:${k}`).catch(() => {})));
   set(empty());
+}
+
+/* ----------------------------- Bookings --------------------------- */
+
+export function addBooking(b: Omit<import("./types").Booking, "id" | "createdAt" | "status">) {
+  const booking = { ...b, id: uid(), createdAt: new Date().toISOString(), status: "requested" as const };
+  set({ ...state, bookings: [...(state.bookings ?? []), booking] });
+  return booking;
+}
+
+export function updateBookingStatus(id: string, status: import("./types").Booking["status"]) {
+  set({ ...state, bookings: (state.bookings ?? []).map((b) => (b.id === id ? { ...b, status } : b)) });
 }
