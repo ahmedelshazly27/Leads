@@ -67,7 +67,7 @@ function SectionNav() {
               {isOpen && (
                 <div className="secnav-items">
                   {group.items.map((item) => {
-                    const missing = item.needs && !(item.needs === "face" ? scan?.face : scan?.body);
+                    const missing = item.needs && !(item.needs === "face" ? scan?.face : item.needs === "side" ? scan?.bodySide : scan?.body);
                     return (
                       <NavLink
                         key={item.id}

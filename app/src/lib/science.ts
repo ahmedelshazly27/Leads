@@ -413,6 +413,38 @@ export const REFS: Record<string, Reference> = {
     source: "Naval Health Research Center, Reports No. 84-11 and 84-29",
     finding: "Circumference-based body-fat equations used by the US Navy (SEE ≈ 3–4%).",
   },
+  yip2008: {
+    id: "yip2008",
+    authors: "Yip CHT, Chiu TTW, Poon ATK",
+    year: 2008,
+    title: "The relationship between head posture and severity and disability of patients with neck pain",
+    source: "Manual Therapy 13(2):148–154",
+    finding: "A smaller craniovertebral angle (more forward head posture) was associated with greater neck pain severity and disability.",
+  },
+  sheikhhoseini2018: {
+    id: "sheikhhoseini2018",
+    authors: "Sheikhhoseini R, Shahrbanian S, Sayyadi P, O'Sullivan K",
+    year: 2018,
+    title: "Effectiveness of therapeutic exercise on forward head posture: a systematic review and meta-analysis",
+    source: "Journal of Manipulative and Physiological Therapeutics 41(6):530–539",
+    finding: "Therapeutic exercise (strengthening + stretching) improved forward head posture vs. controls.",
+  },
+  vispute2011: {
+    id: "vispute2011",
+    authors: "Vispute SS, Smith JD, LeCheminant JD, Hurley KS",
+    year: 2011,
+    title: "The effect of abdominal exercise on abdominal fat",
+    source: "Journal of Strength and Conditioning Research 25(9):2559–2564",
+    finding: "Six weeks of abdominal exercise alone did not reduce abdominal fat — no spot reduction.",
+  },
+  pouliot1994: {
+    id: "pouliot1994",
+    authors: "Pouliot MC, Després JP, Lemieux S, et al.",
+    year: 1994,
+    title: "Waist circumference and abdominal sagittal diameter: best simple anthropometric indexes of abdominal visceral adipose tissue accumulation and related cardiovascular risk in men and women",
+    source: "American Journal of Cardiology 73(7):460–468",
+    finding: "Abdominal depth (sagittal diameter) and waist circumference track visceral fat closely.",
+  },
   saitoh1970: {
     id: "saitoh1970",
     authors: "Saitoh M, Uzuka M, Sakamoto M",
@@ -517,6 +549,29 @@ export const METHODS: Record<string, Method> = {
     refs: ["deurenberg1991", "who2008"],
   },
 };
+
+Object.assign(METHODS, {
+  sidePosture: {
+    how: "From the side photo: angle of the ear–shoulder line from horizontal (a proxy for the craniovertebral angle, which clinically uses C7), how far the ear and shoulder sit ahead of the hip, and trunk lean.",
+    norm: "Ideal standing alignment stacks ear, shoulder and hip on one vertical line. Because the shoulder joint sits in front of C7, the proxy angle reads higher than clinical CVA values (clinical forward-head cut-offs ≈ 48–50°).",
+    refs: ["yip2008", "kendall2005"],
+  },
+  core: {
+    how: "From the side silhouette: depth at the navel compared with chest depth, and how far the belly sits in front of the chest line — a photographic proxy for abdominal sagittal diameter.",
+    norm: "In lean men the navel-level depth is usually below chest depth; a belly deeper than the chest indicates central fat. Confirm with a tape waist measurement (waist-to-height < 0.5).",
+    refs: ["pouliot1994", "ashwell2012"],
+  },
+  bodySymmetry: {
+    how: "Left and right half-widths from the body midline at shoulder, waist and hip level, plus arm length comparison.",
+    norm: "Differences under ~3% are within normal variation and photo error.",
+    refs: ["kendall2005"],
+  },
+  physique: {
+    how: "Combines shoulder-to-waist ratio, upper-arm thickness relative to shoulders and central fat cues — the cues raters use to judge strength and fitness.",
+    norm: "Perceived upper-body strength explains most of the variance in men's bodily attractiveness; waist-to-hip ≈ 0.7 is most preferred in women.",
+    refs: ["sell2017", "singh1993"],
+  },
+});
 
 export const LIMITATIONS = [
   "A single 2D photo cannot capture depth (e.g. chin projection, nasal profile). Lens distance distorts proportions — selfies taken closer than ~1 m widen the nose and narrow the face.",

@@ -130,6 +130,13 @@ export interface BodyMetrics {
   whrTape: number | null; // circumference waist/hip (tape)
   whtr: number | null; // waist / height (tape)
   feetVisible: boolean;
+  // frontal widths, normalized to torso length
+  chestWidth: number;
+  upperArmWidth: number; // average of both arms at mid upper-arm
+  thighWidth: number | null; // average of both thighs below the crotch
+  armToShoulder: number; // upper-arm width / shoulder width (muscularity cue)
+  lrBalance: number; // % difference between left and right half-widths (0 = symmetric)
+  lrDetail: { shoulder: number; waist: number; hip: number }; // signed %, + = image-right wider
   postureScore: number; // 0..100
   proportionScore: number; // 0..100
   compositionScore: number; // 0..100
@@ -143,6 +150,36 @@ export interface BodyResult {
   lines: { shoulder: [Pt, Pt]; waist: [Pt, Pt]; hip: [Pt, Pt] } | null;
 }
 
+export interface SideMetrics {
+  facing: "left" | "right";
+  earShoulderAngle: number; // deg from horizontal (CVA proxy), higher = more upright head
+  headForward: number; // ear ahead of shoulder, % of torso length
+  shoulderForward: number; // shoulder ahead of hip, % of torso length (rounded / slumped)
+  trunkLean: number; // deg of shoulder→hip line from vertical, + = leaning forward
+  chestDepth: number; // normalized to torso length
+  waistDepth: number;
+  waistToChestDepth: number; // sagittal abdominal proxy; >1 = belly deeper than chest
+  bellyProtrusion: number; // belly front ahead of chest front, % torso
+  lumbarCurve: number; // depth of lower-back concavity, % torso
+  upperBackCurve: number; // rounding of the upper back, % torso
+  postureScore: number;
+  coreScore: number;
+}
+
+export interface SideResult {
+  landmarks: Pt[] | null;
+  imageAspect: number;
+  metrics: SideMetrics;
+  lines: {
+    plumb: [Pt, Pt]; // vertical through the ankle/knee or hip
+    ear: Pt;
+    shoulder: Pt;
+    hip: Pt;
+    chest: [Pt, Pt];
+    waist: [Pt, Pt];
+  } | null;
+}
+
 /* ------------------------------ Scans ----------------------------- */
 
 export interface Scan {
@@ -153,12 +190,15 @@ export interface Scan {
   body: BodyResult | null;
   hasFacePhoto: boolean;
   hasBodyPhoto: boolean;
+  bodySide?: SideResult | null;
+  hasSidePhoto?: boolean;
 }
 
 /** Generated images for a scan (baseline "model", end-of-plan "after", style previews). */
 export interface Visuals {
   baseline?: string;
   after?: string;
+  body?: { front?: string; side?: string; afterFront?: string; afterSide?: string };
   styles?: { name: string; front?: string; left?: string; right?: string }[];
 }
 

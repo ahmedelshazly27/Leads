@@ -1,4 +1,4 @@
-import type { BodyMetrics, BodyResult, Intake, Pt } from "./types";
+import type { BodyMetrics, BodyResult, Intake, Pt, SideMetrics, SideResult } from "./types";
 import type { PoseDetection } from "./vision";
 import { clamp, closeness, deg, dist, mean, mid } from "./geometry";
 
@@ -211,6 +211,45 @@ export function analyseBody(det: PoseDetection, intake: Intake, imgW: number, im
   const waistW = waistRun[1] - waistRun[0];
   const hipW = hipRun[1] - hipRun[0];
 
+  /* ---- extra frontal widths: chest, upper arms, thighs, left/right balance ---- */
+  let chestW = shoulderW * 0.85;
+  const upperArms: number[] = [];
+  const thighs: number[] = [];
+  if (mask) {
+    const cy = sh[1] + torso * 0.3;
+    const c = runAt(mask, xAt(cy), cy, limitsAt(cy));
+    if (c) chestW = c[1] - c[0];
+    for (const [s0, e0] of [[B.lShoulder, B.lElbow], [B.rShoulder, B.rElbow]] as const) {
+      const m = mid(P[s0], P[e0]);
+      const r = runAt(mask, m[0], m[1]);
+      // if the arm touches the torso the run explodes; ignore those
+      if (r && r[1] - r[0] < lmShoulder * 0.45) upperArms.push(r[1] - r[0]);
+    }
+    const ty = hp[1] + torso * 0.3;
+    if (ty < mh - 2) {
+      for (const h of [B.lHip, B.rHip]) {
+        const knee = h === B.lHip ? B.lKnee : B.rKnee;
+        const x = det.visibility[knee] > 0.5 ? P[h][0] + (P[knee][0] - P[h][0]) * 0.3 : P[h][0];
+        const r = runAt(mask, x, ty);
+        if (r && r[1] - r[0] < lmHip * 1.4) thighs.push(r[1] - r[0]);
+      }
+    }
+  }
+  const upperArmW = upperArms.length ? mean(upperArms) : lmShoulder * 0.28;
+  const thighW = thighs.length ? mean(thighs) : null;
+  const halfDiff = (run: [number, number], y: number) => {
+    const midX = xAt(y);
+    const l = midX - run[0];
+    const r = run[1] - midX;
+    return ((r - l) / Math.max(1, (l + r) / 2)) * 100;
+  };
+  const lrDetail = {
+    shoulder: halfDiff(shoulderRun, sh[1] + torso * 0.08),
+    waist: halfDiff(waistRun, waistY),
+    hip: halfDiff(hipRun, hipY),
+  };
+  const lrBalance = mean([Math.abs(lrDetail.shoulder), Math.abs(lrDetail.waist), Math.abs(lrDetail.hip)]);
+
   const lineTilt = (a: Pt, b: Pt) => {
     const [left, right] = a[0] < b[0] ? [a, b] : [b, a];
     return deg(Math.atan2(right[1] - left[1], right[0] - left[0]));
@@ -254,6 +293,12 @@ export function analyseBody(det: PoseDetection, intake: Intake, imgW: number, im
     whrTape,
     whtr,
     feetVisible: hasLegs,
+    chestWidth: chestW / torso,
+    upperArmWidth: upperArmW / torso,
+    thighWidth: thighW != null ? thighW / torso : null,
+    armToShoulder: upperArmW / shoulderW,
+    lrBalance,
+    lrDetail,
     postureScore: postScore,
     proportionScore: pScore,
     compositionScore: cScore,
@@ -299,6 +344,129 @@ export function refreshBody(body: BodyResult, intake: Intake): BodyResult {
       proportionScore: pScore,
       compositionScore: cScore,
       bodyScore: clamp(pScore * 0.4 + m.postureScore * 0.25 + cScore * 0.35),
+    },
+  };
+}
+
+/* ------------------------------------------------------------------ */
+/*  Side view: sagittal posture and abdominal depth                    */
+/* ------------------------------------------------------------------ */
+
+const SIDE = {
+  l: { ear: 7, shoulder: 11, hip: 23, knee: 25, ankle: 27 },
+  r: { ear: 8, shoulder: 12, hip: 24, knee: 26, ankle: 28 },
+};
+
+/**
+ * The clinical craniovertebral angle uses C7; pose models give the shoulder joint,
+ * so this proxy reads higher. Target: ear stacked over the shoulder (≈ 80–90°).
+ */
+export function sidePostureScore(m: Pick<SideMetrics, "earShoulderAngle" | "headForward" | "shoulderForward" | "trunkLean">) {
+  return clamp(
+    100 -
+      Math.max(0, 80 - m.earShoulderAngle) * 1.6 -
+      Math.max(0, m.headForward - 5) * 1.2 -
+      Math.abs(m.shoulderForward) * 1 -
+      Math.abs(m.trunkLean) * 2,
+    10,
+    99,
+  );
+}
+
+export function coreScore(waistToChestDepth: number, bellyProtrusion: number) {
+  return clamp(100 - Math.max(0, waistToChestDepth - 0.85) * 160 - Math.max(0, bellyProtrusion) * 2.5, 10, 99);
+}
+
+export function analyseSide(det: PoseDetection, imgW: number, imgH: number): SideResult {
+  const L = det.landmarks;
+  const mask = det.mask;
+  const mw = mask?.width ?? imgW;
+  const mh = mask?.height ?? imgH;
+  const P = L.map(([x, y]) => [x * mw, y * mh] as Pt);
+  const vis = det.visibility;
+  // use whichever side of the body faces the camera more
+  const sideKey = vis[SIDE.l.shoulder] + vis[SIDE.l.ear] + vis[SIDE.l.hip] >= vis[SIDE.r.shoulder] + vis[SIDE.r.ear] + vis[SIDE.r.hip] ? "l" : "r";
+  const S = SIDE[sideKey];
+  const ear = P[S.ear], sh = P[S.shoulder], hp = P[S.hip];
+  // facing: nose relative to ear
+  const facing: "left" | "right" = P[0][0] < ear[0] ? "left" : "right";
+  const dir = facing === "left" ? -1 : 1; // + = towards the front of the body
+  const torso = Math.max(1, hp[1] - sh[1]);
+
+  // ear–shoulder angle from horizontal (proxy for the craniovertebral angle)
+  const dx = (ear[0] - sh[0]) * dir;
+  const dy = sh[1] - ear[1];
+  const earShoulderAngle = deg(Math.atan2(dy, Math.max(1e-6, dx)));
+  const headForward = (dx / torso) * 100;
+  const shoulderForward = (((sh[0] - hp[0]) * dir) / torso) * 100;
+  const trunkLean = deg(Math.atan2((sh[0] - hp[0]) * dir, torso));
+
+  // silhouette depths
+  const midX = (y: number) => sh[0] + ((hp[0] - sh[0]) * (y - sh[1])) / torso;
+  const run = (y: number) => (mask ? runAt(mask, midX(y), y) : null);
+  const chestY = sh[1] + torso * 0.3;
+  const waistY = sh[1] + torso * 0.75;
+  const chestRun = run(chestY);
+  const waistRun = run(waistY);
+  const front = (r: [number, number]) => (dir < 0 ? r[0] : r[1]);
+  const back = (r: [number, number]) => (dir < 0 ? r[1] : r[0]);
+  const chestDepth = chestRun ? chestRun[1] - chestRun[0] : torso * 0.45;
+  const waistDepth = waistRun ? waistRun[1] - waistRun[0] : torso * 0.4;
+  const bellyProtrusion = chestRun && waistRun ? (((front(waistRun) - front(chestRun)) * dir) / torso) * 100 : 0;
+
+  // back-edge curvature: compare the back edge with the straight line from upper back to glutes
+  let lumbarCurve = 0;
+  let upperBackCurve = 0;
+  if (mask) {
+    const edge: { t: number; x: number }[] = [];
+    for (let t = 0.1; t <= 1.15; t += 0.05) {
+      const y = sh[1] + torso * t;
+      if (y >= mh - 2) break;
+      const r = run(y);
+      if (r) edge.push({ t, x: back(r) });
+    }
+    if (edge.length > 6) {
+      const a = edge[0], b = edge[edge.length - 1];
+      const off = (e: { t: number; x: number }) => {
+        const lineX = a.x + ((b.x - a.x) * (e.t - a.t)) / Math.max(1e-6, b.t - a.t);
+        return ((e.x - lineX) * dir) / torso; // + = inward (towards the front)
+      };
+      const lower = edge.filter((e) => e.t > 0.55 && e.t < 1.0).map(off);
+      const upper = edge.filter((e) => e.t > 0.15 && e.t < 0.5).map(off);
+      lumbarCurve = Math.max(0, ...lower) * 100;
+      upperBackCurve = Math.max(0, ...upper.map((v) => -v)) * 100;
+    }
+  }
+
+  const base = { earShoulderAngle, headForward, shoulderForward, trunkLean };
+  const metrics: SideMetrics = {
+    facing,
+    earShoulderAngle,
+    headForward,
+    shoulderForward,
+    trunkLean,
+    chestDepth: chestDepth / torso,
+    waistDepth: waistDepth / torso,
+    waistToChestDepth: waistDepth / chestDepth,
+    bellyProtrusion,
+    lumbarCurve,
+    upperBackCurve,
+    postureScore: sidePostureScore(base),
+    coreScore: coreScore(waistDepth / chestDepth, bellyProtrusion),
+  };
+  const n = (p: Pt): Pt => [p[0] / mw, p[1] / mh];
+  const ankle = vis[S.ankle] > 0.5 && L[S.ankle][1] < 0.99 ? P[S.ankle] : P[S.knee] && vis[S.knee] > 0.5 ? P[S.knee] : hp;
+  return {
+    landmarks: L,
+    imageAspect: imgW / imgH,
+    metrics,
+    lines: {
+      plumb: [n([ankle[0], 0]), n([ankle[0], mh])],
+      ear: n(ear),
+      shoulder: n(sh),
+      hip: n(hp),
+      chest: chestRun ? [n([chestRun[0], chestY]), n([chestRun[1], chestY])] : [n([sh[0], chestY]), n([sh[0], chestY])],
+      waist: waistRun ? [n([waistRun[0], waistY]), n([waistRun[1], waistY])] : [n([hp[0], waistY]), n([hp[0], waistY])],
     },
   };
 }

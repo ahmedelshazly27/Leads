@@ -23,6 +23,7 @@ export function useActive() {
     scan,
     facePhoto: scan ? photoUrl(scan.id, "face") : null,
     bodyPhoto: scan ? photoUrl(scan.id, "body") : null,
+    sidePhoto: scan ? photoUrl(scan.id, "side") : null,
     progress: profile ? s.progress[profile.id] ?? {} : {},
     select: setActiveProfile,
   };

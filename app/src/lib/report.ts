@@ -5,7 +5,7 @@ import { clamp, closeness, mean, sigmoid } from "./geometry";
 /*  Derived, user-facing scores (0..100, higher = better)              */
 /* ------------------------------------------------------------------ */
 
-export type ScoreKey = "skin" | "leanness" | "rested" | "symmetry" | "harmony" | "body" | "posture";
+export type ScoreKey = "skin" | "leanness" | "rested" | "symmetry" | "harmony" | "body" | "posture" | "core";
 
 export const SCORE_LABEL: Record<ScoreKey, string> = {
   skin: "Skin quality",
@@ -15,6 +15,7 @@ export const SCORE_LABEL: Record<ScoreKey, string> = {
   harmony: "Proportional harmony",
   body: "Body composition & shape",
   posture: "Posture",
+  core: "Core & waist",
 };
 
 /** Which scores habits can change. Bone-driven scores stay fixed in projections. */
@@ -26,6 +27,7 @@ export const MODIFIABLE: Record<ScoreKey, boolean> = {
   harmony: false,
   body: true,
   posture: true,
+  core: true,
 };
 
 export function regionOf(face: FaceResult, key: SkinRegionKey) {
@@ -80,6 +82,11 @@ export function currentScores(scan: Scan, intake: Intake): Partial<Record<ScoreK
     s.body = clamp(scan.body.metrics.proportionScore * 0.5 + scan.body.metrics.compositionScore * 0.5);
     s.posture = scan.body.metrics.postureScore;
   }
+  if (scan.bodySide) {
+    const side = scan.bodySide.metrics;
+    s.posture = s.posture != null ? (s.posture + side.postureScore) / 2 : side.postureScore;
+    s.core = side.coreScore;
+  }
   return s;
 }
 
@@ -91,6 +98,7 @@ const WEIGHTS: Record<ScoreKey, number> = {
   harmony: 1,
   body: 1,
   posture: 0.6,
+  core: 0.8,
 };
 
 export function overall(scores: Partial<Record<ScoreKey, number>>) {

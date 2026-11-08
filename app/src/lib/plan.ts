@@ -68,6 +68,11 @@ export const MYTHS: Myth[] = [
     refs: [],
   },
   {
+    title: "Ab exercises to lose belly fat",
+    verdict: "Spot reduction doesn't work: 6 weeks of ab training alone didn't reduce abdominal fat. Belly fat goes with overall fat loss.",
+    refs: ["vispute2011"],
+  },
+  {
     title: "Face yoga for lifting",
     verdict: "Only a small uncontrolled pilot (n=16) suggests modest cheek fullness changes. Optional, low priority.",
     refs: ["alam2018"],
@@ -222,9 +227,10 @@ export function buildPlan(scan: Scan, intake: Intake): Plan {
   const faceReliable = face && !face.capture?.closeRange;
   const faceFull = faceReliable ? face!.metrics.adiposity > 45 : false;
   const unknownBF = bf == null && !faceReliable;
+  const side = scan.bodySide?.metrics ?? null;
   const overTarget = bf != null ? bf > targetBF + 2 : faceFull;
   // With no reliable body-fat data, a narrow frontal waist-to-shoulder ratio is the only hint.
-  const hint = unknownBF && male && body != null && body.shoulderToWaist < 1.5;
+  const hint = unknownBF && ((male && body != null && body.shoulderToWaist < 1.5) || (side != null && side.waistToChestDepth > 0.92));
   if (overTarget || hint) {
     drivers.add("Facial fullness");
     let pace = "";
@@ -234,11 +240,13 @@ export function buildPlan(scan: Scan, intake: Intake): Plan {
       monthsToTarget = clamp(Math.ceil(fatToLose / perWeek / 4.3), 1, 24);
       pace = ` Reaching ~${targetBF}% means losing ~${fatToLose.toFixed(1)} kg of fat — about ${monthsToTarget} months at 0.7% of body weight per week.`;
     }
-    const lead = bf != null
+    const sideNote = side ? ` From the side, your navel-level depth is ${(side.waistToChestDepth * 100).toFixed(0)}% of your chest depth and your belly sits ${Math.max(0, side.bellyProtrusion).toFixed(0)}% of torso length in front of your chest.` : "";
+    const lead0 = bf != null
       ? `Estimated body fat ${bf.toFixed(0)}%.`
       : hint
         ? `Your frontal shoulder-to-waist ratio is ${body!.shoulderToWaist.toFixed(2)}, which suggests body fat above ~${targetBF}% (add height, weight and waist in About You to confirm).`
         : "Facial fullness is above the reference range.";
+    const lead = lead0 + sideNote;
     items.push({
       id: "fatloss",
       category: "Body composition",
@@ -256,7 +264,7 @@ export function buildPlan(scan: Scan, intake: Intake): Plan {
       timeToVisible: "Face changes visible after ~4–5 kg of fat loss",
       monthly: [0, 0],
       oneOff: [0, 0],
-      impact: { leanness: 30, body: 14, rested: 3 },
+      impact: { leanness: 30, body: 14, rested: 3, core: 22 },
       drivenBy: ["Body fat", "Facial adiposity"],
       priority: 1,
       tasks: [
@@ -264,7 +272,7 @@ export function buildPlan(scan: Scan, intake: Intake): Plan {
         { id: "steps", label: "8–10k steps", cadence: "daily" },
         { id: "weigh", label: "Weekly average weigh-in", cadence: "weekly" },
       ],
-      visual: `lower body fat (about ${targetBF}%): reduced cheek and under-chin fullness so his own cheekbones and jawline read more clearly, fat loss only, same bone structure and jaw width`,
+      visual: `lower body fat (about ${targetBF}%): reduced cheek and under-chin fullness so the existing cheekbones and jawline read more clearly; on the body a flatter stomach, smaller waist and less chest and love-handle fat; fat loss only, same bone structure`,
     });
   }
   items.push({
@@ -305,22 +313,30 @@ export function buildPlan(scan: Scan, intake: Intake): Plan {
 
   /* ------------------------------ Training -------------------------- */
   const swr = body?.shoulderToWaist ?? null;
+  const armRatio = body?.armToShoulder ?? null;
+  const focus: string[] = [];
+  if (male && swr != null && swr < 1.55) focus.push("side & rear delts and upper back (V-taper)");
+  if (armRatio != null && armRatio < 0.22) focus.push("arms (biceps, triceps)");
+  if (female) focus.push("glutes and upper back (shape & posture)");
+  if (!focus.length) focus.push("balanced full-body development");
   items.push({
     id: "lifting",
     category: "Training",
-    title:
-      male && swr != null && swr < 1.55
-        ? "Resistance training 3–4×/week with shoulder & back emphasis"
-        : "Resistance training 3–4×/week, full body",
-    why:
-      male && swr != null
-        ? `Your shoulder-to-waist ratio is ${swr.toFixed(2)} (reference ≈ 1.6). Perceived upper-body strength explains most of the variance in men's bodily attractiveness; training each muscle 2×/week with ≥10 weekly sets maximises growth.`
-        : "Training each muscle group at least twice weekly with ≥10 weekly sets maximises muscle gain and improves body shape and composition.",
+    title: `Resistance training 4×/week — priority: ${focus[0].split(" (")[0]}`,
+    why: [
+      swr != null ? `Shoulder-to-waist ratio ${swr.toFixed(2)} (reference ≈ ${female ? "1.35" : "1.6"}).` : "",
+      armRatio != null ? `Upper-arm width is ${(armRatio * 100).toFixed(0)}% of shoulder width.` : "",
+      male ? "Perceived upper-body strength explains most of the variance in men's bodily attractiveness." : "",
+      "Training each muscle ≥2×/week with ≥10 hard sets/week maximises muscle growth.",
+    ].filter(Boolean).join(" "),
     how: [
-      `Currently ${intake.trainingDays} day(s)/week — build to 3–4`,
-      "Each muscle 2×/week, 10–20 hard sets/week, 6–15 reps, 1–3 reps short of failure",
-      ...(male ? ["Extra lateral raises, pull-ups/rows and overhead press for shoulder width"] : ["Include glute and back work for shape and posture"]),
-      "Progressive overload: add reps or load each week",
+      `Currently ${intake.trainingDays} day(s)/week → 4 days: Upper A / Lower A / Upper B / Lower B`,
+      `Priority (${focus.join("; ")}): 14–18 sets/week; everything else 10–12 sets/week`,
+      ...(male && swr != null && swr < 1.55
+        ? ["Upper A: overhead press 3×6–10, pull-ups/lat pulldown 4×8–12, lateral raises 4×12–20, incline DB press 3×8–12, face pulls 3×15", "Upper B: chest-supported row 4×8–12, DB shoulder press 3×8–12, cable lateral raises 4×12–20, dips/bench 3×6–10, curls + triceps 3×10–15"]
+        : ["Upper days: a press, a row, a vertical pull, lateral raises, arms", "Lower days: squat or leg press, hinge (RDL), lunges, hamstring curls, calves"]),
+      "Lower A/B: squat or leg press 3×6–10, Romanian deadlift 3×8–10, walking lunges 3×10, leg curl 3×12, calf raises 3×12–15",
+      "Sets 1–3 reps short of failure; add a rep or a little weight every week (progressive overload)",
     ],
     grade: "A",
     refs: ["schoenfeld2016", "schoenfeld2017", ...(male ? ["sell2017"] : [])],
@@ -328,10 +344,16 @@ export function buildPlan(scan: Scan, intake: Intake): Plan {
     timeToVisible: "8–12 weeks",
     monthly: [25, 45],
     oneOff: [0, 0],
-    impact: { body: 12, posture: 4 },
-    drivenBy: swr != null ? ["Shoulder-to-waist ratio"] : ["Body composition"],
+    impact: { body: 12, posture: 4, core: 4 },
+    drivenBy: [swr != null ? "Shoulder-to-waist ratio" : "Body composition", ...(armRatio != null && armRatio < 0.22 ? ["Arm size"] : [])],
     priority: 1,
-    tasks: [{ id: "train", label: "Training session", cadence: "weekly" }],
+    tasks: [
+      { id: "train", label: "Training session (4 per week)", cadence: "weekly" },
+      { id: "log", label: "Log weights & reps", cadence: "weekly" },
+    ],
+    visual: male
+      ? "after 12 months of consistent training: noticeably broader, rounder shoulders and fuller upper back and arms, realistic natural muscle, not bodybuilder-size"
+      : "after 12 months of consistent training: firmer, more toned shape with rounder glutes and shoulders, realistic natural muscle",
   });
   if (swr != null && male && swr < 1.55) drivers.add("Narrow V-taper");
 
@@ -356,6 +378,53 @@ export function buildPlan(scan: Scan, intake: Intake): Plan {
       tasks: [{ id: "posture", label: "Unilateral strength work", cadence: "weekly" }],
     });
   }
+
+  if (side && (side.headForward > 8 || side.earShoulderAngle < 76)) {
+    drivers.add("Forward head");
+    items.push({
+      id: "forward-head",
+      category: "Posture",
+      title: "Forward-head correction routine",
+      why: `From your side photo, your ear sits ${side.headForward.toFixed(0)}% of torso length in front of your shoulder (ear–shoulder angle ${side.earShoulderAngle.toFixed(0)}°; target ≈ ear over shoulder). Forward head posture is linked to neck pain, and a meta-analysis found targeted exercise improves it.`,
+      how: [
+        "Chin tucks: 3×10 slow reps, hold 3 s, daily",
+        "Thoracic extensions over a foam roller or chair back: 2×10, daily",
+        "Deep neck flexor + lower-trap strengthening: prone Y-raises 3×12, 3×/week",
+        "Raise screens to eye level; take a posture break every 45 min",
+      ],
+      grade: "B",
+      refs: ["sheikhhoseini2018", "yip2008"],
+      phase: 1,
+      timeToVisible: "6–10 weeks",
+      monthly: [0, 0],
+      oneOff: [0, 25],
+      impact: { posture: 10 },
+      drivenBy: ["Head position (side)"],
+      priority: 2,
+      tasks: [{ id: "chin-tucks", label: "Chin tucks + thoracic extensions", cadence: "daily" }],
+      visual: "standing taller with the head stacked over the shoulders (less forward head)",
+    });
+  }
+  if (side && side.shoulderForward > 6) {
+    items.push({
+      id: "rounded-shoulders",
+      category: "Posture",
+      title: "Open the chest, strengthen the upper back",
+      why: `Your shoulders sit ${side.shoulderForward.toFixed(0)}% of torso length ahead of your hips in the side view. Rows and rear-delt work balance pressing and improve shoulder position.`,
+      how: ["Face pulls or band pull-aparts 3×15, 3×/week", "Doorway pec stretch 2×30 s daily", "Keep a 2:1 pull-to-push set ratio for 8 weeks"],
+      grade: "C",
+      refs: ["kendall2005"],
+      phase: 2,
+      timeToVisible: "8–12 weeks",
+      monthly: [0, 0],
+      oneOff: [0, 15],
+      impact: { posture: 6 },
+      drivenBy: ["Shoulder position (side)"],
+      priority: 3,
+      tasks: [{ id: "pull-aparts", label: "Band pull-aparts / face pulls", cadence: "weekly" }],
+    });
+  }
+  if (side && (side.waistToChestDepth > 0.9 || side.bellyProtrusion > 3)) drivers.add("Central fat");
 
   /* ------------------------------ Grooming -------------------------- */
   items.push({
@@ -576,6 +645,7 @@ export function hairAdvice(intake: Intake, shape: string | null) {
       longFace ? "Ask for scissor-cut sides kept medium, not faded high" : "Low or mid taper on the sides and back",
       `Keep ${Math.max(5, Math.min(10, intake.hairLengthCm))}–${Math.min(intake.hairLengthCm + 4, 15)} cm on top`,
       curly ? "Curl cream on damp hair, scrunch, air-dry or diffuse; avoid brushing dry curls" : "Matte paste or sea-salt spray for texture",
+      ...(curly ? ["Prefer looser waves? A little more length lets weight relax the curl; blow-dry with a brush on low heat; smoothing cream. Chemical/keratin straightening changes texture but can damage hair — optional"] : []),
       "Shape-up every 4–6 weeks",
     ],
     visual: `same hair colour and natural ${intake.hairType} texture, freshly cut: ${longFace ? "medium sides" : "tapered sides"} with ${top} and natural volume on top, same hairline`,

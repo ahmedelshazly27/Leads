@@ -433,7 +433,7 @@ export function Summary(p: SectionProps) {
   const first = profile.intake.name.split(" ")[0];
   const owner = first.toLowerCase() === "you" ? "Your" : first.endsWith("s") ? `${first}'` : `${first}'s`;
   const keys = Object.keys(plan.current) as ScoreKey[];
-  const short: Record<ScoreKey, string> = { skin: "Skin", leanness: "Leanness", rested: "Rested", symmetry: "Symmetry", harmony: "Harmony", body: "Body", posture: "Posture" };
+  const short: Record<ScoreKey, string> = { skin: "Skin", leanness: "Leanness", rested: "Rested", symmetry: "Symmetry", harmony: "Harmony", body: "Body", posture: "Posture", core: "Core" };
   const gain = plan.overallProjected - plan.overallNow;
   return (
     <div className="page">

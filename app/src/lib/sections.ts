@@ -1,7 +1,7 @@
 export interface NavItem {
   id: string;
   label: string;
-  needs?: "face" | "body";
+  needs?: "face" | "body" | "side";
 }
 export interface NavGroup {
   id: string;
@@ -54,9 +54,16 @@ export const NAV: NavGroup[] = [
     label: "Body Analysis",
     items: [
       { id: "body-overview", label: "Body Overview", needs: "body" },
-      { id: "body-proportions", label: "Proportions", needs: "body" },
-      { id: "posture", label: "Posture & Alignment", needs: "body" },
+      { id: "physique-impression", label: "Physique Impression", needs: "body" },
+      { id: "body-proportions", label: "Shoulders & V-Taper", needs: "body" },
+      { id: "chest-arms", label: "Chest & Arms", needs: "body" },
+      { id: "waist-core", label: "Waist & Core", needs: "body" },
+      { id: "hips-legs", label: "Hips & Legs", needs: "body" },
+      { id: "posture", label: "Front Posture", needs: "body" },
+      { id: "side-posture", label: "Side Posture", needs: "side" },
+      { id: "body-symmetry", label: "Body Symmetry", needs: "body" },
       { id: "composition", label: "Composition", needs: "body" },
+      { id: "body-summary", label: "Summary of Body Analysis", needs: "body" },
     ],
   },
   {

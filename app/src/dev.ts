@@ -20,17 +20,18 @@ const toData = async (u: string | null) => {
  */
 export function installDevHooks() {
   const w = window as unknown as Record<string, unknown>;
-  w.__seed = async (face: string | null, body: string | null, name = "Test Profile", over: Partial<Intake> = {}) => {
+  w.__seed = async (face: string | null, body: string | null, name = "Test Profile", over: Partial<Intake> = {}, side: string | null = null) => {
     const f = await toData(face);
     const bd = await toData(body);
+    const sd = await toData(side);
     const p = createProfile({ ...sampleProfile.intake, name, ...over });
-    const scan = await runScan(p.id, p.intake, f, bd, () => {});
-    await addScan(scan, f, bd);
+    const scan = await runScan(p.id, p.intake, f, bd, () => {}, sd);
+    await addScan(scan, f, bd, sd);
     return scan.id;
   };
   w.__seedMe = async () => {
     if (getState().profiles.some((p) => p.intake.name === "You")) return "exists";
-    const id = (await (w.__seed as (...a: unknown[]) => Promise<string>)("/__test/me_front.jpg", "/__test/me_body.jpg", "You", {
+    const id = (await (w.__seed as (...a: unknown[]) => Promise<string>)("/__test/me_front.jpg", "/__test/body_front.jpg", "You", {
       gender: "male",
       age: 20,
       ethnicity: "Middle Eastern",
@@ -53,13 +54,13 @@ export function installDevHooks() {
       activeAcne: true,
       limitations: "None reported",
       allergies: "None reported",
-    } satisfies Partial<Intake>)) as string;
+    } satisfies Partial<Intake>, "/__test/body_side_l.jpg")) as string;
     const v = "/__test/visuals/";
     setVisuals(id, {
       baseline: v + "baseline.jpg",
       after: v + "after.jpg",
       styles: [
-        { name: "Natural medium curls", front: v + "after.jpg", left: v + "after_left.jpg", right: v + "after_right.jpg" },
+        { name: "Natural medium hair", front: v + "after.jpg", left: v + "after_left.jpg", right: v + "after_right.jpg" },
         { name: "Wavy slick back · Italian beard", front: v + "italian_front.jpg", left: v + "italian_left.jpg", right: v + "italian_right.jpg" },
         { name: "Flowing curly slick back", front: v + "flow_front.jpg", left: v + "flow_left.jpg", right: v + "flow_right.jpg" },
       ],

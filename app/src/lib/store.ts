@@ -86,7 +86,7 @@ export async function initStore() {
     const saved = await idbGet<AppState>(STATE_KEY);
     if (saved && saved.version === 1) state = { ...empty(), ...saved, settings: { ...empty().settings, ...saved.settings }, visuals: saved.visuals ?? {} };
     for (const scan of state.scans) {
-      for (const kind of ["face", "body"] as const) {
+      for (const kind of ["face", "body", "side"] as const) {
         const url = await idbGet<string>(`photo:${scan.id}:${kind}`);
         if (url) photos.set(`${scan.id}:${kind}`, url);
       }
@@ -126,7 +126,7 @@ export function latestScan(s: AppState, profileId: string): Scan | undefined {
   const list = scansFor(s, profileId);
   return list[list.length - 1];
 }
-export function photoUrl(scanId: string, kind: "face" | "body") {
+export function photoUrl(scanId: string, kind: "face" | "body" | "side") {
   return photos.get(`${scanId}:${kind}`) ?? null;
 }
 
@@ -145,7 +145,11 @@ export function updateIntake(profileId: string, intake: Intake) {
   });
 }
 
-export async function addScan(scan: Scan, facePhoto: string | null, bodyPhoto: string | null) {
+export async function addScan(scan: Scan, facePhoto: string | null, bodyPhoto: string | null, sidePhoto: string | null = null) {
+  if (sidePhoto) {
+    photos.set(`${scan.id}:side`, sidePhoto);
+    await idbSet(`photo:${scan.id}:side`, sidePhoto).catch(() => {});
+  }
   if (facePhoto) {
     photos.set(`${scan.id}:face`, facePhoto);
     await idbSet(`photo:${scan.id}:face`, facePhoto).catch(() => {});
@@ -164,7 +168,7 @@ export function setActiveProfile(id: string) {
 export function deleteProfile(id: string) {
   const gone = state.scans.filter((s) => s.profileId === id);
   gone.forEach((s) => {
-    for (const k of ["face", "body"]) {
+    for (const k of ["face", "body", "side"]) {
       photos.delete(`${s.id}:${k}`);
       idbDel(`photo:${s.id}:${k}`).catch(() => {});
     }
@@ -182,7 +186,7 @@ export function deleteProfile(id: string) {
 }
 
 export function deleteScan(id: string) {
-  for (const k of ["face", "body"]) {
+  for (const k of ["face", "body", "side"]) {
     photos.delete(`${id}:${k}`);
     idbDel(`photo:${id}:${k}`).catch(() => {});
   }

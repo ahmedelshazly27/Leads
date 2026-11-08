@@ -8,6 +8,7 @@ export interface SectionProps {
   scans: Scan[]; // all scans for this profile, oldest first (for progress)
   facePhoto: string | null;
   bodyPhoto: string | null;
+  sidePhoto: string | null;
   visuals: Visuals;
   plan: Plan;
 }

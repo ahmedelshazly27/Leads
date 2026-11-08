@@ -6,6 +6,7 @@ import { useActive } from "../../lib/useActive";
 import { ALL_ITEMS } from "../../lib/sections";
 import * as A from "./Assessments";
 import * as B from "./Body";
+import * as BD from "./BodyDetail";
 import * as F from "./Features";
 import * as I from "./Intro";
 import * as P from "./Protocol";
@@ -39,6 +40,13 @@ const SECTIONS: Record<string, ComponentType<SectionProps>> = {
   "body-overview": B.BodyOverview,
   "body-proportions": (p) => <BodyProportions body={p.scan.body!} photo={p.bodyPhoto} gender={p.profile.intake.gender} />,
   posture: B.Posture,
+  "physique-impression": BD.PhysiqueImpression,
+  "chest-arms": BD.ChestArms,
+  "waist-core": BD.WaistCore,
+  "hips-legs": BD.HipsLegs,
+  "side-posture": BD.SidePosture,
+  "body-symmetry": BD.BodySymmetry,
+  "body-summary": BD.BodySummary,
   composition: B.Composition,
   "your-protocol": P.YourProtocol,
   recommendations: P.Recommendations,
@@ -50,7 +58,7 @@ const SECTIONS: Record<string, ComponentType<SectionProps>> = {
 
 export function AnalysisRouter() {
   const { section = "getting-started" } = useParams();
-  const { profile, scan, scans, facePhoto, bodyPhoto, state } = useActive();
+  const { profile, scan, scans, facePhoto, bodyPhoto, sidePhoto, state } = useActive();
   const plan = useMemo(() => (scan && profile ? buildPlan(scan, profile.intake) : null), [scan, profile]);
   if (!profile || !scan || !plan) return <Navigate to="/protocols" replace />;
   const item = ALL_ITEMS.find((i) => i.id === section);
@@ -60,6 +68,8 @@ export function AnalysisRouter() {
     return <div className="page"><Empty title="No face scan yet">Add a front portrait in a new scan to unlock this section.</Empty></div>;
   if (item.needs === "body" && !scan.body)
     return <div className="page"><Empty title="No body scan yet">Add a full-body photo in a new scan to unlock this section.</Empty></div>;
+  if (item.needs === "side" && !scan.bodySide)
+    return <div className="page"><Empty title="No side photo yet">Add a side-on full-body photo in a new scan to unlock side posture and core depth.</Empty></div>;
   return (
     <Comp
       key={section}
@@ -68,6 +78,7 @@ export function AnalysisRouter() {
       scans={scans}
       facePhoto={facePhoto}
       bodyPhoto={bodyPhoto}
+      sidePhoto={sidePhoto}
       visuals={state.visuals[scan.id] ?? {}}
       plan={plan}
     />

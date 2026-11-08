@@ -2,7 +2,7 @@ import type { Intake, Scan } from "./types";
 import { imageData, loadImage } from "./image";
 import { detectFace, detectPose } from "./vision";
 import { analyseFace } from "./faceAnalysis";
-import { analyseBody } from "./bodyAnalysis";
+import { analyseBody, analyseSide } from "./bodyAnalysis";
 import { uid } from "./store";
 
 export type Stage = "loading-models" | "face" | "skin" | "body" | "plan" | "done";
@@ -15,6 +15,7 @@ export async function runScan(
   facePhoto: string | null,
   bodyPhoto: string | null,
   onStage: (s: Stage) => void,
+  sidePhoto: string | null = null,
 ): Promise<Scan> {
   const scan: Scan = {
     id: uid(),
@@ -24,6 +25,8 @@ export async function runScan(
     body: null,
     hasFacePhoto: !!facePhoto,
     hasBodyPhoto: !!bodyPhoto,
+    hasSidePhoto: !!sidePhoto,
+    bodySide: null,
   };
   onStage("loading-models");
 
@@ -45,6 +48,13 @@ export async function runScan(
     if (needed.some((i) => det.visibility[i] < 0.4))
       throw new ScanError("Shoulders and hips must be visible in the body photo. Stand facing the camera, ideally head to toe.");
     scan.body = analyseBody(det, intake, img.naturalWidth, img.naturalHeight);
+  }
+  if (sidePhoto) {
+    const img = await loadImage(sidePhoto);
+    onStage("body");
+    const det = await detectPose(img);
+    if (!det) throw new ScanError("We couldn't detect a body in the side photo. Stand side-on to the camera, whole body in frame.");
+    scan.bodySide = analyseSide(det, img.naturalWidth, img.naturalHeight);
   }
   onStage("plan");
   await tick(400);
