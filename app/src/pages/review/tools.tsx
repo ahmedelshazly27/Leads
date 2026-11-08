@@ -17,17 +17,8 @@ import "../pages.css";
 export const BODY_BASELINE_PROMPT =
   "Clinical standardized physique baseline photo of the exact same person from the reference photos (front body, side body, face). Strictly preserve the real body as it is now: identical body shape, proportions, shoulder width, chest, arms, waist and belly fullness, body fat level, body hair, skin tone, face, hair and facial hair. Do not slim, tone, sculpt or idealize anything, and keep the real standing posture. Re-photograph standing naturally (front view: facing the camera, arms hanging slightly away from the sides, feet hip-width; side view: strict side-on, arms relaxed), wearing loose black athletic gym shorts (fitted underwear-style shorts trip image-model safety filters). Framing from the top of the head to mid-thigh (or head to toe if the full body is visible in the references). Plain seamless studio background in flat muted slate blue-grey (#A9BDC4), soft even studio lighting, camera at chest height from about 3 m with a 70 mm lens so there is no wide-angle distortion. Photorealistic, true-to-life, no retouching.";
 
-export function bodyAfterPrompt(visuals: string[]) {
-  const body = visuals.filter((x) => /body|stomach|waist|shoulder|muscle|training|standing|posture|glute|arms/i.test(x));
-  const list = body.length ? body.map((x, i) => `${i + 1}) ${x}`).join("; ") : "1) realistic improvements from 12 months of training and fat loss";
-  return [
-    "Edit the first image (the standardized physique baseline). Keep the exact same person, face, hair, skin tone, body hair, camera angle, framing, black athletic shorts, slate blue-grey studio background (#A9BDC4) and lighting so it lines up 1:1 as a before/after pair.",
-    `Show the result of a realistic 12-month, evidence-based training and nutrition plan. Apply ALL of these clearly and visibly: ${list}. Keep the head the same size relative to the body.`,
-    "Keep the same skeleton, height, shoulder bone width, limb lengths and proportions; natural, drug-free muscle gain only (no bodybuilder or fitness-model physique), realistic skin and body hair. Photorealistic, no retouching or beauty filter.",
-  ].join(" ");
-}
 
-export function BodyVisuals({ scanId, visuals, bodyPhoto, sidePhoto, afterText }: { scanId: string; visuals: Visuals; bodyPhoto: string | null; sidePhoto: string | null; afterText: string }) {
+export function BodyVisuals({ scanId, visuals, bodyPhoto, sidePhoto, afterText }: { scanId: string; visuals: Visuals; bodyPhoto: string | null; sidePhoto: string | null; afterText: [string, string] }) {
   const b = visuals.body ?? {};
   const set = (key: "front" | "side" | "afterFront" | "afterSide") => (x: string | undefined) => setVisuals(scanId, { body: { ...b, [key]: x } });
   return (
@@ -41,7 +32,8 @@ export function BodyVisuals({ scanId, visuals, bodyPhoto, sidePhoto, afterText }
         <Slot label="After · side" tag="After" value={b.afterSide} onChange={set("afterSide")} />
       </div>
       <PromptBlock title="3 · Body baseline (standardized physique)" text={BODY_BASELINE_PROMPT} />
-      <PromptBlock title="4 · Body after (end of plan)" text={afterText} />
+      <PromptBlock title="② Body after · front (refs: front body baseline + approved face after)" text={afterText[0]} />
+      <PromptBlock title="③ Body after · side (refs: side body baseline + approved face after)" text={afterText[1]} />
     </section>
   );
 }

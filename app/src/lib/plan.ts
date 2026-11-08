@@ -316,7 +316,7 @@ export function buildPlan(scan: Scan, intake: Intake, opts: { includeHidden?: bo
     drivenBy: ["Skin colour"],
     priority: 3,
     tasks: [{ id: "veg", label: "5 portions of fruit & veg", cadence: "daily" }],
-    visual: "subtle healthy warm glow in the skin",
+    visual: "even, healthy natural skin colour (same tone, no added warmth or redness)",
   });
 
   /* ------------------------------ Training -------------------------- */
@@ -796,6 +796,10 @@ export function hairAdvice(intake: Intake, shape: string | null) {
 export const PRESENCE =
   "Overall the after must read as the sharper, healthier, well-rested version of the same man, not a copy of the baseline with a new haircut: alert, focused gaze with upper eyelids open (not heavy or hooded-looking from fatigue), clear eye whites, no under-eye shadows or puffiness; brows level and relaxed (no raised inner brows or worried angle), groomed; clear bright whites with natural catchlights; mouth corners neutral, not drooping; head held level with a long neck and shoulders back; healthy, warm, even skin colour (same skin tone); defined facial planes from fat loss — visible hollow under the cheekbones, crisp jawline and a clean chin-to-neck angle. Eyelid position and expression are NOT identity — only eye spacing, eye width and iris colour are locked; lift drooping upper lids so the eyes look awake. Expression: confident, focused gaze — brows straight and level (inner ends never raised), upper lids firm and awake, lower lids gently tightened in a slight confident squint, sharp bright eyes, direct gaze into the lens, a very subtle confident one-sided smirk, lips closed — never sleepy, sad or blank.";
 
+/** Keeps every render looking like the same camera and light as the baseline — no "toasted" skin. */
+export const RENDER_LOCK =
+  "Single clean render: skin colour identical to the baseline (no added redness, tan, warmth or saturation), natural skin texture, pores and body hair, no painterly smoothing, no HDR, no oversharpening — same camera, same lighting, same colour grade as the baseline.";
+
 export function afterPrompt(plan: Plan, intake: Intake): string {
   const changes = plan.items.filter((i) => i.visual).map((i, n) => `${n + 1}) ${i.visual}`);
   return [
@@ -803,7 +807,28 @@ export function afterPrompt(plan: Plan, intake: Intake): string {
     `Show the result of a realistic 12-month, evidence-based self-improvement plan. Apply ALL of these changes clearly and visibly: ${changes.join("; ")}.`,
     PRESENCE,
     "LOCK identity and bone: identical eye shape and eye spacing, nose width and shape, lips, ears, jaw bone width, chin, skull shape, ethnicity and skin tone (do not lighten the skin). Fat loss may slim soft tissue only. No surgery-like changes. Always edit the original baseline, never a previous after image.",
-    `Confident, focused gaze, lips closed. Photorealistic, no makeup${intake.gender === "female" ? " beyond the person's usual" : ""}, no beauty filter, natural skin texture.`,
+    `Confident, focused gaze, lips closed. Photorealistic, no makeup${intake.gender === "female" ? " beyond the person's usual" : ""}, no beauty filter.`,
+    RENDER_LOCK,
+  ].join(" ");
+}
+
+const BODY_IDS = new Set(["fatloss", "lifting", "posture", "forward-head", "rounded-shoulders"]);
+
+/**
+ * One-shot body after. Edits the standardized physique baseline once and takes
+ * the approved face after as the head reference, so hair, beard and expression
+ * match without follow-up edits.
+ */
+export function bodyAfterPrompt(plan: Plan, view: "front" | "side"): string {
+  const body = plan.items.filter((i) => BODY_IDS.has(i.id) && i.visual).map((i, n) => `${n + 1}) ${i.visual}`);
+  const hair = plan.items.find((i) => i.id === "haircut")?.visual;
+  const beard = plan.items.find((i) => i.id === "beard")?.visual;
+  return [
+    `Edit the first image (standardized physique baseline, ${view} view). Keep the same person, camera angle, framing, black athletic shorts, slate blue-grey studio background (#A9BDC4) and lighting so it lines up 1:1 as a before/after pair. The second image is the approved face after: match its face, expression, hair and beard exactly${view === "side" ? " (seen in profile)" : ""}.`,
+    `Apply ALL of these clearly and visibly: ${body.length ? body.join("; ") : "1) realistic improvements from 12 months of training and fat loss"}.`,
+    `Head: ${[hair && `hair — ${hair}`, beard && `beard — ${beard}`].filter(Boolean).join("; ") || "as in the second image"}. Keep the head the same size relative to the body as in the first image, with hair volume close to the head.`,
+    "Keep the same skeleton, height, shoulder bone width, limb lengths and proportions; natural, drug-free muscle gain only (no bodybuilder or fitness-model physique).",
+    RENDER_LOCK,
   ].join(" ");
 }
 

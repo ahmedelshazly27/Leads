@@ -2,14 +2,14 @@ import { useMemo, type ReactNode } from "react";
 import { Link, useParams } from "react-router-dom";
 import { GradeBadge } from "../../components/ui";
 import { refreshBody, bmiOf } from "../../lib/bodyAnalysis";
-import { afterPrompt, BASELINE_PROMPT, buildPlan } from "../../lib/plan";
+import { afterPrompt, BASELINE_PROMPT, bodyAfterPrompt, buildPlan } from "../../lib/plan";
 import { SCORE_LABEL, type ScoreKey } from "../../lib/report";
 import { photoUrl, setActiveProfile, setReview, setVisuals, updateScan, useAppState } from "../../lib/store";
 import { faceNeeds, rankBeard, rankHair } from "../../lib/styles";
 import type { Review, Scan } from "../../lib/types";
 import { checklistFor, type Check } from "./checklist";
 import { statusOf } from "./Review";
-import { BodyVisuals, MeshViewer, PoseViewer, PromptBlock, RealismPanel, Slot, StyleGallery, StyleLibrary, bodyAfterPrompt } from "./tools";
+import { BodyVisuals, MeshViewer, PoseViewer, PromptBlock, RealismPanel, Slot, StyleGallery, StyleLibrary } from "./tools";
 import "./review.css";
 
 const SECTIONS: { id: Check["section"]; n: string; title: string }[] = [
@@ -218,7 +218,7 @@ export function ReviewScan() {
       )}
 
       {/* 5 · Visuals */}
-      <Section id="visuals" n="5" title="Visuals" lead="Generate from the prompts (FLUX for the baseline, Nano Banana Pro for edits), upload the results, then run the realism check. Always edit from the baseline, never from a previous after.">
+      <Section id="visuals" n="5" title="Visuals" lead="Your hair and beard pick (step 4) and the plan fill these prompts automatically. Run each once, in order, always from the baseline — never from a previous after: ① face after (attach the face baseline) → ② body front and ③ body side (attach that view's body baseline + the approved face after). Then upload and run the realism check.">
         <div className="vz-slots">
           <Slot label="Standardized model" tag="Before" value={v.baseline} onChange={(x) => setVisuals(scan.id, { baseline: x })} fallback={face} />
           <Slot label="12-month after" tag="After" value={v.after} onChange={(x) => setVisuals(scan.id, { after: x })} />
@@ -236,8 +236,8 @@ export function ReviewScan() {
           />
         )}
         <PromptBlock title="Face baseline (standardized model)" text={BASELINE_PROMPT} />
-        <PromptBlock title="Face after (end of plan)" text={afterPrompt(plan, intake)} />
-        {(scan.body || scan.bodySide) && <BodyVisuals scanId={scan.id} visuals={v} bodyPhoto={body} sidePhoto={side} afterText={bodyAfterPrompt(plan.items.map((i) => i.visual ?? ""))} />}
+        <PromptBlock title="① Face after (refs: face baseline)" text={afterPrompt(plan, intake)} />
+        {(scan.body || scan.bodySide) && <BodyVisuals scanId={scan.id} visuals={v} bodyPhoto={body} sidePhoto={side} afterText={[bodyAfterPrompt(plan, "front"), bodyAfterPrompt(plan, "side")]} />}
         <StyleGallery scanId={scan.id} visuals={v} />
         {checks("visuals")}
       </Section>
