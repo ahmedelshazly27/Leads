@@ -776,7 +776,7 @@ export function hairAdvice(intake: Intake, shape: string | null) {
  * paler skin, drooping mouth corners, rated sadder and less attractive).
  */
 export const PRESENCE =
-  "Overall the after must read as the sharper, healthier, well-rested version of the same man, not a copy of the baseline with a new haircut: alert, focused gaze with upper eyelids open (not heavy or hooded-looking from fatigue), clear eye whites, no under-eye shadows or puffiness; brows level and relaxed (no raised inner brows or worried angle), groomed; clear bright whites with natural catchlights; mouth corners neutral, not drooping; head held level with a long neck and shoulders back; healthy, warm, even skin colour (same skin tone); defined facial planes from fat loss — visible hollow under the cheekbones, crisp jawline and a clean chin-to-neck angle. Expression calm, confident and engaged — not sleepy, sad or blank, no broad smile.";
+  "Overall the after must read as the sharper, healthier, well-rested version of the same man, not a copy of the baseline with a new haircut: alert, focused gaze with upper eyelids open (not heavy or hooded-looking from fatigue), clear eye whites, no under-eye shadows or puffiness; brows level and relaxed (no raised inner brows or worried angle), groomed; clear bright whites with natural catchlights; mouth corners neutral, not drooping; head held level with a long neck and shoulders back; healthy, warm, even skin colour (same skin tone); defined facial planes from fat loss — visible hollow under the cheekbones, crisp jawline and a clean chin-to-neck angle. Eyelid position and expression are NOT identity — only eye spacing, eye width and iris colour are locked; lift drooping upper lids so the eyes look awake. Expression: a genuine, subtle closed-mouth smile that reaches the eyes (lower lids slightly raised, cheeks a little lifted), confident and warm — never sleepy, sad or blank, no teeth.";
 
 export function afterPrompt(plan: Plan, intake: Intake): string {
   const changes = plan.items.filter((i) => i.visual).map((i, n) => `${n + 1}) ${i.visual}`);
@@ -785,7 +785,7 @@ export function afterPrompt(plan: Plan, intake: Intake): string {
     `Show the result of a realistic 12-month, evidence-based self-improvement plan. Apply ALL of these changes clearly and visibly: ${changes.join("; ")}.`,
     PRESENCE,
     "LOCK identity and bone: identical eye shape and eye spacing, nose width and shape, lips, ears, jaw bone width, chin, skull shape, ethnicity and skin tone (do not lighten the skin). Fat loss may slim soft tissue only. No surgery-like changes. Always edit the original baseline, never a previous after image.",
-    `Neutral relaxed expression, closed lips. Photorealistic, no makeup${intake.gender === "female" ? " beyond the person's usual" : ""}, no beauty filter, natural skin texture.`,
+    `Subtle closed-mouth smile, warm engaged eyes. Photorealistic, no makeup${intake.gender === "female" ? " beyond the person's usual" : ""}, no beauty filter, natural skin texture.`,
   ].join(" ");
 }
 
