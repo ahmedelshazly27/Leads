@@ -1,4 +1,4 @@
-import { REVIEWED_AT, suggestBeard, suggestHair } from "./styles";
+import { REVIEWED_AT, faceNeeds, rankBeard, rankHair } from "./styles";
 import type { Intake, Scan } from "./types";
 import type { EvidenceGrade } from "./science";
 import { MODIFIABLE, currentScores, overall, regionOf, type ScoreKey } from "./report";
@@ -455,28 +455,38 @@ export function buildPlan(scan: Scan, intake: Intake): Plan {
   });
   if (male) {
     const patchy = intake.facialHair === "patchy";
+    const [beardPick, ...beardAlts] = rankBeard(intake, face ?? null).slice(0, 3);
+    const needs = faceNeeds(face ?? null);
     items.push({
       id: "beard",
       category: "Grooming",
-      title: patchy ? "Even heavy stubble with a defined neckline" : "Groomed heavy stubble or short beard",
-      why: "Heavy stubble was rated most attractive in a large rating study; a clean neckline also sharpens the visible jaw line.",
+      title: beardPick ? `Beard: ${beardPick.item.name}` : patchy ? "Even heavy stubble with a defined neckline" : "Groomed heavy stubble or short beard",
+      why: [
+        beardPick
+          ? `Chosen for your face${needs?.notes.length ? ` (${needs.notes.join("; ")})` : ""}: ${beardPick.reasons.filter((r) => !/needs denser/.test(r)).join("; ") || "balanced proportions suit most beard shapes"}.`
+          : "",
+        "Groomed facial hair changes how the face reads: heavy stubble was rated most attractive and full beards most masculine in a large rating study; a clean lower line sharpens the visible jaw.",
+        beardPick?.reasons.some((r) => /needs denser/.test(r)) ? "Your current growth is patchy — expect 3–6 months of growth (optionally minoxidil, discuss with a doctor) to reach full coverage." : "",
+      ]
+        .filter(Boolean)
+        .join(" "),
       how: [
-        "Trim to 3–5 mm every 3–4 days with a guard",
+        ...(beardPick ? [`Shape: ${beardPick.item.prompt}`] : ["Trim to 3–5 mm every 3–4 days with a guard"]),
         "Neckline: one finger above the Adam's apple, curving up to behind the jaw angle",
-        "Cheek line: natural, just tidy strays",
-        ...(patchy ? ["Patchy areas often fill in with age; 3–6 months of growth shows your real coverage"] : []),
+        "Trim with a guard weekly; barber line-up every 3–4 weeks",
+        ...(beardAlts.length ? [`Also suits you: ${beardAlts.map((b) => `${b.item.name} (${Math.round(b.fit)}% fit)`).join(" · ")}`] : []),
       ],
       grade: "B",
-      refs: ["dixson2013"],
+      refs: ["dixson2013", ...(patchy ? ["ingprasert2016"] : [])],
       phase: 1,
-      timeToVisible: "2–3 weeks",
+      timeToVisible: patchy ? "3–6 months for full coverage" : "2–3 weeks",
       monthly: [0, 5],
       oneOff: [40, 80],
       impact: {},
-      drivenBy: ["Facial hair"],
+      drivenBy: ["Facial hair", ...(needs?.notes.length ? ["Face proportions"] : [])],
       priority: 2,
-      tasks: [{ id: "beard", label: "Trim stubble & neckline", cadence: "weekly" }],
-      visual: suggestBeard(intake)?.prompt ?? "even, well-groomed heavy stubble with a crisp neckline",
+      tasks: [{ id: "beard", label: "Trim beard & neckline", cadence: "weekly" }],
+      visual: beardPick?.item.prompt ?? "even, well-groomed heavy stubble with a crisp neckline",
     });
     if (patchy && intake.preferences !== "non-invasive") {
       items.push({
@@ -503,17 +513,21 @@ export function buildPlan(scan: Scan, intake: Intake): Plan {
   /* ------------------------------ Hair ------------------------------ */
   const reach = intake.hairLengthCm + 12;
   const shapeForHair = face && !face.capture?.closeRange ? face.faceShape : null;
-  const [hairPick, ...hairAlts] = suggestHair(intake, face ?? null, 3);
+  const hairRanked = rankHair(intake, face ?? null).slice(0, 3);
+  const hairPick = hairRanked[0]?.item;
+  const hairAlts = hairRanked.slice(1).map((r) => r.item);
+  const needs = faceNeeds(face ?? null);
+
   items.push({
     id: "haircut",
     category: "Hair",
     title: hairPick ? `Haircut: ${hairPick.name}` : hairAdvice(intake, shapeForHair).title,
-    why: `${hairPick ? `Chosen from our ${REVIEWED_AT} trend library for your ${intake.hairType} hair${shapeForHair ? ` and ${shapeForHair.toLowerCase()} face` : ""}${hairPick.heatFriendly ? ", and it's practical in Gulf heat" : ""}.` : hairAdvice(intake, shapeForHair).why} Hair grows ~1 cm/month, so styles up to ~${reach} cm on top are reachable within 12 months. Evidence for specific cuts is limited — treat as grooming guidance.`,
+    why: `${hairPick ? `The in-style cut (library reviewed ${REVIEWED_AT}) that best balances your face${needs?.notes.length ? ` — ${needs.notes.join("; ")}` : ""}: ${hairRanked[0].reasons.join("; ") || "your proportions are balanced, so the most versatile current cut is chosen"}${hairPick.heatFriendly ? "; practical in Gulf heat" : ""}.` : hairAdvice(intake, shapeForHair).why} Hair grows ~1 cm/month, so styles up to ~${reach} cm on top are reachable within 12 months. Evidence for specific cuts is limited — treat as grooming guidance.`,
     how: hairPick
       ? [
           `Ask your barber: ${hairPick.barber}`,
           `Re-cut every ${hairPick.maintenanceWeeks} weeks`,
-          ...(hairAlts.length ? [`Also suits you: ${hairAlts.map((h) => h.name).join(" · ")}`] : []),
+          ...(hairAlts.length ? [`Also suits you: ${hairRanked.slice(1).map((r) => `${r.item.name} (${Math.round(r.fit)}% fit)`).join(" · ")}`] : []),
           ...hairAdvice(intake, shapeForHair).how.filter((h) => /curl cream|paste|looser waves/i.test(h)),
         ]
       : hairAdvice(intake, shapeForHair).how,

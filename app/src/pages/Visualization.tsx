@@ -9,7 +9,8 @@ import { setVisuals } from "../lib/store";
 import { useActive } from "../lib/useActive";
 import type { Pt, Visuals } from "../lib/types";
 import { realismCheck, type RealismRow } from "../lib/realism";
-import { HAIRSTYLES, BEARDS, REVIEWED_AT, TREND_SOURCES } from "../lib/styles";
+import { HAIRSTYLES, BEARDS, REVIEWED_AT, TREND_SOURCES, faceNeeds, rankBeard, rankHair } from "../lib/styles";
+import type { FaceResult, Intake } from "../lib/types";
 import "./pages.css";
 
 export function Visualization() {
@@ -70,7 +71,7 @@ export function Visualization() {
 
       <StyleGallery scanId={scan.id} visuals={v} />
 
-      <TrendLibrary />
+      <TrendLibrary intake={profile.intake} face={scan.face} />
 
       {scan.face?.landmarks && <MeshViewer photo={facePhoto} lm={scan.face.landmarks} aspect={scan.face.imageAspect} />}
     </div>
@@ -403,10 +404,42 @@ function RealismPanel({ before, after }: { before: string | null; after: string 
 /*  Trend library (reviewed by the founder)                            */
 /* ------------------------------------------------------------------ */
 
-function TrendLibrary() {
+function TrendLibrary({ intake, face }: { intake: Intake; face: FaceResult | null }) {
+  const needs = faceNeeds(face);
+  const hair = rankHair(intake, face);
+  const beard = rankBeard(intake, face);
   return (
     <section className="vz-section">
-      <h2 className="title-md">Style trend library · reviewed {REVIEWED_AT}</h2>
+      <h2 className="title-md">Best fit for this face</h2>
+      <p className="lead">
+        In-style options only, ranked by how well they balance this face's measured proportions{needs?.notes.length ? `: ${needs.notes.join("; ")}` : ""}. Grooming guidance (evidence grade C), not
+        trial data.
+      </p>
+      <div className="fit-cols">
+        {[
+          { t: "Haircuts", rows: hair.map((r) => ({ name: r.item.name, fit: r.fit, reasons: r.reasons })) },
+          { t: "Beards", rows: beard.map((r) => ({ name: r.item.name, fit: r.fit, reasons: r.reasons })) },
+        ].map((col) =>
+          col.rows.length ? (
+            <div key={col.t} className="fit-col">
+              <span className="mono-sm">{col.t}</span>
+              {col.rows.map((r, i) => (
+                <div key={r.name} className={`fit-row ${i === 0 ? "top" : ""}`}>
+                  <div className="fit-top">
+                    <b>{r.name}</b>
+                    <span>{Math.round(r.fit)}%</span>
+                  </div>
+                  <div className="fit-bar">
+                    <i style={{ width: `${r.fit}%` }} />
+                  </div>
+                  {r.reasons.length > 0 && <small>{r.reasons.join(" · ")}</small>}
+                </div>
+              ))}
+            </div>
+          ) : null,
+        )}
+      </div>
+      <h2 className="title-md" style={{ marginTop: 28 }}>Style trend library · reviewed {REVIEWED_AT}</h2>
       <p className="lead">Every haircut and beard in a plan or visual comes from this list — never improvised by the image model. Review it every few months against current barber sources.</p>
       <div className="tl-grid">
         {HAIRSTYLES.map((h) => (

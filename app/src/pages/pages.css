@@ -755,3 +755,15 @@
 .tl-src { margin: 12px 0 0; padding-inline-start: 18px; font-size: 12px; color: var(--muted); }
 .tl-src a { color: var(--ink-3); text-decoration: underline; }
 @media (max-width: 640px) { .rl-table { display: block; overflow-x: auto; } }
+
+.fit-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 12px; }
+.fit-col { display: flex; flex-direction: column; gap: 8px; }
+.fit-row { border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; display: flex; flex-direction: column; gap: 6px; background: var(--surface); }
+.fit-row.top { border-color: var(--slate); box-shadow: 0 0 0 1px var(--slate); }
+.fit-top { display: flex; justify-content: space-between; gap: 8px; font-size: 13.5px; }
+.fit-top b { font-weight: 500; }
+.fit-top span { font-family: var(--mono); font-size: 12px; color: var(--ink-3); }
+.fit-bar { height: 5px; border-radius: 999px; background: var(--card-2); overflow: hidden; }
+.fit-bar i { display: block; height: 100%; background: var(--slate); }
+.fit-row small { color: var(--muted); font-size: 11.5px; line-height: 1.4; }
+@media (max-width: 760px) { .fit-cols { grid-template-columns: 1fr; } }
