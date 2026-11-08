@@ -273,3 +273,32 @@ export function analyseBody(det: PoseDetection, intake: Intake, imgW: number, im
     },
   };
 }
+
+/**
+ * Body metrics that depend on intake answers (height, weight, tape measures)
+ * are recomputed whenever the intake changes, so editing "About you" updates
+ * BMI, body fat and scores without a new scan.
+ */
+export function refreshBody(body: BodyResult, intake: Intake): BodyResult {
+  const m = body.metrics;
+  const bmi = bmiOf(intake);
+  const bf = bodyFat(intake);
+  const whrTape = intake.waistCm && intake.hipCm ? intake.waistCm / intake.hipCm : null;
+  const whtr = intake.waistCm && intake.heightCm ? intake.waistCm / intake.heightCm : null;
+  const pScore = proportionScore(m.shoulderToWaist, whrTape ?? m.waistToHip, intake.gender);
+  const cScore = compositionScore(bf.value, bmi, intake.gender);
+  return {
+    ...body,
+    metrics: {
+      ...m,
+      bmi,
+      bodyFatEstimate: bf.value,
+      bodyFatMethod: bf.method,
+      whrTape,
+      whtr,
+      proportionScore: pScore,
+      compositionScore: cScore,
+      bodyScore: clamp(pScore * 0.4 + m.postureScore * 0.25 + cScore * 0.35),
+    },
+  };
+}

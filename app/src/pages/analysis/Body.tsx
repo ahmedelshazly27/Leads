@@ -35,7 +35,7 @@ function Skeleton({ body }: { body: BodyResult }) {
         const [x2, y2] = P(j);
         return <line key={`${i}-${j}`} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#fff" strokeOpacity={0.8} strokeWidth={1.3} vectorEffect="non-scaling-stroke" />;
       })}
-      {[0, 11, 12, 13, 14, 15, 16, 23, 24, 25, 26, 27, 28].filter((i) => inFrame(lm[i])).map((i) => {
+      {[11, 12, 13, 14, 15, 16, 23, 24, 25, 26, 27, 28].filter((i) => inFrame(lm[i])).map((i) => {
         const [x, y] = P(i);
         return <circle key={i} cx={x} cy={y} r={5} fill="#fff" stroke="#55646a" strokeWidth={1} vectorEffect="non-scaling-stroke" />;
       })}

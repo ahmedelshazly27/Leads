@@ -16,6 +16,9 @@
   flex-direction: column;
   gap: 10px;
 }
+.ph > .kicker {
+  align-self: flex-start;
+}
 .ph .title-xl {
   font-size: 40px;
 }
@@ -193,6 +196,14 @@
   display: inline-block;
   border: 1px solid;
 }
+.radar-sw.radar-a {
+  background: rgba(222, 232, 228, 0.9);
+  border-color: #c4d3cd;
+}
+.radar-sw.radar-b {
+  background: rgba(143, 165, 171, 0.35);
+  border-color: #8fa5ab;
+}
 
 /* Evidence */
 .grade {
@@ -259,6 +270,7 @@
 
 /* Buttons */
 .btn {
+  white-space: nowrap;
   display: inline-flex;
   align-items: center;
   gap: 10px;

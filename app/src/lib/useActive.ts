@@ -1,11 +1,20 @@
-import { latestScan, scansFor, setActiveProfile, useAppState, photoUrl } from "./store";
+import { useMemo } from "react";
+import { scansFor, setActiveProfile, useAppState, photoUrl } from "./store";
+import { refreshBody } from "./bodyAnalysis";
+import type { Scan } from "./types";
 
 /** The active profile, its scans and the latest scan + photos. */
 export function useActive() {
   const s = useAppState();
   const profile = s.profiles.find((p) => p.id === s.activeProfileId) ?? s.profiles[0] ?? null;
-  const scans = profile ? scansFor(s, profile.id) : [];
-  const scan = profile ? latestScan(s, profile.id) ?? null : null;
+  const rawScans = profile ? scansFor(s, profile.id) : [];
+  // re-derive intake-dependent body metrics so edits to "About you" apply immediately
+  const scans = useMemo(
+    () => rawScans.map((x): Scan => (x.body && profile ? { ...x, body: refreshBody(x.body, profile.intake) } : x)),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [s.scans, profile],
+  );
+  const scan = scans.length ? scans[scans.length - 1] : null;
   return {
     state: s,
     profile,

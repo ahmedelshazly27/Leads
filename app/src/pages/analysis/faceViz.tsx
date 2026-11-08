@@ -42,24 +42,61 @@ export function regionCrop(lm: Pt[], ids: number[], aspect: number, pad = 2, sha
 export const pts = (lm: Pt[], ids: number[], aspect: number) => ids.map((i) => toPhoto(lm[i], aspect));
 export const poly = (p: [number, number][]) => p.map((q) => q.join(",")).join(" ");
 
-/** Wireframe mesh: each landmark joined to its 3 nearest neighbours (deterministic, light). */
+/** Bowyer–Watson Delaunay triangulation (fine for ~500 points). */
+function delaunay(P: [number, number][]): [number, number, number][] {
+  const minX = Math.min(...P.map((p) => p[0])), maxX = Math.max(...P.map((p) => p[0]));
+  const minY = Math.min(...P.map((p) => p[1])), maxY = Math.max(...P.map((p) => p[1]));
+  const d = Math.max(maxX - minX, maxY - minY) * 20;
+  const mx = (minX + maxX) / 2, my = (minY + maxY) / 2;
+  const pts: [number, number][] = [...P, [mx - d, my - d], [mx, my + d], [mx + d, my - d]];
+  const n = P.length;
+  type Tri = { a: number; b: number; c: number; x: number; y: number; r2: number };
+  const circ = (a: number, b: number, c: number): Tri => {
+    const [ax, ay] = pts[a], [bx, by] = pts[b], [cx, cy] = pts[c];
+    const D = 2 * (ax * (by - cy) + bx * (cy - ay) + cx * (ay - by)) || 1e-12;
+    const ux = ((ax * ax + ay * ay) * (by - cy) + (bx * bx + by * by) * (cy - ay) + (cx * cx + cy * cy) * (ay - by)) / D;
+    const uy = ((ax * ax + ay * ay) * (cx - bx) + (bx * bx + by * by) * (ax - cx) + (cx * cx + cy * cy) * (bx - ax)) / D;
+    return { a, b, c, x: ux, y: uy, r2: (ax - ux) ** 2 + (ay - uy) ** 2 };
+  };
+  let tris: Tri[] = [circ(n, n + 1, n + 2)];
+  for (let i = 0; i < n; i++) {
+    const [px, py] = pts[i];
+    const bad: Tri[] = [];
+    const keep: Tri[] = [];
+    for (const t of tris) ((px - t.x) ** 2 + (py - t.y) ** 2 < t.r2 ? bad : keep).push(t);
+    const edges = new Map<string, [number, number]>();
+    for (const t of bad)
+      for (const [u, v] of [[t.a, t.b], [t.b, t.c], [t.c, t.a]] as [number, number][]) {
+        const k = u < v ? `${u},${v}` : `${v},${u}`;
+        if (edges.has(k)) edges.delete(k);
+        else edges.set(k, [u, v]);
+      }
+    for (const [u, v] of edges.values()) keep.push(circ(u, v, i));
+    tris = keep;
+  }
+  return tris.filter((t) => t.a < n && t.b < n && t.c < n).map((t) => [t.a, t.b, t.c]);
+}
+
+function inside(x: number, y: number, poly: [number, number][]) {
+  let ins = false;
+  for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
+    const [xi, yi] = poly[i], [xj, yj] = poly[j];
+    if (yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi) ins = !ins;
+  }
+  return ins;
+}
+
+/** Wireframe mesh edges: Delaunay over the 468 face landmarks, clipped to the face oval. */
 export function useMeshEdges(lm: Pt[] | null, aspect: number) {
   return useMemo(() => {
     if (!lm) return [] as [number, number][];
     const P = lm.slice(0, 468).map((p) => toPhoto(p, aspect));
+    const oval = FACE_OVAL.map((i) => P[i]);
     const edges = new Set<string>();
-    for (let i = 0; i < P.length; i++) {
-      const d: [number, number][] = [];
-      for (let j = 0; j < P.length; j++) {
-        if (i === j) continue;
-        const dx = P[i][0] - P[j][0], dy = P[i][1] - P[j][1];
-        d.push([dx * dx + dy * dy, j]);
-      }
-      d.sort((a, b) => a[0] - b[0]);
-      for (let k = 0; k < 3; k++) {
-        const j = d[k][1];
-        edges.add(i < j ? `${i}-${j}` : `${j}-${i}`);
-      }
+    for (const [a, b, c] of delaunay(P)) {
+      const cx = (P[a][0] + P[b][0] + P[c][0]) / 3, cy = (P[a][1] + P[b][1] + P[c][1]) / 3;
+      if (!inside(cx, cy, oval)) continue;
+      for (const [u, v] of [[a, b], [b, c], [c, a]]) edges.add(u < v ? `${u}-${v}` : `${v}-${u}`);
     }
     return [...edges].map((e) => e.split("-").map(Number) as [number, number]);
   }, [lm, aspect]);
@@ -69,7 +106,7 @@ export function MeshLines({ lm, aspect, opacity = 0.85 }: { lm: Pt[]; aspect: nu
   const edges = useMeshEdges(lm, aspect);
   const P = useMemo(() => lm.map((p) => toPhoto(p, aspect)), [lm, aspect]);
   const d = useMemo(() => edges.map(([a, b]) => `M${P[a][0].toFixed(1)} ${P[a][1].toFixed(1)}L${P[b][0].toFixed(1)} ${P[b][1].toFixed(1)}`).join(""), [edges, P]);
-  return <path d={d} fill="none" stroke="#fff" strokeOpacity={opacity} strokeWidth={0.6} vectorEffect="non-scaling-stroke" />;
+  return <path d={d} fill="none" stroke="#fff" strokeOpacity={opacity} strokeWidth={0.5} vectorEffect="non-scaling-stroke" />;
 }
 
 /** Slate panel with only the mesh (the "Mask" view). Same coordinate system as FacePhoto. */

@@ -125,7 +125,7 @@
 .bd-card-head {
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: center;
   gap: 12px;
 }
 .bd-card-val {
