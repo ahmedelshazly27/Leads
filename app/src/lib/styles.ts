@@ -55,6 +55,8 @@ export interface HairStyle {
   prompt: string; // image-model description (no identity changes)
   /** visual effect on face proportions, -1..1 */
   fx: { height: number; sides: number; fringe: number };
+  /** natural textures this cut is built around (no daily blow-drying to fight it) */
+  worksWith: HairType[];
 }
 
 export const HAIRSTYLES: HairStyle[] = [
@@ -71,7 +73,8 @@ export const HAIRSTYLES: HairStyle[] = [
     barber: "Low taper, softly blended (no harsh skin line). 4–5 cm on top, point-cut for choppy texture, short textured fringe. Matte clay.",
     prompt:
       "2026 textured crop with a soft low taper fade: sides softly blended (no harsh skin line), 4-5 cm of choppy, piece-y matte texture on top pushed slightly forward into a short, uneven textured fringe, natural matte clay finish, no shine, no tall quiff",
-    fx: { height: 0, sides: 0.3, fringe: 0.7 }
+    fx: { height: 0, sides: 0.3, fringe: 0.7 },
+    worksWith: ["straight", "wavy"]
   },
   {
     id: "french-crop-mid-taper",
@@ -86,7 +89,8 @@ export const HAIRSTYLES: HairStyle[] = [
     barber: "Soft mid taper, 3–4 cm on top brushed forward, short blunt-textured fringe.",
     prompt:
       "2026 French crop with a soft mid taper: sides softly blended, short textured top 3-4 cm brushed forward into a short blunt-textured fringe, matte natural finish",
-    fx: { height: -0.3, sides: 0.1, fringe: 1 }
+    fx: { height: -0.3, sides: 0.1, fringe: 1 },
+    worksWith: ["straight"]
   },
   {
     id: "curly-crop-taper",
@@ -100,7 +104,24 @@ export const HAIRSTYLES: HairStyle[] = [
     maintenanceWeeks: 3,
     barber: "Low or mid taper, keep 5–7 cm of curl on top, shape the curls round, light fringe.",
     prompt: "2026 curly crop: low taper fade, defined natural curls 5-7 cm on top shaped round with a light curly fringe, curl cream, matte",
-    fx: { height: 0.4, sides: 0.2, fringe: 0.5 }
+    fx: { height: 0.4, sides: 0.2, fringe: 0.5 },
+    worksWith: ["curly", "coily"]
+  },
+  {
+    id: "medium-curls-subtle-taper",
+    name: "Medium curls · subtle taper",
+    status: "trending",
+    gender: "male",
+    hairTypes: ["wavy", "curly"],
+    faceShapes: ["Oval", "Oblong", "Diamond", "Heart", "Square"],
+    topCm: [7, 10],
+    heatFriendly: false,
+    maintenanceWeeks: 5,
+    barber: "Keep 7–9 cm of curl on top, scissor-cut sides left with some length over the ears, only a subtle low taper at the sideburns and nape (no skin). Cut curls dry, curl cream, no gel.",
+    prompt:
+      "medium-length slightly curly hair: about 7-9 cm on top of loose, soft natural curls and waves with real volume and movement, swept loosely back and to the side with a few curls falling onto the upper forehead, natural matte finish, not slick; sides kept fuller with only a subtle low taper at the sideburns and the neckline (no skin, no visible fade line), slightly longer over the ears",
+    fx: { height: 0.2, sides: 0.7, fringe: 0.5 },
+    worksWith: ["wavy", "curly"]
   },
   {
     id: "middle-part-flow",
@@ -114,7 +135,8 @@ export const HAIRSTYLES: HairStyle[] = [
     maintenanceWeeks: 6,
     barber: "Grow to 10–15 cm, soft middle part, light layers, scissor-cut sides tucked behind the ears.",
     prompt: "2026 middle-part flow: 10-15 cm of soft layered hair parted in the middle, falling as curtains to the temples, sides tucked behind the ears, natural texture, matte",
-    fx: { height: -0.2, sides: 0.8, fringe: 0.4 }
+    fx: { height: -0.2, sides: 0.8, fringe: 0.4 },
+    worksWith: ["straight", "wavy"]
   },
   {
     id: "buzz-cut-soft-fade",
@@ -128,7 +150,8 @@ export const HAIRSTYLES: HairStyle[] = [
     maintenanceWeeks: 2,
     barber: "Guard #2–3 on top, soft fade to #1 on the sides, shaped hairline.",
     prompt: "2026 buzz cut: even #3 guard length on top with a soft blended fade on the sides, natural hairline",
-    fx: { height: -0.5, sides: -0.6, fringe: 0 }
+    fx: { height: -0.5, sides: -0.6, fringe: 0 },
+    worksWith: ["straight", "wavy", "curly", "coily"]
   },
   {
     id: "messy-quiff",
@@ -142,7 +165,8 @@ export const HAIRSTYLES: HairStyle[] = [
     maintenanceWeeks: 4,
     barber: "Low taper, 6–8 cm on top, textured — styled up loosely, not slick.",
     prompt: "soft messy quiff: low taper, 6-8 cm textured top lifted loosely at the front, matte, not slick or glossy",
-    fx: { height: 0.8, sides: -0.2, fringe: -0.5 }
+    fx: { height: 0.8, sides: -0.2, fringe: -0.5 },
+    worksWith: ["straight", "wavy"]
   },
   {
     id: "glossy-pompadour",
@@ -156,7 +180,8 @@ export const HAIRSTYLES: HairStyle[] = [
     maintenanceWeeks: 4,
     barber: "—",
     prompt: "",
-    fx: { height: 1, sides: -0.4, fringe: -1 }
+    fx: { height: 1, sides: -0.4, fringe: -1 },
+    worksWith: ["straight"]
   },
 ];
 
@@ -171,6 +196,14 @@ export interface BeardStyle {
 }
 
 export const BEARDS: BeardStyle[] = [
+  {
+    id: "faded-italian",
+    name: "Faded Italian beard",
+    status: "trending",
+    needsDensity: "medium",
+    prompt: "Italian-style faded beard: short full beard about 6-10 mm, dense on the chin, moustache and along the jaw, cheeks kept low and natural, fading down shorter into the sideburns so it blends into the hair, connected moustache, clean neckline one finger above the Adam's apple",
+    fx: { chin: 0, sides: 0.3, jaw: 0.9, chinWidth: 0.4 },
+  },
   {
     id: "chin-forward-boxed",
     name: "Boxed beard · longer chin",
@@ -272,8 +305,8 @@ export function rankHair(intake: Intake, face: FaceResult | null): Ranked<HairSt
       if (n) {
         // wide face → height lengthens, side volume widens; long face → the reverse
         const h = s.fx.height * n.width * 10;
-        const sd = -s.fx.sides * n.width * 8;
-        const fr = s.fx.fringe * (Math.max(0, n.foreheadWide) + Math.max(0, -n.width)) * 7;
+        const sd = -s.fx.sides * n.width * 10;
+        const fr = s.fx.fringe * (Math.max(0, n.foreheadWide) + Math.max(0, -n.width)) * 5;
         fit += h + sd + fr;
         if (h > 3) reasons.push(s.fx.height > 0 ? "height on top lengthens a wider face" : "staying low on top avoids lengthening a long face");
         if (h < -3) reasons.push(s.fx.height > 0 ? "adds height, which would lengthen an already long face" : "no height on top, so a wide face can read wider");
@@ -281,6 +314,14 @@ export function rankHair(intake: Intake, face: FaceResult | null): Ranked<HairSt
         if (sd < -3) reasons.push(s.fx.sides > 0 ? "side volume would widen a wide face" : "very tight sides narrow an already narrow face");
         if (fr > 3) reasons.push(n.foreheadWide > 0.5 ? "a forward fringe balances a wider forehead and shortens the face visually" : "a forward fringe shortens the face visually");
         if (fr < -3) reasons.push("swept-back styles expose and lengthen the forehead");
+      }
+      // working with natural texture: the cut holds in heat/humidity without daily heat styling
+      if (s.worksWith.includes(intake.hairType)) {
+        fit += 5;
+        if (intake.hairType !== "straight") reasons.push(`built around your natural ${intake.hairType === "wavy" ? "wave" : "curl"} — no daily blow-drying`);
+      } else {
+        fit -= 3;
+        reasons.push(`needs blow-drying to fight your natural ${intake.hairType === "wavy" ? "wave" : "curl"}`);
       }
       if (s.heatFriendly) fit += 4;
       if (s.status === "trending") fit += 4;
@@ -330,4 +371,11 @@ export function suggestHair(intake: Intake, face: FaceResult | null, n = 3): Hai
 
 export function suggestBeard(intake: Intake, face: FaceResult | null = null): BeardStyle | null {
   return rankBeard(intake, face)[0]?.item ?? null;
+}
+
+/** Put the reviewer's pick first (if it is in the library and allowed for this person); fit order otherwise. */
+export function withReview<T extends { id: string }>(ranked: Ranked<T>[], id?: string): { list: Ranked<T>[]; reviewed: boolean } {
+  const i = id ? ranked.findIndex((r) => r.item.id === id) : -1;
+  if (i <= 0) return { list: ranked, reviewed: i === 0 };
+  return { list: [ranked[i], ...ranked.slice(0, i), ...ranked.slice(i + 1)], reviewed: true };
 }

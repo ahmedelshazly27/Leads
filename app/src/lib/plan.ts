@@ -1,4 +1,4 @@
-import { REVIEWED_AT, faceNeeds, rankBeard, rankHair } from "./styles";
+import { REVIEWED_AT, faceNeeds, rankBeard, rankHair, withReview } from "./styles";
 import type { Intake, Scan } from "./types";
 import type { EvidenceGrade } from "./science";
 import { MODIFIABLE, currentScores, overall, regionOf, type ScoreKey } from "./report";
@@ -455,7 +455,8 @@ export function buildPlan(scan: Scan, intake: Intake): Plan {
   });
   if (male) {
     const patchy = intake.facialHair === "patchy";
-    const [beardPick, ...beardAlts] = rankBeard(intake, face ?? null).slice(0, 3);
+    const beardRev = withReview(rankBeard(intake, face ?? null), scan.stylePick?.beard);
+    const [beardPick, ...beardAlts] = beardRev.list.slice(0, 3);
     const needs = faceNeeds(face ?? null);
     items.push({
       id: "beard",
@@ -463,7 +464,7 @@ export function buildPlan(scan: Scan, intake: Intake): Plan {
       title: beardPick ? `Beard: ${beardPick.item.name}` : patchy ? "Even heavy stubble with a defined neckline" : "Groomed heavy stubble or short beard",
       why: [
         beardPick
-          ? `Chosen for your face${needs?.notes.length ? ` (${needs.notes.join("; ")})` : ""}: ${beardPick.reasons.filter((r) => !/needs denser/.test(r)).join("; ") || "balanced proportions suit most beard shapes"}.`
+          ? `${beardRev.reviewed ? "Reviewer's pick, f" : "F"}itted to your face${needs?.notes.length ? ` (${needs.notes.join("; ")})` : ""}: ${beardPick.reasons.filter((r) => !/needs denser/.test(r)).join("; ") || "balanced proportions suit most beard shapes"}.`
           : "",
         "Groomed facial hair changes how the face reads: heavy stubble was rated most attractive and full beards most masculine in a large rating study; a clean lower line sharpens the visible jaw.",
         beardPick?.reasons.some((r) => /needs denser/.test(r)) ? "Your current growth is patchy — expect 3–6 months of growth (optionally minoxidil, discuss with a doctor) to reach full coverage." : "",
@@ -513,7 +514,8 @@ export function buildPlan(scan: Scan, intake: Intake): Plan {
   /* ------------------------------ Hair ------------------------------ */
   const reach = intake.hairLengthCm + 12;
   const shapeForHair = face && !face.capture?.closeRange ? face.faceShape : null;
-  const hairRanked = rankHair(intake, face ?? null).slice(0, 3);
+  const hairRev = withReview(rankHair(intake, face ?? null), scan.stylePick?.hair);
+  const hairRanked = hairRev.list.slice(0, 3);
   const hairPick = hairRanked[0]?.item;
   const hairAlts = hairRanked.slice(1).map((r) => r.item);
   const needs = faceNeeds(face ?? null);
@@ -522,7 +524,7 @@ export function buildPlan(scan: Scan, intake: Intake): Plan {
     id: "haircut",
     category: "Hair",
     title: hairPick ? `Haircut: ${hairPick.name}` : hairAdvice(intake, shapeForHair).title,
-    why: `${hairPick ? `The current cut (editorial library, reviewed ${REVIEWED_AT}) that best balances your face${needs?.notes.length ? ` — ${needs.notes.join("; ")}` : ""}: ${hairRanked[0].reasons.join("; ") || "your proportions are balanced, so the most versatile current cut is chosen"}${hairPick.heatFriendly ? "; practical in Gulf heat" : ""}.` : hairAdvice(intake, shapeForHair).why} Hair grows ~1 cm/month, so styles up to ~${reach} cm on top are reachable within 12 months. Evidence for specific cuts is limited — treat as grooming guidance.`,
+    why: `${hairPick ? `${hairRev.reviewed ? "Reviewer's pick among the closest-scoring cuts" : "The current cut"} (editorial library, reviewed ${REVIEWED_AT}) that balances your face${needs?.notes.length ? ` — ${needs.notes.join("; ")}` : ""}: ${hairRanked[0].reasons.join("; ") || "your proportions are balanced, so the most versatile current cut is chosen"}${hairPick.heatFriendly ? "; practical in Gulf heat" : ""}.` : hairAdvice(intake, shapeForHair).why} Hair grows ~1 cm/month, so styles up to ~${reach} cm on top are reachable within 12 months. Evidence for specific cuts is limited — treat as grooming guidance.`,
     how: hairPick
       ? [
           `Ask your barber: ${hairPick.barber}`,

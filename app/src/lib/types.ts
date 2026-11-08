@@ -195,6 +195,8 @@ export interface Scan {
   hasBodyPhoto: boolean;
   bodySide?: SideResult | null;
   hasSidePhoto?: boolean;
+  /** founder/reviewer's pick among close-scoring styles (library ids) */
+  stylePick?: { hair?: string; beard?: string };
 }
 
 /** Generated images for a scan (baseline "model", end-of-plan "after", style previews). */
