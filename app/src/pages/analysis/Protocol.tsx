@@ -186,6 +186,11 @@ function RecCard({ item, cur }: { item: PlanItem; cur: "EUR" | "USD" | "GBP" }) 
         </div>
       </header>
       <p className="pr-rec-why">{item.why}</p>
+      {item.reviewerNote && (
+        <p className="pr-rec-note">
+          <b>Reviewer note</b> {item.reviewerNote}
+        </p>
+      )}
       <div className="mono-sm">How</div>
       <ul className="bullets pr-rec-how">
         {item.how.map((h) => (
@@ -215,8 +220,8 @@ function RecCard({ item, cur }: { item: PlanItem; cur: "EUR" | "USD" | "GBP" }) 
         </Link>
       )}
       {item.partner && (
-        <Link to={`/analysis/partners?cat=${item.partner}`} className="pr-book">
-          Book with a partner →
+        <Link to="/analysis/partners" className="pr-book">
+          Partner support · coming soon
         </Link>
       )}
     </article>

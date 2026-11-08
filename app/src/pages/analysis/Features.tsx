@@ -88,8 +88,8 @@ export function Eyes({ scan, facePhoto }: SectionProps) {
       ]}
       explanation={
         <>
-          Your outer eye corners sit <b>{Math.abs(m.canthalTilt).toFixed(1)}° {m.canthalTilt >= 0 ? "above" : "below"}</b> the inner corners — a mildly positive tilt (+2° to +6°)
-          is most often rated attractive. Eye height is {fmt(m.eyeAspect * 100, 0)}% of eye width
+          Your outer eye corners sit <b>{Math.abs(m.canthalTilt).toFixed(1)}° {m.canthalTilt >= 0 ? "above" : "below"}</b> the inner corners. Research on attractive faces found a steeper positive tilt in Caucasian and African faces but not in Asian
+          faces, so there is no single ideal — tilt is set by bone and isn't a plan target. Eye height is {fmt(m.eyeAspect * 100, 0)}% of eye width
           {m.eyeAspect < 0.3 ? ", so the lids sit relatively low; sleep and reduced puffiness open the eye area." : "."}
           {ue && ue.coverage > 0.06 && <> Under-eye discolouration covers {(ue.coverage * 100).toFixed(1)}% of that area.</>}
         </>
@@ -362,7 +362,7 @@ export function FeaturesSummary({ scan, facePhoto }: SectionProps) {
     { to: "skin", name: "Skin", type: `${Math.round(m.skinScore)}/100`, ids: [IDX.zygL, IDX.zygR, IDX.top, IDX.menton], pad: 1 },
   ];
   const rows: { name: string; v: string; norm: string; ok: boolean }[] = [
-    { name: "Canthal tilt", v: deg(m.canthalTilt), norm: "+2° to +6°", ok: m.canthalTilt >= 0 },
+    { name: "Canthal tilt", v: deg(m.canthalTilt), norm: "varies by ethnicity", ok: m.canthalTilt >= -2 },
     { name: "Eye spacing : eye width", v: fmt(m.eyeSpacingRatio), norm: "≈ 1.0", ok: Math.abs(m.eyeSpacingRatio - 1.05) < 0.15 },
     { name: "Nose : intercanthal width", v: fmt(m.noseWidthToIntercanthal), norm: "≈ 1.0", ok: Math.abs(m.noseWidthToIntercanthal - 1.05) < 0.15 },
     { name: "Mouth : nose width", v: fmt(m.mouthToNoseWidth), norm: "≈ 1.5", ok: Math.abs(m.mouthToNoseWidth - 1.5) < 0.2 },

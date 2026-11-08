@@ -1,142 +1,101 @@
-import { useMemo, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useState } from "react";
 import { GradeBadge, PageHeader } from "../../components/ui";
-import { buildNutrition } from "../../lib/nutrition";
-import { CATEGORY_LABEL, CLINICAL, PARTNERS, type City, type Partner, type PartnerCategory } from "../../lib/partners";
-import { useAppState } from "../../lib/store";
+import { CATEGORY_LABEL, type PartnerCategory } from "../../lib/partners";
 import type { SectionProps } from "./types";
-import { BookingSheet } from "./BookingSheet";
-import "./Nutrition.css";
 import "./Partners.css";
 
-const CITIES: (City | "All")[] = ["All", "Dubai", "Abu Dhabi", "Riyadh", "Jeddah"];
-const CATS = Object.keys(CATEGORY_LABEL) as PartnerCategory[];
+/** What each partner type would receive from the plan — always with the client's consent, never photos. */
+const SHARES: Record<PartnerCategory, string> = {
+  nutrition: "Calorie and macro targets, plan phase, allergies",
+  dermatology: "Skin findings (regions and coverage), current routine, your questions",
+  trainer: "Training split, priority muscles, limitations",
+  bodycomp: "Nothing — results come back to update your body-fat baseline",
+  barber: "Chosen cut and beard, barber instructions, after image (if you opt in)",
+  aesthetic: "Your consult questions only; treatment decisions stay with the clinician",
+};
+
+const STEPS = [
+  { t: "Request from your plan", d: "Each partner step in your plan gets a request button. You choose exactly what's shared." },
+  { t: "Checked by our team", d: "A specialist confirms the request fits your plan, then books with the partner." },
+  { t: "Results flow back", d: "InBody scans, dermatologist notes and coach check-ins update your progress and plan." },
+];
+
+const NOTIFY_KEY = "partners-notify";
 
 export function Partners(p: SectionProps) {
-  const [params, setParams] = useSearchParams();
-  const cat = (params.get("cat") as PartnerCategory | null) ?? null;
-  const [city, setCity] = useState<City | "All">("All");
-  const [booking, setBooking] = useState<Partner | null>(null);
-  const state = useAppState();
-  const nutrition = useMemo(() => buildNutrition(p.scan, p.profile.intake, p.plan), [p.scan, p.profile, p.plan]);
-
+  const [notify, setNotify] = useState(() => {
+    try {
+      return localStorage.getItem(NOTIFY_KEY) === "1";
+    } catch {
+      return false;
+    }
+  });
   const recommended = p.plan.items.filter((i) => i.partner);
-  const list = PARTNERS.filter((x) => (!cat || x.category === cat) && (city === "All" || x.city === city));
-  const mine = (state.bookings ?? []).filter((b) => b.profileId === p.profile.id).slice().reverse();
-  const setCat = (c: PartnerCategory | null) => {
-    const next = new URLSearchParams(params);
-    if (c) next.set("cat", c);
-    else next.delete("cat");
-    setParams(next, { replace: true });
+  const toggle = () => {
+    const next = !notify;
+    setNotify(next);
+    try {
+      localStorage.setItem(NOTIFY_KEY, next ? "1" : "0");
+    } catch {
+      /* storage blocked */
+    }
   };
 
   return (
     <div className="page pt">
       <PageHeader
-        kicker="Partners"
-        muted="Book"
-        strong="vetted partners"
-        lead={
-          <>
-            Turn plan steps into appointments. Every request is <b>reviewed by our team</b>, who confirm with the partner. You choose exactly what's shared — never your photos.
-          </>
-        }
+        kicker="Care network · coming soon"
+        muted="Partners"
+        strong="coming soon"
+        lead="We're onboarding vetted dermatologists, dietitians and meal services, InBody centres, coaches and barbers in Dubai, Abu Dhabi, Riyadh and Jeddah. Until then, every step in your plan works on its own."
       />
 
       {recommended.length > 0 && (
         <section className="pt-rec">
-          <div className="mono-sm">Recommended from your plan</div>
-          <div className="pt-rec-row">
+          <div className="mono-sm">Where your plan will connect</div>
+          <div className="pt-soon-grid">
             {recommended.map((it) => (
-              <button key={it.id} className={`pt-rec-card ${cat === it.partner ? "on" : ""}`} onClick={() => setCat(it.partner!)}>
-                <span className="mono-sm">{CATEGORY_LABEL[it.partner!]}</span>
+              <div key={it.id} className="pt-soon-card">
+                <div className="pt-soon-top">
+                  <span className="mono-sm">{CATEGORY_LABEL[it.partner!]}</span>
+                  <span className="pt-soon-badge">Coming soon</span>
+                </div>
                 <b>{it.title}</b>
-                <span className="pt-rec-meta">
-                  <GradeBadge grade={it.grade} /> {PARTNERS.filter((x) => x.category === it.partner).length} partners
+                <span className="pt-soon-share">
+                  <i>Would receive:</i> {SHARES[it.partner!] ?? "Only what you choose to share"}
                 </span>
-              </button>
+                <GradeBadge grade={it.grade} />
+              </div>
             ))}
           </div>
         </section>
       )}
 
-      <div className="pt-filters">
-        <div className="pt-chips">
-          <button className={`pt-chip ${!cat ? "on" : ""}`} onClick={() => setCat(null)}>
-            All
-          </button>
-          {CATS.map((c) => (
-            <button key={c} className={`pt-chip ${cat === c ? "on" : ""}`} onClick={() => setCat(c)}>
-              {CATEGORY_LABEL[c]}
-            </button>
-          ))}
-        </div>
-        <select className="pt-city" value={city} onChange={(e) => setCity(e.target.value as City | "All")} aria-label="City">
-          {CITIES.map((c) => (
-            <option key={c} value={c}>
-              {c === "All" ? "All cities" : c}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      {cat && CLINICAL.includes(cat) && (
-        <p className="bk-safety pt-safety">Non-surgical treatments are assessed by the clinic's licensed practitioner. We don't prescribe injectables — you book a consultation, and the practitioner decides what's appropriate.</p>
-      )}
-
-      <div className="pt-grid">
-        {list.map((x) => (
-          <article key={x.id} className="pt-card">
-            <div className="pt-card-top">
-              <span className="mono-sm">
-                {CATEGORY_LABEL[x.category]} · {x.city}
-              </span>
-              <span className="demo-badge">Demo</span>
-            </div>
-            <div className="pt-name">{x.name}</div>
-            <p className="pt-blurb">{x.blurb}</p>
-            {x.licence && <div className="pt-licence">{x.licence}</div>}
-            <ul className="pt-services">
-              {x.services.map((s) => (
-                <li key={s.id}>
-                  <span>{s.name}</span>
-                  <span className="pt-price">
-                    from {s.currency} {s.priceFrom}
-                  </span>
-                </li>
-              ))}
-            </ul>
-            <button className="btn pt-cta" onClick={() => setBooking(x)}>
-              Request booking
-            </button>
-          </article>
-        ))}
-        {!list.length && <p className="lead">No partners for this filter yet.</p>}
-      </div>
-
-      <section className="pt-mine">
-        <div className="mono-sm">Your requests</div>
-        {!mine.length && <p className="pt-empty">No requests yet.</p>}
-        {mine.map((b) => {
-          const partner = PARTNERS.find((x) => x.id === b.partnerId);
-          const svc = partner?.services.find((s) => s.id === b.serviceId);
-          return (
-            <div key={b.id} className="pt-req">
+      <section className="pt-how">
+        <div className="mono-sm">How it will work</div>
+        <ol className="pt-steps">
+          {STEPS.map((s, i) => (
+            <li key={s.t}>
+              <span className="pt-step-n">{i + 1}</span>
               <div>
-                <b>{partner?.name ?? b.partnerId}</b>
-                <div className="pt-req-meta">
-                  {svc?.name} · {b.preferredDate} ({b.preferredTime})
-                </div>
+                <b>{s.t}</b>
+                <p>{s.d}</p>
               </div>
-              <span className={`pt-status s-${b.status}`}>{b.status}</span>
-            </div>
-          );
-        })}
+            </li>
+          ))}
+        </ol>
+        <p className="pt-privacy">Photos are never shared with partners. Clinical treatments (e.g. injectables) are consult-only: the clinician decides, not the plan.</p>
       </section>
 
-      {booking && (
-        <BookingSheet partner={booking} profile={p.profile} plan={p.plan} nutrition={nutrition} presetMacros={booking.category === "nutrition"} onClose={() => setBooking(null)} />
-      )}
+      <section className="pt-notify">
+        <div>
+          <b>Get notified when partners launch in your city</b>
+          <p>{p.profile.intake.location ? `We'll prioritise ${p.profile.intake.location}.` : "Add your city in About You so we can prioritise it."}</p>
+        </div>
+        <button className={`btn ${notify ? "btn-ghost" : ""}`} onClick={toggle} aria-pressed={notify}>
+          {notify ? "✓ You'll be notified" : "Notify me"}
+        </button>
+      </section>
     </div>
   );
 }

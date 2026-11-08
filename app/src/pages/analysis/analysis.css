@@ -707,3 +707,4 @@
   position: absolute;
   inset: 0;
 }
+.pt-soon-badge { display: inline-block; font-size: 11px; padding: 4px 10px; border-radius: 99px; background: var(--card-2); color: var(--ink-3); white-space: nowrap; font-weight: 500; }

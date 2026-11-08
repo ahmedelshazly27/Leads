@@ -1,5 +1,4 @@
 import { useMemo, useState, type ReactNode } from "react";
-import { Link } from "react-router-dom";
 import { Citations, GradeBadge, PageHeader, shortCite } from "../../components/ui";
 import { buildTraining, VOLUME, type MuscleId, type MusclePlan, type Priority, type TrainingDay } from "../../lib/training";
 import type { SectionProps } from "./types";
@@ -139,11 +138,9 @@ export function Training(p: SectionProps) {
           <h3>
             <span className="hl">Want a coach</span> to run it with you?
           </h3>
-          <p>Coaches receive only your split and priorities — never photos.</p>
+          <p>Partner coaches will receive only your split and priorities — never photos.</p>
         </div>
-        <Link to="/analysis/partners?cat=trainer" className="btn">
-          Book a coach
-        </Link>
+        <span className="pt-soon-badge">Coaches · coming soon</span>
       </div>
 
       <section className="tr-evidence">

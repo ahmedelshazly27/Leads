@@ -12,12 +12,12 @@ const BASE = import.meta.env.BASE_URL;
 const LOCAL = {
   wasm: `${BASE}wasm`,
   face: `${BASE}models/face_landmarker.task`,
-  pose: `${BASE}models/pose_landmarker_lite.task`,
+  pose: `${BASE}models/pose_landmarker_heavy.task`,
 };
 const REMOTE = {
   wasm: `https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@${VERSION}/wasm`,
   face: "https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task",
-  pose: "https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/1/pose_landmarker_lite.task",
+  pose: "https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_heavy/float16/1/pose_landmarker_heavy.task",
 };
 
 async function exists(url: string) {

@@ -406,3 +406,4 @@
     display: none;
   }
 }
+.rail-staff { margin-top: 18px; border-top: 1px solid var(--line); padding-top: 14px !important; border-radius: 0 !important; }

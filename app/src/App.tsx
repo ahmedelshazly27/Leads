@@ -9,7 +9,8 @@ import { Settings } from "./pages/Settings";
 import { ProtocolViewer } from "./pages/ProtocolViewer";
 import { Stack } from "./pages/Stack";
 import { Landing } from "./pages/Landing";
-import { Requests } from "./pages/Requests";
+import { Review } from "./pages/review/Review";
+import { ReviewScan } from "./pages/review/ReviewScan";
 import { useReady } from "./lib/store";
 
 export function App() {
@@ -28,7 +29,9 @@ export function App() {
         <Route path="/visualization" element={<Visualization />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/stack" element={<Stack />} />
-        <Route path="/requests" element={<Requests />} />
+        <Route path="/requests" element={<Navigate to="/review" replace />} />
+        <Route path="/review" element={<Review />} />
+        <Route path="/review/:scanId" element={<ReviewScan />} />
         <Route path="/analysis" element={<Navigate to="/analysis/getting-started" replace />} />
         <Route path="/analysis/:section" element={<AnalysisRouter />} />
         <Route path="*" element={<Navigate to="/protocols" replace />} />

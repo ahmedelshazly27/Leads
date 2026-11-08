@@ -43,7 +43,7 @@ function ProfileCard({ profile, active }: { profile: Profile; active: boolean })
   const nav = useNavigate();
   const scans = scansFor(s, profile.id);
   const last = latestScan(s, profile.id);
-  const visual = last ? s.visuals[last.id] : undefined;
+  const visual = last && last.review?.status === "approved" ? s.visuals[last.id] : undefined;
   const photo = (last && (visual?.baseline ?? photoUrl(last.id, "face"))) ?? null;
   const score = last ? overall(currentScores(last, profile.intake)) : null;
   const open = () => {
@@ -56,6 +56,7 @@ function ProfileCard({ profile, active }: { profile: Profile; active: boolean })
         {photo ? <img src={photo} alt="" /> : <FacePhoto src={null} aspect={0.8} placeholderTone="slate" />}
         {profile.sample && <span className="photo-tag">Sample data</span>}
         {score != null && <ScoreCard className="pr-score" label={band(score)} value={score} />}
+        {last && <span className={`pr-review pr-review-${last.review?.status ?? "awaiting"}`}>{last.review?.status === "approved" ? "Reviewed" : last.review?.status === "in-review" ? "In review" : "Awaiting review"}</span>}
       </div>
       <div className="pr-body">
         <div>

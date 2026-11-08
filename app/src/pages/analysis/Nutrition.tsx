@@ -2,16 +2,12 @@ import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Citations, Empty, PageHeader } from "../../components/ui";
 import { buildNutrition, type Macros } from "../../lib/nutrition";
-import { PARTNERS } from "../../lib/partners";
 import type { SectionProps } from "./types";
-import { BookingSheet } from "./BookingSheet";
 import "./Nutrition.css";
 
 export function Nutrition(p: SectionProps) {
   const n = useMemo(() => buildNutrition(p.scan, p.profile.intake, p.plan), [p.scan, p.profile, p.plan]);
   const [phaseIdx, setPhaseIdx] = useState(0);
-  const [pick, setPick] = useState(false);
-  const [partnerId, setPartnerId] = useState<string | null>(null);
 
   if (!n.ok)
     return (
@@ -24,8 +20,6 @@ export function Nutrition(p: SectionProps) {
     );
 
   const ph = n.phases[phaseIdx];
-  const nutritionPartners = PARTNERS.filter((x) => x.category === "nutrition");
-  const partner = nutritionPartners.find((x) => x.id === partnerId) ?? null;
 
   return (
     <div className="page nu">
@@ -117,13 +111,11 @@ export function Nutrition(p: SectionProps) {
       <section className="nu-cta">
         <div>
           <div className="title-md">
-            <span className="hl">Don't want to cook?</span> Send these targets to a meal service.
+            <span className="hl">Don't want to cook?</span> Meal-service partners are coming soon.
           </div>
-          <p className="lead">Partner kitchens and dietitians receive only your calorie & macro targets, phase and allergies — never photos. Our team confirms the booking.</p>
+          <p className="lead">Partner kitchens and dietitians will receive only your calorie and macro targets, phase and allergies — never photos. Until then, use these targets with any meal service.</p>
         </div>
-        <button className="btn" onClick={() => setPick(true)}>
-          Choose a meal partner
-        </button>
+        <span className="pt-soon-badge">Coming soon</span>
       </section>
 
       <section className="nu-card nu-evidence">
@@ -136,38 +128,6 @@ export function Nutrition(p: SectionProps) {
         <Citations ids={n.refs} />
       </section>
 
-      {pick && !partner && (
-        <div className="bk-scrim" onClick={() => setPick(false)}>
-          <div className="bk-sheet" onClick={(e) => e.stopPropagation()}>
-            <div className="bk-head">
-              <div className="title-md">Meal plans & dietitians</div>
-              <button className="btn btn-ghost" onClick={() => setPick(false)}>Close</button>
-            </div>
-            {nutritionPartners.map((x) => (
-              <button key={x.id} className="nu-pick" onClick={() => setPartnerId(x.id)}>
-                <b>{x.name}</b>
-                <span>
-                  {x.city} · from {x.services[0].currency} {Math.min(...x.services.map((s) => s.priceFrom))}
-                </span>
-                <span className="demo-badge">Demo partner</span>
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-      {partner && (
-        <BookingSheet
-          partner={partner}
-          profile={p.profile}
-          plan={p.plan}
-          nutrition={n}
-          presetMacros
-          onClose={() => {
-            setPartnerId(null);
-            setPick(false);
-          }}
-        />
-      )}
     </div>
   );
 }

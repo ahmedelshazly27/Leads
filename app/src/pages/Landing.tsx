@@ -416,7 +416,7 @@ function PlanSection({ data }: { data: ReturnType<typeof useSample> }) {
       <div className="lp-split-text">
         <Head kicker="Your plan" dark="Simply follow your plan." muted="See the change." lead="A 12-month protocol built from your measurements — no surgery, no guesswork." />
         <ul className="lp-checks">
-          {["Every step triggered by one of your measurements", "Graded A–C by the strength of its evidence", "Calories and macros sized to your goal and timeline", "Book vetted partners when you want help"].map((t) => (
+          {["Every step triggered by one of your measurements", "Graded A–C by the strength of its evidence", "Calories and macros sized to your goal and timeline", "Specialist partners coming soon in the UAE & Saudi Arabia"].map((t) => (
             <li key={t}>
               <Verified size={16} />
               {t}
@@ -721,10 +721,10 @@ function CareNetwork() {
     <section className="lp-sec" id="care">
       <Head
         center
-        kicker="Care network"
+        kicker="Care network · coming soon"
         dark="Your plan, carried out"
         muted="by specialists."
-        lead="We partner with licensed dermatologists, registered dietitians and vetted specialists. Your plan connects to them, with follow-ups built in."
+        lead="Coming soon: licensed dermatologists, registered dietitians and vetted specialists, connected to your plan with follow-ups built in. We're onboarding partners now."
       />
       <div className="lp-care">
         <div className="lp-hub">

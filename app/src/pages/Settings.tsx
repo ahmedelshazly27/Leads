@@ -29,7 +29,7 @@ export function Settings() {
         lead="Display preferences and your data."
         right={
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-            <Link to="/requests" className="btn btn-ghost">Booking requests (admin)</Link>
+            <Link to="/review" className="btn btn-ghost">Review console (staff)</Link>
             <Link to="/" className="btn btn-ghost">About &amp; pricing</Link>
           </div>
         }

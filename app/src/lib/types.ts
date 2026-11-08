@@ -197,6 +197,25 @@ export interface Scan {
   hasSidePhoto?: boolean;
   /** founder/reviewer's pick among close-scoring styles (library ids) */
   stylePick?: { hair?: string; beard?: string };
+  /** human-in-the-loop review; absent = awaiting review */
+  review?: Review;
+}
+
+export type ReviewStatus = "awaiting" | "in-review" | "approved";
+
+export interface Review {
+  status: ReviewStatus;
+  /** checklist id -> done */
+  checks: Record<string, boolean>;
+  /** plan item ids removed by the reviewer */
+  hiddenItems: string[];
+  /** plan item id -> note shown to the client */
+  itemNotes: Record<string, string>;
+  /** message to the client shown on the report */
+  note: string;
+  realism?: { pass: boolean; at: string; worst: string };
+  updatedAt: string;
+  approvedAt?: string;
 }
 
 /** Generated images for a scan (baseline "model", end-of-plan "after", style previews). */

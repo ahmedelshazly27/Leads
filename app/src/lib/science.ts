@@ -18,6 +18,8 @@ export interface Reference {
   title: string;
   source: string;
   finding: string;
+  /** DOI (without https://doi.org/) when one exists */
+  doi?: string;
 }
 
 export const REFS: Record<string, Reference> = {
@@ -36,6 +38,7 @@ export const REFS: Record<string, Reference> = {
     title: "Attractive faces are only average",
     source: "Psychological Science 1(2):115–121",
     finding: "Composite (mathematically averaged) faces are rated more attractive than most individual faces.",
+    doi: "10.1111/j.1467-9280.1990.tb00079.x",
   },
   rhodes2006: {
     id: "rhodes2006",
@@ -44,6 +47,7 @@ export const REFS: Record<string, Reference> = {
     title: "The evolutionary psychology of facial beauty",
     source: "Annual Review of Psychology 57:199–226",
     finding: "Review: averageness, symmetry and sexual dimorphism are each associated with attractiveness ratings.",
+    doi: "10.1146/annurev.psych.57.102904.190208",
   },
   grammer1994: {
     id: "grammer1994",
@@ -52,6 +56,7 @@ export const REFS: Record<string, Reference> = {
     title: "Human facial attractiveness and sexual selection: the role of symmetry and averageness",
     source: "Journal of Comparative Psychology 108(3):233–242",
     finding: "Bilateral facial symmetry correlates with attractiveness ratings.",
+    doi: "10.1037/0735-7036.108.3.233",
   },
   perrett1998: {
     id: "perrett1998",
@@ -60,6 +65,7 @@ export const REFS: Record<string, Reference> = {
     title: "Effects of sexual dimorphism on facial attractiveness",
     source: "Nature 394:884–887",
     finding: "Feminised shapes were preferred for female faces and, in this sample, slightly feminised shapes for male faces.",
+    doi: "10.1038/29772",
   },
   carre2008: {
     id: "carre2008",
@@ -67,7 +73,8 @@ export const REFS: Record<string, Reference> = {
     year: 2008,
     title: "In your face: facial metrics predict aggressive behaviour in the laboratory and in varsity and professional hockey players",
     source: "Proceedings of the Royal Society B 275:2651–2656",
-    finding: "Facial width-to-height ratio (fWHR) is associated with perceived and behavioural aggression in men.",
+    finding: "Higher fWHR predicted aggressive behaviour in a lab task and penalty minutes per game in varsity and professional hockey players (men).",
+    doi: "10.1098/rspb.2008.0873",
   },
   geniole2015: {
     id: "geniole2015",
@@ -76,6 +83,7 @@ export const REFS: Record<string, Reference> = {
     title: "Evidence from meta-analyses of the facial width-to-height ratio as an evolved cue of threat",
     source: "PLoS ONE 10(7): e0132726",
     finding: "Meta-analysis: higher fWHR is reliably perceived as more threatening/dominant.",
+    doi: "10.1371/journal.pone.0132726",
   },
   coetzee2009: {
     id: "coetzee2009",
@@ -84,6 +92,7 @@ export const REFS: Record<string, Reference> = {
     title: "Facial adiposity: a cue to health?",
     source: "Perception 38(11):1700–1711",
     finding: "Perceived facial adiposity tracks BMI and is linked to perceived health and attractiveness.",
+    doi: "10.1068/p6423",
   },
   russell2009: {
     id: "russell2009",
@@ -91,7 +100,8 @@ export const REFS: Record<string, Reference> = {
     year: 2009,
     title: "A sex difference in facial contrast and its exaggeration by cosmetics",
     source: "Perception 38(8):1211–1219",
-    finding: "Luminance contrast between eyes/lips and surrounding skin is a cue to femininity and attractiveness.",
+    finding: "Women's faces show greater eye/lip-to-skin luminance contrast than men's; cosmetics increase it, and raising contrast makes faces look more feminine.",
+    doi: "10.1068/p6331",
   },
   porcheron2013: {
     id: "porcheron2013",
@@ -100,6 +110,7 @@ export const REFS: Record<string, Reference> = {
     title: "Aspects of facial contrast decrease with age and are cues for age perception",
     source: "PLoS ONE 8(3): e57985",
     finding: "Facial contrast declines with age; higher contrast faces look younger.",
+    doi: "10.1371/journal.pone.0057985",
   },
   cunningham1986: {
     id: "cunningham1986",
@@ -108,6 +119,7 @@ export const REFS: Record<string, Reference> = {
     title: "Measuring the physical in physical attractiveness",
     source: "Journal of Personality and Social Psychology 50(5):925–935",
     finding: "Neotenous features (large eyes, small nose/chin) are associated with attractiveness ratings of female faces.",
+    doi: "10.1037/0022-3514.50.5.925",
   },
   willis2006: {
     id: "willis2006",
@@ -116,6 +128,7 @@ export const REFS: Record<string, Reference> = {
     title: "First impressions: making up your mind after a 100-ms exposure to a face",
     source: "Psychological Science 17(7):592–598",
     finding: "Trait judgements (trust, competence, likeability) form within 100 ms of seeing a face.",
+    doi: "10.1111/j.1467-9280.2006.01750.x",
   },
   oosterhof2008: {
     id: "oosterhof2008",
@@ -124,6 +137,7 @@ export const REFS: Record<string, Reference> = {
     title: "The functional basis of face evaluation",
     source: "PNAS 105(32):11087–11092",
     finding: "Face evaluation is largely captured by two dimensions: trustworthiness and dominance.",
+    doi: "10.1073/pnas.0805664105",
   },
   reis1990: {
     id: "reis1990",
@@ -132,6 +146,7 @@ export const REFS: Record<string, Reference> = {
     title: "What is smiling is beautiful and good",
     source: "European Journal of Social Psychology 20(3):259–267",
     finding: "Smiling faces are rated more attractive, sincere and sociable.",
+    doi: "10.1002/ejsp.2420200307",
   },
   rhee2012: {
     id: "rhee2012",
@@ -139,7 +154,8 @@ export const REFS: Record<string, Reference> = {
     year: 2012,
     title: "Biometric study of eyelid shape and dimensions of different races with references to beauty",
     source: "Aesthetic Plastic Surgery 36(5):1236–1245",
-    finding: "Eyes rated attractive tend to have a mildly positive canthal tilt.",
+    finding: "Attractive composites had a steeper palpebral (canthal) slant than average for Caucasian and African faces, but a less steep slant for Asian faces.",
+    doi: "10.1007/s00266-012-9937-7",
   },
   popenko2017: {
     id: "popenko2017",
@@ -148,6 +164,7 @@ export const REFS: Record<string, Reference> = {
     title: "A quantitative approach to determining the ideal female lip aesthetic and its effect on facial attractiveness",
     source: "JAMA Facial Plastic Surgery 19(4):261–267",
     finding: "An upper-to-lower lip ratio near 1:2 was rated most attractive.",
+    doi: "10.1001/jamafacial.2016.2049",
   },
   sadr2003: {
     id: "sadr2003",
@@ -155,7 +172,8 @@ export const REFS: Record<string, Reference> = {
     year: 2003,
     title: "The role of eyebrows in face recognition",
     source: "Perception 32(3):285–293",
-    finding: "Eyebrows are among the most important features for face recognition and expression.",
+    finding: "Removing eyebrows from famous faces impaired recognition significantly more than removing the eyes.",
+    doi: "10.1068/p5027",
   },
   fink2006: {
     id: "fink2006",
@@ -164,6 +182,7 @@ export const REFS: Record<string, Reference> = {
     title: "Visible skin color distribution plays a role in the perception of age, attractiveness, and health in female faces",
     source: "Evolution and Human Behavior 27(6):433–442",
     finding: "Even skin tone distribution makes faces look younger, healthier and more attractive.",
+    doi: "10.1016/j.evolhumbehav.2006.08.007",
   },
   hughes2013: {
     id: "hughes2013",
@@ -172,6 +191,7 @@ export const REFS: Record<string, Reference> = {
     title: "Sunscreen and prevention of skin aging: a randomized trial",
     source: "Annals of Internal Medicine 158(11):781–790",
     finding: "Daily broad-spectrum sunscreen use showed no detectable increase in skin aging over 4.5 years vs. discretionary use.",
+    doi: "10.7326/0003-4819-158-11-201306040-00002",
   },
   weiss1988: {
     id: "weiss1988",
@@ -180,6 +200,7 @@ export const REFS: Record<string, Reference> = {
     title: "Topical tretinoin improves photoaged skin: a double-blind vehicle-controlled study",
     source: "JAMA 259(4):527–532",
     finding: "Tretinoin improved fine wrinkling, roughness and mottled pigmentation vs. vehicle.",
+    doi: "10.1001/jama.1988.03720040019018",
   },
   mukherjee2006: {
     id: "mukherjee2006",
@@ -188,6 +209,7 @@ export const REFS: Record<string, Reference> = {
     title: "Retinoids in the treatment of skin aging: an overview of clinical efficacy and safety",
     source: "Clinical Interventions in Aging 1(4):327–348",
     finding: "Review of retinoid efficacy for photoaging, including over-the-counter retinol.",
+    doi: "10.2147/ciia.2006.1.4.327",
   },
   bissett2005: {
     id: "bissett2005",
@@ -196,6 +218,7 @@ export const REFS: Record<string, Reference> = {
     title: "Niacinamide: a B vitamin that improves aging facial skin appearance",
     source: "Dermatologic Surgery 31(7 Pt 2):860–865",
     finding: "5% niacinamide improved hyperpigmentation, redness, texture and fine lines vs. vehicle.",
+    doi: "10.1111/j.1524-4725.2005.31732",
   },
   traikovich1999: {
     id: "traikovich1999",
@@ -204,6 +227,7 @@ export const REFS: Record<string, Reference> = {
     title: "Use of topical ascorbic acid and its effects on photodamaged skin topography",
     source: "Archives of Otolaryngology–Head & Neck Surgery 125(10):1091–1098",
     finding: "Topical vitamin C improved photodamaged skin texture vs. vehicle.",
+    doi: "10.1001/archotol.125.10.1091",
   },
   axelsson2010: {
     id: "axelsson2010",
@@ -212,6 +236,7 @@ export const REFS: Record<string, Reference> = {
     title: "Beauty sleep: experimental study on the perceived health and attractiveness of sleep deprived people",
     source: "BMJ 341:c6614",
     finding: "After sleep deprivation, people were rated less healthy, less attractive and more tired.",
+    doi: "10.1136/bmj.c6614",
   },
   sundelin2017: {
     id: "sundelin2017",
@@ -220,6 +245,7 @@ export const REFS: Record<string, Reference> = {
     title: "Negative effects of restricted sleep on facial appearance and social appeal",
     source: "Royal Society Open Science 4(5):160918",
     finding: "Two nights of restricted sleep reduced rated attractiveness and others' willingness to socialise.",
+    doi: "10.1098/rsos.160918",
   },
   stephen2011: {
     id: "stephen2011",
@@ -228,6 +254,7 @@ export const REFS: Record<string, Reference> = {
     title: "Carotenoid and melanin pigment coloration affect perceived human health",
     source: "Evolution and Human Behavior 32(3):216–227",
     finding: "Carotenoid-linked skin yellowness increases perceived health.",
+    doi: "10.1016/j.evolhumbehav.2010.09.003",
   },
   whitehead2012: {
     id: "whitehead2012",
@@ -236,6 +263,7 @@ export const REFS: Record<string, Reference> = {
     title: "You are what you eat: within-subject increases in fruit and vegetable consumption confer beneficial skin-color changes",
     source: "PLoS ONE 7(3): e32988",
     finding: "Raising fruit and vegetable intake produced perceptible, attractive skin colour changes within ~6 weeks.",
+    doi: "10.1371/journal.pone.0032988",
   },
   morita2007: {
     id: "morita2007",
@@ -244,6 +272,7 @@ export const REFS: Record<string, Reference> = {
     title: "Tobacco smoke causes premature skin aging",
     source: "Journal of Dermatological Science 48(3):169–175",
     finding: "Smoking accelerates skin aging via MMP induction and reduced collagen synthesis.",
+    doi: "10.1016/j.jdermsci.2007.06.015",
   },
   goodman2019: {
     id: "goodman2019",
@@ -260,6 +289,7 @@ export const REFS: Record<string, Reference> = {
     title: "A systematic review, meta-analysis and meta-regression of the effect of protein supplementation on resistance training-induced gains in muscle mass and strength",
     source: "British Journal of Sports Medicine 52(6):376–384",
     finding: "Protein intake up to ~1.6 g/kg/day augments resistance-training gains in lean mass.",
+    doi: "10.1136/bjsports-2017-097608",
   },
   schoenfeld2016: {
     id: "schoenfeld2016",
@@ -268,6 +298,7 @@ export const REFS: Record<string, Reference> = {
     title: "Effects of resistance training frequency on measures of muscle hypertrophy: a systematic review and meta-analysis",
     source: "Sports Medicine 46(11):1689–1697",
     finding: "Training each muscle group at least twice weekly yields more hypertrophy than once weekly.",
+    doi: "10.1007/s40279-016-0543-8",
   },
   schoenfeld2017: {
     id: "schoenfeld2017",
@@ -276,6 +307,7 @@ export const REFS: Record<string, Reference> = {
     title: "Dose-response relationship between weekly resistance training volume and increases in muscle mass",
     source: "Journal of Sports Sciences 35(11):1073–1082",
     finding: "More weekly sets per muscle (≥10) is associated with greater hypertrophy.",
+    doi: "10.1080/02640414.2016.1210197",
   },
   hall2011: {
     id: "hall2011",
@@ -284,6 +316,7 @@ export const REFS: Record<string, Reference> = {
     title: "Quantification of the effect of energy imbalance on bodyweight",
     source: "The Lancet 378(9793):826–837",
     finding: "Sustained energy deficit drives weight loss; models realistic rates and plateaus.",
+    doi: "10.1016/S0140-6736(11)60812-X",
   },
   singh1993: {
     id: "singh1993",
@@ -292,14 +325,16 @@ export const REFS: Record<string, Reference> = {
     title: "Adaptive significance of female physical attractiveness: role of waist-to-hip ratio",
     source: "Journal of Personality and Social Psychology 65(2):293–307",
     finding: "Female figures with a waist-to-hip ratio around 0.7 were rated most attractive.",
+    doi: "10.1037/0022-3514.65.2.293",
   },
   sell2017: {
     id: "sell2017",
     authors: "Sell A, Lukaszewski AW, Townsley M",
     year: 2017,
     title: "Cues of upper body strength account for most of the variance in men's bodily attractiveness",
-    source: "Proceedings of the Royal Society B 284: 20171819",
+    source: "Proceedings of the Royal Society B 284(1869):20171819",
     finding: "Perceived upper-body strength explained ~70% of variance in men's bodily attractiveness.",
+    doi: "10.1098/rspb.2017.1819",
   },
   deurenberg1991: {
     id: "deurenberg1991",
@@ -308,14 +343,15 @@ export const REFS: Record<string, Reference> = {
     title: "Body mass index as a measure of body fatness: age- and sex-specific prediction formulas",
     source: "British Journal of Nutrition 65(2):105–114",
     finding: "Body fat % ≈ 1.2·BMI + 0.23·age − 10.8·sex − 5.4 (sex: male = 1, female = 0).",
+    doi: "10.1079/BJN19910073",
   },
   who2008: {
     id: "who2008",
     authors: "World Health Organization",
-    year: 2008,
+    year: 2011,
     title: "Waist circumference and waist–hip ratio: report of a WHO expert consultation",
-    source: "WHO, Geneva",
-    finding: "Defines WHR risk thresholds (≥0.90 men, ≥0.85 women) and BMI categories.",
+    source: "WHO, Geneva (consultation held Dec 2008; published 2011)",
+    finding: "Expert consultation: waist-to-hip ratio ≥0.90 (men) or ≥0.85 (women) indicates substantially increased metabolic risk.",
   },
   kendall2005: {
     id: "kendall2005",
@@ -332,6 +368,7 @@ export const REFS: Record<string, Reference> = {
     title: "Association of facial exercise with the appearance of aging",
     source: "JAMA Dermatology 154(3):365–367",
     finding: "Small uncontrolled pilot (n=16): facial exercise associated with modest upper-cheek fullness gains.",
+    doi: "10.1001/jamadermatol.2017.5142",
   },
   zaenglein2016: {
     id: "zaenglein2016",
@@ -340,6 +377,7 @@ export const REFS: Record<string, Reference> = {
     title: "Guidelines of care for the management of acne vulgaris",
     source: "Journal of the American Academy of Dermatology 74(5):945–973",
     finding: "Topical retinoids and benzoyl peroxide are first-line, strongly recommended acne treatments.",
+    doi: "10.1016/j.jaad.2015.12.037",
   },
   watson2015: {
     id: "watson2015",
@@ -348,6 +386,7 @@ export const REFS: Record<string, Reference> = {
     title: "Recommended amount of sleep for a healthy adult: AASM and SRS joint consensus statement",
     source: "Sleep 38(6):843–844",
     finding: "Adults should sleep 7 or more hours per night on a regular basis.",
+    doi: "10.5665/sleep.4716",
   },
   helms2014: {
     id: "helms2014",
@@ -355,7 +394,8 @@ export const REFS: Record<string, Reference> = {
     year: 2014,
     title: "Evidence-based recommendations for natural bodybuilding contest preparation: nutrition and supplementation",
     source: "Journal of the International Society of Sports Nutrition 11:20",
-    finding: "Losing ~0.5–1% of body weight per week with high protein best preserves lean mass.",
+    finding: "Review recommends losing ~0.5–1% of body weight per week, with 2.3–3.1 g/kg lean-mass protein, to help retain muscle during contest dieting.",
+    doi: "10.1186/1550-2783-11-20",
   },
   dixson2013: {
     id: "dixson2013",
@@ -363,7 +403,8 @@ export const REFS: Record<string, Reference> = {
     year: 2013,
     title: "The role of facial hair in women's perceptions of men's attractiveness, health, masculinity and parenting abilities",
     source: "Evolution and Human Behavior 34(3):236–241",
-    finding: "Heavy stubble was rated most attractive; full beards rated highest for masculinity and parenting ability.",
+    finding: "Women rated heavy stubble most attractive; full beards were rated highest for parenting ability and health, and masculinity rose with facial hair.",
+    doi: "10.1016/j.evolhumbehav.2013.02.003",
   },
   janif2014: {
     id: "janif2014",
@@ -371,7 +412,8 @@ export const REFS: Record<string, Reference> = {
     year: 2014,
     title: "Negative frequency-dependent preferences and variation in male facial hair",
     source: "Biology Letters 10(4):20130958",
-    finding: "Beards and clean-shaven faces were rated more attractive when rare — style preferences cycle, so 'trending' is a moving target.",
+    finding: "Beards and clean-shaven faces were each rated more attractive when rare — the authors infer that facial-hair fashions cycle, so 'trending' is a moving target.",
+    doi: "10.1098/rsbl.2013.0958",
   },
   ingprasert2016: {
     id: "ingprasert2016",
@@ -380,6 +422,7 @@ export const REFS: Record<string, Reference> = {
     title: "Efficacy and safety of minoxidil 3% lotion for beard enhancement: a randomized, double-masked, placebo-controlled study",
     source: "Journal of Dermatology 43(8):968–969",
     finding: "Minoxidil 3% modestly increased beard hair count vs. placebo over 16 weeks.",
+    doi: "10.1111/1346-8138.13312",
   },
   kaufman1998: {
     id: "kaufman1998",
@@ -388,6 +431,7 @@ export const REFS: Record<string, Reference> = {
     title: "Finasteride in the treatment of men with androgenetic alopecia",
     source: "Journal of the American Academy of Dermatology 39(4 Pt 1):578–589",
     finding: "Finasteride 1 mg/day slowed hair loss and increased hair count vs. placebo over 2 years.",
+    doi: "10.1016/S0190-9622(98)70007-6",
   },
   olsen2002: {
     id: "olsen2002",
@@ -396,6 +440,7 @@ export const REFS: Record<string, Reference> = {
     title: "A randomized clinical trial of 5% topical minoxidil versus 2% topical minoxidil and placebo in the treatment of androgenetic alopecia in men",
     source: "Journal of the American Academy of Dermatology 47(3):377–385",
     finding: "5% minoxidil outperformed 2% and placebo for regrowth at 48 weeks.",
+    doi: "10.1067/mjd.2002.124088",
   },
   ward2018: {
     id: "ward2018",
@@ -404,6 +449,7 @@ export const REFS: Record<string, Reference> = {
     title: "Nasal distortion in short-distance photographs: the selfie effect",
     source: "JAMA Facial Plastic Surgery 20(4):333–335",
     finding: "At 30 cm, nasal base width appears ~30% (men) and ~29% (women) larger than at 1.5 m.",
+    doi: "10.1001/jamafacial.2018.0009",
   },
   ashwell2012: {
     id: "ashwell2012",
@@ -411,13 +457,14 @@ export const REFS: Record<string, Reference> = {
     year: 2012,
     title: "Waist-to-height ratio is a better screening tool than waist circumference and BMI for adult cardiometabolic risk factors: systematic review and meta-analysis",
     source: "Obesity Reviews 13(3):275–286",
-    finding: "Waist-to-height ratio ≥ 0.5 flags raised cardiometabolic risk across sexes and ethnicities.",
+    finding: "Meta-analysis: waist-to-height ratio discriminated adult cardiometabolic risk better than waist circumference or BMI in both sexes; 0.5 is the authors' proposed boundary.",
+    doi: "10.1111/j.1467-789X.2011.00952.x",
   },
   hodgdon1984: {
     id: "hodgdon1984",
     authors: "Hodgdon JA, Beckett MB",
     year: 1984,
-    title: "Prediction of percent body fat for U.S. Navy men and women from body circumferences and height",
+    title: "Prediction of percent body fat for U.S. Navy men (NHRC 84-11) and women (NHRC 84-29) from body circumferences and height (two reports)",
     source: "Naval Health Research Center, Reports No. 84-11 and 84-29",
     finding: "Circumference-based body-fat equations used by the US Navy (SEE ≈ 3–4%).",
   },
@@ -427,7 +474,8 @@ export const REFS: Record<string, Reference> = {
     year: 2008,
     title: "The relationship between head posture and severity and disability of patients with neck pain",
     source: "Manual Therapy 13(2):148–154",
-    finding: "A smaller craniovertebral angle (more forward head posture) was associated with greater neck pain severity and disability.",
+    finding: "Neck-pain patients had smaller craniovertebral angles than controls; a smaller angle moderately correlated with greater neck disability, but not with pain intensity.",
+    doi: "10.1016/j.math.2006.11.002",
   },
   sheikhhoseini2018: {
     id: "sheikhhoseini2018",
@@ -436,6 +484,7 @@ export const REFS: Record<string, Reference> = {
     title: "Effectiveness of therapeutic exercise on forward head posture: a systematic review and meta-analysis",
     source: "Journal of Manipulative and Physiological Therapeutics 41(6):530–539",
     finding: "Therapeutic exercise (strengthening + stretching) improved forward head posture vs. controls.",
+    doi: "10.1016/j.jmpt.2018.02.002",
   },
   vispute2011: {
     id: "vispute2011",
@@ -444,6 +493,7 @@ export const REFS: Record<string, Reference> = {
     title: "The effect of abdominal exercise on abdominal fat",
     source: "Journal of Strength and Conditioning Research 25(9):2559–2564",
     finding: "Six weeks of abdominal exercise alone did not reduce abdominal fat — no spot reduction.",
+    doi: "10.1519/JSC.0b013e3181fb4a46",
   },
   pouliot1994: {
     id: "pouliot1994",
@@ -452,6 +502,7 @@ export const REFS: Record<string, Reference> = {
     title: "Waist circumference and abdominal sagittal diameter: best simple anthropometric indexes of abdominal visceral adipose tissue accumulation and related cardiovascular risk in men and women",
     source: "American Journal of Cardiology 73(7):460–468",
     finding: "Abdominal depth (sagittal diameter) and waist circumference track visceral fat closely.",
+    doi: "10.1016/0002-9149(94)90676-9",
   },
   woolcott2018: {
     id: "woolcott2018",
@@ -460,6 +511,7 @@ export const REFS: Record<string, Reference> = {
     title: "Relative fat mass (RFM) as a new estimator of whole-body fat percentage: a cross-sectional study in American adult individuals",
     source: "Scientific Reports 8:10980",
     finding: "RFM = 64 − 20 × (height/waist) (+12 for women) estimated DXA body fat better than BMI.",
+    doi: "10.1038/s41598-018-29362-1",
   },
   mifflin1990: {
     id: "mifflin1990",
@@ -467,7 +519,8 @@ export const REFS: Record<string, Reference> = {
     year: 1990,
     title: "A new predictive equation for resting energy expenditure in healthy individuals",
     source: "American Journal of Clinical Nutrition 51(2):241–247",
-    finding: "Predicts resting energy expenditure within ~10% for most adults; the most accurate common equation.",
+    finding: "Derived the Mifflin–St Jeor resting energy equation from 498 healthy normal-weight and obese adults; Harris–Benedict overestimated measured REE by about 5%.",
+    doi: "10.1093/ajcn/51.2.241",
   },
   alam2014: {
     id: "alam2014",
@@ -476,6 +529,7 @@ export const REFS: Record<string, Reference> = {
     title: "Efficacy of a needling device for the treatment of acne scars: a randomized clinical trial",
     source: "JAMA Dermatology 150(8):844–849",
     finding: "Microneedling improved acne-scar appearance vs. control in a split-face randomised trial.",
+    doi: "10.1001/jamadermatol.2013.8687",
   },
   saitoh1970: {
     id: "saitoh1970",
@@ -483,7 +537,8 @@ export const REFS: Record<string, Reference> = {
     year: 1970,
     title: "Human hair cycle",
     source: "Journal of Investigative Dermatology 54(1):65–81",
-    finding: "Scalp hair grows roughly 0.35 mm per day (about 1 cm per month).",
+    finding: "Classic study of the human hair cycle; scalp hair grows on the order of 1 cm per month (~0.35 mm/day reported across studies).",
+    doi: "10.1111/1523-1747.ep12551679",
   },
 };
 
@@ -547,7 +602,7 @@ export const METHODS: Record<string, Method> = {
   },
   canthal: {
     how: "Angle of the line from inner to outer eye corner, after correcting head roll.",
-    norm: "A mildly positive tilt (+2° to +6°) is most often rated attractive.",
+    norm: "Norms depend on ethnicity: attractive composites had a steeper positive tilt than average in Caucasian and African faces, but a less steep tilt in Asian faces.",
     refs: ["rhee2012"],
   },
   lips: {
@@ -557,7 +612,7 @@ export const METHODS: Record<string, Method> = {
   },
   brows: {
     how: "Brow landmarks give arch height (relative to brow length), peak position, tilt, thickness and brow-to-lid distance.",
-    norm: "Brows strongly shape expression and recognition; lower, straighter brows read as more masculine.",
+    norm: "Brows are more important for recognising a face than the eyes themselves; lower, straighter brows read as more masculine.",
     refs: ["sadr2003", "perrett1998"],
   },
   impression: {

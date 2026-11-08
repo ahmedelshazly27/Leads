@@ -172,6 +172,15 @@ export async function addScan(scan: Scan, facePhoto: string | null, bodyPhoto: s
   set({ ...state, scans: [...state.scans, scan], activeProfileId: scan.profileId });
 }
 
+export function updateScan(id: string, patch: Partial<Scan>) {
+  set({ ...state, scans: state.scans.map((x) => (x.id === id ? { ...x, ...patch } : x)) });
+}
+
+export function setReview(id: string, patch: Partial<import("./types").Review>) {
+  const cur = state.scans.find((x) => x.id === id)?.review ?? { status: "awaiting" as const, checks: {}, hiddenItems: [], itemNotes: {}, note: "" };
+  updateScan(id, { review: { ...cur, ...patch, updatedAt: new Date().toISOString() } });
+}
+
 export function setActiveProfile(id: string) {
   if (state.activeProfileId !== id) set({ ...state, activeProfileId: id });
 }

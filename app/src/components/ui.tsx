@@ -216,6 +216,14 @@ export function Citations({ ids }: { ids: string[] }) {
         return (
           <li key={id}>
             {r.authors} ({r.year}). <i>{r.title}</i>. {r.source}.
+            {r.doi && (
+              <>
+                {" "}
+                <a href={`https://doi.org/${r.doi}`} target="_blank" rel="noreferrer">
+                  doi:{r.doi}
+                </a>
+              </>
+            )}
           </li>
         );
       })}

@@ -1,3 +1,4 @@
+import { ReviewBanner } from "../../components/ReviewBanner";
 import { useMemo, type ComponentType } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import { Empty, Toggle } from "../../components/ui";
@@ -73,7 +74,8 @@ export function AnalysisRouter() {
   const { section = "getting-started" } = useParams();
   const { profile, scan, scans, facePhoto, bodyPhoto, sidePhoto, state } = useActive();
   const plan = useMemo(() => (scan && profile ? buildPlan(scan, profile.intake) : null), [scan, profile]);
-  const visuals = scan ? state.visuals[scan.id] ?? {} : {};
+  // generated images reach the client only after the reviewer approves them
+  const visuals = scan && scan.review?.status === "approved" ? state.visuals[scan.id] ?? {} : {};
   const mode = ORIGINAL_ONLY.has(section) ? "original" : state.settings.photoMode ?? "studio";
   const display = useDisplayScan(scan, visuals, profile?.intake ?? null, { face: facePhoto, body: bodyPhoto, side: sidePhoto }, mode);
   if (!profile || !scan || !plan || !display) return <Navigate to="/protocols" replace />;
@@ -89,6 +91,11 @@ export function AnalysisRouter() {
   const showSwitch = display.available && !NO_PHOTO.has(section);
   return (
     <>
+      {section === "getting-started" && (
+        <div className="page" style={{ paddingBottom: 0 }}>
+          <ReviewBanner scan={scan} />
+        </div>
+      )}
       {showSwitch && (
         <div className="page photo-switch">
           <span className="mono-sm">

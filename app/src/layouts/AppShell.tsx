@@ -13,6 +13,7 @@ const RAIL = [
   { to: "/analysis", label: "Your Analysis", icon: FaceScan },
   { to: "/stack", label: "Stack", icon: Bag, soon: true },
   { to: "/settings", label: "Settings", icon: Gear },
+  { to: "/review", label: "Review console", icon: ListIcon, staff: true },
 ];
 
 const TABS = [
@@ -35,6 +36,7 @@ function titleFor(path: string) {
     "/visualization": "Visualization",
     "/settings": "Settings",
     "/stack": "Stack",
+    "/review": "Review console",
   };
   const key = Object.keys(map).find((k) => path === k || path.startsWith(k + "/"));
   return key ? map[key] : "Facet";
@@ -86,8 +88,8 @@ export function AppShell() {
           </button>
         </div>
         <nav className="rail-nav">
-          {RAIL.map(({ to, label, icon: Icon, soon }) => (
-            <NavLink key={to} to={to} className={({ isActive }) => `rail-item ${isActive ? "active" : ""}`}>
+          {RAIL.map(({ to, label, icon: Icon, soon, staff }) => (
+            <NavLink key={to} to={to} className={({ isActive }) => `rail-item ${isActive ? "active" : ""} ${staff ? "rail-staff" : ""}`}>
               <span className="rail-icon"><Icon size={16} /></span>
               <span className="rail-label">{label}</span>
               {soon && <span className="rail-soon">Coming Soon</span>}

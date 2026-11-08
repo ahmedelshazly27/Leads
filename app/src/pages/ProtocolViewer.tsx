@@ -81,7 +81,7 @@ export function ProtocolViewer() {
   }, [pages.length, zoom]);
 
   if (!profile || !scan || !plan) return <Navigate to="/protocols" replace />;
-  const ctx: Ctx = { profile, scan, plan, visuals: state.visuals[scan.id] ?? {}, facePhoto, currency: state.settings.currency };
+  const ctx: Ctx = { profile, scan, plan, visuals: scan.review?.status === "approved" ? state.visuals[scan.id] ?? {} : {}, facePhoto, currency: state.settings.currency };
 
   const go = (i: number) => {
     const n = Math.max(0, Math.min(pages.length - 1, i));
@@ -392,6 +392,7 @@ function RecommendationsPage({ c, items, start }: { c: Ctx; items: PlanItem[]; s
             </div>
             <h3>{it.title}</h3>
             <p>{it.why}</p>
+            {it.reviewerNote && <p className="pv-note">Reviewer: {it.reviewerNote}</p>}
             <ul className="pv-list">
               {it.how.slice(0, 3).map((h) => (
                 <li key={h}>{h}</li>

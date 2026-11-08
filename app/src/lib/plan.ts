@@ -52,6 +52,10 @@ export interface PlanItem {
   clinical?: boolean;
   /** partner category that can deliver this item (booking requests) */
   partner?: import("./partners").PartnerCategory;
+  /** reviewer's note to the client */
+  reviewerNote?: string;
+  /** removed by the reviewer (only present with includeHidden) */
+  hidden?: boolean;
 }
 
 export interface Myth {
@@ -98,7 +102,7 @@ export interface Plan {
 
 const fmtPct = (x: number) => `${(x * 100).toFixed(1)}%`;
 
-export function buildPlan(scan: Scan, intake: Intake): Plan {
+export function buildPlan(scan: Scan, intake: Intake, opts: { includeHidden?: boolean } = {}): Plan {
   const items: PlanItem[] = [];
   const face = scan.face;
   const body = scan.body?.metrics ?? null;
@@ -393,7 +397,7 @@ export function buildPlan(scan: Scan, intake: Intake): Plan {
       id: "forward-head",
       category: "Posture",
       title: "Forward-head correction routine",
-      why: `From your side photo, your ear sits ${side.headForward.toFixed(0)}% of torso length in front of your shoulder (ear–shoulder angle ${side.earShoulderAngle.toFixed(0)}°; target ≈ ear over shoulder). Forward head posture is linked to neck pain, and a meta-analysis found targeted exercise improves it.`,
+      why: `From your side photo, your ear sits ${side.headForward.toFixed(0)}% of torso length in front of your shoulder (ear–shoulder angle ${side.earShoulderAngle.toFixed(0)}°; target ≈ ear over shoulder). A smaller ear–shoulder angle is more common in people with neck pain and tracks with neck disability, and a meta-analysis found targeted exercise improves it.`,
       how: [
         "Chin tucks: 3×10 slow reps, hold 3 s, daily",
         "Thoracic extensions over a foam roller or chair back: 2×10, daily",
@@ -464,7 +468,11 @@ export function buildPlan(scan: Scan, intake: Intake): Plan {
       title: beardPick ? `Beard: ${beardPick.item.name}` : patchy ? "Even heavy stubble with a defined neckline" : "Groomed heavy stubble or short beard",
       why: [
         beardPick
-          ? `${beardRev.reviewed ? "Reviewer's pick, f" : "F"}itted to your face${needs?.notes.length ? ` (${needs.notes.join("; ")})` : ""}: ${beardPick.reasons.filter((r) => !/needs denser/.test(r)).join("; ") || "balanced proportions suit most beard shapes"}.`
+          ? `${(() => {
+              const rs = beardPick.reasons.filter((r) => !/needs denser/.test(r));
+              if (beardRev.reviewed && !rs.length) return "Chosen by your reviewer to suit your face and growth pattern: dense where it adds structure (chin and jaw line), faded where it would add width.";
+              return `${beardRev.reviewed ? "Reviewer's pick, f" : "F"}itted to your face${needs?.notes.length ? ` (${needs.notes.join("; ")})` : ""}: ${rs.join("; ") || "balanced proportions suit most beard shapes"}.`;
+            })()}`
           : "",
         "Groomed facial hair changes how the face reads: heavy stubble was rated most attractive and full beards most masculine in a large rating study; a clean lower line sharpens the visible jaw.",
         beardPick?.reasons.some((r) => /needs denser/.test(r)) ? "Your current growth is patchy — expect 3–6 months of growth (optionally minoxidil, discuss with a doctor) to reach full coverage." : "",
@@ -691,6 +699,16 @@ export function buildPlan(scan: Scan, intake: Intake): Plan {
     for (let i = items.length - 1; i >= 0; i--) if (items[i].clinical && items[i].id !== "hairloss") items.splice(i, 1);
   }
   items.sort((a, b) => a.priority - b.priority || a.phase - b.phase);
+
+  /* --------------------------- Human review -------------------------- */
+  const rev = scan.review;
+  if (rev) {
+    for (const it of items) {
+      if (rev.itemNotes[it.id]?.trim()) it.reviewerNote = rev.itemNotes[it.id].trim();
+      if (rev.hiddenItems.includes(it.id)) it.hidden = true;
+    }
+    if (!opts.includeHidden) for (let i = items.length - 1; i >= 0; i--) if (items[i].hidden) items.splice(i, 1);
+  }
 
   /* ---------------------------- Projections ------------------------- */
   const current = currentScores(scan, intake);
