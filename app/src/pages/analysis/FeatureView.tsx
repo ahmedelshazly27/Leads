@@ -18,6 +18,7 @@ export function FeatureView({
   attrs,
   explanation,
   method,
+  banner,
 }: {
   title: string;
   highlight: string;
@@ -28,9 +29,11 @@ export function FeatureView({
   attrs: Attr[];
   explanation: ReactNode;
   method: string;
+  banner?: ReactNode;
 }) {
   return (
     <div className="page">
+      {banner}
       <section className="page-card fv">
         <header className="fv-head">
           <h1 className="title-md fv-title">

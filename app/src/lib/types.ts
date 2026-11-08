@@ -9,6 +9,10 @@ export interface Intake {
   ethnicity: string;
   heightCm: number | null;
   weightKg: number | null;
+  /** optional tape measurements, cm */
+  waistCm: number | null;
+  hipCm: number | null;
+  neckCm: number | null;
   location: string;
   preferences: "non-invasive" | "open-to-clinical" | "open-to-surgical";
   budget: "low" | "medium" | "high";
@@ -87,24 +91,40 @@ export interface FaceResult {
   metrics: FaceMetrics;
   skin: SkinRegion[];
   faceShape: "Oval" | "Round" | "Square" | "Heart" | "Oblong" | "Diamond";
+  capture: CaptureQuality;
+}
+
+export interface CaptureQuality {
+  yaw: number; // degrees, head turn
+  pitch: number; // degrees, head nod
+  roll: number; // degrees, head tilt
+  faceWidthFrac: number; // face width / image width
+  closeRange: boolean; // likely a close-range selfie (perspective distortion)
+  warnings: string[];
+  /** metrics whose values are affected by the capture issues above */
+  affected: string[];
 }
 
 /* ------------------------------ Body ------------------------------ */
 
 export interface BodyMetrics {
-  shoulderWidth: number; // normalized to body height
+  shoulderWidth: number; // normalized to torso length (shoulder line → hip line)
   waistWidth: number;
   hipWidth: number;
   shoulderToWaist: number;
   waistToHip: number;
-  legToHeight: number;
-  torsoToLeg: number;
+  legToHeight: number | null; // null when feet are out of frame
+  torsoToLeg: number | null;
   shoulderTilt: number; // degrees, + = left shoulder (image right) lower
   hipTilt: number;
   headOffset: number; // lateral head offset vs. body midline, % of shoulder width
   armSymmetry: number; // 0..100
   bmi: number | null;
   bodyFatEstimate: number | null; // %
+  bodyFatMethod: "navy" | "deurenberg" | null;
+  whrTape: number | null; // circumference waist/hip (tape)
+  whtr: number | null; // waist / height (tape)
+  feetVisible: boolean;
   postureScore: number; // 0..100
   proportionScore: number; // 0..100
   compositionScore: number; // 0..100

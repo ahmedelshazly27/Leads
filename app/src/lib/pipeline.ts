@@ -30,20 +30,20 @@ export async function runScan(
   if (facePhoto) {
     const img = await loadImage(facePhoto);
     onStage("face");
-    const lm = await detectFace(img);
-    if (!lm) throw new ScanError("We couldn't find a face in the portrait. Use a front-facing photo with your whole face visible.");
+    const det = await detectFace(img);
+    if (!det) throw new ScanError("We couldn't find a face in the portrait. Use a front-facing photo with your whole face visible.");
     onStage("skin");
     await tick();
-    scan.face = analyseFace(lm, imageData(img), intake.gender);
+    scan.face = analyseFace(det.landmarks, det.z, imageData(img), intake.gender);
   }
   if (bodyPhoto) {
     const img = await loadImage(bodyPhoto);
     onStage("body");
     const det = await detectPose(img);
     if (!det) throw new ScanError("We couldn't detect a full body. Use a head-to-toe photo, standing, facing the camera.");
-    const needed = [11, 12, 23, 24, 27, 28];
+    const needed = [11, 12, 23, 24];
     if (needed.some((i) => det.visibility[i] < 0.4))
-      throw new ScanError("Shoulders, hips and ankles must all be visible in the body photo.");
+      throw new ScanError("Shoulders and hips must be visible in the body photo. Stand facing the camera, ideally head to toe.");
     scan.body = analyseBody(det, intake, img.naturalWidth, img.naturalHeight);
   }
   onStage("plan");

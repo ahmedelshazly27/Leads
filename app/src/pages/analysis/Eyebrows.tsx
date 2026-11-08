@@ -3,6 +3,7 @@ import { IDX } from "../../lib/faceAnalysis";
 import type { FaceResult, Pt } from "../../lib/types";
 import { faceCrop } from "./crop";
 import { FeatureView } from "./FeatureView";
+import { CaptureWarning } from "../../components/CaptureWarning";
 
 export function browType(arch: number) {
   if (arch > 0.19) return "High Arch";
@@ -52,6 +53,7 @@ export function Eyebrows({ face, photo }: { face: FaceResult; photo: string | nu
         </>
       }
       method="brows"
+      banner={<CaptureWarning capture={face.capture} metrics={["browEyeDistance", "browArch"]} />}
     />
   );
 }

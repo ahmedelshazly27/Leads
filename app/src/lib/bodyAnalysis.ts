@@ -28,6 +28,25 @@ export function deurenberg(bmi: number | null, age: number, gender: Intake["gend
   return clamp(1.2 * bmi + 0.23 * age - 10.8 * sex - 5.4, 3, 60);
 }
 
+/** Hodgdon & Beckett (1984) US Navy circumference method, metric units. */
+export function navyBodyFat(intake: Intake) {
+  const { heightCm: h, waistCm: w, neckCm: n, hipCm: hip, gender } = intake;
+  if (!h || !w || !n) return null;
+  if (gender === "female") {
+    if (!hip || w + hip - n <= 0) return null;
+    return clamp(495 / (1.29579 - 0.35004 * Math.log10(w + hip - n) + 0.221 * Math.log10(h)) - 450, 3, 60);
+  }
+  if (w - n <= 0) return null;
+  return clamp(495 / (1.0324 - 0.19077 * Math.log10(w - n) + 0.15456 * Math.log10(h)) - 450, 3, 60);
+}
+
+export function bodyFat(intake: Intake): { value: number | null; method: "navy" | "deurenberg" | null } {
+  const navy = navyBodyFat(intake);
+  if (navy != null) return { value: navy, method: "navy" };
+  const d = deurenberg(bmiOf(intake), intake.age, intake.gender);
+  return { value: d, method: d == null ? null : "deurenberg" };
+}
+
 export function compositionScore(bf: number | null, bmi: number | null, gender: Intake["gender"]) {
   if (bf == null || bmi == null) return 60;
   const ideal = gender === "male" ? 14 : gender === "female" ? 23 : 18;
@@ -49,6 +68,7 @@ function runAt(
   mask: NonNullable<PoseDetection["mask"]>,
   cx: number,
   y: number,
+  limits?: [number | null, number | null, number],
 ): [number, number] | null {
   const { data, width, height } = mask;
   const yy = Math.round(y);
@@ -69,6 +89,13 @@ function runAt(
   let l = x, r = x;
   while (l > 0 && on(l - 1)) l--;
   while (r < width - 1 && on(r + 1)) r++;
+  // limits = [leftArmCentre, rightArmCentre, armHalfWidth]; only clip when the
+  // silhouette run actually extends into an arm (arm touching the torso).
+  if (limits) {
+    const [la, ra, half] = limits;
+    if (la != null && l < la) l = Math.round(la + half);
+    if (ra != null && r > ra) r = Math.round(ra - half);
+  }
   return [l, r];
 }
 
@@ -81,6 +108,8 @@ export function analyseBody(det: PoseDetection, intake: Intake, imgW: number, im
 
   const sh = mid(P[B.lShoulder], P[B.rShoulder]);
   const hp = mid(P[B.lHip], P[B.rHip]);
+  const vis = det.visibility;
+  const hasLegs = [B.lAnkle, B.rAnkle].every((i) => vis[i] > 0.5 && L[i][1] < 0.99);
   const feetY = Math.max(...[B.lHeel, B.rHeel, B.lFoot, B.rFoot, B.lAnkle, B.rAnkle].map((i) => P[i][1]));
   const ankleY = mean([P[B.lAnkle][1], P[B.rAnkle][1]]);
 
@@ -95,11 +124,34 @@ export function analyseBody(det: PoseDetection, intake: Intake, imgW: number, im
       }
     }
   }
-  const height = Math.max(1, feetY - headTop);
+  const height = hasLegs ? Math.max(1, feetY - headTop) : null;
   const torso = Math.max(1, hp[1] - sh[1]);
   const lmShoulder = dist(P[B.lShoulder], P[B.rShoulder]);
   const lmHip = dist(P[B.lHip], P[B.rHip]);
   const xAt = (y: number) => sh[0] + ((hp[0] - sh[0]) * (y - sh[1])) / torso;
+
+  // Where the arms are at a given row, so a silhouette run can stop at the
+  // inner edge of an arm that touches the torso.
+  const armX = (y: number, sIdx: number, eIdx: number, wIdx: number) => {
+    const segs: [Pt, Pt][] = [[P[sIdx], P[eIdx]], [P[eIdx], P[wIdx]]];
+    for (const [a, b] of segs) {
+      const lo = Math.min(a[1], b[1]), hi = Math.max(a[1], b[1]);
+      if (y >= lo && y <= hi && hi > lo) return a[0] + ((b[0] - a[0]) * (y - a[1])) / (b[1] - a[1]);
+    }
+    return null;
+  };
+  const armHalf = lmShoulder * 0.11;
+  const limitsAt = (y: number): [number | null, number | null, number] => {
+    const xs = [armX(y, B.lShoulder, B.lElbow, B.lWrist), armX(y, B.rShoulder, B.rElbow, B.rWrist)];
+    const c = xAt(y);
+    let lo: number | null = null, hi: number | null = null;
+    for (const x of xs) {
+      if (x == null) continue;
+      if (x < c) lo = Math.max(lo ?? -Infinity, x);
+      else hi = Math.min(hi ?? Infinity, x);
+    }
+    return [lo, hi, armHalf];
+  };
 
   let shoulderRun: [number, number] = [sh[0] - lmShoulder * 0.6, sh[0] + lmShoulder * 0.6];
   let waistRun: [number, number] = [hp[0] - lmHip * 0.75, hp[0] + lmHip * 0.75];
@@ -116,22 +168,38 @@ export function analyseBody(det: PoseDetection, intake: Intake, imgW: number, im
       const c = (s[0] + s[1]) / 2;
       shoulderRun = [c - w / 2, c + w / 2];
     }
-    let best = Infinity;
-    for (let t = 0.5; t <= 0.85; t += 0.02) {
-      const y = sh[1] + torso * t;
-      const r = runAt(mask, xAt(y), y);
-      if (r && r[1] - r[0] < best && r[1] - r[0] > lmHip * 0.8) {
-        best = r[1] - r[0];
-        waistRun = r;
-        waistY = y;
+    if (intake.gender === "female") {
+      // natural waist: narrowest point between ribs and pelvis (Singh 1993)
+      let best = Infinity;
+      for (let t = 0.5; t <= 0.85; t += 0.02) {
+        const y = sh[1] + torso * t;
+        const r = runAt(mask, xAt(y), y, limitsAt(y));
+        if (r && r[1] - r[0] < best && r[1] - r[0] > lmHip * 0.8) {
+          best = r[1] - r[0];
+          waistRun = r;
+          waistY = y;
+        }
+      }
+    } else {
+      // WHO site: midway between lowest rib and iliac crest (~72% of acromion → hip joint)
+      const rows = [0.7, 0.72, 0.74].map((t) => {
+        const y = sh[1] + torso * t;
+        return { y, r: runAt(mask, xAt(y), y, limitsAt(y)) };
+      }).filter((x) => x.r);
+      if (rows.length) {
+        const avgW = mean(rows.map((x) => x.r![1] - x.r![0]));
+        const mid = rows[Math.floor(rows.length / 2)];
+        const c = (mid.r![0] + mid.r![1]) / 2;
+        waistRun = [c - avgW / 2, c + avgW / 2];
+        waistY = mid.y;
       }
     }
     let widest = 0;
     for (let t = -0.02; t <= 0.25; t += 0.02) {
       const y = hp[1] + torso * t;
-      const r = runAt(mask, xAt(y), y);
-      // ignore rows where hands/arms merge into the silhouette
-      if (r && r[1] - r[0] > widest && r[1] - r[0] < lmHip * 2.6) {
+      if (y >= mh - 2) break;
+      const r = runAt(mask, xAt(y), y, limitsAt(y));
+      if (r && r[1] - r[0] > widest && r[1] - r[0] < lmHip * 2.2) {
         widest = r[1] - r[0];
         hipRun = r;
         hipY = y;
@@ -157,28 +225,35 @@ export function analyseBody(det: PoseDetection, intake: Intake, imgW: number, im
   const armSymmetry = clamp(100 - (Math.abs(la - ra) / mean([la, ra])) * 400);
 
   const bmi = bmiOf(intake);
-  const bodyFatEstimate = deurenberg(bmi, intake.age, intake.gender);
+  const bf = bodyFat(intake);
+  const bodyFatEstimate = bf.value;
+  const whrTape = intake.waistCm && intake.hipCm ? intake.waistCm / intake.hipCm : null;
+  const whtr = intake.waistCm && intake.heightCm ? intake.waistCm / intake.heightCm : null;
   const swr = shoulderW / waistW;
   const whr = waistW / hipW;
 
-  const pScore = proportionScore(swr, whr, intake.gender);
+  const pScore = proportionScore(swr, whrTape ?? whr, intake.gender);
   const postScore = postureScore(shoulderTilt, hipTilt, headOffset);
   const cScore = compositionScore(bodyFatEstimate, bmi, intake.gender);
 
   const metrics: BodyMetrics = {
-    shoulderWidth: shoulderW / height,
-    waistWidth: waistW / height,
-    hipWidth: hipW / height,
+    shoulderWidth: shoulderW / torso,
+    waistWidth: waistW / torso,
+    hipWidth: hipW / torso,
     shoulderToWaist: swr,
     waistToHip: whr,
-    legToHeight: (ankleY - hp[1]) / height,
-    torsoToLeg: torso / Math.max(1, ankleY - hp[1]),
+    legToHeight: height ? (ankleY - hp[1]) / height : null,
+    torsoToLeg: hasLegs ? torso / Math.max(1, ankleY - hp[1]) : null,
     shoulderTilt,
     hipTilt,
     headOffset,
     armSymmetry,
     bmi,
     bodyFatEstimate,
+    bodyFatMethod: bf.method,
+    whrTape,
+    whtr,
+    feetVisible: hasLegs,
     postureScore: postScore,
     proportionScore: pScore,
     compositionScore: cScore,

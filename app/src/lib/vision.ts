@@ -62,22 +62,39 @@ function getPose() {
   poseP ??= (async () => {
     const fs = await fileset();
     const path = (await exists(LOCAL.pose)) ? LOCAL.pose : REMOTE.pose;
-    return PoseLandmarker.createFromOptions(fs, {
-      baseOptions: { modelAssetPath: path, delegate: "CPU" },
-      runningMode: "IMAGE",
-      numPoses: 1,
-      outputSegmentationMasks: true,
-    });
+    // Segmentation masks need the GPU (WebGL) graph; MediaPipe's CPU mask path aborts.
+    try {
+      return await PoseLandmarker.createFromOptions(fs, {
+        baseOptions: { modelAssetPath: path, delegate: "GPU" },
+        runningMode: "IMAGE",
+        numPoses: 1,
+        outputSegmentationMasks: true,
+      });
+    } catch (e) {
+      console.warn("GPU pose unavailable; falling back to landmark-only CPU", e);
+      return PoseLandmarker.createFromOptions(fs, {
+        baseOptions: { modelAssetPath: path, delegate: "CPU" },
+        runningMode: "IMAGE",
+        numPoses: 1,
+        outputSegmentationMasks: false,
+      });
+    }
   })();
   return poseP;
 }
 
-export async function detectFace(img: ImageSource): Promise<Pt[] | null> {
+export interface FaceDetection {
+  landmarks: Pt[];
+  /** relative depth per landmark, same scale as normalized x */
+  z: number[];
+}
+
+export async function detectFace(img: ImageSource): Promise<FaceDetection | null> {
   const lm = await getFace();
   const res = lm.detect(img);
   const pts = res.faceLandmarks?.[0];
   if (!pts?.length) return null;
-  return pts.map((p) => [p.x, p.y] as Pt);
+  return { landmarks: pts.map((p) => [p.x, p.y] as Pt), z: pts.map((p) => p.z) };
 }
 
 export interface PoseDetection {
@@ -97,7 +114,11 @@ export async function detectPose(img: ImageSource): Promise<PoseDetection | null
   let mask: PoseDetection["mask"] = null;
   const m = res.segmentationMasks?.[0];
   if (m) {
-    mask = { data: new Float32Array(m.getAsFloat32Array()), width: m.width, height: m.height };
+    try {
+      mask = { data: readMask(m), width: m.width, height: m.height };
+    } catch (e) {
+      console.warn("segmentation mask unavailable; using landmark-only widths", e);
+    }
   }
   res.segmentationMasks?.forEach((x) => x.close());
   return {
@@ -105,6 +126,24 @@ export async function detectPose(img: ImageSource): Promise<PoseDetection | null
     visibility: pts.map((p) => p.visibility ?? 1),
     mask,
   };
+}
+
+/** Read a segmentation mask as a 1-channel float array, whatever its backing. */
+function readMask(m: { width: number; height: number; hasFloat32Array(): boolean; hasUint8Array(): boolean; getAsFloat32Array(): Float32Array; getAsUint8Array(): Uint8Array }) {
+  const n = m.width * m.height;
+  if (!m.hasFloat32Array() && m.hasUint8Array()) {
+    const u = m.getAsUint8Array();
+    const step = u.length / n;
+    const out = new Float32Array(n);
+    for (let i = 0; i < n; i++) out[i] = u[i * step] / 255;
+    return out;
+  }
+  const f = m.getAsFloat32Array();
+  if (f.length === n) return new Float32Array(f);
+  const step = f.length / n;
+  const out = new Float32Array(n);
+  for (let i = 0; i < n; i++) out[i] = f[i * step];
+  return out;
 }
 
 /** Warm the models while the user is filling in the intake form. */

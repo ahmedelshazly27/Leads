@@ -1,5 +1,5 @@
-import type { FaceMetrics, FaceResult, Gender, Pt, SkinRegion, SkinRegionKey } from "./types";
-import { add, clamp, deg, dist, lerp, mean, mid, pointInPolygon, rotate, sigmoid } from "./geometry";
+import type { CaptureQuality, FaceMetrics, FaceResult, Gender, Pt, SkinRegion, SkinRegionKey } from "./types";
+import { add, clamp, deg, dist, lerp, mean, mid, pointInPolygon, sigmoid } from "./geometry";
 
 /* MediaPipe Face Mesh indices. "L" = image-left (subject's right). */
 export const IDX = {
@@ -55,31 +55,83 @@ const NORMS: { key: keyof FaceMetrics; mean: number; sd: number }[] = [
 ];
 
 export interface FaceFrame {
-  /** landmarks in rotated pixel space (roll removed) */
+  /** landmarks frontalised: head roll, yaw and pitch removed (pixel units) */
   P: Pt[];
-  /** map a rotated-pixel point back to normalized image coords */
+  /** map a frontal-space point back to normalized image coords */
   toNorm: (p: Pt) => Pt;
   w: number;
   h: number;
-  roll: number;
+  roll: number; // radians
+  yaw: number; // degrees
+  pitch: number; // degrees
   faceWidth: number;
   eyeW: number;
 }
 
-export function makeFrame(landmarks: Pt[], w: number, h: number): FaceFrame {
-  const px = landmarks.map(([x, y]) => [x * w, y * h] as Pt);
-  const li = px[IDX.irisL] ?? mid(px[IDX.eyeL.outer], px[IDX.eyeL.inner]);
-  const ri = px[IDX.irisR] ?? mid(px[IDX.eyeR.outer], px[IDX.eyeR.inner]);
-  const roll = Math.atan2(ri[1] - li[1], ri[0] - li[0]);
-  const c = mid(li, ri);
-  const P = px.map((p) => rotate(p, c, -roll));
+type V3 = [number, number, number];
+const sub3 = (a: V3, b: V3): V3 => [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
+const dot3 = (a: V3, b: V3) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+const scale3 = (a: V3, k: number): V3 => [a[0] * k, a[1] * k, a[2] * k];
+const norm3 = (a: V3): V3 => scale3(a, 1 / Math.hypot(a[0], a[1], a[2]));
+const cross3 = (a: V3, b: V3): V3 => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
+
+/**
+ * Build a head-aligned frame. With depth (z) available, the face is rotated
+ * into a frontal pose (removing roll, yaw and pitch) so that ratios and
+ * symmetry are not distorted by a turned or tilted head.
+ */
+export function makeFrame(landmarks: Pt[], w: number, h: number, z?: number[]): FaceFrame {
+  const p3 = landmarks.map(([x, y], i) => [x * w, y * h, (z?.[i] ?? 0) * w] as V3);
+  const avg = (ids: number[]) => scale3(ids.reduce((s, i) => [s[0] + p3[i][0], s[1] + p3[i][1], s[2] + p3[i][2]] as V3, [0, 0, 0]), 1 / ids.length);
+  // horizontal axis: from image-left to image-right side of the face (eyes + cheeks)
+  const left = avg([IDX.eyeL.outer, IDX.eyeL.inner, IDX.zygL]);
+  const right = avg([IDX.eyeR.outer, IDX.eyeR.inner, IDX.zygR]);
+  const X = norm3(sub3(right, left));
+  // vertical axis: chin → forehead (image "up" is −y)
+  const up = sub3(p3[IDX.top], p3[IDX.menton]);
+  const Y = norm3(sub3(up, scale3(X, dot3(up, X))));
+  const Z = cross3(X, Y);
+  const c = avg([IDX.eyeL.inner, IDX.eyeR.inner, IDX.noseTip, IDX.menton, IDX.top]);
+  const P = p3.map((p) => {
+    const q = sub3(p, c);
+    return [c[0] + dot3(q, X), c[1] - dot3(q, Y)] as Pt;
+  });
   const toNorm = (p: Pt): Pt => {
-    const r = rotate(p, c, roll);
+    const a = p[0] - c[0];
+    const b = -(p[1] - c[1]);
+    const r = [c[0] + a * X[0] + b * Y[0], c[1] + a * X[1] + b * Y[1]];
     return [r[0] / w, r[1] / h];
   };
+  const roll = Math.atan2(X[1], X[0]);
+  const yaw = deg(Math.asin(Math.max(-1, Math.min(1, X[2]))));
+  const pitch = deg(Math.asin(Math.max(-1, Math.min(1, -Y[2]))));
   const faceWidth = dist(P[IDX.zygL], P[IDX.zygR]);
   const eyeW = mean([dist(P[IDX.eyeL.outer], P[IDX.eyeL.inner]), dist(P[IDX.eyeR.outer], P[IDX.eyeR.inner])]);
-  return { P, toNorm, w, h, roll, faceWidth, eyeW };
+  void Z;
+  return { P, toNorm, w, h, roll, yaw, pitch, faceWidth, eyeW };
+}
+
+/** Capture-quality checks that tell the user which numbers to trust. */
+export function captureQuality(f: FaceFrame): CaptureQuality {
+  const faceWidthFrac = f.faceWidth / f.w;
+  const warnings: string[] = [];
+  const affected = new Set<string>();
+  const closeRange = faceWidthFrac > 0.42;
+  if (closeRange) {
+    warnings.push(
+      "Your face fills most of the frame, which usually means a close-range selfie. At ~30 cm the nose appears ~30% wider and the face narrower than at 1.5 m. Retake from 1.5 m with zoom, or crop a photo taken from further away.",
+    );
+    ["noseWidthToIntercanthal", "mouthToNoseWidth", "faceWHR", "fWHR", "adiposity", "averageness", "dimorphism", "neoteny"].forEach((k) => affected.add(k));
+  }
+  if (Math.abs(f.yaw) > 8) {
+    warnings.push(`Head turned ~${Math.abs(f.yaw).toFixed(0)}° to the side. Pose correction was applied, but symmetry is most reliable under 5°.`);
+    affected.add("symmetry");
+  }
+  if (Math.abs(f.pitch) > 10) {
+    warnings.push(`Head tilted ~${Math.abs(f.pitch).toFixed(0)}° ${f.pitch > 0 ? "up" : "down"}. Keep the camera at eye level so facial thirds are measured correctly.`);
+    ["midToLowerThird", "lipChinRatio", "faceWHR"].forEach((k) => affected.add(k));
+  }
+  return { yaw: f.yaw, pitch: f.pitch, roll: deg(f.roll), faceWidthFrac, closeRange, warnings, affected: [...affected] };
 }
 
 /* ------------------------------------------------------------------ */
@@ -118,13 +170,18 @@ function browStats(P: Pt[], upper: number[], lower: number[], eyeTop: number, ey
   const c2 = det3([[y2, s3, s2], [y1, s2, s1], [y0, s1, s0]]) / D;
   const c1 = det3([[s4, y2, s2], [s3, y1, s1], [s2, y0, s0]]) / D;
   const peak = c2 < 0 ? clamp(-c1 / (2 * c2), 0, 1) : ts[hs.indexOf(Math.max(...hs))];
-  const maxH = Math.max(...hs, 0);
+  // Arch = how far the brow rises from its head to its highest point,
+  // relative to brow length (a drooping tail must not inflate it).
+  const headY = pts[0][1];
+  const rise = Math.max(0, ...pts.map((p) => headY - p[1]));
 
   const thickness = mean(upper.map((u, i) => dist(P[u], P[lower[i]]))) / len;
   const tilt = deg(Math.atan2(inner[1] - outer[1], Math.abs(outer[0] - inner[0])));
   const lowerMid = P[lower[2]];
-  const browEye = (P[eyeTop][1] - lowerMid[1]) / eyeW;
-  return { arch: maxH / len, peak, thickness, tilt, browEye };
+  // measured from the canthal line, which doesn't move with eyelid opening
+  const canthusY = (P[eyeTop === IDX.eyeL.top ? IDX.eyeL.inner : IDX.eyeR.inner][1] + P[eyeTop === IDX.eyeL.top ? IDX.eyeL.outer : IDX.eyeR.outer][1]) / 2;
+  const browEye = (canthusY - lowerMid[1]) / eyeW;
+  return { arch: rise / len, peak, thickness, tilt, browEye };
 }
 
 export function computeShape(f: FaceFrame, gender: Gender) {
@@ -417,8 +474,8 @@ function regionMeanL(img: ImageData, polys: Pt[][], fw: number) {
   return mean(polys.map((p) => analyseRegion(img, p, fw).meanL));
 }
 
-export function analyseFace(landmarks: Pt[], img: ImageData, gender: Gender): FaceResult {
-  const f = makeFrame(landmarks, img.width, img.height);
+export function analyseFace(landmarks: Pt[], z: number[] | undefined, img: ImageData, gender: Gender): FaceResult {
+  const f = makeFrame(landmarks, img.width, img.height, z);
   const shape = computeShape(f, gender);
   const polys = skinPolygons(f);
 
@@ -452,7 +509,7 @@ export function analyseFace(landmarks: Pt[], img: ImageData, gender: Gender): Fa
   const eyes = regionMeanL(img, feat([33, 160, 158, 133, 153, 144]), f.faceWidth);
   const skinL = regionMeanL(img, [...polys.leftCheek, ...polys.rightCheek], f.faceWidth);
   const c = (x: number) => (skinL - x) / Math.max(1, skinL);
-  const contrast = clamp(((mean([c(browL), c(browR), c(lips), c(eyes)]) - 0.05) / 0.45) * 100, 5, 98);
+  const contrast = clamp(100 * (1 - Math.exp(-Math.max(0, mean([c(browL), c(browR), c(lips), c(eyes)])) / 0.28)), 3, 97);
 
   const metrics: FaceMetrics = { ...shape, contrast, skinScore };
   return {
@@ -461,5 +518,6 @@ export function analyseFace(landmarks: Pt[], img: ImageData, gender: Gender): Fa
     metrics,
     skin,
     faceShape: classifyFaceShape(metrics),
+    capture: captureQuality(f),
   };
 }
