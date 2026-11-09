@@ -6,8 +6,9 @@ import { afterPrompt, BASELINE_PROMPT, bodyAfterPrompt, buildPlan } from "../../
 import { SCORE_LABEL, type ScoreKey } from "../../lib/report";
 import { photoUrl, setActiveProfile, setReview, setReviewerName, setVisuals, updateScan, useAppState } from "../../lib/store";
 import { faceNeeds, rankBeard, rankHair } from "../../lib/styles";
-import type { Review, Scan } from "../../lib/types";
+import type { Intake, Review, Scan } from "../../lib/types";
 import { checklistFor, type Check } from "./checklist";
+import { categoriesFor } from "../../lib/library";
 import { statusOf } from "./Review";
 import { BodyVisuals, MeshViewer, PoseViewer, PromptBlock, RealismPanel, Slot, StyleGallery, StyleLibrary } from "./tools";
 import { StaffOnly } from "./StaffOnly";
@@ -216,6 +217,7 @@ export function ReviewScan() {
               </div>
             ))}
           </div>
+          <FeatureTypes scan={scan} intake={intake} />
           {checks("style")}
         </Section>
       )}
@@ -320,5 +322,48 @@ function Fact({ k, v, warn }: { k: string; v: string; warn?: boolean }) {
       <span>{k}</span>
       <b>{v}</b>
     </div>
+  );
+}
+
+/** Feature-library types: set the ones a photo can't settle, correct any measured one. */
+function FeatureTypes({ scan, intake }: { scan: Scan; intake: Intake }) {
+  const ctx = { face: scan.face, body: scan.body?.metrics, side: scan.bodySide?.metrics, intake };
+  const cats = categoriesFor(intake.gender);
+  const set = (id: string, v: string) => {
+    const next = { ...(scan.featureTypes ?? {}) };
+    if (v) next[id] = v;
+    else delete next[id];
+    updateScan(scan.id, { featureTypes: next });
+  };
+  return (
+    <details className="rv-ft" open={cats.some((c) => c.basis === "reviewer" && !scan.featureTypes?.[c.id])}>
+      <summary>
+        Feature types <span className="mono-sm">shown in the client's feature library</span>
+      </summary>
+      <div className="rv-ft-grid">
+        {cats.map((c) => {
+          const auto = c.classify?.(ctx) ?? null;
+          const autoName = auto?.typeId ? c.types.find((t) => t.id === auto.typeId)?.name : auto?.family ? `${auto.family} family` : null;
+          const cur = scan.featureTypes?.[c.id] ?? "";
+          const need = c.basis === "reviewer" && !cur;
+          return (
+            <label key={c.id} className={`rv-ft-row ${need ? "need" : ""}`}>
+              <span>{c.title}</span>
+              <select value={cur} onChange={(e) => set(c.id, e.target.value)}>
+                <option value="">{autoName ? `Auto · ${autoName}${auto?.value ? ` (${auto.value})` : ""}` : c.basis === "reviewer" ? "Choose…" : "Not available"}</option>
+                {c.types.map((t) => (
+                  <option key={t.id} value={t.id}>
+                    {t.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+          );
+        })}
+      </div>
+      <a className="rv-ft-link" href="/library" target="_blank" rel="noreferrer">
+        Open the feature library
+      </a>
+    </details>
   );
 }

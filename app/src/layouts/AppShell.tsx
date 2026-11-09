@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Logo } from "../components/Logo";
-import { Bars, ChevronDown, ChevronRight, FaceScan, Gear, LayoutGrid, ListIcon, PanelLeft, User } from "../components/icons";
+import { Bars, ChevronDown, ChevronRight, FaceScan, Gear, GradCap, LayoutGrid, ListIcon, PanelLeft, User } from "../components/icons";
 import { ALL_ITEMS, NAV, groupOf } from "../lib/sections";
 import { useActive } from "../lib/useActive";
 import "./AppShell.css";
@@ -10,6 +10,7 @@ const RAIL = [
   { to: "/home", label: "Home", icon: LayoutGrid },
   { to: "/analysis", label: "Report", icon: FaceScan },
   { to: "/measurements", label: "Measurements", icon: Bars },
+  { to: "/library", label: "Library", icon: GradCap },
   { to: "/settings", label: "Settings", icon: Gear },
   { to: "/review", label: "Review console", icon: ListIcon, staff: true },
 ];
@@ -18,6 +19,7 @@ const TABS = [
   { to: "/home", label: "Home", icon: LayoutGrid },
   { to: "/analysis", label: "Report", icon: FaceScan },
   { to: "/measurements", label: "Data", icon: Bars },
+  { to: "/library", label: "Library", icon: GradCap },
   { to: "/settings", label: "Settings", icon: Gear },
 ];
 
@@ -30,6 +32,7 @@ function titleFor(path: string) {
     "/home": "Home",
     "/new": "New analysis",
     "/measurements": "Measurements",
+    "/library": "Feature library",
     "/settings": "Settings",
     "/review": "Review console",
   };

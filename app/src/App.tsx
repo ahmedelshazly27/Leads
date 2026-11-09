@@ -9,6 +9,7 @@ import { ProtocolViewer } from "./pages/ProtocolViewer";
 import { Landing } from "./pages/Landing";
 import { Review } from "./pages/review/Review";
 import { ReviewScan } from "./pages/review/ReviewScan";
+import { Library } from "./pages/Library";
 import { useReady } from "./lib/store";
 
 export function App() {
@@ -25,6 +26,7 @@ export function App() {
         <Route path="/new" element={<NewScan />} />
         <Route path="/new/:profileId" element={<NewScan />} />
         <Route path="/measurements" element={<Biometrics />} />
+        <Route path="/library" element={<Library />} />
         <Route path="/biometrics" element={<Navigate to="/measurements" replace />} />
         <Route path="/visualization" element={<Navigate to="/analysis/projection" replace />} />
         <Route path="/settings" element={<Settings />} />

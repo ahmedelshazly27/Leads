@@ -23,6 +23,51 @@ export interface Reference {
 }
 
 export const REFS: Record<string, Reference> = {
+  delamettrie2007: {
+    id: "delamettrie2007",
+    authors: "De la Mettrie R, Saint-Léger D, Loussouarn G, Garcel A, Porter C, Langaney A",
+    year: 2007,
+    title: "Shape variability and classification of human hair: a worldwide approach",
+    source: "Human Biology 79(3):265–281",
+    finding: "Measuring curve diameter, curl index, number of waves and twists in people from around the world sorted hair into eight shape types on a continuum from straight to very curly.",
+    doi: "10.1353/hub.2007.0045",
+  },
+  norwood1975: {
+    id: "norwood1975",
+    authors: "Norwood OT",
+    year: 1975,
+    title: "Male pattern baldness: classification and incidence",
+    source: "Southern Medical Journal 68(11):1359–1365",
+    finding: "Seven-stage classification of male pattern hair loss, from slight temple recession to joined frontal and crown loss, with incidence rising with age.",
+    doi: "10.1097/00007611-197511000-00009",
+  },
+  ludwig1977: {
+    id: "ludwig1977",
+    authors: "Ludwig E",
+    year: 1977,
+    title: "Classification of the types of androgenetic alopecia (common baldness) occurring in the female sex",
+    source: "British Journal of Dermatology 97(3):247–254",
+    finding: "Three grades of diffuse thinning over the crown in women, with the frontal hairline usually preserved.",
+    doi: "10.1111/j.1365-2133.1977.tb15179.x",
+  },
+  fitzpatrick1988: {
+    id: "fitzpatrick1988",
+    authors: "Fitzpatrick TB",
+    year: 1988,
+    title: "The validity and practicality of sun-reactive skin types I through VI",
+    source: "Archives of Dermatology 124(6):869–871",
+    finding: "Six skin types defined by how easily skin burns and tans after sun exposure.",
+    doi: "10.1001/archderm.1988.01670060015008",
+  },
+  saonanon2014: {
+    id: "saonanon2014",
+    authors: "Saonanon P",
+    year: 2014,
+    title: "Update on Asian eyelid anatomy and clinical relevance",
+    source: "Current Opinion in Ophthalmology 25(5):436–442",
+    finding: "Whether an upper lid has a crease (double lid) or not (single lid) depends on how the levator aponeurosis attaches and where orbital fat sits; single lids are common in East Asian people.",
+    doi: "10.1097/ICU.0000000000000075",
+  },
   farkas1994: {
     id: "farkas1994",
     authors: "Farkas LG",

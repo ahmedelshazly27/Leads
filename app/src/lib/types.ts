@@ -199,6 +199,8 @@ export interface Scan {
   stylePick?: { hair?: string; beard?: string };
   /** human-in-the-loop review; absent = awaiting review */
   review?: Review;
+  /** feature-library type ids set by the reviewer (category id -> type id) */
+  featureTypes?: Record<string, string>;
 }
 
 export type ReviewStatus = "awaiting" | "in-review" | "approved";
