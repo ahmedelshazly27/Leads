@@ -238,7 +238,7 @@ export function Technology() {
   const t: [string, string][] = [
     ["Precision landmarking", "A 478-point face mesh and a 33-point body pose, run on your device, then corrected for head tilt before any ratio is measured."],
     ["Real personalisation", "Your age, background, location, lifestyle, budget and preferences shape every plan. No two are the same."],
-    ["The science of appearance", "54 measurements and 100 feature types, each compared with published reference ranges and graded by evidence."],
+    ["The science of appearance", "48 measurements and 100 feature types, each compared with published reference ranges and graded by evidence."],
     ["Reviewed by humans", "A named reviewer checks the landmarks, the plan and the visuals, and visuals are re-measured for realism before release."],
   ];
   return (

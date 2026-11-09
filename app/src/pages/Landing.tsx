@@ -587,10 +587,11 @@ function CareNetwork() {
 
 function Measures() {
   const [open, setOpen] = useState<number | null>(0);
-  const total = MEASURES.reduce((s, m) => s + m.n, 0);
+  // nutrition rows are targets, not measurements of you
+  const total = MEASURES.filter((m) => m.name !== "Nutrition").reduce((s, m) => s + m.n, 0);
   return (
     <section className="lp-sec">
-      <Head center kicker="Assessments" dark={`${total}`} muted="assessments." mutedFirst={false} lead={`Included in your analysis, across ${MEASURES.length} areas, from a few guided photos at home. Plus 100 feature types in the library.`} />
+      <Head center kicker="Assessments" dark={`${total}`} muted="assessments." mutedFirst={false} lead={`Included in your analysis, across ${MEASURES.length - 1} areas, from a few guided photos at home. Plus 100 feature types in the library.`} />
       <div className="lp-acc">
         {MEASURES.map((m, i) => {
           const refs = m.refs ?? (m.method ? METHODS[m.method]?.refs ?? [] : []);
@@ -690,7 +691,7 @@ function How() {
 function Pricing() {
   const [cur, setCur] = useState<Cur>("AED");
   const features: [string, string][] = [
-    ["Face & body analysis", "54 measurements against reference ranges."],
+    ["Face & body analysis", "48 measurements against reference ranges."],
     ["Evidence-graded 12-month plan", "Every step graded A–C and cited."],
     ["Your 12-month visuals", "Face and body, front and side — reviewed by a human."],
     ["Nutrition targets", "Calories and macros for each phase of your plan."],

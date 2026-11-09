@@ -185,7 +185,7 @@ export function CompleteAnalysis({ data }: { data: SampleData }) {
           <h2>
             Your complete <span>facial analysis</span>
           </h2>
-          <p>Every face is different. We measure 54 markers across face, skin and body and explain what each one means for you.</p>
+          <p>Every face is different. We measure 48 markers across face, skin and body and explain what each one means for you.</p>
         </header>
         <div className="ls-analysis-stage">
           <img className="ls-analysis-face" src={`${S}face.jpg`} alt="Synthetic sample client" />
