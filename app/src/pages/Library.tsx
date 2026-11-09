@@ -1,4 +1,5 @@
 import { useState } from "react";
+import type { Art } from "../lib/library";
 import { Citations, GradeBadge, PageHeader } from "../components/ui";
 import { FeatureArt } from "../components/FeatureArt";
 import { BASIS_LABEL, LIBRARY, REGIONS, categoriesFor, matchFor, typeCount, type Ctx, type FeatureCategory, type Region } from "../lib/library";
@@ -33,7 +34,7 @@ export function Library() {
         kicker="Feature library"
         muted="Every type,"
         strong="explained."
-        lead={`${typeCount} types across ${LIBRARY.length} features. Each says what it is, how we decide which one you are, and the research behind it. Types describe a face; none is better than another.`}
+        lead={`${typeCount} types across ${LIBRARY.length} features. Each says what it is, how we decide which one you are, and the research behind it. Types describe a face; none is better than another. Photos show AI-generated synthetic people, not real ones.`}
       />
 
       {mine.length > 0 && (
@@ -116,10 +117,8 @@ function Category({ cat, ctx, overrides }: { cat: FeatureCategory; ctx: Ctx | nu
           const on = !!m && (m.typeId === t.id || (!!m.family && !m.typeId && t.family === m.family));
           return (
             <article key={t.id} className={`lib-type ${on ? "on" : ""}`}>
-              <div className="lib-art">
-                <FeatureArt art={t.art} active={on} />
-                {on && <span className="lib-you">{m?.family && !m.typeId ? "Your family" : "You"}</span>}
-              </div>
+              <TypeVisual catId={cat.id} typeId={t.id} name={t.name} art={t.art} on={on} />
+              {on && <span className="lib-you">{m?.family && !m.typeId ? "Your family" : "You"}</span>}
               <h3>{t.name}</h3>
               {t.aka && <div className="lib-aka">{t.aka}</div>}
               <p>{t.definition}</p>
@@ -138,5 +137,28 @@ function Category({ cat, ctx, overrides }: { cat: FeatureCategory; ctx: Ctx | nu
         <Citations ids={cat.refs} />
       </details>
     </section>
+  );
+}
+
+/** Categories shown as measured diagrams rather than photos. */
+const DIAGRAM_ONLY = new Set(["thirds", "eye-spacing"]);
+const PORTRAIT = new Set(["face-shape", "frame-male", "frame-female", "posture"]);
+
+/** Realistic photo of the type (synthetic person), with its exact diagram inset. */
+function TypeVisual({ catId, typeId, name, art, on }: { catId: string; typeId: string; name: string; art: Art; on: boolean }) {
+  const [failed, setFailed] = useState(false);
+  if (DIAGRAM_ONLY.has(catId) || failed)
+    return (
+      <div className="lib-art">
+        <FeatureArt art={art} active={on} />
+      </div>
+    );
+  return (
+    <div className={`lib-art lib-photo ${PORTRAIT.has(catId) ? "tall" : ""}`}>
+      <img src={`/library/${catId}/${typeId}.jpg`} alt={`${name} — AI-generated synthetic example`} loading="lazy" onError={() => setFailed(true)} />
+      <span className="lib-inset" aria-hidden>
+        <FeatureArt art={art} active />
+      </span>
+    </div>
   );
 }
