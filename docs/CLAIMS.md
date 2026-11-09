@@ -96,6 +96,8 @@ Source of truth for every health, appearance and product claim used in ads, stor
 |---|---|---|---|
 | "See an AI illustration of your 12-month plan, limited to non-surgical changes." | product fact (plan.ts afterPrompt locks bone and identity) | product fact | "Your future face"; "see your results"; "real results"; "this is what you'll look like" |
 | "Every visual is checked by a human before you see it." | product process | product fact (keep true) | "Guaranteed realistic" |
+| "Nothing outside your plan changes: we re-measure bone proportions, lips, skin tone and eye colour against your photo before a person approves it." | product fact (realism.ts: 6 bone ratios, 2 lip ratios, skin and iris ΔE; checklist item after-fidelity). Positioning from Reddit buyer complaints about competitors' after images (research_notes/…/reddit_arctic_shift.md) | product fact (keep true) | "Identical to you"; "100% accurate"; naming a competitor's flaws in ads without legal review |
+| "Reviewed by [name, credential]" on a report | review.reviewer, required before release | product fact | Any credential the reviewer does not hold; implying a clinician reviewed it when they did not |
 | Every visual in an ad must be labelled "AI-generated illustration · synthetic person" (or "· not a real result"). | — | rule | Showing an AI after image next to a real "before" as if it were a real transformation; before/after pairs without the label |
 
 ## Product / process

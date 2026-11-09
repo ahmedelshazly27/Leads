@@ -204,10 +204,10 @@ function IntakeStep({ intake, setIntake, onNext }: { intake: Intake; setIntake: 
         </F>
         <F label="Hair type">
           <select value={intake.hairType} onChange={(e) => set("hairType", e.target.value as Intake["hairType"])}>
-            <option value="straight">Straight</option>
-            <option value="wavy">Wavy</option>
-            <option value="curly">Curly</option>
-            <option value="coily">Coily</option>
+            <option value="straight">Straight — no bend (1)</option>
+            <option value="wavy">Wavy — loose S-bends (2A–2C)</option>
+            <option value="curly">Curly — springy loops or spirals (3A–3C)</option>
+            <option value="coily">Coily — tight coils or zig-zags (4A–4C)</option>
           </select>
         </F>
         <F label="Hair length on top (cm)">
@@ -313,7 +313,7 @@ function PhotoStep(props: {
           value={props.face}
           onChange={props.setFace}
           guide={<FaceGuide />}
-          tips={["Camera ~1.5 m away at eye level (use zoom, not a close selfie)", "Neutral expression, mouth closed", "Even, soft front light; hair off the face", "Face the camera straight on"]}
+          tips={["Camera ~1.5 m away at eye level (use zoom, not a close selfie)", "Neutral expression, mouth closed", "Even, soft front light; hair off the face (only so we can measure — style advice assumes how you normally wear it)", "Face the camera straight on"]}
         />
         <Drop
           testId="body-input"

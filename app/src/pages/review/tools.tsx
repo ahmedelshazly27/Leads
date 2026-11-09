@@ -280,8 +280,8 @@ export function RealismPanel({ before, after, onResult }: { before: string | nul
         <div>
           <h2 className="title-md">Realism check</h2>
           <p className="lead">
-            Habits can't change bone. We re-measure the after image and compare bone-set proportions (relative to pupil distance) with the baseline. Anything outside tolerance is flagged
-            for review.
+            Habits can't change bone, eye colour or skin tone. We re-measure the after image and compare bone-set proportions (relative to pupil distance), lips, skin tone and eye
+            colour with the baseline. Anything outside tolerance is flagged for review.
           </p>
         </div>
         <button className="btn" onClick={run} disabled={busy || !before}>
@@ -291,7 +291,7 @@ export function RealismPanel({ before, after, onResult }: { before: string | nul
       {res === "error" && <p className="lead">Couldn't detect a face in one of the images.</p>}
       {res && res !== "error" && (
         <>
-          <div className={`rl-verdict ${res.pass ? "ok" : "flag"}`}>{res.pass ? "Passed — bone structure and identity preserved" : "Flagged — regenerate from the baseline with identity locked"}</div>
+          <div className={`rl-verdict ${res.pass ? "ok" : "flag"}`}>{res.pass ? "Passed — bone structure, lips and colour preserved" : "Flagged — regenerate from the baseline with identity locked"}</div>
           <table className="rl-table">
             <thead>
               <tr>
@@ -310,16 +310,19 @@ export function RealismPanel({ before, after, onResult }: { before: string | nul
                     {r.label}
                     <small>{r.note}</small>
                   </td>
-                  <td>{r.before.toFixed(3)}</td>
-                  <td>{r.after.toFixed(3)}</td>
-                  <td>{(r.changePct > 0 ? "+" : "") + r.changePct.toFixed(1)}%</td>
-                  <td>±{r.tolerancePct}%</td>
+                  <td>{r.unit === "dE" ? `L* ${r.before.toFixed(0)}` : r.before.toFixed(3)}</td>
+                  <td>{r.unit === "dE" ? `L* ${r.after.toFixed(0)}` : r.after.toFixed(3)}</td>
+                  <td>{r.unit === "dE" ? `ΔE ${r.changePct.toFixed(1)}` : (r.changePct > 0 ? "+" : "") + r.changePct.toFixed(1) + "%"}</td>
+                  <td>{r.unit === "dE" ? `≤ ${r.tolerancePct}` : r.key === "lips" ? `−12 / +${r.tolerancePct}%` : r.key === "jaw" || r.key === "zyg" ? `−${r.tolerancePct} / +1%` : `±${r.tolerancePct}%`}</td>
                   <td>{r.pass ? "✓" : "⚠"}</td>
                 </tr>
               ))}
             </tbody>
           </table>
-          <p className="rl-note">Chin and lower-face outlines are excluded: beard growth moves those landmarks without any bone change.</p>
+          <p className="rl-note">
+            Not measurable here, so check by eye: age (no added lines or greying), hair colour, ears and head size, and sex cues. ΔE is the CIE colour difference; about 2–3 is
+            just noticeable side by side.
+          </p>
         </>
       )}
     </section>

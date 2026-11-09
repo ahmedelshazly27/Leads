@@ -2,7 +2,7 @@ import { useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { CaptureWarning } from "../../components/CaptureWarning";
 import { FacePhoto, toPhoto } from "../../components/FacePhoto";
-import { Doc, Info, ListIcon, Play, Search } from "../../components/icons";
+import { Doc, Info, ListIcon, Search } from "../../components/icons";
 import { MethodNote } from "../../components/MethodNote";
 import { Kicker, PageHeader, SpectrumBar, Toggle } from "../../components/ui";
 import { IDX, PAIRS } from "../../lib/faceAnalysis";
@@ -202,7 +202,12 @@ export function Dimorphism({ scan, facePhoto, profile }: SectionProps) {
   const face = scan.face!;
   const m = face.metrics;
   const d = m.dimorphism;
-  const label = d > 0.7 ? "Strongly masculine" : d > 0.55 ? "Moderately masculine" : d > 0.45 ? "Androgynous" : d > 0.3 ? "Moderately feminine" : "Strongly feminine";
+  // Read against the client's own sex: a soft-featured man is "softer than typical for men", not "feminine".
+  // Shape only — a beard is not counted.
+  const label =
+    profile.intake.gender === "female"
+      ? d < 0.3 ? "Strongly feminine" : d < 0.45 ? "Typically feminine" : d < 0.6 ? "Balanced" : "Stronger than typical for women"
+      : d > 0.7 ? "Strongly masculine" : d > 0.55 ? "Typically masculine" : d > 0.4 ? "Balanced" : "Softer than typical for men";
   const cues = [
     { name: "Jaw width", masc: m.jawToFaceWidth > 0.8 },
     { name: "Brow-to-eye distance", masc: m.browEyeDistance < 0.75 },
@@ -628,7 +633,7 @@ export function FirstImpression({ scan, facePhoto, plan }: SectionProps) {
           <p className="lead">This section outlines the immediate impression your facial features create and how your face is perceived at first glance.</p>
         </div>
         <a className="fi-why" href="#fi-method">
-          Why first impression matters? <Play size={14} />
+          Why first impression matters
         </a>
       </div>
 
@@ -646,7 +651,7 @@ export function FirstImpression({ scan, facePhoto, plan }: SectionProps) {
                 );
               })}
           </FacePhoto>
-          <span className="fi-tip">{hover ?? "Click/Hover here"}</span>
+          <span className="fi-tip">{hover ?? "Tap or hover a point"}</span>
         </div>
         <div className="fi-panel">
           <span className="fi-grip" />

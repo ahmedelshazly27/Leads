@@ -242,7 +242,7 @@ function DisclaimerPage() {
         <div>
           <h3>Privacy policy</h3>
           <p>
-            Facial and body analysis runs entirely on your device. Photographs, measurements and plan progress are stored only in your browser and are never uploaded to our servers.
+            Analysis runs on your device. In this preview, photographs, measurements and plan progress are stored only in this browser. Specialist review needs your photos: when accounts launch, submitting a scan for review will upload it over an encrypted connection to our review team only, and we will ask you first.
           </p>
           <p>Photos leave your device only if you choose to use an external image generator for visualisations; that provider's terms then apply.</p>
           <h3>Limitations</h3>

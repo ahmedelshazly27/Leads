@@ -4,7 +4,7 @@ import { GradeBadge } from "../../components/ui";
 import { refreshBody, bmiOf } from "../../lib/bodyAnalysis";
 import { afterPrompt, BASELINE_PROMPT, bodyAfterPrompt, buildPlan } from "../../lib/plan";
 import { SCORE_LABEL, type ScoreKey } from "../../lib/report";
-import { photoUrl, setActiveProfile, setReview, setVisuals, updateScan, useAppState } from "../../lib/store";
+import { photoUrl, setActiveProfile, setReview, setReviewerName, setVisuals, updateScan, useAppState } from "../../lib/store";
 import { faceNeeds, rankBeard, rankHair } from "../../lib/styles";
 import type { Review, Scan } from "../../lib/types";
 import { checklistFor, type Check } from "./checklist";
@@ -48,6 +48,7 @@ export function ReviewScan() {
   const list = checklistFor(scan);
   const done = list.filter((c) => r.checks[c.id]).length;
   const allDone = done === list.length;
+  const reviewer = (r.reviewer || state.settings.reviewerName || "").trim();
   const v = state.visuals[scan.id] ?? {};
   const face = photoUrl(scan.id, "face");
   const body = photoUrl(scan.id, "body");
@@ -230,10 +231,10 @@ export function ReviewScan() {
             before={v.baseline ?? face}
             after={v.after}
             onResult={(res) => {
-              const worst = [...res.rows].sort((a, b) => Math.abs(b.changePct) - Math.abs(a.changePct))[0];
-              setReview(scan.id, {
-                realism: { pass: res.pass, at: new Date().toISOString(), worst: `${worst.label.toLowerCase()} ${worst.changePct > 0 ? "+" : "−"}${Math.abs(worst.changePct).toFixed(1)}%` },
-              });
+              // worst = closest to (or furthest past) its own tolerance
+              const worst = [...res.rows].sort((a, b) => Math.abs(b.changePct) / b.tolerancePct - Math.abs(a.changePct) / a.tolerancePct)[0];
+              const val = worst.unit === "dE" ? `ΔE ${worst.changePct.toFixed(1)}` : `${worst.changePct > 0 ? "+" : "−"}${Math.abs(worst.changePct).toFixed(1)}%`;
+              setReview(scan.id, { realism: { pass: res.pass, at: new Date().toISOString(), worst: `${worst.label} ${val}` } });
             }}
           />
         )}
@@ -256,6 +257,19 @@ export function ReviewScan() {
             onBlur={(e) => e.target.value !== r.note && setReview(scan.id, { note: e.target.value })}
           />
         </div>
+        <div className="field">
+          <label htmlFor="rv-by">Reviewed by (name and credential, shown to the client)</label>
+          <input
+            id="rv-by"
+            defaultValue={r.reviewer ?? state.settings.reviewerName ?? ""}
+            placeholder="e.g. Dr A. Name, DHA-licensed dermatologist"
+            onBlur={(e) => {
+              const val = e.target.value.trim();
+              if (val !== (r.reviewer ?? "")) setReview(scan.id, { reviewer: val });
+              if (val) setReviewerName(val);
+            }}
+          />
+        </div>
         <div className="rv-release-bar">
           <span>
             {done}/{list.length} checks{r.realism ? ` · realism ${r.realism.pass ? "passed" : "flagged"}` : ""}
@@ -267,9 +281,9 @@ export function ReviewScan() {
           ) : (
             <button
               className="btn"
-              disabled={!allDone || (!!v.after && r.realism?.pass === false)}
-              title={!allDone ? "Complete every check first" : r.realism?.pass === false ? "The after image failed the realism check" : ""}
-              onClick={() => setReview(scan.id, { status: "approved", approvedAt: new Date().toISOString() })}
+              disabled={!allDone || (!!v.after && r.realism?.pass === false) || !reviewer}
+              title={!allDone ? "Complete every check first" : r.realism?.pass === false ? "The after image failed the realism check" : !reviewer ? "Add who reviewed it" : ""}
+              onClick={() => setReview(scan.id, { status: "approved", approvedAt: new Date().toISOString(), reviewer })}
             >
               Approve & release
             </button>

@@ -487,7 +487,7 @@ export function Summary(p: SectionProps) {
           />
         </div>
         <h2 className="pr-sum-reads">
-          Your projected face scores <span className="hl">{gain > 0 ? `+${Math.round(gain)} points` : "about the same"}</span> after 12 months on the plan.
+          Your projected face score: <span className="hl">{gain > 0 ? `+${Math.round(gain)} points` : "about the same"}</span> after 12 months on the plan.
         </h2>
         <div className="pr-sum-cards">
           <div className="pr-age">

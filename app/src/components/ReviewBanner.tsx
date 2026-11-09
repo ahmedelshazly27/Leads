@@ -6,13 +6,16 @@ const fmt = (iso?: string) => (iso ? new Date(iso).toLocaleDateString("en-GB", {
 export function ReviewBanner({ scan, compact = false }: { scan: Scan; compact?: boolean }) {
   const r = scan.review;
   if (r?.status === "approved") {
-    if (compact || !r.note) return null;
+    if (compact || (!r.note && !r.reviewer)) return null;
     return (
       <div className="rb rb-ok" role="note">
         <span className="rb-dot" />
         <div>
-          <b>Reviewed {fmt(r.approvedAt)}</b>
-          <p>{r.note}</p>
+          <b>
+            Reviewed {fmt(r.approvedAt)}
+            {r.reviewer ? ` by ${r.reviewer}` : ""}
+          </b>
+          {r.note && <p>{r.note}</p>}
         </div>
       </div>
     );

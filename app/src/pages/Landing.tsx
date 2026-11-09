@@ -218,7 +218,7 @@ function Realistic() {
   return (
     <section className="lp-sec lp-split" id="why">
       <div className="lp-split-text">
-        <Head kicker="Realistic" dark="Real change," muted="rendered honestly." lead="Your 12-month visual is an AI illustration limited to what habits, skin care and training can realistically change — not a prediction or guarantee. The plan targets:" />
+        <Head kicker="Realistic" dark="Real change," muted="rendered honestly." lead="Your 12-month visual is an AI illustration limited to what habits, skin care and training can realistically change — not a prediction or guarantee. Nothing outside your plan changes: before a person approves it, we re-measure bone proportions, lips, skin tone and eye colour against your photo. The plan targets:" />
         <ol className="lp-numlist">
           {points.map((p, i) => (
             <li key={p}>

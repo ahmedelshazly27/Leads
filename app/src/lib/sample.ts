@@ -20,7 +20,7 @@ export const sampleProfile: Profile = {
 export const sampleScan: Scan = { ...(data.scan as unknown as Scan), id: SAMPLE_SCAN_ID, profileId: SAMPLE_PROFILE_ID, stylePick: { hair: "medium-curls-subtle-taper", beard: "faded-italian" },
   review: {
     status: "approved",
-    checks: Object.fromEntries(["capture", "face-lm", "body-lm", "side-lm", "scores", "bodyfat", "plan", "clinical", "style", "baseline", "after", "body-visuals"].map((k) => [k, true])),
+    checks: Object.fromEntries(["capture", "face-lm", "body-lm", "side-lm", "scores", "bodyfat", "plan", "clinical", "style", "baseline", "after", "after-fidelity", "body-visuals"].map((k) => [k, true])),
     hiddenItems: [],
     itemNotes: { haircut: "Grow the top to 7–8 cm first (about 2 months), then ask for the swept-back cut. Bring the after image to your barber." },
     note: "Reviewed your photos, measurements and plan. Start with sleep, protein and the training plan — they drive most of the change you see in the after image.",

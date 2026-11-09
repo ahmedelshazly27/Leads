@@ -261,7 +261,7 @@ export function buildPlan(scan: Scan, intake: Intake, opts: { includeHidden?: bo
       title: `Lean out toward ~${targetBF}% body fat`,
       why: `${lead} Perceived facial adiposity tracks BMI and is linked to perceived health and attractiveness; losing fat can make your existing cheekbones and jawline more visible (bone structure does not change).${pace}`,
       how: [
-        "Eat ~300–500 kcal/day below maintenance",
+        "Eat in a moderate daily deficit: your exact calorie target is on the Nutrition page (about 0.6–0.7% of body weight lost per week)",
         "Aim to lose 0.5–1% of body weight per week; re-check monthly",
         "Keep protein high (see Nutrition) and keep lifting to protect muscle",
         "Walk 8–10k steps daily",
@@ -800,6 +800,15 @@ export const PRESENCE =
 export const RENDER_LOCK =
   "Single clean render: skin colour identical to the baseline (no added redness, tan, warmth or saturation), natural skin texture, pores and body hair, no painterly smoothing, no HDR, no oversharpening — same camera, same lighting, same colour grade as the baseline.";
 
+/**
+ * Things buyers of other services most often say their "after" got wrong
+ * (Reddit buyer accounts 2025–26: older, different race or sex, new hair or eye
+ * colour, filler-look lips, pinned ears, smaller skull, "Instagram face").
+ * Nothing outside the plan may change.
+ */
+export const FIDELITY =
+  "Change nothing that is not in the numbered list or the presence note. Same age (no added or removed lines beyond the listed skin changes, no greying), same natural hair colour, brow colour and iris colour, same sex cues (do not masculinise or feminise), same lip size and shape (no filler look), same ears and head size. Not a beauty-filter or 'Instagram face': keep the person's own distinctive features and small natural asymmetries.";
+
 export function afterPrompt(plan: Plan, intake: Intake): string {
   const changes = plan.items.filter((i) => i.visual).map((i, n) => `${n + 1}) ${i.visual}`);
   return [
@@ -807,6 +816,7 @@ export function afterPrompt(plan: Plan, intake: Intake): string {
     `Show the result of a realistic 12-month, evidence-based self-improvement plan. Apply ALL of these changes clearly and visibly: ${changes.join("; ")}.`,
     PRESENCE,
     "LOCK identity and bone: identical eye shape and eye spacing, nose width and shape, lips, ears, jaw bone width, chin, skull shape, ethnicity and skin tone (do not lighten the skin). Fat loss may slim soft tissue only. No surgery-like changes. Always edit the original baseline, never a previous after image.",
+    FIDELITY,
     `Confident, focused gaze, lips closed. Photorealistic, no makeup${intake.gender === "female" ? " beyond the person's usual" : ""}, no beauty filter.`,
     RENDER_LOCK,
   ].join(" ");
@@ -827,7 +837,7 @@ export function bodyAfterPrompt(plan: Plan, view: "front" | "side"): string {
     `Edit the first image (standardized physique baseline, ${view} view). Keep the same person, camera angle, framing, black athletic shorts, slate blue-grey studio background (#A9BDC4) and lighting so it lines up 1:1 as a before/after pair. The second image is the approved face after: match its face, expression, hair and beard exactly${view === "side" ? " (seen in profile)" : ""}.`,
     `Apply ALL of these clearly and visibly: ${body.length ? body.join("; ") : "1) realistic improvements from 12 months of training and fat loss"}.`,
     `Head: ${[hair && `hair — ${hair}`, beard && `beard — ${beard}`].filter(Boolean).join("; ") || "as in the second image"}. Keep the head the same size relative to the body as in the first image, with hair volume close to the head.`,
-    "Keep the same skeleton, height, shoulder bone width, limb lengths and proportions; natural, drug-free muscle gain only (no bodybuilder or fitness-model physique).",
+    "Keep the same skeleton, height, shoulder bone width, limb lengths and proportions; natural, drug-free muscle gain only (no bodybuilder or fitness-model physique). Same age, skin tone, body hair and tattoos or marks; change nothing that is not listed.",
     RENDER_LOCK,
   ].join(" ");
 }

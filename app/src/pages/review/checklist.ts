@@ -15,9 +15,15 @@ const ALL: (Check & { when?: (s: Scan) => boolean })[] = [
   { id: "bodyfat", section: "measure", label: "Body-fat estimate is plausible", when: (s) => !!s.body },
   { id: "plan", section: "plan", label: "Every plan item fits this person; irrelevant items removed" },
   { id: "clinical", section: "plan", label: "Clinical items checked against allergies, limitations and preferences" },
-  { id: "style", section: "style", label: "Hair and beard choice suits the face and hair type", when: (s) => !!s.face },
+  { id: "style", section: "style", label: "Hair and beard suit the face and the client's real hair texture and curl pattern, and differ from their current cut", when: (s) => !!s.face },
   { id: "baseline", section: "visuals", label: "Studio model is unmistakably the same person", when: (s) => s.hasFacePhoto },
   { id: "after", section: "visuals", label: "After image passes the realism check and looks achievable", when: (s) => s.hasFacePhoto },
+  {
+    id: "after-fidelity",
+    section: "visuals",
+    label: "After changes only what the plan lists: same age, sex cues, hair and eye colour, lips, ears and head size; no beauty-filter look",
+    when: (s) => s.hasFacePhoto,
+  },
   { id: "body-visuals", section: "visuals", label: "Body before/after match the person and the plan", when: (s) => !!s.body },
 ];
 

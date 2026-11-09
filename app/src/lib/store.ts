@@ -225,6 +225,10 @@ export function setUnits(units: "metric" | "imperial") {
   set({ ...state, settings: { ...state.settings, units } });
 }
 
+export function setReviewerName(reviewerName: string) {
+  set({ ...state, settings: { ...state.settings, reviewerName } });
+}
+
 export function setStaff(staff: boolean) {
   set({ ...state, settings: { ...state.settings, staff } });
 }

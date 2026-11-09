@@ -136,8 +136,8 @@ export function Settings() {
       <div className="bt-card">
         <h2 className="title-md">Privacy</h2>
         <p className="lead" style={{ maxWidth: "none", marginBottom: 12 }}>
-          All analysis runs on this device. Profiles, scans and photos are stored only in this browser (IndexedDB) and are never uploaded. Photos only leave the device if you choose to use an external
-          image generator for the before/after visuals. Results are estimates for tracking change, not medical advice.
+          Analysis runs on this device. In this preview, profiles, scans and photos are stored only in this browser (IndexedDB). Specialist review and the before/after visuals need your photos: when
+          accounts launch, submitting a scan uploads it securely to the review team only, after you agree. Results are estimates for tracking change, not medical advice.
         </p>
       </div>
     </div>

@@ -214,6 +214,8 @@ export interface Review {
   /** message to the client shown on the report */
   note: string;
   realism?: { pass: boolean; at: string; worst: string };
+  /** who signed off, e.g. "Dr A. Name, DHA-licensed dermatologist" — shown on the report */
+  reviewer?: string;
   updatedAt: string;
   approvedAt?: string;
 }
@@ -233,7 +235,7 @@ export interface AppState {
   activeProfileId: string | null;
   // planItemId -> ISO date completed, per profile
   progress: Record<string, Record<string, string>>;
-  settings: { units: "metric" | "imperial"; currency: Currency; photoMode?: "studio" | "original"; staff?: boolean };
+  settings: { units: "metric" | "imperial"; currency: Currency; photoMode?: "studio" | "original"; staff?: boolean; reviewerName?: string };
   visuals: Record<string, Visuals>; // scanId -> generated images (data URLs or https)
   bookings?: Booking[];
 }

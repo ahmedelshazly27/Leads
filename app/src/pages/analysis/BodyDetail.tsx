@@ -221,7 +221,7 @@ export function PhysiqueImpression(p: SectionProps) {
                 );
               })}
           </Pic>
-          <span className="fi-tip">{hover ?? "Click/Hover here"}</span>
+          <span className="fi-tip">{hover ?? "Tap or hover a point"}</span>
         </div>
         <div className="fi-panel">
           <span className="fi-grip" />
@@ -522,7 +522,7 @@ export function WaistCore(p: SectionProps) {
           ) : (
             <>Your frontal waist is {Math.round(wToS * 100)}% of your shoulder width. </>
           )}
-          Ab exercises alone don't shrink the belly — six weeks of abdominal training didn't reduce abdominal fat (Vispute 2011). It comes off with overall fat loss (a 300–500 kcal daily deficit, high protein) while
+          Ab exercises alone don't shrink the belly — six weeks of abdominal training didn't reduce abdominal fat (Vispute 2011). It comes off with overall fat loss (a moderate daily deficit, high protein — your target is on the Nutrition page) while
           training keeps muscle.
         </p>
       </div>
