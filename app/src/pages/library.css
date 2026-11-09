@@ -300,3 +300,11 @@
   left: 16px;
   z-index: 1;
 }
+@media (max-width: 760px) {
+  .lib-inset {
+    width: 42px;
+    height: 32px;
+    right: 4px;
+    bottom: 4px;
+  }
+}
