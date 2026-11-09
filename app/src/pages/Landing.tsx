@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Logo } from "../components/Logo";
-import { BeforeAfter, SpectrumBar, Toggle, shortCite } from "../components/ui";
-import { ChevronDown, ChevronRight, Infinity as InfinityIcon, Verified } from "../components/icons";
+import { SpectrumBar, Toggle, shortCite } from "../components/ui";
+import { ChevronDown, Verified } from "../components/icons";
 import { METHODS } from "../lib/science";
 import { buildPlan } from "../lib/plan";
 import { buildNutrition } from "../lib/nutrition";
@@ -11,6 +11,7 @@ import { SCORE_LABEL, type ScoreKey } from "../lib/report";
 import { sampleProfile, sampleScan } from "../lib/sample";
 import "./Landing.css";
 import { CompleteAnalysis, LooksInfluence, PersonalPlan, TakingIntoAccount, YouWillLearn } from "./LandingSections";
+import { Ancestry, DiscoverYou, FollowPlan, LifeChanging, Mindset, NoSurgery, Pillars, StartCta, Support, Technology } from "./LandingSections2";
 
 const S = `${import.meta.env.BASE_URL}sample/`;
 
@@ -105,9 +106,8 @@ export function Landing() {
             <span>Facet</span>
           </Link>
           <div className="lp-nav-links">
-            <a href="#why">Why it works</a>
+            <a href="#why">Why glow up</a>
             <a href="#how">How it works</a>
-            <a href="#care">Care network</a>
             <a href="#pricing">Pricing</a>
             <a href="#faq">FAQ</a>
           </div>
@@ -119,7 +119,9 @@ export function Landing() {
 
       <Hero />
       <div className="lp-frame">
+        <LifeChanging />
         <LooksInfluence />
+        <BetterWay />
       </div>
       <CompleteAnalysis data={data} />
       <div className="lp-frame">
@@ -128,17 +130,27 @@ export function Landing() {
       </div>
       <PersonalPlan data={data} />
       <div className="lp-frame">
-        <Realistic />
-        <BetterWay />
+        <NoSurgery />
+        <FollowPlan data={data} />
         <FutureSelf />
         <Track data={data} />
-        <CareNetwork />
+      </div>
+      <Pillars />
+      <div className="lp-frame">
         <Measures />
+        <DiscoverYou data={data} />
+        <Technology />
+        <Ancestry />
+      </div>
+      <StartCta />
+      <div className="lp-frame">
         <How />
         <Pricing />
+        <Support />
+        <CareNetwork />
         <Faq />
+        <Mindset />
       </div>
-      <FinalCta />
       <footer className="lp-foot">
         <div className="lp-foot-in">
           <div className="lp-logo">
@@ -206,37 +218,6 @@ function Hero() {
 /*  2 · Realistic change                                              */
 /* ------------------------------------------------------------------ */
 
-function Realistic() {
-  const points = ["Clearer, even skin", "A leaner face and jawline", "A more rested look", "A stronger, balanced physique", "Better posture"];
-  return (
-    <section className="lp-sec lp-split">
-      <div className="lp-split-text">
-        <Head kicker="Realistic" dark="Real change," muted="rendered honestly." lead="Your 12-month visual is an AI illustration limited to what habits, skin care and training can realistically change — not a prediction or guarantee. Nothing outside your plan changes: before a person approves it, we re-measure bone proportions, lips, skin tone and eye colour against your photo. The plan targets:" />
-        <ol className="lp-numlist">
-          {points.map((p, i) => (
-            <li key={p}>
-              <span>[{i + 1}]</span>
-              {p}
-            </li>
-          ))}
-        </ol>
-      </div>
-      <div className="lp-ba-pair">
-        <BeforeAfter
-          aspect={0.75}
-          before={<img src={`${S}face.jpg`} alt="Before (synthetic sample)" />}
-          after={<img src={`${S}face_after.jpg`} alt="AI-generated 12-month visual (synthetic sample)" />}
-        />
-        <BeforeAfter
-          aspect={0.75}
-          before={<img src={`${S}body_front.jpg`} alt="Body before (synthetic sample)" />}
-          after={<img src={`${S}body_after_front.jpg`} alt="AI-generated body visual after 12 months (synthetic sample)" />}
-        />
-      </div>
-    </section>
-  );
-}
-
 /* ------------------------------------------------------------------ */
 /*  3 · Research                                                       */
 /* ------------------------------------------------------------------ */
@@ -246,14 +227,14 @@ function Realistic() {
 /* ------------------------------------------------------------------ */
 
 function BetterWay() {
-  const old = ["Copy a trend", "Guess products", "One-size advice", "Procedures first", "No tracking"];
-  const ours = ["Measure 40+ markers", "Evidence-graded plan", "See a 12-month visual", "Human review", "Track monthly"];
+  const old = ["Fixate on one feature", "Visit a clinic", "No assessment", "Procedures first", "Results that don't fit you"];
+  const ours = ["Look at your face and body as a whole", "Your analysis, reviewed by a person", "See your 12-month visual", "Your personalised protocol", "Track real change"];
   return (
     <section className="lp-sec">
-      <Head center kicker="A different approach" dark="A different way to" muted="glow up." lead="Advice that starts from your face, your body and the evidence." />
+      <Head center kicker="Personalised analysis" dark="A new way to" muted="glow up." mutedFirst={false} lead="Most advice is one-size-fits-all and starts with a procedure. We start with your measurements, your goals and the evidence." />
       <div className="lp-rails">
-        <Rail label="The usual way" steps={old} />
-        <Rail label="Our way" steps={ours} dark />
+        <Rail label="The old way" steps={old} />
+        <Rail label="The new way" steps={ours} dark />
       </div>
     </section>
   );
@@ -293,14 +274,14 @@ function Rail({ label, steps, dark }: { label: string; steps: string[]; dark?: b
 
 function FutureSelf() {
   const tiles: { t: string; d: string; v: ReactNode }[] = [
-    { t: "Realistic", d: "Only changes that skin care, fat loss, grooming and training can make.", v: <VizPair /> },
+    { t: "Realistic visualisation", d: "Only changes that skin care, fat loss, grooming and training can make.", v: <VizPair /> },
     { t: "Ethnicity-aware", d: "Generated to keep your skin tone and features — checked by a human.", v: <VizSwatches /> },
-    { t: "Non-surgical changes only", d: "Bone structure is kept the same in your visual.", v: <VizBars /> },
+    { t: "Achievable without surgery", d: "Bone structure stays the same; we re-measure it to check.", v: <VizBars /> },
     { t: "Reviewed by a human", d: "Every image is checked before it reaches you.", v: <VizCheck /> },
   ];
   return (
     <section className="lp-sec">
-      <Head center kicker="Visualisation" dark="See a" muted="12-month visual." mutedFirst={false} lead="An AI illustration of the plan's target changes — not a photo or a guaranteed result." />
+      <Head center kicker="Visualisation" dark="See your" muted="future you." mutedFirst={false} lead="Ever wondered what you would look like at your best? An AI illustration of your plan’s end point, not a photo or a guarantee." />
       <div className="lp-future">
         <div className="lp-future-col">
           {tiles.slice(0, 2).map((x) => (
@@ -375,7 +356,7 @@ function Track({ data }: { data: ReturnType<typeof useSample> }) {
   const right = cards.slice(3);
   return (
     <section className="lp-sec">
-      <Head center kicker="Your biometrics" dark="Track your progress," muted="estimate the change." lead="Monthly check-ins in the same set-up, measured against your baseline. Scores are our composites of literature-based measures, not clinical scores." />
+      <Head center kicker="Your biometrics" dark="Track your progress." muted="See where you’re heading." lead="Monthly check-ins in the same set-up, measured against your baseline. Scores are our composites of literature-based measures, not clinical scores." />
       <div className="lp-track">
         <div className="lp-track-col">
           {left.map((c) => (
@@ -609,7 +590,7 @@ function Measures() {
   const total = MEASURES.reduce((s, m) => s + m.n, 0);
   return (
     <section className="lp-sec">
-      <Head center kicker="What we measure" dark="One report," muted="40+ measurements." mutedFirst={false} lead={`${total} measurements across ${MEASURES.length} areas, assessed from a few guided photos.`} />
+      <Head center kicker="Assessments" dark={`${total}`} muted="assessments." mutedFirst={false} lead={`Included in your analysis, across ${MEASURES.length} areas, from a few guided photos at home. Plus 100 feature types in the library.`} />
       <div className="lp-acc">
         {MEASURES.map((m, i) => {
           const refs = m.refs ?? (m.method ? METHODS[m.method]?.refs ?? [] : []);
@@ -643,7 +624,7 @@ function Measures() {
 function How() {
   return (
     <section className="lp-sec" id="how">
-      <Head center kicker="How it works" dark="How it" muted="works." mutedFirst={false} lead="From your phone, in three steps." />
+      <Head center kicker="How it works" dark="How it" muted="works." mutedFirst={false} lead="Your personalised analysis from home, in three simple steps." />
       <div className="lp-how">
         <div className="lp-howcard">
           <div className="lp-how-viz">
@@ -709,7 +690,7 @@ function How() {
 function Pricing() {
   const [cur, setCur] = useState<Cur>("AED");
   const features: [string, string][] = [
-    ["Face & body analysis", "40+ measurements against reference ranges."],
+    ["Face & body analysis", "54 measurements against reference ranges."],
     ["Evidence-graded 12-month plan", "Every step graded A–C and cited."],
     ["Your 12-month visuals", "Face and body, front and side — reviewed by a human."],
     ["Nutrition targets", "Calories and macros for each phase of your plan."],
@@ -780,7 +761,7 @@ function Faq() {
   const [open, setOpen] = useState<number | null>(null);
   return (
     <section className="lp-sec" id="faq">
-      <Head center kicker="FAQ" dark="Frequently asked" muted="questions." mutedFirst={false} />
+      <Head center kicker="Your questions" dark="Frequently asked" muted="questions." mutedFirst={false} />
       <div className="lp-faq">
         {FAQ.map(([q, a], i) => (
           <div key={q} className={`lp-faq-row ${open === i ? "open" : ""}`}>
@@ -796,20 +777,3 @@ function Faq() {
   );
 }
 
-function FinalCta() {
-  return (
-    <section className="lp-final">
-      <div className="lp-final-in">
-        <span className="lp-final-ico">
-          <InfinityIcon size={16} />
-        </span>
-        <h2 className="lp-title lp-title-light">
-          Start with a measurement, <span className="lp-muted-light">not a guess.</span>
-        </h2>
-        <Link to="/new" className="lp-btn lp-btn-white">
-          Start my scan <ChevronRight size={14} />
-        </Link>
-      </div>
-    </section>
-  );
-}

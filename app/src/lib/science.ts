@@ -23,6 +23,15 @@ export interface Reference {
 }
 
 export const REFS: Record<string, Reference> = {
+  zaidi2017: {
+    id: "zaidi2017",
+    authors: "Zaidi AA, Mattern BC, Claes P, McEvoy B, Hughes C, Shriver MD",
+    year: 2017,
+    title: "Investigating the case of human nose shape and climate adaptation",
+    source: "PLoS Genetics 13(3):e1006616",
+    finding: "Nostril width varied with the temperature and humidity of ancestral climates, consistent with climate playing a part in nose shape.",
+    doi: "10.1371/journal.pgen.1006616",
+  },
   mobius2006: {
     id: "mobius2006",
     authors: "Mobius MM, Rosenblat TS",

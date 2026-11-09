@@ -119,9 +119,9 @@ a.ls-src:hover {
   color: var(--ink-2);
   text-decoration: underline;
 }
-.ls-card-feature {
-  background: var(--accent);
-  box-shadow: 0 18px 40px rgba(66, 32, 42, 0.25);
+/* highlight only on hover / keyboard focus */
+.ls-card {
+  transition: background 0.25s ease, box-shadow 0.25s ease;
 }
 .ls-card-bg {
   position: absolute;
@@ -129,28 +129,56 @@ a.ls-src:hover {
   background-size: cover;
   background-position: center 30%;
   filter: blur(26px) saturate(0.8);
-  opacity: 0.55;
+  opacity: 0;
   transform: scale(1.2);
+  transition: opacity 0.3s ease;
 }
-.ls-card-feature::after {
+.ls-card::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(91, 43, 53, 0.55), rgba(66, 32, 42, 0.85));
+  background: linear-gradient(180deg, rgba(91, 43, 53, 0.55), rgba(66, 32, 42, 0.88));
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
-.ls-card-feature > * {
+.ls-card > * {
   z-index: 1;
 }
-.ls-card-feature h3,
-.ls-card-feature p {
+.ls-card:hover,
+.ls-card:focus-visible {
+  background: var(--accent);
+  box-shadow: 0 18px 40px rgba(66, 32, 42, 0.25);
+  outline: none;
+}
+.ls-card:hover .ls-card-bg,
+.ls-card:focus-visible .ls-card-bg {
+  opacity: 0.55;
+}
+.ls-card:hover::after,
+.ls-card:focus-visible::after {
+  opacity: 1;
+}
+.ls-card h3,
+.ls-card p,
+.ls-card footer,
+.ls-card .ls-src {
+  transition: color 0.25s ease;
+}
+.ls-card:hover h3,
+.ls-card:hover p,
+.ls-card:focus-visible h3,
+.ls-card:focus-visible p {
   color: #fff;
 }
-.ls-card-feature h3 span {
+.ls-card:hover h3 span,
+.ls-card:focus-visible h3 span {
   color: rgba(255, 255, 255, 0.62);
 }
-.ls-card-feature footer,
-.ls-card-feature .ls-src {
-  color: rgba(255, 255, 255, 0.72);
+.ls-card:hover footer,
+.ls-card:hover .ls-src,
+.ls-card:focus-visible footer,
+.ls-card:focus-visible .ls-src {
+  color: rgba(255, 255, 255, 0.75);
 }
 .ls-foot {
   margin: 18px 0 0;
@@ -940,5 +968,559 @@ a.ls-src:hover {
   }
   .ls-doc-potential {
     grid-template-columns: 1fr;
+  }
+}
+
+/* ================= page-order sections (2nd set) ================= */
+.ls-lead {
+  margin: 0;
+  max-width: 560px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+.ls-center-head .ls-lead {
+  margin: 0 auto;
+}
+.ls-left-head {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 18px;
+}
+.ls-left-head h2 {
+  margin: 0;
+  font-size: clamp(32px, 3.8vw, 52px);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.045em;
+  color: var(--ink);
+}
+.ls-left-head h2 span {
+  display: block;
+  color: var(--hl);
+}
+.ls-split {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 56px;
+  align-items: center;
+}
+.ls-split-top {
+  align-items: start;
+}
+.ls-split-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 28px;
+}
+.ls-benefits {
+  list-style: none;
+  margin: 0;
+  padding: 24px 0 0;
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  font-size: 16px;
+  color: var(--ink);
+}
+.ls-benefits li {
+  display: grid;
+  grid-template-columns: 40px 1fr auto;
+  align-items: baseline;
+}
+.ls-benefits span {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+}
+.ls-benefits small {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--muted);
+}
+.ls-ba-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.ls-ba-pair .ba-frame {
+  border-radius: 14px;
+}
+.ls-ba-cap {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.ls-nosurg {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  max-width: 980px;
+  margin: 0 auto;
+}
+.ls-nosurg-card {
+  margin: 0;
+  padding: 12px;
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+.ls-nosurg-card .ba-frame {
+  border-radius: 12px;
+}
+.ls-nosurg-card figcaption {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 6px 6px;
+}
+.ls-nosurg-card b {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--ink);
+}
+.ls-nosurg-card span {
+  font-size: 14px;
+  color: var(--ink-2);
+}
+.ls-nosurg-card a {
+  margin-top: 6px;
+  font-size: 13.5px;
+  color: var(--accent);
+  text-decoration: none;
+}
+.ls-foot-c {
+  text-align: center;
+}
+.ls-checks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  font-size: 15px;
+  color: var(--ink);
+}
+.ls-checks li {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.ls-checks svg {
+  flex: none;
+  margin-top: 2px;
+  color: var(--accent);
+}
+.ls-count {
+  margin: 0;
+  font-size: 14px;
+  color: var(--ink-2);
+}
+.ls-count b {
+  font-size: 40px;
+  font-weight: 300;
+  letter-spacing: -0.04em;
+  color: var(--accent);
+  margin-right: 6px;
+}
+.ls-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.ls-phase {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface);
+  padding: 18px 20px;
+}
+.ls-phase-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.ls-phase-head span {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+.ls-phase-head b {
+  font-size: 17px;
+  font-weight: 500;
+}
+.ls-phase-head em {
+  margin-left: auto;
+  font-style: normal;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+}
+.ls-phase ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.ls-phase li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 12px;
+  border-radius: 10px;
+  background: var(--card);
+  font-size: 13.5px;
+  color: var(--ink);
+}
+.ls-pillars {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.ls-pillars div {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 40px 28px;
+}
+.ls-pillars div + div {
+  border-left: 1px solid var(--line);
+}
+.ls-pillars b {
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.ls-pillars span {
+  font-size: 14px;
+  color: var(--ink-2);
+}
+.ls-discover {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.ls-discover-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.ls-discover-tabs button {
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid var(--line-2);
+  background: var(--surface);
+  font: inherit;
+  font-size: 13px;
+  color: var(--ink-3);
+  cursor: pointer;
+}
+.ls-discover-tabs button.on {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+.ls-discover-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 22px;
+  padding: 14px;
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+.ls-discover-card img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 12px;
+}
+.ls-discover-card h3 {
+  margin: 6px 0 6px;
+  font-size: 28px;
+  font-weight: 400;
+  letter-spacing: -0.03em;
+}
+.ls-discover-card p {
+  margin: 10px 0 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+.ls-discover-why {
+  color: var(--ink-3) !important;
+  font-size: 13px !important;
+}
+.ls-discover-val {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--accent);
+}
+.ls-dk {
+  color: var(--muted);
+}
+.ls-tech {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+.ls-tech-card {
+  padding: 24px;
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 240px;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+.ls-tech-card:hover {
+  background: var(--accent);
+}
+.ls-tech-card:hover h3,
+.ls-tech-card:hover p,
+.ls-tech-card:hover .ls-tech-n {
+  color: #fff;
+}
+.ls-tech-n {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+}
+.ls-tech-card h3 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+}
+.ls-tech-card p {
+  margin: auto 0 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+.ls-ancestry {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+.ls-anc {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 12px 18px;
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+.ls-anc img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 12px;
+}
+.ls-anc-n {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+.ls-anc p {
+  margin: 0 6px;
+  font-size: 14.5px;
+  line-height: 1.45;
+  color: var(--ink);
+}
+.ls-anc small {
+  margin: 0 6px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--muted);
+}
+.ls-start {
+  background: radial-gradient(90% 120% at 30% 40%, #8a5a64 0%, #6a3d47 50%, #4c2a32 100%);
+  color: #fff;
+}
+.ls-start-in {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 110px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  text-align: center;
+}
+.ls-start .ls-kicker {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.25);
+  color: rgba(255, 255, 255, 0.85);
+}
+.ls-start h2 {
+  margin: 0;
+  font-size: clamp(36px, 4.6vw, 64px);
+  font-weight: 400;
+  letter-spacing: -0.045em;
+}
+.ls-start h2 span {
+  color: rgba(255, 255, 255, 0.6);
+}
+.ls-start p {
+  margin: 0;
+  max-width: 520px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.78);
+}
+.ls-chat {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 18px;
+  border-radius: 20px;
+  background: linear-gradient(160deg, #8a5a64, #5b2b35);
+}
+.ls-chat-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 2px 4px 8px;
+  color: #fff;
+}
+.ls-chat-head b {
+  font-weight: 500;
+}
+.ls-chat-head span {
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.7);
+}
+.ls-bubble {
+  max-width: 82%;
+  padding: 12px 14px;
+  border-radius: 14px 14px 14px 4px;
+  background: #fff;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--ink);
+}
+.ls-bubble-me {
+  align-self: flex-end;
+  border-radius: 14px 14px 4px 14px;
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+}
+.ls-chat-note {
+  margin-top: 4px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.7);
+}
+.ls-mind {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.ls-mind > p {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--ink);
+}
+.ls-mind-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 18px 20px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+.ls-mind-row b {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--ink);
+}
+.ls-mind-row span {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+.ls-mind .ls-mind-note {
+  font-size: 13px;
+  color: var(--ink-3);
+}
+@media (max-width: 1000px) {
+  .ls-split {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .ls-tech,
+  .ls-ancestry {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .ls-pillars {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .ls-pillars div:nth-child(3) {
+    border-left: 0;
+  }
+}
+@media (max-width: 640px) {
+  .ls-nosurg,
+  .ls-tech,
+  .ls-ancestry,
+  .ls-discover-card {
+    grid-template-columns: 1fr;
+  }
+  .ls-pillars {
+    grid-template-columns: 1fr;
+  }
+  .ls-pillars div + div {
+    border-left: 0;
+    border-top: 1px solid var(--line);
+  }
+  .ls-benefits li {
+    grid-template-columns: 32px 1fr;
+  }
+  .ls-benefits small {
+    grid-column: 2;
   }
 }

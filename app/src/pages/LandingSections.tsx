@@ -124,8 +124,8 @@ export function LooksInfluence() {
       </div>
       <div className="ls-cards" style={{ gridTemplateColumns: `repeat(${Math.max(2, cards.length)}, minmax(0, 1fr))` }}>
         {cards.map((c, i) => (
-          <article key={c.ref} className={`ls-card ${i === 0 ? "ls-card-feature" : ""}`}>
-            {i === 0 && <span className="ls-card-bg" aria-hidden="true" style={{ backgroundImage: `url(${S}face.jpg)` }} />}
+          <article key={c.ref} className="ls-card" tabIndex={0}>
+            <span className="ls-card-bg" aria-hidden="true" style={{ backgroundImage: `url(${S}${i % 2 ? "face_after" : "face"}.jpg)` }} />
             <h3>
               <span>{c.muted}</span> {c.dark}
             </h3>
@@ -185,7 +185,7 @@ export function CompleteAnalysis({ data }: { data: SampleData }) {
           <h2>
             Your complete <span>facial analysis</span>
           </h2>
-          <p>Every face is different. We measure more than 40 markers across face, skin and body and explain what each one means for you.</p>
+          <p>Every face is different. We measure 54 markers across face, skin and body and explain what each one means for you.</p>
         </header>
         <div className="ls-analysis-stage">
           <img className="ls-analysis-face" src={`${S}face.jpg`} alt="Synthetic sample client" />
