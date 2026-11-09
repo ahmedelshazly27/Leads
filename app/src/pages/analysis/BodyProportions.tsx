@@ -35,11 +35,11 @@ export function BodyProportions({ body, photo, gender }: { body: BodyResult; pho
                   <g key={k}>
                     <line x1={a[0]} y1={a[1]} x2={b[0]} y2={b[1]} stroke="#fff" strokeWidth={1.4} strokeDasharray="4 4" vectorEffect="non-scaling-stroke" />
                     {[a, b].map((p, i) => (
-                      <circle key={i} cx={p[0]} cy={p[1]} r={6} fill="#fff" stroke="#55646a" strokeWidth={1} vectorEffect="non-scaling-stroke" />
+                      <circle key={i} cx={p[0]} cy={p[1]} r={6} fill="#fff" stroke="#69565a" strokeWidth={1} vectorEffect="non-scaling-stroke" />
                     ))}
                     <g transform={`translate(${(a[0] + b[0]) / 2}, ${a[1] - 14})`}>
-                      <rect x={-40} y={-16} width={80} height={22} rx={6} fill="rgba(70,82,88,.6)" />
-                      <text x={0} y={-1} textAnchor="middle" fill="#eef3f4" fontSize={12} fontFamily="JetBrains Mono" letterSpacing=".08em">
+                      <rect x={-40} y={-16} width={80} height={22} rx={6} fill="rgba(87, 71, 75,.6)" />
+                      <text x={0} y={-1} textAnchor="middle" fill="#f2f0f0" fontSize={12} fontFamily="JetBrains Mono" letterSpacing=".08em">
                         {k.toUpperCase()}
                       </text>
                     </g>
@@ -87,12 +87,12 @@ function RatioBars({ s, w, h }: { s: number; w: number; h: number }) {
         const y = 22 + i * 34;
         return (
           <g key={name}>
-            <text x={18} y={y + 4} fontSize={9} fontFamily="JetBrains Mono" fill="#7d898d" letterSpacing=".08em">
+            <text x={18} y={y + 4} fontSize={9} fontFamily="JetBrains Mono" fill="#5d3940" letterSpacing=".08em">
               {name.toUpperCase()}
             </text>
-            <line x1={190 - wpx / 2} y1={y} x2={190 + wpx / 2} y2={y} stroke="#8a9a9f" strokeWidth={1} strokeDasharray="3 3" />
-            <circle cx={190 - wpx / 2} cy={y} r={3} fill="#fff" stroke="#8a9a9f" />
-            <circle cx={190 + wpx / 2} cy={y} r={3} fill="#fff" stroke="#8a9a9f" />
+            <line x1={190 - wpx / 2} y1={y} x2={190 + wpx / 2} y2={y} stroke="#6a414a" strokeWidth={1} strokeDasharray="3 3" />
+            <circle cx={190 - wpx / 2} cy={y} r={3} fill="#fff" stroke="#6a414a" />
+            <circle cx={190 + wpx / 2} cy={y} r={3} fill="#fff" stroke="#6a414a" />
           </g>
         );
       })}

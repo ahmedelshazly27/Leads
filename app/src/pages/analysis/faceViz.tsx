@@ -115,7 +115,7 @@ export function MaskView({ face, crop, children }: { face: FaceResult; crop?: [n
   const vb = crop ? [crop[0] * 1000, crop[1] * H, crop[2] * 1000, crop[3] * H] : [0, 0, 1000, H];
   return (
     <svg viewBox={vb.join(" ")} preserveAspectRatio="xMidYMid slice" style={{ width: "100%", height: "100%", display: "block" }}>
-      <rect x={vb[0] - 2000} y={vb[1] - 2000} width={vb[2] + 4000} height={vb[3] + 4000} fill="#a9bdc4" />
+      <rect x={vb[0] - 2000} y={vb[1] - 2000} width={vb[2] + 4000} height={vb[3] + 4000} fill="#74464f" />
       {face.landmarks && <MeshLines lm={face.landmarks} aspect={face.imageAspect} />}
       {children}
     </svg>
@@ -128,7 +128,7 @@ export function ContourDiagram({ face, groups, closed = true, lines = [] }: { fa
   if (!lm) {
     return (
       <svg viewBox="0 0 320 120" width="100%" height="100%">
-        <ellipse cx={160} cy={60} rx={90} ry={26} fill="#e3e8e9" stroke="#b9c4c7" />
+        <ellipse cx={160} cy={60} rx={90} ry={26} fill="#e7e5e5" stroke="#915965" />
       </svg>
     );
   }
@@ -148,19 +148,19 @@ export function ContourDiagram({ face, groups, closed = true, lines = [] }: { fa
         return (
           <g key={k}>
             {closed ? (
-              <polygon points={poly(p)} fill="#e3e8e9" stroke="#8a989c" strokeWidth={0.8} strokeDasharray="2 3" />
+              <polygon points={poly(p)} fill="#e7e5e5" stroke="#69404a" strokeWidth={0.8} strokeDasharray="2 3" />
             ) : (
-              <polyline points={poly(p)} fill="none" stroke="#8a989c" strokeWidth={0.8} strokeDasharray="2 3" />
+              <polyline points={poly(p)} fill="none" stroke="#69404a" strokeWidth={0.8} strokeDasharray="2 3" />
             )}
             {p.filter((_, i) => i % 2 === 0).map((q, i) => (
-              <circle key={i} cx={q[0]} cy={q[1]} r={2} fill="#fff" stroke="#8a989c" strokeWidth={0.8} />
+              <circle key={i} cx={q[0]} cy={q[1]} r={2} fill="#fff" stroke="#69404a" strokeWidth={0.8} />
             ))}
           </g>
         );
       })}
       {lines.map(([i, j], k) => {
         const p = tx(map(i)), q = tx(map(j));
-        return <line key={k} x1={p[0]} y1={p[1]} x2={q[0]} y2={q[1]} stroke="#55646a" strokeWidth={0.8} />;
+        return <line key={k} x1={p[0]} y1={p[1]} x2={q[0]} y2={q[1]} stroke="#69565a" strokeWidth={0.8} />;
       })}
     </svg>
   );
@@ -178,7 +178,7 @@ export function ContourOverlay({ lm, aspect, groups, closed = true, dots = true 
             <Tag points={poly(p)} fill={closed ? "rgba(255,255,255,.12)" : "none"} stroke="#fff" strokeWidth={1.3} strokeDasharray="3 3" vectorEffect="non-scaling-stroke" />
             {dots &&
               p.filter((_, i) => i % 3 === 0).map((q, i) => (
-                <circle key={i} cx={q[0]} cy={q[1]} r={2.6} fill="#fff" stroke="#55646a" strokeWidth={0.8} vectorEffect="non-scaling-stroke" />
+                <circle key={i} cx={q[0]} cy={q[1]} r={2.6} fill="#fff" stroke="#69565a" strokeWidth={0.8} vectorEffect="non-scaling-stroke" />
               ))}
           </g>
         );
@@ -193,7 +193,7 @@ export function MeasureLine({ lm, aspect, a, b, label }: { lm: Pt[]; aspect: num
     <g>
       <line x1={p[0]} y1={p[1]} x2={q[0]} y2={q[1]} stroke="#fff" strokeWidth={1.4} vectorEffect="non-scaling-stroke" />
       {[p, q].map((r, i) => (
-        <circle key={i} cx={r[0]} cy={r[1]} r={3.2} fill="#fff" stroke="#55646a" strokeWidth={1} vectorEffect="non-scaling-stroke" />
+        <circle key={i} cx={r[0]} cy={r[1]} r={3.2} fill="#fff" stroke="#69565a" strokeWidth={1} vectorEffect="non-scaling-stroke" />
       ))}
       {label && (
         <text x={(p[0] + q[0]) / 2} y={Math.min(p[1], q[1]) - 6} textAnchor="middle" fill="#fff" fontSize={9} fontFamily="JetBrains Mono" letterSpacing=".06em">

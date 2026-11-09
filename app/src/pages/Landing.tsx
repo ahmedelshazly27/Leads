@@ -1,16 +1,16 @@
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Logo } from "../components/Logo";
-import { FacePhoto, toPhoto } from "../components/FacePhoto";
-import { BeforeAfter, GradeBadge, SpectrumBar, Toggle, shortCite } from "../components/ui";
+import { BeforeAfter, SpectrumBar, Toggle, shortCite } from "../components/ui";
 import { ChevronDown, ChevronRight, Infinity as InfinityIcon, Verified } from "../components/icons";
-import { METHODS, REFS } from "../lib/science";
+import { METHODS } from "../lib/science";
 import { buildPlan } from "../lib/plan";
 import { buildNutrition } from "../lib/nutrition";
 import { refreshBody } from "../lib/bodyAnalysis";
 import { SCORE_LABEL, type ScoreKey } from "../lib/report";
 import { sampleProfile, sampleScan } from "../lib/sample";
 import "./Landing.css";
+import { CompleteAnalysis, LooksInfluence, PersonalPlan, TakingIntoAccount, YouWillLearn } from "./LandingSections";
 
 const S = `${import.meta.env.BASE_URL}sample/`;
 
@@ -73,17 +73,6 @@ function Head({ kicker, dark, muted, mutedFirst, lead, center, light }: { kicker
   );
 }
 
-function Cite({ id }: { id: string }) {
-  const r = REFS[id];
-  if (!r) return null;
-  const first = r.authors.split(",")[0];
-  return (
-    <span className="lp-cite" title={`${r.authors} (${r.year}). ${r.title}. ${r.source}.`}>
-      {first}
-      {r.authors.includes(",") ? " et al." : ""} ({r.year}). {r.source.split(/\s\d/)[0]}.
-    </span>
-  );
-}
 
 /* ------------------------------------------------------------------ */
 /*  Page                                                               */
@@ -130,13 +119,17 @@ export function Landing() {
 
       <Hero />
       <div className="lp-frame">
-        <Realistic />
-        <Research />
-        <BetterWay />
+        <LooksInfluence />
       </div>
-      <AnalysisBand data={data} />
+      <CompleteAnalysis data={data} />
       <div className="lp-frame">
-        <PlanSection data={data} />
+        <TakingIntoAccount data={data} />
+        <YouWillLearn data={data} />
+      </div>
+      <PersonalPlan data={data} />
+      <div className="lp-frame">
+        <Realistic />
+        <BetterWay />
         <FutureSelf />
         <Track data={data} />
         <CareNetwork />
@@ -216,7 +209,7 @@ function Hero() {
 function Realistic() {
   const points = ["Clearer, even skin", "A leaner face and jawline", "A more rested look", "A stronger, balanced physique", "Better posture"];
   return (
-    <section className="lp-sec lp-split" id="why">
+    <section className="lp-sec lp-split">
       <div className="lp-split-text">
         <Head kicker="Realistic" dark="Real change," muted="rendered honestly." lead="Your 12-month visual is an AI illustration limited to what habits, skin care and training can realistically change — not a prediction or guarantee. Nothing outside your plan changes: before a person approves it, we re-measure bone proportions, lips, skin tone and eye colour against your photo. The plan targets:" />
         <ol className="lp-numlist">
@@ -247,77 +240,6 @@ function Realistic() {
 /* ------------------------------------------------------------------ */
 /*  3 · Research                                                       */
 /* ------------------------------------------------------------------ */
-
-type Tab = "impressions" | "health" | "skin" | "sleep" | "body";
-const RESEARCH: Record<Tab, { muted: string; dark: string; ref: string }[]> = {
-  impressions: [
-    { muted: "Faster", dark: "judgements", ref: "willis2006" },
-    { muted: "Two", dark: "dimensions", ref: "oosterhof2008" },
-    { muted: "Warmer", dark: "reads", ref: "reis1990" },
-  ],
-  health: [
-    { muted: "Leaner", dark: "faces", ref: "coetzee2009" },
-    { muted: "Healthier", dark: "colour", ref: "stephen2011" },
-    { muted: "Average", dark: "is attractive", ref: "langlois1990" },
-  ],
-  skin: [
-    { muted: "Even", dark: "tone", ref: "fink2006" },
-    { muted: "Diet", dark: "shows", ref: "whitehead2012" },
-    { muted: "Daily", dark: "sunscreen", ref: "hughes2013" },
-  ],
-  sleep: [
-    { muted: "Rested", dark: "looks better", ref: "axelsson2010" },
-    { muted: "Two nights", dark: "matter", ref: "sundelin2017" },
-    { muted: "Seven", dark: "hours or more", ref: "watson2015" },
-  ],
-  body: [
-    { muted: "Strength", dark: "cues", ref: "sell2017" },
-    { muted: "Body", dark: "shape", ref: "singh1993" },
-    { muted: "Protein", dark: "for muscle", ref: "morton2018" },
-  ],
-};
-
-function Research() {
-  const [tab, setTab] = useState<Tab>("impressions");
-  return (
-    <section className="lp-sec">
-      <header className="lp-head">
-        <Title dark="Appearance shapes first impressions —" muted="and research says how." />
-      </header>
-      <div className="lp-tabs">
-        <Toggle
-          value={tab}
-          onChange={setTab}
-          options={[
-            { value: "impressions", label: "First impressions" },
-            { value: "health", label: "Health cues" },
-            { value: "skin", label: "Skin" },
-            { value: "sleep", label: "Sleep" },
-            { value: "body", label: "Body" },
-          ]}
-        />
-      </div>
-      <div className="lp-research">
-        {RESEARCH[tab].map((c) => {
-          const r = REFS[c.ref];
-          if (!r) return null;
-          return (
-            <article key={c.ref} className="lp-rcard">
-              <h3>
-                <span className="lp-muted">{c.muted}</span> {c.dark}
-              </h3>
-              <p>{r.finding}</p>
-              <footer>
-                <span className="lp-rcard-ico">§</span>
-                <Cite id={c.ref} />
-              </footer>
-            </article>
-          );
-        })}
-      </div>
-    </section>
-  );
-}
 
 /* ------------------------------------------------------------------ */
 /*  4 · Better way                                                     */
@@ -361,115 +283,9 @@ function Rail({ label, steps, dark }: { label: string; steps: string[]; dark?: b
 /*  5 · Analysis band (real landmarks)                                 */
 /* ------------------------------------------------------------------ */
 
-function AnalysisBand({ data }: { data: ReturnType<typeof useSample> }) {
-  const face = data.scan.face;
-  const a = face?.imageAspect ?? 0.75;
-  const lm = face?.landmarks ?? null;
-  const m = face?.metrics;
-  const chips: [string, string][] = m
-    ? [
-        ["Symmetry", `${Math.round(m.symmetry)}/100`],
-        ["Averageness", `${Math.round(m.averageness)}/100`],
-        ["Skin", `${Math.round(m.skinScore)}/100`],
-        ["Canthal tilt", `${m.canthalTilt >= 0 ? "+" : ""}${m.canthalTilt.toFixed(1)}°`],
-      ]
-    : [];
-  return (
-    <section className="lp-band">
-      <div className="lp-band-in">
-        <Head center light kicker="Personal analysis" dark="Your complete" muted="analysis." lead="40+ measurements across face, skin and body, each compared with a reference range — published norms where they exist." />
-        <div className="lp-scan">
-          <div className="lp-scan-photo">
-            <FacePhoto src={`${S}face.jpg`} aspect={a}>
-              {lm && (
-                <g>
-                  {lm.slice(0, 468).map((p, i) => {
-                    const [x, y] = toPhoto(p, a);
-                    return <circle key={i} cx={x} cy={y} r={2.1} fill="#fff" opacity={0.55} />;
-                  })}
-                </g>
-              )}
-            </FacePhoto>
-          </div>
-          {chips.map(([k, v], i) => (
-            <div key={k} className={`lp-chip lp-chip-${i}`}>
-              <span>{k}</span>
-              <b>{v}</b>
-            </div>
-          ))}
-          <span className="lp-scan-cap">478-point landmark mesh · synthetic sample</span>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 /* ------------------------------------------------------------------ */
 /*  6 · Plan                                                           */
 /* ------------------------------------------------------------------ */
-
-function PlanSection({ data }: { data: ReturnType<typeof useSample> }) {
-  const items = data.plan.items.slice(0, 5);
-  const ph = data.nut?.phases[0];
-  return (
-    <section className="lp-sec lp-split">
-      <div className="lp-split-text">
-        <Head kicker="Your plan" dark="Follow your plan." muted="Track the change." lead="A 12-month protocol built from your measurements and answers — no surgery." />
-        <ul className="lp-checks">
-          {["Every step tied to a measurement or your answers", "Graded A–C by the strength of its evidence", "Calories and macros sized to your goal and timeline", "Specialist partners coming soon in the UAE & Saudi Arabia"].map((t) => (
-            <li key={t}>
-              <Verified size={16} />
-              {t}
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div className="lp-plancard">
-        <div className="lp-plancard-head">
-          <span className="mono-sm">Protocol · sample</span>
-          <span className="mono-sm">{data.plan.items.length} steps</span>
-        </div>
-        <ol className="lp-planlist">
-          {items.map((it, i) => (
-            <li key={it.id}>
-              <span className="lp-planlist-n">{i + 1}</span>
-              <div className="lp-planlist-body">
-                <div className="lp-planlist-title">{it.title}</div>
-                <div className="lp-planlist-meta">
-                  <span className="lp-phase">Phase {it.phase}</span>
-                  <GradeBadge grade={it.grade} />
-                  {it.refs[0] && <span className="lp-planlist-ref">{shortCite(it.refs[0])}</span>}
-                </div>
-              </div>
-            </li>
-          ))}
-        </ol>
-        {ph && (
-          <div className="lp-nutri">
-            <div>
-              <span className="mono-sm">{ph.name} · daily</span>
-              <b>
-                {ph.macros.kcal}
-                <small> kcal</small>
-              </b>
-            </div>
-            <div className="lp-macros">
-              <span>
-                <i style={{ background: "#6f868d" }} />P {ph.macros.protein} g
-              </span>
-              <span>
-                <i style={{ background: "#c8b28f" }} />F {ph.macros.fat} g
-              </span>
-              <span>
-                <i style={{ background: "#a9bdc4" }} />C {ph.macros.carbs} g
-              </span>
-            </div>
-          </div>
-        )}
-      </div>
-    </section>
-  );
-}
 
 /* ------------------------------------------------------------------ */
 /*  7 · Future self                                                    */
@@ -614,18 +430,18 @@ function Chart({ now, next }: { now: number; next: number }) {
       <svg viewBox={`0 0 ${W} ${H}`} width="100%">
         {[40, 60, 80, 100].map((v) => (
           <g key={v}>
-            <line x1={pad} x2={W - pad} y1={y(v)} y2={y(v)} stroke="#e6eaeb" />
+            <line x1={pad} x2={W - pad} y1={y(v)} y2={y(v)} stroke="#e9e8e8" />
             <text x={pad - 8} y={y(v) + 3} textAnchor="end" className="lp-chart-ax">
               {v}
             </text>
           </g>
         ))}
-        <polyline points={`${x(0)},${y(now)} ${x(1)},${y(now)} ${x(2)},${y(now)}`} fill="none" stroke="#b8c4c7" strokeDasharray="4 4" />
-        <polyline points={`${x(0)},${y(now)} ${x(1)},${y(mid)} ${x(2)},${y(next)}`} fill="none" stroke="#55646a" strokeWidth={1.6} />
-        <circle cx={x(0)} cy={y(now)} r={4} fill="#fff" stroke="#55646a" />
-        <circle cx={x(2)} cy={y(next)} r={4} fill="#55646a" />
+        <polyline points={`${x(0)},${y(now)} ${x(1)},${y(now)} ${x(2)},${y(now)}`} fill="none" stroke="#905864" strokeDasharray="4 4" />
+        <polyline points={`${x(0)},${y(now)} ${x(1)},${y(mid)} ${x(2)},${y(next)}`} fill="none" stroke="#69565a" strokeWidth={1.6} />
+        <circle cx={x(0)} cy={y(now)} r={4} fill="#fff" stroke="#69565a" />
+        <circle cx={x(2)} cy={y(next)} r={4} fill="#69565a" />
         <g transform={`translate(${x(0)}, ${y(now) - 18})`}>
-          <rect x={-16} y={-12} width={32} height={18} rx={5} fill="#8ea3aa" />
+          <rect x={-16} y={-12} width={32} height={18} rx={5} fill="#71454f" />
           <text x={0} y={1} textAnchor="middle" fill="#fff" fontSize={10}>
             {Math.round(now)}
           </text>

@@ -77,7 +77,7 @@ function BrowOverlay({ lm, aspect }: { lm: Pt[]; aspect: number }) {
             {[pts[0], pts[2], pts[pts.length - 1]].map((p, i) => (
               <g key={i}>
                 <circle cx={p[0]} cy={p[1]} r={7} fill="rgba(255,255,255,.35)" />
-                <circle cx={p[0]} cy={p[1]} r={3.5} fill="#fff" stroke="#55646a" strokeWidth={1} vectorEffect="non-scaling-stroke" />
+                <circle cx={p[0]} cy={p[1]} r={3.5} fill="#fff" stroke="#69565a" strokeWidth={1} vectorEffect="non-scaling-stroke" />
               </g>
             ))}
           </g>
@@ -124,14 +124,14 @@ function BrowDiagram({ face }: { face: FaceResult }) {
     <svg viewBox={`0 0 ${W} ${H}`} width="100%" height="100%">
       {[L, R].map((pts, k) => (
         <g key={k}>
-          <polygon points={shape(pts)} fill="#e3e8e9" stroke="#b9c4c7" strokeWidth={0.8} />
-          <polyline points={pts.map((p) => p.join(",")).join(" ")} fill="none" stroke="#7f8f94" strokeWidth={1} strokeDasharray="2 3" />
+          <polygon points={shape(pts)} fill="#e7e5e5" stroke="#915965" strokeWidth={0.8} />
+          <polyline points={pts.map((p) => p.join(",")).join(" ")} fill="none" stroke="#603b43" strokeWidth={1} strokeDasharray="2 3" />
           {pts.map((p, i) => (
-            <circle key={i} cx={p[0]} cy={p[1]} r={2.2} fill="#fff" stroke="#8a989c" strokeWidth={0.8} />
+            <circle key={i} cx={p[0]} cy={p[1]} r={2.2} fill="#fff" stroke="#69404a" strokeWidth={0.8} />
           ))}
         </g>
       ))}
-      <line x1={L[L.length - 1][0]} y1={L[L.length - 1][1]} x2={R[0][0]} y2={R[0][1]} stroke="#c9d1d3" strokeWidth={0.8} />
+      <line x1={L[L.length - 1][0]} y1={L[L.length - 1][1]} x2={R[0][0]} y2={R[0][1]} stroke="#9d6070" strokeWidth={0.8} />
     </svg>
   );
 }

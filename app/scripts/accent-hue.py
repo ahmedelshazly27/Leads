@@ -1,19 +1,23 @@
 """Re-hue the UI's slate-blue accent family, keeping each colour's lightness and saturation.
 
-usage: python3 scripts/accent-hue.py <target-hue-degrees> [files...]
+usage: python3 scripts/accent-hue.py <target-hue-degrees> [saturation-multiplier] [files...]
 Only colours whose hue is in the slate/teal range (165-225°) with low-to-mid
 saturation are changed; neutrals and strong status colours are left alone.
 """
 import colorsys, glob, re, sys
 
 TARGET = float(sys.argv[1]) / 360
-files = sys.argv[2:] or [f for f in glob.glob("src/**/*", recursive=True) if f.endswith((".css", ".tsx", ".ts"))] + ["index.html", "public/favicon.svg"]
+SAT = float(sys.argv[2]) if len(sys.argv) > 2 and not sys.argv[2].endswith(("css", "tsx", "ts", "html", "svg")) else 1.0
+args = sys.argv[3:] if SAT != 1.0 or (len(sys.argv) > 2 and sys.argv[2] == "1") else sys.argv[2:]
+files = args or [f for f in glob.glob("src/**/*", recursive=True) if f.endswith((".css", ".tsx", ".ts"))] + ["index.html", "public/favicon.svg"]
 
 def shift(r, g, b):
     h, l, s = colorsys.rgb_to_hls(r / 255, g / 255, b / 255)
     if not (165 / 360 <= h <= 225 / 360) or s < 0.04 or s > 0.45:
         return None
-    r2, g2, b2 = colorsys.hls_to_rgb(TARGET, l, s)
+    # whites stay near-white, text stays near-neutral; mid tones carry the colour
+    k = 0.35 if l > 0.9 else (0.9 if l < 0.42 else SAT)
+    r2, g2, b2 = colorsys.hls_to_rgb(TARGET, l, min(0.62, s * k))
     return round(r2 * 255), round(g2 * 255), round(b2 * 255)
 
 def hexsub(m):

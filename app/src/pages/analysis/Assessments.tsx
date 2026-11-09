@@ -273,8 +273,8 @@ function SymmetryOverlay({ face }: { face: FaceResult }) {
         return (
           <g key={i}>
             <circle cx={p[0]} cy={p[1]} r={3} fill="#fff" />
-            <circle cx={mirror[0]} cy={mirror[1]} r={3.6} fill="none" stroke="#2f3b40" strokeWidth={1} vectorEffect="non-scaling-stroke" />
-            <line x1={p[0]} y1={p[1]} x2={mirror[0]} y2={mirror[1]} stroke="#2f3b40" strokeWidth={1} vectorEffect="non-scaling-stroke" />
+            <circle cx={mirror[0]} cy={mirror[1]} r={3.6} fill="none" stroke="#3f3033" strokeWidth={1} vectorEffect="non-scaling-stroke" />
+            <line x1={p[0]} y1={p[1]} x2={mirror[0]} y2={mirror[1]} stroke="#3f3033" strokeWidth={1} vectorEffect="non-scaling-stroke" />
           </g>
         );
       })}

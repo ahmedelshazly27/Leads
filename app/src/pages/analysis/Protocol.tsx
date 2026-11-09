@@ -381,30 +381,30 @@ export function Progress(p: SectionProps) {
         <svg viewBox={`0 0 ${W} ${H}`} width="100%">
           {ticks.map((t) => (
             <g key={t}>
-              <line x1={L} x2={W - R} y1={y(t)} y2={y(t)} stroke="#eef1f1" />
+              <line x1={L} x2={W - R} y1={y(t)} y2={y(t)} stroke="#f0efef" />
               <text x={L - 10} y={y(t) + 4} textAnchor="end" className="pr-axis">{t}</text>
             </g>
           ))}
           {last && (
             <>
-              <line x1={x(last.date)} y1={y(last.score)} x2={x(end)} y2={y(p.plan.overallProjected)} stroke="#55646a" strokeDasharray="5 5" strokeWidth={1.4} />
-              <line x1={x(last.date)} y1={y(last.score)} x2={x(end)} y2={y(last.score)} stroke="#b9c4c7" strokeDasharray="2 5" strokeWidth={1.4} />
+              <line x1={x(last.date)} y1={y(last.score)} x2={x(end)} y2={y(p.plan.overallProjected)} stroke="#69565a" strokeDasharray="5 5" strokeWidth={1.4} />
+              <line x1={x(last.date)} y1={y(last.score)} x2={x(end)} y2={y(last.score)} stroke="#915965" strokeDasharray="2 5" strokeWidth={1.4} />
             </>
           )}
-          <polyline points={pts.map((q) => `${x(q.date)},${y(q.score)}`).join(" ")} fill="none" stroke="#55646a" strokeWidth={1.6} />
+          <polyline points={pts.map((q) => `${x(q.date)},${y(q.score)}`).join(" ")} fill="none" stroke="#69565a" strokeWidth={1.6} />
           {pts.map((q, i) => (
             <g key={i}>
-              <circle cx={x(q.date)} cy={y(q.score)} r={5} fill="#fff" stroke="#55646a" strokeWidth={1.4} />
+              <circle cx={x(q.date)} cy={y(q.score)} r={5} fill="#fff" stroke="#69565a" strokeWidth={1.4} />
               {i === pts.length - 1 && (
                 <g transform={`translate(${x(q.date)},${y(q.score) - 22})`}>
-                  <rect x={-18} y={-12} width={36} height={20} rx={5} fill="#fff" stroke="#dfe4e5" />
+                  <rect x={-18} y={-12} width={36} height={20} rx={5} fill="#fff" stroke="#e6dee0" />
                   <text y={3} textAnchor="middle" className="pr-bubble">{Math.round(q.score)}</text>
                 </g>
               )}
             </g>
           ))}
           <g transform={`translate(${x(end) - 4},${y(p.plan.overallProjected) - 20})`}>
-            <rect x={-30} y={-12} width={36} height={20} rx={5} fill="#55646a" />
+            <rect x={-30} y={-12} width={36} height={20} rx={5} fill="#69565a" />
             <text x={-12} y={3} textAnchor="middle" className="pr-bubble pr-bubble-on">{Math.round(p.plan.overallProjected)}</text>
           </g>
           <text x={L} y={H - 10} className="pr-axis">{first.toLocaleDateString(undefined, { month: "short", year: "numeric" })}</text>

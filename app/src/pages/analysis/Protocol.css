@@ -130,7 +130,7 @@
   color: #fff;
   background:
     url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='.22'/></svg>"),
-    linear-gradient(160deg, #8b9da3, #6b7e85 55%, #5c6c72);
+    linear-gradient(160deg, #6c424d, #513239 55%, #715d62);
 }
 .pr-gcard h3 {
   margin: 0 0 8px;
@@ -337,7 +337,7 @@
   overflow: hidden;
 }
 .pr-overall-bar {
-  background: #e4e9ea;
+  background: #e8e6e6;
 }
 .pr-overall-bar i,
 .pr-phase-bar i {
@@ -445,7 +445,7 @@
 .pr-est-card.pr-gcard-dark {
   background:
     url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='.22'/></svg>"),
-    linear-gradient(160deg, #8b9da3, #6b7e85 55%, #5c6c72);
+    linear-gradient(160deg, #6c424d, #513239 55%, #715d62);
   border: 0;
 }
 .pr-est-card.pr-gcard-dark .mono-sm {
@@ -500,7 +500,7 @@
   top: 0;
   bottom: 0;
   border-radius: 99px;
-  background: #c3cfd2;
+  background: #9a5e6b;
 }
 .pr-checkins .pr-tr {
   grid-template-columns: 1.4fr 1.2fr 1fr 1fr 1fr;
@@ -528,10 +528,10 @@
   margin-right: 6px;
 }
 .sw-on {
-  background: #55646a;
+  background: #69565a;
 }
 .sw-off {
-  background: #c9d1d3;
+  background: #9d6070;
 }
 .pr-axis {
   font-family: var(--mono);
@@ -640,7 +640,7 @@
   letter-spacing: -0.04em;
 }
 .pr-age-dark {
-  background: linear-gradient(100deg, #8a9599, #6f7b7f 55%, #8d9aa0);
+  background: linear-gradient(100deg, #683f48, #503137 55%, #6c424c);
   color: rgba(255, 255, 255, 0.8);
 }
 .pr-age-dark b {

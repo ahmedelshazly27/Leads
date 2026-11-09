@@ -47,7 +47,7 @@ export const toPhoto = (p: [number, number], aspect: number): [number, number] =
 
 /** Neutral stand-in used for the sample profile (no photo). */
 export function Placeholder({ tone = "light" }: { tone?: "light" | "slate" }) {
-  const bg = tone === "slate" ? "#a9bdc4" : "#f3f4f4";
+  const bg = tone === "slate" ? "#74464f" : "#f4f3f3";
   return (
     <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" style={{ width: "100%", height: "100%", display: "block" }}>
       <defs>
@@ -56,8 +56,8 @@ export function Placeholder({ tone = "light" }: { tone?: "light" | "slate" }) {
           <stop offset="1" stopColor="#cdb3a3" />
         </radialGradient>
         <linearGradient id="ph-shirt" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor={tone === "slate" ? "#2b3136" : "#e9ecee"} />
-          <stop offset="1" stopColor={tone === "slate" ? "#1f2428" : "#dfe3e5"} />
+          <stop offset="0" stopColor={tone === "slate" ? "#352c2e" : "#ecebeb"} />
+          <stop offset="1" stopColor={tone === "slate" ? "#281f21" : "#e6dee0"} />
         </linearGradient>
       </defs>
       <rect width="400" height="500" fill={bg} />

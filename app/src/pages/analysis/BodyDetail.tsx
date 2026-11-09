@@ -68,12 +68,12 @@ function MLine({ a, b, aspect, label, dim }: { a: Pt; b: Pt; aspect: number; lab
     <g opacity={dim ? 0.55 : 1}>
       <line x1={p[0]} y1={p[1]} x2={q[0]} y2={q[1]} stroke="#fff" strokeWidth={1.4} strokeDasharray="5 4" vectorEffect="non-scaling-stroke" />
       {[p, q].map((x, i) => (
-        <circle key={i} cx={x[0]} cy={x[1]} r={6} fill="#fff" stroke="#55646a" strokeWidth={1} vectorEffect="non-scaling-stroke" />
+        <circle key={i} cx={x[0]} cy={x[1]} r={6} fill="#fff" stroke="#69565a" strokeWidth={1} vectorEffect="non-scaling-stroke" />
       ))}
       {label && (
         <g transform={`translate(${(p[0] + q[0]) / 2}, ${p[1] - 16})`}>
-          <rect x={-label.length * 4.6 - 10} y={-15} width={label.length * 9.2 + 20} height={22} rx={6} fill="rgba(70,82,88,.62)" />
-          <text x={0} y={0} textAnchor="middle" fill="#eef3f4" fontSize={12} fontFamily="JetBrains Mono" letterSpacing=".08em">
+          <rect x={-label.length * 4.6 - 10} y={-15} width={label.length * 9.2 + 20} height={22} rx={6} fill="rgba(87, 71, 75,.62)" />
+          <text x={0} y={0} textAnchor="middle" fill="#f2f0f0" fontSize={12} fontFamily="JetBrains Mono" letterSpacing=".08em">
             {label}
           </text>
         </g>
@@ -370,12 +370,12 @@ function WidthBars({ rows }: { rows: [string, number][] }) {
         const y = 24 + i * 36;
         return (
           <g key={name}>
-            <text x={14} y={y + 4} fontSize={9} fontFamily="JetBrains Mono" fill="#7d898d" letterSpacing=".08em">
+            <text x={14} y={y + 4} fontSize={9} fontFamily="JetBrains Mono" fill="#5d3940" letterSpacing=".08em">
               {name.toUpperCase()}
             </text>
-            <line x1={205 - w / 2} y1={y} x2={205 + w / 2} y2={y} stroke="#8a9a9f" strokeDasharray="3 3" />
-            <circle cx={205 - w / 2} cy={y} r={3} fill="#fff" stroke="#8a9a9f" />
-            <circle cx={205 + w / 2} cy={y} r={3} fill="#fff" stroke="#8a9a9f" />
+            <line x1={205 - w / 2} y1={y} x2={205 + w / 2} y2={y} stroke="#6a414a" strokeDasharray="3 3" />
+            <circle cx={205 - w / 2} cy={y} r={3} fill="#fff" stroke="#6a414a" />
+            <circle cx={205 + w / 2} cy={y} r={3} fill="#fff" stroke="#6a414a" />
           </g>
         );
       })}
@@ -418,8 +418,8 @@ export function SideLines({ side, showPlumb = false, showDepth = false, showArc 
           <line x1={S[0]} y1={S[1]} x2={S[0] + dir * r * 1.6} y2={S[1]} stroke="#fff" strokeOpacity={0.6} strokeDasharray="3 4" vectorEffect="non-scaling-stroke" />
           <path d={`M ${start[0]} ${start[1]} A ${r} ${r} 0 0 ${cross > 0 ? 1 : 0} ${end[0]} ${end[1]}`} fill="rgba(255,255,255,.18)" stroke="#fff" strokeWidth={1.4} vectorEffect="non-scaling-stroke" />
           <g transform={`translate(${S[0] + dir * (r + 46)}, ${S[1] - 26})`}>
-            <rect x={-30} y={-15} width={60} height={22} rx={6} fill="rgba(70,82,88,.62)" />
-            <text x={0} y={0} textAnchor="middle" fill="#eef3f4" fontSize={12} fontFamily="JetBrains Mono">
+            <rect x={-30} y={-15} width={60} height={22} rx={6} fill="rgba(87, 71, 75,.62)" />
+            <text x={0} y={0} textAnchor="middle" fill="#f2f0f0" fontSize={12} fontFamily="JetBrains Mono">
               {Math.round(m.earShoulderAngle)}°
             </text>
           </g>
@@ -436,7 +436,7 @@ export function SideLines({ side, showPlumb = false, showDepth = false, showArc 
       {showPlumb && [E, S, H].map((q, i) => (
         <g key={i}>
           <circle cx={q[0]} cy={q[1]} r={14} fill="rgba(255,255,255,.28)" />
-          <circle cx={q[0]} cy={q[1]} r={6} fill="#fff" stroke="#55646a" vectorEffect="non-scaling-stroke" />
+          <circle cx={q[0]} cy={q[1]} r={6} fill="#fff" stroke="#69565a" vectorEffect="non-scaling-stroke" />
         </g>
       ))}
     </g>
@@ -698,7 +698,7 @@ export function BodySymmetry(p: SectionProps) {
                     const L = toPhoto(l, a), R = toPhoto(r, a), M = toPhoto([mx, l[1]], a);
                     return (
                       <g key={k}>
-                        <line x1={L[0]} y1={L[1]} x2={M[0]} y2={M[1]} stroke="#cfe0e5" strokeWidth={3} vectorEffect="non-scaling-stroke" />
+                        <line x1={L[0]} y1={L[1]} x2={M[0]} y2={M[1]} stroke="#e8ccd2" strokeWidth={3} vectorEffect="non-scaling-stroke" />
                         <line x1={M[0]} y1={M[1]} x2={R[0]} y2={R[1]} stroke="#f3d7cf" strokeWidth={3} vectorEffect="non-scaling-stroke" />
                         <circle cx={M[0]} cy={M[1]} r={5} fill="#fff" />
                       </g>

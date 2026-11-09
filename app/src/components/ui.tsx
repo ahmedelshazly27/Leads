@@ -164,14 +164,14 @@ export function Radar({ axes, series, title, size = 320 }: { axes: string[]; ser
           </text>
         )}
         {[20, 40, 60, 80, 100].map((r) => (
-          <circle key={r} cx={cx} cy={cy} r={(R * r) / 100} fill="none" stroke="#e3e8e9" />
+          <circle key={r} cx={cx} cy={cy} r={(R * r) / 100} fill="none" stroke="#e7e5e5" />
         ))}
         {axes.map((a, i) => {
           const [x, y] = pt(i, 100);
           const [lx, ly] = pt(i, 128);
           return (
             <g key={a}>
-              <line x1={cx} y1={cy} x2={x} y2={y} stroke="#e3e8e9" />
+              <line x1={cx} y1={cy} x2={x} y2={y} stroke="#e7e5e5" />
               <text x={lx} y={ly} textAnchor={Math.abs(lx - cx) < 8 ? "middle" : lx > cx ? "start" : "end"} dominantBaseline="middle" className="radar-axis">
                 {a.toUpperCase()}
               </text>

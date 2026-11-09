@@ -15,7 +15,7 @@ import "../pages.css";
 /* ------------------------------------------------------------------ */
 
 export const BODY_BASELINE_PROMPT =
-  "Clinical standardized physique baseline photo of the exact same person from the reference photos (front body, side body, face). Strictly preserve the real body as it is now: identical body shape, proportions, shoulder width, chest, arms, waist and belly fullness, body fat level, body hair, skin tone, face, hair and facial hair. Do not slim, tone, sculpt or idealize anything, and keep the real standing posture. Re-photograph standing naturally (front view: facing the camera, arms hanging slightly away from the sides, feet hip-width; side view: strict side-on, arms relaxed), wearing loose black athletic gym shorts (fitted underwear-style shorts trip image-model safety filters). Framing from the top of the head to mid-thigh (or head to toe if the full body is visible in the references). Plain seamless studio background in flat muted slate blue-grey (#A9BDC4), soft even studio lighting, camera at chest height from about 3 m with a 70 mm lens so there is no wide-angle distortion. Photorealistic, true-to-life, no retouching.";
+  "Clinical standardized physique baseline photo of the exact same person from the reference photos (front body, side body, face). Strictly preserve the real body as it is now: identical body shape, proportions, shoulder width, chest, arms, waist and belly fullness, body fat level, body hair, skin tone, face, hair and facial hair. Do not slim, tone, sculpt or idealize anything, and keep the real standing posture. Re-photograph standing naturally (front view: facing the camera, arms hanging slightly away from the sides, feet hip-width; side view: strict side-on, arms relaxed), wearing loose black athletic gym shorts (fitted underwear-style shorts trip image-model safety filters). Framing from the top of the head to mid-thigh (or head to toe if the full body is visible in the references). Plain seamless studio background in flat deep muted burgundy (#74464f), soft even studio lighting, camera at chest height from about 3 m with a 70 mm lens so there is no wide-angle distortion. Photorealistic, true-to-life, no retouching.";
 
 
 export function BodyVisuals({ scanId, visuals, bodyPhoto, sidePhoto, afterText }: { scanId: string; visuals: Visuals; bodyPhoto: string | null; sidePhoto: string | null; afterText: [string, string] }) {
@@ -221,7 +221,7 @@ export function MeshViewer({ photo, lm, aspect }: { photo: string | null; lm: Pt
       <div className="vz-mesh">
         <div className="vz-mesh-photo">
           <FacePhoto src={mode === "face" ? photo : "data:image/gif;base64,R0lGODlhAQABAAAAACw="} aspect={aspect} crop={crop}>
-            {mode === "mask" && <rect x={0} y={0} width={1000} height={H} fill="#a9bdc4" />}
+            {mode === "mask" && <rect x={0} y={0} width={1000} height={H} fill="#74464f" />}
             <g stroke={mode === "mask" ? "rgba(255,255,255,.85)" : "rgba(255,255,255,.35)"} strokeWidth={0.6} vectorEffect="non-scaling-stroke">
               {lines}
             </g>

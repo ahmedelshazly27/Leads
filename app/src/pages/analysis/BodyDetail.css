@@ -9,7 +9,7 @@
   gap: 16px;
   padding: 14px 18px;
   border-radius: 14px;
-  background: #eef3f4;
+  background: #f2f0f0;
   border: 1px solid var(--line);
   font-size: 13px;
   color: var(--ink-2);
@@ -179,7 +179,7 @@
 }
 .bdd-div-track b.l {
   right: 50%;
-  background: #a9c4cc;
+  background: #984a5b;
 }
 .bdd-div-val {
   font-size: 12px;
@@ -339,7 +339,7 @@
   gap: 24px;
   padding: 22px 24px;
   border-radius: 18px;
-  background: linear-gradient(110deg, #e9eff1, #dfe8eb);
+  background: linear-gradient(110deg, #eeecec, #eddde1);
   border: 1px solid var(--line);
 }
 .bdd-after {

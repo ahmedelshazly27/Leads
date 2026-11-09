@@ -161,19 +161,19 @@ export function Skin({ scan, facePhoto, plan }: SectionProps) {
             <svg viewBox="0 0 640 250" width="100%">
               <defs>
                 <pattern id="skn-grid" width="53.3" height="40" patternUnits="userSpaceOnUse">
-                  <path d="M53.3 0H0V40" fill="none" stroke="#e6eaeb" strokeWidth="1" />
+                  <path d="M53.3 0H0V40" fill="none" stroke="#e9e8e8" strokeWidth="1" />
                 </pattern>
                 <pattern id="skn-hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(35)">
-                  <line x1="0" y1="0" x2="0" y2="8" stroke="#d9e0e2" strokeWidth="1" />
+                  <line x1="0" y1="0" x2="0" y2="8" stroke="#e3d8da" strokeWidth="1" />
                 </pattern>
               </defs>
               <rect width="640" height="220" fill="url(#skn-grid)" />
               {[200 - R, 200 + R, 470 - rSmall, 470 + rSmall].map((x, i) => (
-                <line key={i} x1={x} x2={x} y1={0} y2={220} stroke="#c9d1d3" strokeDasharray="3 3" />
+                <line key={i} x1={x} x2={x} y1={0} y2={220} stroke="#9d6070" strokeDasharray="3 3" />
               ))}
-              <circle cx={200} cy={110} r={R} fill="url(#skn-hatch)" stroke="#a9b6ba" strokeDasharray="3 3" />
-              <circle cx={200} cy={110} r={R} fill="rgba(230,236,237,.55)" />
-              <circle cx={470} cy={110} r={rSmall} fill="rgba(230,236,237,.9)" stroke="#a9b6ba" strokeDasharray="3 3" />
+              <circle cx={200} cy={110} r={R} fill="url(#skn-hatch)" stroke="#84515e" strokeDasharray="3 3" />
+              <circle cx={200} cy={110} r={R} fill="rgba(235, 232, 233,.55)" />
+              <circle cx={470} cy={110} r={rSmall} fill="rgba(235, 232, 233,.9)" stroke="#84515e" strokeDasharray="3 3" />
               <text x={200} y={242} textAnchor="middle" className="radar-axis">
                 REGULAR SKIN AREA
               </text>

@@ -442,7 +442,7 @@ function Drop({
 function FaceGuide() {
   return (
     <svg className="guide" width="120" height="150" viewBox="0 0 120 150">
-      <rect width="120" height="150" rx="12" fill="#a9bdc4" />
+      <rect width="120" height="150" rx="12" fill="#74464f" />
       <ellipse cx="60" cy="66" rx="30" ry="38" fill="none" stroke="#fff" strokeWidth="1.5" strokeDasharray="4 4" />
       <line x1="30" y1="62" x2="90" y2="62" stroke="#fff" strokeWidth="1" opacity=".7" />
       <line x1="60" y1="24" x2="60" y2="108" stroke="#fff" strokeWidth="1" opacity=".7" />
@@ -453,7 +453,7 @@ function FaceGuide() {
 function BodyGuide() {
   return (
     <svg className="guide" width="120" height="150" viewBox="0 0 120 150">
-      <rect width="120" height="150" rx="12" fill="#a9bdc4" />
+      <rect width="120" height="150" rx="12" fill="#74464f" />
       <g fill="none" stroke="#fff" strokeWidth="1.6" strokeLinecap="round" strokeDasharray="4 4">
         <circle cx="60" cy="22" r="9" />
         <path d="M60 31v50M60 46l-24 22M60 46l24 22M60 81l-14 50M60 81l14 50" />
@@ -467,7 +467,7 @@ function BodyGuide() {
 function SideGuide() {
   return (
     <svg className="guide" width="120" height="150" viewBox="0 0 120 150">
-      <rect width="120" height="150" rx="12" fill="#a9bdc4" />
+      <rect width="120" height="150" rx="12" fill="#74464f" />
       <line x1="62" y1="8" x2="62" y2="142" stroke="#fff" opacity=".6" strokeDasharray="2 4" />
       <g fill="none" stroke="#fff" strokeWidth="1.6" strokeLinecap="round" strokeDasharray="4 4">
         <circle cx="62" cy="22" r="9" />
@@ -482,7 +482,7 @@ function SideGuide() {
 function BackGuide() {
   return (
     <svg className="guide" width="120" height="150" viewBox="0 0 120 150" opacity=".55">
-      <rect width="120" height="150" rx="12" fill="#c9d4d8" />
+      <rect width="120" height="150" rx="12" fill="#9f626f" />
       <g fill="none" stroke="#fff" strokeWidth="1.6" strokeLinecap="round" strokeDasharray="4 4">
         <circle cx="60" cy="22" r="9" />
         <path d="M60 31v50M60 46l-24 22M60 46l24 22M60 81l-14 50M60 81l14 50" />

@@ -122,3 +122,24 @@ Source of truth for every health, appearance and product claim used in ads, stor
 - **Skin lightening / whitening** language of any kind.
 - Recommendations for specific **injectables or prescription drugs** in ads.
 - Claims based on studies **not in `REFS`**, or a study result stated more broadly than its finding (for example, applying female-face hairstyle findings to men as proven).
+
+## Why appearance matters (landing "Studies show…" section)
+
+Approved wording is what the landing page shows; each line is the cited paper's own finding. Footnote on the page: averages from published studies, mostly Western samples; they describe how people tend to be judged, not what anyone is worth.
+
+| Approved claim (as shown) | Source | Do not say |
+|---|---|---|
+| Workers rated plain earned 5–10% less than average-looking colleagues, who earned less again than those rated good-looking. | hamermesh1994 | "Attractive people earn 10–15% more" (overstates the paper) |
+| Attractive candidates were rated more favourably in hiring, performance and promotion decisions (experiments). | hosoda2003 | "You'll get the job" |
+| Servers rated attractive earned about $1,261 more a year in tips. | parrett2015 | Any other currency or a "per shift" figure |
+| In a lab job market, attractive workers were more confident and employers expected more of them. | mobius2006 | |
+| A partner's looks were the strongest predictor of wanting a second date (matched dance). | walster1966 | "Looks are all that matter in dating" |
+| Looks predicted romantic interest as strongly for women as for men (speed dating). | eastwick2008 | |
+| Attractive adults were judged and treated more positively across dozens of studies. | langlois2000 | |
+| People assumed attractive strangers had better personalities and happier lives. | dion1972 | |
+| The halo is strongest for social competence and weak for honesty or kindness. | eagly1991 | "Attractive people are better people" |
+| Teachers judged attractive students as brighter and expected more of them; identical report cards, higher expected IQ. | ritts1992; clifford1973 | |
+| Attractive defendants got lighter sentences (real cases), lower bail and fines (real misdemeanours), and were somewhat less often convicted by mock jurors (small effect). | stewart1980; downs1991; mazzella1994 | "Looks get you off" |
+| Attractive communicators got more petition signatures. | chaiken1979 | |
+| Competence judged from faces predicted ~70% of US Senate races; children's face picks predicted ~71% of French run-offs. | todorov2005; antonakis2009 | Presenting these as attractiveness effects (they are competence judgements) |
+| Better-looking people reported higher life satisfaction, partly through economic outcomes; others' ratings were only weakly tied to happiness. | hamermesh2013; diener1995 | "Looking better will make you happy" |

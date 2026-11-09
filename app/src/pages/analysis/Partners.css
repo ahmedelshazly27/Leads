@@ -23,7 +23,7 @@
 }
 .pt-rec-card.on {
   border-color: var(--slate);
-  background: #e9eff1;
+  background: #eeecec;
 }
 .pt-rec-card b {
   font-weight: 500;
@@ -107,7 +107,7 @@
 }
 .pt-licence {
   font-size: 11.5px;
-  color: #4b5f68;
+  color: #674c53;
 }
 .pt-services {
   list-style: none;

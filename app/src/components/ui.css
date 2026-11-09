@@ -35,7 +35,7 @@
   top: 4px;
   width: 1px;
   height: 6px;
-  background: #c9d1d3;
+  background: #9d6070;
 }
 .spectrum-track b {
   position: absolute;
@@ -62,14 +62,14 @@
   min-height: 150px;
 }
 .scorecard-glass {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.5), rgba(236, 240, 241, 0.85));
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.5), rgba(239, 238, 238, 0.85));
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.7);
   color: var(--ink);
 }
 .scorecard-dark {
-  background: linear-gradient(110deg, #aab5b8, #6f7c80 60%, #5a666a);
+  background: linear-gradient(110deg, #83515c, #51313a 60%, #695b5e);
   color: #fff;
 }
 .scorecard-light {
@@ -170,12 +170,12 @@
   stroke-width: 1;
 }
 .radar-a {
-  fill: rgba(222, 232, 228, 0.9);
-  stroke: #c4d3cd;
+  fill: rgba(236, 223, 226, 0.9);
+  stroke: #d9bec5;
 }
 .radar-b {
-  fill: rgba(143, 165, 171, 0.35);
-  stroke: #8fa5ab;
+  fill: rgba(114, 70, 80, 0.35);
+  stroke: #724650;
 }
 .radar-legend {
   display: flex;
@@ -197,12 +197,12 @@
   border: 1px solid;
 }
 .radar-sw.radar-a {
-  background: rgba(222, 232, 228, 0.9);
-  border-color: #c4d3cd;
+  background: rgba(236, 223, 226, 0.9);
+  border-color: #d9bec5;
 }
 .radar-sw.radar-b {
-  background: rgba(143, 165, 171, 0.35);
-  border-color: #8fa5ab;
+  background: rgba(114, 70, 80, 0.35);
+  border-color: #724650;
 }
 
 /* Evidence */
@@ -222,8 +222,8 @@
   color: #3e5e4e;
 }
 .grade-B {
-  background: #e8edf0;
-  color: #4b5f68;
+  background: #edebeb;
+  color: #674c53;
 }
 .grade-C {
   background: #f1eee6;
@@ -278,12 +278,12 @@
   padding: 0 18px;
   border-radius: 11px;
   font-size: 13.5px;
-  background: var(--slate);
+  background: var(--accent);
   color: #fff;
   border: 0;
 }
 .btn:hover {
-  background: var(--slate-dark);
+  background: var(--accent-deep);
 }
 .btn-ghost {
   background: var(--surface);

@@ -236,7 +236,7 @@
   width: 794px;
   height: 1123px;
   background: var(--surface);
-  box-shadow: 0 0 0 1px var(--line), 0 6px 24px rgba(20, 30, 35, 0.06);
+  box-shadow: 0 0 0 1px var(--line), 0 6px 24px rgba(34, 21, 24, 0.06);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -358,8 +358,8 @@
   left: 8px;
   padding: 3px 8px;
   border-radius: 5px;
-  background: rgba(70, 82, 88, 0.6);
-  color: #eef3f4;
+  background: rgba(87, 71, 75, 0.6);
+  color: #f2f0f0;
   font-family: var(--mono);
   font-size: 11px;
   letter-spacing: 0.08em;
@@ -383,7 +383,7 @@
   margin-bottom: 8px;
 }
 .pv-feats li::marker {
-  color: #c4cdd0;
+  color: #9a5e6d;
 }
 .pv-big {
   font-size: 19px !important;
@@ -420,7 +420,7 @@
   line-height: 1;
 }
 .pv-score.dark {
-  background: linear-gradient(110deg, #5e6a6e, #7c888c 55%, #9aa5a8);
+  background: linear-gradient(110deg, #6d5f62, #5c383f 55%, #754852);
 }
 .pv-score.dark span,
 .pv-score.dark b {

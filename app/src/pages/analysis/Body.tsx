@@ -38,7 +38,7 @@ function Skeleton({ body }: { body: BodyResult }) {
       })}
       {[11, 12, 13, 14, 15, 16, 23, 24, 25, 26, 27, 28].filter((i) => inFrame(lm[i])).map((i) => {
         const [x, y] = P(i);
-        return <circle key={i} cx={x} cy={y} r={5} fill="#fff" stroke="#55646a" strokeWidth={1} vectorEffect="non-scaling-stroke" />;
+        return <circle key={i} cx={x} cy={y} r={5} fill="#fff" stroke="#69565a" strokeWidth={1} vectorEffect="non-scaling-stroke" />;
       })}
     </g>
   );
@@ -218,7 +218,7 @@ export function Posture(p: SectionProps) {
         <line x1={x1 - dx * 0.35} y1={y1 - dy * 0.35} x2={x2 + dx * 0.35} y2={y2 + dy * 0.35} stroke="#fff" strokeWidth={1.4} strokeDasharray="5 4" vectorEffect="non-scaling-stroke" />
         <line x1={x1 - dx * 0.35} y1={(y1 + y2) / 2} x2={x2 + dx * 0.35} y2={(y1 + y2) / 2} stroke="#fff" strokeOpacity={0.35} strokeWidth={1} vectorEffect="non-scaling-stroke" />
         {[[x1, y1], [x2, y2]].map(([x, y], k) => (
-          <circle key={k} cx={x} cy={y} r={6} fill="#fff" stroke="#55646a" vectorEffect="non-scaling-stroke" />
+          <circle key={k} cx={x} cy={y} r={6} fill="#fff" stroke="#69565a" vectorEffect="non-scaling-stroke" />
         ))}
       </g>
     );

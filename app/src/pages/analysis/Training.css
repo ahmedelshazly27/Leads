@@ -1,7 +1,7 @@
 .tr {
-  --tr-focus: #5d747b;
-  --tr-build: #9fb2b8;
-  --tr-maintain: #dde5e7;
+  --tr-focus: #462b32;
+  --tr-build: #7f4e59;
+  --tr-maintain: #e9dbdf;
 }
 .tr-h2 {
   margin: 36px 0 14px;
@@ -35,8 +35,8 @@
   max-height: 440px;
 }
 .tr-sil > * {
-  fill: #eef2f3;
-  stroke: #d9e0e2;
+  fill: #f1f0f0;
+  stroke: #e3d8da;
   stroke-width: 1;
 }
 .tr-mus {
@@ -99,7 +99,7 @@
 }
 .tr-sw.tr-maintain {
   background: var(--tr-maintain);
-  border: 1px solid #cfd8da;
+  border: 1px solid #a16676;
 }
 .tr-hint {
   margin: 0;
@@ -156,8 +156,8 @@
   color: #fff;
 }
 .tr-pill.tr-build {
-  background: #e6edef;
-  color: #3f565d;
+  background: #ece9ea;
+  color: #5c4147;
 }
 .tr-pill.tr-maintain {
   background: var(--card-2);
@@ -207,7 +207,7 @@
   gap: 18px;
   padding: 18px 20px;
   border-radius: 16px;
-  background: linear-gradient(120deg, #eef3f4, #e3eaec);
+  background: linear-gradient(120deg, #f2f0f0, #e9e6e7);
   border: 1px solid var(--line);
 }
 .tr-daily h3 {
@@ -297,7 +297,7 @@
 }
 .tr-day li.hot {
   border-inline-start-color: var(--tr-focus);
-  background: #f4f7f8;
+  background: #f7f5f6;
 }
 .tr-day li span {
   display: flex;
@@ -329,7 +329,7 @@
   margin-top: 30px;
   padding: 22px;
   border-radius: var(--r-xl);
-  background: linear-gradient(115deg, #a9b7bb, #6f8187 70%, #5d6e73);
+  background: linear-gradient(115deg, #84515e, #54333b 70%, #725e63);
   color: #fff;
 }
 .tr-proj .mono-sm {
