@@ -1,5 +1,5 @@
 import { useSyncExternalStore } from "react";
-import type { AppState, Intake, Profile, Scan } from "./types";
+import { FACE_VIEWS, type AppState, type FaceView, type Intake, type PhotoKind, type Profile, type Scan } from "./types";
 import { SAMPLE_PROFILE_ID, SAMPLE_SCAN_ID, samplePhotos, sampleProfile, sampleScan, sampleVisuals } from "./sample";
 
 /* ------------------------------------------------------------------ */
@@ -97,7 +97,7 @@ export async function initStore() {
       };
     }
     for (const scan of state.scans) {
-      for (const kind of ["face", "body", "side"] as const) {
+      for (const kind of ["face", "body", "side", ...FACE_VIEWS] as const) {
         const url = await idbGet<string>(`photo:${scan.id}:${kind}`);
         if (url) photos.set(`${scan.id}:${kind}`, url);
       }
@@ -137,8 +137,8 @@ export function latestScan(s: AppState, profileId: string): Scan | undefined {
   const list = scansFor(s, profileId);
   return list[list.length - 1];
 }
-export function photoUrl(scanId: string, kind: "face" | "body" | "side") {
-  if (scanId === SAMPLE_SCAN_ID) return samplePhotos[kind];
+export function photoUrl(scanId: string, kind: PhotoKind) {
+  if (scanId === SAMPLE_SCAN_ID) return samplePhotos[kind] ?? null;
   return photos.get(`${scanId}:${kind}`) ?? null;
 }
 
@@ -157,7 +157,12 @@ export function updateIntake(profileId: string, intake: Intake) {
   });
 }
 
-export async function addScan(scan: Scan, facePhoto: string | null, bodyPhoto: string | null, sidePhoto: string | null = null) {
+export async function addScan(scan: Scan, facePhoto: string | null, bodyPhoto: string | null, sidePhoto: string | null = null, views: Partial<Record<FaceView, string>> = {}) {
+  for (const [kind, url] of Object.entries(views) as [FaceView, string][]) {
+    if (!url) continue;
+    photos.set(`${scan.id}:${kind}`, url);
+    await idbSet(`photo:${scan.id}:${kind}`, url).catch(() => {});
+  }
   if (sidePhoto) {
     photos.set(`${scan.id}:side`, sidePhoto);
     await idbSet(`photo:${scan.id}:side`, sidePhoto).catch(() => {});

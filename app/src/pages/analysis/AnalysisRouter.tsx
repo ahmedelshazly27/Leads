@@ -1,4 +1,5 @@
 import { Projection } from "./Projection";
+import { AllMarkers } from "./AllMarkers";
 import { ReviewBanner } from "../../components/ReviewBanner";
 import { useMemo, type ComponentType } from "react";
 import { Navigate, useParams } from "react-router-dom";
@@ -64,13 +65,14 @@ const SECTIONS: Record<string, ComponentType<SectionProps>> = {
   partners: Partners,
   progress: P.Progress,
   projection: Projection,
+  "all-markers": AllMarkers,
   summary: P.Summary,
 };
 
 /** Sections whose numbers are read from photo pixels: always show the original. */
 const ORIGINAL_ONLY = new Set(["skin", "contrast"]);
 /** Sections that don't show analysis photos (no switch needed). */
-const NO_PHOTO = new Set(["getting-started", "about-you", "methodology", "recommendations", "action-plan", "estimations", "progress", "nutrition", "partners", "training", "projection"]);
+const NO_PHOTO = new Set(["all-markers", "getting-started", "about-you", "methodology", "recommendations", "action-plan", "estimations", "progress", "nutrition", "partners", "training", "projection"]);
 
 export function AnalysisRouter() {
   const { section = "getting-started" } = useParams();

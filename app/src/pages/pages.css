@@ -830,3 +830,17 @@
 .hm-task small { display: block; font-size: 12px; color: var(--muted); }
 .hm-task.done span { color: var(--muted); text-decoration: line-through; }
 @media (max-width: 760px) { .hm-grid { grid-template-columns: 1fr; } .hm-num { font-size: 44px; } }
+
+/* scan wizard · face views */
+.wz-views-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+  margin: 26px 0 12px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+.wz-views .drop-empty .guide {
+  flex: none;
+}

@@ -4,7 +4,8 @@ import { PageHeader } from "../components/ui";
 import { fileToDataUrl } from "../lib/image";
 import { runScan, ScanError, type Stage } from "../lib/pipeline";
 import { addScan, createProfile, setActiveProfile, updateIntake, useAppState } from "../lib/store";
-import type { Intake, Scan } from "../lib/types";
+import { FACE_VIEWS, type FaceView, type Intake, type Scan } from "../lib/types";
+import SUMMARY from "../lib/markers/summary.json";
 import { preloadVision } from "../lib/vision";
 import "./pages.css";
 
@@ -49,6 +50,7 @@ export function NewScan() {
   const [face, setFace] = useState<string | null>(null);
   const [body, setBody] = useState<string | null>(null);
   const [side, setSide] = useState<string | null>(null);
+  const [views, setViews] = useState<Partial<Record<FaceView, string>>>({});
 
   useEffect(() => {
     preloadVision();
@@ -74,7 +76,18 @@ export function NewScan() {
       </div>
       {step === 0 && <IntakeStep intake={intake} setIntake={setIntake} onNext={() => setStep(1)} />}
       {step === 1 && (
-        <PhotoStep face={face} body={body} side={side} setFace={setFace} setBody={setBody} setSide={setSide} onBack={() => setStep(0)} onNext={() => setStep(2)} />
+        <PhotoStep
+          face={face}
+          body={body}
+          side={side}
+          setFace={setFace}
+          setBody={setBody}
+          setSide={setSide}
+          views={views}
+          setView={(k, v) => setViews((cur) => ({ ...cur, [k]: v ?? undefined }))}
+          onBack={() => setStep(0)}
+          onNext={() => setStep(2)}
+        />
       )}
       {step === 2 && (
         <ProcessStep
@@ -88,7 +101,8 @@ export function NewScan() {
             let pid = existing?.id;
             if (pid) updateIntake(pid, intake);
             else pid = createProfile(intake).id;
-            await addScan({ ...scan, profileId: pid }, face, body, side);
+            const got = FACE_VIEWS.filter((k) => views[k]);
+            await addScan({ ...scan, profileId: pid, views: got }, face, body, side, views);
             setActiveProfile(pid);
             nav("/analysis/getting-started");
           }}
@@ -300,6 +314,8 @@ function PhotoStep(props: {
   setFace: (s: string | null) => void;
   setBody: (s: string | null) => void;
   setSide: (s: string | null) => void;
+  views: Partial<Record<FaceView, string>>;
+  setView: (k: FaceView, v: string | null) => void;
   onBack: () => void;
   onNext: () => void;
 }) {
@@ -345,6 +361,31 @@ function PhotoStep(props: {
             </div>
           </div>
         </div>
+      </div>
+      <div className="wz-views-head">
+        <div>
+          <div className="title-md">Face views &amp; expressions</div>
+          <p className="lead" style={{ margin: "4px 0 0" }}>
+            Optional, but each one unlocks more of the {SUMMARY.total} markers. Same light and spot as your front portrait, camera at eye level, about 1.5 m away.
+          </p>
+        </div>
+        <span className="mono-sm">
+          {FACE_VIEWS.filter((k) => props.views[k]).length} / {FACE_VIEWS.length} added
+        </span>
+      </div>
+      <div className="wz-photos wz-views">
+        {VIEW_SPECS.map((v) => (
+          <Drop
+            key={v.kind}
+            testId={`${v.kind}-input`}
+            label={v.label}
+            value={props.views[v.kind] ?? null}
+            onChange={(x) => props.setView(v.kind, x)}
+            guide={<ViewGuide kind={v.kind} />}
+            optionalNote={`Optional · unlocks ${v.unlocks}`}
+            tips={v.tips}
+          />
+        ))}
       </div>
       <div className="wz-foot" style={{ marginTop: 18 }}>
         <button className="btn btn-ghost" onClick={props.onBack}>
@@ -436,6 +477,77 @@ function Drop({
         </div>
       </div>
     </div>
+  );
+}
+
+const VIEW_SPECS: { kind: FaceView; label: string; unlocks: string; tips: string[] }[] = [
+  {
+    kind: "faceLeft",
+    label: "Left profile",
+    unlocks: `${SUMMARY.profile} profile markers`,
+    tips: ["Turn your whole head 90° so the camera sees one side only", "Head level: eyes looking at the horizon, not up or down", "Hair behind the ear; jaw and neck visible", "Plain wall behind you"],
+  },
+  {
+    kind: "faceRight",
+    label: "Right profile",
+    unlocks: "a left–right comparison",
+    tips: ["Same as the left profile, the other way", "Keep the same distance and height", "Neutral face, lips closed"],
+  },
+  {
+    kind: "face45",
+    label: "Three-quarter (45°)",
+    unlocks: `${SUMMARY.face45} cheek and jawline markers`,
+    tips: ["Turn your head halfway, about 45°", "Both eyes still visible", "Neutral expression, lips closed"],
+  },
+  {
+    kind: "smile",
+    label: "Natural smile",
+    unlocks: `${SUMMARY.smile} smile markers`,
+    tips: ["Facing the camera, a full natural smile showing your teeth", "Same distance as the front portrait", "Head level"],
+  },
+  {
+    kind: "frown",
+    label: "Frown",
+    unlocks: "frown-line grading",
+    tips: ["Facing the camera", "Pull your brows together as if concentrating hard", "Hold for the photo"],
+  },
+  {
+    kind: "browRaise",
+    label: "Raised brows",
+    unlocks: "forehead-line grading",
+    tips: ["Facing the camera", "Raise your eyebrows as high as you can", "Hair off the forehead"],
+  },
+];
+
+function ViewGuide({ kind }: { kind: FaceView }) {
+  const head =
+    kind === "faceLeft" || kind === "faceRight" ? (
+      <path
+        d="M70 34c-14-6-34 2-36 22-1 8 1 14 0 20l-6 10 7 2c-1 6 2 9 7 9l-1 6c2 3 6 4 10 3 6 0 10 6 10 14"
+        transform={kind === "faceRight" ? "translate(120 0) scale(-1 1)" : undefined}
+      />
+    ) : kind === "face45" ? (
+      <ellipse cx="62" cy="66" rx="26" ry="36" transform="rotate(-8 62 66)" />
+    ) : (
+      <ellipse cx="60" cy="66" rx="28" ry="37" />
+    );
+  const face =
+    kind === "smile" ? (
+      <path d="M48 82q12 10 24 0" />
+    ) : kind === "frown" ? (
+      <path d="M48 52l10 4M72 52l-10 4M50 86q10-5 20 0" />
+    ) : kind === "browRaise" ? (
+      <path d="M46 44q8-6 14-2M74 44q-8-6-14-2M52 34h16M50 38h20" />
+    ) : null;
+  return (
+    <svg className="guide" width="120" height="150" viewBox="0 0 120 150" aria-hidden="true">
+      <rect width="120" height="150" rx="12" fill="#74464f" />
+      <g fill="none" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeDasharray={face ? undefined : "4 4"}>
+        {head}
+        {face}
+      </g>
+      <line x1="10" y1="62" x2="110" y2="62" stroke="#fff" strokeWidth="1" opacity=".35" />
+    </svg>
   );
 }
 

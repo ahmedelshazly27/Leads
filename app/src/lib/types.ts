@@ -195,6 +195,8 @@ export interface Scan {
   hasBodyPhoto: boolean;
   bodySide?: SideResult | null;
   hasSidePhoto?: boolean;
+  /** extra face views captured with this scan */
+  views?: FaceView[];
   /** founder/reviewer's pick among close-scoring styles (library ids) */
   stylePick?: { hair?: string; beard?: string };
   /** human-in-the-loop review; absent = awaiting review */
@@ -259,3 +261,8 @@ export interface Booking {
   payload: Record<string, unknown>;
   status: "requested" | "confirmed" | "declined" | "completed";
 }
+
+/** Extra face photos: profiles, three-quarter view and expressions. */
+export type FaceView = "faceLeft" | "faceRight" | "face45" | "smile" | "frown" | "browRaise";
+export const FACE_VIEWS: FaceView[] = ["faceLeft", "faceRight", "face45", "smile", "frown", "browRaise"];
+export type PhotoKind = "face" | "body" | "side" | FaceView;

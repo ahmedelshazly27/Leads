@@ -17,6 +17,7 @@ export const NAV: NavGroup[] = [
       { id: "getting-started", label: "Getting Started" },
       { id: "about-you", label: "About You" },
       { id: "methodology", label: "Methodology & Sources" },
+      { id: "all-markers", label: "All Markers", needs: "face" },
     ],
   },
   {

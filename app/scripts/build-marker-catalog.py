@@ -105,6 +105,30 @@ for fname, key in [("frontal.md", "frontal"), ("profile_smile_neck_ear.md", "pro
     ms, refs = parse(ROOT / fname, key)
     out["markers"] += ms
     out["references"][key] = refs
+# client-facing clean-up: internal notes, reference codes, abbreviations
+def short_ref(text):
+    authors = text.split(".")[0]
+    toks = authors.split(",")[0].strip().split(" ")
+    first = " ".join(toks[:-1]) if len(toks) > 1 and re.fullmatch(r"[A-Z]{1,3}", toks[-1]) else toks[0]
+    yr = re.search(r"(19|20)\d\d", text)
+    etal = " et al." if "," in authors else ""
+    return f"{first}{etal} {yr.group(0) if yr else ''}".strip()
+
+frontal_refs = {r["key"]: short_ref(r["text"]) for r in out["references"]["frontal"]}
+ABBR = [(r"\bNAW\b", "North American white"), (r"\(RoM\)", "(ratio of group means)"), (r"\bRoM\b", "ratio of group means"),
+        (r"\bceleb\b", "celebrities"), (r"\bMSI\b", "Malaysian South Indian"), (r"\bHK\b", "Hong Kong"), (r"\bSA F\b", "South African women")]
+def tidy(t):
+    for a, b in ABBR:
+        t = re.sub(a, b, t)
+    return t
+for m in out["markers"]:
+    m["name"] = re.sub(r"\s*\((existing[^)]*|infrastructure)\)", "", m["name"]).strip()
+    if m["catalogue"] == "frontal" and m.get("sources"):
+        m["sources"] = re.sub(r"\bR(\d+)\b", lambda x: frontal_refs.get("R" + x.group(1), x.group(0)), m["sources"])
+    for k in ("normMale", "normFemale", "ethnicNorms", "norms", "perception"):
+        if m.get(k):
+            m[k] = re.sub(r"\s*\[R\d+(?:,\s*R\d+)*\]", "", tidy(m[k]))
+
 seen = set()
 for m in out["markers"]:
     if m["id"] in seen:
@@ -118,3 +142,18 @@ print("markers", len(ids), "dups", dups)
 print(Counter((m["catalogue"], m["region"]) for m in out["markers"]))
 print(Counter(m["methodKind"] for m in out["markers"]))
 print({k: len(v) for k, v in out["references"].items()})
+
+# small summary for the capture flow: markers unlocked by each photo
+def needs(photo):
+    p = photo.lower(); out = set()
+    if "profile" in p and "45" not in p: out.add("profile")
+    if "45" in p or "three-quarter" in p or "oblique" in p: out.add("face45")
+    if "smile" in p: out.add("smile")
+    if "frown" in p: out.add("frown")
+    if "raise" in p: out.add("browRaise")
+    if not out: out.add("front")
+    return out
+summary = Counter(k for m in out["markers"] for k in needs(m.get("photo", "")))
+summary["total"] = len(out["markers"])
+(OUT.parent / "summary.json").write_text(json.dumps(dict(summary), indent=1))
+print("summary", dict(summary))

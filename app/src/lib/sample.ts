@@ -1,4 +1,4 @@
-import type { Intake, Profile, Scan, Visuals } from "./types";
+import type { Intake, PhotoKind, Profile, Scan, Visuals } from "./types";
 import data from "./sampleData.json";
 
 /*
@@ -32,10 +32,12 @@ export const sampleScan: Scan = { ...(data.scan as unknown as Scan), id: SAMPLE_
 
 const S = `${import.meta.env.BASE_URL}sample/`;
 
-export const samplePhotos: Record<"face" | "body" | "side", string> = {
+export const samplePhotos: Partial<Record<PhotoKind, string>> = {
   face: S + "face.jpg",
   body: S + "body_front.jpg",
   side: S + "body_side.jpg",
+  faceLeft: S + "face_left.jpg",
+  faceRight: S + "face_right.jpg",
 };
 
 export const sampleVisuals: Visuals = {
