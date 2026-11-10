@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { setLang, useArabicPage, useLang } from "../lib/i18n";
 import { Link, useLocation } from "react-router-dom";
 import { Logo } from "../components/Logo";
 import { SpectrumBar, Toggle, shortCite } from "../components/ui";
@@ -96,9 +97,12 @@ export function Landing() {
   }, []);
 
   const data = useSample();
+  const lang = useLang();
+  const root = useRef<HTMLDivElement>(null);
+  useArabicPage(root, lang);
 
   return (
-    <div className="lp">
+    <div className={`lp ${lang === "ar" ? "lp-ar" : ""}`} ref={root}>
       <nav className={`lp-nav ${scrolled ? "lp-nav-solid" : ""}`}>
         <div className="lp-nav-in">
           <Link to="/" className="lp-logo">
@@ -111,6 +115,9 @@ export function Landing() {
             <a href="#pricing">Pricing</a>
             <a href="#faq">FAQ</a>
           </div>
+          <button type="button" className="lp-lang" onClick={() => setLang(lang === "ar" ? "en" : "ar")} lang={lang === "ar" ? "en" : "ar"} data-i18n-skip>
+            {lang === "ar" ? "English" : "العربية"}
+          </button>
           <Link to="/protocols" className="lp-btn lp-btn-nav">
             Open app
           </Link>

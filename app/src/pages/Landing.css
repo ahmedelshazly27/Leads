@@ -1691,3 +1691,40 @@
   text-transform: uppercase;
   color: var(--label);
 }
+
+/* ---------- Arabic ---------- */
+.lp-lang {
+  margin-inline-start: auto;
+  margin-inline-end: 12px;
+  height: 38px;
+  padding: 0 14px;
+  border: 0;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.82);
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+.lp-lang:hover { color: #fff; }
+.lp-nav-solid .lp-lang { color: var(--ink-3); }
+.lp-nav-solid .lp-lang:hover { color: var(--ink); }
+.lp-lang:lang(ar) { font-family: "IBM Plex Sans Arabic", var(--sans); }
+.lp-ar,
+.lp-ar * {
+  font-family: "IBM Plex Sans Arabic", var(--sans);
+  letter-spacing: 0 !important;
+}
+.lp-ar .lp-title,
+.lp-ar h1,
+.lp-ar h2,
+.lp-ar h3 {
+  line-height: 1.3;
+}
+@media (max-width: 760px) {
+  .lp-ar .lp-btn-nav,
+  .lp-btn-nav { margin-inline-start: 0; }
+}
+/* English citations inside Arabic pages read left to right */
+.lp-ar :is(.ls-src, .ls-th-cite, .lp-acc-refs, .ls-cite, cite) {
+  unicode-bidi: plaintext;
+}

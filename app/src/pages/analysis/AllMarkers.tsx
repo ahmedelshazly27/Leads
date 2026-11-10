@@ -80,7 +80,8 @@ function computed(scan: Scan): Record<string, MarkerValue> {
   const out = frontalMarkers(P);
   out["eye-canthal-tilt"] = { value: f.metrics.canthalTilt, unit: "°" };
   out["gen-symmetry"] = { value: f.metrics.symmetry, unit: "index", text: `${Math.round(f.metrics.symmetry)}/100` };
-  delete out["gen-iris-mm-scale"];
+  // the ruler itself: shown as in use rather than as a measurement of the face
+  out["gen-iris-mm-scale"] = { value: 11.7, unit: "mm", text: "In use · iris taken as 11.7 mm" };
   return { ...out, ...prof };
 }
 
