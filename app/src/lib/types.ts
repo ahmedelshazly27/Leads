@@ -194,6 +194,13 @@ export interface Scan {
   hasFacePhoto: boolean;
   hasBodyPhoto: boolean;
   bodySide?: SideResult | null;
+  /** side-profile analysis from the profile photo */
+  profileFace?: {
+    markers: Record<string, { value: number; unit: "ratio" | "%" | "°" | "mm" | "index"; text?: string }>;
+    flags: { beard: boolean; fringe: boolean };
+    points: Record<string, unknown>;
+    mmPerPx: number | null;
+  } | null;
   hasSidePhoto?: boolean;
   /** extra face views captured with this scan */
   views?: FaceView[];

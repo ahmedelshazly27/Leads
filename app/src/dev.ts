@@ -20,6 +20,46 @@ const toData = async (u: string | null) => {
  */
 export function installDevHooks() {
   const w = window as unknown as Record<string, unknown>;
+  /** Profile result exactly as a scan stores it, using the sample's front portrait for scale. */
+  w.__profileForSample = async (url: string) => {
+    const { profileFromPhoto } = await import("./lib/pipeline");
+    const { sampleScan } = await import("./lib/sample");
+    return profileFromPhoto(url, sampleScan);
+  };
+  /** Run the side-profile analysis on an image URL; returns points, markers and an overlay PNG. */
+  w.__profile = async (url: string, mmPerPx: number | null = null) => {
+    const { loadImage } = await import("./lib/image");
+    const { segmentPerson } = await import("./lib/vision");
+    const { analyseProfile } = await import("./lib/markers/profile");
+    const img = await loadImage(url);
+    const mask = await segmentPerson(img);
+    if (!mask) return { error: "no mask" };
+    const { imageData } = await import("./lib/image");
+    const r = analyseProfile(mask, imageData(img), mmPerPx);
+    const c = document.createElement("canvas");
+    c.width = img.naturalWidth;
+    c.height = img.naturalHeight;
+    const g = c.getContext("2d")!;
+    g.drawImage(img, 0, 0);
+    if (r) {
+      g.strokeStyle = "#00e5ff";
+      g.lineWidth = 3;
+      g.beginPath();
+      r.outline.forEach((q, i) => (i ? g.lineTo(q[0], q[1]) : g.moveTo(q[0], q[1])));
+      g.stroke();
+      g.fillStyle = "#ffeb3b";
+      g.font = "bold 22px sans-serif";
+      for (const [k, q] of Object.entries(r.points)) {
+        if (!q || typeof q === "string") continue;
+        const [x, y] = q as [number, number];
+        g.beginPath();
+        g.arc(x, y, 6, 0, Math.PI * 2);
+        g.fill();
+        g.fillText(k, x + 10, y + 6);
+      }
+    }
+    return { mask: { w: mask.width, h: mask.height, cats: Array.from(new Set(mask.data)) }, result: r && { points: r.points, markers: r.markers, flags: r.flags }, overlay: c.toDataURL("image/jpeg", 0.8) };
+  };
   w.__seed = async (face: string | null, body: string | null, name = "Test Profile", over: Partial<Intake> = {}, side: string | null = null) => {
     const f = await toData(face);
     const bd = await toData(body);

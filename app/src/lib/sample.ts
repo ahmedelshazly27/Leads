@@ -36,8 +36,11 @@ export const samplePhotos: Partial<Record<PhotoKind, string>> = {
   face: S + "face.jpg",
   body: S + "body_front.jpg",
   side: S + "body_side.jpg",
-  faceLeft: S + "face_left.jpg",
-  faceRight: S + "face_right.jpg",
+  faceLeft: S + "face_profile_left.jpg",
+  face45: S + "face_45.jpg",
+  smile: S + "face_smile.jpg",
+  frown: S + "face_frown.jpg",
+  browRaise: S + "face_brow_raise.jpg",
 };
 
 export const sampleVisuals: Visuals = {

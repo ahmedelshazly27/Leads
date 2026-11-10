@@ -44,7 +44,7 @@ const REGION_LABEL: Record<string, string> = {
   "global constructs": "Overall impressions",
 };
 
-type State = "measured" | "photo" | "review" | "soon";
+type State = "measured" | "photo" | "covered" | "review" | "soon";
 
 /** Which extra photo a catalogue row needs, from its "photo" column. */
 function needsView(photo = ""): FaceView | null {
@@ -74,13 +74,14 @@ const STATUS_LABEL: Record<Status, string> = { typical: "Typical", above: "Above
 
 function computed(scan: Scan): Record<string, MarkerValue> {
   const f = scan.face;
-  if (!f?.landmarks) return {};
+  const prof = (scan.profileFace?.markers ?? {}) as Record<string, MarkerValue>;
+  if (!f?.landmarks) return { ...prof };
   const P = makeFrame(f.landmarks, f.imageAspect * 1000, 1000).P;
   const out = frontalMarkers(P);
   out["eye-canthal-tilt"] = { value: f.metrics.canthalTilt, unit: "°" };
   out["gen-symmetry"] = { value: f.metrics.symmetry, unit: "index", text: `${Math.round(f.metrics.symmetry)}/100` };
   delete out["gen-iris-mm-scale"];
-  return out;
+  return { ...out, ...prof };
 }
 
 export function AllMarkers({ scan, profile }: SectionProps) {
@@ -101,6 +102,8 @@ export function AllMarkers({ scan, profile }: SectionProps) {
     if (values[r.id]) return "measured";
     const v = needsView(r.photo);
     if (v && !views.has(v)) return "photo";
+    // profile outline markers skipped because a beard or moustache hides the skin line
+    if (v === "faceLeft" && scan.profileFace?.flags.beard && r.catalogue === "profile" && (r.methodKind === "auto")) return "covered";
     if (r.methodKind === "review") return "review";
     return "soon";
   };
@@ -122,6 +125,7 @@ export function AllMarkers({ scan, profile }: SectionProps) {
           [
             ["measured", "Measured now", "Computed from your photos"],
             ["photo", "Needs a photo", "Add the profile, 45° or smile photos"],
+            ["covered", "Hidden by facial hair", "The beard or moustache covers the skin outline"],
             ["review", "Graded by your reviewer", "Judged by a person against published scales"],
             ["soon", "In development", "Automatable, not yet built"],
           ] as [State, string, string][]
@@ -168,6 +172,8 @@ export function AllMarkers({ scan, profile }: SectionProps) {
                             </>
                           ) : s === "photo" ? (
                             <em className="am-st am-need">Needs {VIEW_LABEL[needsView(r.photo)!]}</em>
+                          ) : s === "covered" ? (
+                            <em className="am-st am-need">Hidden by facial hair</em>
                           ) : s === "review" ? (
                             <em className="am-st am-rev">Reviewer grade</em>
                           ) : (

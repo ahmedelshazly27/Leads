@@ -95,6 +95,7 @@ export function NewScan() {
           face={face}
           body={body}
           side={side}
+          views={views}
           onBack={() => setStep(1)}
           onDone={async (scan) => {
             // the profile is only created once the scan succeeded, so failed attempts leave nothing behind
@@ -607,10 +608,11 @@ function BackGuide() {
 /*  Step 3: processing                                                 */
 /* ------------------------------------------------------------------ */
 
-const STAGES: { key: Stage; label: string; needs?: "face" | "body" }[] = [
+const STAGES: { key: Stage; label: string; needs?: "face" | "body" | "profile" }[] = [
   { key: "loading-models", label: "Loading on-device models" },
   { key: "face", label: "Mapping 478 facial landmarks", needs: "face" },
   { key: "skin", label: "Analysing skin regions", needs: "face" },
+  { key: "profile", label: "Tracing your side profile", needs: "profile" },
   { key: "body", label: "Measuring body silhouette (front & side)", needs: "body" },
   { key: "plan", label: "Building your evidence-based plan" },
 ];
@@ -620,6 +622,7 @@ function ProcessStep({
   face,
   body,
   side,
+  views,
   onBack,
   onDone,
 }: {
@@ -627,6 +630,7 @@ function ProcessStep({
   face: string | null;
   body: string | null;
   side: string | null;
+  views: Partial<Record<FaceView, string>>;
   onBack: () => void;
   onDone: (scan: Scan) => Promise<void>;
 }) {
@@ -640,7 +644,7 @@ function ProcessStep({
     started.current = attempt;
     setError(null);
     setStage("loading-models");
-    runScan("pending", intake, face, body, setStage, side)
+    runScan("pending", intake, face, body, setStage, side, views)
       .then(onDone)
       .catch((e) => {
       console.error(e);
@@ -650,7 +654,7 @@ function ProcessStep({
 
   const order = STAGES.map((s) => s.key);
   const idx = stage === "done" ? order.length : order.indexOf(stage);
-  const visible = STAGES.filter((s) => !s.needs || (s.needs === "face" ? face : body));
+  const visible = STAGES.filter((s) => !s.needs || (s.needs === "face" ? face : s.needs === "profile" ? views.faceLeft || views.faceRight : body));
   return (
     <div className="wz-card">
       <div className="proc">

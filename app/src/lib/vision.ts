@@ -1,6 +1,7 @@
 import {
   FaceLandmarker,
   FilesetResolver,
+  ImageSegmenter,
   PoseLandmarker,
   type ImageSource,
 } from "@mediapipe/tasks-vision";
@@ -13,11 +14,13 @@ const LOCAL = {
   wasm: `${BASE}wasm`,
   face: `${BASE}models/face_landmarker.task`,
   pose: `${BASE}models/pose_landmarker_heavy.task`,
+  seg: `${BASE}models/selfie_multiclass_256x256.tflite`,
 };
 const REMOTE = {
   wasm: `https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@${VERSION}/wasm`,
   face: "https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task",
   pose: "https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_heavy/float16/1/pose_landmarker_heavy.task",
+  seg: "https://storage.googleapis.com/mediapipe-models/image_segmenter/selfie_multiclass_256x256/float32/latest/selfie_multiclass_256x256.tflite",
 };
 
 async function exists(url: string) {
@@ -81,6 +84,35 @@ function getPose() {
     }
   })();
   return poseP;
+}
+
+let segP: Promise<ImageSegmenter> | null = null;
+function getSegmenter() {
+  segP ??= (async () => {
+    const fs = await fileset();
+    const path = (await exists(LOCAL.seg)) ? LOCAL.seg : REMOTE.seg;
+    return ImageSegmenter.createFromOptions(fs, {
+      baseOptions: { modelAssetPath: path, delegate: "CPU" },
+      runningMode: "IMAGE",
+      outputCategoryMask: true,
+      outputConfidenceMasks: false,
+    });
+  })();
+  return segP;
+}
+
+/** Categories of the multiclass selfie segmenter. */
+export const SEG = { background: 0, hair: 1, bodySkin: 2, faceSkin: 3, clothes: 4, other: 5 } as const;
+
+/** Per-pixel category mask (0–5) at the mask's own resolution. */
+export async function segmentPerson(img: ImageSource): Promise<{ data: Uint8Array; width: number; height: number } | null> {
+  const seg = await getSegmenter();
+  const res = seg.segment(img);
+  const m = res.categoryMask;
+  if (!m) return null;
+  const out = { data: new Uint8Array(m.getAsUint8Array()), width: m.width, height: m.height };
+  res.close();
+  return out;
 }
 
 export interface FaceDetection {

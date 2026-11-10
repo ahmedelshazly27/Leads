@@ -65,6 +65,40 @@ export const NORMS: Record<string, Pair> = {
   "jaw-mandible-biocular": { m: N(1.33, 0.095, "Saudi adults, 3D (n = 50)"), f: N(1.29, 0.091, "Saudi adults, 3D (n = 44)") },
   "jaw-lowerface-mandible": { m: N(0.51, 0.05, "Saudi adults, 3D"), f: N(0.51, 0.05, "Saudi adults, 3D") },
   "jaw-lowerface-index": { m: N(0.54, null, "Saudi adults, 3D"), f: N(0.52, null, "Saudi adults, 3D") },
+  // side profile (profile_smile_neck_ear.md)
+  "prof-facial-convexity-g-sn-pg": both(N(15.16, 4.64, "Saudi adults (n = 61)")),
+  "prof-holdaway-st-facial-angle": both(N(91.6, 7, "Holdaway norm")),
+  "prof-merrifield-z-angle": both(N(80, 9, "Merrifield norm")),
+  "prof-maxillary-prognathism": both(N(6, 3, "Legan & Burstone norm")),
+  "prof-mandibular-prognathism": both(N(0, 4, "Legan & Burstone norm")),
+  "prof-vertical-height-ratio": both(N(1, null, "Legan & Burstone norm")),
+  "prof-lower-face-percent": { m: N(55, 1.5, "Published norm (men)"), f: N(54, 1.5, "Published norm (women)") },
+  "nose-nasolabial-angle": { m: N(96.23, 12.74, "Saudi men (n = 30)"), f: N(104.19, 11.92, "Saudi women (n = 32)") },
+  "nose-nasofrontal-angle": { m: N(134.67, 7.58, "Saudi men"), f: N(137.33, 6.48, "Saudi women") },
+  "nose-nasofacial-angle": both(N(35, null, "Powell & Humphreys range 30–40°")),
+  "nose-nasomental-angle": both(N(126, null, "Powell & Humphreys range 120–132°")),
+  "nose-tip-projection-simons": both(N(1, null, "Simons ideal 1 : 1")),
+  "nose-tip-projection-baum-powell": both(N(2.8, null, "Powell & Humphreys ideal 2.8 : 1")),
+  "nose-tip-projection-angle": { m: N(123.6, 5.81, "Saudi men"), f: N(122.8, 4.93, "Saudi women") },
+  "nose-nasal-length": both(N(58.6, 4.34, "Saudi adults (X-ray)")),
+  "nose-nasal-height": both(N(62.6, 5.56, "Saudi adults (X-ray)")),
+  "lips-ricketts-eline-upper": both(N(-4, 2, "Ricketts norm")),
+  "lips-ricketts-eline-lower": both(N(-2, 2, "Ricketts norm")),
+  "lips-steiner-sline": both(N(0, null, "Steiner ideal: touching the line")),
+  "lips-burstone-bline": both(N(3, 1, "Legan & Burstone norm")),
+  "lips-holdaway-h-angle": both(N(10, 4, "Holdaway norm")),
+  "lips-lower-lip-h-line": both(N(0.7, 2, "Holdaway norm")),
+  "lips-sn-h-line": both(N(4.2, 2, "Holdaway norm")),
+  "lips-superior-sulcus-depth": both(N(3, 1, "Holdaway norm")),
+  "lips-vertical-lip-chin-ratio": both(N(0.5, null, "Legan & Burstone norm")),
+  "chin-labiomental-angle": { m: N(127, 11.6, "Published norm (men)"), f: N(133, 13, "Published norm (women)") },
+  "chin-mentolabial-sulcus-depth": both(N(4, 2, "Legan & Burstone norm")),
+  "chin-zero-meridian": both(N(0, null, "Gonzalez-Ulloa ideal: chin on the line")),
+  "chin-legan-prognathism": both(N(0, 4, "Legan & Burstone norm")),
+  "neck-cervicomental-angle": both(N(112.5, null, "Ellenbogen & Karlin range 105–120°")),
+  "neck-mentocervical-angle": both(N(87.5, null, "Powell & Humphreys range 80–95°")),
+  "neck-lower-face-throat-angle": both(N(100, 7, "Legan & Burstone norm")),
+  "neck-lower-height-depth-ratio": both(N(1.2, null, "Legan & Burstone norm")),
 };
 
 /**
@@ -93,6 +127,9 @@ export const APPROX = new Set([
   "jaw-height-to-bigonial",
   "nose-length-face",
   "nose-nasal-index",
+  // profile lengths whose norms come from X-rays, not photos
+  "nose-nasal-length",
+  "nose-nasal-height",
 ]);
 
 export type Status = "typical" | "above" | "below" | "reference" | "none";
