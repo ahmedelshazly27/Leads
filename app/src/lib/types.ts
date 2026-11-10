@@ -194,6 +194,10 @@ export interface Scan {
   hasFacePhoto: boolean;
   hasBodyPhoto: boolean;
   bodySide?: SideResult | null;
+  /** reviewer grades for markers a person judges (marker id -> grade text) */
+  markerGrades?: Record<string, string>;
+  /** smile analysis from the smile photo */
+  smileFace?: { markers: Record<string, { value: number; unit: "ratio" | "%" | "°" | "mm" | "index"; text?: string }> } | null;
   /** side-profile analysis from the profile photo */
   profileFace?: {
     markers: Record<string, { value: number; unit: "ratio" | "%" | "°" | "mm" | "index"; text?: string }>;

@@ -4,6 +4,7 @@ import { detectFace, detectPose, segmentPerson } from "./vision";
 import { analyseFace, makeFrame } from "./faceAnalysis";
 import { analyseProfile } from "./markers/profile";
 import { IRIS_MM } from "./markers/frontal";
+import { smileMarkers } from "./markers/smile";
 import { analyseBody, analyseSide } from "./bodyAnalysis";
 import { uid } from "./store";
 
@@ -47,6 +48,7 @@ export async function runScan(
     onStage("profile");
     scan.profileFace = await profileFromPhoto(profilePhoto, scan);
   }
+  if (views.smile) scan.smileFace = await smileFromPhoto(views.smile, scan);
   if (bodyPhoto) {
     const img = await loadImage(bodyPhoto);
     onStage("body");
@@ -93,6 +95,16 @@ export async function profileFromPhoto(url: string, scan: Pick<Scan, "face">) {
   }
   const r = mmPerPx ? analyseProfile(mask, px, mmPerPx) ?? first : first;
   return { markers: r.markers, flags: r.flags, points: { ...r.points } as Record<string, unknown>, mmPerPx: r.mmPerPx };
+}
+
+/** Smile markers from a frontal natural-smile photo. */
+export async function smileFromPhoto(url: string, scan: Pick<Scan, "face">) {
+  const img = await loadImage(url);
+  const det = await detectFace(img);
+  if (!det) return null;
+  const W = img.naturalWidth, H = img.naturalHeight;
+  const L = det.landmarks.map(([x, y]) => [x * W, y * H] as [number, number]);
+  return { markers: smileMarkers(L, imageData(img), scan.face?.metrics.eyeAspect ?? null) };
 }
 
 const tick = (ms = 30) => new Promise((r) => setTimeout(r, ms));

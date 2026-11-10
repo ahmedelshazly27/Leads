@@ -21,6 +21,11 @@ const toData = async (u: string | null) => {
 export function installDevHooks() {
   const w = window as unknown as Record<string, unknown>;
   /** Profile result exactly as a scan stores it, using the sample's front portrait for scale. */
+  w.__smileForSample = async (url: string) => {
+    const { smileFromPhoto } = await import("./lib/pipeline");
+    const { sampleScan } = await import("./lib/sample");
+    return smileFromPhoto(url, sampleScan);
+  };
   w.__profileForSample = async (url: string) => {
     const { profileFromPhoto } = await import("./lib/pipeline");
     const { sampleScan } = await import("./lib/sample");

@@ -1,4 +1,4 @@
-import { useMemo, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { Link, useParams } from "react-router-dom";
 import { GradeBadge } from "../../components/ui";
 import { refreshBody, bmiOf } from "../../lib/bodyAnalysis";
@@ -218,6 +218,7 @@ export function ReviewScan() {
             ))}
           </div>
           <FeatureTypes scan={scan} intake={intake} />
+          <MarkerGrades scan={scan} />
           {checks("style")}
         </Section>
       )}
@@ -364,6 +365,54 @@ function FeatureTypes({ scan, intake }: { scan: Scan; intake: Intake }) {
       <a className="rv-ft-link" href="/library" target="_blank" rel="noreferrer">
         Open the feature library
       </a>
+    </details>
+  );
+}
+
+/** Markers a person judges: grade each against its published scale. */
+interface GradeRow {
+  id: string;
+  name: string;
+  region: string;
+  definition?: string;
+  norms?: string;
+  normMale?: string;
+  methodKind: string;
+}
+function MarkerGrades({ scan }: { scan: Scan }) {
+  const [rows, setRows] = useState<GradeRow[] | null>(null);
+  const [open, setOpen] = useState(false);
+  useEffect(() => {
+    if (open && !rows) import("../../lib/markers/catalog.json").then((m) => setRows((m.default as unknown as { markers: GradeRow[] }).markers.filter((r) => r.methodKind === "review")));
+  }, [open, rows]);
+  const grades = scan.markerGrades ?? {};
+  const set = (id: string, v: string) => {
+    const next = { ...grades };
+    if (v.trim()) next[id] = v.trim();
+    else delete next[id];
+    updateScan(scan.id, { markerGrades: next });
+  };
+  const done = Object.keys(grades).length;
+  return (
+    <details className="rv-ft" onToggle={(e) => setOpen((e.target as HTMLDetailsElement).open)}>
+      <summary>
+        Reviewer-graded markers <span className="mono-sm">{done} graded · shown on the client’s All Markers page</span>
+      </summary>
+      {!rows ? (
+        <p className="lead" style={{ marginTop: 10 }}>Loading…</p>
+      ) : (
+        <div className="rv-grades">
+          {rows.map((r) => (
+            <label key={r.id} className="rv-grade">
+              <span>
+                <b>{r.name}</b>
+                <small>{r.definition}</small>
+              </span>
+              <input defaultValue={grades[r.id] ?? ""} placeholder={(r.norms || r.normMale || "Grade").slice(0, 70)} onBlur={(e) => e.target.value.trim() !== (grades[r.id] ?? "") && set(r.id, e.target.value)} />
+            </label>
+          ))}
+        </div>
+      )}
     </details>
   );
 }

@@ -74,7 +74,7 @@ const STATUS_LABEL: Record<Status, string> = { typical: "Typical", above: "Above
 
 function computed(scan: Scan): Record<string, MarkerValue> {
   const f = scan.face;
-  const prof = (scan.profileFace?.markers ?? {}) as Record<string, MarkerValue>;
+  const prof = { ...(scan.profileFace?.markers ?? {}), ...(scan.smileFace?.markers ?? {}) } as Record<string, MarkerValue>;
   if (!f?.landmarks) return { ...prof };
   const P = makeFrame(f.landmarks, f.imageAspect * 1000, 1000).P;
   const out = frontalMarkers(P);
@@ -175,7 +175,14 @@ export function AllMarkers({ scan, profile }: SectionProps) {
                           ) : s === "covered" ? (
                             <em className="am-st am-need">Hidden by facial hair</em>
                           ) : s === "review" ? (
-                            <em className="am-st am-rev">Reviewer grade</em>
+                            scan.markerGrades?.[r.id] ? (
+                              <>
+                                <b>{scan.markerGrades[r.id]}</b>
+                                <em className="am-st am-rev">Graded by your reviewer</em>
+                              </>
+                            ) : (
+                              <em className="am-st am-rev">Awaiting reviewer</em>
+                            )
                           ) : (
                             <em className="am-st am-soon">In development</em>
                           )}
