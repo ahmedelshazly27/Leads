@@ -141,7 +141,7 @@ export function Nose({ scan, facePhoto }: SectionProps) {
       ]}
       explanation={
         <>
-          Your nose base is <b>{fmt(m.noseWidthToIntercanthal)}×</b> the distance between your inner eye corners (anthropometric norm ≈ 1.0).
+          Your nose base is <b>{fmt(m.noseWidthToIntercanthal)}×</b> the distance between your inner eye corners. The classical canon is 1.0, but in Saudi adults the nose is usually wider: averages are 1.22 for men and 1.08 for women.
           {close && (
             <>
               {" "}
@@ -366,7 +366,7 @@ export function FeaturesSummary({ scan, facePhoto }: SectionProps) {
     { name: "Eye spacing : eye width", v: fmt(m.eyeSpacingRatio), norm: "≈ 1.0", ok: Math.abs(m.eyeSpacingRatio - 1.05) < 0.15 },
     { name: "Nose : intercanthal width", v: fmt(m.noseWidthToIntercanthal), norm: "≈ 1.0", ok: Math.abs(m.noseWidthToIntercanthal - 1.05) < 0.15 },
     { name: "Mouth : nose width", v: fmt(m.mouthToNoseWidth), norm: "≈ 1.5", ok: Math.abs(m.mouthToNoseWidth - 1.5) < 0.2 },
-    { name: "Upper : lower lip", v: fmt(m.lipRatio), norm: "≈ 0.5–0.7", ok: m.lipRatio > 0.45 && m.lipRatio < 0.8 },
+    { name: "Upper : lower lip", v: fmt(m.lipRatio), norm: "≈ 0.5–0.95", ok: m.lipRatio > 0.45 && m.lipRatio < 0.95 },
     { name: "Upper lip : chin", v: fmt(m.lipChinRatio), norm: "≈ 0.5", ok: Math.abs(m.lipChinRatio - 0.5) < 0.1 },
     { name: "Middle : lower third", v: fmt(m.midToLowerThird), norm: "≈ 1.0", ok: Math.abs(m.midToLowerThird - 1) < 0.12 },
     { name: "Jaw : cheek width", v: fmt(m.jawToFaceWidth), norm: "0.75–0.85", ok: m.jawToFaceWidth > 0.74 && m.jawToFaceWidth < 0.88 },

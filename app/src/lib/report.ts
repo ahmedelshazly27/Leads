@@ -57,14 +57,20 @@ export function leannessScore(face: FaceResult | null, body: BodyMetrics | null,
   return null;
 }
 
-export function harmonyScore(face: FaceResult) {
+/**
+ * Proportional harmony: closeness to published averages, not neoclassical
+ * canons (which fail in Saudi samples, Al-Sebaei 2015). Nose and mouth use
+ * Saudi sex-specific means; eye spacing is left out until the mesh's eye
+ * corners are validated against clinical canthi.
+ */
+export function harmonyScore(face: FaceResult, gender: string = "male") {
   const m = face.metrics;
+  const female = gender === "female";
   return clamp(
     mean([
       closeness(m.midToLowerThird, 1, 0.12),
-      closeness(m.eyeSpacingRatio, 1.05, 0.15),
-      closeness(m.noseWidthToIntercanthal, 1.05, face.capture?.closeRange ? 0.3 : 0.15),
-      closeness(m.mouthToNoseWidth, 1.5, 0.2),
+      closeness(m.noseWidthToIntercanthal, female ? 1.08 : 1.22, face.capture?.closeRange ? 0.3 : 0.18),
+      closeness(m.mouthToNoseWidth, female ? 1.43 : 1.31, 0.2),
       closeness(m.lipChinRatio, 0.5, 0.1),
       m.averageness,
     ]),
@@ -79,7 +85,7 @@ export function currentScores(scan: Scan, intake: Intake): Partial<Record<ScoreK
     s.skin = scan.face.metrics.skinScore;
     s.rested = restedScore(scan.face);
     s.symmetry = scan.face.metrics.symmetry;
-    s.harmony = harmonyScore(scan.face);
+    s.harmony = harmonyScore(scan.face, intake.gender);
   }
   const lean = leannessScore(scan.face, scan.body?.metrics ?? null, intake);
   if (lean != null) s.leanness = lean;

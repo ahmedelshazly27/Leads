@@ -60,12 +60,12 @@ export interface FaceMetrics {
   fWHR: number; // bizygomatic width / upper face height (brow → upper lip)
   midToLowerThird: number; // ideal ≈ 1
   lipChinRatio: number; // upper lip height : chin height (ideal ≈ 0.5)
-  eyeSpacingRatio: number; // intercanthal / eye width (ideal ≈ 1)
+  eyeSpacingRatio: number; // intercanthal / eye width (canon ≈ 1; Saudi means ≈ 0.92–0.94)
   eyeWidthToFace: number; // eye width / face width (ideal ≈ 0.2)
   noseWidthToIntercanthal: number; // ideal ≈ 1
   noseLengthToFace: number;
   mouthToNoseWidth: number; // ideal ≈ 1.5
-  lipRatio: number; // upper / lower vermilion height (ideal ≈ 0.62)
+  lipRatio: number; // upper / lower vermilion height (1:2 rated most attractive, Popenko 2017; population means ≈ 0.84–0.93)
   lipFullness: number; // total lip height / mouth width
   jawToFaceWidth: number;
   chinWidthToMouth: number;

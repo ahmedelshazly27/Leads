@@ -443,18 +443,18 @@ export function Contrast({ scan, facePhoto, profile }: SectionProps) {
 const RATIOS: { key: keyof FaceResult["metrics"]; label: string; norm: number; lo: number; hi: number; labels: [string, string, string]; note: string }[] = [
   { key: "midToLowerThird", label: "Middle : lower third", norm: 1, lo: 0.75, hi: 1.25, labels: ["Long lower", "Equal", "Long middle"], note: "Classical canon: equal thirds" },
   { key: "lipChinRatio", label: "Upper lip : chin height", norm: 0.5, lo: 0.3, hi: 0.7, labels: ["Short lip", "1 : 2", "Long lip"], note: "Ideal ≈ 1 : 2" },
-  { key: "eyeSpacingRatio", label: "Eye spacing : eye width", norm: 1.05, lo: 0.8, hi: 1.3, labels: ["Close-set", "≈ 1 eye", "Wide-set"], note: "Rule of fifths ≈ 1" },
+  { key: "eyeSpacingRatio", label: "Eye spacing : eye width", norm: 1.05, lo: 0.8, hi: 1.3, labels: ["Close-set", "≈ 1 eye", "Wide-set"], note: "Classical canon ≈ 1; in Saudi adults the eye is usually wider than the gap" },
   { key: "eyeWidthToFace", label: "Eye width : face width", norm: 0.205, lo: 0.17, hi: 0.24, labels: ["Small", "≈ 1/5", "Large"], note: "Rule of fifths ≈ 0.2" },
-  { key: "noseWidthToIntercanthal", label: "Nose : eye spacing", norm: 1.05, lo: 0.8, hi: 1.4, labels: ["Narrow", "≈ 1", "Wide"], note: "Farkas norm ≈ 1" },
+  { key: "noseWidthToIntercanthal", label: "Nose : eye spacing", norm: 1.05, lo: 0.8, hi: 1.4, labels: ["Narrow", "≈ 1", "Wide"], note: "Canon ≈ 1; Saudi averages 1.22 men, 1.08 women" },
   { key: "mouthToNoseWidth", label: "Mouth : nose width", norm: 1.5, lo: 1.1, hi: 1.9, labels: ["Narrow", "≈ 1.5", "Wide"], note: "Neoclassical ≈ 1.5" },
 ];
 
-export function Proportions({ scan, facePhoto }: SectionProps) {
+export function Proportions({ scan, facePhoto, profile }: SectionProps) {
   const face = scan.face!;
   const lm = face.landmarks;
   const a = face.imageAspect;
   const crop = lm ? faceCrop(lm, a, 1.25, 0.85) : undefined;
-  const score = harmonyScore(face);
+  const score = harmonyScore(face, profile.intake.gender);
   return (
     <div className="page">
       <CaptureWarning capture={face.capture} metrics={["noseWidthToIntercanthal", "mouthToNoseWidth", "midToLowerThird", "lipChinRatio"]} />
