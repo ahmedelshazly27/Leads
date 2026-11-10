@@ -172,7 +172,11 @@ Scope: markers that can be measured from **one frontal photograph**: overall pro
 | ear-vertical-position | ear | Ear vertical position | Superaurale level vs brow line and subaurale level vs subnasale | frontal | sa, sba, brow, sn | Δy / face height | not found | not found | — | Classical rule (Powell & Humphreys 1984) not accessed | — | review |
 | ear-symmetry | ear | Ear height asymmetry | Difference in sa/sba levels L vs R | frontal | sa, sba | \|Δy\| / face height | Arabian men: near-perfect symmetry | Arabian women: mild natural asymmetry (no values in abstract) | — | not found | R11 | review |
 
-**Count:** General 15 · Eyes 16 · Eyebrows 10 · Nose 12 · Lips 17 · Cheeks 5 · Jaw/chin 9 · Ears 5 = **89 markers**. Of these, 81 are measurable markers and 1 is the calibration enabler. The other 7 (`nose-bridge-width`, `nose-nostril-show`, `nose-deviation`, `brow-medial-start`, `brow-interbrow`, `cheek-cheekbone-height`, `ear-vertical-position`) are well-defined but have no published numeric norm in the accessed sources. 22 rows overlap metrics the app already computes, and 67 are additions.
+**Count:** General 15 · Eyes 17 · Eyebrows 10 · Nose 12 · Lips 17 · Cheeks 5 · Jaw/chin 9 · Ears 5 = **90 rows**. That is 1 calibration enabler (`gen-iris-mm-scale`) plus **89 markers**.
+
+- 21 markers overlap metrics the app already computes (marked "existing"). For these the rows supply evidence-based norms.
+- 68 markers are additions.
+- 14 markers are well-defined but have **no numeric norm** in the accessed sources: `gen-eme-angle`, `brow-thickness`, `brow-medial-start`, `brow-interbrow`, `nose-bridge-width`, `nose-nostril-show`, `nose-deviation`, `lip-cupids-bow`, `cheek-prominence`, `cheek-cheekbone-height`, `cheek-malar-fullness`, `chin-width`, `jaw-outline-shape` and `ear-vertical-position`.
 
 ---
 
