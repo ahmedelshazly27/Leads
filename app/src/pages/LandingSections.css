@@ -1524,3 +1524,6 @@ a.ls-src:hover {
     grid-column: 2;
   }
 }
+.ls-doc-title b { font-weight: inherit; }
+/* Arabic: «خطة خالد», the noun comes first */
+.lp-ar .ls-doc-title { display: inline-flex; flex-direction: row-reverse; gap: 0.3em; }

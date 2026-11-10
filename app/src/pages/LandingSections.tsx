@@ -495,8 +495,8 @@ export function PersonalPlan({ data }: { data: SampleData }) {
           </div>
           <div className="ls-device-main">
             <div className="ls-doc-head">
-              <h3>
-                {first}’s <span>Protocol</span>
+              <h3 className="ls-doc-title">
+                <b>{`${first}’s`}</b> <span>Protocol</span>
               </h3>
               <span className="ls-doc-page">Page / 04</span>
             </div>

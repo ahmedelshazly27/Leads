@@ -62,7 +62,7 @@ function lookup(text: string, dict: Dict, tpl: ReturnType<typeof templates>): st
   if (dict[t] != null) return dict[t];
   for (const { re, v } of tpl) {
     const m = t.match(re);
-    if (m) return v.replace(/\{(\d)\}/g, (_, i) => m[Number(i) + 1] ?? "");
+    if (m) return v.replace(/\{(\d)\}/g, (_, i) => { const g = m[Number(i) + 1] ?? ""; return dict[g] ?? g; });
   }
   return null;
 }
