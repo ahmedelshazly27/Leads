@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
-import { setLang, useArabicPage, useLang } from "../lib/i18n";
-import { Link, useLocation } from "react-router-dom";
+import { setLang, useArabicPage, useArDict } from "../lib/i18n";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useSeo } from "../lib/seo";
+import { BRAND_NAME, SITE_URL } from "../lib/brand";
 import { Logo } from "../components/Logo";
 import { SpectrumBar, Toggle, shortCite } from "../components/ui";
 import { ChevronDown, Verified } from "../components/icons";
@@ -12,7 +14,7 @@ import { SCORE_LABEL, type ScoreKey } from "../lib/report";
 import { sampleProfile, sampleScan } from "../lib/sample";
 import "./Landing.css";
 import { CompleteAnalysis, LooksInfluence, PersonalPlan, TakingIntoAccount, YouWillLearn } from "./LandingSections";
-import { Ancestry, DiscoverYou, FollowPlan, LifeChanging, Mindset, NoSurgery, Pillars, StartCta, Support, Technology } from "./LandingSections2";
+import { Ancestry, Privacy, DiscoverYou, FollowPlan, LifeChanging, Mindset, NoSurgery, Pillars, StartCta, Support, Technology } from "./LandingSections2";
 
 const S = `${import.meta.env.BASE_URL}sample/`;
 
@@ -81,7 +83,15 @@ function Head({ kicker, dark, muted, mutedFirst, lead, center, light }: { kicker
 /* ------------------------------------------------------------------ */
 
 export function Landing() {
-  const { hash } = useLocation();
+  const { hash, pathname } = useLocation();
+  const navigate = useNavigate();
+  // the URL decides the language: "/" is English, "/ar" is Arabic (each indexable on its own)
+  const lang = pathname === "/ar" || pathname.startsWith("/ar/") ? "ar" : "en";
+  useEffect(() => {
+    setLang(lang);
+  }, [lang]);
+  const arDict = useArDict(lang === "ar");
+  useSeo(landingSeo(lang, arDict));
   useEffect(() => {
     if (!hash) return;
     const t = setTimeout(() => document.getElementById(hash.slice(1))?.scrollIntoView({ behavior: "smooth" }), 60);
@@ -97,7 +107,6 @@ export function Landing() {
   }, []);
 
   const data = useSample();
-  const lang = useLang();
   const root = useRef<HTMLDivElement>(null);
   useArabicPage(root, lang);
 
@@ -107,15 +116,16 @@ export function Landing() {
         <div className="lp-nav-in">
           <Link to="/" className="lp-logo">
             <Logo size={22} />
-            <span>Facet</span>
+            <span>{BRAND_NAME}</span>
           </Link>
           <div className="lp-nav-links">
             <a href="#why">Why glow up</a>
             <a href="#how">How it works</a>
             <a href="#pricing">Pricing</a>
+            <a href="#privacy">Privacy</a>
             <a href="#faq">FAQ</a>
           </div>
-          <button type="button" className="lp-lang" onClick={() => setLang(lang === "ar" ? "en" : "ar")} lang={lang === "ar" ? "en" : "ar"} data-i18n-skip>
+          <button type="button" className="lp-lang" onClick={() => navigate(lang === "ar" ? "/" : "/ar")} lang={lang === "ar" ? "en" : "ar"} data-i18n-skip>
             {lang === "ar" ? "English" : "العربية"}
           </button>
           <Link to="/protocols" className="lp-btn lp-btn-nav">
@@ -155,6 +165,7 @@ export function Landing() {
         <Pricing />
         <Support />
         <CareNetwork />
+        <Privacy />
         <Faq />
         <Mindset />
       </div>
@@ -162,11 +173,12 @@ export function Landing() {
         <div className="lp-foot-in">
           <div className="lp-logo">
             <Logo size={20} />
-            <span>Facet</span>
+            <span>{BRAND_NAME}</span>
           </div>
           <div className="lp-foot-links">
             <Link to="/protocols">Open app</Link>
             <a href="#pricing">Pricing</a>
+            <a href="#privacy">Privacy</a>
             <a href="#faq">FAQ</a>
             <Link to="/analysis/methodology">Methodology</Link>
           </div>
@@ -363,7 +375,7 @@ function Track({ data }: { data: ReturnType<typeof useSample> }) {
   const right = cards.slice(3);
   return (
     <section className="lp-sec">
-      <Head center kicker="Your biometrics" dark="Track your progress." muted="See where you’re heading." lead="Monthly check-ins in the same set-up, measured against your baseline. Scores are our composites of literature-based measures, not clinical scores." />
+      <Head center kicker="Progress tracking" dark="Track your progress." muted="See where you’re heading." lead="Monthly check-ins in the same set-up, measured against your baseline. Scores are our composites of literature-based measures, not clinical scores." />
       <div className="lp-track">
         <div className="lp-track-col">
           {left.map((c) => (
@@ -566,7 +578,7 @@ function CareNetwork() {
           })}
         </div>
         <div className="lp-care-card">
-          <span className="lp-mono">Planned integration</span>
+          <span className="lp-mono">Coming soon</span>
           <h3>{p.name}</h3>
           <p className="lp-care-who">{p.who}</p>
           <div className="lp-care-rows">
@@ -760,7 +772,8 @@ function Pricing() {
 const FAQ: [string, string][] = [
   ["Is it medical advice?", "No. It's aesthetic and wellness guidance. Anything clinical points you to a licensed practitioner."],
   ["How accurate is it?", "Measurements use established face and pose landmark models (MediaPipe) and are compared with published norms where they exist. They are estimates — body-fat estimates carry errors of roughly ±4–5 points, and photo conditions matter, so we flag selfies, head turns and cropped body shots."],
-  ["Who sees my photos?", "Analysis runs on your device. Photos you send for your report are seen only by your reviewer and deleted 90 days after delivery."],
+  ["Who sees my photos?", "Analysis runs on your device. Photos you send for your report are seen only by the reviewer assigned to you and deleted 90 days after delivery, or sooner if you ask."],
+  ["Is there a service for women?", "Yes. Women get the same analysis and plan, and their photos and results are reviewed only by female reviewers. We never show photos of women on this site or in our marketing."],
   ["Do I need special equipment?", "No. A phone, a plain wall and someone (or a timer) to take the photos from about 1.5–3 m."],
   ["Can I cancel the membership?", "Yes, anytime. Your report and plan stay yours."],
 ];
@@ -785,3 +798,48 @@ function Faq() {
   );
 }
 
+
+/* ------------------------------------------------------------------ */
+/*  Search and social metadata                                         */
+/* ------------------------------------------------------------------ */
+
+function landingSeo(lang: "en" | "ar", ar: Record<string, string> | null) {
+  const t = (s: string) => (lang === "ar" && ar?.[s]) || s;
+  const title =
+    lang === "ar"
+      ? `${BRAND_NAME} · تحليل للوجه والجسم بمراجع علمية، وخطة 12 شهر بدون جراحة`
+      : `${BRAND_NAME} · Science-based face & body analysis and a 12-month glow-up plan`;
+  const description =
+    lang === "ar"
+      ? "حلّل وجهك وجسمك بـ48 قياس مبني على دراسات منشورة، يراجعها إنسان، واحصل على خطة 12 شهر للبشرة والشعر واللحية والجسم بدون جراحة. للإمارات والسعودية، وخدمة خاصة للنساء تراجعها نساء."
+      : "48 measurements of your face and body, compared with published norms and reviewed by a person, then a 12-month plan for skin, hair, beard and body. No surgery. For the UAE and Saudi Arabia, with a women-only reviewed service.";
+  const path = lang === "ar" ? "/ar" : "/";
+  return {
+    title,
+    description,
+    path,
+    lang,
+    alternates: { en: "/", ar: "/ar" },
+    jsonLd: [
+      { "@context": "https://schema.org", "@type": "Organization", name: BRAND_NAME, url: SITE_URL, logo: SITE_URL + "/favicon.svg", areaServed: ["AE", "SA"] },
+      { "@context": "https://schema.org", "@type": "WebSite", name: BRAND_NAME, url: SITE_URL, inLanguage: ["en", "ar"] },
+      {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        name: lang === "ar" ? "تقرير تحليل الوجه والجسم وخطة 12 شهر" : "Face & body analysis report and 12-month plan",
+        provider: { "@type": "Organization", name: BRAND_NAME },
+        areaServed: ["AE", "SA"],
+        offers: [
+          { "@type": "Offer", name: t("Glow-Up Report"), price: "199", priceCurrency: "AED" },
+          { "@type": "Offer", name: t("Glow-Up Report"), price: "199", priceCurrency: "SAR" },
+        ],
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        inLanguage: lang,
+        mainEntity: FAQ.map(([q, a]) => ({ "@type": "Question", name: t(q), acceptedAnswer: { "@type": "Answer", text: t(a) } })),
+      },
+    ],
+  };
+}

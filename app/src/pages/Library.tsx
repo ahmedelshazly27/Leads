@@ -2,7 +2,7 @@ import { useState } from "react";
 import type { Art } from "../lib/library";
 import { Citations, GradeBadge, PageHeader } from "../components/ui";
 import { FeatureArt } from "../components/FeatureArt";
-import { BASIS_LABEL, LIBRARY, REGIONS, categoriesFor, matchFor, typeCount, type Ctx, type FeatureCategory, type Region } from "../lib/library";
+import { BASIS_LABEL, LIBRARY, REGIONS, categoriesFor, matchFor, typeCount, type Ctx, type FeatureCategory, type Region, NO_PHOTO } from "../lib/library";
 import { useActive } from "../lib/useActive";
 import "./library.css";
 
@@ -147,7 +147,7 @@ const PORTRAIT = new Set(["face-shape", "frame-male", "frame-female", "posture"]
 /** Realistic photo of the type (synthetic person), with its exact diagram inset. */
 function TypeVisual({ catId, typeId, name, art, on }: { catId: string; typeId: string; name: string; art: Art; on: boolean }) {
   const [failed, setFailed] = useState(false);
-  if (DIAGRAM_ONLY.has(catId) || failed)
+  if (DIAGRAM_ONLY.has(catId) || NO_PHOTO.has(catId) || failed)
     return (
       <div className="lib-art">
         <FeatureArt art={art} active={on} />

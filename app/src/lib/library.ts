@@ -690,3 +690,10 @@ export function matchFor(cat: FeatureCategory, ctx: Ctx, overrides?: Record<stri
 }
 
 export const typeCount = LIBRARY.reduce((s, c) => s + c.types.length, 0);
+
+/**
+ * Categories whose example photos show women. The site shows no photos of
+ * women (Gulf audience; women's results are reviewed by women only), so these
+ * types are drawn as diagrams instead.
+ */
+export const NO_PHOTO = new Set(["brow-shape", "nose-profile", "lip-fullness", "frame-female"]);

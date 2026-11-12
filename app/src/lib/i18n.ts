@@ -175,3 +175,12 @@ export function useArabicPage(ref: { current: HTMLElement | null }, lang: Lang) 
     };
   }, [ref, lang, dict]);
 }
+
+/** The Arabic dictionary, loaded on demand (null until loaded or when not needed). */
+export function useArDict(enabled: boolean) {
+  const [dict, setDict] = useState<Dict | null>(null);
+  useEffect(() => {
+    if (enabled && !dict) import("../i18n/ar.json").then((m) => setDict(m.default as Dict));
+  }, [enabled, dict]);
+  return dict;
+}

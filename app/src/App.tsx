@@ -1,4 +1,6 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { useSeo } from "./lib/seo";
+import { BRAND_NAME } from "./lib/brand";
 import { AppShell } from "./layouts/AppShell";
 import { AnalysisRouter } from "./pages/analysis/AnalysisRouter";
 import { Protocols } from "./pages/Protocols";
@@ -12,12 +14,49 @@ import { ReviewScan } from "./pages/review/ReviewScan";
 import { Library } from "./pages/Library";
 import { useReady } from "./lib/store";
 
+const TITLES: [RegExp, string][] = [
+  [/^\/home/, "Your reports"],
+  [/^\/new/, "New scan"],
+  [/^\/measurements/, "Measurements"],
+  [/^\/settings/, "Settings"],
+  [/^\/review/, "Review console"],
+  [/^\/analysis\/all-markers/, "All markers"],
+  [/^\/analysis/, "Analysis"],
+  [/^\/protocol/, "Report"],
+];
+
+/** Titles for app pages, all kept out of search results; the landing pages and library set their own. */
+function RouteSeo() {
+  const { pathname } = useLocation();
+  const isLibrary = pathname === "/library";
+  const name = TITLES.find(([re]) => re.test(pathname))?.[1] ?? BRAND_NAME;
+  useSeo(
+    isLibrary
+      ? {
+          title: `Feature library · eye shapes, nose types, hair and curl patterns, face shapes · ${BRAND_NAME}`,
+          description: "100 feature types across 25 categories, from eye shape and brow position to hair curl patterns and posture, each with how it is measured and the research behind it.",
+          path: "/library",
+        }
+      : { title: `${name} · ${BRAND_NAME}`, path: pathname, noindex: true },
+  );
+  return null;
+}
+
+/** The landing pages manage their own metadata (language-specific). */
+function AppRouteSeo() {
+  const { pathname } = useLocation();
+  return pathname === "/" || pathname === "/ar" ? null : <RouteSeo />;
+}
+
 export function App() {
   const ready = useReady();
   if (!ready) return null;
   return (
+    <>
+    <AppRouteSeo />
     <Routes>
       <Route path="/" element={<Landing />} />
+      <Route path="/ar" element={<Landing />} />
       <Route path="/protocol" element={<ProtocolViewer />} />
       <Route path="/plans" element={<Navigate to="/#reports" replace />} />
       <Route element={<AppShell />}>
@@ -39,5 +78,6 @@ export function App() {
         <Route path="*" element={<Navigate to="/home" replace />} />
       </Route>
     </Routes>
+    </>
   );
 }

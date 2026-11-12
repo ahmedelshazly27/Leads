@@ -1,3 +1,4 @@
+import { BRAND_NAME } from "../lib/brand";
 import { useEffect, useState } from "react";
 import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Logo } from "../components/Logo";
@@ -37,7 +38,7 @@ function titleFor(path: string) {
     "/review": "Review console",
   };
   const key = Object.keys(map).find((k) => path === k || path.startsWith(k + "/"));
-  return key ? map[key] : "Facet";
+  return key ? map[key] : BRAND_NAME;
 }
 
 export function AppShell() {

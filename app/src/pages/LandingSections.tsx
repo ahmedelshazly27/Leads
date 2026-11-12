@@ -78,13 +78,13 @@ const STUDIES: Record<Area, { muted: string; dark: string; text: string; ref: st
   ],
   dating: [
     { muted: "First", dark: "dates", text: "At a matched dance, a partner’s looks were the strongest predictor of wanting to see them again.", ref: "walster1966" },
-    { muted: "Speed", dark: "dating", text: "Looks predicted romantic interest just as strongly for women as for men.", ref: "eastwick2008" },
-    { muted: "Second", dark: "looks", text: "Attractive adults were judged and treated more positively across dozens of studies.", ref: "langlois2000" },
+    { muted: "Same for", dark: "both sexes", text: "Looks predicted romantic interest just as strongly for women as for men.", ref: "eastwick2008" },
+    { muted: "Better", dark: "treatment", text: "Attractive adults were judged and treated more positively across dozens of studies.", ref: "langlois2000" },
   ],
   social: [
-    { muted: "Warmer", dark: "assumptions", text: "People assumed attractive strangers had better personalities and happier lives.", ref: "dion1972" },
-    { muted: "More", dark: "social credit", text: "The halo was strongest for judgements of social competence, and weak for honesty or kindness.", ref: "eagly1991" },
-    { muted: "Faster", dark: "judgements", text: "A tenth of a second of seeing a face was enough to form trait impressions.", ref: "willis2006" },
+    { muted: "Kinder", dark: "assumptions", text: "People assumed attractive strangers had better personalities and happier lives.", ref: "dion1972" },
+    { muted: "Seen as", dark: "more sociable", text: "The halo was strongest for judgements of social competence, and weak for honesty or kindness.", ref: "eagly1991" },
+    { muted: "Split-second", dark: "judgements", text: "A tenth of a second of seeing a face was enough to form trait impressions.", ref: "willis2006" },
   ],
   health: [
     { muted: "Leaner", dark: "faces", text: "Perceived facial fat tracks BMI and is linked to how healthy a face looks.", ref: "coetzee2009" },
@@ -102,7 +102,7 @@ const STUDIES: Record<Area, { muted: string; dark: string; text: string; ref: st
   ],
   influence: [
     { muted: "More", dark: "persuasive", text: "Attractive communicators got more people to sign a petition.", ref: "chaiken1979" },
-    { muted: "Faces", dark: "win votes", text: "Competence judged from brief looks at candidates’ faces predicted about 70% of US Senate races.", ref: "todorov2005" },
+    { muted: "Competent-looking", dark: "faces win", text: "Competence judged from brief looks at candidates’ faces predicted about 70% of US Senate races.", ref: "todorov2005" },
     { muted: "Even", dark: "children", text: "Children picking a face to captain a ship chose the winners of French run-offs about 71% of the time.", ref: "antonakis2009" },
   ],
   happiness: [
@@ -393,7 +393,7 @@ export function YouWillLearn({ data }: { data: SampleData }) {
           text="Feature-by-feature breakdowns, with the research behind each one."
           thumb={
             <div className="ls-th-mosaic">
-              {["eye-shape/almond", "brow-shape/soft", "lip-fullness/medium", "nose-profile/straight", "hairline/rounded", "jaw-width/moderate"].map((p) => (
+              {["eye-shape/almond", "brow-thickness/even", "lip-balance/moderate", "chin-projection/balanced", "hairline/rounded", "jaw-width/moderate"].map((p) => (
                 <img key={p} src={`${L}${p}.jpg`} alt="" />
               ))}
             </div>

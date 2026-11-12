@@ -106,6 +106,12 @@ Source of truth for every health, appearance and product claim used in ads, stor
 |---|---|---|---|
 | "Every plan step is graded A–C by the strength of its evidence and cited." | plan.ts (every item has grade + refs; C = limited evidence or guidance) | product fact | "Every step is scientifically proven"; "100% science-backed" |
 | "Analysis runs on your device; photos you send for review are deleted 90 days after delivery." | product/privacy policy (verify before use) | product fact | "We never see your photos" |
+| "Only the reviewer assigned to you sees your photos." | access control in the backend (per-scan reviewer assignment, audit log) — **not built yet** | launch blocker | "Nobody sees your photos" |
+| "Women's photos and results are reviewed only by female reviewers." | reviewer roster + gender-matched assignment enforced in code; at least one female reviewer hired before women can sign up — **operational commitment** | launch blocker | "Women-only team" (unless true) |
+| "No photos of women on this site or in our marketing." | site audit (library women's types are drawn, photo files removed) + marketing policy | product fact | — |
+| "We don't sell your data, use photos in marketing, or train AI models on them." | privacy policy + vendor DPAs | legal | "Your data never leaves your phone" |
+| "Encrypted and stored in line with UAE and Saudi data-protection law." | hosting region + encryption at rest + PDPL assessment — **not set up yet** | launch blocker | "Stored in the UAE" (until the region is chosen) |
+| "Your photo goes to our image provider only to create the visual, under a contract that bars keeping or reusing it." | signed DPA with the image vendor that forbids retention/training — **must be confirmed with the vendor** | launch blocker | name the vendor without their consent |
 | "Specialist partner network coming soon in the UAE & Saudi Arabia." | Landing.tsx (not yet live) | product fact | "Book a dermatologist now"; "our partner clinics"; "DHA-licensed partners" (until contracts are live) |
 | "Monthly check-ins compared with your baseline." | product fact | product fact | "Predicts your progress" |
 

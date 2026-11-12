@@ -2,7 +2,8 @@ import { useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { BeforeAfter, GradeBadge } from "../components/ui";
 import { REFS } from "../lib/science";
-import { LIBRARY, matchFor, type Ctx } from "../lib/library";
+import { LIBRARY, NO_PHOTO, matchFor, type Ctx } from "../lib/library";
+import { FeatureArt } from "../components/FeatureArt";
 import type { SampleData } from "./LandingSections";
 import "./LandingSections.css";
 
@@ -121,7 +122,7 @@ export function FollowPlan({ data }: { data: SampleData }) {
           left
           kicker="Your plan"
           dark="Simply follow your plan."
-          muted="See your face transform."
+          muted="See the difference."
           lead="A step-by-step plan to improve how you look without surgery, in three phases."
         />
         <ul className="ls-checks">
@@ -218,7 +219,13 @@ export function DiscoverYou({ data }: { data: SampleData }) {
           ))}
         </div>
         <div className="ls-discover-card">
-          <img src={`${L}${cat.id}/${type.id}.jpg`} alt={`${type.name}, AI-generated synthetic example`} />
+          {NO_PHOTO.has(cat.id) ? (
+            <div className="ls-discover-art">
+              <FeatureArt art={type.art} active />
+            </div>
+          ) : (
+            <img src={`${L}${cat.id}/${type.id}.jpg`} alt={`${type.name}, AI-generated synthetic example`} />
+          )}
           <div>
             <span className="ls-glass-k ls-dk">Your type</span>
             <h3>{type.name}</h3>
@@ -366,6 +373,50 @@ export function Mindset() {
           </div>
         ))}
         <p className="ls-mind-note">If thinking about your appearance is causing you real distress, please talk to a doctor or mental-health professional before starting.</p>
+      </div>
+    </section>
+  );
+}
+
+/* ---------------- Privacy · and the service for women ---------------- */
+
+const PRIVACY: [string, string][] = [
+  ["Measured on your phone", "Your measurements are computed in your browser. Your photos aren't uploaded to analyse them."],
+  ["Seen by one reviewer", "When you send your scan for review, only the reviewer assigned to you sees your photos. Partners never see them unless you choose to share."],
+  ["Deleted on schedule", "Review photos are deleted 90 days after your report is delivered, or straight away when you ask."],
+  ["Never sold, never shown", "We don't sell your data, use your photos in marketing, or use them to train AI models."],
+  ["Encrypted, kept in the region", "Your data is encrypted and stored in line with UAE and Saudi data-protection law."],
+  ["Your 12-month visual", "If you ask for one, your photo goes to our image provider only to create it, under a contract that bars keeping or reusing it."],
+];
+
+export function Privacy() {
+  return (
+    <section className="lp-sec ls-privacy" id="privacy">
+      <SecHead kicker="Privacy" dark="Your photos stay" muted="yours." lead="Your face is personal. Here is exactly what happens to your photos and results." />
+      <div className="ls-privacy-grid">
+        {PRIVACY.map(([t, d]) => (
+          <div key={t} className="ls-privacy-item">
+            <b>{t}</b>
+            <p>{d}</p>
+          </div>
+        ))}
+      </div>
+      <div className="ls-women" id="women">
+        <div>
+          <span className="ls-kicker">For women</span>
+          <h3>
+            A private service for women, <span>reviewed only by women.</span>
+          </h3>
+          <p>
+            The same analysis and the same plan, built for women’s faces and bodies. Your photos and results are only ever seen by a female reviewer, and we never show photos of women on
+            this website or in our marketing.
+          </p>
+        </div>
+        <ul>
+          <li>Female reviewers only, for every photo and every report</li>
+          <li>No photos of women anywhere on our site or in our ads</li>
+          <li>Same deletion rules: 90 days after delivery, or on request</li>
+        </ul>
       </div>
     </section>
   );
