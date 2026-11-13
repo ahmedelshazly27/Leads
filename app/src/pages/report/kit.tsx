@@ -86,7 +86,7 @@ export function h3(key: string, text: string, sub?: ReactNode): FlowBlock {
 }
 
 export const para = (key: string, node: ReactNode, cls = ""): FlowBlock => ({ key, node: <p className={`rp-p ${cls}`}>{node}</p> });
-export const note = (key: string, node: ReactNode): FlowBlock => ({ key, node: <p className="rp-note">{node}</p> });
+export const note = (key: string, node: ReactNode): FlowBlock => ({ key, tail: true, node: <p className="rp-note">{node}</p> });
 export const block = (key: string, node: ReactNode, keep = false): FlowBlock => ({ key, node, keep });
 
 export function callout(key: string, label: string, body: ReactNode, tone: "info" | "warn" | "ok" = "info"): FlowBlock {

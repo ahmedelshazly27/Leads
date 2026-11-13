@@ -73,10 +73,8 @@ import {
   block,
   callout,
   cap,
-  f2,
   fmtDate,
   h2,
-  h3,
   kvTable,
   note,
   notMeasured,
@@ -129,7 +127,7 @@ export function coverChapter(c: ReportCtx): Chapter {
     ["Report generated", fmtDate(c.generated)],
     ["Photos analysed", `${captured(c).length} — ${captured(c).join(", ") || "none"}`],
     [
-      "Specialist review",
+      "Human review",
       approved ? `Reviewed and approved ${fmtDate(r?.approvedAt ?? r?.updatedAt)}${r?.reviewer ? ` by ${r.reviewer}` : ""}` : r?.status === "in-review" ? "In review — items may still change" : "Awaiting review — items may still change",
     ],
   ];
@@ -173,11 +171,11 @@ export function coverChapter(c: ReportCtx): Chapter {
           <div className={`rp-cover-review ${approved ? "ok" : "wait"}`}>
             <span className="rp-dot" />
             <div>
-              <b>{approved ? "Reviewed by a specialist" : "Not yet reviewed"}</b>
+              <b>{approved ? (r?.reviewer ? `Reviewed by ${r.reviewer}` : "Reviewed by a person") : "Not yet reviewed"}</b>
               <p>
                 {approved
                   ? `A reviewer checked the landmarks, measurements, plan and visuals in this report${r?.reviewer ? ` (${r.reviewer})` : ""} on ${fmtDate(r?.approvedAt ?? r?.updatedAt)}.`
-                  : "A specialist checks every landmark, the plan and your visuals before final release. Items in this report may still change."}
+                  : "A reviewer checks every landmark, the plan and your visuals before final release. Items in this report may still change."}
               </p>
             </div>
           </div>
@@ -372,7 +370,7 @@ export function summaryChapter(c: ReportCtx): Chapter {
           </>,
           "ok",
         )
-      : callout("review-b", r?.status === "in-review" ? "In review" : "Awaiting review", "A specialist has not signed off this report yet. Measurements and plan items may still change.", "warn"),
+      : callout("review-b", r?.status === "in-review" ? "In review" : "Awaiting review", "A reviewer has not signed off this report yet. Measurements and plan items may still change.", "warn"),
     h2("profile", "Client profile"),
     kvTable("profile-t", profileRows(c.profile.intake), { label: "Detail" }),
   ];
@@ -538,7 +536,6 @@ function FeatureCard({ fig, name, type, attrs, children, method }: { fig: ReactN
 }
 
 const zStatus = (z: number): [string, Tone] => (Math.abs(z) <= 1 ? ["Typical", "ok"] : z > 0 ? ["Above typical", "warn"] : ["Below typical", "warn"]);
-const third = (v: number, labels: [string, string, string]) => (v < 1 / 3 ? labels[0] : v > 2 / 3 ? labels[2] : labels[1]);
 
 export function faceChapter(c: ReportCtx): Chapter {
   const face = c.scan.face;
@@ -1148,7 +1145,7 @@ export function markersChapter(c: ReportCtx): Chapter {
     const list = entries.filter((e) => e.r.region === g);
     const meas = list.filter((e) => e.state === "measured").length;
     return [
-      { key: `g-${g}`, group: true, toc: `${REGION_LABEL[g] ?? g} (${list.length})`, cells: [<>{REGION_LABEL[g] ?? g} <span>{list.length} markers · {meas} measured</span></>] },
+      { key: `g-${g}`, group: true, cells: [<>{REGION_LABEL[g] ?? g} <span>{list.length} markers · {meas} measured</span></>] },
       ...list.map(markerRow),
     ];
   });
@@ -1595,44 +1592,24 @@ export function appendixChapter(c: ReportCtx): Chapter {
             </div>
             {r.photo && <div className="rp-def">Photo: {r.photo}</div>}
           </>,
-          <dl className="rp-appx">
-            {r.definition && (
-              <div>
-                <dt>Definition</dt>
-                <dd>{r.definition}</dd>
-              </div>
-            )}
-            {r.formula && (
-              <div>
-                <dt>How measured</dt>
-                <dd>{r.formula}</dd>
-              </div>
-            )}
-            {normText(r, sex) && (
-              <div>
-                <dt>Published norms</dt>
-                <dd>{normText(r, sex)}</dd>
-              </div>
-            )}
-            {r.ethnicNorms && (
-              <div>
-                <dt>By population</dt>
-                <dd>{r.ethnicNorms}</dd>
-              </div>
-            )}
-            {r.perception && (
-              <div>
-                <dt>Research says</dt>
-                <dd>{r.perception}</dd>
-              </div>
-            )}
-            {r.sources && (
-              <div>
-                <dt>Sources</dt>
-                <dd>{r.sources}</dd>
-              </div>
-            )}
-          </dl>,
+          <p className="rp-appx">
+            {(
+              [
+                ["Definition", r.definition],
+                ["How measured", r.formula],
+                ["Published norms", normText(r, sex)],
+                ["By population", r.ethnicNorms],
+                ["Research says", r.perception],
+                ["Sources", r.sources],
+              ] as [string, string | undefined][]
+            )
+              .filter(([, v]) => v)
+              .map(([k, v]) => (
+                <span key={k}>
+                  <em>{k}</em> {v}{" "}
+                </span>
+              ))}
+          </p>,
         ],
       })),
   ]);
@@ -1640,12 +1617,12 @@ export function appendixChapter(c: ReportCtx): Chapter {
     id: "appendix",
     title: "Appendix A · Marker definitions",
     blocks: [
-      title("Appendix A", "· Marker definitions & sources", `Definitions, measurement formulas, published norms (${sex === "female" ? "women" : "men"}), norms by population, perception research and sources for all ${c.catalog.length} catalogue markers.`),
+      title("Appendix A", "· Definitions & sources", `Definitions, measurement formulas, published norms (${sex === "female" ? "women" : "men"}), norms by population, perception research and sources for all ${c.catalog.length} catalogue markers.`),
       table(
         "appx-t",
         [
-          ["Marker", "26%"],
-          ["Details", "74%"],
+          ["Marker", "24%"],
+          ["Definition, method, norms and sources", "76%"],
         ],
         rows,
         { className: "rp-appx-t" },
@@ -1654,4 +1631,3 @@ export function appendixChapter(c: ReportCtx): Chapter {
   };
 }
 
-export { f2 };

@@ -245,10 +245,38 @@
 .pv-page-head {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 22px 28px;
+  gap: 14px;
+  padding: 16px 40px 14px;
   border-bottom: 1px solid var(--line);
   color: var(--ink);
+  flex: none;
+}
+.pv-runhead {
+  flex: 1;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--label);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pv-page-foot {
+  flex: none;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 40px 14px;
+  border-top: 1px solid var(--line);
+  font-family: var(--mono);
+  font-size: 8.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.pv-page-bare .pv-page-body {
+  padding: 0;
 }
 .pv-pageno {
   font-family: var(--mono);
@@ -263,7 +291,8 @@
 }
 .pv-page-body {
   flex: 1;
-  padding: 34px 44px 30px;
+  min-height: 0;
+  padding: 26px 44px 14px;
   font-size: 13px;
   line-height: 1.55;
   color: var(--ink-2);
@@ -719,7 +748,9 @@
   .pv-bar,
   .pv-thumbs,
   .pv-side,
-  .pv-mprofile {
+  .pv-mprofile,
+  .pv-measure,
+  .pv-loading {
     display: none !important;
   }
   .pv-body {
@@ -738,7 +769,7 @@
   .pv-page {
     box-shadow: none;
     width: 210mm;
-    height: 297mm;
+    height: 296.8mm;
     break-after: page;
     page-break-after: always;
   }
@@ -757,4 +788,45 @@
 }
 .pv-radar svg {
   overflow: visible;
+}
+
+/* ---------------- Measuring layer & states ---------------- */
+.pv-measure {
+  position: absolute;
+  left: -20000px;
+  top: 0;
+  width: 794px;
+  visibility: hidden;
+  pointer-events: none;
+  contain: layout style;
+}
+.pv-measure-ch {
+  display: block;
+  width: 794px;
+  height: auto;
+  overflow: visible;
+  flex: none;
+}
+.pv-blk {
+  display: flow-root;
+  padding-bottom: 12px;
+}
+.pv-loading {
+  display: grid;
+  place-items: center;
+  min-height: 300px;
+  color: var(--ink-3);
+  font-size: 15px;
+}
+.pv-download:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.pv-contents button {
+  text-align: left;
+  color: var(--ink-2);
+  font-size: 14px;
+}
+.pv-contents button:hover {
+  color: var(--accent);
 }

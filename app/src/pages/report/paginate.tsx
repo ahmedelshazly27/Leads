@@ -22,6 +22,8 @@ export interface FlowBlock {
   keep?: boolean;
   /** contents entry for this block (subsection) */
   toc?: string;
+  /** keep on the same page as the previous block (footnotes under a table) */
+  tail?: boolean;
 }
 
 export interface FlowRow {
@@ -121,7 +123,7 @@ interface Measured {
   blocks: ({ h: number } | { overhead: number; rows: number[] })[];
 }
 
-const SAFETY = 3; // px left free at the bottom of every page (sub-pixel rounding, borders)
+const SAFETY = 6; // px left free at the bottom of every page (sub-pixel rounding, borders)
 
 function measureChapter(el: HTMLElement): Measured {
   const blocks: Measured["blocks"] = [];
@@ -153,19 +155,31 @@ function pack(chapters: Chapter[], measured: Measured[], avail: number): Layout 
       used = 0;
     };
     pageOf[ch.id] = pages.length + 1;
-    // minimum height the next block needs on this page (for keep-with-next)
-    const minOf = (bi: number): number => {
+    if (ch.bare) {
+      // full-bleed single page (cover): laid out by its own CSS
+      pages.push({ chapter: ci, pieces: ch.blocks.map((_, b) => ({ b })) });
+      return;
+    }
+    // minimum height the next block needs on this page (keep-with-next chains are followed)
+    const minOf = (bi: number, depth = 0): number => {
       const mb = m.blocks[bi];
-      if (!mb) return 0;
-      if ("h" in mb) return Math.min(mb.h, cap);
+      const b = ch.blocks[bi];
+      if (!mb || !b || depth > 4) return 0;
+      if ("h" in mb) return Math.min(cap, mb.h + (b.keep ? minOf(bi + 1, depth + 1) : 0));
       return mb.overhead + (mb.rows[0] ?? 0) + (mb.rows[1] ?? 0);
+    };
+    // height of a footnote that must stay with block bi
+    const tailOf = (bi: number) => {
+      const nb = ch.blocks[bi + 1];
+      const mb = m.blocks[bi + 1];
+      return nb && nb.kind !== "table" && nb.tail && mb && "h" in mb ? mb.h : 0;
     };
     ch.blocks.forEach((b, bi) => {
       const mb = m.blocks[bi];
       if (!mb) return;
       if ("h" in mb) {
         if (mb.h > cap) oversize.push(`${ch.id}/${b.key} (${Math.round(mb.h)} > ${Math.round(cap)})`);
-        const need = mb.h + (b.keep ? minOf(bi + 1) : 0);
+        const need = mb.h + (b.keep ? minOf(bi + 1) : 0) + tailOf(bi);
         if (cur.length && used + need > cap) flush();
         cur.push({ b: bi });
         used += mb.h;
@@ -189,7 +203,7 @@ function pack(chapters: Chapter[], measured: Measured[], avail: number): Layout 
         const start = k;
         let h = mb.overhead;
         while (k < n) {
-          const extra = t.rows[k].keep && k + 1 < n ? mb.rows[k + 1] : 0;
+          const extra = (t.rows[k].keep && k + 1 < n ? mb.rows[k + 1] : 0) + (k === n - 1 ? tailOf(bi) : 0);
           if (k > start && used + h + mb.rows[k] + extra > cap) break;
           h += mb.rows[k];
           if (t.rows[k].toc) pageOf[tocId(ch.id, t.rows[k].key)] = pages.length + 1;
