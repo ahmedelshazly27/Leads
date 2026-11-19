@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { setLang, useArabicPage, useArDict } from "../lib/i18n";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSeo } from "../lib/seo";
-import { BRAND_NAME, SITE_URL } from "../lib/brand";
+import { BRAND_NAME, BRAND_NAME_AR, SITE_URL } from "../lib/brand";
 import { Logo } from "../components/Logo";
 import { SpectrumBar, shortCite } from "../components/ui";
 import { ChevronDown, Verified } from "../components/icons";
@@ -848,7 +848,7 @@ function landingSeo(lang: "en" | "ar", ar: Record<string, string> | null) {
   const t = (s: string) => (lang === "ar" && ar?.[s]) || s;
   const title =
     lang === "ar"
-      ? `${BRAND_NAME} · تحليل للوجه والجسم بمراجع علمية، وخطة 12 شهر بدون جراحة`
+      ? `${BRAND_NAME_AR} · تحليل للوجه والجسم بمراجع علمية، وخطة 12 شهر بدون جراحة`
       : `${BRAND_NAME} · Science-based face & body analysis and a 12-month glow-up plan`;
   const description =
     lang === "ar"

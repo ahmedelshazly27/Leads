@@ -1,4 +1,4 @@
-# Facet — facial & body analysis + glow-up plan
+# Waddah — facial & body analysis + glow-up plan
 
 A browser app that measures the face (478 landmarks) and body (pose + silhouette) from photos,
 explains every metric with published research, and builds an evidence-graded 12-month glow-up plan.
