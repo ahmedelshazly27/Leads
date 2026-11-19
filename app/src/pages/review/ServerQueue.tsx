@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { PageHeader } from "../../components/ui";
 import { isMock, useReviewQueue, useRole, type OrderRow } from "../../lib/backend";
-import { dueText, errorText, fmtDateTime, ORDER_STATUS_LABEL, shortId, StaffGate, statusClass } from "./serverShared";
+import { dueText, errorText, fmtDateTime, ORDER_STATUS_LABEL, shortId, StaffGate, statusClass, ENGLISH_ONLY } from "./serverShared";
 import "./review.css";
 
 /** Server queue: open orders assigned to the signed-in reviewer (all for admins), overdue first. */
@@ -36,7 +36,7 @@ function QueueList() {
   const overdue = rows.filter((o) => dueText(o, now).overdue).length;
 
   return (
-    <div className="page">
+    <div className="page" {...ENGLISH_ONLY}>
       <PageHeader
         kicker={`Reviewer console${isMock ? " · demo data" : ""}`}
         muted="Review"

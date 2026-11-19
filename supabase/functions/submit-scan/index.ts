@@ -4,6 +4,8 @@
 // assigns a gender-matched reviewer (least open orders first). The accepted
 // scan is recorded on the order (orders.scan_id), so the reviewer and the
 // report always use the scan that was submitted, not a later stray upload.
+// Requires the photo consent (403 photo_consent_required) and the withdrawal
+// waiver (409 withdrawal_waiver_required) on record.
 import { HttpError, json, readJson, requireUuid, serve } from "../_shared/http.ts";
 import { requireUser } from "../_shared/auth.ts";
 import { admin, audit, must, mustOne } from "../_shared/supabase.ts";
@@ -59,6 +61,15 @@ serve(async (req) => {
     ).limit(1),
     "withdrawal waiver",
   );
+  // Terms section 8: the request to start the report within the 14-day
+  // withdrawal period is given before the photos are submitted.
+  if (!waiver?.length) {
+    throw new HttpError(
+      409,
+      "withdrawal_waiver_required",
+      "Please confirm that we may start your review now, within the 14-day withdrawal period.",
+    );
+  }
 
   if (!profile.gender) throw new HttpError(400, "profile_incomplete", "Please complete your profile first.");
 
@@ -91,7 +102,7 @@ serve(async (req) => {
     scan_id: scanId,
     views: [...views],
     reviewer,
-    withdrawal_waiver: !!waiver?.length,
+    withdrawal_waiver: true,
   }, user.id);
   if (!reviewer) {
     console.warn(`No ${profile.gender} reviewer available for order ${orderId}; an admin must assign one.`);

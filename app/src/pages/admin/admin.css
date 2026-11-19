@@ -711,3 +711,63 @@
     padding: 14px;
   }
 }
+
+/* ---- Needs attention ---- */
+.ad-attn-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+.ad-attn-filter button {
+  font: inherit;
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--line, rgba(0, 0, 0, 0.15));
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+.ad-attn-filter button.on {
+  background: var(--ink, #111);
+  color: var(--paper, #fff);
+  border-color: transparent;
+}
+.ad-attn {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+.ad-attn-item {
+  border: 1px solid var(--line, rgba(0, 0, 0, 0.12));
+  border-left-width: 3px;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 13px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.ad-attn-item.a-orders-cancelled_consent_withdrawn,
+.ad-attn-item.a-stripe-schedule_failed {
+  border-left-color: var(--ad-warn, #b45309);
+}
+.ad-attn-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.ad-attn-what,
+.ad-attn-order {
+  margin-top: 4px;
+  opacity: 0.8;
+}
+.ad-attn-do {
+  margin-top: 4px;
+}
+.ad-attn-do.is-warn {
+  font-weight: 600;
+}

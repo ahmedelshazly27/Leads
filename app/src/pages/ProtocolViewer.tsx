@@ -7,7 +7,7 @@ import { buildNutrition } from "../lib/nutrition";
 import { buildTraining } from "../lib/training";
 import { photoUrl } from "../lib/store";
 import { useActive } from "../lib/useActive";
-import { setLang, useArabicPage, useLang } from "../lib/i18n";
+import { arText, setLang, useArabicPage, useLang } from "../lib/i18n";
 import { FACE_VIEWS, type FaceView } from "../lib/types";
 import {
   appendixChapter,
@@ -89,7 +89,8 @@ export function ProtocolViewer() {
   const docRef = useRef<HTMLDivElement>(null);
   const rootRef = useRef<HTMLDivElement>(null);
   const lang = useLang();
-  useArabicPage(rootRef, lang);
+  // marker definitions are translated too; the pages are measured only once they are in place
+  const arReady = useArabicPage(rootRef, lang, true);
   const pageRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
@@ -98,7 +99,7 @@ export function ProtocolViewer() {
 
   const visuals = useMemo(() => (scan && scan.review?.status === "approved" ? state.visuals[scan.id] ?? {} : {}), [scan, state.visuals]);
   const base = useMemo<BaseCtx | null>(() => {
-    if (!profile || !scan || !plan || !catalog) return null;
+    if (!profile || !scan || !plan || !catalog || !arReady) return null;
     const views: Partial<Record<FaceView, string | null>> = {};
     for (const v of FACE_VIEWS) views[v] = photoUrl(scan.id, v);
     return {
@@ -113,7 +114,7 @@ export function ProtocolViewer() {
       nutrition: buildNutrition(scan, profile.intake, plan),
       training: buildTrainingSafe(scan, profile.intake, plan),
     };
-  }, [profile, scan, plan, catalog, visuals, state.settings.currency]);
+  }, [profile, scan, plan, catalog, visuals, state.settings.currency, arReady]);
 
   // lang: dates and lists are formatted per language, and Arabic text measures differently
   const draft = useMemo(() => (base ? buildReport(base, null) : []), [base, lang]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -163,7 +164,7 @@ export function ProtocolViewer() {
   // name the saved PDF after the client
   useEffect(() => {
     const prev = document.title;
-    const before = () => (document.title = lang === "ar" ? `تقرير التحليل — ${name}` : `Analysis report — ${name}`);
+    const before = () => (document.title = lang === "ar" ? `تقرير التحليل — ${arText(name)}` : `Analysis report — ${name}`);
     const after = () => (document.title = prev);
     window.addEventListener("beforeprint", before);
     window.addEventListener("afterprint", after);

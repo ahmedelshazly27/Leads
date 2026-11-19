@@ -8,11 +8,13 @@
  * answers, so it must come before them, not only before the camera).
  *
  * The photos step also asks, by default, for the request to start work within
- * the 14-day withdrawal period. It is returned as `withdrawalWaiver` rather than
- * in `consents`, because the consents table has no kind for it yet.
+ * the 14-day withdrawal period (terms section 8, refund policy section 1). It is
+ * returned in `consents` as kind "withdrawal_waiver" (submit-scan refuses the
+ * photos without it) and, for convenience, also as `withdrawalWaiver`.
  */
 import { useId, useMemo, useState, type ReactNode } from "react";
 import { CONSENT_VERSION } from "../lib/backend/consents";
+import { PHOTO_ACCESS_TEXT, WAIVER_TEXT } from "../pages/legal/waiver";
 import type { ConsentKind } from "../lib/backend/types";
 import { LegalText, useLegalLang } from "../pages/legal/Privacy";
 import type { LegalLang } from "../pages/legal/content";
@@ -93,14 +95,15 @@ const T = {
       items: [
         ["What we capture", "Your face from the front, both sides and at an angle, with a few expressions (smile, frown, raised brows), and your body from the front and side. Plus the answers you give, such as height, weight, smoking, and skin and hair concerns. Some of these answers, and results such as your body-fat estimate, are health information."],
         ["Where", "Measurements are made on your device first. When you submit, your photos are uploaded encrypted to our servers in the EU (Frankfurt, Germany). To make your AI illustration, the photos needed are sent to our image provider in [REGION]."],
-        ["Who sees them", "You, and the reviewer assigned to your order. A small number of authorised staff can open them only to fix a problem or answer your request, and every access is logged. Our image provider receives only the photos needed to make your AI illustration and may not keep them or train on them."],
+        ["Who sees them", PHOTO_ACCESS_TEXT.en],
         ["Never", "Your photos are never sold, never used in marketing and never used to train AI models."],
         ["Deletion", "Photos are deleted automatically 90 days after your report is delivered, or earlier if you ask. Your measurements and plan stay in your account until you delete it, or at most 24 months after your last order or membership ends."],
         ["Changing your mind", "You can withdraw this consent at any time on your Account page or by email, and we delete your photos and the measurements and health answers taken from them. If you do this before delivery, we can't finish your report; see the [[refund policy|refunds]]."],
       ] as [string, string][],
       consent: "I give my explicit consent for my photos, the face and body measurements taken from them, and the health-related answers I give (such as weight, smoking, skin and hair concerns) to be processed as described above.",
       own: "These photos are of me only. They show no one else and no one under 18.",
-      waiver: "I ask you to start work on my report now. I understand that once my report is delivered I can no longer withdraw.",
+      // the canonical wording, shared with terms section 8 and refund policy section 1
+      waiver: WAIVER_TEXT.en,
       waiverMore: "Your 14-day right to withdraw is explained in the [[Terms|terms]] and the [[Refund policy|refunds]].",
       more: "Full details are in the [[Privacy policy|privacy]].",
     },
@@ -139,14 +142,14 @@ const T = {
       items: [
         ["ما نلتقطه", "وجهكم من الأمام ومن الجانبين ومن زاوية مائلة، مع بعض التعابير (ابتسامة، تقطيب، رفع الحواجب)، وجسمكم من الأمام والجانب. بالإضافة إلى إجاباتكم مثل الطول والوزن والتدخين ومشاكل البشرة والشعر. وبعض هذه الإجابات، وبعض النتائج مثل تقدير نسبة الدهون في الجسم، معلومات صحية."],
         ["أين", "تُحسَب القياسات على جهازكم أولاً. وعند الإرسال، تُرفَع صوركم مشفّرة إلى خوادمنا في الاتحاد الأوروبي (فرانكفورت، ألمانيا). ولإنشاء الصورة التوضيحية، تُرسَل الصور اللازمة إلى مزوّد خدمة إنشاء الصور في [REGION]."],
-        ["من يراها", "أنتم، والمراجِع المكلّف بطلبكم. ويمكن لعدد محدود من الموظفين المخوّلين فتحها فقط لحل مشكلة أو الرد على طلبكم، وكل وصول مسجّل. ومزوّد خدمة إنشاء الصور يستلم فقط الصور اللازمة للصورة التوضيحية، ولا يحق له الاحتفاظ بها أو استخدامها في التدريب."],
+        ["من يراها", PHOTO_ACCESS_TEXT.ar],
         ["أبداً", "صوركم لا تُباع، ولا تُستخدم في التسويق، ولا تُستخدم لتدريب نماذج الذكاء الاصطناعي."],
         ["الحذف", "تُحذَف الصور تلقائياً بعد 90 يوماً من تسليم التقرير، أو قبل ذلك إذا طلبتم. وتبقى قياساتكم وخطتكم في حسابكم حتى تحذفوه، أو 24 شهراً كحد أقصى بعد آخر طلب أو انتهاء عضويتكم."],
         ["إذا غيّرتم رأيكم", "يمكنكم سحب هذه الموافقة في أي وقت من صفحة حسابكم أو بالبريد الإلكتروني، وعندها نحذف صوركم والقياسات والإجابات الصحية المأخوذة منها. وإذا سحبتموها قبل التسليم، لا يمكننا إكمال تقريركم؛ اطّلعوا على [[سياسة الاسترداد|refunds]]."],
       ] as [string, string][],
       consent: "أوافق موافقة صريحة على معالجة صوري، وقياسات الوجه والجسم المأخوذة منها، وإجاباتي المتعلقة بالصحة (مثل الوزن والتدخين ومشاكل البشرة والشعر)، كما هو موضّح أعلاه.",
       own: "هذه الصور لي أنا فقط، ولا يظهر فيها أي شخص آخر ولا أي شخص دون 18 سنة.",
-      waiver: "أطلب منكم البدء في إعداد تقريري الآن، وأفهم أنه بعد تسليم التقرير لا يحق لي الانسحاب من الشراء.",
+      waiver: WAIVER_TEXT.ar,
       waiverMore: "حقكم في الانسحاب خلال 14 يوماً موضّح في [[الشروط والأحكام|terms]] و[[سياسة الاسترداد|refunds]].",
       more: "التفاصيل الكاملة في [[سياسة الخصوصية|privacy]].",
     },
@@ -228,6 +231,7 @@ export function ConsentGate({
       if (askMarketing && marketing) add("marketing");
     }
     if (steps.includes("photos")) add("photos");
+    if (needWaiver && waiver) add("withdrawal_waiver");
     const usedDob = steps.includes("age") && !noDob;
     onComplete({
       consents,

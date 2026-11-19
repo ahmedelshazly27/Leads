@@ -55,3 +55,9 @@ verify_jwt = false
 
 [functions.purge-records]
 verify_jwt = false
+
+[functions.set-order-status]
+verify_jwt = false
+
+[functions.membership-reminders]
+verify_jwt = false

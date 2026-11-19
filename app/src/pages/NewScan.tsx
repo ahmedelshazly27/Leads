@@ -51,7 +51,7 @@ export interface OrderScanMode {
   orderId: string;
   /** the scan was accepted: the order is now in review */
   onSubmitted: (res: { scanId: string; dueAt: string | null; localScanId: string }) => void;
-  /** submit-scan says the photo consent is missing (or was withdrawn) */
+  /** submit-scan says the photo consent or the withdrawal waiver is missing (or was withdrawn) */
   onConsentRequired: () => void;
   /** the order is no longer waiting for photos (already sent, refunded, ...) */
   onWrongStatus: () => void;
@@ -73,7 +73,11 @@ export function NewScan({ order }: { order?: OrderScanMode } = {}) {
   const existing = profileId && !isSampleProfile(profileId) ? s.profiles.find((p) => p.id === profileId && !p.sample) : undefined;
   const [step, setStep] = useState(0);
   // at launch the service is for men only, so an order's intake is always male
-  const [intake, setIntake] = useState<Intake>(() => ({ ...DEFAULT_INTAKE, ...(existing?.intake ?? {}), ...(order ? { gender: "male" as const, pregnancy: undefined } : {}) }));
+  const [intake, setIntake] = useState<Intake>(() => {
+    const base: Intake = { ...DEFAULT_INTAKE, ...(existing?.intake ?? {}), ...(order ? { gender: "male" as const, pregnancy: undefined } : {}) };
+    // the service is non-surgical: surgery is no longer offered as a preference (older profiles may still carry it)
+    return base.preferences === "open-to-surgical" ? { ...base, preferences: "open-to-clinical" } : base;
+  });
   const [saved, setSaved] = useState<{ scan: Scan; photos: Partial<Record<PhotoKind, PhotoInput>> } | null>(null);
   const steps = order ? ORDER_STEPS : STEPS;
   const [face, setFace] = useState<string | null>(null);
@@ -275,7 +279,6 @@ function IntakeStep({ intake, setIntake, onNext, fixedGender = false }: { intake
           <select value={intake.preferences} onChange={(e) => set("preferences", e.target.value as Intake["preferences"])}>
             <option value="non-invasive">Non-invasive only</option>
             <option value="open-to-clinical">Open to clinical treatments</option>
-            <option value="open-to-surgical">Open to surgical options</option>
           </select>
         </F>
         <F label="Budget">
@@ -968,9 +971,9 @@ function SubmitStep({
                 Your analysis is saved on this device, so you don't need to take the photos again.
               </p>
               <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                {state.code === "photo_consent_required" ? (
+                {state.code === "photo_consent_required" || state.code === "withdrawal_waiver_required" ? (
                   <button className="btn" onClick={order.onConsentRequired}>
-                    Review the photo consent
+                    {state.code === "withdrawal_waiver_required" ? "Confirm the start of your review" : "Review the photo consent"}
                   </button>
                 ) : state.code === "wrong_status" ? (
                   <button className="btn" onClick={order.onWrongStatus}>
@@ -994,12 +997,14 @@ function SubmitStep({
   );
 }
 
-const KNOWN_FINAL = new Set(["photo_consent_required", "profile_incomplete", "wrong_status", "photo_missing", "photos_missing", "bad_photo_path", "photo_unreadable", "not_found", "not_signed_in"]);
+const KNOWN_FINAL = new Set(["photo_consent_required", "withdrawal_waiver_required", "profile_incomplete", "wrong_status", "photo_missing", "photos_missing", "bad_photo_path", "photo_unreadable", "not_found", "not_signed_in"]);
 
 function submitMessage(code: string): string {
   switch (code) {
     case "photo_consent_required":
       return "We need your photo consent before we can receive your photos.";
+    case "withdrawal_waiver_required":
+      return "Before we start your review, please confirm that you want us to start now.";
     case "profile_incomplete":
       return "Your profile is missing some details. Please try again, or contact us if this keeps happening.";
     case "wrong_status":

@@ -8,9 +8,7 @@ import type { Intake, Scan } from "../../lib/types";
 import {
   approveDelivery,
   backendEnabled,
-  backendMode,
   generateVisual,
-  invalidate,
   isMock,
   OPEN_REVIEW_STATUSES,
   saveReview,
@@ -22,9 +20,8 @@ import {
   type ReviewBundle,
   type ScanPhotoView,
 } from "../../lib/backend";
-import { callFunction } from "../../lib/backend/client";
 import { checklistFor, type Check } from "./checklist";
-import { dueText, errorText, fmtDateTime, ORDER_STATUS_LABEL, shortId, StaffGate, statusClass } from "./serverShared";
+import { dueText, ENGLISH_ONLY, errorText, fmtDateTime, ORDER_STATUS_LABEL, shortId, StaffGate, statusClass, visualCaptions } from "./serverShared";
 import { StaffOnly } from "./StaffOnly";
 import "./review.css";
 
@@ -78,8 +75,6 @@ const KIND_SPECS: KindSpec[] = [
 
 const usd = (n: number) => `$${n.toFixed(n < 1 ? 3 : 2)}`;
 
-type GenRow = GenerationWithUrl & { error?: string | null };
-
 /** Build the stored scan back into a `Scan` the plan code can use (or null when the results are missing). */
 function useScanModel(bundle: ReviewBundle | undefined) {
   return useMemo(() => {
@@ -109,19 +104,13 @@ function basePrompt(kind: GenerationKind, plan: Plan | null, intake: Intake | nu
 }
 
 /**
- * Approve the chosen visuals and deliver. Calls the approve-delivery function
- * directly so the reviewer's notes go with it and we can show whether the
- * customer email went out; the demo backend has no email.
+ * Approve the chosen visuals and deliver (approve-delivery). The reviewer's
+ * message goes with it; the result says whether the customer email went out.
+ * The demo backend sends no email, so there it reports null.
  */
 async function approveAndSend(orderId: string, generationIds: string[], notes: string): Promise<{ emailed: boolean | null }> {
-  if (backendMode === "supabase") {
-    const res = await callFunction<{ emailed?: boolean } | null>("approve-delivery", { order_id: orderId, generation_ids: generationIds, notes });
-    invalidate();
-    return { emailed: typeof res?.emailed === "boolean" ? res.emailed : null };
-  }
-  await approveDelivery(orderId, generationIds);
-  invalidate();
-  return { emailed: null };
+  const res = await approveDelivery({ order_id: orderId, generation_ids: generationIds, notes });
+  return { emailed: isMock ? null : res.emailed };
 }
 
 function OrderConsole() {
@@ -131,7 +120,7 @@ function OrderConsole() {
 
   if (!bundle)
     return (
-      <div className="page rv-page">
+      <div className="page rv-page" {...ENGLISH_ONLY}>
         <Link to="/review" className="mono-sm rv-back">
           ← Queue
         </Link>
@@ -173,7 +162,10 @@ function OrderBody({ bundle, reload, loadError }: { bundle: ReviewBundle; reload
   const [saveMsg, setSaveMsg] = useState<{ ok: boolean; text: string } | null>(null);
   const [statusBusy, setStatusBusy] = useState(false);
   const [statusErr, setStatusErr] = useState<string | null>(null);
-  const selection = useSelection(bundle.generations as GenRow[]);
+  const [statusMsg, setStatusMsg] = useState<string | null>(null);
+  const selection = useSelection(bundle.generations);
+  // The captions the customer will see for the chosen attempts (numbered when a kind has several).
+  const captions = useMemo(() => visualCaptions(bundle.generations.filter((g) => selection.selected.has(g.id))), [bundle.generations, selection.selected]);
 
   // Warn before leaving with unsaved edits.
   useEffect(() => {
@@ -207,7 +199,6 @@ function OrderBody({ bundle, reload, loadError }: { bundle: ReviewBundle; reload
     setSaveMsg(null);
     try {
       await saveReview(order.id, { checklist: checks, notes, item_notes: itemNotes });
-      invalidate();
       setDirty(false);
       setSaveMsg({ ok: true, text: `Saved ${new Date().toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })}` });
       return true;
@@ -220,17 +211,24 @@ function OrderBody({ bundle, reload, loadError }: { bundle: ReviewBundle; reload
   };
 
   const changeStatus = async (to: "changes_requested" | "in_review") => {
-    const msg =
-      to === "changes_requested"
-        ? "Mark this order as needing changes (for example new photos)? Save a note explaining what is needed first. You can move it back to review later."
-        : "Move this order back to in review?";
-    if (!window.confirm(msg)) return;
+    let message: string | null = null;
+    if (to === "changes_requested") {
+      // Goes into the email to the customer (set-order-status), so say exactly what to redo.
+      const m = window.prompt(
+        "Mark this order as needing changes (for example new photos)? The customer is emailed a link to the order page. Write what they need to redo (optional, max 2000 characters):",
+        "",
+      );
+      if (m === null) return;
+      message = m.trim().slice(0, 2000) || null;
+    } else if (!window.confirm("Move this order back to in review?")) return;
     setStatusBusy(true);
     setStatusErr(null);
+    setStatusMsg(null);
     try {
       if (dirty && !(await save())) throw new Error("Save the review first.");
-      await setOrderStatus(order.id, to);
-      invalidate();
+      const res = await setOrderStatus(order.id, to, { message });
+      if (to === "changes_requested")
+        setStatusMsg(isMock ? "Changes requested. Demo backend: no email is sent." : res.emailed ? "Changes requested. The customer was emailed." : "Changes requested, but the email did NOT go out. Let the customer know another way.");
     } catch (e) {
       setStatusErr(errorText(e));
     } finally {
@@ -243,7 +241,7 @@ function OrderBody({ bundle, reload, loadError }: { bundle: ReviewBundle; reload
   const face = photos.face ?? null;
 
   return (
-    <div className="page rv-page">
+    <div className="page rv-page" {...ENGLISH_ONLY}>
       <div className="rv-top">
         <Link to="/review" className="mono-sm rv-back">
           ← Queue
@@ -392,7 +390,7 @@ function OrderBody({ bundle, reload, loadError }: { bundle: ReviewBundle; reload
         title="After images"
         lead="Generate each after image from the customer's photo, then refine it with remarks. Every attempt is kept with its cost. Tick the attempts to send; nothing reaches the customer before you approve below."
       >
-        <Visuals bundle={bundle} plan={plan} intake={intake} readOnly={readOnly} reload={reload} selection={selection} />
+        <Visuals bundle={bundle} plan={plan} intake={intake} readOnly={readOnly} reload={reload} selection={selection} captions={captions} />
       </Section>
 
       {/* 6 · Notes, save, request changes, approve */}
@@ -428,9 +426,14 @@ function OrderBody({ bundle, reload, loadError }: { bundle: ReviewBundle; reload
             Status not changed: {statusErr}
           </div>
         )}
+        {statusMsg && (
+          <p className="rv-sub" role="status">
+            {statusMsg}
+          </p>
+        )}
       </section>
 
-      <Approve bundle={bundle} allDone={allDone} done={done} total={list.length} notes={notes} saveFirst={save} readOnly={readOnly} reviewLocked={reviewLocked} selected={selection.selected} />
+      <Approve bundle={bundle} allDone={allDone} done={done} total={list.length} notes={notes} saveFirst={save} readOnly={readOnly} reviewLocked={reviewLocked} selected={selection.selected} captions={captions} />
     </div>
   );
 }
@@ -513,7 +516,7 @@ interface Selection {
 }
 
 /** Which generations the reviewer will send, seeded from rows already marked approved. Only finished attempts count. */
-function useSelection(gens: GenRow[]): Selection {
+function useSelection(gens: GenerationWithUrl[]): Selection {
   const [picked, setPicked] = useState<Set<string>>(() => new Set(gens.filter((g) => g.approved).map((g) => g.id)));
   const selected = useMemo(() => new Set(gens.filter((g) => g.status === "succeeded" && picked.has(g.id)).map((g) => g.id)), [gens, picked]);
   const toggle = (id: string) =>
@@ -533,6 +536,7 @@ function Visuals({
   readOnly,
   reload,
   selection: { selected, toggle },
+  captions,
 }: {
   bundle: ReviewBundle;
   plan: Plan | null;
@@ -540,8 +544,9 @@ function Visuals({
   readOnly: boolean;
   reload: () => void;
   selection: Selection;
+  captions: Map<string, string>;
 }) {
-  const gens = bundle.generations as GenRow[];
+  const gens = bundle.generations;
   const hasBody = !!bundle.photos.body || !!bundle.photos.side;
   const hasAlt = !!(bundle.photos.face45 || bundle.photos.faceLeft || bundle.photos.faceRight);
   const [showAlt, setShowAlt] = useState(() => gens.some((g) => g.kind === "face_after_alt"));
@@ -571,6 +576,7 @@ function Visuals({
           base={basePrompt(spec.kind, plan, intake)}
           selected={selected}
           toggle={toggle}
+          captions={captions}
           readOnly={readOnly || photosGone}
           reload={reload}
         />
@@ -597,16 +603,18 @@ function KindCard({
   base,
   selected,
   toggle,
+  captions,
   readOnly,
   reload,
 }: {
   spec: KindSpec;
   orderId: string;
-  gens: GenRow[];
-  all: GenRow[];
+  gens: GenerationWithUrl[];
+  all: GenerationWithUrl[];
   base: string;
   selected: Set<string>;
   toggle: (id: string) => void;
+  captions: Map<string, string>;
   readOnly: boolean;
   reload: () => void;
 }) {
@@ -650,7 +658,6 @@ function KindCard({
         setRemarks("");
         setParentId(null);
       }
-      invalidate();
     } catch (e) {
       setErr(errorText(e));
       // a failed attempt is stored as a row with its error; show it in the thread
@@ -670,6 +677,9 @@ function KindCard({
           <span className="rv-sub">
             {spec.hint} {gens.length > 0 && `${gens.length} attempt${gens.length === 1 ? "" : "s"} · ${usd(cost)} · ${chosen} chosen`}
           </span>
+          {chosen > 1 && (
+            <span className="rv-sub rv-due-soon">{`${chosen} of this kind will be sent; the customer sees them numbered (1 of ${chosen}, 2 of ${chosen}…). Untick extras unless both versions are worth showing.`}</span>
+          )}
         </div>
         <button className="btn" disabled={readOnly || busy !== null} onClick={() => run("generate")}>
           {busy === "generate" ? "Generating…" : gens.length ? "Generate new from the photo" : "Generate"}
@@ -724,6 +734,7 @@ function KindCard({
                         <input type="checkbox" disabled={readOnly} checked={selected.has(g.id)} onChange={() => toggle(g.id)} />
                         <span>Send this one</span>
                       </label>
+                      {selected.has(g.id) && captions.get(g.id) && <span className="rv-sub rv-caption">Customer sees: “{captions.get(g.id)}”</span>}
                       {!readOnly && g.url && (
                         <button className="btn btn-ghost" style={{ height: 30, fontSize: 12 }} disabled={isParent} onClick={() => setParentId(g.id)}>
                           {isParent ? "Refining this" : "Refine this"}
@@ -764,7 +775,7 @@ function KindCard({
   );
 }
 
-function rootOf(g: GenRow, all: GenRow[]): GenRow {
+function rootOf(g: GenerationWithUrl, all: GenerationWithUrl[]): GenerationWithUrl {
   const byId = new Map(all.map((x) => [x.id, x]));
   let cur = g;
   for (let i = 0; i < 50 && cur.parent_id && byId.has(cur.parent_id); i++) cur = byId.get(cur.parent_id)!;
@@ -785,6 +796,7 @@ function Approve({
   readOnly,
   reviewLocked,
   selected,
+  captions,
 }: {
   bundle: ReviewBundle;
   allDone: boolean;
@@ -795,8 +807,9 @@ function Approve({
   readOnly: boolean;
   reviewLocked: boolean;
   selected: Set<string>;
+  captions: Map<string, string>;
 }) {
-  const gens = bundle.generations as GenRow[];
+  const gens = bundle.generations;
   const [confirming, setConfirming] = useState(false);
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
@@ -860,6 +873,7 @@ function Approve({
           return (
             <li key={k.kind}>
               <b>{k.label}:</b> {c.length ? `${c.length} chosen` : "none chosen"}
+              {c.length > 0 && <span className="rv-sub">{` · customer sees ${c.map((g) => `“${captions.get(g.id) ?? k.label}”`).join(", ")}`}</span>}
             </li>
           );
         })}

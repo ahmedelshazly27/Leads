@@ -211,7 +211,7 @@ function IntakeForm({ profileId, intake }: { profileId: string; intake: Intake }
         <Field label="Training days / week"><input type="number" min={0} max={7} value={f.trainingDays} onChange={(e) => set("trainingDays", Number(e.target.value))} /></Field>
         <Field label="Smoking">{sel("smoking", ["no", "occasionally", "daily"])}</Field>
         <Field label="Drinking">{sel("drinking", ["never", "occasional", "weekly", "daily"])}</Field>
-        <Field label="Treatment preference">{sel("preferences", ["non-invasive", "open-to-clinical", "open-to-surgical"])}</Field>
+        <Field label="Treatment preference">{sel("preferences", f.preferences === "open-to-surgical" ? ["non-invasive", "open-to-clinical", "open-to-surgical"] : ["non-invasive", "open-to-clinical"])}</Field>
         <Field label="Budget">{sel("budget", ["low", "medium", "high"])}</Field>
         <Field label="Limitations"><input value={f.limitations} onChange={(e) => set("limitations", e.target.value)} /></Field>
         <Field label="Allergies"><input value={f.allergies} onChange={(e) => set("allergies", e.target.value)} /></Field>

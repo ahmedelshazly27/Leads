@@ -3,7 +3,7 @@ import { dateLocale, joinNodes, useLang } from "../../lib/i18n";
 import { Link } from "react-router-dom";
 import { Placeholder } from "../../components/FacePhoto";
 import { ChatHeart, ChevronDown, ChevronRight, GradCap, HeartHand } from "../../components/icons";
-import { BeforeAfter, Citations, GradeBadge, PageHeader, Radar, money, shortCite } from "../../components/ui";
+import { BeforeAfter, Citations, GradeBadge, PageHeader, Radar, moneyRange, shortCite } from "../../components/ui";
 import type { Category, PlanItem } from "../../lib/plan";
 import { MYTHS } from "../../lib/plan";
 import { SCORE_LABEL, band, currentScores, overall, type ScoreKey } from "../../lib/report";
@@ -171,9 +171,9 @@ function RecCard({ item, cur }: { item: PlanItem; cur: import("../../lib/types")
   const [open, setOpen] = useState(false);
   const cost =
     item.monthly[1] > 0
-      ? `${money(item.monthly[0], cur)}–${money(item.monthly[1], cur)}/mo`
+      ? `${moneyRange(item.monthly[0], item.monthly[1], cur)}/mo`
       : item.oneOff[1] > 0
-        ? `${money(item.oneOff[0], cur)}–${money(item.oneOff[1], cur)} once`
+        ? `${moneyRange(item.oneOff[0], item.oneOff[1], cur)} once`
         : "Free";
   return (
     <article className="pr-rec">
@@ -309,11 +309,11 @@ export function Estimations(p: SectionProps) {
       <div className="pr-est-top">
         <div className="pr-est-card pr-gcard-dark">
           <div className="mono-sm">Monthly</div>
-          <div className="pr-est-num">{money(tot.lo, cur)}–{money(tot.hi, cur)}</div>
+          <div className="pr-est-num">{moneyRange(tot.lo, tot.hi, cur)}</div>
         </div>
         <div className="pr-est-card">
           <div className="mono-sm">First 12 months</div>
-          <div className="pr-est-num">{money(tot.yLo, cur)}–{money(tot.yHi, cur)}</div>
+          <div className="pr-est-num">{moneyRange(tot.yLo, tot.yHi, cur)}</div>
         </div>
       </div>
       <div className="apr-card pr-table">
@@ -330,9 +330,9 @@ export function Estimations(p: SectionProps) {
               <b>{r.k}</b>
               <small>{joinNodes(r.items, " · ")}</small>
             </span>
-            <span>{r.hi ? `${money(r.lo, cur)}–${money(r.hi, cur)}` : "—"}</span>
-            <span>{r.oHi ? `${money(r.oLo, cur)}–${money(r.oHi, cur)}` : "—"}</span>
-            <span>{r.yHi ? `${money(r.yLo, cur)}–${money(r.yHi, cur)}` : "Free"}</span>
+            <span>{r.hi ? `${moneyRange(r.lo, r.hi, cur)}` : "—"}</span>
+            <span>{r.oHi ? `${moneyRange(r.oLo, r.oHi, cur)}` : "—"}</span>
+            <span>{r.yHi ? `${moneyRange(r.yLo, r.yHi, cur)}` : "Free"}</span>
             <span className="pr-est-bar">
               <i style={{ left: `${(r.yLo / max) * 100}%`, width: `${Math.max(1, ((r.yHi - r.yLo) / max) * 100)}%` }} />
               <em style={{ width: `${(r.yLo / max) * 100}%` }} />

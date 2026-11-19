@@ -225,3 +225,25 @@
   .rv-row-server .rv-meta:nth-of-type(4) { display: grid; grid-column: 1 / -1; }
   .rv-attempt { grid-template-columns: 96px 1fr; }
 }
+
+/* ---- Staff sign-in (StaffOnly) and visual captions ---- */
+.rv-signin {
+  max-width: 440px;
+  margin: 24px auto 0;
+}
+.rv-signin .rv-foot {
+  margin-top: 12px;
+}
+.rv-link {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.rv-caption {
+  display: block;
+  flex-basis: 100%;
+}

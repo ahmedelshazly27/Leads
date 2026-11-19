@@ -93,6 +93,7 @@ function writeRetry(orderId: string, scanId: string | null) {
 }
 
 const ACCEPTS_PHOTOS = new Set(["awaiting_photos", "changes_requested"]);
+export const WAIVER_MESSAGE = "Please confirm that we may start your review now, within the 14-day withdrawal period.";
 
 /**
  * Upload a local scan for review: photos to the private `photos` bucket, the
@@ -100,9 +101,12 @@ const ACCEPTS_PHOTOS = new Set(["awaiting_photos", "changes_requested"]);
  * due in 72 hours, and assigns a reviewer).
  *
  * Before anything is uploaded it checks that the order is waiting for photos,
- * that the photo consent is given and that the profile has a gender, and stops
- * with a clear error (codes: wrong_status, photo_consent_required,
- * profile_incomplete). If submit-scan then refuses the scan, the uploaded
+ * that the photo consent and the withdrawal waiver are given and that the
+ * profile has a gender, and stops with a clear error (codes: wrong_status,
+ * photo_consent_required, withdrawal_waiver_required, profile_incomplete).
+ * `withdrawal_waiver_required` (also what submit-scan answers, HTTP 409) means:
+ * record it with recordConsents(["withdrawal_waiver"]) and call submitScan
+ * again with the same scan; nothing was uploaded or lost. If submit-scan then refuses the scan, the uploaded
  * photos are removed again.
  *
  * `photos` maps photo kinds to Blobs or URL strings; use `localScanPhotos(scan.id)`
@@ -149,7 +153,10 @@ async function doSubmitScan(
   }
   if (backendMode === "supabase") {
     const [consents, profile] = await Promise.all([listMyConsents(), getMyProfile()]);
-    if (!activeConsents(consents).photos) throw new BackendError("Please agree to the photo consent first.", "photo_consent_required");
+    const active = activeConsents(consents);
+    if (!active.photos) throw new BackendError("Please agree to the photo consent first.", "photo_consent_required");
+    // submit-scan refuses the photos without it (409); check before uploading.
+    if (!active.withdrawal_waiver) throw new BackendError(WAIVER_MESSAGE, "withdrawal_waiver_required", 409);
     if (!profile?.gender) throw new BackendError("Please complete your profile first.", "profile_incomplete");
   }
   const kind: ScanKind = opts.kind ?? (order.product === "checkin" ? "checkin" : "baseline");

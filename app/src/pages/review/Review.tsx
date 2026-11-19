@@ -7,6 +7,7 @@ import { checklistFor } from "./checklist";
 import { StaffOnly } from "./StaffOnly";
 import { ServerQueue } from "./ServerQueue";
 import { backendEnabled } from "../../lib/backend";
+import { ENGLISH_ONLY } from "./serverShared";
 import "./review.css";
 
 const LABEL: Record<ReviewStatus, string> = { awaiting: "Awaiting review", "in-review": "In review", approved: "Approved" };
@@ -36,7 +37,7 @@ function LocalReview() {
   const count = (k: ReviewStatus) => state.scans.filter((s) => statusOf(s) === k).length;
 
   return (
-    <div className="page">
+    <div className="page" {...ENGLISH_ONLY}>
       <PageHeader
         kicker="Reviewer console"
         muted="Review"

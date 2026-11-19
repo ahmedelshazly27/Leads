@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { getLang, joinNodes } from "../../lib/i18n";
-import { GradeBadge, Radar, money, shortCite } from "../../components/ui";
+import { GradeBadge, Radar, money, moneyRange, shortCite } from "../../components/ui";
 import { categoriesFor } from "../../lib/library";
 import { MYTHS, type PlanItem } from "../../lib/plan";
 import { SCORE_LABEL, type ScoreKey } from "../../lib/report";
@@ -74,8 +74,8 @@ export function disclaimerChapter(): Chapter {
               <h3>Privacy policy</h3>
               {ONLINE ? (
                 <p>
-                  Analysis runs on your device. Photos you send for your report are seen by the reviewer assigned to you and, only where their work needs it, a small number of authorised
-                  staff; every access to photos is logged. They are deleted 90 days after delivery, or sooner if you ask.
+                  Analysis runs on your device. Photos you send for your report are seen by the reviewer assigned to you. Our admins, a small number of authorised staff, can also open
+                  orders to check quality and to help with support. Photos are deleted 90 days after delivery, or straight away if you withdraw your photo consent.
                 </p>
               ) : (
                 <>
@@ -246,8 +246,8 @@ export function protocolChapter(c: ReportCtx): Chapter {
 const PHASE_LABEL = { 1: "Phase 1 · weeks 0–4", 2: "Phase 2 · months 1–3", 3: "Phase 3 · months 3–12" } as const;
 
 export const costLabel = (it: PlanItem, cur: ReportCtx["currency"]) => {
-  const m = it.monthly[1] > 0 ? `${money(it.monthly[0], cur)}–${money(it.monthly[1], cur)}/mo` : "";
-  const o = it.oneOff[1] > 0 ? `${money(it.oneOff[0], cur)}–${money(it.oneOff[1], cur)} once` : "";
+  const m = it.monthly[1] > 0 ? `${moneyRange(it.monthly[0], it.monthly[1], cur)}/mo` : "";
+  const o = it.oneOff[1] > 0 ? `${moneyRange(it.oneOff[0], it.oneOff[1], cur)} once` : "";
   return [m, o].filter(Boolean).join(" + ") || "Free";
 };
 
@@ -394,7 +394,7 @@ export function costsChapter(c: ReportCtx): Chapter {
   const tm = rows.reduce<[number, number]>((s, [, e]) => [s[0] + e.m[0], s[1] + e.m[1]], [0, 0]);
   const to = rows.reduce<[number, number]>((s, [, e]) => [s[0] + e.o[0], s[1] + e.o[1]], [0, 0]);
   const cur = c.currency;
-  const r = (x: [number, number]) => (x[1] ? `${money(x[0], cur)} – ${money(x[1], cur)}` : "—");
+  const r = (x: [number, number]) => (x[1] ? moneyRange(x[0], x[1], cur, " – ") : "—");
   return {
     id: "costs",
     title: "Cost estimations",
@@ -546,7 +546,7 @@ export function trainingChapter(c: ReportCtx): Chapter {
         <b>{m.name}</b>,
         <Pill tone={m.priority === "focus" ? "warn" : m.priority === "build" ? "info" : "na"}>{PRIORITY_LABEL[m.priority]}</Pill>,
         m.corrective ? "Daily" : `${m.weeklySets[0]}–${m.weeklySets[1]}`,
-        <span className="rp-small">{m.reasons.join(" ")}</span>,
+        <span className="rp-small">{joinNodes(m.reasons, " ")}</span>,
         <GradeBadge grade={m.grade} />,
       ]),
     ),

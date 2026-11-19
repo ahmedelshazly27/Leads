@@ -2,8 +2,10 @@ import { BackendError, backendMode, check, invalidate, num, sb, useBackendQuery 
 import { mock } from "./mock";
 import { normOrder, normPayment } from "./orders";
 import {
+  ADMIN_AUDIT_ACTIONS,
   OPEN_REVIEW_STATUSES,
   monthlyEquivalentKwd,
+  type AdminAuditEvent,
   type AdSpendRow,
   type AdminDashboard,
   type AdminRows,
@@ -81,16 +83,23 @@ async function fetchAll<T>(page: (from: number, to: number) => PromiseLike<PageR
 export async function fetchAdminRows(sinceIso: string): Promise<AdminRows> {
   if (backendMode === "mock") return mock.adminRows(sinceIso);
   const c = sb();
-  const [ordersRecent, ordersOpen, payments, subscriptions, generations, costs, adSpend, profiles, waitlist] = await Promise.all([
+  const [ordersRecent, ordersOpen, payments, subscriptions, generations, costs, adSpend, profiles, waitlist, audit] = await Promise.all([
     fetchAll<OrderRow>((a, b) => c.from("orders").select("*").or(`created_at.gte."${sinceIso}",delivered_at.gte."${sinceIso}",due_at.gte."${sinceIso}"`).order("id").range(a, b)),
     fetchAll<OrderRow>((a, b) => c.from("orders").select("*").in("status", OPEN).order("id").range(a, b)),
     fetchAll<AdminRows["payments"][number]>((a, b) => c.from("payments").select("*").gte("created_at", sinceIso).order("id").range(a, b)),
     fetchAll<AdminRows["subscriptions"][number]>((a, b) => c.from("subscriptions").select("*").order("id").range(a, b)),
-    fetchAll<AdminRows["generations"][number]>((a, b) => c.from("generations").select("id,order_id,cost_usd,status,created_at").gte("created_at", sinceIso).order("id").range(a, b)),
+    fetchAll<AdminRows["generations"][number]>((a, b) => c.from("generations").select("id,order_id,cost_usd,status,created_at,parent_id,kind").gte("created_at", sinceIso).order("id").range(a, b)),
     fetchAll<CostRow>((a, b) => c.from("costs").select("*").gte("created_at", sinceIso).order("id").range(a, b)),
     fetchAll<AdSpendRow>((a, b) => c.from("ad_spend").select("*").gte("date", sinceIso.slice(0, 10)).order("id").range(a, b)),
     fetchAll<AdminRows["profiles"][number]>((a, b) => c.from("profiles").select("id,email,role,created_at").order("id").range(a, b)),
-    fetchAll<AdminRows["waitlist"][number]>((a, b) => c.from("waitlist").select("id,gender,created_at").order("id").range(a, b)),
+    fetchAll<AdminRows["waitlist"][number]>((a, b) => c.from("waitlist").select("id,email,gender,locale,source,created_at").order("id").range(a, b)),
+    c
+      .from("audit_log")
+      .select("id,action,target_type,target_id,meta,at")
+      .in("action", ADMIN_AUDIT_ACTIONS as unknown as string[])
+      .order("at", { ascending: false })
+      .limit(AUDIT_EVENT_LIMIT)
+      .then(check),
   ]);
   const byId = new Map<string, OrderRow>();
   for (const o of [...((ordersRecent ?? []) as OrderRow[]), ...((ordersOpen ?? []) as OrderRow[])]) byId.set(o.id, normOrder(o));
@@ -103,6 +112,31 @@ export async function fetchAdminRows(sinceIso: string): Promise<AdminRows> {
     adSpend: ((adSpend ?? []) as AdSpendRow[]).map((a) => ({ ...a, spend: num(a.spend), impressions: num(a.impressions), clicks: num(a.clicks), purchases: num(a.purchases) })),
     profiles: (profiles ?? []) as AdminRows["profiles"],
     waitlist: (waitlist ?? []) as AdminRows["waitlist"],
+    auditEvents: ((audit ?? []) as AuditRowLite[]).map(toAuditEvent),
+  };
+}
+
+const AUDIT_EVENT_LIMIT = 200;
+
+interface AuditRowLite {
+  id: number | string;
+  action: string;
+  target_type: string | null;
+  target_id: string | null;
+  meta: unknown;
+  at: string;
+}
+
+/** audit_log row -> AdminAuditEvent (the order id when the row is about an order; other targets go into details). */
+export function toAuditEvent(r: AuditRowLite): AdminAuditEvent {
+  const meta = r.meta && typeof r.meta === "object" && !Array.isArray(r.meta) ? (r.meta as Record<string, unknown>) : {};
+  const isOrder = r.target_type === "orders" || r.target_type === "order";
+  return {
+    id: String(r.id),
+    action: r.action as AdminAuditEvent["action"],
+    created_at: r.at,
+    order_id: isOrder ? r.target_id : null,
+    details: isOrder || !r.target_id ? meta : { ...meta, [`${r.target_type ?? "target"}_id`]: r.target_id },
   };
 }
 
@@ -282,8 +316,10 @@ export function computeKpis(rows: AdminRows, range: KpiRange, orders: OrderEcono
   const newPayingCustomers = new Set(reportsPaid.map((o) => o.user_id ?? `deleted:${o.id}`)).size;
   const newCustomers = rows.profiles.filter((p) => p.role === "customer" && inRange(p.created_at, from, now)).length;
 
-  const active = rows.subscriptions.filter((s) => s.status === "active");
-  const trialing = rows.subscriptions.filter((s) => s.status === "trialing");
+  // The included month is not a paid membership.
+  const paidSubs = rows.subscriptions.filter((s) => s.plan !== "included");
+  const active = paidSubs.filter((s) => s.status === "active");
+  const trialing = paidSubs.filter((s) => s.status === "trialing");
   const mrrKwd = sum(active.map((s) => monthlyEquivalentKwd(s.plan)));
 
   const delivered = rows.orders.filter((o) => o.submitted_at && inRange(o.delivered_at, from, now));
@@ -490,7 +526,8 @@ export interface MrrSummary {
 }
 
 function computeMrr(rows: AdminRows): MrrSummary {
-  const subs = rows.subscriptions;
+  // Same as v_mrr: the included month (no payment) is left out.
+  const subs = rows.subscriptions.filter((s) => s.plan !== "included");
   const plans = [...new Set(subs.map((s) => s.plan))];
   const mrrOf = (status: SubscriptionStatus, plan?: string) => round(sum(subs.filter((s) => s.status === status && (!plan || s.plan === plan)).map((s) => monthlyEquivalentKwd(s.plan))));
   return {
@@ -556,7 +593,7 @@ export interface AdminWaitlistEntry {
 /** Every waitlist entry, newest first. Admin only (RLS). */
 export async function listWaitlistEntries(fallback: AdminRows["waitlist"] = []): Promise<AdminWaitlistEntry[]> {
   if (backendMode === "mock") {
-    return fallback.map((w) => ({ id: w.id, email: null, gender: w.gender, locale: null, source: null, created_at: w.created_at })).sort((a, b) => b.created_at.localeCompare(a.created_at));
+    return fallback.map((w) => ({ id: w.id, email: w.email ?? null, gender: w.gender, locale: w.locale ?? null, source: w.source ?? null, created_at: w.created_at })).sort((a, b) => b.created_at.localeCompare(a.created_at));
   }
   return fetchAll<AdminWaitlistEntry>((a, b) => sb().from("waitlist").select("id,email,gender,locale,source,created_at").order("created_at", { ascending: false }).order("id").range(a, b));
 }
@@ -1029,7 +1066,7 @@ async function backfillOlderOrders(rows: AdminRows, since: string): Promise<{ ro
   const ids = rows.orders.filter((o) => o.created_at < since).map((o) => o.id);
   if (!ids.length) return { rows, regenerated: [] };
   let payments: AdminRows["payments"] = [];
-  let generations: (AdminRows["generations"][number] & { parent_id?: string | null })[] = [];
+  let generations: AdminRows["generations"] = [];
   let costs: CostRow[] = [];
   if (backendMode === "mock") {
     const want = new Set(ids);
@@ -1043,7 +1080,7 @@ async function backfillOlderOrders(rows: AdminRows, since: string): Promise<{ ro
       const chunk = ids.slice(i, i + 100);
       const [p, g, k] = await Promise.all([
         fetchAll<AdminRows["payments"][number]>((a, b) => c.from("payments").select("*").in("order_id", chunk).order("id").range(a, b)),
-        fetchAll<AdminRows["generations"][number] & { parent_id: string | null }>((a, b) => c.from("generations").select("id,order_id,cost_usd,status,created_at,parent_id").in("order_id", chunk).order("id").range(a, b)),
+        fetchAll<AdminRows["generations"][number]>((a, b) => c.from("generations").select("id,order_id,cost_usd,status,created_at,parent_id,kind").in("order_id", chunk).order("id").range(a, b)),
         fetchAll<CostRow>((a, b) => c.from("costs").select("*").in("order_id", chunk).order("id").range(a, b)),
       ]);
       payments.push(...p.map(normPayment));
@@ -1059,7 +1096,7 @@ async function backfillOlderOrders(rows: AdminRows, since: string): Promise<{ ro
     rows: {
       ...rows,
       payments: merge(rows.payments, payments),
-      generations: merge(rows.generations, generations.map(({ id, order_id, cost_usd, status, created_at }) => ({ id, order_id, cost_usd, status, created_at }))),
+      generations: merge(rows.generations, generations),
       costs: merge(rows.costs, costs),
     },
     regenerated: generations.filter((g) => g.parent_id).map((g) => g.id),
@@ -1088,8 +1125,8 @@ export async function loadOperatorDashboard(range: AdminRange): Promise<Operator
     }
   };
   const regen = async (): Promise<Set<string> | null> => {
-    // The demo rows carry no parent_id, so regenerations are only known with Supabase.
-    if (backendMode === "mock") return null;
+    // The rows (Supabase and demo) carry parent_id.
+    if (backendMode === "mock") return new Set(rows.generations.filter((g) => g.parent_id).map((g) => g.id));
     const gens = await fetchAll<{ id: string; parent_id: string | null }>((a, b) => sb().from("generations").select("id,parent_id").gte("created_at", since).not("parent_id", "is", null).order("id").range(a, b));
     return new Set([...gens.map((g) => g.id), ...olderRegens]);
   };

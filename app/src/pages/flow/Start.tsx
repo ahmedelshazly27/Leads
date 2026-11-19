@@ -6,7 +6,7 @@
  * this browser for two hours, so a reload, a cancelled payment or the sign-in link opened in a new tab does not send
  * the customer back to the beginning.
  */
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { ConsentGate, type ConsentResult } from "../../components/ConsentGate";
 import { SignIn } from "../../components/SignIn";
@@ -24,7 +24,7 @@ import {
   useSession,
   type CheckoutPlan,
 } from "../../lib/backend";
-import { amt, errCode, FlowHead, FlowOff, FlowShell, kwd, LegalLinks, Spinner, useRememberLang } from "./FlowShell";
+import { amt, errCode, FlowHead, FlowOff, FlowShell, flowHref, kwd, LegalLinks, Spinner, useRememberLang } from "./FlowShell";
 
 type StartPlan = "report" | "report_membership_monthly" | "report_membership_yearly";
 const START_PLANS: StartPlan[] = ["report", "report_membership_monthly", "report_membership_yearly"];
@@ -46,11 +46,16 @@ const MAX_AGE_MS = 2 * 3600_000;
 /*
  * Kept in localStorage (with a time stamp), not sessionStorage: the sign-in
  * link in the email opens a new tab, which must continue at the payment step.
+ * The language is stored with it: progress made on /start is not resumed on
+ * /ar/start (or the other way round) beyond the chosen plan, so e.g. the
+ * women's waitlist reached in English does not greet a visitor of /ar/start.
  */
-function load(): Saved {
+function load(lang: Lang): Saved {
   try {
-    const v = JSON.parse(localStorage.getItem(KEY) ?? "null") as (Partial<Saved> & { at?: number }) | null;
+    const v = JSON.parse(localStorage.getItem(KEY) ?? "null") as (Partial<Saved> & { at?: number; lang?: Lang }) | null;
     if (!v || typeof v.at !== "number" || Date.now() - v.at > MAX_AGE_MS) return FRESH;
+    const plan = START_PLANS.includes(v.plan as StartPlan) ? (v.plan as StartPlan) : "report";
+    if (v.lang !== lang) return { ...FRESH, plan };
     return {
       plan: START_PLANS.includes(v.plan as StartPlan) ? (v.plan as StartPlan) : "report",
       gender: v.gender === "male" || v.gender === "female" ? v.gender : null,
@@ -61,9 +66,9 @@ function load(): Saved {
     return FRESH;
   }
 }
-function save(v: Saved) {
+function save(v: Saved, lang: Lang) {
   try {
-    localStorage.setItem(KEY, JSON.stringify({ ...v, at: Date.now() }));
+    localStorage.setItem(KEY, JSON.stringify({ ...v, lang, at: Date.now() }));
   } catch {
     /* storage blocked: progress lasts for this page view only */
   }
@@ -95,12 +100,12 @@ function StartFlow({ lang, cancelled }: { lang: Lang; cancelled: boolean }) {
   const [params] = useSearchParams();
   const { session } = useSession();
   const [saved, setSaved] = useState<Saved>(() => {
-    const s = load();
+    const s = load(lang);
     const fromUrl = params.get("plan");
     return START_PLANS.includes(fromUrl as StartPlan) ? { ...s, plan: fromUrl as StartPlan } : s;
   });
   const [step, setStep] = useState<Step>(() => {
-    const s = load();
+    const s = load(lang);
     if (s.gender === "female") return "gender";
     // a cancelled payment, a reload, or the sign-in link opened in a new tab: continue where they were
     if (s.gender === "male" && s.consented) return session || cancelled ? "pay" : "signin";
@@ -112,13 +117,24 @@ function StartFlow({ lang, cancelled }: { lang: Lang; cancelled: boolean }) {
   const update = (patch: Partial<Saved>) =>
     setSaved((cur) => {
       const next = { ...cur, ...patch };
-      save(next);
+      save(next, lang);
       return next;
     });
 
   useEffect(() => {
     window.scrollTo({ top: 0 });
   }, [step]);
+
+  // switching language inside the flow keeps the progress: store it under the new language
+  const firstLang = useRef(lang);
+  const savedRef = useRef(saved);
+  savedRef.current = saved;
+  useEffect(() => {
+    if (lang !== firstLang.current) {
+      firstLang.current = lang;
+      save(savedRef.current, lang);
+    }
+  }, [lang]);
 
   const switchLang = () => {
     const to = lang === "ar" ? pathname.replace(/^\/ar(?=\/|$)/, "") || "/start" : `/ar${pathname}`;
@@ -293,7 +309,7 @@ function PlanStep({ plan, onPlan, onNext }: { plan: StartPlan; onPlan: (p: Start
       title: "Report + yearly membership",
       price: kwd(PRICES_KWD.report),
       sub: `${amt(PRICES_KWD.report)} KWD today. After the first ${BUNDLE_TRIAL_DAYS} days, ${amt(PRICES_KWD.membership_yearly)} KWD for 12 months, then ${amt(PRICES_KWD.membership_monthly)} KWD a month. Cancel any time.`,
-      tag: `Saves ${amt(PRICES_KWD.membership_monthly * 12 - PRICES_KWD.membership_yearly)} KWD in the first year compared with monthly`,
+      tag: `Saves ${amt(PRICES_KWD.membership_monthly * 12 - PRICES_KWD.membership_yearly)} KWD over the first 12 months compared with monthly`,
     },
   ];
   return (
@@ -314,7 +330,7 @@ function PlanStep({ plan, onPlan, onNext }: { plan: StartPlan; onPlan: (p: Start
         <hr className="fl-sep" />
         <h3>{`Every report includes ${BUNDLE_TRIAL_DAYS} days of membership`}</h3>
         <p>Membership adds a monthly check-in scan with updated scores and plan, and a reviewer note each month.</p>
-        <p>{`After the first ${BUNDLE_TRIAL_DAYS} days you can keep it for ${amt(PRICES_KWD.membership_monthly)} KWD a month, or ${amt(PRICES_KWD.membership_yearly)} KWD for the first year and then ${amt(PRICES_KWD.membership_monthly)} KWD a month, or let it end. Cancel any time.`}</p>
+        <p>{`After the first ${BUNDLE_TRIAL_DAYS} days you can keep it for ${amt(PRICES_KWD.membership_monthly)} KWD a month, or ${amt(PRICES_KWD.membership_yearly)} KWD for 12 months and then ${amt(PRICES_KWD.membership_monthly)} KWD a month, or let it end. Cancel any time.`}</p>
       </div>
 
       <fieldset className="fl-card" style={{ border: 0, margin: 0 }}>
@@ -489,7 +505,7 @@ function PayStep({
                 <button type="button" className="fl-btn is-ghost" onClick={onReportOnly}>
                   {`Buy the report only (${amt(PRICES_KWD.report)} KWD)`}
                 </button>
-                <Link to="/account" className="fl-link">
+                <Link to={flowHref("/account", lang)} className="fl-link">
                   See my membership
                 </Link>
               </div>

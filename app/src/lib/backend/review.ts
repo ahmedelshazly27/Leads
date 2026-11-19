@@ -66,7 +66,11 @@ export type ReviewPatch = Partial<Pick<ReviewRow, "status" | "checklist" | "note
 
 /** Create or update the review row for an order (one per order). */
 export async function saveReview(orderId: string, patch: ReviewPatch): Promise<ReviewRow> {
-  if (backendMode === "mock") return mock.saveReview(orderId, patch);
+  if (backendMode === "mock") {
+    const row = await mock.saveReview(orderId, patch);
+    invalidate();
+    return row;
+  }
   const uid = requireUserId();
   const client = sb();
   const existing = check(await client.from("reviews").select("id").eq("order_id", orderId).maybeSingle()) as { id: string } | null;
@@ -89,7 +93,11 @@ export interface GenerateVisualInput {
 
 /** Generate (or regenerate with remarks) one after image. Each attempt is a new `generations` row with its cost. */
 export async function generateVisual(input: GenerateVisualInput): Promise<GenerationWithUrl> {
-  if (backendMode === "mock") return mock.generateVisual(input);
+  if (backendMode === "mock") {
+    const gen = await mock.generateVisual(input);
+    invalidate();
+    return gen;
+  }
   const res = await callFunction<{ generation?: GenerationRow } | GenerationRow>("generate-visual", input);
   const gen = (res && "generation" in res ? res.generation : res) as GenerationRow | undefined;
   invalidate();
@@ -97,27 +105,72 @@ export async function generateVisual(input: GenerateVisualInput): Promise<Genera
   return (await signedVisualUrls([gen]))[0];
 }
 
-/** Approve the chosen generations and deliver the order to the customer (emails them). */
-export async function approveDelivery(orderId: string, generationIds: string[]): Promise<void> {
-  if (backendMode === "mock") {
-    await mock.approveDelivery(orderId, generationIds);
-    return;
-  }
-  await callFunction("approve-delivery", { order_id: orderId, generation_ids: generationIds });
-  invalidate();
+export interface ApproveDeliveryInput {
+  order_id: string;
+  /** exactly the visuals the customer gets (others are un-approved) */
+  generation_ids: string[];
+  /** the reviewer's note to the customer; saved on the review when given */
+  notes?: string | null;
+}
+
+export interface ApproveDeliveryResult {
+  order: OrderRow;
+  /** false when the "report ready" email could not be sent (the delivery stands) */
+  emailed: boolean;
 }
 
 /**
- * Reviewer-side status change for an assigned order, e.g. `changes_requested`
- * when the photos need retaking. Delivery always goes through approveDelivery.
+ * Approve the chosen generations and deliver the order to the customer
+ * (approve-delivery emails them, in their language, a link to the order page).
+ * The positional form `approveDelivery(orderId, generationIds)` still works.
  */
-export async function setOrderStatus(orderId: string, status: Extract<OrderStatus, "in_review" | "changes_requested">): Promise<void> {
+export async function approveDelivery(input: ApproveDeliveryInput): Promise<ApproveDeliveryResult>;
+export async function approveDelivery(orderId: string, generationIds: string[]): Promise<ApproveDeliveryResult>;
+export async function approveDelivery(a: ApproveDeliveryInput | string, ids?: string[]): Promise<ApproveDeliveryResult> {
+  const input: ApproveDeliveryInput = typeof a === "string" ? { order_id: a, generation_ids: ids ?? [] } : a;
+  const body = { order_id: input.order_id, generation_ids: input.generation_ids, ...(typeof input.notes === "string" ? { notes: input.notes } : {}) };
   if (backendMode === "mock") {
-    await mock.setOrderStatus(orderId, status);
-    return;
+    const res = await mock.approveDelivery(body);
+    invalidate();
+    return res;
   }
-  check(await sb().from("orders").update({ status }).eq("id", orderId));
+  const res = await callFunction<{ order?: OrderRow; emailed?: boolean }>("approve-delivery", body);
   invalidate();
+  if (!res?.order) throw new BackendError("The order could not be delivered. Please reload and try again.", "delivery_failed");
+  return { order: normOrder(res.order), emailed: !!res.emailed };
+}
+
+export interface SetOrderStatusResult {
+  order: OrderRow | null;
+  /** changes_requested: whether the customer was emailed */
+  emailed: boolean;
+}
+
+/**
+ * Reviewer-side status change for an assigned order (set-order-status
+ * function): `changes_requested` when the photos need retaking, or back to
+ * `in_review`. On `changes_requested` the customer is emailed, in their
+ * language, a link to their order page; `opts.message` (what to retake, at
+ * most 2000 characters) goes into that email. Delivery always goes through
+ * approveDelivery.
+ */
+export async function setOrderStatus(
+  orderId: string,
+  status: Extract<OrderStatus, "in_review" | "changes_requested">,
+  opts: { message?: string | null } = {},
+): Promise<SetOrderStatusResult> {
+  if (backendMode === "mock") {
+    const res = await mock.setOrderStatus(orderId, status, opts.message ?? null);
+    invalidate();
+    return res;
+  }
+  const res = await callFunction<{ order?: OrderRow; emailed?: boolean }>("set-order-status", {
+    order_id: orderId,
+    status,
+    ...(opts.message ? { message: opts.message } : {}),
+  });
+  invalidate();
+  return { order: res?.order ? normOrder(res.order) : null, emailed: !!res?.emailed };
 }
 
 /** Hours left until the order is due (negative = overdue), or null when not submitted yet. */

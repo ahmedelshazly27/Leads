@@ -10,29 +10,38 @@
 import { useEffect, useMemo, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { Empty, Toggle } from "../../components/ui";
-import { SignIn } from "../../components/SignIn";
 import { BRAND_NAME } from "../../lib/brand";
 import {
+  ADMIN_AUDIT_ACTIONS,
   ADMIN_RANGES,
   FX_EDITABLE,
   ORDER_STATUS_ORDER,
   SLA_HOURS,
   backendMode,
+  isIncluded,
   isMock,
+  mockBackend,
   ordersToCsv,
   saveFxRate,
   signOut,
+  supabase,
+  toAuditEvent,
+  useBackendQuery,
   useOperatorDashboard,
   useRole,
   useSession,
   waitlistToCsv,
+  type AdminAuditEvent,
   type AdminRange,
   type FxCurrency,
   type MarketingSummary,
   type OperatorDashboard,
   type OperatorOrder,
   type OrderStatus,
+  type SubscriptionRow,
 } from "../../lib/backend";
+import { StaffOnly } from "../review/StaffOnly";
+import { ENGLISH_ONLY } from "../review/serverShared";
 import { BarList, LineChart, SERIES } from "./charts";
 import "../pages.css";
 import "./admin.css";
@@ -85,7 +94,7 @@ const stamp = () => new Date().toISOString().slice(0, 10);
 
 export function Admin() {
   return (
-    <div className="ad">
+    <div className="ad" {...ENGLISH_ONLY}>
       <TopBar />
       <main className="ad-main">
         <Gate />
@@ -119,7 +128,6 @@ function TopBar() {
 
 function Gate() {
   const { role, loading } = useRole();
-  const { session } = useSession();
   if (backendMode === "off")
     return (
       <Empty title="Online service not configured">
@@ -128,22 +136,8 @@ function Gate() {
     );
   if (loading) return <div className="ad-loading" aria-busy="true" />;
   if (role === "admin") return <Dashboard />;
-  if (session)
-    return (
-      <Empty title="Admin accounts only">
-        You are signed in{session.email ? ` as ${session.email}` : ""}, which is not an admin account.{" "}
-        <button type="button" className="ad-link" onClick={() => void signOut()}>
-          Sign out
-        </button>{" "}
-        and sign in with an admin account.
-      </Empty>
-    );
-  return (
-    <div className="ad-signin">
-      <SignIn title="Operator sign-in" lead="Admin accounts only. We email you a sign-in code." />
-      {isMock && <p className="ad-note">Demo mode: use an email that starts with "admin" (for example admin@example.com) and any 6 digits.</p>}
-    </div>
-  );
+  // The same in-place sign-in as the review console; the email link comes back to /admin.
+  return <StaffOnly need="admin" />;
 }
 
 const RANGE_KEY = "admin-range";
@@ -160,6 +154,7 @@ function readRange(): AdminRange {
 function Dashboard() {
   const [range, setRange] = useState<AdminRange>(readRange);
   const q = useOperatorDashboard(range);
+  const members = useIncludedMembers();
   // Keep the previous frame while a new range loads (no flash, no layout jump).
   const last = useRef<OperatorDashboard | undefined>(undefined);
   if (q.data) last.current = q.data;
@@ -213,7 +208,8 @@ function Dashboard() {
               {w}
             </div>
           ))}
-          <KpiRow d={data} />
+          <Attention d={data} />
+          <KpiRow d={data} members={members} />
           <div className="ad-grid-2 is-wide-first">
             <Section title="Revenue and ad spend per day" note="Revenue after refunds by payment date; ad spend all platforms. Kuwait days.">
               <RevenueChart d={data} />
@@ -254,6 +250,206 @@ function Section({ title, note, right, children, id }: { title: string; note?: R
   );
 }
 
+/* ---------------------- Included memberships ----------------------- */
+
+interface IncludedMembers {
+  /** included months running now (a report bought on its own: 30 days, no renewal) */
+  active: number;
+  /** of those, ending within 7 days */
+  endingSoon: number;
+}
+
+/**
+ * Included months are counted on their own: no payment, so never in MRR and
+ * not among paying members. v_mrr and computeMrr already leave them out.
+ */
+async function loadIncludedMembers(): Promise<IncludedMembers> {
+  let subs: Pick<SubscriptionRow, "plan" | "status" | "current_period_end">[];
+  if (isMock) subs = (await mockBackend.adminRows(new Date().toISOString())).subscriptions;
+  else {
+    const { data, error } = await supabase!.from("subscriptions").select("plan,status,current_period_end").eq("plan", "included").eq("status", "active");
+    if (error) throw new Error(error.message);
+    subs = (data ?? []) as typeof subs;
+  }
+  const now = Date.now();
+  const running = subs.filter((s) => isIncluded(s as SubscriptionRow) && s.status === "active" && (!s.current_period_end || Date.parse(s.current_period_end) > now));
+  return {
+    active: running.length,
+    endingSoon: running.filter((s) => s.current_period_end && Date.parse(s.current_period_end) - now < 7 * 86_400_000).length,
+  };
+}
+
+function useIncludedMembers(): IncludedMembers | undefined {
+  return useBackendQuery("admin:included", loadIncludedMembers).data;
+}
+
+/* -------------------------- Needs attention ------------------------- */
+
+const AUDIT_LIMIT = 200;
+const ATTENTION_DAYS = 30;
+
+/** audit_log rows of ADMIN_AUDIT_ACTIONS, newest first (the same mapping as fetchAdminRows' auditEvents). */
+async function loadAuditEvents(): Promise<AdminAuditEvent[]> {
+  if (isMock) return (await mockBackend.adminRows(new Date().toISOString())).auditEvents;
+  const { data, error } = await supabase!
+    .from("audit_log")
+    .select("id,action,target_type,target_id,meta,at")
+    .in("action", [...ADMIN_AUDIT_ACTIONS])
+    .order("at", { ascending: false })
+    .limit(AUDIT_LIMIT);
+  if (error) throw new Error(error.message);
+  return (data ?? []).map(toAuditEvent);
+}
+
+const ACTION_LABEL: Record<AdminAuditEvent["action"], string> = {
+  "orders.cancelled_consent_withdrawn": "Cancelled: photo consent withdrawn",
+  "stripe.schedule_failed": "Yearly schedule failed",
+  "orders.changes_requested": "Changes requested",
+};
+
+const str = (v: unknown): string | null => (typeof v === "string" && v ? v : null);
+const amount = (v: unknown): number | null => (typeof v === "number" ? v : typeof v === "string" && v.trim() && !Number.isNaN(Number(v)) ? Number(v) : null);
+
+/**
+ * What the refund policy suggests for an order cancelled because the customer
+ * withdrew photo consent (audit meta refund_policy, written by the server).
+ * Partial refunds are left to the operator: the amount is not computed here.
+ */
+function suggestedRefund(details: Record<string, unknown>): { text: string; tone?: "warn" } {
+  const policy = str(details.refund_policy);
+  const amt = amount(details.amount);
+  const cur = str(details.currency) ?? "KWD";
+  const price = amt == null ? "the price paid" : `${kwdNum(amt)} ${cur}`;
+  if (policy === "full") return { text: `Full refund: ${price} (review had not started)`, tone: "warn" };
+  if (policy === "partial") return { text: `Partial refund: ${price} less a fair amount for the review work already done. Decide the amount and refund in Stripe.`, tone: "warn" };
+  if (policy && policy.startsWith("none")) return { text: "No refund: included check-in, nothing was paid" };
+  return { text: policy ? `Refund policy: ${policy}` : "Check the refund policy" };
+}
+
+function eventSummary(e: AdminAuditEvent): { what: string; action?: { text: string; tone?: "warn" } } {
+  const x = e.details;
+  if (e.action === "orders.cancelled_consent_withdrawn") {
+    const from = str(x.from);
+    const started = x.review_started === true ? "review had started" : x.review_started === false ? "review had not started" : null;
+    const waiver = x.withdrawal_waiver === true ? "withdrawal waiver on record" : x.withdrawal_waiver === false ? "no withdrawal waiver on record" : null;
+    return { what: [from ? `Was ${STATUS_LABEL[from as OrderStatus]?.toLowerCase() ?? from}` : null, started, waiver].filter(Boolean).join(" · "), action: suggestedRefund(x) };
+  }
+  if (e.action === "stripe.schedule_failed") {
+    const sub = str(x.subscription) ?? str(x.subscriptions_id);
+    const on = str(x.on);
+    const err = str(x.error);
+    return {
+      what: [sub ? `Subscription ${sub}` : null, on ? `on ${on}` : null, err].filter(Boolean).join(" · "),
+      action: {
+        text: "The Stripe schedule that moves this yearly plan to 5 KWD/month after its 12 months could not be set up. Create it in Stripe by hand before the year ends.",
+        tone: "warn",
+      },
+    };
+  }
+  const throttled = x.throttled === true;
+  const emailed = x.emailed === true ? "customer emailed" : throttled ? "email skipped (3 already sent for this order this hour)" : x.emailed === false ? "email NOT sent" : null;
+  const msg = x.with_message === true ? "with a message" : x.with_message === false ? "no message" : null;
+  return {
+    what: [emailed, msg].filter(Boolean).join(" · "),
+    action:
+      x.emailed === false && !throttled
+        ? { text: "Let the customer know another way.", tone: "warn" }
+        : { text: "Waiting for the customer to send new photos." },
+  };
+}
+
+function Attention({ d }: { d: OperatorDashboard }) {
+  const q = useBackendQuery("admin:audit", loadAuditEvents);
+  const [kind, setKind] = useState<AdminAuditEvent["action"] | "all">("all");
+  const [showAll, setShowAll] = useState(false);
+  const byOrder = useMemo(() => new Map(d.orders.map((o) => [o.order_id, o])), [d.orders]);
+  const since = Date.now() - ATTENTION_DAYS * 86_400_000;
+  const all = q.data ?? [];
+  // Open items: a changes request only while the order is still waiting on the customer; a refund until the order is refunded.
+  const open = all.filter((e) => {
+    const o = e.order_id ? byOrder.get(e.order_id) : undefined;
+    // an order outside the dashboard's range: fall back to the time window
+    if (!o) return Date.parse(e.created_at) >= since;
+    if (e.action === "orders.changes_requested") return o.status === "changes_requested";
+    if (e.action === "orders.cancelled_consent_withdrawn") {
+      // nothing to refund (included check-in): informational, like the time window
+      if (str(e.details.refund_policy)?.startsWith("none")) return Date.parse(e.created_at) >= since;
+      // handled once any refund is recorded (a partial refund leaves the order "cancelled")
+      return o.status !== "refunded" && !((o.refundedKwd ?? 0) > 0);
+    }
+    return Date.parse(e.created_at) >= since;
+  });
+  const list = (showAll ? all : open).filter((e) => kind === "all" || e.action === kind);
+  const count = (a: AdminAuditEvent["action"]) => open.filter((e) => e.action === a).length;
+  const shown = list.slice(0, 30);
+  return (
+    <Section
+      title="Needs attention"
+      id="attention"
+      note={`Consent-withdrawn cancellations (with the refund the policy suggests), failed yearly schedules and changes requests, from the audit log. ${showAll ? `Showing the last ${AUDIT_LIMIT} events.` : `Open items (and anything from the last ${ATTENTION_DAYS} days whose order is outside the range).`}`}
+      right={
+        <label className="ad-check">
+          <input type="checkbox" checked={showAll} onChange={(e) => setShowAll(e.target.checked)} /> Include handled
+        </label>
+      }
+    >
+      {q.error && (
+        <div className="ad-alert" role="alert">
+          Could not load the audit log: {q.error.message}
+        </div>
+      )}
+      {!q.data && !q.error ? (
+        <p className="ad-dim" aria-busy="true">
+          Loading…
+        </p>
+      ) : (
+        <>
+          <div className="ad-attn-filter" role="group" aria-label="Filter events">
+            <button type="button" className={kind === "all" ? "on" : ""} onClick={() => setKind("all")}>
+              {`All (${showAll ? all.length : open.length})`}
+            </button>
+            {ADMIN_AUDIT_ACTIONS.map((a) => (
+              <button key={a} type="button" className={kind === a ? "on" : ""} onClick={() => setKind(a)}>
+                {`${ACTION_LABEL[a]} (${showAll ? all.filter((e) => e.action === a).length : count(a)})`}
+              </button>
+            ))}
+          </div>
+          {!shown.length ? (
+            <p className="ad-dim">Nothing needs attention.</p>
+          ) : (
+            <ul className="ad-attn">
+              {shown.map((e) => {
+                const s = eventSummary(e);
+                const o = e.order_id ? byOrder.get(e.order_id) : undefined;
+                return (
+                  <li key={e.id} className={`ad-attn-item a-${e.action.replace(/\./g, "-")}`}>
+                    <div className="ad-attn-top">
+                      <b>{ACTION_LABEL[e.action] ?? e.action}</b>
+                      <span className="ad-dim nowrap">{dateTime(e.created_at)}</span>
+                    </div>
+                    {s.what && <div className="ad-attn-what">{s.what}</div>}
+                    {s.action && <div className={`ad-attn-do${s.action.tone ? ` is-${s.action.tone}` : ""}`}>{s.action.text}</div>}
+                    {e.order_id && (
+                      <div className="ad-attn-order">
+                        {`Order ${e.order_id.slice(0, 8)}`}
+                        {o ? ` · ${o.user_id ? o.email ?? "no email" : "deleted account"} · now ${STATUS_LABEL[o.status].toLowerCase()}` : ""}{" "}
+                        <Link to={`/review/orders/${e.order_id}`} className="ad-link">
+                          Open
+                        </Link>
+                      </div>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+          {list.length > shown.length && <p className="ad-note">{`${int(list.length - shown.length)} more not shown.`}</p>}
+        </>
+      )}
+    </Section>
+  );
+}
+
 /* ------------------------------- KPIs ------------------------------ */
 
 function Stat({ label, children, sub, tone }: { label: string; children: ReactNode; sub?: ReactNode; tone?: "bad" | "warn" }) {
@@ -266,7 +462,7 @@ function Stat({ label, children, sub, tone }: { label: string; children: ReactNo
   );
 }
 
-function KpiRow({ d }: { d: OperatorDashboard }) {
+function KpiRow({ d, members }: { d: OperatorDashboard; members: IncludedMembers | undefined }) {
   const k = d.kpis;
   const fx = d.fxMissing.length > 0;
   const mrr = k.mrr;
@@ -289,6 +485,12 @@ function KpiRow({ d }: { d: OperatorDashboard }) {
       </Stat>
       <Stat label="Active members" sub={[mrr.pastDue ? `${mrr.pastDue} past due` : null, mrr.cancelling ? `${mrr.cancelling} cancelling` : null].filter(Boolean).join(" · ") || "Paying subscriptions"} tone={mrr.pastDue ? "warn" : undefined}>
         {int(mrr.active)}
+      </Stat>
+      <Stat
+        label="Included month"
+        sub={members ? (members.endingSoon ? `${int(members.endingSoon)} end within 7 days · not paying, not in MRR` : "Not paying, not in MRR") : "Loading…"}
+      >
+        {members ? int(members.active) : <span className="ad-dim">—</span>}
       </Stat>
       <Stat label="Avg turnaround" sub={k.withinSlaShare == null ? "Submitted to delivered" : `${pct(k.withinSlaShare)} within ${SLA_HOURS}h`} tone={k.withinSlaShare != null && k.withinSlaShare < 0.9 ? "warn" : undefined}>
         {k.avgTurnaroundHours == null ? <span className="ad-dim">—</span> : `${k.avgTurnaroundHours} h`}
@@ -422,7 +624,7 @@ function Economics({ d }: { d: OperatorDashboard }) {
             <Kwd v={e.imageCostPerGenerationKwd} fx={fx} plain />
           </Row>
           <Row label="Generations">{int(e.generations)}</Row>
-          <Row label="Regenerations" hint={e.regenerations == null ? "Not in demo data" : e.generations ? `${pct(e.regenerations / e.generations)} of generations` : undefined}>
+          <Row label="Regenerations" hint={e.regenerations == null ? "Not known (generations without parent_id)" : e.generations ? `${pct(e.regenerations / e.generations)} of generations · refined from an earlier attempt` : undefined}>
             {e.regenerations == null ? <span className="ad-dim">—</span> : int(e.regenerations)}
           </Row>
         </dl>
@@ -728,8 +930,14 @@ function Waitlist({ d }: { d: OperatorDashboard }) {
       title="Waitlist"
       id="waitlist"
       right={
-        <button type="button" className="btn btn-ghost ad-btn-sm" disabled={!w.entries.length} onClick={() => download(`waitlist-${stamp()}.csv`, waitlistToCsv(w.entries))}>
-          Export CSV
+        <button
+          type="button"
+          className="btn btn-ghost ad-btn-sm"
+          disabled={!w.entries.length}
+          title={w.emailsAvailable ? "Email, gender, locale, source and join time" : "No emails in these rows"}
+          onClick={() => download(`waitlist-${stamp()}.csv`, waitlistToCsv(w.entries))}
+        >
+          Export CSV with emails ({int(w.entries.length)})
         </button>
       }
       note="Women join the waitlist until the service opens for them."
@@ -752,6 +960,7 @@ function Waitlist({ d }: { d: OperatorDashboard }) {
                 <th>Joined</th>
                 <th>Email</th>
                 <th>Gender</th>
+                <th>Locale</th>
                 <th>Source</th>
               </tr>
             </thead>
@@ -759,8 +968,9 @@ function Waitlist({ d }: { d: OperatorDashboard }) {
               {latest.map((x) => (
                 <tr key={x.id}>
                   <td className="nowrap">{dateTime(x.created_at)}</td>
-                  <td className="ad-ellipsis">{x.email ?? <span className="ad-dim">Hidden in demo</span>}</td>
+                  <td className="ad-ellipsis">{x.email ?? <span className="ad-dim">—</span>}</td>
                   <td className="cap">{x.gender ?? "—"}</td>
+                  <td>{x.locale ?? "—"}</td>
                   <td className="cap">{x.source ?? "—"}</td>
                 </tr>
               ))}

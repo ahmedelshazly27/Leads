@@ -9,6 +9,8 @@
 //            refund the full months that are left (price / 12 per month).
 //            The refund goes to the card through Stripe; stripe-webhook
 //            records it from charge.refunded.
+// The included month of a report bought on its own is refused with 409
+// "included" (it ends by itself).
 // Withdrawal within 14 days of starting a membership (full refund) is handled
 // by hand on request, as the terms describe.
 import { HttpError, json, readJson, serve } from "../_shared/http.ts";
@@ -57,12 +59,21 @@ serve(async (req) => {
   if (!ACTIONS.includes(action)) throw new HttpError(400, "bad_action", "Unknown action.");
   const db = admin();
 
-  const row = must(
+  const open = must(
     await db.from("subscriptions").select("id, provider, provider_sub_id, status, plan")
       .eq("user_id", user.id).in("status", ["trialing", "active", "past_due"])
-      .order("created_at", { ascending: false }).limit(1).maybeSingle(),
+      .order("created_at", { ascending: false }),
     "subscription",
-  );
+  ) ?? [];
+  // The included month (report bought on its own) never renews: nothing to manage.
+  const row = open.find((s) => s.plan !== "included");
+  if (!row && open.length) {
+    throw new HttpError(
+      409,
+      "included",
+      "The month included with your report ends by itself and nothing renews, so there is nothing to cancel.",
+    );
+  }
   if (!row) throw new HttpError(404, "no_membership", "You do not have an active membership.");
   if (row.provider !== "stripe") throw new HttpError(409, "not_stripe", "Please contact us to change this membership.");
 

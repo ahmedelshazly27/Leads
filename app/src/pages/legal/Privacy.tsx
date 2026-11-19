@@ -5,7 +5,7 @@
  * Language comes from the `lang` prop, else from the URL (/ar/privacy), else
  * from the language the visitor chose elsewhere on the site.
  */
-import { Fragment } from "react";
+import { Fragment, useLayoutEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { BRAND_NAME } from "../../lib/brand";
 import { useLang } from "../../lib/i18n";
@@ -129,6 +129,19 @@ export function LegalPage({ doc, lang: langProp }: LegalPageProps) {
   const d = LEGAL_DOCS[doc][lang];
   const ui = LEGAL_UI[lang];
   const other: LegalLang = lang === "ar" ? "en" : "ar";
+
+  // The legal pages sit outside the layouts that switch the language, so they
+  // mark <html> themselves (screen readers, fonts, the browser's own RTL handling).
+  useLayoutEffect(() => {
+    const html = document.documentElement;
+    const prev = { lang: html.lang, dir: html.dir };
+    html.lang = lang;
+    html.dir = lang === "ar" ? "rtl" : "ltr";
+    return () => {
+      html.lang = prev.lang || "en";
+      html.dir = prev.dir || "ltr";
+    };
+  }, [lang]);
 
   useSeo({
     title: `${d.title} · ${BRAND_NAME}`,

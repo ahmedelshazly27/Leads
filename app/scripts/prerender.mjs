@@ -53,13 +53,15 @@ try {
   for (const [path, out] of PAGES) {
     const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
     await page.goto(base + path, { waitUntil: "networkidle" });
-    // the Arabic landing swaps its text in after load; the legal pages render Arabic directly (and set dir on their own root)
-    if (path === "/ar") await page.waitForFunction(() => document.documentElement.dir === "rtl" && /[؀-ۿ]/.test(document.querySelector("h1")?.textContent ?? ""));
-    else if (isArabic(path)) await page.waitForFunction(() => /[؀-ۿ]/.test(document.querySelector("h1")?.textContent ?? ""));
+    // the Arabic landing swaps its text in after load; the legal pages render Arabic directly and set <html lang dir> themselves
+    if (isArabic(path)) await page.waitForFunction(() => document.documentElement.dir === "rtl" && /[؀-ۿ]/.test(document.querySelector("h1")?.textContent ?? ""));
     await page.waitForTimeout(800);
-    // the legal pages mark only their own root as Arabic; the static file should say so on <html> too
+    // belt and braces: the static file must say Arabic and RTL on <html> before any script runs
     const html = await page.evaluate((ar) => {
-      if (ar) document.documentElement.lang = "ar";
+      if (ar) {
+        document.documentElement.lang = "ar";
+        document.documentElement.dir = "rtl";
+      }
       return document.documentElement.outerHTML;
     }, isArabic(path));
     rendered.push([path, out, "<!doctype html>\n" + html]);
@@ -77,7 +79,7 @@ for (const [path, out, html] of rendered) {
 
 writeFileSync(
   "dist/robots.txt",
-  INDEXABLE ? `User-agent: *\nAllow: /\nDisallow: /home\nDisallow: /new\nDisallow: /review\nDisallow: /analysis\nDisallow: /protocol\nDisallow: /settings\nDisallow: /measurements\n\nSitemap: ${SITE}/sitemap.xml\n` : "User-agent: *\nDisallow: /\n",
+  INDEXABLE ? `User-agent: *\nAllow: /\nDisallow: /home\nDisallow: /new\nDisallow: /review\nDisallow: /analysis\nDisallow: /protocol\nDisallow: /settings\nDisallow: /measurements\nDisallow: /start\nDisallow: /account\nDisallow: /orders\nDisallow: /admin\nDisallow: /ar/start\nDisallow: /ar/account\nDisallow: /ar/orders\n\nSitemap: ${SITE}/sitemap.xml\n` : "User-agent: *\nDisallow: /\n",
 );
 const today = new Date().toISOString().slice(0, 10);
 const url = (loc, alts) =>

@@ -386,7 +386,7 @@ function Track({ data }: { data: ReturnType<typeof useSample> }) {
   const right = cards.slice(3);
   return (
     <section className="lp-sec">
-      <Head center kicker="Progress tracking" dark="Track your progress." muted="See where you’re heading." lead="With membership, a check-in every month in the same set-up, measured against your baseline. Scores are our composites of literature-based measures, not clinical scores." />
+      <Head center kicker="Progress tracking" dark="Track your progress." muted="See where you’re heading." lead="With membership, a check-in every month in the same set-up, measured against your baseline. Your report includes the first 30 days of membership. Scores are our composites of literature-based measures, not clinical scores." />
       <div className="lp-track">
         <div className="lp-track-col">
           {left.map((c) => (
@@ -610,6 +610,7 @@ function CareNetwork() {
           </div>
         ))}
       </div>
+      <p className="lp-follow-note">Check-ins, plan updates and new visuals after the first 30 days are part of membership. Your report includes the first 30 days.</p>
       <p className="lp-care-launch lp-mono">Partner network not yet live · launching in Kuwait</p>
     </section>
   );
@@ -790,8 +791,8 @@ function Pricing() {
               </Link>
               <Link to={start("report_membership_yearly")} {...warm(start())}>
                 <b>Report + yearly membership</b>
-                <span>{`${PRICE_KWD} KWD today, then ${YEARLY_KWD} KWD for the first year after ${TRIAL_DAYS} days (saves ${saves} KWD), then ${MONTHLY_KWD} KWD a month`}</span>
-                <em>{`${YEARLY_KWD} KWD / first year`}</em>
+                <span>{`${PRICE_KWD} KWD today. After ${TRIAL_DAYS} days, ${YEARLY_KWD} KWD for 12 months, then ${MONTHLY_KWD} KWD a month (saves ${saves} KWD over those 12 months)`}</span>
+                <em>{`${YEARLY_KWD} KWD / 12 months`}</em>
               </Link>
             </div>
           </div>
@@ -809,11 +810,11 @@ function Pricing() {
 const FAQ: [string, string][] = [
   ["Is it medical advice?", "No. It's aesthetic and wellness guidance. Anything clinical points you to a licensed practitioner."],
   ["How accurate is it?", "Measurements use established face and pose landmark models (MediaPipe) and are compared with published norms where they exist. They are estimates — body-fat estimates carry errors of roughly ±4–5 points, and photo conditions matter, so we flag selfies, head turns and cropped body shots."],
-  ["Who sees my photos?", "Analysis runs on your device. Photos you send for your report are seen by the reviewer assigned to you and, only where their work needs it, a small number of authorised staff; every access to photos is logged. They are deleted 90 days after delivery, or sooner if you ask."],
+  ["Who sees my photos?", "Analysis runs on your device. Photos you send for your report are seen by the reviewer assigned to you. Our admins, a small number of authorised staff, can also open orders to check quality and to help with support. Photos are deleted 90 days after delivery, or straight away if you withdraw your photo consent."],
   ["Who is it for?", "At launch, men aged 18 or over in Kuwait."],
   ["Is there a service for women?", "Not yet. At launch the service is for men only. Women can join the waitlist on this page and we'll email them when it opens. When it does, we plan to have women's photos and results reviewed only by female reviewers. We never show photos of women on this site or in our marketing."],
   ["Do I need special equipment?", "No. A phone, a plain wall and someone (or a timer) to take the photos from about 1.5–3 m."],
-  ["Is it a subscription?", "The report is one payment of 20 KWD and includes 30 days of membership. If you choose the report only, those 30 days simply end and nothing renews. If you choose a membership, it continues after the 30 days at 5 KWD a month, or 45 KWD for the first year and then 5 KWD a month, until you cancel, which you can do any time. Your report and plan stay yours either way."],
+  ["Is it a subscription?", "The report is one payment of 20 KWD and includes 30 days of membership. If you choose the report only, those 30 days simply end and nothing renews. If you choose a membership, it continues after the 30 days at 5 KWD a month, or 45 KWD for 12 months, then 5 KWD a month, until you cancel, which you can do any time. Your report and plan stay yours either way."],
   ["What does membership give me?", "A re-scan every month with updated scores and an updated plan, a note from your reviewer each month, and a new 12-month visual every 3 months."],
   ["How do I pay?", "By card, Apple Pay or Google Pay, in Kuwaiti dinars."],
 ];
@@ -880,7 +881,7 @@ function landingSeo(lang: "en" | "ar", ar: Record<string, string> | null) {
           },
           ...([
             ["Monthly membership", MONTHLY_KWD, "P1M", "Cancel any time."],
-            ["Yearly membership", YEARLY_KWD, "P1Y", `For the first year, then ${MONTHLY_KWD} KWD a month. Cancel any time.`],
+            ["Yearly membership", YEARLY_KWD, "P1Y", `${YEARLY_KWD} KWD for 12 months, then ${MONTHLY_KWD} KWD a month. Cancel any time.`],
           ] as const).map(([name, price, billingDuration, description]) => ({
             "@type": "Offer",
             name: t(name),

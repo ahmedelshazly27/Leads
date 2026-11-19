@@ -19,10 +19,14 @@
  * (lib/sample.ts) for their measurements and the photos in public/sample/.
  */
 import { BackendError, invalidate, newId } from "./client";
+import { currentSubscription } from "./subscription";
 import { sampleProfile, sampleScan } from "../sample";
 import {
+  ADMIN_AUDIT_ACTIONS,
+  INCLUDED_MEMBERSHIP_DAYS,
   PLANS,
   SLA_HOURS,
+  type AdminAuditEvent,
   type AdSpendRow,
   type AdminRows,
   type CheckoutPlan,
@@ -71,7 +75,7 @@ interface MockDb {
   audit_log: AuditLogRow[];
 }
 
-const STORAGE_KEY = "facet-mock-backend-v2";
+const STORAGE_KEY = "facet-mock-backend-v3";
 /** Seeded scans point at the sample profile instead of copying it (keeps sessionStorage small). */
 const SAMPLE_REF = "mock:sample";
 const HOUR = 3600_000;
@@ -177,7 +181,7 @@ function seed(now = Date.now()): MockDb {
       created_at: iso(createdAt),
     };
     db.profiles.push(p);
-    for (const kind of ["age18", "terms", "privacy", "photos"] as ConsentKind[])
+    for (const kind of ["age18", "terms", "privacy", "photos", "withdrawal_waiver"] as ConsentKind[])
       db.consents.push({ id: newId(), user_id: p.id, kind, version: "demo", granted_at: iso(createdAt), withdrawn_at: null });
     return p;
   };
@@ -224,6 +228,7 @@ function seed(now = Date.now()): MockDb {
           output_path: `mock:${kind}`,
           cost_usd: MOCK_IMAGE_COST_USD,
           approved: approve && a === attempts - 1,
+          error: null,
           created_at: iso(at + a * 10 * 60_000),
         };
         db.generations.push(g);
@@ -389,6 +394,72 @@ function seed(now = Date.now()): MockDb {
     }
   }
 
+  // Always one order whose photos need retaking and one cancelled after a photo consent withdrawal.
+  if (!db.orders.some((o) => o.status === "changes_requested")) {
+    const created = now - 2 * DAY;
+    addOrder(addCustomer(created, n++).id, "report", created, "changes_requested", PLANS.report.dueNowKwd);
+  }
+  if (!db.orders.some((o) => o.status === "cancelled" && o.submitted_at)) {
+    const created = now - 9 * DAY;
+    addOrder(addCustomer(created, n++).id, "report", created, "cancelled", PLANS.report.dueNowKwd);
+  }
+
+  // Report bought on its own: the included month (ends 30 days after payment;
+  // one or two end within 5 days, so the reminder case is visible).
+  for (const o of db.orders) {
+    if (o.product !== "report" || o.plan !== "report" || !o.paid_at || !o.user_id || o.status === "refunded" || o.status === "pending_payment") continue;
+    if (db.subscriptions.some((x) => x.user_id === o.user_id)) continue;
+    const end = Date.parse(o.paid_at) + INCLUDED_MEMBERSHIP_DAYS * DAY;
+    const sub: SubscriptionRow = {
+      id: newId(),
+      user_id: o.user_id,
+      provider: "manual",
+      provider_sub_id: `included:${o.id}`,
+      plan: "included",
+      status: end > now ? "active" : "canceled",
+      current_period_end: iso(end),
+      cancel_at: null,
+      canceled_at: end > now ? null : iso(end),
+      trial_end: null,
+      amount: 0,
+      currency: "KWD",
+      created_at: o.paid_at,
+    };
+    db.subscriptions.push(sub);
+    o.subscription_id = sub.id;
+  }
+
+  // Two customers who deleted their account: orders and payments stay, without user_id.
+  for (let i = 0; i < 2; i++) {
+    const created = now - (8 + rand() * 18) * DAY;
+    const c = addCustomer(created, n++);
+    const o = addOrder(c.id, "report", created, "delivered", PLANS.report.dueNowKwd);
+    db.profiles = db.profiles.filter((x) => x.id !== c.id);
+    db.consents = db.consents.filter((x) => x.user_id !== c.id);
+    const gone = new Set(db.scans.filter((x) => x.user_id === c.id).map((x) => x.id));
+    db.scan_photos = db.scan_photos.filter((x) => !gone.has(x.scan_id));
+    db.scans = db.scans.filter((x) => x.user_id !== c.id);
+    o.scan_id = null;
+    for (const x of db.orders) if (x.user_id === c.id) x.user_id = null;
+    for (const x of db.payments) if (x.user_id === c.id) x.user_id = null;
+    for (const x of db.costs) if (x.user_id === c.id) x.user_id = null;
+    db.generations = db.generations.filter((g) => g.order_id !== o.id);
+  }
+
+  // Audit rows the operator dashboard lists.
+  const seedAudit = (action: string, target_type: string, target_id: string, meta: Record<string, unknown>, at: number) =>
+    db.audit_log.push({ id: newId(), actor: null, action, target_type, target_id, meta, at: iso(Math.min(at, now - 10 * 60_000)) });
+  for (const o of db.orders) {
+    const at = Date.parse(o.submitted_at ?? o.created_at);
+    if (o.status === "cancelled" && o.submitted_at) {
+      const started = db.generations.some((g) => g.order_id === o.id);
+      seedAudit("orders.cancelled_consent_withdrawn", "orders", o.id, { from: "in_review", product: o.product, amount: o.amount, currency: o.currency, review_started: started, withdrawal_waiver: true, refund: "manual", refund_policy: started ? "partial" : "full" }, at + 20 * HOUR);
+    }
+    if (o.status === "changes_requested") seedAudit("orders.changes_requested", "orders", o.id, { from: "in_review", emailed: true, with_message: true }, at + 5 * HOUR);
+  }
+  const yearly = db.subscriptions.find((x) => x.plan === "yearly");
+  if (yearly) seedAudit("stripe.schedule_failed", "subscriptions", yearly.id, { subscription: yearly.provider_sub_id, error: "demo: the schedule could not be created" }, Date.parse(yearly.created_at) + 60_000);
+
   // Ad spend (USD), last 30 days.
   const campaigns: { platform: AdSpendRow["platform"]; id: string; name: string; base: number; cvr: number }[] = [
     { platform: "meta", id: "demo_meta_1", name: "KW | Men 18-34 | Scan video (demo)", base: 18, cvr: 0.009 },
@@ -430,6 +501,7 @@ function load(): MockDb {
     /* storage blocked */
   }
   db ??= seed();
+  expireIncluded(db);
   return db;
 }
 
@@ -494,6 +566,46 @@ function hydrateScan(scan: ScanRow): ScanRow {
     ...scan,
     intake: scan.intake === SAMPLE_REF ? { ...sampleProfile.intake, name: owner?.full_name ?? "Demo customer" } : scan.intake,
     results: scan.results === SAMPLE_REF ? { ...sampleScan, id: scan.id, createdAt: scan.created_at } : scan.results,
+  };
+}
+
+/** As expire_included_memberships: included months that are over end. */
+function expireIncluded(d: MockDb, now = Date.now()) {
+  for (const x of d.subscriptions)
+    if (x.plan === "included" && x.status === "active" && (!x.current_period_end || Date.parse(x.current_period_end) <= now)) {
+      x.status = "canceled";
+      x.canceled_at = x.current_period_end;
+    }
+}
+
+/** As grant_included_membership: a report bought on its own gives 30 days of membership (no renewal). */
+function grantIncluded(d: MockDb, o: OrderRow, now = Date.now()) {
+  if (!o.user_id || o.plan !== "report") return;
+  if (d.subscriptions.some((x) => x.user_id === o.user_id && x.plan !== "included" && (x.status === "active" || x.status === "trialing" || x.status === "past_due"))) return;
+  const end = iso(Date.parse(o.paid_at ?? iso(now)) + INCLUDED_MEMBERSHIP_DAYS * DAY);
+  const running = d.subscriptions.find((x) => x.user_id === o.user_id && x.plan === "included" && x.status === "active");
+  if (running) {
+    if ((running.current_period_end ?? "") < end) running.current_period_end = end;
+    o.subscription_id ??= running.id;
+    return;
+  }
+  const id = newId();
+  d.subscriptions.push({ id, user_id: o.user_id, provider: "manual", provider_sub_id: `included:${o.id}`, plan: "included", status: "active", current_period_end: end, cancel_at: null, canceled_at: null, trial_end: null, amount: 0, currency: "KWD", created_at: iso(now) });
+  o.subscription_id = id;
+}
+
+const ADMIN_ACTIONS = new Set<string>(ADMIN_AUDIT_ACTIONS);
+
+/** audit_log row -> AdminAuditEvent (same mapping as admin.ts toAuditEvent). */
+function auditEvent(r: AuditLogRow): AdminAuditEvent {
+  const meta = r.meta && typeof r.meta === "object" && !Array.isArray(r.meta) ? (r.meta as Record<string, unknown>) : {};
+  const isOrder = r.target_type === "orders" || r.target_type === "order";
+  return {
+    id: r.id,
+    action: r.action as AdminAuditEvent["action"],
+    created_at: r.at,
+    order_id: isOrder ? r.target_id : null,
+    details: isOrder || !r.target_id ? meta : { ...meta, [`${r.target_type ?? "target"}_id`]: r.target_id },
   };
 }
 
@@ -579,7 +691,7 @@ export const mock = {
   },
 
   /* orders */
-  async startCheckout(plan: CheckoutPlan, _locale: Locale): Promise<{ url: string; orderId: string }> {
+  async startCheckout(plan: CheckoutPlan, locale: Locale): Promise<{ url: string; orderId: string | null }> {
     await delay(300);
     const p = me();
     const d = load();
@@ -591,10 +703,17 @@ export const mock = {
     const info = PLANS[plan];
     const now = Date.now();
     let subId: string | null = null;
+    // As create-checkout: the return pages are in the customer's language.
+    const base = `${import.meta.env.BASE_URL ?? "/"}${locale === "ar" ? "ar/" : ""}`;
     if (info.interval) {
-      if (d.subscriptions.some((x) => x.user_id === p.id && (x.status === "active" || x.status === "trialing" || x.status === "past_due"))) {
+      expireIncluded(d, now);
+      const open = d.subscriptions.filter((x) => x.user_id === p.id && (x.status === "active" || x.status === "trialing" || x.status === "past_due"));
+      if (open.some((x) => x.plan !== "included")) {
         throw new BackendError("You already have a membership.", "already_member");
       }
+      // Joining during the included month: the trial runs until it ends (at least 49 hours, as Stripe needs 48).
+      const includedEnd = Math.max(0, ...open.map((x) => Date.parse(x.current_period_end ?? "") || 0));
+      const trialUntil = info.trialDays ? now + info.trialDays * DAY : includedEnd > now ? Math.max(includedEnd, now + 49 * HOUR) : null;
       subId = newId();
       d.subscriptions.push({
         id: subId,
@@ -602,25 +721,43 @@ export const mock = {
         provider: "manual",
         provider_sub_id: `mock_sub_${subId.slice(0, 8)}`,
         plan: info.interval,
-        status: info.trialDays ? "trialing" : "active",
-        current_period_end: iso(now + (info.trialDays || (info.interval === "monthly" ? 30 : 365)) * DAY),
+        status: trialUntil ? "trialing" : "active",
+        current_period_end: iso(trialUntil ?? now + (info.interval === "monthly" ? 30 : 365) * DAY),
         cancel_at: null,
-        trial_end: info.trialDays ? iso(now + info.trialDays * DAY) : null,
+        trial_end: trialUntil ? iso(trialUntil) : null,
         amount: info.recurringKwd,
         currency: "KWD",
         created_at: iso(now),
       });
+      // As on_paid_membership_started: the paid membership replaces the included month.
+      for (const x of open) {
+        x.status = "canceled";
+        x.canceled_at = iso(now);
+      }
+      if (!info.includesReport) {
+        // A plain membership: the first check-in comes with the first paid period (not during a trial).
+        if (!trialUntil) {
+          const c: OrderRow = { id: newId(), user_id: p.id, product: "checkin", status: "awaiting_photos", amount: info.dueNowKwd, currency: "KWD", provider: "manual", provider_ref: `mock_in_${newId().slice(0, 8)}`, plan: null, subscription_id: subId, scan_id: null, assigned_reviewer: null, due_at: null, paid_at: iso(now), submitted_at: null, delivered_at: null, created_at: iso(now) };
+          d.orders.push(c);
+          const f = fee(info.dueNowKwd);
+          d.payments.push({ id: newId(), order_id: c.id, subscription_id: subId, user_id: p.id, provider: "manual", provider_ref: c.provider_ref, amount: info.dueNowKwd, currency: "KWD", fee: f, net: r3(info.dueNowKwd - f), status: "succeeded", created_at: iso(now) });
+          d.costs.push({ id: newId(), order_id: c.id, user_id: p.id, category: "payment_fee", amount: f, currency: "KWD", note: "mock fee", created_at: iso(now) });
+        }
+        audit("membership.joined", "subscriptions", subId, { plan, trial_until: trialUntil ? iso(trialUntil) : null, mock: true });
+        commit();
+        return { url: `${base}account?checkout=success`, orderId: null };
+      }
     }
     const o: OrderRow = {
       id: newId(),
       user_id: p.id,
-      product: info.includesReport ? "report" : "checkin",
+      product: "report",
       status: "awaiting_photos",
       amount: info.dueNowKwd,
       currency: "KWD",
       provider: "manual",
       provider_ref: `mock_cs_${newId().slice(0, 8)}`,
-      plan: info.includesReport ? plan : null,
+      plan,
       subscription_id: subId,
       scan_id: null,
       assigned_reviewer: null,
@@ -632,11 +769,12 @@ export const mock = {
     };
     d.orders.push(o);
     const f = fee(info.dueNowKwd);
-    d.payments.push({ id: newId(), order_id: info.includesReport ? o.id : null, subscription_id: info.includesReport ? null : subId, user_id: p.id, provider: "manual", provider_ref: o.provider_ref, amount: info.dueNowKwd, currency: "KWD", fee: f, net: r3(info.dueNowKwd - f), status: "succeeded", created_at: iso(now) });
+    d.payments.push({ id: newId(), order_id: o.id, subscription_id: null, user_id: p.id, provider: "manual", provider_ref: o.provider_ref, amount: info.dueNowKwd, currency: "KWD", fee: f, net: r3(info.dueNowKwd - f), status: "succeeded", created_at: iso(now) });
     d.costs.push({ id: newId(), order_id: o.id, user_id: p.id, category: "payment_fee", amount: f, currency: "KWD", note: "mock fee", created_at: iso(now) });
+    grantIncluded(d, o, now);
     audit("order.paid", "order", o.id, { plan, mock: true });
     commit();
-    return { url: `${import.meta.env.BASE_URL ?? "/"}orders/${o.id}?checkout=success`, orderId: o.id };
+    return { url: `${base}orders/${o.id}?checkout=success`, orderId: o.id };
   },
   async listMyOrders(): Promise<OrderRow[]> {
     const p = me();
@@ -652,9 +790,7 @@ export const mock = {
   },
   async getMySubscription(): Promise<SubscriptionRow | null> {
     const p = me();
-    return load()
-      .subscriptions.filter((s) => s.user_id === p.id)
-      .sort((a, b) => b.created_at.localeCompare(a.created_at))[0] ?? null;
+    return currentSubscription(load().subscriptions.filter((s) => s.user_id === p.id));
   },
   async getMyReview(orderId: string): Promise<ReviewRow | null> {
     const p = me();
@@ -669,7 +805,8 @@ export const mock = {
     const delivered = new Set(d.orders.filter((o) => o.user_id === p.id && o.status === "delivered" && (!orderId || o.id === orderId)).map((o) => o.id));
     return d.generations
       .filter((g) => g.approved && delivered.has(g.order_id))
-      .map((g) => ({ generation_id: g.id, order_id: g.order_id, kind: g.kind, url: generationUrl(g) ?? "" }));
+      .sort((a, b) => a.created_at.localeCompare(b.created_at))
+      .map((g) => ({ generation_id: g.id, order_id: g.order_id, kind: g.kind, url: generationUrl(g) ?? "", created_at: g.created_at }));
   },
 
   /* scans */
@@ -682,6 +819,7 @@ export const mock = {
     if (o.status !== "awaiting_photos" && o.status !== "changes_requested") throw new BackendError("This order is not waiting for photos.", "wrong_status");
     // Same checks as submit-scan.
     if (!hasConsent(d, p.id, "photos")) throw new BackendError("Please agree to the photo consent first.", "photo_consent_required");
+    if (!hasConsent(d, p.id, "withdrawal_waiver")) throw new BackendError("Please confirm that we may start your review now, within the 14-day withdrawal period.", "withdrawal_waiver_required", 409);
     if (!p.gender) throw new BackendError("Please complete your profile first.", "profile_incomplete");
     if (args.scanId && d.scans.some((s) => s.id === args.scanId)) throw new BackendError("This scan was already submitted.", "wrong_status");
     const scanId = args.scanId ?? newId();
@@ -774,6 +912,7 @@ export const mock = {
       output_path: `mock:${input.kind}`,
       cost_usd: MOCK_IMAGE_COST_USD,
       approved: false,
+      error: null,
       created_at: iso(Date.now()),
     };
     d.generations.push(g);
@@ -782,12 +921,16 @@ export const mock = {
     commit();
     return { ...g, url: generationUrl(g) };
   },
-  async approveDelivery(orderId: string, generationIds: string[]): Promise<OrderRow> {
+  async approveDelivery(input: { order_id: string; generation_ids: string[]; notes?: string }): Promise<{ order: OrderRow; emailed: boolean }> {
     const p = requireStaff();
     await delay(300);
     const d = load();
+    const orderId = input.order_id;
+    const generationIds = input.generation_ids;
     const o = d.orders.find((x) => x.id === orderId);
     if (!o) throw new BackendError("Order not found.", "not_found");
+    if (p.role !== "admin" && o.assigned_reviewer !== p.id) throw new BackendError("This order is not assigned to you.", "forbidden", 403);
+    if (o.status !== "in_review") throw new BackendError("Only orders in review can be delivered.", "wrong_status", 409);
     const ids = new Set(generationIds);
     for (const g of d.generations) if (g.order_id === orderId) g.approved = ids.has(g.id);
     const now = iso(Date.now());
@@ -798,20 +941,32 @@ export const mock = {
     }
     r.status = "approved";
     r.approved_at = now;
+    if (typeof input.notes === "string") r.notes = input.notes.slice(0, 20000);
     o.status = "delivered";
     o.delivered_at = now;
-    audit("order.delivered", "order", o.id, { generations: generationIds.length });
+    // The demo sends no email; the customer is "emailed" when the account still exists.
+    const emailed = !!o.user_id && d.profiles.some((x) => x.id === o.user_id);
+    audit("orders.delivered", "orders", o.id, { generation_ids: generationIds, emailed });
     commit();
-    return o;
+    return { order: o, emailed };
   },
-  async setOrderStatus(orderId: string, status: OrderStatus): Promise<OrderRow> {
-    requireStaff();
-    const o = load().orders.find((x) => x.id === orderId);
+  /** As set-order-status: in_review <-> changes_requested; changes_requested "emails" the customer. */
+  async setOrderStatus(orderId: string, status: OrderStatus, message: string | null = null): Promise<{ order: OrderRow; emailed: boolean }> {
+    const p = requireStaff();
+    const d = load();
+    const o = d.orders.find((x) => x.id === orderId);
     if (!o) throw new BackendError("Order not found.", "not_found");
+    if (p.role !== "admin" && o.assigned_reviewer !== p.id) throw new BackendError("This order is not assigned to you.", "forbidden", 403);
+    const allowed: OrderStatus[] = ["in_review", "changes_requested"];
+    if (!allowed.includes(status)) throw new BackendError("status must be in_review or changes_requested.", "bad_status", 400);
+    if (!allowed.includes(o.status)) throw new BackendError("Only orders in review can be changed here.", "wrong_status", 409);
+    if (o.status === status) return { order: o, emailed: false };
+    const from = o.status;
     o.status = status;
-    audit("order.status", "order", o.id, { status });
+    const emailed = status === "changes_requested" && !!o.user_id && d.profiles.some((x) => x.id === o.user_id);
+    if (status === "changes_requested") audit("orders.changes_requested", "orders", o.id, { from, emailed, with_message: !!message?.trim() });
     commit();
-    return o;
+    return { order: o, emailed };
   },
 
   /* admin (no role check in demo mode, so the dashboard can be shown without signing in) */
@@ -823,11 +978,16 @@ export const mock = {
       orders: d.orders.filter((o) => o.created_at >= sinceIso || open(o) || (o.delivered_at ?? "") >= sinceIso),
       payments: d.payments.filter((x) => x.created_at >= sinceIso),
       subscriptions: d.subscriptions,
-      generations: d.generations.filter((g) => g.created_at >= sinceIso).map(({ id, order_id, cost_usd, status, created_at }) => ({ id, order_id, cost_usd, status, created_at })),
+      generations: d.generations.filter((g) => g.created_at >= sinceIso).map(({ id, order_id, cost_usd, status, created_at, parent_id, kind }) => ({ id, order_id, cost_usd, status, created_at, parent_id, kind })),
       costs: d.costs.filter((c) => c.created_at >= sinceIso),
       adSpend: d.ad_spend.filter((a) => a.date >= sinceIso.slice(0, 10)),
       profiles: d.profiles.map(({ id, email, role, created_at }) => ({ id, email, role, created_at })),
-      waitlist: d.waitlist.map(({ id, gender, created_at }) => ({ id, gender, created_at })),
+      waitlist: d.waitlist.map(({ id, email, gender, locale, source, created_at }) => ({ id, email, gender, locale, source, created_at })),
+      auditEvents: d.audit_log
+        .filter((r) => ADMIN_ACTIONS.has(r.action))
+        .sort((a, b) => b.at.localeCompare(a.at))
+        .slice(0, 200)
+        .map(auditEvent),
     };
   },
 
@@ -928,9 +1088,12 @@ export const mock = {
     await delay(300);
     const p = me();
     const d = load();
-    const sub = d.subscriptions
+    expireIncluded(d);
+    const open = d.subscriptions
       .filter((x) => x.user_id === p.id && (x.status === "active" || x.status === "trialing" || x.status === "past_due"))
-      .sort((a, b) => b.created_at.localeCompare(a.created_at))[0];
+      .sort((a, b) => b.created_at.localeCompare(a.created_at));
+    const sub = open.find((x) => x.plan !== "included");
+    if (!sub && open.length) throw new BackendError("The month included with your report ends by itself and nothing renews, so there is nothing to cancel.", "included", 409);
     if (!sub) throw new BackendError("You do not have an active membership.", "no_membership");
     let refund: { amount: number; currency: string; months: number; pending: boolean } | undefined;
     if (action === "cancel") sub.cancel_at ??= sub.current_period_end;
@@ -974,7 +1137,15 @@ export const mock = {
     // Orders and payments are kept (anonymised) for accounting, as in the real function.
     for (const o of d.orders) if (o.user_id === p.id) o.user_id = null;
     for (const x of d.payments) if (x.user_id === p.id) x.user_id = null;
-    for (const x of d.subscriptions) if (x.user_id === p.id) x.user_id = null;
+    for (const x of d.subscriptions)
+      if (x.user_id === p.id) {
+        // As delete-my-data: the included month simply ends.
+        if (x.plan === "included" && x.status === "active") {
+          x.status = "canceled";
+          x.canceled_at = iso(Date.now());
+        }
+        x.user_id = null;
+      }
     d.session = null;
     commit();
     sessionListeners.forEach((l) => l(null));

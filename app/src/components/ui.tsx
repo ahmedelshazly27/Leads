@@ -264,7 +264,14 @@ export function Toggle<T extends string>({ value, options, onChange }: { value: 
 
 /** Approximate fixed conversion from EUR (plan prices are researched in EUR): 1 EUR ≈ 0.33 KWD, rounded to whole dinars. */
 const FX: Record<Currency, number> = { KWD: 0.33 };
-export const money = (eur: number, cur: Currency = "KWD") => {
-  const v = Math.max(eur > 0 ? 1 : 0, Math.round(eur * FX[cur]));
-  return `${v.toLocaleString("en")} KWD`;
+const dinars = (eur: number, cur: Currency) => Math.max(eur > 0 ? 1 : 0, Math.round(eur * FX[cur]));
+export const money = (eur: number, cur: Currency = "KWD") => `${dinars(eur, cur).toLocaleString("en")} KWD`;
+/**
+ * A price range with the currency once: "3–5 KWD" (Arabic "3–5 د.ك", not "3 د.ك–5 د.ك").
+ * One string, so the language swap sees the whole range. Equal ends collapse to one price.
+ */
+export const moneyRange = (lo: number, hi: number, cur: Currency = "KWD", sep = "–") => {
+  const a = dinars(lo, cur);
+  const b = dinars(hi, cur);
+  return a === b ? money(lo, cur) : `${a.toLocaleString("en")}${sep}${b.toLocaleString("en")} KWD`;
 };

@@ -12,6 +12,7 @@ import { categoriesFor } from "../../lib/library";
 import { statusOf } from "./Review";
 import { BodyVisuals, MeshViewer, PoseViewer, PromptBlock, RealismPanel, Slot, StyleGallery, StyleLibrary } from "./tools";
 import { StaffOnly } from "./StaffOnly";
+import { ENGLISH_ONLY } from "./serverShared";
 import "./review.css";
 
 const SECTIONS: { id: Check["section"]; n: string; title: string }[] = [
@@ -35,7 +36,7 @@ export function ReviewScan() {
   const plan = useMemo(() => (scan && profile ? buildPlan(scan, profile.intake, { includeHidden: true }) : null), [scan, profile]);
   if (!scan || !profile || !plan)
     return (
-      <div className="page">
+      <div className="page" {...ENGLISH_ONLY}>
         <p className="lead">Scan not found.</p>
         <Link className="btn" to="/review">
           Back to queue
@@ -77,7 +78,7 @@ export function ReviewScan() {
   const scores = Object.entries(plan.current) as [ScoreKey, number][];
 
   return (
-    <div className="page rv-page">
+    <div className="page rv-page" {...ENGLISH_ONLY}>
       <div className="rv-top">
         <Link to="/review" className="mono-sm rv-back">
           ← Queue

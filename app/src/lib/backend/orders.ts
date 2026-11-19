@@ -1,7 +1,10 @@
 import { BackendError, backendMode, callFunction, check, num, sb, useBackendQuery } from "./client";
 import { mock } from "./mock";
 import { consentsFlushed, requireUserId, useSession } from "./auth";
+import { currentSubscription } from "./subscription";
 import type { CheckoutPlan, CustomerVisual, Locale, OrderRow, PaymentRow, QueryState, ReviewRow, SubscriptionRow } from "./types";
+
+export { currentSubscription };
 
 export const normOrder = (o: OrderRow): OrderRow => ({ ...o, amount: num(o.amount) });
 export const normPayment = (p: PaymentRow): PaymentRow => ({ ...p, amount: num(p.amount), fee: num(p.fee), net: num(p.net) });
@@ -38,17 +41,20 @@ export async function getOrder(id: string): Promise<OrderRow | null> {
   return row ? normOrder(row as OrderRow) : null;
 }
 
-/** The customer's latest subscription (any status), or null. */
+/** The customer's current membership (see currentSubscription): a paid one, the included month, or the latest ended one. */
 export async function getMySubscription(): Promise<SubscriptionRow | null> {
   if (backendMode === "mock") return mock.getMySubscription();
   const uid = requireUserId();
-  const row = check(await sb().from("subscriptions").select("*").eq("user_id", uid).order("created_at", { ascending: false }).limit(1).maybeSingle());
-  return (row as SubscriptionRow | null) ?? null;
+  const rows = check(await sb().from("subscriptions").select("*").eq("user_id", uid).order("created_at", { ascending: false }).limit(50));
+  return currentSubscription((rows ?? []) as SubscriptionRow[]);
 }
 
-/** True when the subscription currently gives membership benefits. */
-export const isActiveMember = (s: SubscriptionRow | null | undefined) =>
-  !!s && (s.status === "active" || s.status === "trialing" || (s.status === "past_due" && !!s.current_period_end && Date.parse(s.current_period_end) > Date.now()));
+/** True when the subscription currently gives membership benefits (the included month until it ends). */
+export const isActiveMember = (s: SubscriptionRow | null | undefined, now = Date.now()) =>
+  !!s &&
+  (s.plan === "included"
+    ? s.status === "active" && !!s.current_period_end && Date.parse(s.current_period_end) > now
+    : s.status === "active" || s.status === "trialing" || (s.status === "past_due" && !!s.current_period_end && Date.parse(s.current_period_end) > now));
 
 /** The reviewer's note and checklist for a delivered order (RLS hides it before delivery). */
 export async function getMyReview(orderId: string): Promise<ReviewRow | null> {

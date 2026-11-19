@@ -9,9 +9,10 @@ import { band, currentScores, overall } from "../lib/report";
 import { deleteProfile, hasOwnProfile, latestScan, photoUrl, scansFor, setActiveProfile, toggleProgress, useAppState } from "../lib/store";
 import { useActive } from "../lib/useActive";
 import type { Profile } from "../lib/types";
+import { dateLocale, useLang, type Lang } from "../lib/i18n";
 import "./pages.css";
 
-const fmtDate = (iso: string) => new Date(iso).toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" });
+const fmtDate = (iso: string, lang: Lang) => new Date(iso).toLocaleDateString(dateLocale(lang), { day: "numeric", month: "short", year: "numeric" });
 
 export function Protocols() {
   const s = useAppState();
@@ -64,7 +65,7 @@ function Today() {
       <ReviewBanner scan={scan} />
       <div className="hm-grid">
         <div className="hm-card hm-score">
-          <span className="mono-sm">{profile.sample ? `${profile.intake.name} · sample` : profile.intake.name}</span>
+          <span className="mono-sm">{profile.sample && !/\(sample\)/i.test(profile.intake.name) ? `${profile.intake.name} · sample` : profile.intake.name}</span>
           <div className="hm-num">
             {Math.round(plan.overallNow)}
             <span>→ {Math.round(plan.overallProjected)}</span>
@@ -103,6 +104,7 @@ function Today() {
 }
 
 function ProfileCard({ profile, active }: { profile: Profile; active: boolean }) {
+  const lang = useLang();
   const s = useAppState();
   const nav = useNavigate();
   const scans = scansFor(s, profile.id);
@@ -132,7 +134,7 @@ function ProfileCard({ profile, active }: { profile: Profile; active: boolean })
         <div className="pr-meta">
           <div>
             <div className="mono-sm">Last scan</div>
-            <div className="v">{last ? fmtDate(last.createdAt) : "—"}</div>
+            <div className="v">{last ? fmtDate(last.createdAt, lang) : "—"}</div>
           </div>
           <div>
             <div className="mono-sm">Check-ins</div>

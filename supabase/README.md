@@ -16,11 +16,15 @@ supabase/
     20261119000006_followups.sql      withdrawal_waiver consent, orders.scan_id, scan delete policies,
                                       photo-consent withdrawal and retention SQL helpers
     20261119000007_cron_retention.sql purge-records-daily job
+    20261119000008_membership_included.sql  included month of a report bought on its own (plan 'included'),
+                                      email_reminders, reminder query, retention clock without orders.updated_at
+    20261119000009_cron_membership.sql included-memberships-daily and membership-reminders-daily jobs
   functions/
     _shared/                          CORS, HTTP helpers, service client, auth, Stripe, membership schedule, image APIs, email, storage
     create-checkout/  stripe-webhook/  submit-scan/  generate-visual/  approve-delivery/
     customer-visuals/ delete-my-data/  purge-photos/ sync-meta-ads/    join-waitlist/
     withdraw-photo-consent/  manage-membership/  purge-records/
+    set-order-status/  membership-reminders/
 ```
 
 ## 1. Create and link the project
@@ -40,8 +44,8 @@ supabase db push
 ```
 
 This creates everything, including the `pg_cron` and `pg_net` extensions and the
-daily jobs (four once 20261119000007 is applied). The jobs call `purge-photos`,
-`purge-records` and `sync-meta-ads` with a dedicated **cron secret** (not the
+daily jobs (six once 20261119000009 is applied). The jobs call `purge-photos`,
+`purge-records`, `membership-reminders` and `sync-meta-ads` with a dedicated **cron secret** (not the
 service key, so the scheduler holds only the power to start those jobs). Make one random value and store it in two places:
 
 ```bash
@@ -73,7 +77,9 @@ Jobs (UTC; Kuwait is UTC+3):
 | `purge-photos-daily` | 02:15 | calls `purge-photos`: deletes photos 90 days after delivery, after a refund/cancellation, or (for orders that never finished) after the scan; also removes stray uploads older than 3 days that belong to no scan, and the visuals of refunded/cancelled orders |
 | `purge-records-daily` | 02:45 | calls `purge-records`: 24 months after a customer's last order or membership ends, deletes their scans (measurements, health answers), visuals, reviewer notes and generation prompts; deletes waitlist entries older than 24 months |
 | `sync-meta-ads-daily` | 03:40 | calls `sync-meta-ads` for the last 7 days |
-| `monthly-checkins-daily` | 04:05 | `ensure_monthly_checkins()`: a check-in order each month for yearly members |
+| `monthly-checkins-daily` | 04:05 | `ensure_monthly_checkins()`: a check-in order each month for paid yearly members (not during a trial or the included month) |
+| `included-memberships-daily` | 00:10 | `expire_included_memberships()`: ends included months (report bought on its own) that are over |
+| `membership-reminders-daily` | 06:20 | calls `membership-reminders`: "your included month ends in 5 days" (with links to join monthly or yearly) and the yearly reminder about 30 days before the 12 months end (terms section 7). Each email once per membership period (`email_reminders`) |
 
 Check runs with `select * from cron.job_run_details order by start_time desc limit 20;`.
 A job that "succeeded" there only means the HTTP request was queued; check the
@@ -129,10 +135,10 @@ supabase secrets set \
 | `IMAGE_PROVIDER` | generate-visual | `fal` (default) or `openai`. |
 | `FAL_KEY` / `OPENAI_API_KEY` | generate-visual | For the chosen provider. Optional: `FAL_IMAGE_MODEL`, `OPENAI_IMAGE_MODEL`, `OPENAI_IMAGE_QUALITY`. |
 | `IMAGE_PRICES_JSON` | generate-visual | Optional override of the USD price per call, e.g. `{"fal-ai/nano-banana/edit":0.039}`. Check the provider's pricing page; costs in the dashboard come from this table (OpenAI uses the token usage it reports). |
-| `RESEND_API_KEY`, `EMAIL_FROM`, `BRAND_NAME` | approve-delivery | `EMAIL_FROM` must be on a domain verified in Resend. |
+| `RESEND_API_KEY`, `EMAIL_FROM`, `BRAND_NAME` | approve-delivery, set-order-status, membership-reminders | `EMAIL_FROM` must be on a domain verified in Resend. |
 | `META_ACCESS_TOKEN`, `META_AD_ACCOUNT_ID` | sync-meta-ads | System-user token with `ads_read`. Optional `META_API_VERSION` (default `v21.0`). |
 | `RATE_LIMIT_SALT` | join-waitlist | Optional random string used to hash IP addresses. |
-| `CRON_SECRET` | purge-photos, purge-records, sync-meta-ads | Random value; the same value goes into Vault as `cron_secret` (section 2). |
+| `CRON_SECRET` | purge-photos, purge-records, membership-reminders, sync-meta-ads | Random value; the same value goes into Vault as `cron_secret` (section 2). |
 | `VISUALS_WITH_PHOTOS` | purge-photos | Optional. `all` also deletes the visuals of delivered reports with their photos (90 days). Default: delivered visuals stay until the 24-month rule or account deletion, as the privacy policy says. |
 
 `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` are provided to functions automatically.
@@ -269,17 +275,19 @@ All take and return JSON. Errors are `{ "error": { "code", "message" } }`.
 
 | Function | Caller | Body | Returns |
 |---|---|---|---|
-| `create-checkout` | signed-in user | `{ plan, locale }` | `{ url, order_id, session_id }`. Errors: `waitlist` (women), `profile_incomplete` (no gender), `age_required` (no `age18` consent), `already_member`. |
+| `create-checkout` | signed-in user | `{ plan, locale }` | `{ url, order_id, session_id }`. Return pages follow `locale`: `/orders/:id`, `/start` (report plans, on cancel), `/account?checkout=success\|cancelled` (plain memberships), under `/ar` for Arabic. Joining during the included month starts the paid membership's trial at its end. Errors: `waitlist` (women), `profile_incomplete` (no gender), `age_required` (no `age18` consent), `already_member` (a paid membership is open; the included month does not count). |
 | `stripe-webhook` | Stripe | raw event | `{ received: true }` |
-| `submit-scan` | signed-in user | `{ order_id, scan_id }` | `{ order: { id, status, product, submitted_at, due_at, assigned } }`. Requires a `photos` consent and a `face` photo. |
+| `submit-scan` | signed-in user | `{ order_id, scan_id }` | `{ order: { id, status, product, submitted_at, due_at, assigned } }`. Requires a `photos` consent (403 `photo_consent_required`), a `withdrawal_waiver` consent (409 `withdrawal_waiver_required`) and a `face` photo. |
 | `generate-visual` | reviewer / admin | `{ order_id, kind, prompt, remarks?, parent_id? }` | `{ generation, url }` |
-| `approve-delivery` | reviewer / admin | `{ order_id, generation_ids, notes? }` | `{ order, emailed }` |
+| `approve-delivery` | reviewer / admin | `{ order_id, generation_ids, notes? }` | `{ order, emailed }`. The email links to `/orders/:id` (`/ar/orders/:id` for Arabic). |
+| `set-order-status` | reviewer / admin | `{ order_id, status: 'in_review' \| 'changes_requested', message? }` | `{ order, emailed }`. `changes_requested` emails the customer (their language) a link to the order page, with `message` (what to retake, max 2000 characters); logged as `orders.changes_requested`. |
 | `customer-visuals` | signed-in user | `{ order_id? }` | `{ visuals: [{ order_id, generation_id, kind, url, created_at }], expires_in }` |
 | `delete-my-data` | signed-in user | `{ confirm: true }` | `{ deleted: true, ... }` |
 | `withdraw-photo-consent` | signed-in user | `{}` | `{ scans, files, visuals, consents, cancelled_orders }` |
-| `manage-membership` | signed-in user | `{ action: 'cancel' \| 'resume' \| 'end_now' }` | `{ subscription, refund? }`. Errors: `no_membership`, `ended`, `not_yearly`, `trialing`, `not_stripe`. |
+| `manage-membership` | signed-in user | `{ action: 'cancel' \| 'resume' \| 'end_now' }` | `{ subscription, refund? }`. Errors: `no_membership`, `ended`, `not_yearly`, `trialing`, `not_stripe`, `included` (only the included month is running). |
 | `purge-photos` | cron (cron secret) | `{}` | `{ scans, scans_failed, files, visuals, orphans, more }` |
 | `purge-records` | cron (cron secret) | `{}` | `{ users, users_failed, files, waitlist, more }` |
+| `membership-reminders` | cron (cron secret) | `{ dry_run? }` | `{ expired_included, due, sent, skipped, failed, held }` (`dry_run: true` lists what is due and sends nothing) |
 | `sync-meta-ads` | cron (cron secret) | `{ days? }` | `{ rows, since, until, spend }` |
 | `join-waitlist` | anyone | `{ email, phone?, gender?, locale?, source? }` | `{ ok: true }` (also for duplicates) |
 
@@ -295,5 +303,9 @@ Notes for the client:
   allowed for anon or signed-in users.
 - Customers cannot change `profiles.email`; it follows the sign-in email.
 - Customers can only change `withdrawn_at` on their consents.
-- Reviewers may move an assigned order between `in_review` and
-  `changes_requested`; delivery always goes through `approve-delivery`.
+- Reviewers move an assigned order between `in_review` and
+  `changes_requested` with `set-order-status` (it emails the customer); the
+  database still allows that one change directly, without the email. Delivery
+  always goes through `approve-delivery`.
+- Every customer email is in the profile's language and links to the page in
+  that language (`/ar/...` for Arabic).

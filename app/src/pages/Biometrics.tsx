@@ -3,6 +3,7 @@ import { Empty, PageHeader } from "../components/ui";
 import { Download } from "../components/icons";
 import { useActive } from "../lib/useActive";
 import type { Scan } from "../lib/types";
+import { dateLocale, useLang, type Lang } from "../lib/i18n";
 import "./pages.css";
 
 interface Row {
@@ -82,7 +83,7 @@ const BODY_ROWS: Row[] = [
 ];
 
 const fmt = (v: unknown, r: Row) => (typeof v === "number" && isFinite(v) ? v.toFixed(r.digits ?? 2) + (r.unit ? ` ${r.unit}` : "") : "—");
-const shortDate = (iso: string) => new Date(iso).toLocaleDateString(undefined, { day: "numeric", month: "short" });
+const shortDate = (iso: string, lang: Lang) => new Date(iso).toLocaleDateString(dateLocale(lang), { day: "numeric", month: "short" });
 
 export function Biometrics() {
   const { profile, scan, scans } = useActive();
@@ -260,6 +261,7 @@ function MetricTable({
   flag?: (r: Row) => boolean;
   extra?: string;
 }) {
+  const lang = useLang();
   return (
     <div className="bt-card">
       <h2 className="title-md">{title}</h2>
@@ -272,7 +274,7 @@ function MetricTable({
         <thead>
           <tr>
             <th style={{ width: "38%" }}>Metric</th>
-            {history.length ? history.map((s) => <th key={s.id}>{shortDate(s.createdAt)}</th>) : <th>Value</th>}
+            {history.length ? history.map((s) => <th key={s.id}>{shortDate(s.createdAt, lang)}</th>) : <th>Value</th>}
             {history.length > 1 && <th>Change</th>}
             <th>Reference</th>
           </tr>

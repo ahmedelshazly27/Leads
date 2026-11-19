@@ -8,9 +8,9 @@
  * single text node.
  */
 import { useEffect, useRef, type ReactNode } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { BRAND_NAME } from "../../lib/brand";
-import { setLang, useArabicPage, useLang, type Lang } from "../../lib/i18n";
+import { getLang, setLang, useArabicPage, useLang, type Lang } from "../../lib/i18n";
 import { backendEnabled, BackendError } from "../../lib/backend";
 import { legalHref } from "../legal/content";
 import "./flow.css";
@@ -21,6 +21,19 @@ export function useFlowLang(): Lang {
   const stored = useLang();
   if (pathname === "/ar" || pathname.startsWith("/ar/")) return "ar";
   return stored;
+}
+
+/** Flow pages that also exist under /ar (same page, in Arabic). */
+const AR_FLOW_RE = /^\/(start|account|orders\/[^/]+)\/?$/;
+
+/** The link to a flow page in a language: "/account" -> "/ar/account" in Arabic. */
+export function flowHref(path: string, lang: Lang): string {
+  const cut = path.search(/[?#]/);
+  const p = cut < 0 ? path : path.slice(0, cut);
+  const rest = cut < 0 ? "" : path.slice(cut);
+  const plain = p.replace(/^\/ar(?=\/|$)/, "") || "/";
+  if (lang === "ar" && AR_FLOW_RE.test(plain)) return `/ar${plain}${rest}`;
+  return `${plain}${rest}`;
 }
 
 /** For pages whose URL decides the language (/start vs /ar/start): remember it for the next pages. */
@@ -47,6 +60,19 @@ export function FlowShell({
   const root = useRef<HTMLDivElement>(null);
   useArabicPage(root, lang);
   const other: Lang = lang === "ar" ? "en" : "ar";
+  const { pathname, search, hash } = useLocation();
+  const navigate = useNavigate();
+  // an /ar/... flow page (e.g. the Stripe return or an email link) also sets the language for the pages opened next
+  const arUrl = pathname === "/ar" || pathname.startsWith("/ar/");
+  useEffect(() => {
+    if (arUrl && getLang() !== "ar") setLang("ar");
+  }, [arUrl]);
+  // /ar/... pages: the URL sets the language, so switching moves to the other URL (and remembers the choice)
+  const defaultSwitch = () => {
+    setLang(other);
+    const plain = pathname.replace(/^\/ar(?=\/|$)/, "") || "/";
+    if (AR_FLOW_RE.test(plain) && (pathname.startsWith("/ar/") || other === "ar")) navigate(`${flowHref(plain, other)}${search}${hash}`, { replace: true });
+  };
   return (
     <div className="fl" ref={root} dir={lang === "ar" ? "rtl" : "ltr"} lang={lang}>
       <header className="fl-top">
@@ -55,11 +81,11 @@ export function FlowShell({
             {BRAND_NAME}
           </Link>
           {showAccount && backendEnabled && (
-            <Link to="/account" className="fl-toplink">
+            <Link to={flowHref("/account", lang)} className="fl-toplink">
               Account
             </Link>
           )}
-          <button type="button" className="fl-lang" lang={other} onClick={onSwitchLang ?? (() => setLang(other))}>
+          <button type="button" className="fl-lang" lang={other} onClick={onSwitchLang ?? defaultSwitch}>
             {/* written so neither label is a dictionary key: it must not be swapped */}
             {other === "ar" ? "العربية" : "English​"}
           </button>

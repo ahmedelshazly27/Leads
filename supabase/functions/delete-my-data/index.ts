@@ -78,6 +78,12 @@ serve(async (req) => {
   // 4. Accounting records stay, without the link to the person.
   must(await db.from("orders").update({ user_id: null }).eq("user_id", uid), "anonymise orders");
   must(await db.from("payments").update({ user_id: null }).eq("user_id", uid), "anonymise payments");
+  // The included month (no payment behind it) simply ends.
+  must(
+    await db.from("subscriptions").update({ status: "canceled", canceled_at: new Date().toISOString() })
+      .eq("user_id", uid).eq("plan", "included").eq("status", "active"),
+    "end included membership",
+  );
   must(await db.from("subscriptions").update({ user_id: null }).eq("user_id", uid), "anonymise subscriptions");
   must(await db.from("costs").update({ user_id: null }).eq("user_id", uid), "anonymise costs");
 

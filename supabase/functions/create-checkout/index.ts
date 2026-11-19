@@ -3,7 +3,10 @@
 //   report                      mode=payment, one 20.000 KWD line
 //   report_membership_monthly   mode=subscription: report (one-time) + monthly, 30-day trial on the recurring price
 //   report_membership_yearly    mode=subscription: report (one-time) + yearly,  30-day trial on the recurring price
-//   membership_monthly/_yearly  mode=subscription, no trial, no report order (check-ins come from paid invoices)
+//   membership_monthly/_yearly  mode=subscription, no report order (check-ins come from paid invoices);
+//                               no trial, except that joining during the included month (report bought
+//                               on its own) starts the trial until that month ends
+// Return URLs use the customer's language: /ar/orders/:id, /ar/start, /ar/account for Arabic.
 import { HttpError, json, readJson, requireEnv, serve } from "../_shared/http.ts";
 import { requireUser } from "../_shared/auth.ts";
 import { admin, must, mustOne } from "../_shared/supabase.ts";
@@ -25,6 +28,7 @@ const PLANS: Plan[] = [
 ];
 
 const CURRENCY = "KWD";
+const MIN_TRIAL_MS = 49 * 3600_000;
 
 function reportLine(locale: string): Stripe.Checkout.SessionCreateParams.LineItem {
   const price = Deno.env.get("STRIPE_PRICE_REPORT");
@@ -84,16 +88,26 @@ serve(async (req) => {
   }
 
   const withMembership = plan !== "report";
+  // The included month (report bought on its own) is not a paid membership:
+  // joining during it is allowed, and the paid membership's trial runs until
+  // the included month ends, so nothing is charged twice.
+  let includedUntil: number | null = null;
   if (withMembership) {
     const open = must(
-      await db.from("subscriptions").select("id").eq("user_id", user.id).in("status", [
+      await db.from("subscriptions").select("id, plan, current_period_end").eq("user_id", user.id).in("status", [
         "trialing",
         "active",
         "past_due",
-      ]).limit(1),
+      ]),
       "subscriptions",
-    );
-    if (open?.length) throw new HttpError(409, "already_member", "You already have a membership.");
+    ) ?? [];
+    if (open.some((s) => s.plan !== "included")) {
+      throw new HttpError(409, "already_member", "You already have a membership.");
+    }
+    for (const s of open) {
+      const end = s.current_period_end ? Date.parse(s.current_period_end as string) : NaN;
+      if (Number.isFinite(end) && end > Date.now()) includedUntil = Math.max(includedUntil ?? 0, end);
+    }
   }
 
   if (profile.locale !== locale) {
@@ -128,12 +142,15 @@ serve(async (req) => {
   const metadata: Record<string, string> = { user_id: user.id, plan, ...(orderId ? { order_id: orderId } : {}) };
   const interval = plan.endsWith("yearly") ? "yearly" : "monthly";
 
+  // Back to the page in the customer's language (/ar/... for Arabic). A plain
+  // membership is bought from the account page, so cancelling returns there.
+  const base = `${siteUrl}${locale === "ar" ? "/ar" : ""}`;
   const params: Stripe.Checkout.SessionCreateParams = {
     client_reference_id: orderId ?? user.id,
     metadata,
     locale: locale === "ar" ? "auto" : "en",
-    success_url: orderId ? `${siteUrl}/orders/${orderId}?checkout=success` : `${siteUrl}/account?checkout=success`,
-    cancel_url: `${siteUrl}/start?checkout=cancelled`,
+    success_url: orderId ? `${base}/orders/${orderId}?checkout=success` : `${base}/account?checkout=success`,
+    cancel_url: includesReport ? `${base}/start?checkout=cancelled` : `${base}/account?checkout=cancelled`,
     allow_promotion_codes: true,
   };
   if (profile.stripe_customer_id) params.customer = profile.stripe_customer_id;
@@ -149,9 +166,16 @@ serve(async (req) => {
     params.line_items = includesReport
       ? [reportLine(locale), membershipLine(interval, locale)]
       : [membershipLine(interval, locale)];
+    // Nothing is charged before the included month ends (the account page
+    // says so). Stripe needs a trial end at least 48 hours ahead, so a shorter
+    // remainder is rounded up to 49 hours (a few free hours more).
+    const trialEnd = !includesReport && includedUntil && includedUntil > Date.now()
+      ? Math.floor(Math.max(includedUntil, Date.now() + MIN_TRIAL_MS) / 1000)
+      : null;
     params.subscription_data = {
-      metadata,
+      metadata: trialEnd ? { ...metadata, included_until: new Date(trialEnd * 1000).toISOString() } : metadata,
       ...(includesReport ? { trial_period_days: TRIAL_DAYS_WITH_REPORT } : {}),
+      ...(trialEnd ? { trial_end: trialEnd } : {}),
     };
   }
 

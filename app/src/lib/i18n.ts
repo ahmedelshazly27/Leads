@@ -68,6 +68,32 @@ export function loadArDict(): Promise<Dict> {
     },
   ));
 }
+
+/*
+ * Marker names, definitions and research notes (from lib/markers/catalog.json) are a
+ * second, separate dictionary: only the report, the PDF and the /analysis pages show
+ * them, so neither English visitors nor the rest of the Arabic app download it.
+ * Entries in ar.json win where both have the same key.
+ */
+let ARM: Dict | null = null;
+let armPending: Promise<Dict> | null = null;
+export function loadArMarkers(): Promise<Dict> {
+  if (ARM) return Promise.resolve(ARM);
+  return (armPending ??= import("../i18n/ar-markers.json").then(
+    (m) => (ARM = m.default as Dict),
+    (e) => {
+      armPending = null;
+      throw e;
+    },
+  ));
+}
+let MERGED: Dict | null = null;
+/** ar.json plus the marker dictionary, built once (templates and lookups are cached per object). */
+function withMarkers(ar: Dict, markers: Dict): Dict {
+  return (MERGED ??= { ...markers, ...ar });
+}
+const current = (markers: boolean): Dict | null => (AR && markers && ARM ? withMarkers(AR, ARM) : AR);
+
 const ORIGINAL = new WeakMap<Node, string>();
 const APPLIED = new WeakMap<Node, string>();
 const ATTR_ORIGINAL = new WeakMap<Element, Record<string, string>>();
@@ -146,9 +172,12 @@ function find(t: string, dict: Dict, tpl: ReturnType<typeof templates>, depth: n
  */
 // only static headings: React must not update a heading whose nodes were replaced
 const SPLIT = ".ls-card h3, h1.pv-h";
+/** Subtrees marked translate="no" (staff pages, the brand) are never swapped. */
+const NO_SWAP = '[translate="no"]';
+const keep = (el: Element | null | undefined) => !!el?.closest(NO_SWAP);
 function translateSplitHeadings(root: HTMLElement, dict: Dict) {
   root.querySelectorAll<HTMLElement>(SPLIT).forEach((h) => {
-    if (h.dataset.en != null) return;
+    if (h.dataset.en != null || keep(h)) return;
     const span = h.querySelector(":scope > span");
     if (!span || h.children.length !== 1) return;
     const full = norm(h.textContent ?? "");
@@ -173,7 +202,9 @@ function translateSplitHeadings(root: HTMLElement, dict: Dict) {
 export function translateTree(root: HTMLElement, dict: Dict) {
   const tpl = templates(dict);
   translateSplitHeadings(root, dict);
-  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+    acceptNode: (n) => (keep(n.parentElement) ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT),
+  });
   const nodes: Text[] = [];
   while (walker.nextNode()) nodes.push(walker.currentNode as Text);
   for (const n of nodes) {
@@ -190,6 +221,7 @@ export function translateTree(root: HTMLElement, dict: Dict) {
     if (n.nodeValue !== next) n.nodeValue = next;
   }
   root.querySelectorAll<HTMLElement>("[alt],[aria-label],[placeholder],[title]").forEach((el) => {
+    if (keep(el)) return;
     const saved = ATTR_ORIGINAL.get(el) ?? {};
     for (const a of ATTRS) {
       const v = saved[a] ?? el.getAttribute(a);
@@ -221,14 +253,33 @@ export function restoreTree(root: HTMLElement) {
   });
 }
 
-/** Swap the page under `root` to Arabic while lang is "ar", and back. */
-export function useArabicPage(ref: { current: HTMLElement | null }, lang: Lang) {
+/**
+ * Swap the page under `root` to Arabic while lang is "ar", and back.
+ * `markers`: the page shows marker definitions, so the marker dictionary is loaded too.
+ * Returns true once every dictionary the page asked for is applied (always true in English):
+ * the PDF waits for it before measuring its pages.
+ */
+export function useArabicPage(ref: { current: HTMLElement | null }, lang: Lang, markers = false): boolean {
   // imported lazily so English visitors don't download the Arabic copy; once loaded
   // (or preloaded before the first render) it applies before the first paint
-  const [dict, setDict] = useState<Dict | null>(() => AR);
+  const [dict, setDict] = useState<Dict | null>(() => current(markers));
+  const [armFailed, setFailed] = useState(false);
   useEffect(() => {
-    if (lang === "ar" && !dict) loadArDict().then(setDict, () => undefined);
-  }, [lang, dict]);
+    if (lang !== "ar") return;
+    let live = true;
+    const want = current(markers);
+    if (want !== dict) setDict(want);
+    if (!AR) loadArDict().then(() => live && setDict(current(markers)), () => undefined);
+    // the base copy is applied first; marker definitions follow when their file arrives
+    if (markers && !ARM && !armFailed)
+      loadArMarkers().then(
+        () => live && setDict(current(true)),
+        () => live && setFailed(true), // offline: the page stays usable with the base copy
+      );
+    return () => {
+      live = false;
+    };
+  }, [lang, dict, markers, armFailed]);
   useLayoutEffect(() => {
     const root = ref.current;
     const html = document.documentElement;
@@ -264,6 +315,13 @@ export function useArabicPage(ref: { current: HTMLElement | null }, lang: Lang) 
       html.dir = "ltr";
     };
   }, [ref, lang, dict]);
+  return lang !== "ar" || (!!dict && (!markers || dict === MERGED || armFailed));
+}
+
+/** One string in Arabic when the Arabic copy is loaded (e.g. a name in the document title), else unchanged. */
+export function arText(s: string): string {
+  const d = current(true);
+  return d ? lookup(s, d, templates(d)) ?? s : s;
 }
 
 /** The Arabic dictionary, loaded on demand (null until loaded or when not needed). */

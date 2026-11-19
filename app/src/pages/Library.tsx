@@ -39,7 +39,10 @@ export function Library() {
 
       {mine.length > 0 && (
         <section className="lib-mine" aria-label="Your types">
-          <div className="mono-sm">Your types{profile ? ` · ${profile.intake.name}` : ""}</div>
+          <div className="mono-sm">
+            {/* separate text nodes: the label and the name are swapped on their own */}
+            Your types{profile ? <> · {profile.intake.name}</> : null}
+          </div>
           <div className="lib-mine-list">
             {mine.map(({ c, name }) => (
               <a key={c.id} href={`#${c.id}`} className="lib-mine-chip" onClick={() => setRegion("all")}>
@@ -102,7 +105,7 @@ function Category({ cat, ctx, overrides }: { cat: FeatureCategory; ctx: Ctx | nu
           {m ? (
             <>
               <b>You:</b> {m.typeId ? cat.types.find((t) => t.id === m.typeId)?.name : `${m.family} family — your reviewer confirms the exact pattern`}
-              {m.value ? ` · ${m.value}` : ""} · <span className="lib-by">{m.by === "reviewer" ? "confirmed by your reviewer" : BASIS_LABEL[m.by].toLowerCase()}</span>
+              {m.value ? <> · {m.value}</> : null} · <span className="lib-by">{m.by === "reviewer" ? "confirmed by your reviewer" : BASIS_LABEL[m.by].toLowerCase()}</span>
             </>
           ) : pending ? (
             <>Your reviewer sets this from your photos.</>
@@ -133,7 +136,7 @@ function Category({ cat, ctx, overrides }: { cat: FeatureCategory; ctx: Ctx | nu
       </p>
       {cat.note && <p className="lib-note">{cat.note}</p>}
       <details className="lib-refs">
-        <summary>Sources ({cat.refs.length})</summary>
+        <summary>{`Sources (${cat.refs.length})`}</summary>
         <Citations ids={cat.refs} />
       </details>
     </section>

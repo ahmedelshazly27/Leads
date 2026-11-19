@@ -1659,6 +1659,13 @@
   font-size: 15px;
   color: var(--ink);
 }
+.lp-follow-note {
+  margin: 24px auto 0;
+  max-width: 640px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--muted);
+}
 .lp-care-launch {
   margin-top: 28px;
   text-align: center;

@@ -47,3 +47,25 @@ export function must<T>(res: { data: T; error: { message: string } | null }, wha
   if (res.error) throw new Error(`${what}: ${res.error.message}`);
   return res.data;
 }
+
+/**
+ * Where to email a customer: the verified sign-in email (never a column the
+ * customer can edit), their language and first name. Null when the account is
+ * gone or has no email.
+ */
+export async function customerContact(
+  userId: string,
+): Promise<{ email: string; locale: "en" | "ar"; name: string | null } | null> {
+  const db = admin();
+  const profile = must(
+    await db.from("profiles").select("full_name, locale").eq("id", userId).maybeSingle(),
+    "customer profile",
+  );
+  if (!profile) return null;
+  const { data, error } = await db.auth.admin.getUserById(userId);
+  if (error) console.warn("customer lookup for email failed:", error.message);
+  const email = data?.user?.email ?? null;
+  if (!email) return null;
+  const name = (profile.full_name as string | null)?.trim().split(/\s+/)[0] || null;
+  return { email, locale: profile.locale === "ar" ? "ar" : "en", name };
+}

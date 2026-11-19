@@ -26,7 +26,14 @@ export type OrderStatus =
   | "refunded"
   | "cancelled";
 export type PaymentProvider = "stripe" | "checkout_com" | "manual";
-export type SubscriptionPlan = "monthly" | "yearly";
+/**
+ * `included`: the 30 days of membership that come with a report bought on its
+ * own (provider "manual", amount 0, never renews; ends at current_period_end).
+ * Use isIncluded() / includedUntil() from membership.ts.
+ */
+export type SubscriptionPlan = "monthly" | "yearly" | "included";
+/** A paid (Stripe) membership plan. */
+export type PaidPlan = Exclude<SubscriptionPlan, "included">;
 export type SubscriptionStatus = "trialing" | "active" | "past_due" | "canceled";
 export type PaymentStatus = "succeeded" | "refunded" | "failed";
 export type ScanKind = "baseline" | "checkin";
@@ -177,6 +184,8 @@ export interface GenerationRow {
   output_path: string | null;
   cost_usd: number;
   approved: boolean;
+  /** why a generation failed (status "failed"), else null */
+  error: string | null;
   created_at: string;
 }
 
@@ -244,6 +253,8 @@ export const PRICES_KWD = {
 
 /** Trial days on the membership when bought together with the report. */
 export const BUNDLE_TRIAL_DAYS = 30;
+/** Days of membership included with a report bought on its own (no renewal). */
+export const INCLUDED_MEMBERSHIP_DAYS = 30;
 
 export interface PlanInfo {
   plan: CheckoutPlan;
@@ -251,7 +262,7 @@ export interface PlanInfo {
   dueNowKwd: number;
   /** recurring price after the trial (or immediately for a plain membership), KWD */
   recurringKwd: number | null;
-  interval: SubscriptionPlan | null;
+  interval: PaidPlan | null;
   trialDays: number;
   includesReport: boolean;
 }
@@ -264,9 +275,9 @@ export const PLANS: Record<CheckoutPlan, PlanInfo> = {
   membership_yearly: { plan: "membership_yearly", dueNowKwd: PRICES_KWD.membership_yearly, recurringKwd: PRICES_KWD.membership_yearly, interval: "yearly", trialDays: 0, includesReport: false },
 };
 
-/** Monthly-equivalent revenue of one subscription, KWD. */
+/** Monthly-equivalent revenue of one subscription, KWD (0 for the included month). */
 export const monthlyEquivalentKwd = (plan: SubscriptionPlan) =>
-  plan === "monthly" ? PRICES_KWD.membership_monthly : PRICES_KWD.membership_yearly / 12;
+  plan === "included" ? 0 : plan === "monthly" ? PRICES_KWD.membership_monthly : PRICES_KWD.membership_yearly / 12;
 
 /** Review turnaround promised to the customer (submit-scan sets due_at = now + 72h). */
 export const SLA_HOURS = 72;
@@ -308,6 +319,8 @@ export interface CustomerVisual {
   order_id: string;
   kind: GenerationKind;
   url: string;
+  /** when the visual was generated; customer-visuals returns them oldest first */
+  created_at?: string | null;
 }
 
 /* ----------------------------- Dashboard ---------------------------- */
@@ -432,14 +445,34 @@ export interface AdminDashboard {
   fx: Record<string, number>;
 }
 
+/** audit_log actions the operator dashboard lists (AdminRows.auditEvents). */
+export const ADMIN_AUDIT_ACTIONS = ["orders.cancelled_consent_withdrawn", "stripe.schedule_failed", "orders.changes_requested"] as const;
+export type AdminAuditAction = (typeof ADMIN_AUDIT_ACTIONS)[number];
+
+/** One audit_log row for the operator (newest first). */
+export interface AdminAuditEvent {
+  id: string;
+  action: AdminAuditAction;
+  created_at: string;
+  /** the order it is about (null for membership events such as stripe.schedule_failed) */
+  order_id: string | null;
+  /** audit_log.meta as written by the server (e.g. refund_policy, from, emailed, error) */
+  details: Record<string, unknown>;
+}
+
 /** Raw rows the dashboard is computed from (fetched from Supabase or the mock). */
 export interface AdminRows {
+  /** includes orders with user_id null (the customer deleted their account) */
   orders: OrderRow[];
   payments: PaymentRow[];
   subscriptions: SubscriptionRow[];
-  generations: Pick<GenerationRow, "id" | "order_id" | "cost_usd" | "status" | "created_at">[];
+  /** parent_id set = a regeneration of that attempt */
+  generations: Pick<GenerationRow, "id" | "order_id" | "cost_usd" | "status" | "created_at" | "parent_id" | "kind">[];
   costs: CostRow[];
   adSpend: AdSpendRow[];
   profiles: Pick<ProfileRow, "id" | "email" | "role" | "created_at">[];
-  waitlist: Pick<WaitlistRow, "id" | "gender" | "created_at">[];
+  /** full rows (admin only); the demo uses @example.com addresses */
+  waitlist: Pick<WaitlistRow, "id" | "email" | "gender" | "locale" | "source" | "created_at">[];
+  /** recent audit_log rows of ADMIN_AUDIT_ACTIONS, newest first (at most 200) */
+  auditEvents: AdminAuditEvent[];
 }

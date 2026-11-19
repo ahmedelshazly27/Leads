@@ -341,10 +341,10 @@ export function Support() {
           kicker="Informative"
           dark="Your support"
           muted="system."
-          lead="A person reviews your report before release and adds notes on the steps that matter. Then you track your progress against your starting point in the app."
+          lead="A person reviews your report before release and adds notes on the steps that matter. With membership, you then track your progress against your starting point in the app. Your report includes the first 30 days."
         />
         <ul className="ls-checks">
-          {["A named reviewer on every report", "Notes from your reviewer on the steps that matter", "Progress check-ins against your starting point", "Specialist partners in Kuwait (coming soon)"].map((t) => (
+          {["A person reviews every report", "Notes from your reviewer on the steps that matter", "Monthly check-ins against your starting point, with membership", "Specialist partners in Kuwait (coming soon)"].map((t) => (
             <li key={t}>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M20 6 9 17l-5-5" />
@@ -403,7 +403,7 @@ export function Mindset() {
 
 const PRIVACY: [string, string][] = [
   ["Measured on your phone", "Your measurements are computed in your browser. Your photos aren't uploaded to analyse them."],
-  ["Seen by your reviewer", "When you send your scan for review, the reviewer assigned to you sees your photos. Other staff can open them only where their work needs it, and every access is logged. Partners never see them unless you choose to share."],
+  ["Seen by your reviewer", "When you send your scan for review, the reviewer assigned to you sees your photos. Our admins, a small number of authorised staff, can also open orders to check quality and to help with support. Partners never see them unless you choose to share."],
   ["Deleted on schedule", "Review photos are deleted 90 days after your report is delivered, or straight away when you ask."],
   ["Never sold, never shown", "We don't sell your data, use your photos in marketing, or use them to train AI models."],
   ["Encrypted and protected", "Your data is encrypted, stored in the EU and handled under the GDPR, the EU’s data-protection law."],

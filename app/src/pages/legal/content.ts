@@ -18,6 +18,8 @@
 import { BRAND_NAME } from "../../lib/brand";
 import { CONSENT_VERSION } from "../../lib/backend/consents";
 
+export { PHOTO_ACCESS_TEXT, WAIVER_LABEL, WAIVER_TEXT } from "./waiver";
+
 export type LegalLang = "en" | "ar";
 export type LegalKey = "privacy" | "terms" | "refunds";
 
@@ -110,7 +112,8 @@ const privacyEn: LegalDoc = {
   summary: [
     "Your photos are measured on your device first. They are sent to us only when you submit them for review in a paid order.",
     "Our database and your photos are stored in the European Union (Frankfurt, Germany). Some providers, such as our image provider, may process data outside the EU under GDPR safeguards.",
-    "Photos are deleted 90 days after your report is delivered, or earlier if you ask.",
+    "Photos are deleted 90 days after your report is delivered, or straight away if you withdraw your photo consent or delete your account.",
+    "Your photos are seen by the reviewer assigned to your order. Our admins, a small number of authorised staff, can also open orders to check quality and to help with support.",
     "We never sell your data, never use your photos in marketing and never use them to train AI models.",
     "You can download or delete your data at any time.",
   ],
@@ -162,7 +165,7 @@ const privacyEn: LegalDoc = {
             ["Take payments and keep accounting records", "Order and payment data", "Contract, and our legal obligation to keep accounts under Dutch tax law (GDPR art. 6(1)(c))"],
             ["Keep the service secure, prevent fraud and abuse", "Technical data, sign-in records", "Our legitimate interest in a safe, working service (GDPR art. 6(1)(f))"],
             ["Send emails about your order and account", "Email address", "Performance of our contract with you"],
-            ["Send news and offers", "Email address", "Your consent, which you can withdraw in any email or in Settings"],
+            ["Send news and offers", "Email address", "Your consent, which you can withdraw in any email or on your Account page"],
             ["Tell you when the service opens for you (waitlist)", "Waitlist details", "Your consent"],
           ],
         } },
@@ -186,7 +189,7 @@ const privacyEn: LegalDoc = {
       id: "who-sees",
       heading: "6. Who sees your data",
       blocks: [
-        "Inside our team: the reviewer assigned to your order sees your photos, answers and results to check your report. A small number of authorised staff can access data where their work needs it, for example to answer a support request or fix a problem, and every access to photos is logged. Everyone with access is bound by confidentiality.",
+        "Inside our team: the reviewer assigned to your order sees your photos, answers and results to check your report. Our admins, a small number of authorised staff, can also open orders, including the photos, to check the quality of our work, to answer a support request or to fix a problem. Access is limited by role, and everyone with access is bound by confidentiality.",
         "Our reviewers work for us under a written contract with confidentiality and data-protection terms. [REVIEWERS: state where reviewers work. If any work from Kuwait or another country outside the EU, say so here and that they access data under the European Commission's standard contractual clauses. Confirm with the lawyer.]",
         "Service providers (\"processors\") that handle data for us, only on our instructions and under a data processing agreement:",
         { table: {
@@ -196,11 +199,12 @@ const privacyEn: LegalDoc = {
             ["Vercel", "Hosting and delivering the website and app", "[REGION]"],
             ["Stripe", "Card payments, subscriptions and refunds", "[REGION]"],
             ["[IMAGE PROVIDER]", "Creating your AI illustrations from the photos needed for them", "[REGION]"],
-            ["Resend", "Sending emails about your order and account", "[REGION]"],
+            ["Resend", "Sending emails about your order, your membership and your account, including your sign-in code", "[REGION]"],
           ],
         } },
         "For some purposes, such as preventing fraud and meeting financial regulations, Stripe is responsible for its own processing as a separate controller under its own privacy policy.",
         "Our image provider receives only the photos needed to create your illustration, and may not keep them or use them for any other purpose, including training its models.",
+        "We advertise on Meta (Facebook and Instagram). This site has no Meta pixel or other advertising tracker, and we do not send your data to Meta: we only read total campaign figures, such as spend and clicks, from our own ad account. If we ever add the pixel, we will ask for your consent first and add Meta to this list.",
         "We may also share data when the law requires it, for example with tax authorities or in answer to a valid court order.",
       ],
     },
@@ -220,13 +224,13 @@ const privacyEn: LegalDoc = {
         { table: {
           head: ["Data", "How long"],
           rows: [
-            ["Photos you submit", "Deleted automatically 90 days after your report is delivered, or earlier if you ask. If an order is cancelled or refunded, its photos are deleted within 90 days of the order closing."],
-            ["AI illustrations made from your photos", "Kept in your account so you can see your plan, until you delete them or your account"],
-            ["Measurements, scores, health answers, plan and reviewer notes (without photos)", "Until you delete your account, or 24 months after your last order or membership ends, whichever comes first. If you withdraw your photo consent, we also delete the measurements and health answers taken from them."],
+            ["Photos you submit", "Deleted automatically 90 days after your report is delivered. Deleted straight away if you withdraw your photo consent or delete your account. If an order is cancelled or refunded, or never completed, its photos are deleted 90 days after it closed or the photos were taken."],
+            ["AI illustrations made from your photos", "Kept in your account so you can see your plan, until you delete your account, or 24 months after your last activity (your last order or the end of your membership), whichever comes first. Illustrations for an order that is cancelled or refunded before delivery are deleted with its photos."],
+            ["Measurements, scores, health answers, plan and reviewer notes (without photos)", "Until you delete your account, or 24 months after your last activity (your last order or the end of your membership), whichever comes first. If you withdraw your photo consent, we also delete the measurements and health answers taken from your photos straight away."],
             ["Account details and consent records", "Until you delete your account. Consent records may be kept longer where we need to show what you agreed to."],
             ["Payment and accounting records", "7 years, as Dutch tax law requires. When you delete your account, these records are separated from your profile."],
             ["Security and error logs", "A limited time, normally no longer than 90 days"],
-            ["Waitlist entries", "Until you ask to be removed, or at most 24 months"],
+            ["Waitlist entries", "Deleted 24 months after you join, or earlier if you ask to be removed"],
           ],
         } },
       ],
@@ -245,7 +249,7 @@ const privacyEn: LegalDoc = {
           "Restriction: ask us to limit how we use your data in some situations.",
           "Withdraw consent at any time, for example for your photos or for marketing emails. This does not affect what we did before you withdrew it.",
         ] },
-        `You can download or delete your data yourself in Settings, or write to ${COMPANY.email}. We answer within one month. We may ask you to confirm your identity first.`,
+        `You can download or delete your data yourself on your Account page, or write to ${COMPANY.email}. We answer within one month. We may ask you to confirm your identity first.`,
         "If you withdraw your photo consent, we delete your photos and the measurements and health answers taken from them. If you do this before your report is delivered, we cannot complete the review. What happens to your payment is explained in the [[refund policy|refunds]].",
         "If you are unhappy with how we handle your data, please tell us first so we can put it right. You also have the right to complain to the Dutch data-protection authority, the [[Autoriteit Persoonsgegevens|https://autoriteitpersoonsgegevens.nl]], or to a data-protection authority in the country where you live.",
       ],
@@ -283,7 +287,8 @@ const privacyAr: LegalDoc = {
   summary: [
     "تُحلَّل صوركم أولاً على جهازكم، ولا تُرسَل إلينا إلا عندما ترسلونها للمراجعة ضمن طلب مدفوع.",
     "تُحفَظ قاعدة بياناتنا وصوركم داخل الاتحاد الأوروبي (فرانكفورت، ألمانيا). وقد يعالج بعض المزوّدين، مثل مزوّد خدمة إنشاء الصور، البيانات خارج الاتحاد الأوروبي وفق ضمانات اللائحة الأوروبية.",
-    "تُحذَف الصور بعد 90 يوماً من تسليم التقرير، أو قبل ذلك إذا طلبتم.",
+    "تُحذَف الصور بعد 90 يوماً من تسليم التقرير، أو فوراً إذا سحبتم موافقتكم على معالجة الصور أو حذفتم حسابكم.",
+    "يطّلع على صوركم المراجِع المكلّف بطلبكم. ويمكن أيضاً لمسؤولي النظام لدينا، وهم عدد محدود من الموظفين المخوّلين، فتح الطلبات لمراجعة الجودة وللمساعدة في الدعم.",
     "لا نبيع بياناتكم أبداً، ولا نستخدم صوركم في التسويق، ولا نستخدمها لتدريب نماذج الذكاء الاصطناعي.",
     "يمكنكم تنزيل بياناتكم أو حذفها في أي وقت.",
   ],
@@ -335,7 +340,7 @@ const privacyAr: LegalDoc = {
             ["استلام المدفوعات والاحتفاظ بالسجلات المحاسبية", "بيانات الطلب والدفع", "العقد، والتزامنا القانوني بحفظ الحسابات وفق قانون الضرائب الهولندي (المادة 6(1)(ج) من اللائحة)"],
             ["حماية الخدمة ومنع الاحتيال وإساءة الاستخدام", "البيانات التقنية، سجلات الدخول", "مصلحتنا المشروعة في خدمة آمنة تعمل بشكل سليم (المادة 6(1)(و) من اللائحة)"],
             ["إرسال رسائل عن طلبكم وحسابكم", "البريد الإلكتروني", "تنفيذ العقد بيننا وبينكم"],
-            ["إرسال الأخبار والعروض", "البريد الإلكتروني", "موافقتكم، ويمكنكم سحبها من أي رسالة أو من الإعدادات"],
+            ["إرسال الأخبار والعروض", "البريد الإلكتروني", "موافقتكم، ويمكنكم سحبها من أي رسالة أو من صفحة حسابكم"],
             ["إبلاغكم عند افتتاح الخدمة لكم (قائمة الانتظار)", "بيانات قائمة الانتظار", "موافقتكم"],
           ],
         } },
@@ -359,7 +364,7 @@ const privacyAr: LegalDoc = {
       id: "who-sees",
       heading: "6. من يطّلع على بياناتكم",
       blocks: [
-        "داخل فريقنا: يطّلع المراجِع المكلّف بطلبكم على صوركم وإجاباتكم ونتائجكم لمراجعة تقريركم. ويمكن لعدد محدود من الموظفين المخوّلين الوصول إلى البيانات عندما يتطلّب عملهم ذلك، مثل الرد على طلب دعم أو إصلاح مشكلة، وكل وصول إلى الصور مسجّل. وكل من لديه صلاحية وصول ملتزم بالسرية.",
+        "داخل فريقنا: يطّلع المراجِع المكلّف بطلبكم على صوركم وإجاباتكم ونتائجكم لمراجعة تقريركم. ويمكن أيضاً لمسؤولي النظام لدينا، وهم عدد محدود من الموظفين المخوّلين، فتح الطلبات بما فيها الصور، لمراجعة جودة عملنا أو للرد على طلب دعم أو لإصلاح مشكلة. والوصول محدود حسب الدور، وكل من لديه صلاحية وصول ملتزم بالسرية.",
         "يعمل المراجِعون لدينا بموجب عقد مكتوب يتضمّن شروط السرية وحماية البيانات. [REVIEWERS: state where reviewers work. If any work from Kuwait or another country outside the EU, say so here and that they access data under the European Commission's standard contractual clauses. Confirm with the lawyer.]",
         "مزوّدو الخدمات (\"جهات المعالجة\") الذين يعالجون البيانات نيابةً عنا، وفق تعليماتنا فقط وبموجب اتفاقية معالجة بيانات:",
         { table: {
@@ -369,11 +374,12 @@ const privacyAr: LegalDoc = {
             ["Vercel", "استضافة الموقع والتطبيق وتشغيلهما", "[REGION]"],
             ["Stripe", "مدفوعات البطاقات والاشتراكات والمبالغ المستردة", "[REGION]"],
             ["[IMAGE PROVIDER]", "إنشاء الصور التوضيحية بالذكاء الاصطناعي من الصور اللازمة لها", "[REGION]"],
-            ["Resend", "إرسال الرسائل الإلكترونية الخاصة بطلبكم وحسابكم", "[REGION]"],
+            ["Resend", "إرسال الرسائل الإلكترونية الخاصة بطلبكم وعضويتكم وحسابكم، ومنها رمز تسجيل الدخول", "[REGION]"],
           ],
         } },
         "في بعض الأغراض، مثل منع الاحتيال والالتزام بالأنظمة المالية، تكون Stripe مسؤولة عن معالجتها الخاصة بصفتها جهة مستقلة، وفق سياسة الخصوصية الخاصة بها.",
         "لا يتلقّى مزوّد خدمة إنشاء الصور إلا الصور اللازمة لإنشاء الصورة التوضيحية، ولا يُسمح له بالاحتفاظ بها أو استخدامها لأي غرض آخر، بما في ذلك تدريب نماذجه.",
+        "نعلن على منصات Meta (فيسبوك وإنستغرام). ولا يوجد في هذا الموقع بكسل Meta ولا أي أداة تتبّع إعلاني، ولا نرسل بياناتكم إلى Meta: نقرأ فقط الأرقام الإجمالية للحملات، مثل الإنفاق وعدد النقرات، من حسابنا الإعلاني. وإذا أضفنا البكسل يوماً، سنطلب موافقتكم أولاً ونضيف Meta إلى هذه القائمة.",
         "وقد نشارك البيانات عندما يُلزمنا القانون بذلك، مثل الجهات الضريبية أو تنفيذاً لأمر قضائي صحيح.",
       ],
     },
@@ -393,13 +399,13 @@ const privacyAr: LegalDoc = {
         { table: {
           head: ["البيانات", "المدة"],
           rows: [
-            ["الصور التي ترسلونها", "تُحذَف تلقائياً بعد 90 يوماً من تسليم التقرير، أو قبل ذلك إذا طلبتم. وإذا أُلغي الطلب أو استُرد مبلغه، تُحذَف صوره خلال 90 يوماً من إغلاق الطلب."],
-            ["الصور التوضيحية المُنشأة من صوركم", "تبقى في حسابكم لتتمكّنوا من الاطلاع على خطتكم، إلى أن تحذفوها أو تحذفوا حسابكم"],
-            ["القياسات والدرجات والإجابات الصحية والخطة وملاحظات المراجِع (بدون صور)", "حتى تحذفوا حسابكم، أو بعد 24 شهراً من آخر طلب أو من انتهاء عضويتكم، أيهما أسبق. وإذا سحبتم موافقتكم على معالجة الصور، نحذف أيضاً القياسات والإجابات الصحية المأخوذة منها."],
+            ["الصور التي ترسلونها", "تُحذَف تلقائياً بعد 90 يوماً من تسليم التقرير. وتُحذَف فوراً إذا سحبتم موافقتكم على معالجة الصور أو حذفتم حسابكم. وإذا أُلغي الطلب أو استُرد مبلغه أو لم يكتمل، تُحذَف صوره بعد 90 يوماً من إغلاقه أو من التقاط الصور."],
+            ["الصور التوضيحية المُنشأة من صوركم", "تبقى في حسابكم لتتمكّنوا من الاطلاع على خطتكم، حتى تحذفوا حسابكم، أو بعد 24 شهراً من آخر نشاط لكم (آخر طلب أو انتهاء عضويتكم)، أيهما أسبق. وتُحذَف الصور التوضيحية لأي طلب أُلغي أو استُرد مبلغه قبل التسليم مع صوره."],
+            ["القياسات والدرجات والإجابات الصحية والخطة وملاحظات المراجِع (بدون صور)", "حتى تحذفوا حسابكم، أو بعد 24 شهراً من آخر نشاط لكم (آخر طلب أو انتهاء عضويتكم)، أيهما أسبق. وإذا سحبتم موافقتكم على معالجة الصور، نحذف أيضاً فوراً القياسات والإجابات الصحية المأخوذة من صوركم."],
             ["بيانات الحساب وسجلات الموافقة", "حتى تحذفوا حسابكم. وقد نحتفظ بسجلات الموافقة مدة أطول إذا احتجنا إلى إثبات ما وافقتم عليه."],
             ["سجلات الدفع والمحاسبة", "7 سنوات، كما يشترط قانون الضرائب الهولندي. وعند حذف حسابكم تُفصَل هذه السجلات عن ملفكم الشخصي."],
             ["سجلات الأمان والأخطاء", "مدة محدودة، لا تتجاوز عادةً 90 يوماً"],
-            ["بيانات قائمة الانتظار", "حتى تطلبوا إزالتها، أو 24 شهراً كحد أقصى"],
+            ["بيانات قائمة الانتظار", "تُحذَف بعد 24 شهراً من التسجيل، أو قبل ذلك إذا طلبتم إزالتها"],
           ],
         } },
       ],
@@ -418,7 +424,7 @@ const privacyAr: LegalDoc = {
           "التقييد: طلب تقييد استخدامنا لبياناتكم في حالات معيّنة.",
           "سحب الموافقة في أي وقت، مثل موافقتكم على معالجة الصور أو على الرسائل التسويقية. ولا يؤثر ذلك على ما تم قبل سحبها.",
         ] },
-        `يمكنكم تنزيل بياناتكم أو حذفها بأنفسكم من الإعدادات، أو مراسلتنا على ${COMPANY.email}. نرد خلال شهر واحد، وقد نطلب منكم تأكيد هويتكم أولاً.`,
+        `يمكنكم تنزيل بياناتكم أو حذفها بأنفسكم من صفحة حسابكم، أو مراسلتنا على ${COMPANY.email}. نرد خلال شهر واحد، وقد نطلب منكم تأكيد هويتكم أولاً.`,
         "إذا سحبتم موافقتكم على معالجة الصور، نحذف صوركم والقياسات والإجابات الصحية المأخوذة منها. وإذا فعلتم ذلك قبل تسليم التقرير، لا نستطيع إكمال المراجعة. وتوضّح [[سياسة الاسترداد|refunds]] ما يحدث للمبلغ المدفوع.",
         "إذا لم تكونوا راضين عن طريقة تعاملنا مع بياناتكم، نرجو إبلاغنا أولاً لنصحّح الأمر. ويحق لكم أيضاً تقديم شكوى إلى هيئة حماية البيانات الهولندية [[Autoriteit Persoonsgegevens|https://autoriteitpersoonsgegevens.nl]]، أو إلى جهة حماية البيانات في بلد إقامتكم.",
       ],
@@ -461,7 +467,7 @@ const termsEn: LegalDoc = {
     "Wellness and aesthetic guidance. Not medical advice, diagnosis or treatment.",
     "AI illustrations show a possible direction, not a promised result.",
     "For adults aged 18 or older. Men only at launch; women can join the waitlist.",
-    `Report ${PRICES.report} KWD, including the first 30 days of membership. Membership ${PRICES.monthly} KWD a month or ${PRICES.yearly} KWD for the first year, then month to month; cancel any time.`,
+    `Report ${PRICES.report} KWD, including the first 30 days of membership. After that, membership is optional: ${PRICES.monthly} KWD a month, or ${PRICES.yearly} KWD for 12 months, then ${PRICES.monthly} KWD a month. Cancel any time.`,
     "You can withdraw from a purchase within 14 days, as set out in section 8.",
     "We aim to deliver within 72 hours after you submit your photos.",
   ],
@@ -516,7 +522,7 @@ const termsEn: LegalDoc = {
           rows: [
             ["Report", `${PRICES.report} KWD, one payment`, "Your face and body analysis, 12-month plan, AI illustrations and PDF, reviewed by a person. Includes the first 30 days of membership."],
             ["Membership, monthly", `${PRICES.monthly} KWD a month`, "A monthly check-in scan with updated scores and plan, a reviewer note each month, and a new 12-month illustration every 3 months."],
-            ["Membership, yearly", `${PRICES.yearly} KWD for 12 months`, `The same as monthly, paid once for the first 12 months. After that it continues month to month at ${PRICES.monthly} KWD a month.`],
+            ["Membership, yearly", `${PRICES.yearly} KWD for 12 months, then ${PRICES.monthly} KWD a month`, `The same as monthly, paid once for the first 12 months. After that it continues month to month at ${PRICES.monthly} KWD a month.`],
           ],
         } },
         "Prices are in Kuwaiti dinar (KWD) and are the total you pay to us. The price that applies is the one shown at checkout.",
@@ -527,11 +533,11 @@ const termsEn: LegalDoc = {
       heading: "7. Membership, renewal and cancellation",
       blocks: [
         { list: [
-          "If you buy the report on its own, you get 30 days of membership benefits. Nothing renews and you will not be charged again.",
+          "If you buy the report on its own, you get 30 days of membership benefits. Nothing renews and you will not be charged again. We email you about 5 days before those 30 days end, with how to continue if you want to.",
           "If you buy the report with a membership, your membership continues after the first 30 days on the plan you chose (monthly or yearly), and the first membership payment is taken when those 30 days end.",
           "A monthly membership renews every month, and we charge the card you used, until you cancel.",
-          `A yearly membership runs for 12 months. After that it continues month to month at ${PRICES.monthly} KWD a month, and you can cancel at any time; it then ends at the end of that month. We remind you by email about 30 days before the 12 months end.`,
-          "You can cancel at any time in Settings. A monthly membership ends at the end of the month you have paid for, and you keep your benefits until then.",
+          `A yearly membership costs ${PRICES.yearly} KWD for 12 months, then ${PRICES.monthly} KWD a month. After the 12 months it continues month to month, and you can cancel at any time; it then ends at the end of that month. We remind you by email about 30 days before the 12 months end.`,
+          "You can cancel at any time on your Account page. A monthly membership ends at the end of the month you have paid for, and you keep your benefits until then.",
           "If you end a yearly membership during its first 12 months, we refund a proportional part of the price for the full months that are left. The details are in the [[refund policy|refunds]].",
           "If we change the membership price, we will tell you at least 30 days before the change applies to you, and you can cancel before then.",
         ] },
@@ -542,7 +548,7 @@ const termsEn: LegalDoc = {
       heading: "8. Your right to withdraw (14 days)",
       blocks: [
         `You can withdraw from your purchase within 14 days of buying it without giving a reason. Tell us at ${COMPANY.email}, or use the model withdrawal form in the [[refund policy|refunds]]. Sending it before the 14 days end is enough.`,
-        "If you ask us to start your report within those 14 days, you pay for the part of the work already done when you withdraw. Once your report has been delivered, the right to withdraw no longer applies. We ask for this request, and your confirmation that you understand it, before you submit your photos.",
+        "Before you submit your photos, we ask you to confirm that you want us to start your report straight away, within the 14 days, and that you understand two things: if you withdraw after our review has started, you pay a proportional amount for the work already done; and once your report has been delivered, you lose the right to withdraw. We keep a record of this confirmation. Without it we cannot start your review.",
         "For a membership, the 14 days run from the day you start it.",
         "We refund you within 14 days of receiving your withdrawal, to the card you paid with.",
       ],
@@ -603,7 +609,7 @@ const termsEn: LegalDoc = {
       id: "ending",
       heading: "15. Ending the contract",
       blocks: [
-        "You can stop using the service and delete your account at any time in Settings. We can end the contract if you seriously break these terms, and will tell you why.",
+        "You can stop using the service and delete your account at any time on your Account page. We can end the contract if you seriously break these terms, and will tell you why.",
       ],
     },
     {
@@ -625,7 +631,7 @@ const termsAr: LegalDoc = {
     "إرشادات للعناية بالصحة العامة والمظهر، وليست استشارة طبية ولا تشخيصاً ولا علاجاً.",
     "الصور التوضيحية بالذكاء الاصطناعي تعرض اتجاهاً محتملاً، وليست نتيجة مضمونة.",
     "للبالغين من عمر 18 سنة فأكثر. للرجال فقط عند الإطلاق، ويمكن للنساء الانضمام إلى قائمة الانتظار.",
-    `التقرير ${PRICES.report} د.ك ويشمل أول 30 يوماً من العضوية. العضوية ${PRICES.monthly} د.ك شهرياً أو ${PRICES.yearly} د.ك للسنة الأولى ثم شهرياً، ويمكن إلغاؤها في أي وقت.`,
+    `التقرير ${PRICES.report} د.ك ويشمل أول 30 يوماً من العضوية. وبعدها العضوية اختيارية: ${PRICES.monthly} د.ك شهرياً، أو ${PRICES.yearly} د.ك لمدة 12 شهراً ثم ${PRICES.monthly} د.ك شهرياً. ويمكن إلغاؤها في أي وقت.`,
     "يحق لكم الانسحاب من الشراء خلال 14 يوماً، كما هو موضّح في البند 8.",
     "نسعى لتسليم التقرير خلال 72 ساعة من إرسال صوركم.",
   ],
@@ -680,7 +686,7 @@ const termsAr: LegalDoc = {
           rows: [
             ["التقرير", `${PRICES.report} د.ك، دفعة واحدة`, "تحليل الوجه والجسم، وخطة 12 شهراً، وصور توضيحية بالذكاء الاصطناعي، وملف PDF، بمراجعة شخص من فريقنا. ويشمل أول 30 يوماً من العضوية."],
             ["العضوية الشهرية", `${PRICES.monthly} د.ك شهرياً`, "فحص متابعة شهري مع تحديث الدرجات والخطة، وملاحظة من المراجِع كل شهر، وصورة توضيحية جديدة لخطة الـ 12 شهراً كل 3 أشهر."],
-            ["العضوية السنوية", `${PRICES.yearly} د.ك لمدة 12 شهراً`, `نفس مزايا العضوية الشهرية، بدفعة واحدة لأول 12 شهراً. وبعدها تستمر شهرياً بسعر ${PRICES.monthly} د.ك في الشهر.`],
+            ["العضوية السنوية", `${PRICES.yearly} د.ك لمدة 12 شهراً، ثم ${PRICES.monthly} د.ك شهرياً`, `نفس مزايا العضوية الشهرية، بدفعة واحدة لأول 12 شهراً. وبعدها تستمر شهرياً بسعر ${PRICES.monthly} د.ك في الشهر.`],
           ],
         } },
         "الأسعار بالدينار الكويتي (د.ك) وهي المبلغ الكامل الذي تدفعونه لنا. والسعر المعتمد هو المعروض عند الدفع.",
@@ -691,11 +697,11 @@ const termsAr: LegalDoc = {
       heading: "7. العضوية والتجديد والإلغاء",
       blocks: [
         { list: [
-          "إذا اشتريتم التقرير وحده، تحصلون على مزايا العضوية لمدة 30 يوماً. لا يتجدّد شيء ولن يُخصم منكم أي مبلغ آخر.",
+          "إذا اشتريتم التقرير وحده، تحصلون على مزايا العضوية لمدة 30 يوماً. لا يتجدّد شيء ولن يُخصم منكم أي مبلغ آخر. ونراسلكم بالبريد الإلكتروني قبل نحو 5 أيام من انتهاء هذه الأيام الثلاثين، مع طريقة الاستمرار إذا رغبتم.",
           "إذا اشتريتم التقرير مع العضوية، تستمر عضويتكم بعد أول 30 يوماً على الخطة التي اخترتموها (شهرية أو سنوية)، وتُخصم أول دفعة للعضوية عند انتهاء هذه الأيام الثلاثين.",
           "تتجدّد العضوية الشهرية كل شهر، ونخصم المبلغ من البطاقة التي استخدمتموها، إلى أن تلغوها.",
-          `تستمر العضوية السنوية لمدة 12 شهراً. وبعدها تستمر شهرياً بسعر ${PRICES.monthly} د.ك في الشهر، ويمكنكم إلغاؤها في أي وقت، فتنتهي في نهاية ذلك الشهر. ونذكّركم بالبريد الإلكتروني قبل نحو 30 يوماً من انتهاء الأشهر الاثني عشر.`,
-          "يمكنكم الإلغاء في أي وقت من الإعدادات. تنتهي العضوية الشهرية في نهاية الشهر المدفوع، وتبقى المزايا متاحة لكم حتى ذلك الحين.",
+          `سعر العضوية السنوية ${PRICES.yearly} د.ك لمدة 12 شهراً، ثم ${PRICES.monthly} د.ك شهرياً. وبعد الأشهر الاثني عشر تستمر شهرياً، ويمكنكم إلغاؤها في أي وقت، فتنتهي في نهاية ذلك الشهر. ونذكّركم بالبريد الإلكتروني قبل نحو 30 يوماً من انتهاء الأشهر الاثني عشر.`,
+          "يمكنكم الإلغاء في أي وقت من صفحة حسابكم. تنتهي العضوية الشهرية في نهاية الشهر المدفوع، وتبقى المزايا متاحة لكم حتى ذلك الحين.",
           "إذا أنهيتم العضوية السنوية خلال أول 12 شهراً، نردّ لكم جزءاً متناسباً من السعر عن الأشهر الكاملة المتبقية. والتفاصيل في [[سياسة الاسترداد|refunds]].",
           "إذا غيّرنا سعر العضوية، نبلغكم قبل 30 يوماً على الأقل من تطبيق التغيير عليكم، ويمكنكم الإلغاء قبل ذلك.",
         ] },
@@ -706,7 +712,7 @@ const termsAr: LegalDoc = {
       heading: "8. حقكم في الانسحاب (14 يوماً)",
       blocks: [
         `يمكنكم الانسحاب من الشراء خلال 14 يوماً من تاريخه دون ذكر أي سبب. أبلغونا على ${COMPANY.email}، أو استخدموا نموذج الانسحاب الموجود في [[سياسة الاسترداد|refunds]]. ويكفي أن ترسلوه قبل انتهاء الأيام الأربعة عشر.`,
-        "إذا طلبتم منا البدء في إعداد تقريركم خلال هذه الأيام الأربعة عشر، تدفعون عند الانسحاب مقابل الجزء الذي أُنجز من العمل. وبعد تسليم التقرير، لا يعود حق الانسحاب قائماً. ونطلب منكم هذا الطلب، وتأكيد أنكم تفهمونه، قبل إرسال صوركم.",
+        "قبل إرسال صوركم، نطلب منكم أن تؤكدوا أنكم تريدون منا البدء في إعداد تقريركم فوراً، خلال الأيام الأربعة عشر، وأنكم تفهمون أمرين: إذا انسحبتم بعد بدء مراجعتنا، تدفعون مبلغاً متناسباً مقابل العمل المُنجز؛ وبعد تسليم تقريركم، تفقدون حق الانسحاب. ونحتفظ بسجل لهذا التأكيد، ولا نستطيع بدء المراجعة بدونه.",
         "بالنسبة للعضوية، تبدأ الأيام الأربعة عشر من يوم بدئها.",
         "نردّ لكم المبلغ خلال 14 يوماً من استلام طلب الانسحاب، إلى البطاقة التي دفعتم بها.",
       ],
@@ -767,7 +773,7 @@ const termsAr: LegalDoc = {
       id: "ending",
       heading: "15. إنهاء العقد",
       blocks: [
-        "يمكنكم التوقف عن استخدام الخدمة وحذف حسابكم في أي وقت من الإعدادات. ويحق لنا إنهاء العقد إذا خالفتم هذه الشروط مخالفة جسيمة، وسنوضّح لكم السبب.",
+        "يمكنكم التوقف عن استخدام الخدمة وحذف حسابكم في أي وقت من صفحة حسابكم. ويحق لنا إنهاء العقد إذا خالفتم هذه الشروط مخالفة جسيمة، وسنوضّح لكم السبب.",
       ],
     },
     {
@@ -791,8 +797,9 @@ const refundsEn: LegalDoc = {
   description: `Your 14-day right to withdraw, and when ${BRAND_NAME} refunds a report or a membership.`,
   summary: [
     "You can withdraw within 14 days of buying, without giving a reason.",
-    "Before you submit your photos: full refund.",
-    "After you submit your photos but before delivery: refund, less a proportional amount for the work already done.",
+    "Before our review of your photos starts: full refund.",
+    "After our review has started but before delivery: refund, less a proportional amount for the work already done.",
+    "Once your report has been delivered, the right to withdraw no longer applies.",
     "If we cannot deliver your report, full refund.",
     "Membership: cancel any time. A yearly membership ended early is refunded for the full months left.",
   ],
@@ -802,18 +809,18 @@ const refundsEn: LegalDoc = {
       heading: "1. Your right to withdraw (14 days)",
       blocks: [
         `You can withdraw from your purchase within 14 days of buying it without giving a reason. Tell us at ${COMPANY.email}, or send the model withdrawal form in section 7. Sending it before the 14 days end is enough.`,
-        "If you asked us to start your report within those 14 days, you pay for the part of the work already done when you withdraw. Once your report has been delivered, the right to withdraw no longer applies.",
+        "Before you submit your photos, you ask us to start your report straight away and confirm that you understand the following. If you withdraw after our review has started, you pay a proportional amount for the work already done. Once your report has been delivered, you lose the right to withdraw.",
         "For a membership, the 14 days run from the day you start it.",
         "We refund you within 14 days of receiving your withdrawal.",
       ],
     },
     {
       id: "before",
-      heading: "2. Before and after you submit your photos",
+      heading: "2. Before and after our review starts",
       blocks: [
         { list: [
-          "Before you submit your photos: you can ask for a full refund for any reason.",
-          "After you submit your photos but before your report is delivered: we refund the price, less a proportional amount for the work already done.",
+          "Before you submit your photos, or after you submit them but before our review has started: you can ask for a full refund for any reason.",
+          "After our review has started but before your report is delivered: we refund the price, less a proportional amount for the work already done.",
         ] },
       ],
     },
@@ -823,7 +830,7 @@ const refundsEn: LegalDoc = {
       blocks: [
         "If we cannot deliver your report, for example because of a technical problem on our side or because we cannot complete the review, we refund you in full.",
         "If your photos cannot be used, we first ask you to retake them at no cost. If it is still not possible to produce a report from your photos, we refund you in full.",
-        "If you withdraw your photo consent before delivery, we delete your photos and cannot finish the report. If our review has not started yet, we refund you in full. If it has, we refund the price less a fair amount for the work already done.",
+        "If you withdraw your photo consent before delivery, we delete your photos and cannot finish the report. If our review has not started yet, we refund you in full. If it has, we refund the price less a proportional amount for the work already done.",
       ],
     },
     {
@@ -845,9 +852,9 @@ const refundsEn: LegalDoc = {
       heading: "5. Membership",
       blocks: [
         { list: [
-          "You can cancel at any time in Settings.",
+          "You can cancel at any time on your Account page.",
           "A monthly membership ends at the end of the month you have paid for. You keep your benefits until then.",
-          `A yearly membership runs for 12 months, then continues month to month at ${PRICES.monthly} KWD a month, which you can cancel at any time.`,
+          `A yearly membership costs ${PRICES.yearly} KWD for 12 months, then ${PRICES.monthly} KWD a month. After the 12 months it continues month to month, and you can cancel at any time.`,
           "If you end a yearly membership during its first 12 months, we refund a proportional part of the price for the full months that are left.",
           "The 30 days of membership included with the report are part of the report price and are not refunded separately.",
           "If we cannot deliver a monthly check-in, we refund that month (or the matching part of a yearly membership) or extend your membership, as you prefer.",
@@ -895,8 +902,9 @@ const refundsAr: LegalDoc = {
   description: `حقكم في الانسحاب خلال 14 يوماً، ومتى يردّ ${BRAND_NAME} قيمة التقرير أو العضوية.`,
   summary: [
     "يمكنكم الانسحاب خلال 14 يوماً من الشراء دون ذكر أي سبب.",
-    "قبل إرسال الصور: تستردّون المبلغ كاملاً.",
-    "بعد إرسال الصور وقبل التسليم: نردّ المبلغ بعد خصم جزء متناسب مقابل العمل المُنجز.",
+    "قبل بدء مراجعتنا لصوركم: تستردّون المبلغ كاملاً.",
+    "بعد بدء المراجعة وقبل التسليم: نردّ المبلغ بعد خصم جزء متناسب مقابل العمل المُنجز.",
+    "بعد تسليم تقريركم، لا يعود حق الانسحاب قائماً.",
     "إذا لم نتمكّن من تسليم تقريركم، تستردّون المبلغ كاملاً.",
     "العضوية: يمكنكم الإلغاء في أي وقت. وإذا أنهيتم العضوية السنوية مبكراً، نردّ قيمة الأشهر الكاملة المتبقية.",
   ],
@@ -906,18 +914,18 @@ const refundsAr: LegalDoc = {
       heading: "1. حقكم في الانسحاب (14 يوماً)",
       blocks: [
         `يمكنكم الانسحاب من الشراء خلال 14 يوماً من تاريخه دون ذكر أي سبب. أبلغونا على ${COMPANY.email}، أو أرسلوا نموذج الانسحاب الموجود في البند 7. ويكفي أن ترسلوه قبل انتهاء الأيام الأربعة عشر.`,
-        "إذا طلبتم منا البدء في إعداد تقريركم خلال هذه الأيام الأربعة عشر، تدفعون عند الانسحاب مقابل الجزء الذي أُنجز من العمل. وبعد تسليم التقرير، لا يعود حق الانسحاب قائماً.",
+        "قبل إرسال صوركم، تطلبون منا البدء في إعداد تقريركم فوراً وتؤكدون أنكم تفهمون ما يلي: إذا انسحبتم بعد بدء مراجعتنا، تدفعون مبلغاً متناسباً مقابل العمل المُنجز. وبعد تسليم تقريركم، تفقدون حق الانسحاب.",
         "بالنسبة للعضوية، تبدأ الأيام الأربعة عشر من يوم بدئها.",
         "نردّ لكم المبلغ خلال 14 يوماً من استلام طلب الانسحاب.",
       ],
     },
     {
       id: "before",
-      heading: "2. قبل إرسال الصور وبعده",
+      heading: "2. قبل بدء المراجعة وبعده",
       blocks: [
         { list: [
-          "قبل إرسال الصور: يمكنكم طلب استرداد المبلغ كاملاً لأي سبب.",
-          "بعد إرسال الصور وقبل تسليم التقرير: نردّ لكم السعر بعد خصم جزء متناسب مقابل العمل المُنجز.",
+          "قبل إرسال الصور، أو بعد إرسالها وقبل بدء مراجعتنا: يمكنكم طلب استرداد المبلغ كاملاً لأي سبب.",
+          "بعد بدء المراجعة وقبل تسليم التقرير: نردّ لكم السعر بعد خصم جزء متناسب مقابل العمل المُنجز.",
         ] },
       ],
     },
@@ -927,7 +935,7 @@ const refundsAr: LegalDoc = {
       blocks: [
         "إذا لم نتمكّن من تسليم تقريركم، مثلاً بسبب مشكلة تقنية من جهتنا أو لعدم قدرتنا على إكمال المراجعة، نردّ لكم المبلغ كاملاً.",
         "إذا لم تكن صوركم صالحة، نطلب منكم أولاً إعادة التصوير دون أي تكلفة. وإذا ظل إعداد التقرير من صوركم غير ممكن، نردّ لكم المبلغ كاملاً.",
-        "إذا سحبتم موافقتكم على معالجة الصور قبل التسليم، نحذف صوركم ولا نستطيع إكمال التقرير. إذا لم تكن المراجعة قد بدأت، نردّ لكم المبلغ كاملاً. وإذا كانت قد بدأت، نردّ لكم السعر بعد خصم مبلغ عادل مقابل العمل المُنجز.",
+        "إذا سحبتم موافقتكم على معالجة الصور قبل التسليم، نحذف صوركم ولا نستطيع إكمال التقرير. إذا لم تكن المراجعة قد بدأت، نردّ لكم المبلغ كاملاً. وإذا كانت قد بدأت، نردّ لكم السعر بعد خصم مبلغ متناسب مقابل العمل المُنجز.",
       ],
     },
     {
@@ -949,9 +957,9 @@ const refundsAr: LegalDoc = {
       heading: "5. العضوية",
       blocks: [
         { list: [
-          "يمكنكم الإلغاء في أي وقت من الإعدادات.",
+          "يمكنكم الإلغاء في أي وقت من صفحة حسابكم.",
           "تنتهي العضوية الشهرية في نهاية الشهر المدفوع، وتبقى المزايا متاحة لكم حتى ذلك الحين.",
-          `تستمر العضوية السنوية لمدة 12 شهراً، ثم تستمر شهرياً بسعر ${PRICES.monthly} د.ك في الشهر، ويمكنكم إلغاؤها في أي وقت.`,
+          `سعر العضوية السنوية ${PRICES.yearly} د.ك لمدة 12 شهراً، ثم ${PRICES.monthly} د.ك شهرياً. وبعد الأشهر الاثني عشر تستمر شهرياً، ويمكنكم إلغاؤها في أي وقت.`,
           "إذا أنهيتم العضوية السنوية خلال أول 12 شهراً، نردّ لكم جزءاً متناسباً من السعر عن الأشهر الكاملة المتبقية.",
           "الأيام الثلاثون من العضوية المشمولة مع التقرير جزء من سعر التقرير، ولا تُستردّ قيمتها بشكل منفصل.",
           "إذا لم نتمكّن من تقديم فحص المتابعة الشهري، نردّ قيمة ذلك الشهر (أو الجزء المقابل من العضوية السنوية) أو نمدّد عضويتكم، حسب ما تفضّلون.",

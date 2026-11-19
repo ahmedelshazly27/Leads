@@ -70,9 +70,26 @@ const T = {
   },
 };
 
+/**
+ * Arabic for the women's list speaks to one woman in Gulf Arabic (feminine
+ * forms), the same register as the waitlist intro on /ar/start and the landing.
+ */
+const AR_WOMEN: Partial<typeof T.ar> = {
+  title: "سجّلي في قائمة الانتظار",
+  introWomen: "خدمتنا للنساء ما انفتحت بعد. اتركي إيميلچ ونبلغچ أول ما تنفتح.",
+  submit: "سجّليني في القائمة",
+  privacy: "نستخدم بياناتچ بس عشان نبلغچ أول ما نفتح، وما نبيعها ولا نعطيها لأي جهة ثانية للتسويق. وتقدرين تطلبين حذفها في أي وقت. شوفي [[سياسة الخصوصية|privacy]].",
+  errEmail: "اكتبي إيميل صحيح.",
+  errGeneric: "صار خطأ من جهتنا. حاولي مرة ثانية بعد شوي.",
+  joinedTitle: "تم تسجيلچ في القائمة",
+  joinedBody: "شكراً لچ. نراسلچ بالإيميل أول ما تنفتح خدمة النساء.",
+  alreadyTitle: "إنتِ مسجّلة في القائمة من قبل",
+  alreadyBody: "هذا الإيميل موجود في قائمة الانتظار. نتواصل وياچ أول ما نفتح.",
+};
+
 export function WaitlistForm({ source, gender = null, lang: langProp, bare = false, onJoined, className }: WaitlistFormProps) {
   const lang = useLegalLang(langProp);
-  const t = T[lang];
+  const t = lang === "ar" && gender === "female" ? { ...T.ar, ...AR_WOMEN } : T[lang];
   const id = useId();
   const [email, setEmail] = useState("");
   const [adult, setAdult] = useState(false);

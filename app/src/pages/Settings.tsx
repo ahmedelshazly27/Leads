@@ -4,7 +4,7 @@ import { PageHeader, Toggle } from "../components/ui";
 import { Download } from "../components/icons";
 import { exportAll, importAll, resetAll, setStaff, useAppState } from "../lib/store";
 import { backendEnabled } from "../lib/backend";
-import { useLang } from "../lib/i18n";
+import { setLang, useLang, type Lang } from "../lib/i18n";
 import { legalHref } from "./legal/content";
 import "./pages.css";
 
@@ -45,10 +45,28 @@ export function Settings() {
         lead="Display preferences and your data."
         right={
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-            <Link to="/" className="btn btn-ghost">About &amp; pricing</Link>
+            <Link to={lang === "ar" ? "/ar" : "/"} className="btn btn-ghost">About &amp; pricing</Link>
           </div>
         }
       />
+
+      <div className="bt-card" style={{ padding: "4px 22px" }}>
+        <div className="st-row">
+          <div>
+            <div className="title-md">Language</div>
+            <p className="lead">The language of the app, your report and the pages you open from here.</p>
+          </div>
+          <Toggle
+            value={lang}
+            onChange={(v) => setLang(v as Lang)}
+            options={[
+              // written so neither label is a dictionary key: it must not be swapped
+              { value: "en", label: "English\u200b" },
+              { value: "ar", label: "العربية" },
+            ]}
+          />
+        </div>
+      </div>
 
       {backendEnabled && (
         <div className="bt-card" style={{ padding: "4px 22px" }}>
@@ -58,7 +76,7 @@ export function Settings() {
               <p className="lead">Orders, membership, and your data online: download it, withdraw photo consent or delete your account.</p>
             </div>
             <div className="st-actions">
-              <Link to="/account" className="btn">
+              <Link to={lang === "ar" ? "/ar/account" : "/account"} className="btn">
                 Open account
               </Link>
             </div>

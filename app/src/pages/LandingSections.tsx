@@ -469,7 +469,7 @@ export function PersonalPlan({ data }: { data: SampleData }) {
           </h2>
           <p>Understand your features and act on them today, with a plan built for your face, body and life.</p>
           <ol>
-            {["Your expert-reviewed analysis", "See a realistic 12-month visual", "Your step-by-step protocol", "Track your progress monthly"].map((t, n) => (
+            {["Your expert-reviewed analysis", "See a realistic 12-month visual", "Your step-by-step protocol", "Track your progress monthly with membership"].map((t, n) => (
               <li key={t}>
                 <span>[{n + 1}]</span>
                 {t}

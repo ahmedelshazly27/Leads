@@ -5,7 +5,7 @@
 import { HttpError, json, readJson, requireUuid, serve, UUID_RE } from "../_shared/http.ts";
 import { requireRole } from "../_shared/auth.ts";
 import { admin, audit, must } from "../_shared/supabase.ts";
-import { reportReadyEmail, sendEmail } from "../_shared/email.ts";
+import { asLocale, customerUrl, firstName, reportReadyEmail, sendEmail } from "../_shared/email.ts";
 
 serve(async (req) => {
   const { user, profile } = await requireRole(req, ["reviewer", "admin"]);
@@ -79,13 +79,11 @@ serve(async (req) => {
       .update({ status: "delivered", delivered_at: now })
       .eq("id", orderId)
       .eq("status", "in_review")
-      .select("id, status, delivered_at")
+      .select("*")
       .maybeSingle(),
     "deliver",
   );
   if (!delivered) throw new HttpError(409, "wrong_status", "The order changed while approving. Please reload.");
-
-  await audit("orders.delivered", "orders", orderId, { generation_ids: generationIds }, user.id);
 
   // Email (failure does not undo the delivery).
   let emailed = false;
@@ -99,20 +97,20 @@ serve(async (req) => {
     if (authErr) console.warn("customer lookup for email failed:", authErr.message);
     const to = authUser?.user?.email ?? null;
     if (customer && to) {
-      const site = (Deno.env.get("SITE_URL") ?? "").replace(/\/$/, "");
-      const locale = customer.locale === "ar" ? "ar" : "en";
-      const firstName = (customer.full_name as string | null)?.split(/\s+/)[0] ?? null;
+      // The order page in the customer's language (/ar/orders/:id for Arabic).
+      const locale = asLocale(customer.locale);
       const msg = reportReadyEmail({
         locale,
-        name: firstName,
-        link: `${site}/orders/${orderId}`,
-        brand: Deno.env.get("BRAND_NAME") ?? "",
+        name: firstName(customer.full_name as string | null),
+        link: customerUrl(locale, `/orders/${orderId}`),
       });
       const res = await sendEmail({ to, ...msg });
       emailed = res.ok;
       if (!res.ok) console.warn("report-ready email not sent:", res.error);
     }
   }
+
+  await audit("orders.delivered", "orders", orderId, { generation_ids: generationIds, emailed }, user.id);
 
   return json(req, { order: delivered, emailed });
 });

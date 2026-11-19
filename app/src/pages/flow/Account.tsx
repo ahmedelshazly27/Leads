@@ -4,9 +4,11 @@
  * ?checkout=success.
  *
  * The membership is cancelled, resumed or (yearly, once paid) ended early with
- * a refund through manage-membership.
+ * a refund through manage-membership. The 30 days included with a report-only
+ * purchase (isIncluded) never renew: they show their end date and the
+ * buttons to join monthly or yearly instead.
  */
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { SignIn } from "../../components/SignIn";
 import { BRAND_NAME } from "../../lib/brand";
@@ -17,7 +19,9 @@ import {
   deleteMyData,
   downloadMyData,
   isActiveMember,
+  includedUntil,
   isCancelling,
+  isIncluded,
   manageMembership,
   PRICES_KWD,
   yearlyEndNowRefund,
@@ -35,7 +39,7 @@ import {
   type SubscriptionRow,
 } from "../../lib/backend";
 import { legalHref } from "../legal/content";
-import { amt, errCode, FlowHead, FlowOff, FlowShell, fmtDate, LegalLinks, Spinner, useFlowLang } from "./FlowShell";
+import { amt, errCode, FlowHead, FlowOff, FlowShell, flowHref, fmtDate, LegalLinks, Spinner, useFlowLang } from "./FlowShell";
 
 export function Account() {
   const lang = useFlowLang();
@@ -101,8 +105,10 @@ function AccountInner({ lang, onDeleted }: { lang: Lang; onDeleted: () => void }
 function CheckoutNote() {
   const [params, setParams] = useSearchParams();
   const justPaid = params.get("checkout") === "success";
+  const cancelledPay = params.get("checkout") === "cancelled";
   const sub = useMySubscription();
-  const member = isActiveMember(sub.data);
+  // only memberships are paid for on /account: the included month (already active) does not count as the payment arriving
+  const member = isActiveMember(sub.data) && !isIncluded(sub.data);
   const { refresh } = sub;
 
   // the subscription is written by the payment webhook a few seconds after checkout
@@ -127,6 +133,12 @@ function CheckoutNote() {
     }
   }, [justPaid, member, params, setParams]);
 
+  if (cancelledPay)
+    return (
+      <p className="fl-note" role="status">
+        Payment cancelled. You have not been charged.
+      </p>
+    );
   if (!justPaid) return null;
   return member ? (
     <p className="fl-note is-ok" role="status">
@@ -192,7 +204,7 @@ function Orders({ lang }: { lang: Lang }) {
 
 function OrderLine({ order, lang }: { order: OrderRow; lang: Lang }) {
   return (
-    <Link to={`/orders/${order.id}`} className="fl-order">
+    <Link to={flowHref(`/orders/${order.id}`, lang)} className="fl-order">
       <span className="fl-choice-body">
         <span className="fl-order-title">{order.product === "checkin" ? "Monthly check-in" : "Report and 12-month plan"}</span>
         <span className="fl-muted">{order.amount > 0 ? `${fmtDate(order.created_at, lang)} · ${amt(order.amount)} KWD paid` : fmtDate(order.created_at, lang)}</span>
@@ -219,14 +231,18 @@ function Membership({ lang }: { lang: Lang }) {
         ) : (
           <p>Loading…</p>
         )
+      ) : s && member && isIncluded(s) ? (
+        <IncludedDetails sub={s} lang={lang} />
       ) : s && member ? (
         <MemberDetails sub={s} lang={lang} />
       ) : (
         <>
           <p>
-            {s?.status === "canceled"
-              ? `Your membership ended${s.current_period_end ? ` on ${fmtDate(s.current_period_end, lang)}` : ""}.`
-              : "You don't have a membership."}
+            {s && isIncluded(s) && s.current_period_end
+              ? `The month of membership included with your report ended on ${fmtDate(s.current_period_end, lang)}.`
+              : s?.status === "canceled"
+                ? `Your membership ended${s.current_period_end ? ` on ${fmtDate(s.current_period_end, lang)}` : ""}.`
+                : "You don't have a membership."}
           </p>
           <p className="fl-muted">Membership adds a monthly check-in scan with updated scores and plan, and a reviewer note each month. Cancel any time.</p>
           {hasReport ? (
@@ -241,6 +257,41 @@ function Membership({ lang }: { lang: Lang }) {
         </>
       )}
     </section>
+  );
+}
+
+/** The 30 days of membership included with a report: nothing to pay, nothing renews. */
+function IncludedDetails({ sub, lang }: { sub: SubscriptionRow; lang: Lang }) {
+  const until = fmtDate(includedUntil(sub) ?? sub.current_period_end, lang);
+  return (
+    <>
+      <dl className="fl-dl">
+        <dt>Billing</dt>
+        <dd>Included with your report</dd>
+        <dt>Price</dt>
+        <dd>Nothing to pay</dd>
+        <dt>Status</dt>
+        <dd>Active</dd>
+        {until && (
+          <>
+            <dt>Ends on</dt>
+            <dd>{until}</dd>
+          </>
+        )}
+      </dl>
+      <p>
+        {until
+          ? `Your report includes 30 days of membership. It ends on ${until} and nothing renews, so there is nothing to cancel.`
+          : "Your report includes 30 days of membership. It ends by itself and nothing renews, so there is nothing to cancel."}
+      </p>
+      <h3>Keep your monthly check-ins</h3>
+      <p className="fl-muted">
+        {until
+          ? `Join monthly or yearly to keep the monthly check-in scan and reviewer note after your included month. Nothing is charged before ${until}.`
+          : "Join monthly or yearly to keep the monthly check-in scan and reviewer note after your included month. Nothing is charged before it ends."}
+      </p>
+      <JoinMembership lang={lang} />
+    </>
   );
 }
 
@@ -276,11 +327,13 @@ function MemberDetails({ sub, lang }: { sub: SubscriptionRow; lang: Lang }) {
         });
     } catch (e) {
       const code = errCode(e);
-      if (!["no_membership", "ended", "not_yearly", "trialing", "not_stripe"].includes(code)) console.warn("manage membership failed", e);
+      if (!["no_membership", "ended", "not_yearly", "trialing", "not_stripe", "included"].includes(code)) console.warn("manage membership failed", e);
       setMsg({
         ok: false,
         text:
-          code === "ended" || code === "no_membership"
+          code === "included"
+            ? "The month included with your report has nothing to cancel or refund. It simply ends on its date."
+            : code === "ended" || code === "no_membership"
             ? "This membership has already ended. Reload the page to see the latest status."
             : code === "not_stripe"
               ? "This membership can't be changed here. Please contact us and we will do it for you."
@@ -410,6 +463,18 @@ function MemberDetails({ sub, lang }: { sub: SubscriptionRow; lang: Lang }) {
 function JoinMembership({ lang }: { lang: Lang }) {
   const [busy, setBusy] = useState<"membership_monthly" | "membership_yearly" | null>(null);
   const [error, setError] = useState<string | null>(null);
+  // the reminder email links to /account?join=membership_monthly|membership_yearly: highlight that choice
+  const [params] = useSearchParams();
+  const joinParam = params.get("join");
+  const picked = joinParam === "membership_monthly" || joinParam === "membership_yearly" ? joinParam : null;
+  const pickedRef = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    if (!picked) return;
+    pickedRef.current?.scrollIntoView({ block: "center" });
+    pickedRef.current?.focus({ preventScroll: true });
+  }, [picked]);
+  const btnClass = (plan: "membership_monthly" | "membership_yearly") =>
+    (picked ? picked === plan : plan === "membership_monthly") ? "fl-btn" : "fl-btn is-ghost";
   const start = async (plan: "membership_monthly" | "membership_yearly") => {
     setBusy(plan);
     setError(null);
@@ -432,16 +497,22 @@ function JoinMembership({ lang }: { lang: Lang }) {
   };
   return (
     <>
+      {picked && (
+        <p className="fl-note" role="status">
+          {picked === "membership_yearly" ? "To keep going yearly, press “Join yearly” below. You pay on the next page." : "To keep going monthly, press “Join monthly” below. You pay on the next page."}
+        </p>
+      )}
       <div className="fl-row">
-        <button type="button" className="fl-btn" disabled={!!busy} onClick={() => start("membership_monthly")}>
+        <button type="button" ref={picked === "membership_monthly" ? pickedRef : undefined} className={btnClass("membership_monthly")} disabled={!!busy} onClick={() => start("membership_monthly")}>
           {busy === "membership_monthly" && <Spinner />}
           {`Join monthly (${amt(PRICES_KWD.membership_monthly)} KWD a month)`}
         </button>
-        <button type="button" className="fl-btn is-ghost" disabled={!!busy} onClick={() => start("membership_yearly")}>
+        <button type="button" ref={picked === "membership_yearly" ? pickedRef : undefined} className={btnClass("membership_yearly")} disabled={!!busy} onClick={() => start("membership_yearly")}>
           {busy === "membership_yearly" && <Spinner />}
-          {`Join yearly (${amt(PRICES_KWD.membership_yearly)} KWD a year)`}
+          {`Join yearly (${amt(PRICES_KWD.membership_yearly)} KWD for 12 months)`}
         </button>
       </div>
+      <p className="fl-muted">{`After the first 12 months, the yearly membership continues at ${amt(PRICES_KWD.membership_monthly)} KWD a month. Cancel any time.`}</p>
       <p className="fl-muted">Paid by card, Apple Pay or Google Pay on a secure Stripe page.</p>
       {error && (
         <p className="fl-note is-bad" role="alert">
@@ -494,7 +565,9 @@ function Privacy({ lang, onDeleted }: { lang: Lang; onDeleted: () => void }) {
         setMsg({
           ok: true,
           text: cancelled
-            ? `Done. Photo consent withdrawn and your photos deleted. ${cancelled === 1 ? "An order in review was cancelled" : `${cancelled} orders in review were cancelled`}; our team handles the refund under the refund policy.`
+            ? cancelled === 1
+              ? "Done. Photo consent withdrawn and your photos deleted. Your review was stopped because we can't finish it without your photos. We will contact you about a refund under the refund policy."
+              : `Done. Photo consent withdrawn and your photos deleted. ${cancelled} reviews were stopped because we can't finish them without your photos. We will contact you about a refund under the refund policy.`
             : "Done. Photo consent withdrawn and your photos deleted.",
         });
       } catch (e) {

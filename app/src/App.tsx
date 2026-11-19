@@ -68,8 +68,8 @@ const PRELOAD: [RegExp, { preload: () => Promise<unknown> }[]][] = [
   [/^\/(ar\/?)?$/, [Landing]],
   [/^\/protocol\/?$/, [ProtocolViewer]],
   [/^\/(ar\/)?start\/?$/, [Start]],
-  [/^\/orders\/[^/]+/, [Order]],
-  [/^\/account\/?$/, [Account]],
+  [/^\/(ar\/)?orders\/[^/]+/, [Order]],
+  [/^\/(ar\/)?account\/?$/, [Account]],
   [/^\/admin\/?$/, [Admin]],
   [/^\/(ar\/)?privacy\/?$/, [Privacy]],
   [/^\/(ar\/)?terms\/?$/, [Terms]],
@@ -120,8 +120,8 @@ const TITLES: [RegExp, string][] = [
   [/^\/analysis/, "Analysis"],
   [/^\/protocol/, "Report"],
   [/^\/(ar\/)?start/, "Start"],
-  [/^\/orders/, "Your order"],
-  [/^\/account/, "Your account"],
+  [/^\/(ar\/)?orders/, "Your order"],
+  [/^\/(ar\/)?account/, "Your account"],
   [/^\/admin/, "Operator dashboard"],
 ];
 
@@ -163,7 +163,9 @@ export function App() {
       <Route path="/start" element={<Start />} />
       <Route path="/ar/start" element={<Start />} />
       <Route path="/orders/:orderId" element={<Order />} />
+      <Route path="/ar/orders/:orderId" element={<Order />} />
       <Route path="/account" element={<Account />} />
+      <Route path="/ar/account" element={<Account />} />
       <Route path="/admin" element={<Admin />} />
       <Route path="/privacy" element={<Privacy />} />
       <Route path="/terms" element={<Terms />} />

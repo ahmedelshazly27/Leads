@@ -59,10 +59,11 @@ export function AppShell() {
   const loc = useLocation();
   const lang = useLang();
   const root = useRef<HTMLDivElement>(null);
-  useArabicPage(root, lang);
+  const inAnalysis = loc.pathname.startsWith("/analysis");
+  // the report pages show marker definitions: only they load the marker dictionary
+  useArabicPage(root, lang, inAnalysis);
   const [collapsed, setCollapsed] = useState(false);
   const [drawer, setDrawer] = useState(false);
-  const inAnalysis = loc.pathname.startsWith("/analysis");
   const { profile, facePhoto, state: appState } = useActive();
   const staffOn = !!appState.settings.staff;
   useEffect(() => {

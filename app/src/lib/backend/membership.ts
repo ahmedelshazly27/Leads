@@ -11,7 +11,8 @@ import type { SubscriptionRow } from "./types";
  * - "resume":  undoes a cancel while the period is still running.
  * - "end_now": yearly plan only, once the year is paid: ends today and refunds
  *              the full months that are left (price / 12 each), to the card.
- * Errors (BackendError.code): no_membership, ended, not_yearly, trialing, not_stripe.
+ * Errors (BackendError.code): no_membership, ended, not_yearly, trialing, not_stripe,
+ * included (only the included month is running: it ends by itself, nothing to change).
  */
 export type MembershipAction = "cancel" | "resume" | "end_now";
 
@@ -64,6 +65,19 @@ export function yearlyEndNowRefund(sub: SubscriptionRow | null | undefined, year
   return { months, amountKwd: fils / 1000 };
 }
 
-/** The membership is set to end at `cancel_at` (still active until then). */
+/** The membership is set to end at `cancel_at` (still active until then). Never true for the included month (it has no renewal to cancel). */
 export const isCancelling = (sub: SubscriptionRow | null | undefined) =>
-  !!sub && (sub.status === "active" || sub.status === "trialing" || sub.status === "past_due") && !!sub.cancel_at;
+  !!sub && !isIncluded(sub) && (sub.status === "active" || sub.status === "trialing" || sub.status === "past_due") && !!sub.cancel_at;
+
+/* ------------------------- Included membership ------------------------- */
+
+/**
+ * The 30 days of membership that come with a report bought on its own (plan
+ * "report"): no payment behind it and no renewal. It ends at includedUntil();
+ * joining monthly or yearly during it starts the paid membership's trial until
+ * that date (create-checkout), so nothing is charged twice.
+ */
+export const isIncluded = (sub: SubscriptionRow | null | undefined): boolean => !!sub && sub.plan === "included";
+
+/** When the included month ends (ISO), or null when `sub` is not one. */
+export const includedUntil = (sub: SubscriptionRow | null | undefined): string | null => (isIncluded(sub) ? sub!.current_period_end ?? null : null);

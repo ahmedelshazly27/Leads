@@ -31,14 +31,14 @@ import {
   useOrderScan,
   useSession,
   type CustomerVisual,
-  type GenerationKind,
   type OrderRow,
   type OrderStatus,
   type PhotoUrls,
   type ReviewRow,
   type ScanRow,
 } from "../../lib/backend";
-import { FlowHead, FlowOff, FlowShell, fmtDate, LegalLinks, Spinner, useFlowLang } from "./FlowShell";
+import { visualCaptions } from "../review/serverShared";
+import { FlowHead, FlowOff, FlowShell, flowHref, fmtDate, LegalLinks, Spinner, useFlowLang } from "./FlowShell";
 
 /** Photos are deleted this many days after delivery. */
 const PHOTO_RETENTION_DAYS = 90;
@@ -188,7 +188,7 @@ function OrderView({ orderId, lang, setWide }: { orderId: string; lang: Lang; se
         <div className="fl-card">
           <p>We could not find this order in your account. If you paid with a different email, sign in with that one.</p>
           <div className="fl-row">
-            <Link to="/account" className="fl-btn">
+            <Link to={flowHref("/account", lang)} className="fl-btn">
               Go to my account
             </Link>
           </div>
@@ -331,7 +331,7 @@ function StatusBody({
         <div className="fl-card">
           <h2>Refunded</h2>
           <p>This order was refunded. The money goes back to the card or wallet you paid with; your bank may take a few days to show it.</p>
-          <Link to="/account" className="fl-link">
+          <Link to={flowHref("/account", lang)} className="fl-link">
             Go to my account
           </Link>
         </div>
@@ -361,7 +361,25 @@ type Phase = "intro" | "consent" | "scan";
 
 function PhotosStep({ order, lang, refresh, setWide }: { order: OrderRow; lang: Lang; refresh: () => void; setWide: (w: boolean) => void }) {
   const consents = useMyConsents();
-  const hasPhotoConsent = consents.data ? !!activeConsents(consents.data).photos : null;
+  /*
+   * Before the photos go out we need, on record: the photo consent, and the
+   * request to start the review within the 14-day withdrawal period
+   * ("withdrawal_waiver"; submit-scan refuses without it). The waiver is asked
+   * again for each report bought, so for a report it is only taken as given
+   * when it is newer than this order's payment (a monthly check-in falls under
+   * the membership's waiver). Timestamps are compared as dates, not strings
+   * ("+00:00" vs "Z", fractional seconds).
+   */
+  const hasPhotoConsent = useMemo(() => {
+    if (!consents.data) return null;
+    const active = activeConsents(consents.data);
+    const waiver = active.withdrawal_waiver;
+    if (!active.photos || !waiver) return false;
+    if (order.product !== "report") return true;
+    const paidAt = Date.parse(order.paid_at ?? order.created_at);
+    const givenAt = Date.parse(waiver.granted_at);
+    return !Number.isFinite(paidAt) || (Number.isFinite(givenAt) && givenAt >= paidAt);
+  }, [consents.data, order.product, order.paid_at, order.created_at]);
   const [phase, setPhase] = useState<Phase>("intro");
   /** the scan asked for consent again: keep it mounted (the analysis is in it) and show the consent above it */
   const [consentAgain, setConsentAgain] = useState(false);
@@ -401,6 +419,11 @@ function PhotosStep({ order, lang, refresh, setWide }: { order: OrderRow; lang: 
 
   const consentGate = (
     <>
+      {consentAgain && (
+        <p className="fl-note" role="status">
+          Please confirm your photo consent and that you want your review to start now. Your analysis is kept, and we send it as soon as you confirm.
+        </p>
+      )}
       {error && (
         <p className="fl-note is-bad" role="alert">
           {error}
@@ -416,15 +439,25 @@ function PhotosStep({ order, lang, refresh, setWide }: { order: OrderRow; lang: 
     </>
   );
 
+  const again = order.status === "changes_requested";
   if (phase === "intro")
     return (
       <div className="fl-card">
-        <h2>{order.status === "changes_requested" ? "Your reviewer needs new photos" : "Next: your photos"}</h2>
-        <p>
-          {order.status === "changes_requested"
-            ? "Some photos could not be used for your review. Please take them again; the guide shows how."
-            : "A short questionnaire, then a guided photo session."}
-        </p>
+        <h2>{again ? "Your reviewer needs new photos" : "Next: your photos"}</h2>
+        {again ? (
+          <>
+            <p>Some of your photos could not be used for a reliable review, for example because of the light, the angle or something covering your face. Nothing is wrong with your order.</p>
+            <h3>What to do</h3>
+            <ol className="fl-list">
+              <li>Tap Start below and answer the short questionnaire again.</li>
+              <li>Take the full photo session again and follow the guide on each photo: face straight to the camera, nothing covering it, hair off the forehead.</li>
+              <li>Send your new photos for review at the end. Your reviewer's time starts again from when you send them.</li>
+            </ol>
+            <p className="fl-muted">If you are not sure what to change, contact us before you start.</p>
+          </>
+        ) : (
+          <p>A short questionnaire, then a guided photo session.</p>
+        )}
         <ul className="fl-list">
           <li>A plain wall, soft light from the front, and someone to take the photos (or a timer)</li>
           <li>Fitted clothes for the body photos</li>
@@ -491,13 +524,6 @@ function InReview({ order, lang }: { order: OrderRow; lang: Lang }) {
 }
 
 /* ------------------------------- Delivered ---------------------------- */
-
-const VISUAL_LABEL: Record<GenerationKind, string> = {
-  face_after: "Face",
-  face_after_alt: "Face, another version",
-  body_after_front: "Body, front",
-  body_after_side: "Body, side",
-};
 
 function Delivered({ order, lang }: { order: OrderRow; lang: Lang }) {
   const review = useMyReview(order.id);
@@ -581,7 +607,7 @@ function Delivered({ order, lang }: { order: OrderRow; lang: Lang }) {
               ? `Your photos are deleted automatically on ${fmtDate(deleteOn, lang)}, 90 days after delivery. Your measurements and plan stay in your account.`
               : "Your photos are deleted automatically 90 days after delivery."}
         </p>
-        <Link to="/account" className="fl-link">
+        <Link to={flowHref("/account", lang)} className="fl-link">
           Privacy and your data
         </Link>
       </div>
@@ -590,16 +616,20 @@ function Delivered({ order, lang }: { order: OrderRow; lang: Lang }) {
 }
 
 function VisualGrid({ visuals }: { visuals: CustomerVisual[] }) {
+  const caps = visualCaptions(visuals);
   return (
     <div className="fl-visuals">
-      {visuals.map((v) => (
-        <figure key={v.generation_id}>
-          <a href={v.url} target="_blank" rel="noopener noreferrer">
-            <img src={v.url} alt={`AI illustration: ${VISUAL_LABEL[v.kind] ?? v.kind}`} loading="lazy" />
-          </a>
-          <figcaption>{VISUAL_LABEL[v.kind] ?? v.kind}</figcaption>
-        </figure>
-      ))}
+      {visuals.map((v) => {
+        const caption = caps.get(v.generation_id) ?? v.kind;
+        return (
+          <figure key={v.generation_id}>
+            <a href={v.url} target="_blank" rel="noopener noreferrer">
+              <img src={v.url} alt={`AI illustration: ${caption}`} loading="lazy" />
+            </a>
+            <figcaption>{caption}</figcaption>
+          </figure>
+        );
+      })}
     </div>
   );
 }

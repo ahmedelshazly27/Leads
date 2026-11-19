@@ -199,7 +199,7 @@ export function AllMarkers({ scan, profile }: SectionProps) {
                                 <dd>
                                   {p.norm.mean}
                                   {p.norm.sd != null ? ` ± ${p.norm.sd}` : ""} · {p.norm.group}
-                                  {p.status === "reference" && p.norm.sd != null && " · approximate landmark, calibration pending"}
+                                  {p.status === "reference" && p.norm.sd != null && <> · {"approximate landmark, calibration pending"}</>}
                                 </dd>
                               </div>
                             )}
