@@ -188,7 +188,7 @@ export function CompleteAnalysis({ data }: { data: SampleData }) {
           <p>Every face is different. We measure 48 markers across face, skin and body and explain what each one means for you.</p>
         </header>
         <div className="ls-analysis-stage">
-          <img className="ls-analysis-face" src={`${S}face.jpg`} alt="Synthetic sample client" />
+          <img loading="lazy" decoding="async" className="ls-analysis-face" src={`${S}face.jpg`} alt="Synthetic sample client" />
 
           <div className="ls-glass ls-g-dim">
             <span className="ls-glass-k">Shape · contrast</span>
@@ -288,9 +288,9 @@ export function TakingIntoAccount({ data }: { data: SampleData }) {
           text="Features are read against published references for your background where they exist; eye-tilt norms, for example, differ by ethnicity."
           thumb={
             <div className="ls-th-faces">
-              <img src={`${L}eyelid/mono.jpg`} alt="" />
-              <img src={`${L}eye-shape/almond.jpg`} alt="" />
-              <img src={`${L}eyelid/hooded.jpg`} alt="" />
+              <img loading="lazy" decoding="async" src={`${L}eyelid/mono.jpg`} alt="" />
+              <img loading="lazy" decoding="async" src={`${L}eye-shape/almond.jpg`} alt="" />
+              <img loading="lazy" decoding="async" src={`${L}eyelid/hooded.jpg`} alt="" />
             </div>
           }
         />
@@ -299,9 +299,9 @@ export function TakingIntoAccount({ data }: { data: SampleData }) {
           text="You pick the hair and beard. The plan respects what you won’t do, such as no clinical treatments."
           thumb={
             <div className="ls-th-faces">
-              <img src={`${L}hair-texture/2b.jpg`} alt="" />
-              <img src={`${L}hair-texture/3b.jpg`} alt="" />
-              <img src={`${L}hair-texture/4a.jpg`} alt="" />
+              <img loading="lazy" decoding="async" src={`${L}hair-texture/2b.jpg`} alt="" />
+              <img loading="lazy" decoding="async" src={`${L}hair-texture/3b.jpg`} alt="" />
+              <img loading="lazy" decoding="async" src={`${L}hair-texture/4a.jpg`} alt="" />
             </div>
           }
         />
@@ -332,7 +332,7 @@ export function TakingIntoAccount({ data }: { data: SampleData }) {
           text="Height, weight and waist set your calorie targets and body-fat estimate."
           thumb={
             <div className="ls-th-photo">
-              <img src={`${S}body_front.jpg`} alt="" />
+              <img loading="lazy" decoding="async" src={`${S}body_front.jpg`} alt="" />
             </div>
           }
         />
@@ -394,7 +394,7 @@ export function YouWillLearn({ data }: { data: SampleData }) {
           thumb={
             <div className="ls-th-mosaic">
               {["eye-shape/almond", "brow-thickness/even", "lip-balance/moderate", "chin-projection/balanced", "hairline/rounded", "jaw-width/moderate"].map((p) => (
-                <img key={p} src={`${L}${p}.jpg`} alt="" />
+                <img loading="lazy" decoding="async" key={p} src={`${L}${p}.jpg`} alt="" />
               ))}
             </div>
           }
@@ -404,7 +404,7 @@ export function YouWillLearn({ data }: { data: SampleData }) {
           text="How your proportions work together, from the front and in profile."
           thumb={
             <div className="ls-th-photo">
-              <img src={`${S}face_left.jpg`} alt="" />
+              <img loading="lazy" decoding="async" src={`${S}face_left.jpg`} alt="" />
             </div>
           }
         />
@@ -486,8 +486,8 @@ export function PersonalPlan({ data }: { data: SampleData }) {
                 <i className="short" />
                 {n === 2 && (
                   <div className="ls-mini-pair">
-                    <img src={`${S}face.jpg`} alt="" />
-                    <img src={`${S}face_after.jpg`} alt="" />
+                    <img loading="lazy" decoding="async" src={`${S}face.jpg`} alt="" />
+                    <img loading="lazy" decoding="async" src={`${S}face_after.jpg`} alt="" />
                   </div>
                 )}
               </div>
@@ -502,11 +502,11 @@ export function PersonalPlan({ data }: { data: SampleData }) {
             </div>
             <div className="ls-doc-pair">
               <figure>
-                <img src={`${S}face.jpg`} alt="Sample client before" />
+                <img loading="lazy" decoding="async" src={`${S}face.jpg`} alt="Sample client before" />
                 <figcaption>Before</figcaption>
               </figure>
               <figure>
-                <img src={`${S}face_after.jpg`} alt="AI illustration of the 12-month plan" />
+                <img loading="lazy" decoding="async" src={`${S}face_after.jpg`} alt="AI illustration of the 12-month plan" />
                 <figcaption>12 months · AI illustration</figcaption>
               </figure>
             </div>
@@ -533,7 +533,7 @@ export function PersonalPlan({ data }: { data: SampleData }) {
           <aside className="ls-device-side">
             <h4>Client profile</h4>
             <div className="ls-profile-who">
-              <img src={`${S}face.jpg`} alt="" />
+              <img loading="lazy" decoding="async" src={`${S}face.jpg`} alt="" />
               <div>
                 <b>{i.name.replace(" (sample)", "")}</b>
                 <span>Sample · synthetic person</span>

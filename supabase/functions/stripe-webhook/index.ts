@@ -9,7 +9,7 @@
 //   customer.subscription.deleted, invoice.paid, invoice.payment_failed,
 //   charge.refunded
 import { HttpError, json, requireEnv, serve } from "../_shared/http.ts";
-import { admin, audit, must } from "../_shared/supabase.ts";
+import { admin, audit, must, mustOne } from "../_shared/supabase.ts";
 import { cryptoProvider, fromMinor, type Stripe, stripe } from "../_shared/stripe.ts";
 
 const round3 = (n: number) => Math.round(n * 1000) / 1000;
@@ -31,7 +31,14 @@ interface FeeInfo {
 }
 
 async function feeForCharge(chargeId: string | null): Promise<FeeInfo> {
-  const empty: FeeInfo = { chargeId, fee: null, net: null, settlementCurrency: null, settlementFee: null, settlementNet: null };
+  const empty: FeeInfo = {
+    chargeId,
+    fee: null,
+    net: null,
+    settlementCurrency: null,
+    settlementFee: null,
+    settlementNet: null,
+  };
   if (!chargeId) return empty;
   const charge = await stripe().charges.retrieve(chargeId, { expand: ["balance_transaction"] });
   const bt = charge.balance_transaction;
@@ -58,7 +65,9 @@ async function chargeIdForPaymentIntent(piId: string | null): Promise<string | n
 }
 
 // ---------------------------------------------------------------------------
-// Payments (one row per provider reference; a fee cost row the first time)
+// Payments (one row per provider reference). The fee becomes one costs row,
+// keyed on the charge (costs.source_ref), so retries and concurrent
+// deliveries never write it twice.
 // ---------------------------------------------------------------------------
 interface PaymentInput {
   ref: string;
@@ -81,7 +90,10 @@ async function recordPayment(p: PaymentInput): Promise<void> {
   );
   if (existing && existing.status === p.status) return;
 
-  const fee = p.withFee ? await feeForCharge(p.chargeId) : null;
+  // A fee exists only for a successful charge; one already recorded as
+  // succeeded has its fee row already.
+  const needsFee = p.withFee && p.status === "succeeded" && existing?.status !== "succeeded";
+  const fee = needsFee ? await feeForCharge(p.chargeId) : null;
   const row = {
     provider: "stripe",
     provider_ref: p.ref,
@@ -100,20 +112,21 @@ async function recordPayment(p: PaymentInput): Promise<void> {
   };
   must(await db.from("payments").upsert(row, { onConflict: "provider,provider_ref" }), "payment upsert");
 
-  if (!existing && fee) {
+  if (fee) {
     // Fee in KWD when Stripe gave a rate, otherwise in the settlement currency.
     const amount = fee.fee ?? fee.settlementFee;
     const feeCurrency = fee.fee != null ? currency : fee.settlementCurrency;
     if (amount && amount > 0 && feeCurrency && ["KWD", "USD", "EUR"].includes(feeCurrency)) {
       must(
-        await db.from("costs").insert({
+        await db.from("costs").upsert({
           order_id: p.orderId,
           user_id: p.userId,
           category: "payment_fee",
           amount,
           currency: feeCurrency,
           note: `stripe fee ${p.chargeId ?? p.ref}`,
-        }),
+          source_ref: `stripe:${p.chargeId ?? p.ref}`,
+        }, { onConflict: "category,source_ref", ignoreDuplicates: true }),
         "fee cost",
       );
     }
@@ -148,10 +161,18 @@ async function userIdForCustomer(customerId: string | null): Promise<string | nu
   return (row?.id as string | undefined) ?? null;
 }
 
+// A user id from metadata only counts while the account still exists
+// (it is gone after delete-my-data).
+async function existingUser(id: string | undefined): Promise<string | null> {
+  if (!id) return null;
+  const row = must(await admin().from("profiles").select("id").eq("id", id).maybeSingle(), "profile by id");
+  return (row?.id as string | undefined) ?? null;
+}
+
 async function upsertSubscription(sub: Stripe.Subscription): Promise<{ id: string; userId: string | null }> {
   const db = admin();
   const customerId = idOf(sub.customer);
-  const userId = sub.metadata?.user_id || (await userIdForCustomer(customerId));
+  const userId = (await existingUser(sub.metadata?.user_id)) ?? (await userIdForCustomer(customerId));
   const item = sub.items.data[0];
   const price = item?.price;
   const interval = price?.recurring?.interval;
@@ -176,15 +197,19 @@ async function upsertSubscription(sub: Stripe.Subscription): Promise<{ id: strin
     cancel_at: toIso(sub.cancel_at) ?? (sub.cancel_at_period_end ? toIso(periodEnd) : null),
     canceled_at: toIso(sub.canceled_at),
   };
-  const saved = must(
-    await db.from("subscriptions").upsert(row, { onConflict: "provider,provider_sub_id" }).select("id, user_id").single(),
+  const saved = mustOne(
+    await db.from("subscriptions").upsert(row, { onConflict: "provider,provider_sub_id" }).select("id, user_id")
+      .single(),
     "subscription upsert",
   );
   const id = saved.id as string;
   const ownerId = (saved.user_id as string | null) ?? null;
 
   if (userId && customerId) {
-    await db.from("profiles").update({ stripe_customer_id: customerId }).eq("id", userId).is("stripe_customer_id", null);
+    await db.from("profiles").update({ stripe_customer_id: customerId }).eq("id", userId).is(
+      "stripe_customer_id",
+      null,
+    );
   }
   const orderId = sub.metadata?.order_id;
   if (orderId) {
@@ -216,11 +241,14 @@ async function markOrderPaid(orderId: string): Promise<void> {
 async function onCheckoutCompleted(s: Stripe.Checkout.Session): Promise<void> {
   if (s.payment_status === "unpaid") return; // async method: wait for async_payment_succeeded
   const orderId = s.metadata?.order_id ?? null;
-  const userId = s.metadata?.user_id ?? null;
+  const userId = await existingUser(s.metadata?.user_id);
   const customerId = idOf(s.customer);
 
   if (userId && customerId) {
-    await admin().from("profiles").update({ stripe_customer_id: customerId }).eq("id", userId).is("stripe_customer_id", null);
+    await admin().from("profiles").update({ stripe_customer_id: customerId }).eq("id", userId).is(
+      "stripe_customer_id",
+      null,
+    );
   }
   if (orderId) await markOrderPaid(orderId);
 
@@ -266,7 +294,10 @@ function invoiceSubscriptionId(inv: Stripe.Invoice): string | null {
 }
 
 async function invoiceChargeId(inv: Stripe.Invoice): Promise<string | null> {
-  const legacy = inv as unknown as { charge?: string | { id: string } | null; payment_intent?: string | { id: string } | null };
+  const legacy = inv as unknown as {
+    charge?: string | { id: string } | null;
+    payment_intent?: string | { id: string } | null;
+  };
   const direct = idOf(legacy.charge);
   if (direct) return direct;
   const pi = idOf(legacy.payment_intent);
@@ -274,7 +305,8 @@ async function invoiceChargeId(inv: Stripe.Invoice): Promise<string | null> {
   // Newer API versions list payments on the invoice instead.
   try {
     const res = await stripe().rawRequest("GET", `/v1/invoice_payments?invoice=${inv.id}&limit=1`);
-    const pay = (res as unknown as { data?: Array<{ payment?: { payment_intent?: string; charge?: string } }> }).data?.[0]?.payment;
+    const pay = (res as unknown as { data?: Array<{ payment?: { payment_intent?: string; charge?: string } }> }).data
+      ?.[0]?.payment;
     if (pay?.charge) return pay.charge;
     if (pay?.payment_intent) return await chargeIdForPaymentIntent(pay.payment_intent);
   } catch (err) {
@@ -283,17 +315,54 @@ async function invoiceChargeId(inv: Stripe.Invoice): Promise<string | null> {
   return null;
 }
 
+// One check-in order per paid invoice. The unique index orders_checkin_ref_uidx
+// makes this safe when the same event is retried or delivered twice at once:
+// the losing insert gets a unique violation and reads the existing row.
+async function checkinOrderForInvoice(
+  invoiceId: string,
+  row: { userId: string; amount: number; currency: string; subscriptionId: string },
+): Promise<string> {
+  const db = admin();
+  const find = async () =>
+    must(
+      await db.from("orders").select("id").eq("provider", "stripe").eq("provider_ref", invoiceId)
+        .eq("product", "checkin").maybeSingle(),
+      "checkin order lookup",
+    );
+  const found = await find();
+  if (found) return found.id as string;
+
+  const { data, error } = await db
+    .from("orders")
+    .insert({
+      user_id: row.userId,
+      product: "checkin",
+      status: "awaiting_photos",
+      amount: row.amount,
+      currency: row.currency,
+      provider: "stripe",
+      provider_ref: invoiceId,
+      subscription_id: row.subscriptionId,
+      paid_at: new Date().toISOString(),
+    })
+    .select("id")
+    .single();
+  if (!error && data) return data.id as string;
+  if (error?.code === "23505") {
+    const again = await find();
+    if (again) return again.id as string;
+  }
+  throw new Error(`checkin order: ${error?.message ?? "no data returned"}`);
+}
+
+// Every step is idempotent (markOrderPaid only moves pending orders, the
+// check-in order is unique per invoice, the payment is unique per invoice and
+// the fee per charge), so a retry after a partial failure completes the work
+// instead of duplicating it.
 async function onInvoicePaid(inv: Stripe.Invoice): Promise<void> {
   if (!inv.amount_paid || inv.amount_paid <= 0) return; // trial or zero invoices
   const subId = invoiceSubscriptionId(inv);
   if (!subId || !inv.id) return;
-  const db = admin();
-
-  const existing = must(
-    await db.from("payments").select("id, status").eq("provider", "stripe").eq("provider_ref", inv.id).maybeSingle(),
-    "invoice payment lookup",
-  );
-  if (existing?.status === "succeeded") return;
 
   const sub = await stripe().subscriptions.retrieve(subId);
   const { id: subscriptionId, userId } = await upsertSubscription(sub);
@@ -307,25 +376,12 @@ async function onInvoicePaid(inv: Stripe.Invoice): Promise<void> {
     await markOrderPaid(reportOrder);
   } else if (userId) {
     // Membership period paid: one check-in (re-scan) order.
-    const order = must(
-      await db
-        .from("orders")
-        .insert({
-          user_id: userId,
-          product: "checkin",
-          status: "awaiting_photos",
-          amount: fromMinor(inv.amount_paid, currency),
-          currency,
-          provider: "stripe",
-          provider_ref: inv.id,
-          subscription_id: subscriptionId,
-          paid_at: new Date().toISOString(),
-        })
-        .select("id")
-        .single(),
-      "checkin order",
-    );
-    orderId = order.id as string;
+    orderId = await checkinOrderForInvoice(inv.id, {
+      userId,
+      amount: fromMinor(inv.amount_paid, currency),
+      currency,
+      subscriptionId,
+    });
   }
 
   await recordPayment({
@@ -351,7 +407,8 @@ async function onInvoiceFailed(inv: Stripe.Invoice): Promise<void> {
   );
   if (existing) return;
   const sub = must(
-    await db.from("subscriptions").select("id, user_id").eq("provider", "stripe").eq("provider_sub_id", subId).maybeSingle(),
+    await db.from("subscriptions").select("id, user_id").eq("provider", "stripe").eq("provider_sub_id", subId)
+      .maybeSingle(),
     "subscription lookup",
   );
   await recordPayment({
@@ -449,7 +506,10 @@ serve(async (req) => {
   if (seen?.processed_at) return json(req, { received: true, duplicate: true });
   if (!seen) {
     must(
-      await db.from("stripe_events").upsert({ id: event.id, type: event.type }, { onConflict: "id", ignoreDuplicates: true }),
+      await db.from("stripe_events").upsert({ id: event.id, type: event.type }, {
+        onConflict: "id",
+        ignoreDuplicates: true,
+      }),
       "event insert",
     );
   }

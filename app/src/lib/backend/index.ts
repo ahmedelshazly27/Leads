@@ -7,7 +7,7 @@
  */
 export { backendEnabled, backendMode, isMock, supabase, BackendError, invalidate, useBackendQuery, type BackendMode } from "./client";
 export * from "./types";
-export { getSession, useSession, whenSessionReady, sendCode, verifyCode, signOut, getMyProfile, updateMyProfile, useProfile, useRole } from "./auth";
+export { getSession, useSession, whenSessionReady, consentsFlushed, sendCode, verifyCode, signOut, getMyProfile, updateMyProfile, useProfile, useRole } from "./auth";
 export {
   startCheckout,
   redirectToCheckout,

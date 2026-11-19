@@ -82,22 +82,57 @@ function set(next: AppState) {
   emit();
 }
 
+/** Every photo kind stored per scan (IndexedDB key `photo:${scanId}:${kind}`). */
+const PHOTO_KINDS: PhotoKind[] = ["face", "body", "side", ...FACE_VIEWS];
+
+const isSample = (profileId: string) => profileId === SAMPLE_PROFILE_ID;
+
+/**
+ * Scans a user ran under the sample profile (older builds allowed a "check-in" on the sample)
+ * are moved to a profile of their own instead of being dropped.
+ */
+function rescueSampleScans(s: AppState, savedSample: Profile | undefined): AppState {
+  const mine = s.scans.filter((x) => isSample(x.profileId) && x.id !== SAMPLE_SCAN_ID);
+  if (!mine.length) return s;
+  const intake = savedSample?.intake ?? sampleProfile.intake;
+  const own: Profile = { id: uid(), createdAt: mine[0].createdAt, intake: { ...intake, name: intake.name === sampleProfile.intake.name ? "My analysis" : intake.name } };
+  const moved = new Set(mine.map((x) => x.id));
+  // habit ticks made on the sample in older builds move with the scans
+  const progress = { ...s.progress };
+  if (progress[SAMPLE_PROFILE_ID]) {
+    progress[own.id] = progress[SAMPLE_PROFILE_ID];
+    delete progress[SAMPLE_PROFILE_ID];
+  }
+  return {
+    ...s,
+    progress,
+    profiles: [...s.profiles, own],
+    scans: s.scans.map((x) => (moved.has(x.id) ? { ...x, profileId: own.id } : x)),
+    activeProfileId: isSample(s.activeProfileId ?? "") ? own.id : s.activeProfileId,
+  };
+}
+
 export async function initStore() {
   try {
     const saved = await idbGet<AppState>(STATE_KEY);
     if (saved && saved.version === 1) state = { ...empty(), ...saved, settings: { ...empty().settings, ...saved.settings }, visuals: saved.visuals ?? {}, bookings: saved.bookings ?? [] };
     if (state.settings.currency !== "KWD") state = { ...state, settings: { ...state.settings, currency: "KWD" } };
+    const savedSample = state.profiles.find((p) => isSample(p.id));
+    const rescued = rescueSampleScans(state, savedSample);
+    const changed = rescued !== state;
+    state = rescued;
     // keep the built-in sample in sync with the shipped sample data
-    if (state.profiles.some((p) => p.id === SAMPLE_PROFILE_ID)) {
+    if (savedSample) {
       state = {
         ...state,
-        profiles: state.profiles.map((p) => (p.id === SAMPLE_PROFILE_ID ? sampleProfile : p)),
-        scans: [...state.scans.filter((x) => x.id !== SAMPLE_SCAN_ID && x.profileId !== SAMPLE_PROFILE_ID), sampleScan],
+        profiles: state.profiles.map((p) => (isSample(p.id) ? sampleProfile : p)),
+        scans: [...state.scans.filter((x) => x.id !== SAMPLE_SCAN_ID), sampleScan],
         visuals: { ...state.visuals, [SAMPLE_SCAN_ID]: sampleVisuals },
       };
     }
+    if (changed) persist();
     for (const scan of state.scans) {
-      for (const kind of ["face", "body", "side", ...FACE_VIEWS] as const) {
+      for (const kind of PHOTO_KINDS) {
         const url = await idbGet<string>(`photo:${scan.id}:${kind}`);
         if (url) photos.set(`${scan.id}:${kind}`, url);
       }
@@ -144,6 +179,16 @@ export function photoUrl(scanId: string, kind: PhotoKind) {
 
 /* ----------------------------- Mutations -------------------------- */
 
+/** True for the built-in sample profile, which never takes a customer's scan. */
+export function isSampleProfile(profileId: string | null | undefined) {
+  return !!profileId && isSample(profileId);
+}
+
+/** The user has at least one profile of their own (not the sample). */
+export function hasOwnProfile(s: AppState) {
+  return s.profiles.some((p) => !p.sample && !isSample(p.id));
+}
+
 export function createProfile(intake: Intake): Profile {
   const p: Profile = { id: uid(), createdAt: new Date().toISOString(), intake };
   set({ ...state, profiles: [...state.profiles, p], activeProfileId: p.id });
@@ -158,6 +203,7 @@ export function updateIntake(profileId: string, intake: Intake) {
 }
 
 export async function addScan(scan: Scan, facePhoto: string | null, bodyPhoto: string | null, sidePhoto: string | null = null, views: Partial<Record<FaceView, string>> = {}) {
+  if (isSample(scan.profileId)) throw new Error("Scans can't be added to the sample profile. Start a new analysis instead.");
   for (const [kind, url] of Object.entries(views) as [FaceView, string][]) {
     if (!url) continue;
     photos.set(`${scan.id}:${kind}`, url);
@@ -191,14 +237,23 @@ export function setActiveProfile(id: string) {
   if (state.activeProfileId !== id) set({ ...state, activeProfileId: id });
 }
 
+/** Remove every stored photo kind of a scan from memory and IndexedDB. */
+function dropPhotos(scanId: string) {
+  for (const k of PHOTO_KINDS) {
+    photos.delete(`${scanId}:${k}`);
+    idbDel(`photo:${scanId}:${k}`).catch(() => {});
+  }
+}
+
+function withoutVisuals(visuals: AppState["visuals"], scanIds: string[]) {
+  const next = { ...visuals };
+  for (const id of scanIds) if (id !== SAMPLE_SCAN_ID) delete next[id];
+  return next;
+}
+
 export function deleteProfile(id: string) {
-  const gone = state.scans.filter((s) => s.profileId === id);
-  gone.forEach((s) => {
-    for (const k of ["face", "body", "side"]) {
-      photos.delete(`${s.id}:${k}`);
-      idbDel(`photo:${s.id}:${k}`).catch(() => {});
-    }
-  });
+  const gone = state.scans.filter((s) => s.profileId === id).map((s) => s.id);
+  gone.forEach(dropPhotos);
   const profiles = state.profiles.filter((p) => p.id !== id);
   const progress = { ...state.progress };
   delete progress[id];
@@ -207,16 +262,15 @@ export function deleteProfile(id: string) {
     profiles,
     scans: state.scans.filter((s) => s.profileId !== id),
     progress,
+    visuals: withoutVisuals(state.visuals, gone),
+    bookings: (state.bookings ?? []).filter((b) => b.profileId !== id),
     activeProfileId: state.activeProfileId === id ? profiles[0]?.id ?? null : state.activeProfileId,
   });
 }
 
 export function deleteScan(id: string) {
-  for (const k of ["face", "body", "side"]) {
-    photos.delete(`${id}:${k}`);
-    idbDel(`photo:${id}:${k}`).catch(() => {});
-  }
-  set({ ...state, scans: state.scans.filter((s) => s.id !== id) });
+  dropPhotos(id);
+  set({ ...state, scans: state.scans.filter((s) => s.id !== id), visuals: withoutVisuals(state.visuals, [id]) });
 }
 
 export function toggleProgress(profileId: string, itemId: string) {

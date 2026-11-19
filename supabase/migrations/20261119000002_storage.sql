@@ -85,3 +85,29 @@ create policy "visuals: reviewer reads assigned" on storage.objects
 create policy "visuals: admin deletes" on storage.objects
   for delete to authenticated
   using (bucket_id = 'visuals' and (select public.is_admin()));
+
+-- Photo objects that belong to no scan still holding photos: uploads whose
+-- scan row was never written, files left after a purge, retakes under another
+-- name. Only objects older than p_min_age_hours, so uploads in progress are
+-- left alone. purge-photos removes them through the Storage API.
+create or replace function public.orphan_photo_objects(p_min_age_hours int default 72, p_limit int default 500)
+returns table (name text)
+language sql stable security definer
+set search_path = ''
+as $$
+  select o.name
+  from storage.objects o
+  where o.bucket_id = 'photos'
+    and o.created_at < now() - make_interval(hours => p_min_age_hours)
+    and not exists (
+      select 1 from public.scans s
+      where s.id::text = split_part(o.name, '/', 2)
+        and s.user_id::text = split_part(o.name, '/', 1)
+        and s.photos_deleted_at is null
+    )
+  order by o.created_at
+  limit greatest(1, least(p_limit, 1000));
+$$;
+
+revoke execute on function public.orphan_photo_objects(int, int) from public, anon, authenticated;
+grant execute on function public.orphan_photo_objects(int, int) to service_role;

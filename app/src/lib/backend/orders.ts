@@ -1,6 +1,6 @@
 import { BackendError, backendMode, callFunction, check, num, sb, useBackendQuery } from "./client";
 import { mock } from "./mock";
-import { requireUserId, useSession } from "./auth";
+import { consentsFlushed, requireUserId, useSession } from "./auth";
 import type { CheckoutPlan, CustomerVisual, Locale, OrderRow, PaymentRow, QueryState, ReviewRow, SubscriptionRow } from "./types";
 
 export const normOrder = (o: OrderRow): OrderRow => ({ ...o, amount: num(o.amount) });
@@ -11,6 +11,8 @@ export const normPayment = (p: PaymentRow): PaymentRow => ({ ...p, amount: num(p
  * customer to; `redirectToCheckout` does the redirect for you.
  */
 export async function startCheckout(plan: CheckoutPlan, locale: Locale = "en"): Promise<{ url: string }> {
+  // The 18+ consent given before sign-in must be on record before checkout.
+  await consentsFlushed();
   if (backendMode === "mock") return mock.startCheckout(plan, locale);
   requireUserId();
   const res = await callFunction<{ url?: string }>("create-checkout", { plan, locale });

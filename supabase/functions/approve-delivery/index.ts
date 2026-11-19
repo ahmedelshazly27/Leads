@@ -91,10 +91,14 @@ serve(async (req) => {
   let emailed = false;
   if (order.user_id) {
     const customer = must(
-      await db.from("profiles").select("email, full_name, locale").eq("id", order.user_id).maybeSingle(),
+      await db.from("profiles").select("full_name, locale").eq("id", order.user_id).maybeSingle(),
       "customer",
     );
-    if (customer?.email) {
+    // The verified sign-in email, never a column the customer can edit.
+    const { data: authUser, error: authErr } = await db.auth.admin.getUserById(order.user_id as string);
+    if (authErr) console.warn("customer lookup for email failed:", authErr.message);
+    const to = authUser?.user?.email ?? null;
+    if (customer && to) {
       const site = (Deno.env.get("SITE_URL") ?? "").replace(/\/$/, "");
       const locale = customer.locale === "ar" ? "ar" : "en";
       const firstName = (customer.full_name as string | null)?.split(/\s+/)[0] ?? null;
@@ -104,7 +108,7 @@ serve(async (req) => {
         link: `${site}/orders/${orderId}`,
         brand: Deno.env.get("BRAND_NAME") ?? "",
       });
-      const res = await sendEmail({ to: customer.email as string, ...msg });
+      const res = await sendEmail({ to, ...msg });
       emailed = res.ok;
       if (!res.ok) console.warn("report-ready email not sent:", res.error);
     }

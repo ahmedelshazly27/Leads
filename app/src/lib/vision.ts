@@ -7,14 +7,22 @@ import {
 } from "@mediapipe/tasks-vision";
 import type { Pt } from "./types";
 
-const VERSION = "0.10.18";
+/** Set by vite.config.ts from the installed @mediapipe/tasks-vision package. */
+declare const __MEDIAPIPE_VERSION__: string;
+const VERSION = __MEDIAPIPE_VERSION__;
 const BASE = import.meta.env.BASE_URL;
 
+/**
+ * /models/ and /wasm/ are cached as immutable, so each URL carries a version:
+ * bump MODELS_VERSION (and the folder in scripts/setup-vision.mjs) whenever a model
+ * file changes; the WASM runtime folder follows the package version.
+ */
+const MODELS_VERSION = "v1";
 const LOCAL = {
-  wasm: `${BASE}wasm`,
-  face: `${BASE}models/face_landmarker.task`,
-  pose: `${BASE}models/pose_landmarker_heavy.task`,
-  seg: `${BASE}models/selfie_multiclass_256x256.tflite`,
+  wasm: `${BASE}wasm/${VERSION}`,
+  face: `${BASE}models/${MODELS_VERSION}/face_landmarker.task`,
+  pose: `${BASE}models/${MODELS_VERSION}/pose_landmarker_heavy.task`,
+  seg: `${BASE}models/${MODELS_VERSION}/selfie_multiclass_256x256.tflite`,
 };
 const REMOTE = {
   wasm: `https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@${VERSION}/wasm`,

@@ -4,7 +4,7 @@
 // assigns a gender-matched reviewer (least open orders first).
 import { HttpError, json, readJson, requireUuid, serve } from "../_shared/http.ts";
 import { requireUser } from "../_shared/auth.ts";
-import { admin, audit, must } from "../_shared/supabase.ts";
+import { admin, audit, must, mustOne } from "../_shared/supabase.ts";
 
 const REVIEW_HOURS = 72;
 
@@ -42,10 +42,14 @@ serve(async (req) => {
   }
 
   const photoConsent = must(
-    await db.from("consents").select("id").eq("user_id", user.id).eq("kind", "photos").is("withdrawn_at", null).limit(1),
+    await db.from("consents").select("id").eq("user_id", user.id).eq("kind", "photos").is("withdrawn_at", null).limit(
+      1,
+    ),
     "photo consent",
   );
-  if (!photoConsent?.length) throw new HttpError(403, "photo_consent_required", "Please agree to the photo consent first.");
+  if (!photoConsent?.length) {
+    throw new HttpError(403, "photo_consent_required", "Please agree to the photo consent first.");
+  }
 
   if (!profile.gender) throw new HttpError(400, "profile_incomplete", "Please complete your profile first.");
 
@@ -78,8 +82,9 @@ serve(async (req) => {
     console.warn(`No ${profile.gender} reviewer available for order ${orderId}; an admin must assign one.`);
   }
 
-  const fresh = must(
-    await db.from("orders").select("id, status, product, submitted_at, due_at, assigned_reviewer").eq("id", orderId).single(),
+  const fresh = mustOne(
+    await db.from("orders").select("id, status, product, submitted_at, due_at, assigned_reviewer").eq("id", orderId)
+      .single(),
     "order reload",
   );
   const { assigned_reviewer, ...rest } = fresh;

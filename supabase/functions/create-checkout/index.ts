@@ -6,7 +6,7 @@
 //   membership_monthly/_yearly  mode=subscription, no trial, no report order (check-ins come from paid invoices)
 import { HttpError, json, readJson, requireEnv, serve } from "../_shared/http.ts";
 import { requireUser } from "../_shared/auth.ts";
-import { admin, must } from "../_shared/supabase.ts";
+import { admin, must, mustOne } from "../_shared/supabase.ts";
 import { PRICES_KWD, type Stripe, stripe, toMinor, TRIAL_DAYS_WITH_REPORT } from "../_shared/stripe.ts";
 
 type Plan =
@@ -86,7 +86,11 @@ serve(async (req) => {
   const withMembership = plan !== "report";
   if (withMembership) {
     const open = must(
-      await db.from("subscriptions").select("id").eq("user_id", user.id).in("status", ["trialing", "active", "past_due"]).limit(1),
+      await db.from("subscriptions").select("id").eq("user_id", user.id).in("status", [
+        "trialing",
+        "active",
+        "past_due",
+      ]).limit(1),
       "subscriptions",
     );
     if (open?.length) throw new HttpError(409, "already_member", "You already have a membership.");
@@ -102,7 +106,7 @@ serve(async (req) => {
   // Order row for anything that includes the report.
   let orderId: string | null = null;
   if (includesReport) {
-    const order = must(
+    const order = mustOne(
       await db
         .from("orders")
         .insert({
@@ -128,9 +132,7 @@ serve(async (req) => {
     client_reference_id: orderId ?? user.id,
     metadata,
     locale: locale === "ar" ? "auto" : "en",
-    success_url: orderId
-      ? `${siteUrl}/orders/${orderId}?checkout=success`
-      : `${siteUrl}/account?checkout=success`,
+    success_url: orderId ? `${siteUrl}/orders/${orderId}?checkout=success` : `${siteUrl}/account?checkout=success`,
     cancel_url: `${siteUrl}/start?checkout=cancelled`,
     allow_promotion_codes: true,
   };
@@ -155,7 +157,10 @@ serve(async (req) => {
 
   let session: Stripe.Checkout.Session;
   try {
-    session = await stripe().checkout.sessions.create(params, orderId ? { idempotencyKey: `checkout-${orderId}` } : undefined);
+    session = await stripe().checkout.sessions.create(
+      params,
+      orderId ? { idempotencyKey: `checkout-${orderId}` } : undefined,
+    );
   } catch (err) {
     if (orderId) await db.from("orders").update({ status: "cancelled" }).eq("id", orderId);
     console.error("stripe checkout create failed", err);

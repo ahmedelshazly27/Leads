@@ -55,6 +55,25 @@ export type NutritionResult = Nutrition | { ok: false; missing: string[] };
 
 const round = (n: number, to = 1) => Math.round(n / to) * to;
 
+/** Plausible adult ranges; values outside them are almost always typos (or need a clinician, not an app). */
+export const BODY_LIMITS = { heightCm: [130, 220], weightKg: [35, 250], bmi: [13, 60] } as const;
+
+/** A friendly message when height/weight are outside plausible ranges, else null. Empty values are allowed. */
+export function bodyInputError(heightCm: number | null, weightKg: number | null): string | null {
+  const [hMin, hMax] = BODY_LIMITS.heightCm;
+  const [wMin, wMax] = BODY_LIMITS.weightKg;
+  const [bMin, bMax] = BODY_LIMITS.bmi;
+  if (heightCm != null && (!Number.isFinite(heightCm) || heightCm < hMin || heightCm > hMax))
+    return `Height should be between ${hMin} and ${hMax} cm — please check the number (for example 175, not 1.75).`;
+  if (weightKg != null && (!Number.isFinite(weightKg) || weightKg < wMin || weightKg > wMax))
+    return `Weight should be between ${wMin} and ${wMax} kg — please check the number.`;
+  if (heightCm != null && weightKg != null) {
+    const bmi = weightKg / (heightCm / 100) ** 2;
+    if (bmi < bMin || bmi > bMax) return "That height and weight don't look like they belong together — please check both numbers.";
+  }
+  return null;
+}
+
 export function mifflin(intake: Intake) {
   const { weightKg: w, heightCm: h, age, gender } = intake;
   if (!w || !h) return null;
@@ -76,11 +95,18 @@ const MEAL_TEMPLATES: { name: string; share: number; examples: string[] }[] = [
   { name: "Dinner", share: 0.3, examples: ["Grilled fish or lean beef kofta", "Roasted vegetables + potatoes or freekeh", "Cottage cheese or labneh before bed"] },
 ];
 
-function macrosFor(kcal: number, weight: number, proteinPerKg: number, fatShare: number): Macros {
-  const protein = round(weight * proteinPerKg);
-  const fat = round(Math.max(weight * 0.6, (kcal * fatShare) / 9));
+/**
+ * Macros for a calorie target. Protein and the fat floor use a reference weight capped at BMI 27 (our guidance), so a
+ * high body weight does not produce protein targets above what the energy budget allows. Water is kept within 1.5–4 L.
+ */
+function macrosFor(kcal: number, weight: number, proteinPerKg: number, fatShare: number, heightCm: number): Macros {
+  const refWeight = Math.min(weight, 27 * (heightCm / 100) ** 2);
+  const protein = round(refWeight * proteinPerKg);
+  const fat = round(Math.max(refWeight * 0.6, (kcal * fatShare) / 9));
   const carbs = Math.max(0, round((kcal - protein * 4 - fat * 9) / 4));
-  return { kcal: round(kcal, 10), protein, fat, carbs, fibre: round((kcal / 1000) * 14), waterL: Math.round(weight * 0.035 * 10) / 10 };
+  const total = Math.max(kcal, protein * 4 + fat * 9 + carbs * 4);
+  const waterL = Math.round(Math.min(4, Math.max(1.5, weight * 0.035)) * 10) / 10;
+  return { kcal: round(total, 10), protein, fat, carbs, fibre: round((total / 1000) * 14), waterL };
 }
 
 function meals(m: Macros): Meal[] {
@@ -94,9 +120,16 @@ function meals(m: Macros): Meal[] {
 
 export function buildNutrition(scan: Scan, intake: Intake, plan: Plan): NutritionResult {
   const missing = [!intake.heightCm && "height", !intake.weightKg && "weight"].filter(Boolean) as string[];
+  if (!missing.length && bodyInputError(intake.heightCm, intake.weightKg))
+    return { ok: false, missing: [`height and weight (within ${BODY_LIMITS.heightCm.join("–")} cm and ${BODY_LIMITS.weightKg.join("–")} kg)`] };
   const bmr = mifflin(intake);
   if (missing.length || bmr == null) return { ok: false, missing };
   const weight = intake.weightKg!;
+  const heightCm = intake.heightCm!;
+  const bmi = weight / (heightCm / 100) ** 2;
+  // never plan a deficit when underweight, pregnant or breastfeeding
+  const pregnantOrBf = intake.gender === "female" && (intake.pregnancy === "pregnant" || intake.pregnancy === "breastfeeding");
+  const noDeficit = bmi < 18.5 || pregnantOrBf;
   const af = activityFactor(Math.max(intake.trainingDays, plan.items.some((i) => i.id === "lifting") ? 3 : 0));
   // the plan asks for 4 sessions/week; use the planned activity, not today's, once training starts
   const tdee = bmr * af;
@@ -106,14 +139,15 @@ export function buildNutrition(scan: Scan, intake: Intake, plan: Plan): Nutritio
   const phases: NutritionPhase[] = [];
   const fatloss = plan.items.some((i) => i.id === "fatloss");
 
-  if (fatloss && bf != null && plan.monthsToTarget) {
+  if (fatloss && !noDeficit && bf != null && plan.monthsToTarget) {
     const months = Math.min(12, plan.monthsToTarget);
     const weeklyLoss = weight * 0.006; // 0.6 %/week, middle of 0.5–0.7 %
     const dailyDeficit = Math.min((weeklyLoss * 7700) / 7, tdee * 0.25);
     const kcal = Math.max(minKcal, tdee - dailyDeficit);
     const actualWeekly = ((tdee - kcal) * 7) / 7700;
-    const end = weight - actualWeekly * months * 4.33;
-    const m1 = macrosFor(kcal, weight, 2.0, 0.27);
+    // never project below a BMI of 20
+    const end = Math.max(weight - actualWeekly * months * 4.33, Math.min(weight, 20 * (heightCm / 100) ** 2));
+    const m1 = macrosFor(kcal, weight, 2.0, 0.27, heightCm);
     phases.push({
       id: "fatloss",
       name: "Fat loss",
@@ -128,7 +162,7 @@ export function buildNutrition(scan: Scan, intake: Intake, plan: Plan): Nutritio
     });
     if (months < 12) {
       const tdee2 = (10 * end + 6.25 * intake.heightCm! - 5 * intake.age + (male ? 5 : intake.gender === "female" ? -161 : -78)) * af * 1.05;
-      const m2 = macrosFor(tdee2, end, 1.8, 0.28);
+      const m2 = macrosFor(tdee2, end, 1.8, 0.28, heightCm);
       phases.push({
         id: "maintain",
         name: "Lean maintenance / slow gain",
@@ -143,7 +177,7 @@ export function buildNutrition(scan: Scan, intake: Intake, plan: Plan): Nutritio
       });
     }
   } else {
-    const m = macrosFor(tdee, weight, 1.8, 0.28);
+    const m = macrosFor(tdee, weight, 1.8, 0.28, heightCm);
     phases.push({
       id: "recomp",
       name: "Maintenance & recomposition",
@@ -171,6 +205,8 @@ export function buildNutrition(scan: Scan, intake: Intake, plan: Plan): Nutritio
       "Energy needs are estimates; your real needs can differ by 10 % or more. Weigh yourself daily, compare weekly averages, and adjust by 100–150 kcal if the trend is off after 2–3 weeks.",
       "Activity assumes the plan's training schedule (3–4 sessions/week) plus daily steps.",
       "Not medical nutrition therapy. If you have a medical condition, are on medication, or have a history of disordered eating, see a registered dietitian first.",
+      ...(bmi < 18.5 ? ["Your BMI is below 18.5, so this plan does not include a calorie deficit. Please check with a doctor before changing how much you eat."] : []),
+      ...(pregnantOrBf ? ["You told us you are pregnant or breastfeeding, so this plan does not include a calorie deficit. Energy needs change during this time — follow your doctor's or midwife's advice."] : []),
     ],
   };
 }

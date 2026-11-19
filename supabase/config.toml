@@ -1,0 +1,48 @@
+# Supabase CLI settings. The project is not linked yet: see supabase/README.md.
+project_id = "leads-app"
+
+[db]
+major_version = 17
+
+[auth]
+site_url = "http://localhost:5173"
+additional_redirect_urls = ["http://localhost:5173"]
+
+[auth.email]
+enable_signup = true
+# Sign-in is a 6-digit one-time code sent by email.
+otp_length = 6
+otp_expiry = 600
+
+# Every function checks the caller itself (user token, reviewer/admin role,
+# service key or Stripe signature), so gateway JWT verification is off. This
+# also keeps them working with the newer asymmetric JWT signing keys.
+[functions.create-checkout]
+verify_jwt = false
+
+[functions.stripe-webhook]
+verify_jwt = false
+
+[functions.submit-scan]
+verify_jwt = false
+
+[functions.generate-visual]
+verify_jwt = false
+
+[functions.approve-delivery]
+verify_jwt = false
+
+[functions.customer-visuals]
+verify_jwt = false
+
+[functions.delete-my-data]
+verify_jwt = false
+
+[functions.purge-photos]
+verify_jwt = false
+
+[functions.sync-meta-ads]
+verify_jwt = false
+
+[functions.join-waitlist]
+verify_jwt = false

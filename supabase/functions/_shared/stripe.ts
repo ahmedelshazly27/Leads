@@ -21,7 +21,22 @@ export const cryptoProvider = Stripe.createSubtleCryptoProvider();
 // Stripe amounts are integers in the currency's minor unit.
 const THREE_DECIMAL = new Set(["BHD", "JOD", "KWD", "OMR", "TND"]);
 const ZERO_DECIMAL = new Set([
-  "BIF", "CLP", "DJF", "GNF", "JPY", "KMF", "KRW", "MGA", "PYG", "RWF", "UGX", "VND", "VUV", "XAF", "XOF", "XPF",
+  "BIF",
+  "CLP",
+  "DJF",
+  "GNF",
+  "JPY",
+  "KMF",
+  "KRW",
+  "MGA",
+  "PYG",
+  "RWF",
+  "UGX",
+  "VND",
+  "VUV",
+  "XAF",
+  "XOF",
+  "XPF",
 ]);
 
 export function minorUnit(currency: string): number {

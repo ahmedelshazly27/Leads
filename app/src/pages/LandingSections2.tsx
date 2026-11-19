@@ -6,6 +6,16 @@ import { LIBRARY, NO_PHOTO, matchFor, type Ctx } from "../lib/library";
 import { FeatureArt } from "../components/FeatureArt";
 import type { SampleData } from "./LandingSections";
 import "./LandingSections.css";
+import { preloadRoute } from "../App";
+
+/**
+ * Start loading an app page's chunks as soon as a link to it is pointed at or
+ * focused, so the click lands on a page that is ready (or nearly).
+ */
+export const warm = (to: string) => {
+  const go = () => void preloadRoute(to);
+  return { onPointerEnter: go, onFocus: go, onTouchStart: go };
+};
 
 const S = `${import.meta.env.BASE_URL}sample/`;
 const L = `${import.meta.env.BASE_URL}library/`;
@@ -60,13 +70,13 @@ export function LifeChanging() {
       <div className="ls-ba-pair">
         <BeforeAfter
           aspect={0.75}
-          before={<img src={`${S}face.jpg`} alt="Before (synthetic sample)" />}
-          after={<img src={`${S}face_after.jpg`} alt="AI illustration of the 12-month plan (synthetic sample)" />}
+          before={<img loading="lazy" decoding="async" src={`${S}face.jpg`} alt="Before (synthetic sample)" />}
+          after={<img loading="lazy" decoding="async" src={`${S}face_after.jpg`} alt="AI illustration of the 12-month plan (synthetic sample)" />}
         />
         <BeforeAfter
           aspect={0.75}
-          before={<img src={`${S}body_front.jpg`} alt="Body before (synthetic sample)" />}
-          after={<img src={`${S}body_after_front.jpg`} alt="AI illustration of the body after 12 months (synthetic sample)" />}
+          before={<img loading="lazy" decoding="async" src={`${S}body_front.jpg`} alt="Body before (synthetic sample)" />}
+          after={<img loading="lazy" decoding="async" src={`${S}body_after_front.jpg`} alt="AI illustration of the body after 12 months (synthetic sample)" />}
         />
         <p className="ls-ba-cap">Before · 12-month projection (AI illustration, synthetic person)</p>
       </div>
@@ -91,11 +101,11 @@ export function NoSurgery() {
           { b: `${S}body_side.jpg`, a: `${S}body_after_side.jpg`, t: "Body · 12 months", d: "Training, nutrition and posture work." },
         ].map((x) => (
           <figure key={x.t} className="ls-nosurg-card">
-            <BeforeAfter aspect={0.75} before={<img src={x.b} alt="Before (synthetic sample)" />} after={<img src={x.a} alt="AI illustration after 12 months" />} />
+            <BeforeAfter aspect={0.75} before={<img loading="lazy" decoding="async" src={x.b} alt="Before (synthetic sample)" />} after={<img loading="lazy" decoding="async" src={x.a} alt="AI illustration after 12 months" />} />
             <figcaption>
               <b>{x.t}</b>
               <span>{x.d}</span>
-              <Link to="/analysis/projection">See the detailed transformation →</Link>
+              <Link to="/analysis/projection" {...warm("/analysis/projection")}>See the detailed transformation →</Link>
             </figcaption>
           </figure>
         ))}
@@ -206,7 +216,7 @@ export function DiscoverYou({ data }: { data: SampleData }) {
     <section className="lp-sec ls-split ls-split-top">
       <div className="ls-split-text">
         <SecHead left kicker="Learn about your face" dark="Discover what" muted="makes you, you." lead="Every feature, its type, and what it does for your look, with the research behind it." />
-        <Link to="/library" className="lp-btn lp-btn-accent">
+        <Link to="/library" {...warm("/library")} className="lp-btn lp-btn-accent">
           Explore the feature library
         </Link>
       </div>
@@ -224,7 +234,7 @@ export function DiscoverYou({ data }: { data: SampleData }) {
               <FeatureArt art={type.art} active />
             </div>
           ) : (
-            <img src={`${L}${cat.id}/${type.id}.jpg`} alt={`${type.name}, AI-generated synthetic example`} />
+            <img loading="lazy" decoding="async" src={`${L}${cat.id}/${type.id}.jpg`} alt={`${type.name}, AI-generated synthetic example`} />
           )}
           <div>
             <span className="ls-glass-k ls-dk">Your type</span>
@@ -279,7 +289,7 @@ export function Ancestry() {
       <div className="ls-ancestry">
         {f.map((x, i) => (
           <div key={x.ref} className="ls-anc">
-            <img src={`${L}${x.img}.jpg`} alt="" />
+            <img loading="lazy" decoding="async" src={`${L}${x.img}.jpg`} alt="" />
             <span className="ls-anc-n">{i + 1}</span>
             <p>{x.text}</p>
             <small>{cite(x.ref)}</small>
@@ -301,7 +311,7 @@ export function StartCta() {
           Start your <span>transformation.</span>
         </h2>
         <p>Your personalised analysis and 12-month plan, built from your face, your body and the evidence.</p>
-        <Link to="/new" className="lp-btn lp-btn-white">
+        <Link to="/new" {...warm("/new")} className="lp-btn lp-btn-white">
           Start my scan
         </Link>
       </div>

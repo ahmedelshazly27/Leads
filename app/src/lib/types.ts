@@ -32,6 +32,8 @@ export interface Intake {
   activeAcne: boolean;
   /** how the front portrait was taken: arm's-length selfie distorts proportions */
   frontCapture?: "selfie" | "distance";
+  /** female intake: pregnancy / breastfeeding status; gates retinoids and other treatments in the plan */
+  pregnancy?: "no" | "trying" | "pregnant" | "breastfeeding";
 }
 
 export interface Profile {

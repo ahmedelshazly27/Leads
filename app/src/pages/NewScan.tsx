@@ -1,12 +1,12 @@
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { cloneElement, isValidElement, useEffect, useId, useRef, useState, type ReactElement, type ReactNode } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { PageHeader } from "../components/ui";
-import { fileToDataUrl } from "../lib/image";
-import { runScan, ScanError, type Stage } from "../lib/pipeline";
-import { addScan, createProfile, setActiveProfile, updateIntake, useAppState } from "../lib/store";
+import { fileToDataUrl, MIN_SHORT_SIDE, PhotoError, UNREADABLE_PHOTO } from "../lib/image";
+import { runScan, ScanError, warmModels, type Stage } from "../lib/pipeline";
+import { bodyInputError, BODY_LIMITS } from "../lib/nutrition";
+import { addScan, createProfile, isSampleProfile, setActiveProfile, updateIntake, useAppState } from "../lib/store";
 import { FACE_VIEWS, type FaceView, type Intake, type Scan } from "../lib/types";
 import SUMMARY from "../lib/markers/summary.json";
-import { preloadVision } from "../lib/vision";
 import "./pages.css";
 
 const DEFAULT_INTAKE: Intake = {
@@ -40,21 +40,39 @@ const DEFAULT_INTAKE: Intake = {
 
 const STEPS = ["About you", "Photos", "Analysis"];
 
+export const MIN_AGE = 18;
+const MAX_AGE = 100;
+
+type ModelState = "idle" | "loading" | "ready" | "failed";
+
 export function NewScan() {
   const { profileId } = useParams();
   const s = useAppState();
   const nav = useNavigate();
-  const existing = profileId ? s.profiles.find((p) => p.id === profileId) : undefined;
+  // the sample profile never takes a customer's scan: a "check-in" on it starts a new profile
+  const existing = profileId && !isSampleProfile(profileId) ? s.profiles.find((p) => p.id === profileId && !p.sample) : undefined;
   const [step, setStep] = useState(0);
   const [intake, setIntake] = useState<Intake>(() => ({ ...DEFAULT_INTAKE, ...(existing?.intake ?? {}) }));
   const [face, setFace] = useState<string | null>(null);
   const [body, setBody] = useState<string | null>(null);
   const [side, setSide] = useState<string | null>(null);
   const [views, setViews] = useState<Partial<Record<FaceView, string>>>({});
+  const [models, setModels] = useState<ModelState>("idle");
 
+  // load the vision models only once the first photo is added (not when the page opens)
+  const anyPhoto = !!(face || body || side || FACE_VIEWS.some((k) => views[k]));
+  const needsBody = !!(body || side);
   useEffect(() => {
-    preloadVision();
-  }, []);
+    if (!anyPhoto) return;
+    let live = true;
+    setModels((m) => (m === "ready" && !needsBody ? m : "loading"));
+    warmModels(needsBody).then((ok) => {
+      if (live) setModels(ok ? "ready" : "failed");
+    });
+    return () => {
+      live = false;
+    };
+  }, [anyPhoto, needsBody]);
 
   return (
     <div className="page" style={{ maxWidth: 980 }}>
@@ -84,6 +102,7 @@ export function NewScan() {
           setBody={setBody}
           setSide={setSide}
           views={views}
+          models={models}
           setView={(k, v) => setViews((cur) => ({ ...cur, [k]: v ?? undefined }))}
           onBack={() => setStep(0)}
           onNext={() => setStep(2)}
@@ -120,23 +139,51 @@ export function NewScan() {
 function IntakeStep({ intake, setIntake, onNext }: { intake: Intake; setIntake: (i: Intake) => void; onNext: () => void }) {
   const set = <K extends keyof Intake>(k: K, v: Intake[K]) => setIntake({ ...intake, [k]: v });
   const num = (v: string) => (v === "" ? null : Number(v));
-  const valid = intake.name.trim().length > 0 && intake.age >= 13 && intake.age <= 100;
+  const nameOk = intake.name.trim().length > 0;
+  const ageOk = Number.isFinite(intake.age) && intake.age >= MIN_AGE && intake.age <= MAX_AGE;
+  const bodyErr = bodyInputError(intake.heightCm, intake.weightKg);
+  const valid = nameOk && ageOk && !bodyErr;
+  const problem = !nameOk
+    ? "Please add your name."
+    : !ageOk
+      ? intake.age < MIN_AGE
+        ? `You need to be ${MIN_AGE} or older to use this service.`
+        : `Please enter an age between ${MIN_AGE} and ${MAX_AGE}.`
+      : bodyErr;
+  const [hMin, hMax] = BODY_LIMITS.heightCm;
+  const [wMin, wMax] = BODY_LIMITS.weightKg;
   return (
     <div className="wz-card">
       <Section title="Basics">
         <F label="Name">
-          <input value={intake.name} onChange={(e) => set("name", e.target.value)} placeholder="Your name" />
+          <input value={intake.name} onChange={(e) => set("name", e.target.value)} placeholder="Your name" autoComplete="given-name" />
         </F>
-        <F label="Age">
-          <input type="number" min={13} max={100} value={intake.age} onChange={(e) => set("age", Number(e.target.value))} />
+        <F label="Age" hint={`${MIN_AGE}+ only`} error={!ageOk ? (intake.age < MIN_AGE ? `You need to be ${MIN_AGE} or older.` : `Enter an age between ${MIN_AGE} and ${MAX_AGE}.`) : undefined}>
+          <input type="number" min={MIN_AGE} max={MAX_AGE} value={Number.isFinite(intake.age) ? intake.age : ""} onChange={(e) => set("age", e.target.value === "" ? NaN : Number(e.target.value))} />
         </F>
         <F label="Gender">
-          <select value={intake.gender} onChange={(e) => set("gender", e.target.value as Intake["gender"])}>
+          <select
+            value={intake.gender}
+            onChange={(e) => {
+              const gender = e.target.value as Intake["gender"];
+              setIntake({ ...intake, gender, pregnancy: gender === "female" ? intake.pregnancy : undefined });
+            }}
+          >
             <option value="male">Male</option>
             <option value="female">Female</option>
             <option value="other">Other / prefer not to say</option>
           </select>
         </F>
+        {intake.gender === "female" && (
+          <F label="Pregnancy or breastfeeding" hint="Some skin and hair treatments aren't used during pregnancy or breastfeeding; we adjust your plan">
+            <select value={intake.pregnancy ?? "no"} onChange={(e) => set("pregnancy", e.target.value as Intake["pregnancy"])}>
+              <option value="no">Neither</option>
+              <option value="trying">Trying to conceive</option>
+              <option value="pregnant">Pregnant</option>
+              <option value="breastfeeding">Breastfeeding</option>
+            </select>
+          </F>
+        )}
         <F label="Ethnicity" hint="Used to pick reference norms">
           <input value={intake.ethnicity} onChange={(e) => set("ethnicity", e.target.value)} placeholder="e.g. Middle Eastern" />
         </F>
@@ -149,11 +196,11 @@ function IntakeStep({ intake, setIntake, onNext }: { intake: Intake; setIntake: 
       </Section>
 
       <Section title="Body measurements" note="Height and weight let us estimate BMI and body fat. Nothing else to measure.">
-        <F label="Height (cm)">
-          <input type="number" value={intake.heightCm ?? ""} onChange={(e) => set("heightCm", num(e.target.value))} />
+        <F label="Height (cm)" hint={`${hMin}–${hMax} cm`} error={bodyErr && /Height/.test(bodyErr) ? bodyErr : undefined}>
+          <input type="number" inputMode="decimal" min={hMin} max={hMax} value={intake.heightCm ?? ""} onChange={(e) => set("heightCm", num(e.target.value))} />
         </F>
-        <F label="Weight (kg)">
-          <input type="number" value={intake.weightKg ?? ""} onChange={(e) => set("weightKg", num(e.target.value))} />
+        <F label="Weight (kg)" hint={`${wMin}–${wMax} kg`} error={bodyErr && !/Height/.test(bodyErr) ? bodyErr : undefined}>
+          <input type="number" inputMode="decimal" min={wMin} max={wMax} value={intake.weightKg ?? ""} onChange={(e) => set("weightKg", num(e.target.value))} />
         </F>
       </Section>
 
@@ -269,8 +316,8 @@ function IntakeStep({ intake, setIntake, onNext }: { intake: Intake; setIntake: 
       </Section>
 
       <div className="wz-foot">
-        <span className="lead" style={{ fontSize: 12 }}>
-          {valid ? "" : "Name and a valid age are required."}
+        <span className="lead" style={{ fontSize: 12 }} role="status" aria-live="polite">
+          {problem ?? ""}
         </span>
         <button className="btn" disabled={!valid} onClick={onNext}>
           Continue to photos
@@ -294,12 +341,32 @@ function Section({ title, note, children }: { title: string; note?: string; chil
   );
 }
 
-function F({ label, hint, children }: { label: string; hint?: string; children: ReactNode }) {
+const CONTROLS = new Set(["input", "select", "textarea"]);
+
+/** Form field: links the label (and hint / error) to a single input, select or textarea child. */
+function F({ label, hint, error, children }: { label: string; hint?: string; error?: string | null; children: ReactNode }) {
+  const id = useId();
+  const hintId = `${id}-hint`;
+  const errId = `${id}-err`;
+  const control = isValidElement(children) && typeof children.type === "string" && CONTROLS.has(children.type);
+  const described = [hint && hintId, error && errId].filter(Boolean).join(" ") || undefined;
+  const child = control
+    ? cloneElement(children as ReactElement<Record<string, unknown>>, { id, "aria-describedby": described, "aria-invalid": error ? true : undefined })
+    : children;
   return (
     <div className="field">
-      <label>{label}</label>
-      {children}
-      {hint && <span className="hint">{hint}</span>}
+      {control ? <label htmlFor={id}>{label}</label> : <label id={id}>{label}</label>}
+      {child}
+      {hint && (
+        <span className="hint" id={hintId}>
+          {hint}
+        </span>
+      )}
+      {error && (
+        <span className="hint" id={errId} role="alert" style={{ color: "#7a3b2e" }}>
+          {error}
+        </span>
+      )}
     </div>
   );
 }
@@ -316,17 +383,19 @@ function PhotoStep(props: {
   setBody: (s: string | null) => void;
   setSide: (s: string | null) => void;
   views: Partial<Record<FaceView, string>>;
+  models: ModelState;
   setView: (k: FaceView, v: string | null) => void;
   onBack: () => void;
   onNext: () => void;
 }) {
+  const canRun = !!(props.face || props.body);
   return (
     <div className="wz-card">
       <div className="wz-photos">
         <Drop
           testId="face-input"
           label="Front portrait"
-          required
+          optionalNote="Needed for face analysis · add this or a full body photo"
           value={props.face}
           onChange={props.setFace}
           guide={<FaceGuide />}
@@ -338,6 +407,7 @@ function PhotoStep(props: {
           value={props.body}
           onChange={props.setBody}
           guide={<BodyGuide />}
+          optionalNote="Optional · unlocks body analysis"
           tips={["Head to toe in frame, facing the camera", "Arms slightly away from the body (A-pose)", "Fitted clothing or swimwear", "Camera at hip height, ~3 m away"]}
         />
         <Drop
@@ -392,7 +462,18 @@ function PhotoStep(props: {
         <button className="btn btn-ghost" onClick={props.onBack}>
           Back
         </button>
-        <button className="btn" disabled={!props.face && !props.body} onClick={props.onNext}>
+        <span className="lead" style={{ fontSize: 12 }} role="status" aria-live="polite">
+          {!canRun
+            ? "Add a front portrait or a full body photo to continue."
+            : props.models === "loading"
+              ? "Preparing on-device analysis…"
+              : props.models === "ready"
+                ? "On-device analysis ready."
+                : props.models === "failed"
+                  ? "The analysis models couldn't load. Check your internet connection, then reload the page to try again."
+                  : ""}
+        </span>
+        <button className="btn" disabled={!canRun} onClick={props.onNext}>
           Run analysis
         </button>
       </div>
@@ -400,9 +481,10 @@ function PhotoStep(props: {
   );
 }
 
+const HEIC = /\.(heic|heif)$/i;
+
 function Drop({
   label,
-  required,
   optionalNote,
   value,
   onChange,
@@ -412,7 +494,6 @@ function Drop({
 }: {
   optionalNote?: string;
   label: string;
-  required?: boolean;
   value: string | null;
   onChange: (s: string | null) => void;
   guide: ReactNode;
@@ -422,15 +503,26 @@ function Drop({
   const input = useRef<HTMLInputElement>(null);
   const [over, setOver] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const take = async (f: File | undefined) => {
-    if (!f || !f.type.startsWith("image/")) return;
+    if (!f) return;
+    // some browsers give HEIC files an empty type; let the decoder try and explain if it can't
+    if (!f.type.startsWith("image/") && !HEIC.test(f.name)) {
+      setError("That file isn't a photo. Use a JPG or PNG image.");
+      return;
+    }
     setBusy(true);
+    setError(null);
     try {
-      onChange(await fileToDataUrl(f));
+      onChange(await fileToDataUrl(f, 1400, MIN_SHORT_SIDE));
+    } catch (e) {
+      setError(e instanceof PhotoError ? e.message : UNREADABLE_PHOTO);
     } finally {
       setBusy(false);
+      if (input.current) input.current.value = "";
     }
   };
+  const browse = () => input.current?.click();
   return (
     <div
       className={`drop ${value ? "has" : ""} ${over ? "over" : ""}`}
@@ -445,17 +537,30 @@ function Drop({
         take(e.dataTransfer.files[0]);
       }}
     >
-      <input ref={input} data-testid={testId} type="file" accept="image/*" onChange={(e) => take(e.target.files?.[0])} />
+      <input ref={input} data-testid={testId} type="file" accept="image/*,.heic,.heif" aria-label={`${label} photo`} onChange={(e) => take(e.target.files?.[0])} />
       {value ? (
         <div className="drop-preview">
-          <img src={value} alt="" />
+          <img src={value} alt={`${label} photo you added`} />
         </div>
       ) : (
-        <div className="drop-empty" onClick={() => input.current?.click()} style={{ cursor: "pointer" }}>
+        <div
+          className="drop-empty"
+          role="button"
+          tabIndex={0}
+          aria-label={`Add ${label} photo`}
+          onClick={browse}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              browse();
+            }
+          }}
+          style={{ cursor: "pointer" }}
+        >
           {guide}
           <div className="drop-tips">
             <div className="title-md">{label}</div>
-            <span className="mono-sm">{required ? "Required" : optionalNote ?? "Optional · unlocks body analysis"}</span>
+            <span className="mono-sm">{optionalNote ?? "Optional"}</span>
             <ul>
               {tips.map((t) => (
                 <li key={t}>{t}</li>
@@ -464,15 +569,28 @@ function Drop({
           </div>
         </div>
       )}
+      {error && (
+        <div className="proc-err" role="alert" style={{ margin: "8px 12px 0" }}>
+          {error}
+        </div>
+      )}
       <div className="drop-bar">
         <span className="mono-sm">{busy ? "Preparing…" : value ? label : "Drop an image or browse"}</span>
         <div style={{ display: "flex", gap: 8 }}>
           {value && (
-            <button className="btn btn-ghost" style={{ height: 30, fontSize: 12 }} onClick={() => onChange(null)}>
+            <button
+              className="btn btn-ghost"
+              style={{ height: 30, fontSize: 12 }}
+              aria-label={`Remove ${label} photo`}
+              onClick={() => {
+                setError(null);
+                onChange(null);
+              }}
+            >
               Remove
             </button>
           )}
-          <button className="btn btn-ghost" style={{ height: 30, fontSize: 12 }} onClick={() => input.current?.click()}>
+          <button className="btn btn-ghost" style={{ height: 30, fontSize: 12 }} aria-label={`${value ? "Replace" : "Browse for"} ${label} photo`} onClick={browse}>
             {value ? "Replace" : "Browse"}
           </button>
         </div>

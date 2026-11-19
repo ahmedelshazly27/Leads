@@ -1,4 +1,4 @@
-import { backendMode, callFunction, check, sb } from "./client";
+import { BackendError, backendMode, callFunction, check, sb } from "./client";
 import { mock } from "./mock";
 import { getMyProfile, requireUserId, signOut } from "./auth";
 import { signedPhotoUrls } from "./scans";
@@ -65,10 +65,13 @@ export async function downloadMyData(filename = "my-data.json"): Promise<void> {
  * Permanently delete the account: photos, visuals, scans and generations are
  * deleted; orders and payments are anonymised (kept for accounting); the
  * sign-in is removed. Signs out afterwards.
+ *
+ * Call it only from the confirmation dialog, as `deleteMyData({ confirm: true })`.
  */
-export async function deleteMyData(): Promise<void> {
-  if (backendMode === "mock") return mock.deleteData();
+export async function deleteMyData(opts: { confirm: true }): Promise<void> {
+  if (opts?.confirm !== true) throw new BackendError("Please confirm that you want to delete your data.", "confirm_required");
+  if (backendMode === "mock") return mock.deleteData(opts);
   requireUserId();
-  await callFunction("delete-my-data", {});
+  await callFunction("delete-my-data", { confirm: true });
   await signOut().catch(() => {});
 }

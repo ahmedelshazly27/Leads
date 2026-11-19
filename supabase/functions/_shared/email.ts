@@ -26,13 +26,18 @@ function escapeHtml(s: string): string {
 }
 
 /** "Your report is ready" in the customer's language. */
-export function reportReadyEmail(opts: { locale: "en" | "ar"; name: string | null; link: string; brand: string }): Omit<EmailMessage, "to"> {
+export function reportReadyEmail(
+  opts: { locale: "en" | "ar"; name: string | null; link: string; brand: string },
+): Omit<EmailMessage, "to"> {
   const link = escapeHtml(opts.link);
   const brand = escapeHtml(opts.brand);
   if (opts.locale === "ar") {
     const hi = opts.name ? `مرحبا ${escapeHtml(opts.name)}،` : "مرحبا،";
-    const text = `${opts.name ? `مرحبا ${opts.name}،` : "مرحبا،"}\n\nتقريرك جاهز. راجعه الفريق ووافق عليه، وتقدر تشوفه الحين مع خطتك والصور.\n\n${opts.link}\n\n${opts.brand}`;
-    const html = `<div dir="rtl" style="font-family:system-ui,-apple-system,Segoe UI,Tahoma,sans-serif;line-height:1.7;color:#111">
+    const text = `${
+      opts.name ? `مرحبا ${opts.name}،` : "مرحبا،"
+    }\n\nتقريرك جاهز. راجعه الفريق ووافق عليه، وتقدر تشوفه الحين مع خطتك والصور.\n\n${opts.link}\n\n${opts.brand}`;
+    const html =
+      `<div dir="rtl" style="font-family:system-ui,-apple-system,Segoe UI,Tahoma,sans-serif;line-height:1.7;color:#111">
 <p>${hi}</p>
 <p>تقريرك جاهز. راجعه الفريق ووافق عليه، وتقدر تشوفه الحين مع خطتك والصور.</p>
 <p><a href="${link}" style="display:inline-block;background:#111;color:#fff;padding:12px 20px;border-radius:8px;text-decoration:none">افتح التقرير</a></p>
@@ -40,7 +45,9 @@ export function reportReadyEmail(opts: { locale: "en" | "ar"; name: string | nul
     return { subject: "تقريرك جاهز", html, text };
   }
   const hi = opts.name ? `Hi ${escapeHtml(opts.name)},` : "Hi,";
-  const text = `${opts.name ? `Hi ${opts.name},` : "Hi,"}\n\nYour report is ready. A reviewer has checked and approved it, and you can open it now with your plan and visuals.\n\n${opts.link}\n\n${opts.brand}`;
+  const text = `${
+    opts.name ? `Hi ${opts.name},` : "Hi,"
+  }\n\nYour report is ready. A reviewer has checked and approved it, and you can open it now with your plan and visuals.\n\n${opts.link}\n\n${opts.brand}`;
   const html = `<div style="font-family:system-ui,-apple-system,Segoe UI,sans-serif;line-height:1.6;color:#111">
 <p>${hi}</p>
 <p>Your report is ready. A reviewer has checked and approved it, and you can open it now with your plan and visuals.</p>

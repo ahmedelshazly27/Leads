@@ -9,3 +9,7 @@ Thumbs.db
 # Clay CLI exports / scratch output
 *.csv
 !**/fixtures/**/*.csv
+
+.env
+.env.local
+.env.*.local

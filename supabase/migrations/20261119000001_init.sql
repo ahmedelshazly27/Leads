@@ -10,6 +10,7 @@
 create table public.profiles (
   id                 uuid primary key references auth.users (id) on delete cascade,
   full_name          text check (char_length(full_name) <= 200),
+  -- Copy of auth.users.email, kept in sync by triggers. Never written by the client.
   email              text check (char_length(email) <= 320),
   phone              text check (char_length(phone) <= 32),
   locale             text not null default 'en' check (locale in ('en', 'ar')),
@@ -22,7 +23,7 @@ create table public.profiles (
   created_at         timestamptz not null default now(),
   updated_at         timestamptz not null default now()
 );
-comment on table public.profiles is 'One row per auth user. role and reviewer_gender can only be changed by an admin or the server.';
+comment on table public.profiles is 'One row per auth user. role, reviewer_gender, stripe_customer_id and email can only be changed by an admin or the server; email mirrors auth.users.email.';
 
 create table public.consents (
   id           uuid primary key default gen_random_uuid(),
@@ -163,6 +164,9 @@ create table public.costs (
   amount     numeric(10,4) not null,
   currency   text not null check (currency in ('USD', 'KWD', 'EUR')),
   note       text,
+  -- Provider reference that makes a cost row idempotent (e.g. the Stripe charge id
+  -- for a payment fee). Unique per category when set.
+  source_ref text check (char_length(source_ref) <= 255),
   created_at timestamptz not null default now()
 );
 
@@ -224,6 +228,9 @@ create index orders_user_idx           on public.orders (user_id);
 create index orders_reviewer_open_idx  on public.orders (assigned_reviewer, status);
 create index orders_status_idx         on public.orders (status);
 create index orders_provider_ref_idx   on public.orders (provider, provider_ref);
+-- One check-in order per paid invoice, even when a webhook is retried or delivered twice.
+create unique index orders_checkin_ref_uidx on public.orders (provider, provider_ref)
+  where product = 'checkin' and provider_ref is not null;
 create index orders_paid_at_idx        on public.orders (paid_at);
 create index orders_delivered_at_idx   on public.orders (delivered_at) where status = 'delivered';
 create index orders_subscription_idx   on public.orders (subscription_id);
@@ -245,6 +252,7 @@ create index generations_scan_idx      on public.generations (scan_id);
 create index costs_order_idx           on public.costs (order_id);
 create index costs_user_idx            on public.costs (user_id);
 create index costs_created_idx         on public.costs (created_at);
+create unique index costs_source_ref_uidx on public.costs (category, source_ref);
 create index ad_spend_date_idx         on public.ad_spend (date);
 create index audit_target_idx          on public.audit_log (target_type, target_id);
 create index audit_at_idx              on public.audit_log (at);
@@ -336,6 +344,18 @@ as $$
   );
 $$;
 
+-- The order has not been delivered, refunded or cancelled.
+create or replace function public.order_is_open_for_review(p_order uuid)
+returns boolean
+language sql stable security definer
+set search_path = ''
+as $$
+  select exists (
+    select 1 from public.orders
+    where id = p_order and status not in ('delivered', 'refunded', 'cancelled')
+  );
+$$;
+
 -- The order belongs to the signed-in user and is waiting for photos.
 create or replace function public.order_accepts_photos(p_order uuid)
 returns boolean
@@ -397,7 +417,9 @@ create trigger on_auth_user_created
   after insert on auth.users
   for each row execute function public.handle_new_user();
 
--- Customers cannot give themselves a role, a reviewer gender or a Stripe id.
+-- Customers cannot give themselves a role, a reviewer gender or a Stripe id,
+-- and cannot change their email (it mirrors the verified sign-in email and is
+-- used to find staff accounts and to send reports).
 create or replace function public.guard_profile()
 returns trigger
 language plpgsql
@@ -411,12 +433,15 @@ begin
     new.role := 'customer';
     new.reviewer_gender := null;
     new.stripe_customer_id := null;
+    -- Filled from auth.users by handle_new_user / sync_profile_email instead.
+    new.email := null;
   elsif new.id is distinct from old.id
      or new.role is distinct from old.role
      or new.reviewer_gender is distinct from old.reviewer_gender
      or new.stripe_customer_id is distinct from old.stripe_customer_id
+     or new.email is distinct from old.email
      or new.created_at is distinct from old.created_at then
-    raise exception 'Only an admin can change role, reviewer_gender or billing fields'
+    raise exception 'Only an admin can change role, reviewer_gender, email or billing fields'
       using errcode = '42501';
   end if;
   return new;
@@ -426,6 +451,22 @@ $$;
 create trigger profiles_guard
   before insert or update on public.profiles
   for each row execute function public.guard_profile();
+
+-- Keeps profiles.email equal to the verified sign-in email when it changes.
+create or replace function public.sync_profile_email()
+returns trigger
+language plpgsql security definer
+set search_path = ''
+as $$
+begin
+  update public.profiles set email = new.email where id = new.id and email is distinct from new.email;
+  return new;
+end;
+$$;
+
+create trigger on_auth_user_email_changed
+  after update of email on auth.users
+  for each row execute function public.sync_profile_email();
 
 -- Reviewers may only move an assigned order between in_review and
 -- changes_requested. Everything else goes through edge functions.
@@ -453,7 +494,8 @@ create trigger orders_guard
   before update on public.orders
   for each row execute function public.guard_order();
 
--- Reviewers cannot approve directly (approve-delivery does that) or move a review.
+-- Reviewers cannot approve directly (approve-delivery does that), move a
+-- review, or change it once it is approved or its order is closed.
 create or replace function public.guard_review()
 returns trigger
 language plpgsql
@@ -463,8 +505,14 @@ begin
   if public.is_service_role() or public.is_admin() then
     return new;
   end if;
+  if tg_op = 'UPDATE' and (old.status = 'approved' or old.approved_at is not null) then
+    raise exception 'Approved reviews are locked' using errcode = '42501';
+  end if;
   if new.status = 'approved' or new.approved_at is not null then
     raise exception 'Approval goes through approve-delivery' using errcode = '42501';
+  end if;
+  if not public.order_is_open_for_review(new.order_id) then
+    raise exception 'This order is no longer in review' using errcode = '42501';
   end if;
   if tg_op = 'UPDATE' and (new.order_id is distinct from old.order_id or new.reviewer_id is distinct from old.reviewer_id) then
     raise exception 'order_id and reviewer_id cannot change' using errcode = '42501';
@@ -632,6 +680,30 @@ begin
 end;
 $$;
 
+-- Scans whose photos are past the 90-day retention (or p_days), oldest scan id
+-- first, starting after p_after. Covers every order state:
+--   delivered: p_days after delivered_at
+--   refunded / cancelled: p_days after the order last changed
+--   anything still open (unpaid, awaiting photos, stuck in review, ...): p_days after the scan was created
+create or replace function public.photos_due_for_purge(p_days int default 90, p_limit int default 100, p_after uuid default null)
+returns table (scan_id uuid, user_id uuid)
+language sql stable security definer
+set search_path = ''
+as $$
+  select s.id, s.user_id
+  from public.scans s
+  join public.orders o on o.id = s.order_id
+  where s.photos_deleted_at is null
+    and (p_after is null or s.id > p_after)
+    and (
+      (o.status = 'delivered' and coalesce(o.delivered_at, o.updated_at) < now() - make_interval(days => p_days))
+      or (o.status in ('refunded', 'cancelled') and o.updated_at < now() - make_interval(days => p_days))
+      or (o.status not in ('delivered', 'refunded', 'cancelled') and s.created_at < now() - make_interval(days => p_days))
+    )
+  order by s.id
+  limit greatest(1, least(p_limit, 1000));
+$$;
+
 -- Yearly members pay once a year but get a check-in every month: create one
 -- check-in order per active yearly subscription when the last one is 30+ days
 -- old and none is still waiting for photos. Monthly members get theirs from
@@ -673,6 +745,9 @@ revoke execute on function public.assign_reviewer(uuid) from public, anon, authe
 revoke execute on function public.hit_rate_limit(text, int, int) from public, anon, authenticated;
 revoke execute on function public.ensure_monthly_checkins() from public, anon, authenticated;
 revoke execute on function public.handle_new_user() from public, anon, authenticated;
+revoke execute on function public.sync_profile_email() from public, anon, authenticated;
+revoke execute on function public.photos_due_for_purge(int, int, uuid) from public, anon, authenticated;
+grant execute on function public.photos_due_for_purge(int, int, uuid) to service_role;
 grant execute on function public.assign_reviewer(uuid) to service_role;
 grant execute on function public.hit_rate_limit(text, int, int) to service_role;
 grant execute on function public.ensure_monthly_checkins() to service_role;
@@ -783,7 +858,7 @@ create policy "reviews: reviewer updates assigned" on public.reviews
   for update to authenticated
   using (public.can_review_order(order_id)) with check (public.can_review_order(order_id));
 create policy "reviews: customer reads delivered" on public.reviews
-  for select to authenticated using (public.owns_delivered_order(order_id));
+  for select to authenticated using (status = 'approved' and public.owns_delivered_order(order_id));
 create policy "reviews: admin all" on public.reviews
   for all to authenticated using ((select public.is_admin())) with check ((select public.is_admin()));
 
@@ -803,9 +878,9 @@ create policy "ad_spend: admin all" on public.ad_spend
 create policy "audit_log: admin read" on public.audit_log
   for select to authenticated using ((select public.is_admin()));
 
--- waitlist: anyone may join, nobody but an admin may read
-create policy "waitlist: anyone joins" on public.waitlist
-  for insert to anon, authenticated with check (true);
+-- waitlist: joined only through the join-waitlist function (service key), which
+-- rate-limits and never reveals who is already on the list. Only an admin reads.
+revoke insert, update on public.waitlist from anon, authenticated;
 create policy "waitlist: admin read" on public.waitlist
   for select to authenticated using ((select public.is_admin()));
 create policy "waitlist: admin delete" on public.waitlist

@@ -2,7 +2,7 @@
 // Signed URLs (1 hour) for the approved visuals of the customer's delivered orders.
 import { json, readJson, requireUuid, serve } from "../_shared/http.ts";
 import { requireUser } from "../_shared/auth.ts";
-import { admin, must } from "../_shared/supabase.ts";
+import { admin, must, mustOne } from "../_shared/supabase.ts";
 
 const SIGNED_SECONDS = 3600;
 
@@ -31,7 +31,7 @@ serve(async (req) => {
   const rows = (gens ?? []).filter((g) => g.output_path);
   if (!rows.length) return json(req, { visuals: [] });
 
-  const signed = must(
+  const signed = mustOne(
     await db.storage.from("visuals").createSignedUrls(rows.map((g) => g.output_path as string), SIGNED_SECONDS),
     "sign visuals",
   );

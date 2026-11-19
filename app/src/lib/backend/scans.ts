@@ -1,6 +1,7 @@
 import { BackendError, backendMode, callFunction, check, invalidate, newId, sb, useBackendQuery } from "./client";
 import { mock } from "./mock";
-import { requireUserId, useSession } from "./auth";
+import { getMyProfile, requireUserId, useSession } from "./auth";
+import { activeConsents, listMyConsents } from "./consents";
 import { getOrder } from "./orders";
 import { photoUrl } from "../store";
 import { FACE_VIEWS, type Intake, type PhotoKind, type Scan } from "../types";
@@ -62,19 +63,69 @@ export interface SubmitScanOptions {
   onProgress?: (done: number, total: number) => void;
 }
 
+/** Submissions in progress, per order: a second call (double click) joins the first. */
+const inFlight = new Map<string, Promise<{ scanId: string; dueAt: string | null }>>();
+
+/*
+ * When submit-scan fails without a definite answer (network error, timeout,
+ * 5xx), it may still have gone through. The scan id is kept for this tab so a
+ * retry reuses it (same storage paths, same rows) instead of uploading a new
+ * set, and a "wrong_status" reply on that retry means the first try worked.
+ */
+const RETRY_KEY = "facet-scan-retry";
+function readRetry(): Record<string, string> {
+  try {
+    return JSON.parse(sessionStorage.getItem(RETRY_KEY) ?? "{}") as Record<string, string>;
+  } catch {
+    return {};
+  }
+}
+function writeRetry(orderId: string, scanId: string | null) {
+  try {
+    const m = readRetry();
+    if (scanId) m[orderId] = scanId;
+    else delete m[orderId];
+    if (Object.keys(m).length) sessionStorage.setItem(RETRY_KEY, JSON.stringify(m));
+    else sessionStorage.removeItem(RETRY_KEY);
+  } catch {
+    /* storage blocked */
+  }
+}
+
+const ACCEPTS_PHOTOS = new Set(["awaiting_photos", "changes_requested"]);
+
 /**
  * Upload a local scan for review: photos to the private `photos` bucket, the
  * `scans` + `scan_photos` rows, then `submit-scan` (sets the order in review,
  * due in 72 hours, and assigns a reviewer).
  *
+ * Before anything is uploaded it checks that the order is waiting for photos,
+ * that the photo consent is given and that the profile has a gender, and stops
+ * with a clear error (codes: wrong_status, photo_consent_required,
+ * profile_incomplete). If submit-scan then refuses the scan, the uploaded
+ * photos are removed again.
+ *
  * `photos` maps photo kinds to Blobs or URL strings; use `localScanPhotos(scan.id)`
  * for a scan made on this device.
  */
-export async function submitScan(
+export function submitScan(
   orderId: string,
   scan: Scan,
   photos: Partial<Record<PhotoKind, PhotoInput>>,
   opts: SubmitScanOptions = {},
+): Promise<{ scanId: string; dueAt: string | null }> {
+  const running = inFlight.get(orderId);
+  if (running) return running;
+  const p = doSubmitScan(orderId, scan, photos, opts).finally(() => inFlight.delete(orderId));
+  inFlight.set(orderId, p);
+  return p;
+}
+
+async function doSubmitScan(
+  orderId: string,
+  scan: Scan,
+  photos: Partial<Record<PhotoKind, PhotoInput>>,
+  opts: SubmitScanOptions,
 ): Promise<{ scanId: string; dueAt: string | null }> {
   const entries = (Object.entries(photos) as [PhotoKind, PhotoInput | undefined][]).filter((e): e is [PhotoKind, PhotoInput] => !!e[1]);
   if (!entries.some(([k]) => k === "face")) throw new BackendError("The front face photo is required.", "photo_missing");
@@ -82,12 +133,26 @@ export async function submitScan(
   const intake = opts.intake ? stripPhotoData(opts.intake) : null;
   const appVersion = opts.appVersion ?? ((import.meta.env.VITE_APP_VERSION as string | undefined) || "web");
 
-  let kind = opts.kind;
-  if (!kind) {
-    const order = await getOrder(orderId);
-    if (!order) throw new BackendError("Order not found.", "not_found");
-    kind = order.product === "checkin" ? "checkin" : "baseline";
+  const retryScanId = backendMode === "supabase" ? readRetry()[orderId] : undefined;
+
+  // Checks before any photo leaves the device.
+  const order = await getOrder(orderId);
+  if (!order) throw new BackendError("Order not found.", "not_found");
+  if (!ACCEPTS_PHOTOS.has(order.status)) {
+    if (retryScanId && order.status === "in_review") {
+      // An earlier try that looked failed did go through.
+      writeRetry(orderId, null);
+      invalidate();
+      return { scanId: retryScanId, dueAt: order.due_at };
+    }
+    throw new BackendError("This order is not waiting for photos.", "wrong_status");
   }
+  if (backendMode === "supabase") {
+    const [consents, profile] = await Promise.all([listMyConsents(), getMyProfile()]);
+    if (!activeConsents(consents).photos) throw new BackendError("Please agree to the photo consent first.", "photo_consent_required");
+    if (!profile?.gender) throw new BackendError("Please complete your profile first.", "profile_incomplete");
+  }
+  const kind: ScanKind = opts.kind ?? (order.product === "checkin" ? "checkin" : "baseline");
 
   const blobs: { view: ScanPhotoView; blob: Blob }[] = [];
   for (const [view, p] of entries) blobs.push({ view, blob: await toBlob(p) });
@@ -99,8 +164,12 @@ export async function submitScan(
 
   const uid = requireUserId();
   const client = sb();
-  const scanId = newId();
+  const scanId = retryScanId ?? newId();
   const uploaded: string[] = [];
+  const removeUploaded = async () => {
+    if (uploaded.length) await client.storage.from(PHOTO_BUCKET).remove(uploaded).catch(() => {});
+  };
+
   try {
     let done = 0;
     for (const { view, blob } of blobs) {
@@ -110,15 +179,44 @@ export async function submitScan(
       uploaded.push(path);
       opts.onProgress?.(++done, blobs.length);
     }
-    check(await client.from("scans").insert({ id: scanId, user_id: uid, order_id: orderId, kind, intake, results, app_version: appVersion }));
-    check(await client.from("scan_photos").insert(blobs.map(({ view }) => ({ scan_id: scanId, view, storage_path: photoPath(uid, scanId, view) }))));
+    const existing = retryScanId ? check(await client.from("scans").select("id").eq("id", scanId).maybeSingle()) : null;
+    if (!existing) check(await client.from("scans").insert({ id: scanId, user_id: uid, order_id: orderId, kind, intake, results, app_version: appVersion }));
+    check(
+      await client
+        .from("scan_photos")
+        .upsert(blobs.map(({ view }) => ({ scan_id: scanId, view, storage_path: photoPath(uid, scanId, view) })), { onConflict: "scan_id,view" }),
+    );
   } catch (e) {
-    if (uploaded.length) await client.storage.from(PHOTO_BUCKET).remove(uploaded).catch(() => {});
+    await removeUploaded();
     throw e;
   }
-  const res = await callFunction<{ due_at?: string | null }>("submit-scan", { order_id: orderId, scan_id: scanId });
+
+  let res: { order?: { due_at?: string | null } | null; due_at?: string | null } | null;
+  try {
+    res = await callFunction<{ order?: { due_at?: string | null } | null; due_at?: string | null }>("submit-scan", { order_id: orderId, scan_id: scanId });
+  } catch (e) {
+    const status = e instanceof BackendError ? e.status : undefined;
+    const code = e instanceof BackendError ? e.code : "";
+    if (retryScanId && code === "wrong_status") {
+      // The earlier try went through; this was a repeat of it.
+      writeRetry(orderId, null);
+      invalidate();
+      const fresh = await getOrder(orderId).catch(() => null);
+      return { scanId, dueAt: fresh?.due_at ?? null };
+    }
+    if (status !== undefined && status >= 400 && status < 500) {
+      // Refused: do not keep photos that were not accepted.
+      await removeUploaded();
+      writeRetry(orderId, null);
+    } else {
+      // No definite answer: keep the photos and reuse this scan id on retry.
+      writeRetry(orderId, scanId);
+    }
+    throw e;
+  }
+  writeRetry(orderId, null);
   invalidate();
-  return { scanId, dueAt: res?.due_at ?? null };
+  return { scanId, dueAt: res?.order?.due_at ?? res?.due_at ?? null };
 }
 
 /** Signed URLs for a scan's photos (works for the owner, the assigned reviewer and admins). */

@@ -1,17 +1,43 @@
 // Copies the MediaPipe WASM runtime into public/ and downloads the
-// face + pose landmarker models. Runs automatically on `npm install`.
-import { cpSync, existsSync, mkdirSync, writeFileSync } from "node:fs";
+// face + pose + segmentation models. Runs automatically on `npm install`.
+//
+// Both folders are served with immutable caching (vercel.json), so every URL
+// carries a version and a change always gets a new URL:
+//   public/wasm/<@mediapipe/tasks-vision version>/   (follows the package)
+//   public/models/<MODELS_VERSION>/                  (bump when a model changes,
+//                                                     together with src/lib/vision.ts)
+import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const root = join(dirname(fileURLToPath(import.meta.url)), "..");
-const wasmSrc = join(root, "node_modules/@mediapipe/tasks-vision/wasm");
-const wasmDst = join(root, "public/wasm");
-const modelsDst = join(root, "public/models");
+const MODELS_VERSION = "v1";
 
-mkdirSync(wasmDst, { recursive: true });
+const root = join(dirname(fileURLToPath(import.meta.url)), "..");
+const pkgDir = join(root, "node_modules/@mediapipe/tasks-vision");
+const wasmSrc = join(pkgDir, "wasm");
+const wasmRoot = join(root, "public/wasm");
+const modelsRoot = join(root, "public/models");
+const modelsDst = join(modelsRoot, MODELS_VERSION);
+
+/** Remove loose files left by older, unversioned layouts so they are not deployed. */
+function dropLooseFiles(dir) {
+  if (!existsSync(dir)) return;
+  for (const name of readdirSync(dir)) {
+    const p = join(dir, name);
+    if (statSync(p).isFile()) rmSync(p);
+  }
+}
+
 mkdirSync(modelsDst, { recursive: true });
-if (existsSync(wasmSrc)) cpSync(wasmSrc, wasmDst, { recursive: true });
+dropLooseFiles(wasmRoot);
+dropLooseFiles(modelsRoot);
+
+if (existsSync(wasmSrc)) {
+  const { version } = JSON.parse(readFileSync(join(pkgDir, "package.json"), "utf8"));
+  const wasmDst = join(wasmRoot, version);
+  mkdirSync(wasmDst, { recursive: true });
+  cpSync(wasmSrc, wasmDst, { recursive: true });
+}
 
 const MODELS = {
   "face_landmarker.task":

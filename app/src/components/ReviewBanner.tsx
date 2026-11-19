@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+import { SAMPLE_PROFILE_ID } from "../lib/sample";
 import type { Scan } from "../lib/types";
 
 const fmt = (iso?: string) => (iso ? new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }) : "");
@@ -5,6 +7,19 @@ const fmt = (iso?: string) => (iso ? new Date(iso).toLocaleDateString("en-GB", {
 /** Client-facing review status for a scan. */
 export function ReviewBanner({ scan, compact = false }: { scan: Scan; compact?: boolean }) {
   const r = scan.review;
+  if (scan.profileId === SAMPLE_PROFILE_ID && !compact) {
+    return (
+      <div className="rb rb-ok" role="note">
+        <span className="rb-dot" />
+        <div>
+          <b>Sample report</b>
+          <p>
+            This is example data for a synthetic person who does not exist, so you can see what a report looks like. <Link to="/new">Start your own analysis</Link> to get yours.
+          </p>
+        </div>
+      </div>
+    );
+  }
   if (r?.status === "approved") {
     if (compact || (!r.note && !r.reviewer)) return null;
     return (

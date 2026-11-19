@@ -1,8 +1,8 @@
 import { useSyncExternalStore } from "react";
 import { BackendError, backendMode, check, invalidate, sb, supabase, useBackendQuery } from "./client";
 import { mock } from "./mock";
-import { flushPendingConsents } from "./consents";
-import type { ProfilePatch, ProfileRow, QueryState, SessionInfo } from "./types";
+import { flushPendingConsents, pendingConsents } from "./consents";
+import type { GenderCode, Locale, ProfilePatch, ProfileRow, QueryState, SessionInfo } from "./types";
 
 /* ------------------------- Session store --------------------------- */
 
@@ -12,15 +12,33 @@ let sessionReady = backendMode === "off";
 const listeners = new Set<() => void>();
 const emit = () => listeners.forEach((l) => l());
 
+/** The save of consents given before sign-in (18+, terms, privacy) that started with the current session. */
+let flushing: Promise<void> = Promise.resolve();
+
 function setSession(next: SessionInfo | null) {
   const changed = next?.userId !== session?.userId || next?.email !== session?.email;
   session = next;
   sessionReady = true;
   if (changed) {
+    if (next) {
+      flushing = flushPendingConsents().catch((e) => {
+        console.warn("could not save consents", e);
+        // Leave them pending; consentsFlushed() retries.
+      });
+    }
     emit();
     invalidate();
-    if (next) flushPendingConsents().catch((e) => console.warn("could not save consents", e));
   } else emit();
+}
+
+/**
+ * Resolve once the consents given before sign-in are saved. create-checkout
+ * needs the 18+ consent on record, so call this before paying (startCheckout
+ * already does). Retries once if the first save failed.
+ */
+export async function consentsFlushed(): Promise<void> {
+  await flushing;
+  if (session && pendingConsents().length) await flushPendingConsents();
 }
 
 if (backendMode === "mock") {
@@ -75,24 +93,35 @@ export function requireUserId(): string {
 
 const normEmail = (e: string) => e.trim().toLowerCase();
 
-/** Send a 6-digit sign-in code to the email. Creates the account on first use. */
-export async function sendCode(email: string, opts: { locale?: "en" | "ar" } = {}): Promise<void> {
-  if (backendMode === "mock") return mock.sendCode(normEmail(email));
+/**
+ * Send a 6-digit sign-in code to the email. Creates the account on first use.
+ * `gender` and `locale` are stored on the new profile (only when the account is
+ * created); checkout needs gender "male", so pass it from the /start form or
+ * call updateMyProfile({ gender }) before paying.
+ */
+export async function sendCode(email: string, opts: { locale?: Locale; gender?: GenderCode } = {}): Promise<void> {
+  const meta = Object.fromEntries(Object.entries({ locale: opts.locale, gender: opts.gender }).filter(([, v]) => v !== undefined)) as { locale?: Locale; gender?: GenderCode };
+  if (backendMode === "mock") return mock.sendCode(normEmail(email), meta);
   const { error } = await sb().auth.signInWithOtp({
     email: normEmail(email),
-    options: { shouldCreateUser: true, data: opts.locale ? { locale: opts.locale } : undefined },
+    options: { shouldCreateUser: true, data: Object.keys(meta).length ? meta : undefined },
   });
   if (error) throw new BackendError(error.message, error.code ?? "otp_failed");
 }
 
-/** Check the code from the email and sign in. */
+/** Check the code from the email and sign in. Resolves after the consents given before sign-in are saved. */
 export async function verifyCode(email: string, code: string): Promise<SessionInfo> {
-  if (backendMode === "mock") return mock.verifyCode(normEmail(email), code);
+  if (backendMode === "mock") {
+    const s = await mock.verifyCode(normEmail(email), code);
+    await consentsFlushed();
+    return s;
+  }
   const { data, error } = await sb().auth.verifyOtp({ email: normEmail(email), token: code.trim(), type: "email" });
   if (error) throw new BackendError(error.message, error.code ?? "otp_invalid");
   if (!data.user) throw new BackendError("Sign-in did not complete. Please request a new code.", "otp_invalid");
   const s = { userId: data.user.id, email: data.user.email ?? null };
   setSession(s);
+  await consentsFlushed();
   return s;
 }
 

@@ -142,12 +142,14 @@ function Category({ cat, ctx, overrides }: { cat: FeatureCategory; ctx: Ctx | nu
 
 /** Categories shown as measured diagrams rather than photos. */
 const DIAGRAM_ONLY = new Set(["thirds", "eye-spacing"]);
+/** Types that have no photo in public/library yet; shown as diagrams so no missing file is requested. */
+const NO_TYPE_PHOTO = new Set(["jaw-width/broad", "posture/flat-back"]);
 const PORTRAIT = new Set(["face-shape", "frame-male", "frame-female", "posture"]);
 
 /** Realistic photo of the type (synthetic person), with its exact diagram inset. */
 function TypeVisual({ catId, typeId, name, art, on }: { catId: string; typeId: string; name: string; art: Art; on: boolean }) {
   const [failed, setFailed] = useState(false);
-  if (DIAGRAM_ONLY.has(catId) || NO_PHOTO.has(catId) || failed)
+  if (DIAGRAM_ONLY.has(catId) || NO_PHOTO.has(catId) || NO_TYPE_PHOTO.has(`${catId}/${typeId}`) || failed)
     return (
       <div className="lib-art">
         <FeatureArt art={art} active={on} />
@@ -155,7 +157,7 @@ function TypeVisual({ catId, typeId, name, art, on }: { catId: string; typeId: s
     );
   return (
     <div className={`lib-art lib-photo ${PORTRAIT.has(catId) ? "tall" : ""}`}>
-      <img src={`/library/${catId}/${typeId}.jpg`} alt={`${name} — AI-generated synthetic example`} loading="lazy" onError={() => setFailed(true)} />
+      <img src={`/library/${catId}/${typeId}.jpg`} alt={`${name} — AI-generated synthetic example`} loading="lazy" decoding="async" onError={() => setFailed(true)} />
       <span className="lib-inset" aria-hidden>
         <FeatureArt art={art} active />
       </span>

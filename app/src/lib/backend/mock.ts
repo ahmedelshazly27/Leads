@@ -269,8 +269,12 @@ function seed(now = Date.now()): MockDb {
       db.reviews.push({ id: newId(), order_id: o.id, reviewer_id: o.assigned_reviewer, status: "in_progress", checklist: {}, notes: "", item_notes: {}, marker_grades: {}, approved_at: null });
     }
     if (status === "refunded") {
-      const pay = db.payments.find((p) => p.order_id === o.id);
-      if (pay) pay.status = "refunded";
+      // As the payment webhook does: the original payment stays "succeeded" and
+      // the refund is its own row with a negative amount.
+      const pay = db.payments.find((p) => p.order_id === o.id && p.status === "succeeded");
+      if (pay) {
+        db.payments.push({ ...pay, id: newId(), provider_ref: `mock_re_${newId().slice(0, 8)}`, amount: -pay.amount, fee: 0, net: -pay.amount, status: "refunded", created_at: iso(Math.min(Date.parse(pay.created_at) + 2 * DAY, now - HOUR)) });
+      }
     }
     return o;
   };
@@ -393,6 +397,14 @@ function commit() {
 
 const delay = (ms = 150) => new Promise((r) => setTimeout(r, ms));
 
+/** Metadata passed with sendCode, applied when verifyCode creates the profile. */
+const signupMeta = new Map<string, { locale?: Locale; gender?: GenderCode }>();
+
+/** True when the user has an active (not withdrawn) consent of this kind. */
+function hasConsent(d: { consents: ConsentRow[] }, userId: string, kind: ConsentKind): boolean {
+  return d.consents.some((c) => c.user_id === userId && c.kind === kind && !c.withdrawn_at);
+}
+
 function me(): ProfileRow {
   const d = load();
   if (!d.session) throw new BackendError("Please sign in first.", "not_signed_in");
@@ -444,9 +456,10 @@ export const mock = {
       sessionListeners.delete(cb);
     };
   },
-  async sendCode(email: string) {
+  async sendCode(email: string, meta: { locale?: Locale; gender?: GenderCode } = {}) {
     await delay();
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new BackendError("Please enter a valid email address.", "invalid_email");
+    signupMeta.set(email.trim().toLowerCase(), meta);
   },
   async verifyCode(email: string, code: string): Promise<SessionInfo> {
     await delay();
@@ -456,7 +469,9 @@ export const mock = {
     let p = d.profiles.find((x) => x.email === e);
     if (!p) {
       const role = e.startsWith("admin") ? "admin" : e.startsWith("review") ? "reviewer" : "customer";
-      p = { id: newId(), full_name: null, email: e, phone: null, locale: null, gender: null, birth_year: null, role, reviewer_gender: role === "reviewer" ? "male" : null, created_at: iso(Date.now()) };
+      // Like handle_new_user: locale and gender come from the sign-up metadata.
+      const meta = signupMeta.get(e) ?? {};
+      p = { id: newId(), full_name: null, email: e, phone: null, locale: meta.locale ?? null, gender: meta.gender ?? null, birth_year: null, role, reviewer_gender: role === "reviewer" ? "male" : null, created_at: iso(Date.now()) };
       d.profiles.push(p);
     }
     d.session = { userId: p.id, email: e };
@@ -488,6 +503,11 @@ export const mock = {
     await delay(300);
     const p = me();
     const d = load();
+    // Same business rules as create-checkout.
+    if (p.gender === "female") throw new BackendError("We are opening for women soon. Please join the waitlist.", "waitlist");
+    if (p.gender !== "male") throw new BackendError("Please complete your profile before paying.", "profile_incomplete");
+    if (!hasConsent(d, p.id, "age18")) throw new BackendError("Please confirm you are 18 or older.", "age_required");
+    if (p.birth_year && new Date().getUTCFullYear() - p.birth_year < 18) throw new BackendError("This service is for people aged 18 and over.", "under_18");
     const info = PLANS[plan];
     const now = Date.now();
     let subId: string | null = null;
@@ -564,14 +584,18 @@ export const mock = {
   },
 
   /* scans */
-  async submitScan(args: { orderId: string; kind: ScanKind; intake: unknown; results: unknown; appVersion: string; photos: { view: ScanPhotoView; blob: Blob }[] }): Promise<{ scanId: string; dueAt: string }> {
+  async submitScan(args: { orderId: string; kind: ScanKind; intake: unknown; results: unknown; appVersion: string; photos: { view: ScanPhotoView; blob: Blob }[]; scanId?: string }): Promise<{ scanId: string; dueAt: string }> {
     await delay(400);
     const p = me();
     const d = load();
     const o = d.orders.find((x) => x.id === args.orderId && x.user_id === p.id);
     if (!o) throw new BackendError("Order not found.", "not_found");
-    if (o.status !== "awaiting_photos" && o.status !== "changes_requested") throw new BackendError("This order is not waiting for photos.", "bad_status");
-    const scanId = newId();
+    if (o.status !== "awaiting_photos" && o.status !== "changes_requested") throw new BackendError("This order is not waiting for photos.", "wrong_status");
+    // Same checks as submit-scan.
+    if (!hasConsent(d, p.id, "photos")) throw new BackendError("Please agree to the photo consent first.", "photo_consent_required");
+    if (!p.gender) throw new BackendError("Please complete your profile first.", "profile_incomplete");
+    if (args.scanId && d.scans.some((s) => s.id === args.scanId)) throw new BackendError("This scan was already submitted.", "wrong_status");
+    const scanId = args.scanId ?? newId();
     d.scans.push({ id: scanId, user_id: p.id, order_id: o.id, kind: args.kind, intake: args.intake, results: args.results, app_version: args.appVersion, created_at: iso(Date.now()), photos_deleted_at: null });
     for (const ph of args.photos) {
       const path = `${p.id}/${scanId}/${ph.view}.jpg`;
@@ -765,7 +789,8 @@ export const mock = {
       reviews: d.reviews.filter((r) => orderIds.has(r.order_id) && d.orders.find((o) => o.id === r.order_id)?.status === "delivered"),
     };
   },
-  async deleteData() {
+  async deleteData(opts: { confirm: true }) {
+    if (opts?.confirm !== true) throw new BackendError("Send { confirm: true } to delete your data.", "confirm_required");
     const p = me();
     const d = load();
     const scanIds = new Set(d.scans.filter((s) => s.user_id === p.id).map((s) => s.id));
@@ -781,9 +806,9 @@ export const mock = {
     d.consents = d.consents.filter((c) => c.user_id !== p.id);
     d.profiles = d.profiles.filter((x) => x.id !== p.id);
     // Orders and payments are kept (anonymised) for accounting, as in the real function.
-    const anon = "00000000-0000-0000-0000-000000000000";
-    for (const o of d.orders) if (o.user_id === p.id) o.user_id = anon;
-    for (const x of d.payments) if (x.user_id === p.id) x.user_id = anon;
+    for (const o of d.orders) if (o.user_id === p.id) o.user_id = null;
+    for (const x of d.payments) if (x.user_id === p.id) x.user_id = null;
+    for (const x of d.subscriptions) if (x.user_id === p.id) x.user_id = null;
     d.session = null;
     commit();
     sessionListeners.forEach((l) => l(null));

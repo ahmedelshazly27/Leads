@@ -6,7 +6,7 @@ import { PageHeader, ScoreCard } from "../components/ui";
 import { buildPlan } from "../lib/plan";
 import { refreshBody } from "../lib/bodyAnalysis";
 import { band, currentScores, overall } from "../lib/report";
-import { deleteProfile, latestScan, photoUrl, scansFor, setActiveProfile, toggleProgress, useAppState } from "../lib/store";
+import { deleteProfile, hasOwnProfile, latestScan, photoUrl, scansFor, setActiveProfile, toggleProgress, useAppState } from "../lib/store";
 import { useActive } from "../lib/useActive";
 import type { Profile } from "../lib/types";
 import "./pages.css";
@@ -17,13 +17,18 @@ export function Protocols() {
   const s = useAppState();
   const nav = useNavigate();
   const others = s.profiles.length > 1;
+  const own = hasOwnProfile(s);
   return (
     <div className="page">
       <PageHeader
         kicker="Home"
-        muted="Welcome"
-        strong="back"
-        lead="Your latest result, this phase's habits and your report."
+        muted={own ? "Welcome" : "Welcome —"}
+        strong={own ? "back" : "explore a sample report"}
+        lead={
+          own
+            ? "Your latest result, this phase's habits and your report."
+            : "Below is a sample report for a synthetic person, so you can see how it works. Start your own analysis to get yours."
+        }
         right={
           <button className="btn" onClick={() => nav("/new")}>
             + New analysis
@@ -59,7 +64,7 @@ function Today() {
       <ReviewBanner scan={scan} />
       <div className="hm-grid">
         <div className="hm-card hm-score">
-          <span className="mono-sm">{profile.intake.name}</span>
+          <span className="mono-sm">{profile.sample ? `${profile.intake.name} · sample` : profile.intake.name}</span>
           <div className="hm-num">
             {Math.round(plan.overallNow)}
             <span>→ {Math.round(plan.overallProjected)}</span>
@@ -68,7 +73,11 @@ function Today() {
           <div className="hm-links">
             <Link className="btn" to="/analysis/getting-started">Open report</Link>
             <Link className="btn btn-ghost" to="/analysis/projection">Your projection</Link>
-            <Link className="btn btn-ghost" to={`/new/${profile.id}`}>New check-in</Link>
+            {profile.sample ? (
+              <Link className="btn btn-ghost" to="/new">Start your own analysis</Link>
+            ) : (
+              <Link className="btn btn-ghost" to={`/new/${profile.id}`}>New check-in</Link>
+            )}
           </div>
         </div>
         <div className="hm-card">
@@ -134,9 +143,15 @@ function ProfileCard({ profile, active }: { profile: Profile; active: boolean })
           <button className="btn" onClick={open}>
             Open analysis
           </button>
-          <button className="btn btn-ghost" onClick={() => nav(`/new/${profile.id}`)}>
-            New check-in
-          </button>
+          {profile.sample ? (
+            <button className="btn btn-ghost" onClick={() => nav("/new")}>
+              Start your own
+            </button>
+          ) : (
+            <button className="btn btn-ghost" onClick={() => nav(`/new/${profile.id}`)}>
+              New check-in
+            </button>
+          )}
           <button
             className="pr-del"
             onClick={() => {

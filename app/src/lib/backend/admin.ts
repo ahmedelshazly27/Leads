@@ -56,20 +56,38 @@ export function rangeStart(range: KpiRange, now = Date.now()): number {
 
 const OPEN = OPEN_REVIEW_STATUSES as string[];
 
+type PageResult<T> = { data: T[] | null; error: { message: string; code?: string } | null };
+
+/**
+ * Read every row of a query, page by page. PostgREST caps each response at
+ * `max_rows` and truncates silently, so a single select would undercount once
+ * a table grows past that. Keeps going until an empty page, so it is correct
+ * whatever `max_rows` is set to. `page` must apply a stable order.
+ */
+async function fetchAll<T>(page: (from: number, to: number) => PromiseLike<PageResult<T>>, size = 1000): Promise<T[]> {
+  const out: T[] = [];
+  for (let from = 0; ; ) {
+    const rows = check(await page(from, from + size - 1)) ?? [];
+    if (!rows.length) return out;
+    out.push(...rows);
+    from += rows.length;
+  }
+}
+
 /** Raw rows for the dashboard since `sinceIso` (plus open orders and all subscriptions). Admin only (RLS). */
 export async function fetchAdminRows(sinceIso: string): Promise<AdminRows> {
   if (backendMode === "mock") return mock.adminRows(sinceIso);
   const c = sb();
   const [ordersRecent, ordersOpen, payments, subscriptions, generations, costs, adSpend, profiles, waitlist] = await Promise.all([
-    c.from("orders").select("*").or(`created_at.gte."${sinceIso}",delivered_at.gte."${sinceIso}",due_at.gte."${sinceIso}"`).then(check),
-    c.from("orders").select("*").in("status", OPEN).then(check),
-    c.from("payments").select("*").gte("created_at", sinceIso).then(check),
-    c.from("subscriptions").select("*").then(check),
-    c.from("generations").select("id,order_id,cost_usd,status,created_at").gte("created_at", sinceIso).then(check),
-    c.from("costs").select("*").gte("created_at", sinceIso).then(check),
-    c.from("ad_spend").select("*").gte("date", sinceIso.slice(0, 10)).then(check),
-    c.from("profiles").select("id,email,role,created_at").then(check),
-    c.from("waitlist").select("id,gender,created_at").then(check),
+    fetchAll<OrderRow>((a, b) => c.from("orders").select("*").or(`created_at.gte."${sinceIso}",delivered_at.gte."${sinceIso}",due_at.gte."${sinceIso}"`).order("id").range(a, b)),
+    fetchAll<OrderRow>((a, b) => c.from("orders").select("*").in("status", OPEN).order("id").range(a, b)),
+    fetchAll<AdminRows["payments"][number]>((a, b) => c.from("payments").select("*").gte("created_at", sinceIso).order("id").range(a, b)),
+    fetchAll<AdminRows["subscriptions"][number]>((a, b) => c.from("subscriptions").select("*").order("id").range(a, b)),
+    fetchAll<AdminRows["generations"][number]>((a, b) => c.from("generations").select("id,order_id,cost_usd,status,created_at").gte("created_at", sinceIso).order("id").range(a, b)),
+    fetchAll<CostRow>((a, b) => c.from("costs").select("*").gte("created_at", sinceIso).order("id").range(a, b)),
+    fetchAll<AdSpendRow>((a, b) => c.from("ad_spend").select("*").gte("date", sinceIso.slice(0, 10)).order("id").range(a, b)),
+    fetchAll<AdminRows["profiles"][number]>((a, b) => c.from("profiles").select("id,email,role,created_at").order("id").range(a, b)),
+    fetchAll<AdminRows["waitlist"][number]>((a, b) => c.from("waitlist").select("id,gender,created_at").order("id").range(a, b)),
   ]);
   const byId = new Map<string, OrderRow>();
   for (const o of [...((ordersRecent ?? []) as OrderRow[]), ...((ordersOpen ?? []) as OrderRow[])]) byId.set(o.id, normOrder(o));
@@ -94,6 +112,15 @@ const inRange = (t: string | null | undefined, from: number, to: number) => {
   const x = Date.parse(t);
   return x >= from && x <= to;
 };
+/**
+ * Revenue effect of a payment row. The payment webhook records a refund as its
+ * own row with status "refunded" and a negative amount, and leaves the original
+ * payment "succeeded". Taking -|amount| also copes with a positive refund amount.
+ */
+const revenueOf = (p: { status: string; amount: number }) =>
+  p.status === "succeeded" ? p.amount : p.status === "refunded" ? -Math.abs(p.amount) : 0;
+const countsForRevenue = (p: { status: string }) => p.status === "succeeded" || p.status === "refunded";
+
 /** Costs already counted elsewhere (payments.fee, generations.cost_usd). */
 const COUNTED_ELSEWHERE = new Set(["payment_fee", "image_generation"]);
 
@@ -102,8 +129,8 @@ export function computeOrderEconomics(rows: AdminRows): OrderEconomics[] {
   return rows.orders
     .filter((o) => o.status !== "pending_payment" && o.status !== "cancelled")
     .map((o) => {
-      const pays = rows.payments.filter((p) => p.order_id === o.id && p.status === "succeeded");
-      const revenueKwd = sum(pays.map((p) => toKwd(p.amount, p.currency)));
+      const pays = rows.payments.filter((p) => p.order_id === o.id && countsForRevenue(p));
+      const revenueKwd = sum(pays.map((p) => toKwd(revenueOf(p), p.currency)));
       const paymentFeeKwd = sum(pays.map((p) => toKwd(p.fee, p.currency)));
       const gens = rows.generations.filter((g) => g.order_id === o.id);
       const imageCostUsd = sum(gens.map((g) => g.cost_usd));
@@ -112,7 +139,7 @@ export function computeOrderEconomics(rows: AdminRows): OrderEconomics[] {
       return {
         order_id: o.id,
         user_id: o.user_id,
-        email: email.get(o.user_id) ?? null,
+        email: o.user_id ? email.get(o.user_id) ?? null : null,
         product: o.product,
         status: o.status,
         created_at: o.created_at,
@@ -134,7 +161,7 @@ export function computeOrderEconomics(rows: AdminRows): OrderEconomics[] {
 export function computeCustomerEconomics(rows: AdminRows, orders: OrderEconomics[]): CustomerEconomics[] {
   const email = new Map(rows.profiles.map((p) => [p.id, p.email]));
   const subStatus = new Map<string, SubscriptionStatus>();
-  for (const s of [...rows.subscriptions].sort((a, b) => a.created_at.localeCompare(b.created_at))) subStatus.set(s.user_id, s.status);
+  for (const s of [...rows.subscriptions].sort((a, b) => a.created_at.localeCompare(b.created_at))) if (s.user_id) subStatus.set(s.user_id, s.status);
   const by = new Map<string, CustomerEconomics>();
   const get = (uid: string) => {
     let c = by.get(uid);
@@ -144,7 +171,9 @@ export function computeCustomerEconomics(rows: AdminRows, orders: OrderEconomics
     }
     return c;
   };
+  // Orders and payments of deleted accounts (user_id null) have no customer to show.
   for (const o of orders) {
+    if (!o.user_id) continue;
     const c = get(o.user_id);
     c.orders++;
     c.revenueKwd += o.revenueKwd;
@@ -153,10 +182,11 @@ export function computeCustomerEconomics(rows: AdminRows, orders: OrderEconomics
     c.generations += o.generations;
     c.otherCostKwd += o.otherCostKwd;
   }
-  // Membership payments are not tied to an order.
-  for (const p of rows.payments.filter((x) => !x.order_id && x.status === "succeeded")) {
+  // Membership payments (and their refunds) are not tied to an order.
+  for (const p of rows.payments.filter((x) => !x.order_id && countsForRevenue(x))) {
+    if (!p.user_id) continue;
     const c = get(p.user_id);
-    c.revenueKwd += toKwd(p.amount, p.currency);
+    c.revenueKwd += toKwd(revenueOf(p), p.currency);
     c.paymentFeeKwd += toKwd(p.fee, p.currency);
   }
   for (const c of by.values()) {
@@ -204,10 +234,10 @@ function computeDaily(rows: AdminRows, from: number, to: number, orders: OrderEc
   }
   const at = (d: string) => map.get(d);
   for (const p of rows.payments) {
-    if (p.status !== "succeeded" || !inRange(p.created_at, from, to)) continue;
+    if (!countsForRevenue(p) || !inRange(p.created_at, from, to)) continue;
     const x = at(day(p.created_at));
     if (x) {
-      x.revenueKwd += toKwd(p.amount, p.currency);
+      x.revenueKwd += toKwd(revenueOf(p), p.currency);
       x.paymentFeesKwd += toKwd(p.fee, p.currency);
     }
   }
@@ -236,16 +266,17 @@ export function computeKpis(rows: AdminRows, range: KpiRange, orders: OrderEcono
   const from = rangeStart(range, now);
   const pays = rows.payments.filter((p) => inRange(p.created_at, from, now));
   const succeeded = pays.filter((p) => p.status === "succeeded");
-  const revenueKwd = sum(succeeded.map((p) => toKwd(p.amount, p.currency)));
+  const grossRevenueKwd = sum(succeeded.map((p) => toKwd(p.amount, p.currency)));
+  const refundedKwd = sum(pays.filter((p) => p.status === "refunded").map((p) => toKwd(Math.abs(p.amount), p.currency)));
+  const revenueKwd = grossRevenueKwd - refundedKwd;
   const paymentFeesKwd = sum(succeeded.map((p) => toKwd(p.fee, p.currency)));
-  const refundedKwd = sum(pays.filter((p) => p.status === "refunded").map((p) => toKwd(p.amount, p.currency)));
   const imageCostUsd = sum(rows.generations.filter((g) => inRange(g.created_at, from, now)).map((g) => g.cost_usd));
   const imageCostKwd = toKwd(imageCostUsd, "USD");
   const otherCostKwd = sum(rows.costs.filter((c) => inRange(c.created_at, from, now) && !COUNTED_ELSEWHERE.has(c.category)).map((c) => toKwd(c.amount, c.currency)));
 
   const ordersInRange = orders.filter((o) => inRange(o.created_at, from, now));
   const reportsPaid = rows.orders.filter((o) => o.product === "report" && inRange(o.paid_at, from, now));
-  const newPayingCustomers = new Set(reportsPaid.map((o) => o.user_id)).size;
+  const newPayingCustomers = new Set(reportsPaid.map((o) => o.user_id ?? `deleted:${o.id}`)).size;
   const newCustomers = rows.profiles.filter((p) => p.role === "customer" && inRange(p.created_at, from, now)).length;
 
   const active = rows.subscriptions.filter((s) => s.status === "active");
@@ -271,6 +302,7 @@ export function computeKpis(rows: AdminRows, range: KpiRange, orders: OrderEcono
     range,
     from: new Date(from).toISOString(),
     revenueKwd: round(revenueKwd),
+    grossRevenueKwd: round(grossRevenueKwd),
     refundedKwd: round(refundedKwd),
     paymentFeesKwd: round(paymentFeesKwd),
     imageCostUsd: round(imageCostUsd, 4),

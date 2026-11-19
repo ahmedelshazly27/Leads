@@ -4,6 +4,7 @@ import type { EvidenceGrade } from "./science";
 import { MODIFIABLE, currentScores, overall, regionOf, type ScoreKey } from "./report";
 import { clamp } from "./geometry";
 import { focusMuscles } from "./training";
+import { bodyInputError } from "./nutrition";
 
 /* ------------------------------------------------------------------ */
 /*  Glow-up plan engine                                                */
@@ -108,6 +109,10 @@ export function buildPlan(scan: Scan, intake: Intake, opts: { includeHidden?: bo
   const body = scan.body?.metrics ?? null;
   const male = intake.gender === "male";
   const female = intake.gender === "female";
+  // pregnant, breastfeeding or trying to conceive: no retinoids, no prescription hair-loss drugs
+  const pregCaution = needsPregnancyCaution(intake);
+  // pregnant or breastfeeding: no calorie deficit either
+  const pregNoDeficit = female && (intake.pregnancy === "pregnant" || intake.pregnancy === "breastfeeding");
   const drivers = new Set<string>();
 
   /* ------------------------------ Skin ------------------------------ */
@@ -133,7 +138,33 @@ export function buildPlan(scan: Scan, intake: Intake, opts: { includeHidden?: bo
     const cov = face.skin.reduce((s, r) => s + r.coverage, 0) / Math.max(1, face.skin.length);
     const tex = face.skin.reduce((s, r) => s + r.texture, 0) / Math.max(1, face.skin.length);
     const worst = [...face.skin].sort((a, b) => b.coverage - a.coverage)[0];
-    if (intake.activeAcne || cov > 0.03) {
+    if ((intake.activeAcne || cov > 0.03) && pregCaution) {
+      drivers.add("Uneven skin");
+      items.push({
+        id: "acne",
+        category: "Skin",
+        title: intake.activeAcne ? "Calm active acne without retinoids: azelaic acid" : "Marks and uneven tone without retinoids: azelaic acid",
+        why: `Flagged pigment/redness covers ${fmtPct(cov)} of measured skin on average${worst ? `, highest in the ${labelRegion(worst.key)} (${fmtPct(worst.coverage)})` : ""}. You told us you are ${pregnancyLabel(intake)}, so this plan leaves out retinoids (adapalene, tretinoin, retinol). Azelaic acid is a guideline-listed acne treatment that doctors often consider during pregnancy and breastfeeding — check with your doctor before starting anything new.`,
+        how: [
+          "Check with your doctor or pharmacist first, and tell them you are " + pregnancyLabel(intake),
+          "Azelaic acid 15–20% (cream or gel) on affected areas, once daily at first, then twice daily if comfortable",
+          "No retinoids (adapalene, tretinoin, retinol) and no oral acne medicines unless your doctor prescribes them knowing your situation",
+          intake.activeAcne ? "If your doctor agrees to benzoyl peroxide, keep to a low-strength (2.5%) wash rinsed off after a minute — not leave-on or high-strength products" : "Morning: gentle cleanser, moisturiser, SPF",
+          "See a dermatologist if acne is painful, nodular or scarring",
+        ],
+        grade: "B",
+        refs: ["zaenglein2016"],
+        phase: 1,
+        timeToVisible: "8–12 weeks",
+        monthly: [10, 20],
+        oneOff: [0, 0],
+        impact: { skin: intake.activeAcne ? 10 : 6 },
+        drivenBy: ["Skin coverage", "Texture"],
+        priority: 1,
+        tasks: [{ id: "azelaic", label: "Azelaic acid (once your doctor agrees)", cadence: "daily" }],
+        visual: "active acne and post-acne marks calmer, natural pores and skin texture kept",
+      });
+    } else if (intake.activeAcne || cov > 0.03) {
       drivers.add("Uneven skin");
       items.push({
         id: "acne",
@@ -160,6 +191,28 @@ export function buildPlan(scan: Scan, intake: Intake, opts: { includeHidden?: bo
           ...(intake.activeAcne ? [{ id: "acne-am", label: "Benzoyl peroxide wash (AM)", cadence: "daily" as const }] : []),
         ],
         visual: "active acne and post-acne marks resolved, natural pores and skin texture kept",
+      });
+    } else if ((intake.age >= 25 || tex > 45) && pregCaution) {
+      items.push({
+        id: "retinol",
+        category: "Skin",
+        title: "Texture care without retinoids for now",
+        why: `Skin texture index ${tex.toFixed(0)}/100. Retinoids are the usual step for texture, but you told us you are ${pregnancyLabel(intake)}, so this plan leaves them out (adapalene, tretinoin and retinol alike).`,
+        how: [
+          "Daily SPF and a plain moisturiser do most of the work for now",
+          "Ask your doctor before adding actives; azelaic acid is one option doctors often consider during pregnancy and breastfeeding",
+          "Revisit retinoids with your doctor once you are no longer pregnant, breastfeeding or trying to conceive",
+        ],
+        grade: "C",
+        refs: ["zaenglein2016"],
+        phase: 3,
+        timeToVisible: "Gradual",
+        monthly: [0, 10],
+        oneOff: [0, 0],
+        impact: { skin: 2 },
+        drivenBy: ["Texture"],
+        priority: 3,
+        tasks: [{ id: "moisturise", label: "Moisturiser + SPF", cadence: "daily" }],
       });
     } else if (intake.age >= 25 || tex > 45) {
       items.push({
@@ -239,12 +292,18 @@ export function buildPlan(scan: Scan, intake: Intake, opts: { includeHidden?: bo
   const overTarget = bf != null ? bf > targetBF + 2 : faceFull;
   // With no reliable body-fat data, a narrow frontal waist-to-shoulder ratio is the only hint.
   const hint = unknownBF && ((male && body != null && body.shoulderToWaist < 1.5) || (side != null && side.waistToChestDepth > 0.92));
-  if (overTarget || hint) {
+  // never suggest fat loss when underweight (BMI < 18.5) or pregnant / breastfeeding
+  // height/weight outside plausible ranges (e.g. 1.75 instead of 175) are ignored, and fat loss is not suggested
+  // because we can't rule out being underweight
+  const bodyBad = bodyInputError(intake.heightCm, intake.weightKg) != null;
+  const weightKg = bodyBad ? null : intake.weightKg;
+  const lowBmi = bodyBad || (intake.heightCm && weightKg ? weightKg / (intake.heightCm / 100) ** 2 < 18.5 : false);
+  if ((overTarget || hint) && !pregNoDeficit && !lowBmi) {
     drivers.add("Facial fullness");
     let pace = "";
-    if (bf != null && intake.weightKg) {
-      const fatToLose = (intake.weightKg * (bf - targetBF)) / 100 / (1 - targetBF / 100);
-      const perWeek = intake.weightKg * 0.007; // 0.7% bodyweight/week
+    if (bf != null && weightKg) {
+      const fatToLose = (weightKg * (bf - targetBF)) / 100 / (1 - targetBF / 100);
+      const perWeek = weightKg * 0.007; // 0.7% bodyweight/week
       monthsToTarget = clamp(Math.ceil(fatToLose / perWeek / 4.3), 1, 24);
       pace = ` Reaching ~${targetBF}% means losing ~${fatToLose.toFixed(1)} kg of fat — about ${monthsToTarget} months at 0.7% of body weight per week.`;
     }
@@ -286,7 +345,7 @@ export function buildPlan(scan: Scan, intake: Intake, opts: { includeHidden?: bo
   items.push({
     id: "protein",
     category: "Nutrition",
-    title: `Protein ~1.6 g/kg/day${intake.weightKg ? ` (~${Math.round(intake.weightKg * 1.6)} g)` : ""}`,
+    title: `Protein ~1.6 g/kg/day${weightKg ? ` (~${Math.round(weightKg * 1.6)} g)` : ""}`,
     why: "A meta-analysis found extra protein increased resistance-training gains in lean mass up to ~1.6 g/kg/day, with no clear benefit beyond; reviews recommend higher protein to help retain muscle while dieting.",
     how: ["Spread over 3–5 meals, 25–40 g each", "Prioritise whole-food sources; whey is a convenient top-up"],
     grade: "A",
@@ -557,19 +616,30 @@ export function buildPlan(scan: Scan, intake: Intake, opts: { includeHidden?: bo
     items.push({
       id: "hairloss",
       category: "Clinical (optional)",
-      title: "Treat androgenetic hair loss early",
+      title: pregCaution ? "Hair loss: see your doctor" : "Treat androgenetic hair loss early",
       why: `You reported ${intake.hairLoss} hair loss. Finasteride and 5% minoxidil each slowed loss and increased hair counts vs. placebo in randomised trials; they mainly preserve existing hair, so starting earlier leaves more to preserve.`,
-      how: ["See a GP or dermatologist to confirm the diagnosis", "Options: topical minoxidil 5%, oral/topical finasteride (prescription)"],
+      how: pregCaution
+        ? [
+            "See a GP or dermatologist to confirm the diagnosis",
+            `Minoxidil and finasteride are not started while you are ${pregnancyLabel(intake)} — your doctor can advise what is suitable and when`,
+            ...(intake.pregnancy === "breastfeeding" || intake.pregnancy === "pregnant" ? ["Extra shedding in the months after giving birth is common and is often temporary; ask your doctor if it continues"] : []),
+          ]
+        : female
+          ? ["See a GP or dermatologist to confirm the diagnosis", "Options your doctor may discuss: topical minoxidil; finasteride is generally not used by women who are or may become pregnant"]
+          : ["See a GP or dermatologist to confirm the diagnosis", "Options: topical minoxidil 5%, oral/topical finasteride (prescription)"],
       grade: "A",
       refs: ["kaufman1998", "olsen2002"],
       phase: 1,
       timeToVisible: "6–12 months",
-      monthly: [15, 40],
+      // while pregnant/breastfeeding the item is a doctor's visit only: no daily treatment, no medication costs
+      monthly: pregCaution ? [0, 0] : [15, 40],
       oneOff: [60, 150],
       impact: {},
       drivenBy: ["Hair loss"],
       priority: 1,
-      tasks: [{ id: "hairloss", label: "Hair-loss treatment", cadence: "daily" }],
+      tasks: pregCaution
+        ? [{ id: "hairloss", label: "Doctor appointment about hair loss", cadence: "once" }]
+        : [{ id: "hairloss", label: "Hair-loss treatment", cadence: "daily" }],
       clinical: true,
     });
   }
@@ -623,8 +693,9 @@ export function buildPlan(scan: Scan, intake: Intake, opts: { includeHidden?: bo
       title: "Dermatologist consult: acne-scar & mark treatments",
       why: `Flagged marks/texture cover ${fmtPct(covAvg)} of measured skin. Once active acne is controlled, a dermatologist can offer procedures for residual scarring — e.g. a randomised split-face trial found microneedling improved acne-scar appearance vs. control.`,
       how: [
-        "Control active acne first (see the retinoid / benzoyl peroxide item)",
+        pregCaution ? "Control active acne first (see the azelaic acid item)" : "Control active acne first (see the retinoid / benzoyl peroxide item)",
         "A dermatologist assesses scar type and skin type before choosing microneedling, peels or lasers",
+        ...(pregCaution ? [`Tell the dermatologist you are ${pregnancyLabel(intake)}; scar procedures are often postponed until afterwards`] : []),
         "Darker skin types need settings that limit post-inflammatory pigmentation",
       ],
       grade: "B",
@@ -649,6 +720,7 @@ export function buildPlan(scan: Scan, intake: Intake, opts: { includeHidden?: bo
       why: "You said you're open to clinical options. We don't recommend specific injectables from photos. Reviews show risks exist: botulinum toxin trials report side effects such as eyelid or brow drooping, and all dermal fillers can cause complications, rarely serious ones. A licensed practitioner assesses suitability, risks and dosing in person.",
       how: [
         "Book a consultation only — no treatment is booked from this plan",
+        ...(pregCaution ? [`Tell the practitioner you are ${pregnancyLabel(intake)}; injectables and many procedures are usually postponed`] : []),
         "Bring your report; the practitioner decides whether any treatment is appropriate",
         "Start with the habit-based steps first — they carry no procedural risk",
       ],
@@ -746,6 +818,15 @@ export function buildPlan(scan: Scan, intake: Intake, opts: { includeHidden?: bo
     improvements,
     drivers: [...drivers],
   };
+}
+
+/** True when the intake says pregnant, breastfeeding or trying to conceive (female intake only). */
+export function needsPregnancyCaution(intake: Intake) {
+  return intake.gender === "female" && !!intake.pregnancy && intake.pregnancy !== "no";
+}
+
+function pregnancyLabel(intake: Intake) {
+  return intake.pregnancy === "pregnant" ? "pregnant" : intake.pregnancy === "breastfeeding" ? "breastfeeding" : "trying to conceive";
 }
 
 function labelRegion(k: string) {

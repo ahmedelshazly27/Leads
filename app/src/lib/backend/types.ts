@@ -68,7 +68,8 @@ export interface ConsentRow {
 
 export interface OrderRow {
   id: string;
-  user_id: string;
+  /** null after the customer deleted their account (kept for accounting) */
+  user_id: string | null;
   product: OrderProduct;
   status: OrderStatus;
   amount: number;
@@ -85,7 +86,8 @@ export interface OrderRow {
 
 export interface SubscriptionRow {
   id: string;
-  user_id: string;
+  /** null after the customer deleted their account */
+  user_id: string | null;
   provider: PaymentProvider;
   provider_sub_id: string | null;
   plan: SubscriptionPlan;
@@ -99,7 +101,8 @@ export interface PaymentRow {
   id: string;
   order_id: string | null;
   subscription_id: string | null;
-  user_id: string;
+  /** null for refund rows whose original payment could not be matched, and after account deletion */
+  user_id: string | null;
   provider: PaymentProvider;
   provider_ref: string | null;
   amount: number;
@@ -298,9 +301,11 @@ export interface Kpis {
   range: KpiRange;
   /** ISO start of the range (inclusive) */
   from: string;
-  /** succeeded payments in the range, KWD */
+  /** net revenue in the range, KWD: succeeded payments minus refunds */
   revenueKwd: number;
-  /** payments marked refunded in the range, KWD */
+  /** succeeded payments in the range before refunds, KWD */
+  grossRevenueKwd: number;
+  /** refunds issued in the range, KWD, as a positive number */
   refundedKwd: number;
   paymentFeesKwd: number;
   imageCostUsd: number;
@@ -335,7 +340,7 @@ export interface Kpis {
 
 export interface OrderEconomics {
   order_id: string;
-  user_id: string;
+  user_id: string | null;
   email: string | null;
   product: OrderProduct;
   status: OrderStatus;

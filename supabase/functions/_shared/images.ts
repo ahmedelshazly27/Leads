@@ -98,7 +98,11 @@ async function falEdit(req: EditRequest): Promise<EditResult> {
   });
   const body = await res.json().catch(() => ({}));
   if (!res.ok) {
-    throw new HttpError(502, "provider_error", `Image provider error (${res.status}): ${JSON.stringify(body).slice(0, 300)}`);
+    throw new HttpError(
+      502,
+      "provider_error",
+      `Image provider error (${res.status}): ${JSON.stringify(body).slice(0, 300)}`,
+    );
   }
   const url: string | undefined = body?.images?.[0]?.url;
   if (!url) throw new HttpError(502, "provider_error", "Image provider returned no image.");
@@ -193,6 +197,10 @@ export async function editImage(provider: ProviderName, req: EditRequest): Promi
     case "higgsfield":
       // Higgsfield is listed in the schema for later. Its adapter is not built
       // yet; generate in Higgsfield by hand, or switch IMAGE_PROVIDER.
-      throw new HttpError(501, "not_implemented", "The Higgsfield adapter is not built yet. Set IMAGE_PROVIDER to fal or openai.");
+      throw new HttpError(
+        501,
+        "not_implemented",
+        "The Higgsfield adapter is not built yet. Set IMAGE_PROVIDER to fal or openai.",
+      );
   }
 }

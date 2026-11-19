@@ -1,0 +1,193 @@
+/* ================================================================== */
+/*  Waitlist form                                                      */
+/* ================================================================== */
+
+.wl {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  color: var(--ink);
+  font-family: var(--sans);
+}
+.wl:lang(ar) {
+  font-family: "IBM Plex Sans Arabic", var(--sans);
+  letter-spacing: 0;
+}
+.wl-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--r-xl);
+  box-shadow: var(--shadow-md);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.wl-title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+}
+.wl:lang(ar) .wl-title {
+  letter-spacing: 0;
+  line-height: 1.35;
+}
+.wl-intro {
+  margin: 0 0 10px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--ink-3);
+}
+.wl-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--label);
+}
+.wl-input {
+  height: 46px;
+  padding: 0 14px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--line-2);
+  background: var(--surface);
+  font: inherit;
+  font-size: 15px;
+  color: var(--ink);
+  width: 100%;
+  transition: border-color 0.15s ease;
+}
+.wl:lang(ar) .wl-input {
+  text-align: right;
+}
+.wl-input::placeholder {
+  color: #c2b3b7;
+}
+.wl-input:focus {
+  outline: none;
+  border-color: var(--slate);
+  box-shadow: 0 0 0 3px rgba(91, 43, 53, 0.08);
+}
+.wl-input.is-bad {
+  border-color: #c2554d;
+}
+.wl-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 10px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+.wl-check input {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  margin: 2px 0 0;
+  accent-color: var(--slate);
+}
+.wl-check.is-bad label {
+  color: #a1352f;
+}
+
+.wl-seg {
+  display: inline-flex;
+  align-self: flex-start;
+  padding: 3px;
+  border-radius: 999px;
+  background: var(--card-2);
+  gap: 2px;
+}
+.wl-seg button {
+  height: 34px;
+  padding: 0 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  color: var(--ink-3);
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.wl-seg button:lang(ar) {
+  font-family: "IBM Plex Sans Arabic", var(--sans);
+}
+.wl-seg button.is-on {
+  background: #fff;
+  color: var(--ink);
+  box-shadow: var(--shadow-sm);
+}
+
+.wl-error {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: #a1352f;
+}
+.wl-btn {
+  margin-top: 12px;
+  height: 48px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 14px;
+  transition: background 0.15s ease, opacity 0.15s ease, transform 0.15s ease;
+}
+.wl-btn:hover:not(:disabled) {
+  background: var(--accent-deep);
+}
+.wl-btn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+.wl-btn:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+.wl-btn:focus-visible,
+.wl-seg button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.wl-privacy {
+  margin: 6px 0 0;
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--muted);
+}
+.wl-privacy a {
+  color: var(--label);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* success */
+.wl-done {
+  align-items: center;
+  text-align: center;
+  padding: 36px 28px;
+}
+.wl-tick {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #f4ecee;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+.wl-done .wl-intro {
+  margin: 0;
+}
+.wl-dev {
+  margin: 8px 0 0;
+  font-size: 11px;
+  color: #7a4a00;
+}
+
+@media (max-width: 520px) {
+  .wl-card {
+    padding: 20px 16px;
+    border-radius: var(--r-lg);
+  }
+}

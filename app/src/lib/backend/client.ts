@@ -30,10 +30,13 @@ export const supabase: SupabaseClient | null =
 
 export class BackendError extends Error {
   code: string;
-  constructor(message: string, code = "backend_error") {
+  /** HTTP status of a failed edge function call (undefined for network errors and non-HTTP errors) */
+  status?: number;
+  constructor(message: string, code = "backend_error", status?: number) {
     super(message);
     this.name = "BackendError";
     this.code = code;
+    this.status = status;
   }
 }
 
@@ -55,8 +58,10 @@ export async function callFunction<T>(name: string, body?: unknown): Promise<T> 
   if (error) {
     let message = error.message;
     let code = "function_error";
+    let status: number | undefined;
     const ctx = (error as { context?: unknown }).context;
     if (ctx instanceof Response) {
+      status = ctx.status;
       try {
         const j = (await ctx.clone().json()) as { error?: string | { message?: string; code?: string }; message?: string };
         if (typeof j.error === "string") message = j.error;
@@ -68,7 +73,7 @@ export async function callFunction<T>(name: string, body?: unknown): Promise<T> 
         /* body was not JSON */
       }
     }
-    throw new BackendError(message, code);
+    throw new BackendError(message, code, status);
   }
   return data as T;
 }
@@ -143,5 +148,12 @@ export function useBackendQuery<T>(key: string | null, fn: () => Promise<T>): Qu
   }, [key, v, local]);
 
   const refresh = useCallback(() => setLocal((n) => n + 1), []);
-  return { data: state.key === key ? state.data : undefined, error: state.error, loading: state.loading, refresh };
+  const current = state.key === key;
+  return {
+    data: current ? state.data : undefined,
+    error: current ? state.error : null,
+    // Before the effect for a new key has run, report loading (not "done, empty").
+    loading: current ? state.loading : key !== null,
+    refresh,
+  };
 }

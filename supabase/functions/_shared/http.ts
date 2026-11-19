@@ -25,7 +25,11 @@ export function errorResponse(req: Request, err: unknown): Response {
     return json(req, { error: { code: err.code, message: err.message } }, err.status);
   }
   console.error(err);
-  return json(req, { error: { code: "internal", message: "Something went wrong on our side. Please try again." } }, 500);
+  return json(
+    req,
+    { error: { code: "internal", message: "Something went wrong on our side. Please try again." } },
+    500,
+  );
 }
 
 export async function readJson<T = Record<string, unknown>>(req: Request): Promise<T> {

@@ -108,3 +108,41 @@ export async function smileFromPhoto(url: string, scan: Pick<Scan, "face">) {
 }
 
 const tick = (ms = 30) => new Promise((r) => setTimeout(r, ms));
+
+/* ------------------------------------------------------------------ */
+/*  Lazy model loading                                                 */
+/*  Models are fetched only once the user adds a photo, not when the   */
+/*  scan page opens. Resolves when the model is ready to run.          */
+/* ------------------------------------------------------------------ */
+
+let faceWarm: Promise<boolean> | null = null;
+let poseWarm: Promise<boolean> | null = null;
+
+function blank() {
+  const c = document.createElement("canvas");
+  c.width = 64;
+  c.height = 64;
+  c.getContext("2d")?.fillRect(0, 0, 64, 64);
+  return c;
+}
+
+/** Start loading the face model (and the pose model when body photos are used). Resolves true when ready. */
+export function warmModels(body: boolean): Promise<boolean> {
+  // running a detection on a blank canvas waits for the model to finish loading
+  faceWarm ??= detectFace(blank()).then(
+    () => true,
+    () => {
+      faceWarm = null;
+      return false;
+    },
+  );
+  if (body)
+    poseWarm ??= detectPose(blank()).then(
+      () => true,
+      () => {
+        poseWarm = null;
+        return false;
+      },
+    );
+  return Promise.all([faceWarm, body ? poseWarm! : true]).then((r) => r.every(Boolean));
+}

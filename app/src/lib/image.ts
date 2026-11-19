@@ -1,13 +1,34 @@
-/** Read a File, downscale it so the long edge is <= maxEdge, return a JPEG data URL. */
-export async function fileToDataUrl(file: File, maxEdge = 1400): Promise<string> {
+/** A photo the user picked that we can't use; `message` is written for the user. */
+export class PhotoError extends Error {}
+
+export const UNREADABLE_PHOTO =
+  "This photo couldn't be opened — use a JPG or PNG. On iPhone, set Settings > Camera > Formats > Most Compatible, or take a screenshot of the photo and upload that.";
+
+/** Shorter image side below this is too small to measure reliably. */
+export const MIN_SHORT_SIDE = 480;
+
+/** Read a File, downscale it so the long edge is <= maxEdge, return a JPEG data URL. Throws PhotoError with a user-facing message. */
+export async function fileToDataUrl(file: File, maxEdge = 1400, minShortSide = 0): Promise<string> {
   const src = await new Promise<string>((resolve, reject) => {
     const r = new FileReader();
     r.onload = () => resolve(r.result as string);
-    r.onerror = () => reject(r.error);
+    r.onerror = () => reject(new PhotoError(UNREADABLE_PHOTO));
     r.readAsDataURL(file);
   });
-  const img = await loadImage(src);
-  const scale = Math.min(1, maxEdge / Math.max(img.naturalWidth, img.naturalHeight));
+  let img: HTMLImageElement;
+  try {
+    img = await loadImage(src);
+  } catch {
+    throw new PhotoError(UNREADABLE_PHOTO);
+  }
+  if (!img.naturalWidth || !img.naturalHeight) throw new PhotoError(UNREADABLE_PHOTO);
+  if (minShortSide && Math.min(img.naturalWidth, img.naturalHeight) < minShortSide)
+    throw new PhotoError(
+      `This photo is too small (${img.naturalWidth} × ${img.naturalHeight} pixels). Use the original photo from your camera — at least ${minShortSide} pixels on the shorter side, not a thumbnail or a cropped screenshot.`,
+    );
+  // shrink so the long edge fits maxEdge, but never push the short side below minShortSide
+  const shortSide = Math.min(img.naturalWidth, img.naturalHeight);
+  const scale = Math.min(1, Math.max(maxEdge / Math.max(img.naturalWidth, img.naturalHeight), minShortSide ? minShortSide / shortSide : 0));
   const w = Math.round(img.naturalWidth * scale);
   const h = Math.round(img.naturalHeight * scale);
   const c = document.createElement("canvas");

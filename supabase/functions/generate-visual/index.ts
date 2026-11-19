@@ -7,7 +7,7 @@
 // Stores the output in the visuals bucket, logs generations.cost_usd and a costs row.
 import { HttpError, json, readJson, requireUuid, serve } from "../_shared/http.ts";
 import { requireRole } from "../_shared/auth.ts";
-import { admin, audit, must } from "../_shared/supabase.ts";
+import { admin, audit, must, mustOne } from "../_shared/supabase.ts";
 import { currentProvider, editImage, modelFor, type ReferenceImage } from "../_shared/images.ts";
 
 type Kind = "face_after" | "face_after_alt" | "body_after_front" | "body_after_side";
@@ -25,13 +25,19 @@ const SIGNED_SECONDS = 600;
 
 serve(async (req) => {
   const { user, profile } = await requireRole(req, ["reviewer", "admin"]);
-  const body = await readJson<{ order_id?: string; kind?: string; prompt?: string; remarks?: string; parent_id?: string }>(req);
+  const body = await readJson<
+    { order_id?: string; kind?: string; prompt?: string; remarks?: string; parent_id?: string }
+  >(req);
   const orderId = requireUuid(body.order_id, "order_id");
   const parentId = body.parent_id ? requireUuid(body.parent_id, "parent_id") : null;
   const prompt = typeof body.prompt === "string" ? body.prompt.trim() : "";
   const remarks = typeof body.remarks === "string" && body.remarks.trim() ? body.remarks.trim() : null;
-  if (!prompt || prompt.length > 6000) throw new HttpError(400, "bad_prompt", "A prompt (up to 6000 characters) is required.");
-  if (remarks && remarks.length > 2000) throw new HttpError(400, "bad_remarks", "Remarks can be up to 2000 characters.");
+  if (!prompt || prompt.length > 6000) {
+    throw new HttpError(400, "bad_prompt", "A prompt (up to 6000 characters) is required.");
+  }
+  if (remarks && remarks.length > 2000) {
+    throw new HttpError(400, "bad_remarks", "Remarks can be up to 2000 characters.");
+  }
 
   const db = admin();
   const order = must(
@@ -50,11 +56,16 @@ serve(async (req) => {
   let parent: { id: string; kind: Kind; output_path: string; scan_id: string | null } | null = null;
   if (parentId) {
     const p = must(
-      await db.from("generations").select("id, order_id, kind, status, output_path, scan_id").eq("id", parentId).maybeSingle(),
+      await db.from("generations").select("id, order_id, kind, status, output_path, scan_id").eq("id", parentId)
+        .maybeSingle(),
       "parent",
     );
-    if (!p || p.order_id !== orderId) throw new HttpError(404, "not_found", "Previous attempt not found for this order.");
-    if (p.status !== "succeeded" || !p.output_path) throw new HttpError(409, "parent_not_ready", "The previous attempt has no image.");
+    if (!p || p.order_id !== orderId) {
+      throw new HttpError(404, "not_found", "Previous attempt not found for this order.");
+    }
+    if (p.status !== "succeeded" || !p.output_path) {
+      throw new HttpError(409, "parent_not_ready", "The previous attempt has no image.");
+    }
     parent = { id: p.id, kind: p.kind as Kind, output_path: p.output_path, scan_id: p.scan_id };
   }
 
@@ -67,7 +78,9 @@ serve(async (req) => {
   // Latest scan of the order (or the parent's scan).
   const scanQuery = db.from("scans").select("id, photos_deleted_at").eq("order_id", orderId);
   const scan = must(
-    await (parent?.scan_id ? scanQuery.eq("id", parent.scan_id) : scanQuery.order("created_at", { ascending: false }).limit(1))
+    await (parent?.scan_id
+      ? scanQuery.eq("id", parent.scan_id)
+      : scanQuery.order("created_at", { ascending: false }).limit(1))
       .maybeSingle(),
     "scan",
   );
@@ -79,7 +92,7 @@ serve(async (req) => {
   const sourceView = SOURCE_VIEWS[kind].find((v) => byView.has(v));
   if (!sourceView) throw new HttpError(409, "photo_missing", `No ${SOURCE_VIEWS[kind][0]} photo for this scan.`);
 
-  const signed = must(
+  const signed = mustOne(
     await db.storage.from("photos").createSignedUrl(byView.get(sourceView)!, SIGNED_SECONDS),
     "sign photo",
   );
@@ -88,14 +101,19 @@ serve(async (req) => {
   const references: ReferenceImage[] = [];
   let fullPrompt = prompt;
   if (parent) {
-    const prev = must(await db.storage.from("visuals").createSignedUrl(parent.output_path, SIGNED_SECONDS), "sign parent");
+    const prev = mustOne(
+      await db.storage.from("visuals").createSignedUrl(parent.output_path, SIGNED_SECONDS),
+      "sign parent",
+    );
     references.push({ url: prev.signedUrl, label: "previous attempt" }, original);
     fullPrompt = [
       prompt,
       "",
       "Edit the first image (the previous attempt). The second image is the original photo of the same person:",
       "keep their identity, face shape, skin tone, proportions, pose, framing and background exactly as in it.",
-      remarks ? `Apply only these changes from the reviewer: ${remarks}` : "Make it more realistic and closer to the original photo.",
+      remarks
+        ? `Apply only these changes from the reviewer: ${remarks}`
+        : "Make it more realistic and closer to the original photo.",
     ].join("\n");
   } else {
     references.push(original);
@@ -103,7 +121,7 @@ serve(async (req) => {
   }
 
   const provider = currentProvider();
-  const gen = must(
+  const gen = mustOne(
     await db
       .from("generations")
       .insert({
@@ -135,12 +153,14 @@ serve(async (req) => {
       await db.storage.from("visuals").upload(path, result.bytes, { contentType: result.mime, upsert: true }),
       "upload visual",
     );
-    const saved = must(
+    const saved = mustOne(
       await db
         .from("generations")
         .update({ status: "succeeded", output_path: path, cost_usd: result.costUsd, model: result.model })
         .eq("id", genId)
-        .select("id, order_id, scan_id, kind, prompt, remarks, parent_id, provider, model, status, output_path, cost_usd, approved, created_at")
+        .select(
+          "id, order_id, scan_id, kind, prompt, remarks, parent_id, provider, model, status, output_path, cost_usd, approved, created_at",
+        )
         .single(),
       "generation update",
     );
@@ -157,8 +177,13 @@ serve(async (req) => {
         "cost insert",
       );
     }
-    const url = must(await db.storage.from("visuals").createSignedUrl(path, 3600), "sign output");
-    await audit("generations.created", "generations", genId, { order_id: orderId, kind, parent_id: parent?.id ?? null, cost_usd: result.costUsd }, user.id);
+    const url = mustOne(await db.storage.from("visuals").createSignedUrl(path, 3600), "sign output");
+    await audit("generations.created", "generations", genId, {
+      order_id: orderId,
+      kind,
+      parent_id: parent?.id ?? null,
+      cost_usd: result.costUsd,
+    }, user.id);
     return json(req, { generation: saved, url: url.signedUrl });
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);

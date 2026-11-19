@@ -3,7 +3,7 @@
 // asymmetric JWT signing keys.
 import type { User } from "jsr:@supabase/supabase-js@2";
 import { HttpError } from "./http.ts";
-import { admin, serviceKey } from "./supabase.ts";
+import { admin } from "./supabase.ts";
 
 export type Role = "customer" | "reviewer" | "admin";
 
@@ -65,10 +65,20 @@ function timingSafeEqual(a: string, b: string): boolean {
   return diff === 0;
 }
 
-/** Scheduled jobs: the caller must present the service key. */
+/**
+ * Scheduled jobs. The caller must present CRON_SECRET (a dedicated secret set
+ * both as a function secret and in Vault as 'cron_secret'). The service key is
+ * accepted too, in either form (legacy service_role JWT or sb_secret_ key).
+ */
 export function requireService(req: Request): void {
   const token = bearer(req);
-  if (!timingSafeEqual(token, serviceKey())) {
-    throw new HttpError(401, "unauthorized", "Service key required.");
+  const accepted = [
+    Deno.env.get("CRON_SECRET"),
+    Deno.env.get("SUPABASE_SERVICE_ROLE_KEY"),
+    Deno.env.get("SUPABASE_SECRET_KEY"),
+  ].filter((k): k is string => typeof k === "string" && k.length >= 16);
+  if (!accepted.some((k) => timingSafeEqual(token, k))) {
+    console.warn("scheduled call rejected: token matches neither CRON_SECRET nor the service key");
+    throw new HttpError(401, "unauthorized", "Cron secret required.");
   }
 }

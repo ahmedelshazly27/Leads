@@ -1,14 +1,16 @@
 -- Scheduled jobs (pg_cron) that call edge functions over HTTP (pg_net).
--- The project URL and the service key are read from Supabase Vault at run
--- time, never stored here. Create them once (see supabase/README.md):
+-- The project URL and a dedicated cron secret are read from Supabase Vault at
+-- run time, never stored here. Create them once (see supabase/README.md); the
+-- same cron secret is set as the CRON_SECRET function secret:
 --   select vault.create_secret('https://<project-ref>.supabase.co', 'project_url');
---   select vault.create_secret('<service role key>', 'service_role_key');
+--   select vault.create_secret('<random cron secret>', 'cron_secret');
+-- A 'service_role_key' Vault secret is still accepted as a fallback.
 -- Times are UTC (Kuwait is UTC+3).
 
 create extension if not exists pg_cron;
 create extension if not exists pg_net with schema extensions;
 
--- Calls an edge function with the service key from Vault.
+-- Calls an edge function with the cron secret from Vault.
 create or replace function public.invoke_edge_function(p_name text, p_body jsonb default '{}'::jsonb)
 returns bigint
 language plpgsql security definer
@@ -19,9 +21,12 @@ declare
   v_key text;
 begin
   select decrypted_secret into v_url from vault.decrypted_secrets where name = 'project_url' limit 1;
-  select decrypted_secret into v_key from vault.decrypted_secrets where name = 'service_role_key' limit 1;
+  select decrypted_secret into v_key from vault.decrypted_secrets where name = 'cron_secret' limit 1;
+  if v_key is null then
+    select decrypted_secret into v_key from vault.decrypted_secrets where name = 'service_role_key' limit 1;
+  end if;
   if v_url is null or v_key is null then
-    raise warning 'invoke_edge_function(%): vault secrets project_url / service_role_key are not set', p_name;
+    raise warning 'invoke_edge_function(%): vault secrets project_url / cron_secret are not set', p_name;
     return null;
   end if;
   return net.http_post(

@@ -35,6 +35,13 @@ export async function audit(
   if (error) console.error("audit_log insert failed", action, error.message);
 }
 
+/** Like must, but also throws when no data came back (single rows, signed URLs). */
+export function mustOne<T>(res: { data: T; error: { message: string } | null }, what: string): NonNullable<T> {
+  const data = must(res, what);
+  if (data == null) throw new Error(`${what}: no data returned`);
+  return data as NonNullable<T>;
+}
+
 /** Throws on a Supabase error, returns data otherwise. */
 export function must<T>(res: { data: T; error: { message: string } | null }, what: string): T {
   if (res.error) throw new Error(`${what}: ${res.error.message}`);

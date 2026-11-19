@@ -5,8 +5,20 @@ import { Download } from "../components/icons";
 import { exportAll, importAll, resetAll, setStaff, useAppState } from "../lib/store";
 import "./pages.css";
 
+/** Staff mode is offered only in development or with ?staff=1 in the URL, until a server role replaces it. */
+function staffSwitchAllowed() {
+  if (import.meta.env.DEV) return true;
+  try {
+    return new URLSearchParams(window.location.search).get("staff") === "1";
+  } catch {
+    return false;
+  }
+}
+
 export function Settings() {
   const s = useAppState();
+  // keep the switch visible while staff mode is on, so it can always be turned off
+  const showStaff = staffSwitchAllowed() || !!s.settings.staff;
   const file = useRef<HTMLInputElement>(null);
   const [msg, setMsg] = useState<string | null>(null);
 
@@ -34,6 +46,7 @@ export function Settings() {
         }
       />
 
+      {showStaff && (
       <div className="bt-card" style={{ padding: "4px 22px" }}>
         <div className="st-row">
           <div>
@@ -50,6 +63,7 @@ export function Settings() {
           />
         </div>
       </div>
+      )}
 
       <div className="bt-card" style={{ padding: "4px 22px" }}>
         <div className="st-row">

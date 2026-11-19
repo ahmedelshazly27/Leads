@@ -14,7 +14,7 @@ import { SCORE_LABEL, type ScoreKey } from "../lib/report";
 import { sampleProfile, sampleScan } from "../lib/sample";
 import "./Landing.css";
 import { CompleteAnalysis, LooksInfluence, PersonalPlan, TakingIntoAccount, YouWillLearn } from "./LandingSections";
-import { Ancestry, Privacy, DiscoverYou, FollowPlan, LifeChanging, Mindset, NoSurgery, Pillars, StartCta, Support, Technology } from "./LandingSections2";
+import { Ancestry, Privacy, DiscoverYou, FollowPlan, LifeChanging, Mindset, NoSurgery, Pillars, StartCta, Support, Technology, warm } from "./LandingSections2";
 
 const S = `${import.meta.env.BASE_URL}sample/`;
 
@@ -123,7 +123,7 @@ export function Landing() {
           <button type="button" className="lp-lang" onClick={() => navigate(lang === "ar" ? "/" : "/ar")} lang={lang === "ar" ? "en" : "ar"} data-i18n-skip>
             {lang === "ar" ? "English" : "العربية"}
           </button>
-          <Link to="/protocols" className="lp-btn lp-btn-nav">
+          <Link to="/protocols" {...warm("/protocols")} className="lp-btn lp-btn-nav">
             Open app
           </Link>
         </div>
@@ -171,11 +171,11 @@ export function Landing() {
             <span>{BRAND_NAME}</span>
           </div>
           <div className="lp-foot-links">
-            <Link to="/protocols">Open app</Link>
+            <Link to="/protocols" {...warm("/protocols")}>Open app</Link>
             <a href="#pricing">Pricing</a>
             <a href="#privacy">Privacy</a>
             <a href="#faq">FAQ</a>
-            <Link to="/analysis/methodology">Methodology</Link>
+            <Link to="/analysis/methodology" {...warm("/analysis/methodology")}>Methodology</Link>
           </div>
           <p className="lp-foot-note">Not medical advice · Product imagery uses a synthetic person · After images are AI illustrations, not results · © {new Date().getFullYear()}</p>
         </div>
@@ -191,7 +191,7 @@ export function Landing() {
 function Hero() {
   return (
     <section className="lp-hero">
-      <img className="lp-hero-img" src={`${S}face.jpg`} alt="" aria-hidden />
+      <img className="lp-hero-img" src={`${S}face.jpg`} alt="" aria-hidden width={995} height={1333} decoding="async" {...{ fetchpriority: "high" }} />
       <div className="lp-hero-in">
         <div className="lp-hero-text">
           <span className="lp-hero-eyebrow">Facial &amp; body analysis</span>
@@ -202,7 +202,7 @@ function Hero() {
           </h1>
           <p className="lp-hero-lead">A science-referenced analysis of your face and body, and a 12-month plan built from it.</p>
           <div className="lp-hero-cta">
-            <Link to="/new" className="lp-btn lp-btn-white">
+            <Link to="/new" {...warm("/new")} className="lp-btn lp-btn-white">
               Start my scan
             </Link>
             <a href="#how" className="lp-btn lp-btn-glass">
@@ -303,7 +303,7 @@ function FutureSelf() {
           ))}
         </div>
         <figure className="lp-future-photo">
-          <img src={`${S}face_after.jpg`} alt="AI-generated 12-month visual (synthetic sample)" />
+          <img loading="lazy" decoding="async" src={`${S}face_after.jpg`} alt="AI-generated 12-month visual (synthetic sample)" />
           <figcaption>AI illustration · 12 months · synthetic sample</figcaption>
         </figure>
         <div className="lp-future-col">
@@ -650,7 +650,7 @@ function How() {
               </div>
               <div className="hv-thumbs">
                 {["face.jpg", "face_left.jpg", "body_front.jpg", "body_side.jpg"].map((f) => (
-                  <img key={f} src={`${S}${f}`} alt="" />
+                  <img loading="lazy" decoding="async" key={f} src={`${S}${f}`} alt="" />
                 ))}
               </div>
             </div>
@@ -679,8 +679,8 @@ function How() {
             <div className="hv-report">
               <div className="hv-report-head">Your report</div>
               <div className="hv-report-row">
-                <img src={`${S}face.jpg`} alt="" />
-                <img src={`${S}face_after.jpg`} alt="" />
+                <img loading="lazy" decoding="async" src={`${S}face.jpg`} alt="" />
+                <img loading="lazy" decoding="async" src={`${S}face_after.jpg`} alt="" />
               </div>
               <div className="hv-report-lines">
                 <i />
@@ -735,7 +735,7 @@ function Pricing() {
               </div>
             </div>
             <div className="lp-price-amt">{PRICE_KWD} KWD</div>
-            <Link to="/new" className="lp-btn lp-btn-white lp-btn-block">
+            <Link to="/new" {...warm("/new")} className="lp-btn lp-btn-white lp-btn-block">
               Start my scan
             </Link>
             <p className="lp-price-note">Pay with KNET, Visa, Mastercard or Apple Pay.</p>

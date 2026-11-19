@@ -111,6 +111,9 @@ export function makeFrame(landmarks: Pt[], w: number, h: number, z?: number[]): 
   return { P, toNorm, w, h, roll, yaw, pitch, faceWidth, eyeW };
 }
 
+/** Below this face width (cheekbone to cheekbone, in image pixels) skin texture and small features are unreliable. */
+export const MIN_FACE_WIDTH_PX = 220;
+
 /** Capture-quality checks that tell the user which numbers to trust. */
 export function captureQuality(f: FaceFrame, captureHint?: "selfie" | "distance"): CaptureQuality {
   const faceWidthFrac = f.faceWidth / f.w;
@@ -132,7 +135,18 @@ export function captureQuality(f: FaceFrame, captureHint?: "selfie" | "distance"
     warnings.push(`Head tilted ~${Math.abs(f.pitch).toFixed(0)}° ${f.pitch > 0 ? "up" : "down"}. Keep the camera at eye level so facial thirds are measured correctly.`);
     ["midToLowerThird", "lipChinRatio", "faceWHR"].forEach((k) => affected.add(k));
   }
-  return { yaw: f.yaw, pitch: f.pitch, roll: deg(f.roll), faceWidthFrac, closeRange, warnings, affected: [...affected] };
+  const roll = deg(f.roll);
+  if (Math.abs(roll) > 15) {
+    warnings.push(`Head tilted ~${Math.abs(roll).toFixed(0)}° towards one shoulder. We straighten the face before measuring, but keep your head level for the most reliable symmetry and brow readings.`);
+    ["symmetry", "browTilt", "canthalTilt"].forEach((k) => affected.add(k));
+  }
+  if (f.faceWidth < MIN_FACE_WIDTH_PX) {
+    warnings.push(
+      `Your face is only ~${Math.round(f.faceWidth)} pixels wide in this photo, which is too small to read skin detail reliably. Use the original camera photo (not a thumbnail) and fill more of the frame using zoom rather than moving closer.`,
+    );
+    ["skinScore", "contrast"].forEach((k) => affected.add(k));
+  }
+  return { yaw: f.yaw, pitch: f.pitch, roll, faceWidthFrac, closeRange, warnings, affected: [...affected] };
 }
 
 /* ------------------------------------------------------------------ */
