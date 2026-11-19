@@ -52,5 +52,5 @@ export {
 } from "./admin";
 export { CONSENT_VERSION, recordConsents, pendingConsents, flushPendingConsents, listMyConsents, withdrawConsent, activeConsents, useMyConsents } from "./consents";
 export { joinWaitlist, type WaitlistEntry, type WaitlistResult } from "./waitlist";
-export { exportMyData, downloadMyData, deleteMyData } from "./account";
+export { exportMyData, downloadMyData, deleteMyData, withdrawPhotoConsent } from "./account";
 export { mock as mockBackend } from "./mock";

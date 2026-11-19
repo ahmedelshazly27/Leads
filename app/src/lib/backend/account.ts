@@ -75,3 +75,12 @@ export async function deleteMyData(opts: { confirm: true }): Promise<void> {
   await callFunction("delete-my-data", { confirm: true });
   await signOut().catch(() => {});
 }
+
+/**
+ * Withdraw photo consent: deletes the user's photos, measurements and health
+ * answers (GDPR art. 17(1)(b)) and marks the consent withdrawn. Orders not yet
+ * delivered can no longer be reviewed. Stub: the backend stream implements it.
+ */
+export async function withdrawPhotoConsent(): Promise<{ scans: number; files: number }> {
+  throw new BackendError("not_built", "Not available yet.");
+}

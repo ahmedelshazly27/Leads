@@ -38,6 +38,14 @@ const Settings = page(() => import("./pages/Settings").then((m) => m.Settings));
 const Review = page(() => import("./pages/review/Review").then((m) => m.Review));
 const ReviewScan = page(() => import("./pages/review/ReviewScan").then((m) => m.ReviewScan));
 const AnalysisRouter = page(() => import("./pages/analysis/AnalysisRouter").then((m) => m.AnalysisRouter));
+const Start = page(() => import("./pages/flow/Start").then((m) => m.Start));
+const Order = page(() => import("./pages/flow/Order").then((m) => m.Order));
+const Account = page(() => import("./pages/flow/Account").then((m) => m.Account));
+const Admin = page(() => import("./pages/admin/Admin").then((m) => m.Admin));
+const ReviewOrder = page(() => import("./pages/review/ReviewOrder").then((m) => m.ReviewOrder));
+const Privacy = page(() => import("./pages/legal/Privacy").then((m) => m.Privacy));
+const Terms = page(() => import("./pages/legal/Terms").then((m) => m.Terms));
+const Refunds = page(() => import("./pages/legal/Refunds").then((m) => m.Refunds));
 
 /**
  * A redirect that first loads the page it points to. Navigations run as transitions,
@@ -59,6 +67,14 @@ const ToReports = redirect("/#reports", Landing);
 const PRELOAD: [RegExp, { preload: () => Promise<unknown> }[]][] = [
   [/^\/(ar\/?)?$/, [Landing]],
   [/^\/protocol\/?$/, [ProtocolViewer]],
+  [/^\/(ar\/)?start\/?$/, [Start]],
+  [/^\/orders\/[^/]+/, [Order]],
+  [/^\/account\/?$/, [Account]],
+  [/^\/admin\/?$/, [Admin]],
+  [/^\/(ar\/)?privacy\/?$/, [Privacy]],
+  [/^\/(ar\/)?terms\/?$/, [Terms]],
+  [/^\/(ar\/)?refunds\/?$/, [Refunds]],
+  [/^\/review\/orders\/[^/]+/, [AppShell, ReviewOrder]],
   [/^\/home\/?$/, [AppShell, Protocols]],
   [/^\/new(\/|$)/, [AppShell, NewScan]],
   [/^\/measurements\/?$/, [AppShell, Biometrics]],
@@ -103,6 +119,10 @@ const TITLES: [RegExp, string][] = [
   [/^\/analysis\/all-markers/, "All markers"],
   [/^\/analysis/, "Analysis"],
   [/^\/protocol/, "Report"],
+  [/^\/(ar\/)?start/, "Start"],
+  [/^\/orders/, "Your order"],
+  [/^\/account/, "Your account"],
+  [/^\/admin/, "Operator dashboard"],
 ];
 
 /** Titles for app pages, all kept out of search results; the landing pages and library set their own. */
@@ -125,7 +145,7 @@ function RouteSeo() {
 /** The landing pages manage their own metadata (language-specific). */
 function AppRouteSeo() {
   const { pathname } = useLocation();
-  return pathname === "/" || pathname === "/ar" ? null : <RouteSeo />;
+  return /^\/(ar\/?)?$|^\/(ar\/)?(privacy|terms|refunds)\/?$/.test(pathname) ? null : <RouteSeo />;
 }
 
 export function App() {
@@ -140,6 +160,17 @@ export function App() {
       <Route path="/ar" element={<Landing />} />
       <Route path="/protocol" element={<ProtocolViewer />} />
       <Route path="/plans" element={<ToReports />} />
+      <Route path="/start" element={<Start />} />
+      <Route path="/ar/start" element={<Start />} />
+      <Route path="/orders/:orderId" element={<Order />} />
+      <Route path="/account" element={<Account />} />
+      <Route path="/admin" element={<Admin />} />
+      <Route path="/privacy" element={<Privacy />} />
+      <Route path="/terms" element={<Terms />} />
+      <Route path="/refunds" element={<Refunds />} />
+      <Route path="/ar/privacy" element={<Privacy />} />
+      <Route path="/ar/terms" element={<Terms />} />
+      <Route path="/ar/refunds" element={<Refunds />} />
       <Route element={<AppShell />}>
         <Route path="/home" element={<Protocols />} />
         <Route path="/protocols" element={<ToHome />} />
@@ -154,6 +185,7 @@ export function App() {
         <Route path="/requests" element={<ToReview />} />
         <Route path="/review" element={<Review />} />
         <Route path="/review/:scanId" element={<ReviewScan />} />
+        <Route path="/review/orders/:orderId" element={<ReviewOrder />} />
         <Route path="/analysis" element={<ToAnalysis />} />
         <Route path="/analysis/:section" element={<AnalysisRouter />} />
         <Route path="*" element={<ToHome />} />
