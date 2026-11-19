@@ -1,9 +1,13 @@
-/** Brand mark: a disc whose right half is its faded reflection (mirror · before/after). */
+/** Brand mark "Bright brow": a ring of light, thickest at the top, with a point above (after al-ghurra, the bright brow). */
 export function Logo({ size = 22 }: { size?: number }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" role="img" aria-label="Logo">
-      <path d="M12 2.5a9.5 9.5 0 0 0 0 19Z" fill="currentColor" />
-      <path d="M12 2.5a9.5 9.5 0 0 1 0 19Z" fill="currentColor" opacity=".32" />
+    <svg width={size} height={size} viewBox="5 1.5 54 54" role="img" aria-label="Waddah">
+      <path
+        fill="currentColor"
+        fillRule="evenodd"
+        d="M32 13a19 19 0 1 1 0 38a19 19 0 1 1 0-38Zm0 6a16 16 0 1 0 0 32a16 16 0 1 0 0-32Z"
+      />
+      <circle cx="32" cy="7.6" r="2.8" fill="currentColor" />
     </svg>
   );
 }

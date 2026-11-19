@@ -1,5 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="14" fill="#6b2335"/>
-  <path d="M32 13a19 19 0 0 0 0 38Z" fill="#fff"/>
-  <path d="M32 13a19 19 0 0 1 0 38Z" fill="#fff" opacity=".38"/>
+  <rect width="64" height="64" rx="14" fill="#5b2b35"/>
+  <g transform="translate(32 32) scale(.82) translate(-32 -29)">
+    <path fill="#fbf3f4" fill-rule="evenodd" d="M32 13a19 19 0 1 1 0 38a19 19 0 1 1 0-38Zm0 6a16 16 0 1 0 0 32a16 16 0 1 0 0-32Z"/>
+    <circle cx="32" cy="7.6" r="2.8" fill="#fbf3f4"/>
+  </g>
 </svg>
