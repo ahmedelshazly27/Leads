@@ -21,6 +21,6 @@ d.text((64, 190), "See where you stand,", font=big, fill=(255, 255, 255))
 d.text((64, 246), "measured, not guessed.", font=big, fill=(214, 190, 196))
 for i, t in enumerate(["48 measurements of face and body,", "compared with published norms and", "reviewed by a person. Then a 12-month", "plan. No surgery."]):
     d.text((64, 340 + i * 30), t, font=mid, fill=(235, 220, 224))
-d.text((64, 540), "UAE · SAUDI ARABIA", font=small, fill=(214, 190, 196))
+d.text((64, 540), "KUWAIT · 20 KWD", font=small, fill=(214, 190, 196))
 d.text((600, 488), "Synthetic sample person. After image is an AI illustration, not a result.", font=small, fill=(214, 190, 196))
 im.save("public/og.jpg", quality=88)

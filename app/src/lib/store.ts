@@ -60,7 +60,7 @@ const empty = (): AppState => ({
   scans: [sampleScan],
   activeProfileId: sampleProfile.id,
   progress: {},
-  settings: { units: "metric", currency: "AED" },
+  settings: { units: "metric", currency: "KWD" },
   visuals: { [SAMPLE_SCAN_ID]: sampleVisuals },
   bookings: [],
 });
@@ -86,7 +86,7 @@ export async function initStore() {
   try {
     const saved = await idbGet<AppState>(STATE_KEY);
     if (saved && saved.version === 1) state = { ...empty(), ...saved, settings: { ...empty().settings, ...saved.settings }, visuals: saved.visuals ?? {}, bookings: saved.bookings ?? [] };
-    if (!["AED", "SAR", "EUR"].includes(state.settings.currency)) state = { ...state, settings: { ...state.settings, currency: "AED" } };
+    if (state.settings.currency !== "KWD") state = { ...state, settings: { ...state.settings, currency: "KWD" } };
     // keep the built-in sample in sync with the shipped sample data
     if (state.profiles.some((p) => p.id === SAMPLE_PROFILE_ID)) {
       state = {

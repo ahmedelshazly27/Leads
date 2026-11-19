@@ -27,13 +27,12 @@ export const SOURCE_KINDS: { kind: SourceKind; label: string; note: string }[] =
 ];
 
 export const TREND_SOURCES: { kind: SourceKind; name: string; url?: string }[] = [
-  { kind: "behaviour", name: "Google Trends — men's haircut searches, United Arab Emirates", url: "https://trends.google.com/trends/explore?geo=AE&q=men%20haircut" },
-  { kind: "behaviour", name: "Google Trends — men's haircut searches, Saudi Arabia", url: "https://trends.google.com/trends/explore?geo=SA&q=men%20haircut" },
+  { kind: "behaviour", name: "Google Trends — men's haircut searches, Kuwait", url: "https://trends.google.com/trends/explore?geo=KW&q=men%20haircut" },
   { kind: "editorial", name: "GQ Middle East — The 7 best short haircuts for men in 2026", url: "https://www.gqmiddleeast.com/article/the-7-best-short-haircuts-for-men-in-2026" },
   { kind: "editorial", name: "GQ Middle East — The best beards of the year", url: "https://www.gqmiddleeast.com/article/the-best-beards-of-the-year" },
   { kind: "editorial", name: "GQ Middle East — Inside the Gulf's hyper-groomed masculinity", url: "https://www.gqmiddleeast.com/article/inside-the-gulfs-hyper-groomed-masculinity" },
   { kind: "editorial", name: "GQ Middle East — The hair styling playbook for the UAE (climate)", url: "https://www.gqmiddleeast.com/article/the-hair-styling-playbook-for-a-good-mane-in-the-uae" },
-  { kind: "practitioner", name: "Partner barber request log (Dubai, Riyadh) — pending first partners" },
+  { kind: "practitioner", name: "Partner barber request log (Kuwait) — pending first partners" },
   { kind: "research", name: "Janif, Brooks & Dixson 2014 — facial-hair preferences are negatively frequency-dependent (Biology Letters)", url: "https://doi.org/10.1098/rsbl.2013.0958" },
   { kind: "research", name: "Dixson & Brooks 2013 — heavy stubble rated most attractive (Evolution and Human Behavior)", url: "https://doi.org/10.1016/j.evolhumbehav.2013.02.003" },
   { kind: "research", name: "Mesko & Bereczkei 2004 — hairstyle changes rated attractiveness of the same (female) faces (Human Nature)", url: "https://doi.org/10.1007/s12110-004-1008-6" },

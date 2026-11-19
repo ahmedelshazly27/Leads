@@ -265,7 +265,7 @@ export function ReviewScan() {
           <input
             id="rv-by"
             defaultValue={r.reviewer ?? state.settings.reviewerName ?? ""}
-            placeholder="e.g. Dr A. Name, DHA-licensed dermatologist"
+            placeholder="e.g. Dr A. Name, Kuwait MOH-licensed dermatologist"
             onBlur={(e) => {
               const val = e.target.value.trim();
               if (val !== (r.reviewer ?? "")) setReview(scan.id, { reviewer: val });

@@ -408,7 +408,7 @@ export function costsChapter(c: ReportCtx): Chapter {
         ],
         c.plan.items.map((it) => [it.title, it.category, costLabel(it, cur)]),
       ),
-      note("fx", "Prices are researched in EUR and converted at a fixed approximate rate, rounded. Midpoints of each range are used for the typical totals."),
+      note("fx", "Prices are researched in EUR and shown in Kuwaiti dinars at a fixed approximate rate (1 EUR ≈ 0.33 KWD), rounded to whole dinars; check current local prices. Midpoints of each range are used for the typical totals."),
     ],
   };
 }

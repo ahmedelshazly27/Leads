@@ -62,7 +62,7 @@ export function useSeo(s: Seo) {
     meta("property", "og:image", image);
     meta("property", "og:image:width", "1200");
     meta("property", "og:image:height", "630");
-    meta("property", "og:locale", s.lang === "ar" ? "ar_AE" : "en_AE");
+    meta("property", "og:locale", s.lang === "ar" ? "ar_KW" : "en_GB");
     meta("name", "twitter:card", "summary_large_image");
     meta("name", "twitter:title", s.title);
     meta("name", "twitter:description", s.description ?? null);

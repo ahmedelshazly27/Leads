@@ -320,10 +320,10 @@ export function Support() {
           kicker="Informative"
           dark="Your support"
           muted="system."
-          lead="A person reviews your report before release and stays on your plan with you: notes on the steps that matter, and monthly check-ins that update it."
+          lead="A person reviews your report before release and adds notes on the steps that matter. Then you track your progress against your starting point in the app."
         />
         <ul className="ls-checks">
-          {["A named reviewer on every report", "Notes from your reviewer on the steps that matter", "Monthly check-ins that update your plan", "Specialist partners in the UAE and KSA (coming soon)"].map((t) => (
+          {["A named reviewer on every report", "Notes from your reviewer on the steps that matter", "Progress check-ins against your starting point", "Specialist partners in Kuwait (coming soon)"].map((t) => (
             <li key={t}>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M20 6 9 17l-5-5" />
@@ -385,7 +385,7 @@ const PRIVACY: [string, string][] = [
   ["Seen by one reviewer", "When you send your scan for review, only the reviewer assigned to you sees your photos. Partners never see them unless you choose to share."],
   ["Deleted on schedule", "Review photos are deleted 90 days after your report is delivered, or straight away when you ask."],
   ["Never sold, never shown", "We don't sell your data, use your photos in marketing, or use them to train AI models."],
-  ["Encrypted, kept in the region", "Your data is encrypted and stored in line with UAE and Saudi data-protection law."],
+  ["Encrypted and protected", "Your data is encrypted and handled in line with Kuwait’s data-protection rules."],
   ["Your 12-month visual", "If you ask for one, your photo goes to our image provider only to create it, under a contract that bars keeping or reusing it."],
 ];
 

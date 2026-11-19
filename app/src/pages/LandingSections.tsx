@@ -338,11 +338,11 @@ export function TakingIntoAccount({ data }: { data: SampleData }) {
         />
         <Row
           title="Region"
-          text="Prices in AED or SAR, sun protection for Gulf UV, and specialist partners in the UAE and Saudi Arabia (coming soon)."
+          text="Prices in Kuwaiti dinars, sun protection for Kuwait’s summer UV and heat, and specialist partners in Kuwait (coming soon)."
           thumb={
             <div className="ls-th-chips">
-              <span>AED</span>
-              <span>SAR</span>
+              <span>KWD</span>
+              <span>Kuwait</span>
             </div>
           }
         />

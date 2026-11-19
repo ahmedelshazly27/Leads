@@ -1,6 +1,6 @@
 # Marketing claims register
 
-Source of truth for every health, appearance and product claim used in ads, store listings, social posts, landing pages and sales material (launch: UAE and Saudi Arabia, English).
+Source of truth for every health, appearance and product claim used in ads, store listings, social posts, landing pages and sales material (launch: Kuwait only, English and Arabic; one product at 20 KWD).
 
 ## How to use this register
 
@@ -8,7 +8,7 @@ Source of truth for every health, appearance and product claim used in ads, stor
 - **Evidence** lists the `REFS` keys in `app/src/lib/science.ts`, which hold the full citation and DOI, plus a one-line finding. If a claim isn't in this table, it isn't approved. To add one, add the reference to `REFS` first (it must be peer-reviewed and verified to say what is claimed), then add a row here.
 - **Grade:** A = randomised trials or meta-analyses; B = controlled or large observational studies; C = limited evidence, expert guidance or our own method; *product fact* = a description of what the product does. That description must stay true at the time the ad runs.
 - **Don't say** lists risky variants we have seen or expect. Treat anything close to them as not approved.
-- **Regulatory review is still required.** Health, cosmetic and appearance claims in ads are regulated in the UAE and Saudi Arabia. Some ads may need prior approval, and before/after imagery and medical-sounding claims get particular scrutiny. This register is an evidence check, not legal clearance. Every campaign needs a review by local regulatory or legal counsel before it runs. This document does not state what those requirements are.
+- **Regulatory review is still required.** Health, cosmetic and appearance claims in ads are regulated in Kuwait (Ministry of Health for health-related advertising; Ministry of Information licensing for paid and influencer ads). Some ads may need prior approval, and before/after imagery and medical-sounding claims get particular scrutiny. This register is an evidence check, not legal clearance. Every campaign needs a review by local regulatory or legal counsel before it runs. This document does not state what those requirements are.
 - Studies are cited for what they found, usually in specific samples (often Western, young-adult raters or particular patient groups). Never present a study result as a promise of an individual outcome.
 
 ## Face analysis
@@ -110,9 +110,9 @@ Source of truth for every health, appearance and product claim used in ads, stor
 | "Women's photos and results are reviewed only by female reviewers." | reviewer roster + gender-matched assignment enforced in code; at least one female reviewer hired before women can sign up — **operational commitment** | launch blocker | "Women-only team" (unless true) |
 | "No photos of women on this site or in our marketing." | site audit (library women's types are drawn, photo files removed) + marketing policy | product fact | — |
 | "We don't sell your data, use photos in marketing, or train AI models on them." | privacy policy + vendor DPAs | legal | "Your data never leaves your phone" |
-| "Encrypted and stored in line with UAE and Saudi data-protection law." | hosting region + encryption at rest + PDPL assessment — **not set up yet** | launch blocker | "Stored in the UAE" (until the region is chosen) |
+| "Encrypted and handled in line with Kuwait's data-protection rules." | encryption at rest + CITRA Data Privacy Protection Regulation assessment (consent, transfer abroad, breach notice) — **not set up yet** | launch blocker | "Stored in Kuwait" (until the region is chosen) |
 | "Your photo goes to our image provider only to create the visual, under a contract that bars keeping or reusing it." | signed DPA with the image vendor that forbids retention/training — **must be confirmed with the vendor** | launch blocker | name the vendor without their consent |
-| "Specialist partner network coming soon in the UAE & Saudi Arabia." | Landing.tsx (not yet live) | product fact | "Book a dermatologist now"; "our partner clinics"; "DHA-licensed partners" (until contracts are live) |
+| "Specialist partner network coming soon in Kuwait." | Landing.tsx (not yet live) | product fact | "Book a dermatologist now"; "our partner clinics"; "MOH-licensed partners" (until contracts are live) |
 | "Monthly check-ins compared with your baseline." | product fact | product fact | "Predicts your progress" |
 
 ## Never claim
@@ -149,3 +149,10 @@ Approved wording is what the landing page shows; each line is the cited paper's 
 | Attractive communicators got more petition signatures. | chaiken1979 | |
 | Competence judged from faces predicted ~70% of US Senate races; children's face picks predicted ~71% of French run-offs. | todorov2005; antonakis2009 | Presenting these as attractiveness effects (they are competence judgements) |
 | Better-looking people reported higher life satisfaction, partly through economic outcomes; others' ratings were only weakly tied to happiness. | hamermesh2013; diener1995 | "Looking better will make you happy" |
+
+## Price
+
+| Claim | Evidence | Grade | Don't say |
+|---|---|---|---|
+| "20 KWD, one payment, no subscription." | Landing.tsx PRICE_KWD; checkout amount must match | product fact | Any other price or currency in Kuwait marketing; "free" (it is not) |
+| "Pay with KNET, Visa, Mastercard or Apple Pay." | payment gateway contract with KNET enabled — **not set up yet** | launch blocker | list a method the gateway doesn't support |

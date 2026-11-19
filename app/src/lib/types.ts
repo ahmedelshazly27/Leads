@@ -229,7 +229,7 @@ export interface Review {
   /** message to the client shown on the report */
   note: string;
   realism?: { pass: boolean; at: string; worst: string };
-  /** who signed off, e.g. "Dr A. Name, DHA-licensed dermatologist" — shown on the report */
+  /** who signed off, e.g. "Dr A. Name, Kuwait MOH-licensed dermatologist" — shown on the report */
   reviewer?: string;
   updatedAt: string;
   approvedAt?: string;
@@ -256,8 +256,8 @@ export interface AppState {
 }
 
 /** A partner booking request. The team confirms availability with the partner (human in the loop). */
-/** Plan costs are stored in EUR and converted for display. */
-export type Currency = "AED" | "SAR" | "EUR";
+/** Plan costs are stored in EUR and shown in Kuwaiti dinars (launch market: Kuwait). */
+export type Currency = "KWD";
 
 export interface Booking {
   id: string;

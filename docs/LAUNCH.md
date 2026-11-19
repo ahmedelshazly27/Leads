@@ -1,86 +1,102 @@
-# Launch readiness
+# Launch plan: Kuwait, 20 KWD
 
-Status as of 12 Nov 2026. P0 = must be done before taking a single paid customer.
-P1 = before marketing spend. P2 = soon after launch.
+Updated 19 Nov 2026. One market (Kuwait), one product (the Glow-Up Report, 20 KWD,
+one payment), English and Arabic. Legal points below are a checklist to take to a
+Kuwaiti lawyer and accountant, not legal advice.
 
-## 1. What works today
-
-Everything below runs **in the browser, on the user's device**. Nothing is sent
-to a server, because there is no server yet.
+## Where things stand
 
 | Part | State |
 |---|---|
-| Face analysis | Works. MediaPipe face mesh (478 points + iris) → ~57 frontal markers, skin by region (evenness, redness, texture), symmetry, proportions, dimorphism, face shape. |
-| Side profile, smile | Works on good photos (beard detection hides chin/lip markers it can't see). |
-| Body | Works. Pose (front + side) → proportions, posture, waist/hip ratios. Body fat is an **estimate from BMI** (Deurenberg), not measured. |
-| Marker registry | 236 markers from the literature; on the sample 80 are measured, 38 hidden by facial hair, 39 reviewer-graded, 79 not built yet. |
-| Plan engine | Works. Rule-based 12-month plan, every step graded A–C with citations; nutrition targets. |
-| Review console | Works **only in the founder's own browser** (local data). Not multi-user. |
-| After images (12-month visual) | **Manual.** The console writes the prompt; the reviewer pastes it into an image tool by hand. Realism checks exist (`realism.ts`) but no API integration. |
-| Landing page | Done in English and Arabic (`/`, `/ar`), privacy and women's-service section, SEO metadata, pre-rendered HTML. |
+| Landing page (EN `/`, AR `/ar`) | Ready: 20 KWD pricing, privacy and women's service, SEO, pre-rendered. |
+| Analysis engine | Works **in the browser on the customer's phone**: face, side profile, smile and body measurements (80 of 236 markers on the sample), skin by region, the 12-month plan, nutrition, training. **Accuracy not yet validated on real people.** |
+| Report | 90-page PDF generated in the browser. English only. |
+| Review console | Works only in the founder's own browser. |
+| After images | Made by hand (the console writes the prompt). |
+| Accounts, database, payments, emails | **Not built.** Today nothing leaves the customer's phone, so nobody can pay and nobody can review a real customer. |
 
-**Not yet validated:** measurement accuracy against ground truth. Before claiming
-precision we need a small calibration study: ~30–50 consenting people, measured
-by a clinician or with calipers, compared with the app. Also test on real phone
-photos (bad light, hijab, glasses, beards, darker skin types). The sample person is synthetic.
+So the engine works, but the business doesn't exist yet: there's no way to take
+money, receive a customer's photos, review them and deliver the report. That's
+what the steps below build.
 
-## 2. Backend and accounts (P0)
+## How a paid order will work
 
-- [ ] **Accounts**: phone number + OTP (WhatsApp/SMS) is the Gulf default; add Apple/Google sign-in. 18+ age gate.
-- [ ] **Database**: users, profiles, scans, plans, reviews, orders, consents, audit log. (Supabase is already connected to this workspace: Postgres + Auth + Storage.)
-- [ ] **Data residency decision**: UAE PDPL and Saudi PDPL treat face photos as sensitive/biometric data. Either host in-region (AWS me-central-1 UAE / me-south-1 Bahrain, or Supabase self-hosted there) or document a lawful cross-border transfer. Supabase cloud has no Gulf region. *Decide before writing the privacy policy*: the site promises "stored in line with UAE and Saudi law".
-- [ ] **Photo storage**: private encrypted bucket, short-lived signed URLs, **automatic deletion 90 days after delivery** (scheduled job) and on request.
-- [ ] **Access control**: only the assigned reviewer can open a scan's photos; every access logged.
-- [ ] **Women-only review**: reviewer roster with gender; women's scans can only be assigned to female reviewers, enforced in the database, not just in the UI. **Hire and train at least one female reviewer before opening sign-ups to women.**
-- [ ] **Review workflow on the server**: queue, assignment, SLA timer, "approved by [name]" stamp, then release to the client.
-- [ ] **After-image generation via API**, with a vendor whose contract forbids retaining or training on photos (the site promises this). Run the realism checks automatically; reviewer approves.
-- [ ] **Notifications**: email (Resend is connected) and WhatsApp for "report ready", check-in reminders.
-- [ ] **Account deletion and data export** (legal requirement).
+1. The customer taps "Start my scan" and pays **20 KWD** (KNET, card or Apple Pay) on the gateway's hosted page.
+2. The gateway confirms payment to our server (a webhook), which creates an **order** and an **account** (phone number + one-time code).
+3. The customer agrees to the photo consent, takes the photos with the guided camera, and the analysis runs on their phone.
+4. Photos and measurements upload, encrypted, to private storage. The order goes to **"In review"** and is assigned to a reviewer: a **female reviewer for women**, enforced by the database.
+5. The reviewer checks the landmarks and plan, generates the 12-month visuals through the image API, checks them for realism, writes their notes, and approves.
+6. The customer gets a WhatsApp message and an email: "Your report is ready". They open the report in the app and download the PDF.
+7. 90 days after delivery the photos are deleted automatically. The customer can delete everything sooner from Settings.
 
-## 3. Payments (P0)
+Target turnaround: **within 72 hours**, stated on the site once the team can hold it.
 
-- [ ] **Gateway** with AED + SAR, cards, Apple Pay and **mada** (Saudi debit): Tap Payments, Checkout.com, HyperPay or Moyasar (Saudi). Stripe works for a UAE entity but has no mada/KSA merchant support.
-- [ ] Products: one-off report (199), premium (399), monthly (49) and yearly (399) subscriptions; renewals, cancellations, refunds.
-- [ ] **VAT**: UAE 5%, KSA 15%. The site says "prices include VAT", so prices must be set per country and invoices must be VAT invoices (KSA: ZATCA e-invoicing). Register once over the threshold (AED/SAR 375k), or voluntarily earlier.
-- [ ] Optional: Tabby / Tamara instalments (very common in the Gulf).
-- [ ] Refund and cancellation policy page.
+## Steps, in order
 
-## 4. Legal and compliance (P0)
+Start steps 1 and 2 today: they depend on government and bank approvals and take the longest.
 
-- [ ] Company and licence: UAE free-zone or mainland licence that covers online wellness services; decide how to sell into KSA (cross-border vs local entity).
-- [ ] Privacy policy, terms of use, **explicit consent screen for biometric photos**, cookie/analytics consent.
-- [ ] DPAs with every processor (hosting, image generation, email, analytics).
-- [ ] Every public claim checked against `docs/CLAIMS.md`. Rows marked "launch blocker" must be true first (single-reviewer access, women-only review, in-region storage, image-vendor contract).
-- [ ] Positioning stays non-medical (no diagnosis, no treatment). Partner clinicians (DHA/MOH) only once contracts exist.
-- [ ] Advertising: UAE National Media Council rules for paid/influencer ads; Saudi GCAM for KSA ads. No real before/after without consent, and AI after-images always labelled.
-- [ ] Trademark search and filing for the chosen name (UAE Ministry of Economy, Saudi SAIP); register domains and social handles.
+### 1. Company and bank (week 1–4, start now)
+- [ ] Kuwaiti commercial licence through the Ministry of Commerce and Industry (Kuwait Business Center), with an activity that covers online wellness and consultancy services. If the founder isn't Kuwaiti, decide between a Kuwaiti partner structure and 100% foreign ownership through KDIPA. **Get a Kuwaiti lawyer for this.**
+- [ ] A Kuwaiti business bank account (needed for KNET settlement).
+- [ ] Register the trade name and check the trademark (Ministry of Commerce trademark office) once the name is chosen.
+- [ ] Domain (.com plus .com.kw if available), Instagram/TikTok/Snapchat/X handles.
 
-## 5. Product gaps (P0 → P1)
+### 2. Payments (week 1–4, in parallel)
+- [ ] Choose a Kuwaiti gateway with **KNET** (most Kuwaitis pay with KNET debit) plus Visa/Mastercard and Apple Pay: **MyFatoorah**, **Tap Payments**, **UPayments** or **Hesabe**. Stripe has no KNET.
+- [ ] Apply with the commercial licence and bank account. Approval usually takes 1–3 weeks.
+- [ ] Price: 20.000 KWD. Kuwait has no VAT today; confirm with the accountant before launch and add it later if it comes in.
+- [ ] Refund and cancellation policy (for example: full refund before the photos are submitted; none after the report is delivered unless it fails our quality check).
 
-- [ ] **P0** Choose the name. Set `VITE_BRAND_NAME` and update `public/manifest.webmanifest` (that's all).
-- [ ] **P0** Detailed PDF report: in progress (full analysis, every marker, plan, references).
-- [ ] **P1** Arabic for the app itself, the PDF and emails (only the landing page is Arabic today). Move from the text-swap layer to real translation keys; it also removes the brief English flash on `/ar`.
-- [ ] **P1** Remaining markers: skin and eye-appearance pixel metrics, ears, 45° view, expression wrinkles (reviewer), right-profile comparison.
-- [ ] **P1** Performance: split the app bundle from the landing page (850 KB JS today); face/body models (~54 MB) should load only on the scan page.
-- [ ] **P1** Error monitoring (Sentry), uptime alerts, backups.
-- [ ] **P1** Accessibility and QA pass (mobile protocol view, alt text, focus states).
-- [ ] **P2** Partner network (dermatologists, barbers, coaches, InBody): contracts, booking, consent-based sharing.
+### 3. Backend (week 2–5)
+Supabase is already connected to this workspace (database, sign-in and file storage), with the app on Vercel.
+- [ ] Sign-in with phone number and one-time code (SMS through a Kuwait-capable provider such as Twilio or Unifonic; WhatsApp as an option).
+- [ ] Tables: customers, orders (paid → photos → in review → delivered), scans, reviews, reviewers (with gender), consents, audit log.
+- [ ] Row-level security: a customer sees only their own data; a reviewer sees only orders assigned to them; **women's orders can only be assigned to female reviewers.**
+- [ ] Private storage bucket for photos, short-lived links, and a daily job that deletes photos 90 days after delivery.
+- [ ] Payment webhook: the gateway confirms payment, the server creates the order, then the scan unlocks. Never trust the browser for payment status.
+- [ ] Move the review console onto the server (a queue, assignment, approve/return), so reviewers can work from any device.
+- [ ] After-image generation through an image API, under a contract that forbids keeping or training on the photos. The prompts and realism checks already exist.
+- [ ] Notifications: WhatsApp Business (via the Meta API or a provider) and email (Resend is connected) for "payment received", "in review" and "report ready".
+- [ ] Settings: download my data, delete my account.
 
-## 6. SEO and marketing
+### 4. Data protection (week 2–5)
+- [ ] Assess the **CITRA Data Privacy Protection Regulation** (Kuwait's Communication and Information Technology Regulatory Authority) with the lawyer: consent wording, storing data outside Kuwait (Supabase and Vercel are in Europe and the US), breach notification, and a named contact.
+- [ ] Privacy policy and terms (English and Arabic), and an **explicit consent screen for face and body photos** before upload.
+- [ ] Data-processing agreements with Supabase, Vercel, the image API, the SMS/WhatsApp provider and Resend.
+- [ ] 18+ only (age confirmation at sign-up).
 
-Done:
-- Titles, descriptions, canonical URLs, Open Graph/Twitter cards, social preview image (`/og.jpg`).
-- English `/` and Arabic `/ar` as separate, cross-linked (hreflang) pages.
-- Pre-rendered HTML for `/`, `/ar`, `/library` (crawlers and WhatsApp/X/LinkedIn previews see the full page).
-- Structured data: Organization, WebSite, Service with AED/SAR prices, FAQPage (rich results).
-- App pages are `noindex`; `robots.txt` and `sitemap.xml` generated on build.
-- Preview builds are blocked from search.
+### 5. Reviewers (week 3–6)
+- [ ] At least **one male and one female reviewer** before launch: the site promises women are reviewed only by women.
+- [ ] Reviewer contract with confidentiality, a training session on the console, and a written review checklist (it already exists in the console).
+- [ ] Decide how reviewers are credited on reports (name only, unless they hold a licence they agree to show).
 
-At launch:
-- [ ] Build with `VITE_SITE_URL=https://<domain> VITE_INDEXABLE=1 npm run build:site`.
-- [ ] Google Search Console and Bing Webmaster: verify, submit the sitemap.
-- [ ] Analytics with consent (Plausible, or GA4 with consent mode). Pixels for **Snapchat** (big in KSA), TikTok, Meta and Google Ads, sent server-side through the conversion APIs.
-- [ ] **Waitlist** form before launch (needs the backend: a table + Resend confirmation email).
-- [ ] Content for search: one indexable page per feature type (e.g. "hooded eyes", "2C hair", "retruded chin") in English and Arabic. The library already has the copy and research. This is the biggest organic opportunity.
-- [ ] Google Business Profile once there's a registered address.
-- [ ] Social: an Instagram/TikTok format that breaks down features with drawings and synthetic models (no women's photos, per policy).
+### 6. Make sure the results hold up (week 3–6)
+- [ ] **Calibration study:** 30–50 consenting people (both sexes, a range of skin tones, with and without beards and hijab), measured with calipers or by a clinician, compared with the app. Fix whatever is off, and only claim the accuracy you measured.
+- [ ] Test real phone photos (bad light, mirrors, glasses, hijab, beards) and tighten the photo guide and error messages.
+- [ ] **Paid beta:** 20–30 real customers at 20 KWD (friends and network), full flow end to end, with turnaround and feedback tracked.
+
+### 7. Product finishing (week 4–7)
+- [ ] Choose the name and set it (one setting plus the app manifest).
+- [ ] Arabic inside the app and the PDF (only the landing page is Arabic today).
+- [ ] The issues from the launch audit (below).
+- [ ] Speed: load the 54 MB of face/body models only on the scan page, and split the app code from the landing page.
+- [ ] Error monitoring (Sentry), uptime alerts, backups.
+
+### 8. Marketing (week 5 → launch)
+- [ ] Final domain, then build with `VITE_SITE_URL=https://<domain> VITE_INDEXABLE=1 npm run build:site`, and submit to Google Search Console.
+- [ ] Analytics with consent, plus the **Snapchat, Instagram and TikTok** pixels (Snapchat and Instagram are the big ones in Kuwait).
+- [ ] Waitlist form now, so there is a list on launch day.
+- [ ] Influencers need the Ministry of Information's advertising licence, and every paid post must say it's an ad. Health-related ad claims may need Ministry of Health approval; keep to the wording in `docs/CLAIMS.md`.
+- [ ] Launch content: feature breakdowns with drawings and the synthetic sample (no photos of women), Kuwaiti Arabic first.
+- [ ] Support: a WhatsApp Business number on the site.
+
+### 9. Launch checklist (the day before)
+- [ ] A real 20 KWD KNET payment, then a refund, both work.
+- [ ] A full order (man and woman) goes from payment to delivered report within the promised time.
+- [ ] Deletion works (account delete and the 90-day job, run manually once).
+- [ ] Every claim on the site is true today (`docs/CLAIMS.md`, rows marked launch blocker).
+- [ ] Privacy policy, terms and refund policy are live and linked in the footer.
+
+## Launch audit findings
+
+See the section added below by the audit.

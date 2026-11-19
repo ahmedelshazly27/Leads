@@ -4,7 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSeo } from "../lib/seo";
 import { BRAND_NAME, SITE_URL } from "../lib/brand";
 import { Logo } from "../components/Logo";
-import { SpectrumBar, Toggle, shortCite } from "../components/ui";
+import { SpectrumBar, shortCite } from "../components/ui";
 import { ChevronDown, Verified } from "../components/icons";
 import { METHODS } from "../lib/science";
 import { buildPlan } from "../lib/plan";
@@ -18,13 +18,8 @@ import { Ancestry, Privacy, DiscoverYou, FollowPlan, LifeChanging, Mindset, NoSu
 
 const S = `${import.meta.env.BASE_URL}sample/`;
 
-type Cur = "AED" | "SAR" | "EUR";
-const PRICE: Record<"report" | "premium" | "month" | "year", Record<Cur, string>> = {
-  report: { AED: "AED 199", SAR: "SAR 199", EUR: "€49" },
-  premium: { AED: "AED 399", SAR: "SAR 399", EUR: "€99" },
-  month: { AED: "AED 49", SAR: "SAR 49", EUR: "€12" },
-  year: { AED: "AED 399", SAR: "SAR 399", EUR: "€99" },
-};
+/** Launch market: Kuwait, one product, one price. */
+const PRICE_KWD = 20;
 
 /* ------------------------------------------------------------------ */
 /*  Real sample data (synthetic person, real pipeline)                 */
@@ -482,7 +477,7 @@ const PARTNERS = [
   {
     k: "derm",
     name: "Dermatologists",
-    who: "Licensed (DHA / MOH registration required)",
+    who: "Licensed (Kuwait Ministry of Health registration required)",
     out: "Your skin findings & photos you choose to share",
     back: "Prescriptions and notes update your skin plan",
     cadence: "Follow-ups at weeks 6 and 12",
@@ -599,7 +594,7 @@ function CareNetwork() {
           </div>
         ))}
       </div>
-      <p className="lp-care-launch lp-mono">Partner network not yet live · launching in the UAE & Saudi Arabia</p>
+      <p className="lp-care-launch lp-mono">Partner network not yet live · launching in Kuwait</p>
     </section>
   );
 }
@@ -708,17 +703,17 @@ function How() {
 /* ------------------------------------------------------------------ */
 
 function Pricing() {
-  const [cur, setCur] = useState<Cur>("AED");
   const features: [string, string][] = [
     ["Face & body analysis", "48 measurements against reference ranges."],
     ["Evidence-graded 12-month plan", "Every step graded A–C and cited."],
     ["Your 12-month visuals", "Face and body, front and side — reviewed by a human."],
     ["Nutrition targets", "Calories and macros for each phase of your plan."],
+    ["Your full report", "Every measurement, the plan and the research, as a PDF to keep."],
     ["Progress tracking", "Check in and compare against your baseline."],
   ];
   return (
     <section className="lp-sec" id="pricing">
-      <Head center kicker="Pricing" dark="One analysis." muted="A plan for the year." lead="Prices include VAT." />
+      <Head center kicker="Pricing" dark="One analysis." muted="A plan for the year." lead="One payment. No subscription." />
       <div className="lp-price">
         <ul className="lp-price-list">
           {features.map(([t, d]) => (
@@ -736,28 +731,14 @@ function Pricing() {
             <div className="lp-price-top">
               <div>
                 <span className="lp-price-name">Glow-Up Report</span>
-                <span className="lp-price-sub">One-off · face + body</span>
+                <span className="lp-price-sub">One payment · face + body</span>
               </div>
-              <Toggle value={cur} onChange={setCur} options={(["AED", "SAR", "EUR"] as Cur[]).map((c) => ({ value: c, label: c }))} />
             </div>
-            <div className="lp-price-amt">{PRICE.report[cur]}</div>
+            <div className="lp-price-amt">{PRICE_KWD} KWD</div>
             <Link to="/new" className="lp-btn lp-btn-white lp-btn-block">
               Start my scan
             </Link>
-          </div>
-          <div className="lp-price-alt">
-            <div>
-              <b>Premium</b>
-              <span>+ style previews, video consult, 3 months tracking</span>
-              <em>{PRICE.premium[cur]}</em>
-            </div>
-            <div>
-              <b>Membership</b>
-              <span>Monthly check-ins and plan updates</span>
-              <em>
-                {PRICE.month[cur]}/mo · {PRICE.year[cur]}/yr
-              </em>
-            </div>
+            <p className="lp-price-note">Pay with KNET, Visa, Mastercard or Apple Pay.</p>
           </div>
         </div>
       </div>
@@ -775,7 +756,7 @@ const FAQ: [string, string][] = [
   ["Who sees my photos?", "Analysis runs on your device. Photos you send for your report are seen only by the reviewer assigned to you and deleted 90 days after delivery, or sooner if you ask."],
   ["Is there a service for women?", "Yes. Women get the same analysis and plan, and their photos and results are reviewed only by female reviewers. We never show photos of women on this site or in our marketing."],
   ["Do I need special equipment?", "No. A phone, a plain wall and someone (or a timer) to take the photos from about 1.5–3 m."],
-  ["Can I cancel the membership?", "Yes, anytime. Your report and plan stay yours."],
+  ["Is it a subscription?", "No. It is one payment of 20 KWD. Your report, plan and progress tracking stay yours."],
 ];
 
 function Faq() {
@@ -811,8 +792,8 @@ function landingSeo(lang: "en" | "ar", ar: Record<string, string> | null) {
       : `${BRAND_NAME} · Science-based face & body analysis and a 12-month glow-up plan`;
   const description =
     lang === "ar"
-      ? "حلّل وجهك وجسمك بـ48 قياس مبني على دراسات منشورة، يراجعها إنسان، واحصل على خطة 12 شهر للبشرة والشعر واللحية والجسم بدون جراحة. للإمارات والسعودية، وخدمة خاصة للنساء تراجعها نساء."
-      : "48 measurements of your face and body, compared with published norms and reviewed by a person, then a 12-month plan for skin, hair, beard and body. No surgery. For the UAE and Saudi Arabia, with a women-only reviewed service.";
+      ? "حلّل وجهك وجسمك بـ48 قياس مبني على دراسات منشورة، يراجعها إنسان، واحصل على خطة 12 شهر للبشرة والشعر واللحية والجسم بدون جراحة. في الكويت، وخدمة خاصة للنساء تراجعها نساء."
+      : "48 measurements of your face and body, compared with published norms and reviewed by a person, then a 12-month plan for skin, hair, beard and body. No surgery. 20 KWD, in Kuwait, with a women-only reviewed service.";
   const path = lang === "ar" ? "/ar" : "/";
   return {
     title,
@@ -821,17 +802,16 @@ function landingSeo(lang: "en" | "ar", ar: Record<string, string> | null) {
     lang,
     alternates: { en: "/", ar: "/ar" },
     jsonLd: [
-      { "@context": "https://schema.org", "@type": "Organization", name: BRAND_NAME, url: SITE_URL, logo: SITE_URL + "/favicon.svg", areaServed: ["AE", "SA"] },
+      { "@context": "https://schema.org", "@type": "Organization", name: BRAND_NAME, url: SITE_URL, logo: SITE_URL + "/favicon.svg", areaServed: ["KW"] },
       { "@context": "https://schema.org", "@type": "WebSite", name: BRAND_NAME, url: SITE_URL, inLanguage: ["en", "ar"] },
       {
         "@context": "https://schema.org",
         "@type": "Service",
         name: lang === "ar" ? "تقرير تحليل الوجه والجسم وخطة 12 شهر" : "Face & body analysis report and 12-month plan",
         provider: { "@type": "Organization", name: BRAND_NAME },
-        areaServed: ["AE", "SA"],
+        areaServed: ["KW"],
         offers: [
-          { "@type": "Offer", name: t("Glow-Up Report"), price: "199", priceCurrency: "AED" },
-          { "@type": "Offer", name: t("Glow-Up Report"), price: "199", priceCurrency: "SAR" },
+          { "@type": "Offer", name: t("Glow-Up Report"), price: String(PRICE_KWD), priceCurrency: "KWD", areaServed: "KW" },
         ],
       },
       {

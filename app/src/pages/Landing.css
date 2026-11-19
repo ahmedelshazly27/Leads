@@ -1728,3 +1728,30 @@
 .lp-ar :is(.ls-src, .ls-th-cite, .lp-acc-refs, .ls-cite, cite) {
   unicode-bidi: plaintext;
 }
+
+/* Arabic hero: text runs on the right, so the portrait moves to the left (mirrored with its fade) */
+.lp-ar .lp-hero {
+  background: radial-gradient(90% 120% at 25% 45%, #68404a 0%, #58363d 60%, #4c2f36 100%);
+}
+.lp-ar .lp-hero-img {
+  right: auto;
+  left: 4%;
+  transform: scaleX(-1);
+}
+.lp-ar .lp-hero::before {
+  background:
+    linear-gradient(270deg, #55343b 0%, rgba(85, 52, 59, 0.94) 30%, rgba(85, 52, 59, 0.55) 52%, rgba(85, 52, 59, 0) 72%),
+    linear-gradient(180deg, rgba(79, 61, 65, 0.15) 0%, rgba(79, 61, 65, 0) 30%, rgba(79, 61, 65, 0.35) 100%);
+}
+@media (max-width: 760px) {
+  .lp-ar .lp-hero-img {
+    right: auto;
+    left: -30%;
+    height: 62%;
+  }
+  /* phone: the text spans the width, so darken from the top down instead of side to side */
+  .lp-ar .lp-hero::before {
+    background: linear-gradient(180deg, #55343b 0%, rgba(85, 52, 59, 0.95) 42%, rgba(85, 52, 59, 0.55) 62%, rgba(85, 52, 59, 0.15) 85%);
+  }
+}
+.lp-price-note { margin: 12px 0 0; font-size: 12.5px; color: rgba(255, 255, 255, 0.72); text-align: center; }

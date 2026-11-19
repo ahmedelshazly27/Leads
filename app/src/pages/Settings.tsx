@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useRef, useState } from "react";
 import { PageHeader, Toggle } from "../components/ui";
 import { Download } from "../components/icons";
-import { exportAll, importAll, resetAll, setCurrency, setStaff, useAppState } from "../lib/store";
+import { exportAll, importAll, resetAll, setStaff, useAppState } from "../lib/store";
 import "./pages.css";
 
 export function Settings() {
@@ -33,23 +33,6 @@ export function Settings() {
           </div>
         }
       />
-      <div className="bt-card" style={{ padding: "4px 22px" }}>
-        <div className="st-row">
-          <div>
-            <div className="title-md">Currency</div>
-            <p className="lead">Plan cost estimates, converted at an approximate fixed rate.</p>
-          </div>
-          <Toggle
-            value={s.settings.currency}
-            onChange={setCurrency}
-            options={[
-              { value: "AED", label: "AED" },
-              { value: "SAR", label: "SAR" },
-              { value: "EUR", label: "EUR" },
-            ]}
-          />
-        </div>
-      </div>
 
       <div className="bt-card" style={{ padding: "4px 22px" }}>
         <div className="st-row">
