@@ -82,5 +82,5 @@ export async function deleteMyData(opts: { confirm: true }): Promise<void> {
  * delivered can no longer be reviewed. Stub: the backend stream implements it.
  */
 export async function withdrawPhotoConsent(): Promise<{ scans: number; files: number }> {
-  throw new BackendError("not_built", "Not available yet.");
+  throw new BackendError("Not available yet.", "not_built");
 }
