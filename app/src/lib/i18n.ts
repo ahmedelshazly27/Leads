@@ -1,4 +1,4 @@
-import { useEffect, useState, useSyncExternalStore } from "react";
+import { createElement, Fragment, useEffect, useLayoutEffect, useState, useSyncExternalStore, type ReactNode } from "react";
 
 /*
  * Language switch for the landing page. The Arabic copy (src/i18n/ar.json)
@@ -29,6 +29,20 @@ export function setLang(l: Lang) {
   }
   subs.forEach((f) => f());
 }
+/** The current language outside React (e.g. for formatting in plain functions). */
+export const getLang = (): Lang => lang;
+
+/** Locale for dates and numbers: Arabic month names with Latin digits, like the rest of the copy. */
+export const dateLocale = (l: Lang = lang): string | undefined => (l === "ar" ? "ar-KW-u-nu-latn" : undefined);
+
+/**
+ * Parts of a list as separate text nodes, so each one is swapped on its own
+ * (a list joined into one string never matches a dictionary key).
+ */
+export function joinNodes(parts: ReactNode[], sep: string): ReactNode {
+  return parts.map((p, i) => createElement(Fragment, { key: i }, i > 0 ? sep : null, p));
+}
+
 export function useLang(): Lang {
   return useSyncExternalStore(
     (f) => {
@@ -40,6 +54,20 @@ export function useLang(): Lang {
 }
 
 type Dict = Record<string, string>;
+
+/* The Arabic dictionary, shared by every page; loaded once, on demand. */
+let AR: Dict | null = null;
+let arPending: Promise<Dict> | null = null;
+export function loadArDict(): Promise<Dict> {
+  if (AR) return Promise.resolve(AR);
+  return (arPending ??= import("../i18n/ar.json").then(
+    (m) => (AR = m.default as Dict),
+    (e) => {
+      arPending = null; // allow a retry after a failed download
+      throw e;
+    },
+  ));
+}
 const ORIGINAL = new WeakMap<Node, string>();
 const APPLIED = new WeakMap<Node, string>();
 const ATTR_ORIGINAL = new WeakMap<Element, Record<string, string>>();
@@ -47,40 +75,98 @@ const ATTRS = ["alt", "aria-label", "placeholder", "title"];
 
 const norm = (s: string) => s.replace(/\s+/g, " ").replace(/&amp;/g, "&").trim();
 
+const TEMPLATES = new WeakMap<Dict, { re: RegExp; v: string; lit: number; weak: boolean }[]>();
 function templates(dict: Dict) {
-  return Object.entries(dict)
+  const hit = TEMPLATES.get(dict);
+  if (hit) return hit;
+  const list = Object.entries(dict)
     .filter(([k]) => /\{\d\}/.test(k))
     .map(([k, v]) => {
       const re = new RegExp("^" + k.replace(/[.*+?^$()|[\]\\]/g, "\\$&").replace(/\\?\{(\d)\\?\}/g, "(.+?)") + "$");
-      return { re, v };
-    });
+      const lit = k.replace(/\{\d\}/g, "");
+      // "{0} of {1}", "{0} + {1}", "{0}'s": so little fixed text that it matches any English sentence
+      return { re, v, lit: lit.length, weak: (lit.match(/[A-Za-z]/g)?.length ?? 0) < 6 };
+    })
+    // the most specific template first ("{0} KWD–{1} KWD" before "{0} KWD")
+    .sort((a, b) => b.lit - a.lit);
+  TEMPLATES.set(dict, list);
+  return list;
 }
 
-function lookup(text: string, dict: Dict, tpl: ReturnType<typeof templates>): string | null {
+/** Arabic has no case: "front posture", "Front posture" and "FRONT POSTURE" are the same entry. */
+const LOWER = new WeakMap<Dict, Map<string, string>>();
+function exact(t: string, dict: Dict): string | undefined {
+  if (dict[t] != null) return dict[t];
+  let low = LOWER.get(dict);
+  if (!low) {
+    low = new Map();
+    for (const [k, v] of Object.entries(dict)) if (!low.has(k.toLowerCase())) low.set(k.toLowerCase(), v);
+    LOWER.set(dict, low);
+  }
+  return low.get(t.toLowerCase());
+}
+
+/** Results per dictionary: the same strings are looked up again on every re-render pass. */
+const MEMO = new WeakMap<Dict, Map<string, string | null>>();
+function lookup(text: string, dict: Dict, tpl: ReturnType<typeof templates>, depth = 0): string | null {
   const t = norm(text);
   if (!t) return null;
-  if (dict[t] != null) return dict[t];
-  for (const { re, v } of tpl) {
+  if (depth === 0) {
+    let memo = MEMO.get(dict);
+    if (!memo) MEMO.set(dict, (memo = new Map()));
+    const hit = memo.get(t);
+    if (hit !== undefined) return hit;
+    const r = find(t, dict, tpl, 0);
+    if (memo.size > 20000) memo.clear();
+    memo.set(t, r);
+    return r;
+  }
+  return find(t, dict, tpl, depth);
+}
+function find(t: string, dict: Dict, tpl: ReturnType<typeof templates>, depth: number): string | null {
+  const e = exact(t, dict);
+  if (e != null) return e;
+  for (const { re, v, weak } of tpl) {
     const m = t.match(re);
-    if (m) return v.replace(/\{(\d)\}/g, (_, i) => { const g = m[Number(i) + 1] ?? ""; return dict[g] ?? g; });
+    if (!m) continue;
+    // a filled-in part can itself be a template ("6% behind" inside a sentence), one level deep
+    const parts = m.slice(1).map((g) => ({ g, ar: (depth < 1 ? lookup(g, dict, tpl, depth + 1) : exact(g, dict)) ?? null }));
+    // a weak template only fills in numbers, single words (a name) or parts that are themselves
+    // translated: otherwise a citation title would come out as half-English "Anthropometry من the Head"
+    if (weak && parts.some(({ g, ar }) => ar == null && /[A-Za-z]/.test(g) && /\s/.test(g.trim()))) continue;
+    return v.replace(/\{(\d)\}/g, (_, i) => { const p = parts[Number(i)]; return p ? p.ar ?? p.g : ""; });
   }
   return null;
 }
 
-/** Headings split into a muted first word and the rest ("Higher" + "pay") are keyed whole. */
+/**
+ * Headings split into a muted part and the rest ("Higher" + "pay", "Nutrition" + "Plan")
+ * are keyed whole when the Arabic word order differs: the first Arabic word takes the
+ * place of the heading's first part.
+ */
+// only static headings: React must not update a heading whose nodes were replaced
+const SPLIT = ".ls-card h3, h1.pv-h";
 function translateSplitHeadings(root: HTMLElement, dict: Dict) {
-  root.querySelectorAll<HTMLElement>(".ls-card h3").forEach((h) => {
-    const span = h.querySelector("span");
-    if (!span) return;
+  root.querySelectorAll<HTMLElement>(SPLIT).forEach((h) => {
+    if (h.dataset.en != null) return;
+    const span = h.querySelector(":scope > span");
+    if (!span || h.children.length !== 1) return;
     const full = norm(h.textContent ?? "");
     const ar = dict[full];
-    if (!ar || h.dataset.en) return;
+    if (!ar) return;
+    const spanFirst = h.firstChild === span || !norm(h.firstChild?.textContent ?? "");
     h.dataset.en = h.innerHTML;
     const [first, ...rest] = ar.split(" ");
-    h.innerHTML = "";
     const s = document.createElement("span");
-    s.textContent = first;
-    h.append(s, " " + rest.join(" "));
+    s.className = span.className;
+    h.innerHTML = "";
+    if (spanFirst || h.matches(".ls-card h3")) {
+      s.textContent = first;
+      h.append(s, " " + rest.join(" "));
+    } else {
+      s.textContent = rest.join(" ");
+      h.append(first + " ", s);
+    }
   });
 }
 
@@ -137,21 +223,25 @@ export function restoreTree(root: HTMLElement) {
 
 /** Swap the page under `root` to Arabic while lang is "ar", and back. */
 export function useArabicPage(ref: { current: HTMLElement | null }, lang: Lang) {
-  // imported lazily so English visitors don't download the Arabic copy
-  const [dict, setDict] = useState<Dict | null>(null);
+  // imported lazily so English visitors don't download the Arabic copy; once loaded
+  // (or preloaded before the first render) it applies before the first paint
+  const [dict, setDict] = useState<Dict | null>(() => AR);
   useEffect(() => {
-    if (lang === "ar" && !dict) import("../i18n/ar.json").then((m) => setDict(m.default as Dict));
+    if (lang === "ar" && !dict) loadArDict().then(setDict, () => undefined);
   }, [lang, dict]);
-  useEffect(() => {
+  useLayoutEffect(() => {
     const root = ref.current;
     const html = document.documentElement;
     if (!root) return;
-    if (lang !== "ar" || !dict) {
+    if (lang !== "ar") {
       restoreTree(root);
       html.lang = "en";
       html.dir = "ltr";
       return;
     }
+    // Arabic chosen but the copy is still downloading: keep what is on screen
+    // (an Arabic pre-rendered page stays Arabic) instead of resetting it to English
+    if (!dict) return;
     html.lang = "ar";
     html.dir = "rtl";
     translateTree(root, dict);
@@ -178,9 +268,9 @@ export function useArabicPage(ref: { current: HTMLElement | null }, lang: Lang) 
 
 /** The Arabic dictionary, loaded on demand (null until loaded or when not needed). */
 export function useArDict(enabled: boolean) {
-  const [dict, setDict] = useState<Dict | null>(null);
+  const [dict, setDict] = useState<Dict | null>(() => AR);
   useEffect(() => {
-    if (enabled && !dict) import("../i18n/ar.json").then((m) => setDict(m.default as Dict));
+    if (enabled && !dict) loadArDict().then(setDict, () => undefined);
   }, [enabled, dict]);
-  return dict;
+  return enabled ? dict : null;
 }

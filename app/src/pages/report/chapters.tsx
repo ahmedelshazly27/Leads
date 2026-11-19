@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { joinNodes } from "../../lib/i18n";
 import { Logo } from "../../components/Logo";
 import { GradeBadge } from "../../components/ui";
 import { BASIS_LABEL, REGIONS, categoriesFor, matchFor } from "../../lib/library";
@@ -121,11 +122,11 @@ export function coverChapter(c: ReportCtx): Chapter {
   const approved = r?.status === "approved";
   const rows: [string, ReactNode][] = [
     ["Client", i.name],
-    ["Profile", `${i.age} · ${cap(i.gender)}${i.ethnicity ? ` · ${i.ethnicity}` : ""}`],
+    ["Profile", <>{joinNodes([String(i.age), cap(i.gender), ...(i.ethnicity ? [i.ethnicity] : [])], " · ")}</>],
     ["Report ID", reportId(c)],
     ["Scan date", fmtDate(c.scan.createdAt)],
     ["Report generated", fmtDate(c.generated)],
-    ["Photos analysed", `${captured(c).length} — ${captured(c).join(", ") || "none"}`],
+    ["Photos analysed", captured(c).length ? <>{captured(c).length} — {joinNodes(captured(c), ", ")}</> : "0 — none"],
     [
       "Human review",
       approved ? `Reviewed and approved ${fmtDate(r?.approvedAt ?? r?.updatedAt)}${r?.reviewer ? ` by ${r.reviewer}` : ""}` : r?.status === "in-review" ? "In review — items may still change" : "Awaiting review — items may still change",
@@ -232,7 +233,7 @@ export function profileRows(i: Intake): [string, ReactNode][] {
     ["Profession", i.profession || "Not provided"],
     ["Height", cm(i.heightCm)],
     ["Weight", i.weightKg ? `${i.weightKg} kg` : "Not provided"],
-    ["Tape waist / hip / neck", `${cm(i.waistCm)} / ${cm(i.hipCm)} / ${cm(i.neckCm)}`],
+    ["Tape waist / hip / neck", <>{joinNodes([cm(i.waistCm), cm(i.hipCm), cm(i.neckCm)], " / ")}</>],
     [
       "Skin tone",
       <span key="st" className="pv-skin">
@@ -248,7 +249,7 @@ export function profileRows(i: Intake): [string, ReactNode][] {
     ["Alcohol", { never: "Never", occasional: "Occasional social drinker", weekly: "Weekly", daily: "Daily" }[i.drinking]],
     ["Treatment preference", { "non-invasive": "Non-invasive treatments only", "open-to-clinical": "Open to clinical treatments", "open-to-surgical": "Open to surgical options" }[i.preferences]],
     ["Budget", cap(i.budget)],
-    ["Goals", i.goals.length ? i.goals.join(", ") : "None given"],
+    ["Goals", i.goals.length ? <>{joinNodes(i.goals, ", ")}</> : "None given"],
     ["Limitations", i.limitations || "None reported"],
     ["Allergies", i.allergies || "None reported"],
     ["Front photo taken as", i.frontCapture === "selfie" ? "Arm's-length selfie" : i.frontCapture === "distance" ? "From a distance (timer / helper)" : "Not stated"],
@@ -326,7 +327,7 @@ export function summaryChapter(c: ReportCtx): Chapter {
                 <span className="rp-num">
                   {Math.round(plan.current[k] ?? 0)} → {Math.round(plan.projected[k] ?? 0)} (+{Math.round(d)})
                 </span>
-                <p>Driven by: {drivers(k).map((it) => it.title).join(" · ") || "general plan adherence"}.</p>
+                <p>Driven by: {drivers(k).length ? joinNodes(drivers(k).map((it) => it.title), " · ") : "general plan adherence"}.</p>
               </li>
             ))}
           </ol>,
@@ -342,8 +343,8 @@ export function summaryChapter(c: ReportCtx): Chapter {
         <p>{plan.goal.summary}</p>
         <Attrs
           items={[
-            ["Measured drivers", plan.drivers.join(", ") || "None flagged"],
-            ["Expected improvements", plan.improvements.join("; ") || "—"],
+            ["Measured drivers", plan.drivers.length ? <>{joinNodes(plan.drivers, ", ")}</> : "None flagged"],
+            ["Expected improvements", plan.improvements.length ? <>{joinNodes(plan.improvements, "; ")}</> : "—"],
             ["Body-fat target", plan.targetBodyFat != null ? `~${plan.targetBodyFat}%${plan.monthsToTarget ? ` in ~${plan.monthsToTarget} months` : ""}` : "No fat-loss target"],
             ["Plan items", `${plan.items.length} (${plan.items.filter((i) => i.priority === 1).length} top priority)`],
           ]}
@@ -592,8 +593,8 @@ export function faceChapter(c: ReportCtx): Chapter {
         ["Head tilt (roll)", `${Math.abs(cap0?.roll ?? 0).toFixed(1)}°`, "Corrected before measuring"],
         ["Face width in frame", pct((cap0?.faceWidthFrac ?? 0) * 100), "Share of image width"],
         ["Close-range selfie", close ? "Likely" : "No", close ? "Perspective widens the nose and narrows the face" : "Distance looks adequate"],
-        ["Warnings", cap0?.warnings.length ? cap0.warnings.join(" · ") : "None", ""],
-        ["Affected measurements", cap0?.affected.length ? cap0.affected.join(", ") : "None", ""],
+        ["Warnings", cap0?.warnings.length ? <>{joinNodes(cap0.warnings, " · ")}</> : "None", ""],
+        ["Affected measurements", cap0?.affected.length ? <>{joinNodes(cap0.affected, ", ")}</> : "None", ""],
       ],
       { label: "Check" },
     ),
@@ -604,7 +605,7 @@ export function faceChapter(c: ReportCtx): Chapter {
       <AssessCard
         fig={fig(<FaceMesh face={face} photo={photo} zoom={1.6} />, "First impression · landmarks")}
         name="First impression"
-        score={words.filter((w) => w.on).map((w) => w.word).join(" · ") || "Neutral"}
+        score={words.some((w) => w.on) ? <>{joinNodes(words.filter((w) => w.on).map((w) => w.word), " · ")}</> : "Neutral"}
         suffix=""
         label="Words your face reads as at first glance"
         method="impression"
@@ -624,7 +625,7 @@ export function faceChapter(c: ReportCtx): Chapter {
       t.map((x) => [
         <>
           <b>{x.name}</b>
-          <div className="rp-muted">{x.features.join(", ")}</div>
+          <div className="rp-muted">{joinNodes(x.features, ", ")}</div>
         </>,
         x.value > 0.62 ? x.axis[2] : x.value < 0.38 ? x.axis[0] : x.axis[1],
         <Bar v={x.value} labels={x.axis} />,
@@ -666,9 +667,9 @@ export function faceChapter(c: ReportCtx): Chapter {
         bar={<Bar v={m.averageness / 100} labels={["Unique", "Typical"]} />}
         method="averageness"
       >
-        {closeL.length > 0 && <>Your {closeL.slice(0, 3).join(", ")} sit close to population norms. </>}
+        {closeL.length > 0 && <>Your {joinNodes(closeL.slice(0, 3), ", ")} sit close to population norms. </>}
         {far.length > 0 ? (
-          <>The biggest departures are your {far.map((d) => `${d.label.toLowerCase()} (${d.z > 0 ? "above" : "below"} average)`).join(" and ")}, which give your face its distinctive character. </>
+          <>The biggest departures are your {joinNodes(far.map((d) => <>{d.label.toLowerCase()} (<span>{d.z > 0 ? "above average" : "below average"}</span>)</>), " and ")}, which give your face its distinctive character. </>
         ) : (
           <>No single ratio departs strongly from the reference. </>
         )}
@@ -915,7 +916,7 @@ export function faceChapter(c: ReportCtx): Chapter {
           ["Chin : mouth width", m.chinWidthToMouth.toFixed(2)],
           ["Lip : chin height", `1 : ${chinH.toFixed(2)}`],
           ["Chin height", chinH > 2.3 ? "Tall" : chinH < 1.7 ? "Short" : "Proportionate"],
-          ["Projection", c.scan.profileFace ? "See side profile" : "Needs side profile"],
+          ["Chin projection", c.scan.profileFace ? "See side profile" : "Needs side profile"],
         ]}
         method="proportions"
       >
@@ -953,7 +954,7 @@ export function faceChapter(c: ReportCtx): Chapter {
           <p>
             Skin quality covers pigmentation, redness and texture. Even colour distribution is one of the strongest cues to perceived age and health. Your most flagged region is the{" "}
             <b>{ranked[0] ? SKIN_LABEL[ranked[0]].toLowerCase() : "—"}</b>; the least flagged is the {ranked.length ? SKIN_LABEL[ranked[ranked.length - 1]].toLowerCase() : "—"}.
-            {skinItems.length > 0 && <> Your plan addresses skin with {skinItems.map((i) => i.title.toLowerCase()).join(", ")}.</>}
+            {skinItems.length > 0 && <> Your plan addresses skin with {joinNodes(skinItems.map((i) => i.title.toLowerCase()), ", ")}.</>}
           </p>
           <p className="rp-method">
             <b>Method.</b> {METHODS.skin.how} <b>Reference.</b> {METHODS.skin.norm}
@@ -966,7 +967,7 @@ export function faceChapter(c: ReportCtx): Chapter {
       [
         ["Region", "18%"],
         ["Flagged area", "15%"],
-        ["Level", "13%"],
+        ["Severity", "13%"],
         ["Evenness", "14%"],
         ["Redness", "13%"],
         ["Texture", "13%"],

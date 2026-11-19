@@ -1,5 +1,5 @@
-import { useState, type ReactNode } from "react";
-import { Link } from "react-router-dom";
+import { lazy, Suspense, useState, type ReactNode } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { BeforeAfter, GradeBadge } from "../components/ui";
 import { REFS } from "../lib/science";
 import { LIBRARY, NO_PHOTO, matchFor, type Ctx } from "../lib/library";
@@ -7,6 +7,16 @@ import { FeatureArt } from "../components/FeatureArt";
 import type { SampleData } from "./LandingSections";
 import "./LandingSections.css";
 import { preloadRoute } from "../App";
+
+// the waitlist form brings the backend client with it: load it only when the section renders
+const WaitlistForm = lazy(() => import("../components/WaitlistForm").then((m) => ({ default: m.WaitlistForm })));
+
+/** Where the "get started" buttons go: /start (or /ar/start), optionally with a plan chosen. */
+export function useStartHref() {
+  const { pathname } = useLocation();
+  const base = pathname === "/ar" || pathname.startsWith("/ar/") ? "/ar/start" : "/start";
+  return (plan?: "report" | "report_membership_monthly" | "report_membership_yearly") => (plan ? `${base}?plan=${plan}` : base);
+}
 
 /**
  * Start loading an app page's chunks as soon as a link to it is pointed at or
@@ -303,6 +313,7 @@ export function Ancestry() {
 /* ---------------- 23 · Start your transformation ---------------- */
 
 export function StartCta() {
+  const start = useStartHref();
   return (
     <section className="ls-start">
       <div className="ls-start-in">
@@ -311,8 +322,8 @@ export function StartCta() {
           Start your <span>transformation.</span>
         </h2>
         <p>Your personalised analysis and 12-month plan, built from your face, your body and the evidence.</p>
-        <Link to="/new" {...warm("/new")} className="lp-btn lp-btn-white">
-          Start my scan
+        <Link to={start()} {...warm(start())} className="lp-btn lp-btn-white">
+          Get started
         </Link>
       </div>
     </section>
@@ -388,14 +399,14 @@ export function Mindset() {
   );
 }
 
-/* ---------------- Privacy · and the service for women ---------------- */
+/* ---------------- Privacy · and the women's waitlist ---------------- */
 
 const PRIVACY: [string, string][] = [
   ["Measured on your phone", "Your measurements are computed in your browser. Your photos aren't uploaded to analyse them."],
-  ["Seen by one reviewer", "When you send your scan for review, only the reviewer assigned to you sees your photos. Partners never see them unless you choose to share."],
+  ["Seen by your reviewer", "When you send your scan for review, the reviewer assigned to you sees your photos. Other staff can open them only where their work needs it, and every access is logged. Partners never see them unless you choose to share."],
   ["Deleted on schedule", "Review photos are deleted 90 days after your report is delivered, or straight away when you ask."],
   ["Never sold, never shown", "We don't sell your data, use your photos in marketing, or use them to train AI models."],
-  ["Encrypted and protected", "Your data is encrypted and handled in line with Kuwait’s data-protection rules."],
+  ["Encrypted and protected", "Your data is encrypted, stored in the EU and handled under the GDPR, the EU’s data-protection law."],
   ["Your 12-month visual", "If you ask for one, your photo goes to our image provider only to create it, under a contract that bars keeping or reusing it."],
 ];
 
@@ -415,18 +426,22 @@ export function Privacy() {
         <div>
           <span className="ls-kicker">For women</span>
           <h3>
-            A private service for women, <span>reviewed only by women.</span>
+            Coming soon for women. <span>Reviewed by women when it opens.</span>
           </h3>
           <p>
-            The same analysis and the same plan, built for women’s faces and bodies. Your photos and results are only ever seen by a female reviewer, and we never show photos of women on
-            this website or in our marketing.
+            At launch the service is for men only. We’re building the women’s service separately so it is right before it opens. Leave your email and we’ll tell you when it does.
           </p>
+          <span className="ls-women-k">What we plan for it</span>
+          <ul>
+            <li>Women’s photos and results reviewed only by female reviewers, because these photos are personal</li>
+            <li>An analysis and a plan built for women’s faces and bodies</li>
+            <li>The same deletion rules: 90 days after delivery, or on request</li>
+          </ul>
+          <p className="ls-women-note">We never show photos of women on this site or in our marketing.</p>
         </div>
-        <ul>
-          <li>Female reviewers only, for every photo and every report</li>
-          <li>No photos of women anywhere on our site or in our ads</li>
-          <li>Same deletion rules: 90 days after delivery, or on request</li>
-        </ul>
+        <Suspense fallback={<div className="ls-women-wait" aria-busy="true" />}>
+          <WaitlistForm source="landing" gender="female" bare />
+        </Suspense>
       </div>
     </section>
   );

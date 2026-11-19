@@ -14,12 +14,21 @@ import { SCORE_LABEL, type ScoreKey } from "../lib/report";
 import { sampleProfile, sampleScan } from "../lib/sample";
 import "./Landing.css";
 import { CompleteAnalysis, LooksInfluence, PersonalPlan, TakingIntoAccount, YouWillLearn } from "./LandingSections";
-import { Ancestry, Privacy, DiscoverYou, FollowPlan, LifeChanging, Mindset, NoSurgery, Pillars, StartCta, Support, Technology, warm } from "./LandingSections2";
+import { Ancestry, Privacy, DiscoverYou, FollowPlan, LifeChanging, Mindset, NoSurgery, Pillars, StartCta, Support, Technology, useStartHref, warm } from "./LandingSections2";
+import { BUNDLE_TRIAL_DAYS, PRICES_KWD } from "../lib/backend/types";
 
 const S = `${import.meta.env.BASE_URL}sample/`;
 
-/** Launch market: Kuwait, one product, one price. */
-const PRICE_KWD = 20;
+/** Launch market: Kuwait. The report, plus an optional membership (prices must match Stripe). */
+const PRICE_KWD = PRICES_KWD.report;
+const MONTHLY_KWD = PRICES_KWD.membership_monthly;
+const YEARLY_KWD = PRICES_KWD.membership_yearly;
+const TRIAL_DAYS = BUNDLE_TRIAL_DAYS;
+/**
+ * The operator, for the footer. Same placeholder as COMPANY.name in ./legal/content.ts:
+ * replace both together. Not imported from there, so the landing doesn't load the legal texts.
+ */
+const OPERATOR = "[COMPANY NAME B.V.]";
 
 /* ------------------------------------------------------------------ */
 /*  Real sample data (synthetic person, real pipeline)                 */
@@ -102,6 +111,7 @@ export function Landing() {
   }, []);
 
   const data = useSample();
+  const legal = (k: "privacy" | "terms" | "refunds") => (lang === "ar" ? `/ar/${k}` : `/${k}`);
   const root = useRef<HTMLDivElement>(null);
   useArabicPage(root, lang);
 
@@ -173,11 +183,16 @@ export function Landing() {
           <div className="lp-foot-links">
             <Link to="/protocols" {...warm("/protocols")}>Open app</Link>
             <a href="#pricing">Pricing</a>
-            <a href="#privacy">Privacy</a>
             <a href="#faq">FAQ</a>
             <Link to="/analysis/methodology" {...warm("/analysis/methodology")}>Methodology</Link>
           </div>
+          <div className="lp-foot-links lp-foot-legal">
+            <Link to={legal("privacy")} {...warm(legal("privacy"))}>Privacy policy</Link>
+            <Link to={legal("terms")} {...warm(legal("terms"))}>Terms of service</Link>
+            <Link to={legal("refunds")} {...warm(legal("refunds"))}>Refund policy</Link>
+          </div>
           <p className="lp-foot-note">Not medical advice · Product imagery uses a synthetic person · After images are AI illustrations, not results · © {new Date().getFullYear()}</p>
+          <p className="lp-foot-op">{`Operated by ${OPERATOR}, the Netherlands`}</p>
         </div>
       </footer>
     </div>
@@ -189,6 +204,7 @@ export function Landing() {
 /* ------------------------------------------------------------------ */
 
 function Hero() {
+  const start = useStartHref();
   return (
     <section className="lp-hero">
       <img className="lp-hero-img" src={`${S}face.jpg`} alt="" aria-hidden width={995} height={1333} decoding="async" {...{ fetchpriority: "high" }} />
@@ -202,8 +218,8 @@ function Hero() {
           </h1>
           <p className="lp-hero-lead">A science-referenced analysis of your face and body, and a 12-month plan built from it.</p>
           <div className="lp-hero-cta">
-            <Link to="/new" {...warm("/new")} className="lp-btn lp-btn-white">
-              Start my scan
+            <Link to={start()} {...warm(start())} className="lp-btn lp-btn-white">
+              Get started
             </Link>
             <a href="#how" className="lp-btn lp-btn-glass">
               How it works
@@ -370,7 +386,7 @@ function Track({ data }: { data: ReturnType<typeof useSample> }) {
   const right = cards.slice(3);
   return (
     <section className="lp-sec">
-      <Head center kicker="Progress tracking" dark="Track your progress." muted="See where you’re heading." lead="Monthly check-ins in the same set-up, measured against your baseline. Scores are our composites of literature-based measures, not clinical scores." />
+      <Head center kicker="Progress tracking" dark="Track your progress." muted="See where you’re heading." lead="With membership, a check-in every month in the same set-up, measured against your baseline. Scores are our composites of literature-based measures, not clinical scores." />
       <div className="lp-track">
         <div className="lp-track-col">
           {left.map((c) => (
@@ -703,17 +719,30 @@ function How() {
 /* ------------------------------------------------------------------ */
 
 function Pricing() {
+  const start = useStartHref();
   const features: [string, string][] = [
     ["Face & body analysis", "48 measurements against reference ranges."],
     ["Evidence-graded 12-month plan", "Every step graded A–C and cited."],
     ["Your 12-month visuals", "Face and body, front and side — reviewed by a human."],
     ["Nutrition targets", "Calories and macros for each phase of your plan."],
     ["Your full report", "Every measurement, the plan and the research, as a PDF to keep."],
-    ["Progress tracking", "Check in and compare against your baseline."],
+    [`${TRIAL_DAYS} days of membership`, "Included with every report. Keep it after that, or let it end."],
   ];
+  const membership = [
+    "A re-scan every month, with updated scores and an updated plan",
+    "A note from your reviewer each month",
+    "A new 12-month visual every 3 months",
+  ];
+  const saves = MONTHLY_KWD * 12 - YEARLY_KWD;
   return (
     <section className="lp-sec" id="pricing">
-      <Head center kicker="Pricing" dark="One analysis." muted="A plan for the year." lead="One payment. No subscription." />
+      <Head
+        center
+        kicker="Pricing"
+        dark="One report."
+        muted="Membership if you want it."
+        lead={`The report is one payment of ${PRICE_KWD} KWD and includes ${TRIAL_DAYS} days of membership. After that, keep the membership or let it end.`}
+      />
       <div className="lp-price">
         <ul className="lp-price-list">
           {features.map(([t, d]) => (
@@ -731,15 +760,42 @@ function Pricing() {
             <div className="lp-price-top">
               <div>
                 <span className="lp-price-name">Glow-Up Report</span>
-                <span className="lp-price-sub">One payment · face + body</span>
+                <span className="lp-price-sub">{`One payment · face + body · includes ${TRIAL_DAYS} days of membership`}</span>
               </div>
             </div>
-            <div className="lp-price-amt">{PRICE_KWD} KWD</div>
-            <Link to="/new" {...warm("/new")} className="lp-btn lp-btn-white lp-btn-block">
-              Start my scan
+            <div className="lp-price-amt">{`${PRICE_KWD} KWD`}</div>
+            <Link to={start("report")} {...warm(start())} className="lp-btn lp-btn-white lp-btn-block">
+              Get my report
             </Link>
-            <p className="lp-price-note">Pay with KNET, Visa, Mastercard or Apple Pay.</p>
+            <p className="lp-price-note">{`Report only: the ${TRIAL_DAYS} days of membership simply end. Nothing renews.`}</p>
           </div>
+          <div className="lp-member">
+            <div className="lp-member-head">
+              <b>Optional membership</b>
+              <span>{`After your first ${TRIAL_DAYS} days. Cancel any time.`}</span>
+            </div>
+            <ul className="lp-member-list">
+              {membership.map((t) => (
+                <li key={t}>
+                  <Verified size={14} />
+                  <span>{t}</span>
+                </li>
+              ))}
+            </ul>
+            <div className="lp-price-alt">
+              <Link to={start("report_membership_monthly")} {...warm(start())}>
+                <b>Report + monthly membership</b>
+                <span>{`${PRICE_KWD} KWD today, then ${MONTHLY_KWD} KWD a month after ${TRIAL_DAYS} days`}</span>
+                <em>{`${MONTHLY_KWD} KWD / month`}</em>
+              </Link>
+              <Link to={start("report_membership_yearly")} {...warm(start())}>
+                <b>Report + yearly membership</b>
+                <span>{`${PRICE_KWD} KWD today, then ${YEARLY_KWD} KWD for the first year after ${TRIAL_DAYS} days (saves ${saves} KWD), then ${MONTHLY_KWD} KWD a month`}</span>
+                <em>{`${YEARLY_KWD} KWD / first year`}</em>
+              </Link>
+            </div>
+          </div>
+          <p className="lp-pay-note">Pay by card, Apple Pay or Google Pay.</p>
         </div>
       </div>
     </section>
@@ -753,10 +809,13 @@ function Pricing() {
 const FAQ: [string, string][] = [
   ["Is it medical advice?", "No. It's aesthetic and wellness guidance. Anything clinical points you to a licensed practitioner."],
   ["How accurate is it?", "Measurements use established face and pose landmark models (MediaPipe) and are compared with published norms where they exist. They are estimates — body-fat estimates carry errors of roughly ±4–5 points, and photo conditions matter, so we flag selfies, head turns and cropped body shots."],
-  ["Who sees my photos?", "Analysis runs on your device. Photos you send for your report are seen only by the reviewer assigned to you and deleted 90 days after delivery, or sooner if you ask."],
-  ["Is there a service for women?", "Yes. Women get the same analysis and plan, and their photos and results are reviewed only by female reviewers. We never show photos of women on this site or in our marketing."],
+  ["Who sees my photos?", "Analysis runs on your device. Photos you send for your report are seen by the reviewer assigned to you and, only where their work needs it, a small number of authorised staff; every access to photos is logged. They are deleted 90 days after delivery, or sooner if you ask."],
+  ["Who is it for?", "At launch, men aged 18 or over in Kuwait."],
+  ["Is there a service for women?", "Not yet. At launch the service is for men only. Women can join the waitlist on this page and we'll email them when it opens. When it does, we plan to have women's photos and results reviewed only by female reviewers. We never show photos of women on this site or in our marketing."],
   ["Do I need special equipment?", "No. A phone, a plain wall and someone (or a timer) to take the photos from about 1.5–3 m."],
-  ["Is it a subscription?", "No. It is one payment of 20 KWD. Your report, plan and progress tracking stay yours."],
+  ["Is it a subscription?", "The report is one payment of 20 KWD and includes 30 days of membership. If you choose the report only, those 30 days simply end and nothing renews. If you choose a membership, it continues after the 30 days at 5 KWD a month, or 45 KWD for the first year and then 5 KWD a month, until you cancel, which you can do any time. Your report and plan stay yours either way."],
+  ["What does membership give me?", "A re-scan every month with updated scores and an updated plan, a note from your reviewer each month, and a new 12-month visual every 3 months."],
+  ["How do I pay?", "By card, Apple Pay or Google Pay, in Kuwaiti dinars."],
 ];
 
 function Faq() {
@@ -792,8 +851,8 @@ function landingSeo(lang: "en" | "ar", ar: Record<string, string> | null) {
       : `${BRAND_NAME} · Science-based face & body analysis and a 12-month glow-up plan`;
   const description =
     lang === "ar"
-      ? "حلّل وجهك وجسمك بـ48 قياس مبني على دراسات منشورة، يراجعها إنسان، واحصل على خطة 12 شهر للبشرة والشعر واللحية والجسم بدون جراحة. في الكويت، وخدمة خاصة للنساء تراجعها نساء."
-      : "48 measurements of your face and body, compared with published norms and reviewed by a person, then a 12-month plan for skin, hair, beard and body. No surgery. 20 KWD, in Kuwait, with a women-only reviewed service.";
+      ? "حلّل وجهك وجسمك بـ48 قياس مبني على دراسات منشورة، يراجعها إنسان، واحصل على خطة 12 شهر للبشرة والشعر واللحية والجسم بدون جراحة. للرجال في الكويت: التقرير بـ20 د.ك، والعضوية اختيارية."
+      : "48 measurements of your face and body, compared with published norms and reviewed by a person, then a 12-month plan for skin, hair, beard and body. No surgery. For men in Kuwait: report 20 KWD, membership optional.";
   const path = lang === "ar" ? "/ar" : "/";
   return {
     title,
@@ -811,7 +870,26 @@ function landingSeo(lang: "en" | "ar", ar: Record<string, string> | null) {
         provider: { "@type": "Organization", name: BRAND_NAME },
         areaServed: ["KW"],
         offers: [
-          { "@type": "Offer", name: t("Glow-Up Report"), price: String(PRICE_KWD), priceCurrency: "KWD", areaServed: "KW" },
+          {
+            "@type": "Offer",
+            name: t("Glow-Up Report"),
+            description: t(`One payment · face + body · includes ${TRIAL_DAYS} days of membership`),
+            price: String(PRICE_KWD),
+            priceCurrency: "KWD",
+            areaServed: "KW",
+          },
+          ...([
+            ["Monthly membership", MONTHLY_KWD, "P1M", "Cancel any time."],
+            ["Yearly membership", YEARLY_KWD, "P1Y", `For the first year, then ${MONTHLY_KWD} KWD a month. Cancel any time.`],
+          ] as const).map(([name, price, billingDuration, description]) => ({
+            "@type": "Offer",
+            name: t(name),
+            description: t(description),
+            price: String(price),
+            priceCurrency: "KWD",
+            areaServed: "KW",
+            priceSpecification: { "@type": "UnitPriceSpecification", price: String(price), priceCurrency: "KWD", billingDuration },
+          })),
         ],
       },
       {

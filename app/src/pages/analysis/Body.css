@@ -85,7 +85,7 @@
   border-radius: 99px;
 }
 .bd-sub-val {
-  text-align: right;
+  text-align: end;
   font-family: var(--mono);
   font-size: 12px;
 }

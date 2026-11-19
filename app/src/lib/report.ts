@@ -179,7 +179,7 @@ export function traits(face: FaceResult): Trait[] {
       key: "dominance",
       name: "Dominance index",
       value: dominance,
-      axis: ["Soft", "Balanced", "Dominant"],
+      axis: ["Understated", "Balanced", "Dominant"],
       features: ["fWHR", "Jaw", "Brow depth"],
       text: `Higher facial width-to-height ratio is reliably perceived as more dominant (Geniole 2015 meta-analysis); this index also adds jaw width and brow height (our combination). Yours sits ${pct(dominance)}.`,
     },
@@ -189,7 +189,7 @@ export function traits(face: FaceResult): Trait[] {
 export function impressionWords(t: Trait[]): { word: string; on: boolean }[] {
   const v = Object.fromEntries(t.map((x) => [x.key, x.value]));
   return [
-    { word: "Soft", on: v.dominance < 0.4 },
+    { word: "Understated", on: v.dominance < 0.4 },
     { word: "Strong", on: v.dominance > 0.55 },
     { word: "Balanced", on: Math.abs(v.dominance - 0.5) < 0.15 },
     { word: "Serious", on: v.trust < 0.4 },

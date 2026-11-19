@@ -39,7 +39,7 @@
   font-weight: 300;
   letter-spacing: -0.03em;
   color: var(--ink);
-  text-align: right;
+  text-align: end;
 }
 .bdd-note {
   margin: 0;
@@ -184,7 +184,7 @@
 .bdd-div-val {
   font-size: 12px;
   color: var(--ink-2);
-  text-align: right;
+  text-align: end;
 }
 .bdd-div-legend {
   display: flex;
@@ -239,7 +239,7 @@
   font-size: 13px;
 }
 .bdd-table th {
-  text-align: left;
+  text-align: start;
   font-family: var(--mono);
   font-size: 10px;
   letter-spacing: 0.08em;
@@ -262,7 +262,7 @@
   color: var(--muted);
 }
 .bdd-proxy {
-  margin-left: 6px;
+  margin-inline-start: 6px;
   font-family: var(--mono);
   font-size: 9px;
   letter-spacing: 0.06em;

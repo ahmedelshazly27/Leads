@@ -329,7 +329,7 @@ export function Chin({ scan, facePhoto }: SectionProps) {
         { label: "Chin : mouth width", value: fmt(m.chinWidthToMouth) },
         { label: "Lip : chin height", value: `1 : ${height.toFixed(2)}` },
         { label: "Chin height", value: height > 2.3 ? "Tall" : height < 1.7 ? "Short" : "Proportionate" },
-        { label: "Projection", value: "Needs side profile" },
+        { label: "Chin projection", value: "Needs side profile" },
       ]}
       explanation={
         <>

@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { joinNodes } from "../../lib/i18n";
 import { FacePhoto, toPhoto } from "../../components/FacePhoto";
 import { ChevronRight } from "../../components/icons";
 import { MethodNote } from "../../components/MethodNote";
@@ -193,7 +194,7 @@ export function Skin({ scan, facePhoto, plan }: SectionProps) {
                 <>
                   The {LABEL[key].toLowerCase()} shows <b>{level}</b> uneven pigmentation or redness ({pct.toFixed(1)}% of pixels flagged), with evenness{" "}
                   {Math.round(region.evenness)}/100, redness {Math.round(region.redness)}/100 and texture {Math.round(region.texture)}/100.{" "}
-                  {skinItems.length > 0 && <>Your plan addresses this with {skinItems.map((i) => i.title.toLowerCase()).join(" and ")}.</>}
+                  {skinItems.length > 0 && <>Your plan addresses this with {joinNodes(skinItems.map((i) => i.title.toLowerCase()), " and ")}.</>}
                 </>
               ) : (
                 "No skin regions were measured for this scan."

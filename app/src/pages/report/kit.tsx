@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { dateLocale } from "../../lib/i18n";
 import { SpectrumBar } from "../../components/ui";
 import type { Plan } from "../../lib/plan";
 import type { NutritionResult } from "../../lib/nutrition";
@@ -28,7 +29,7 @@ export interface ReportCtx {
 export const NOT_MEASURED = "Not measured";
 
 export const fmtDate = (iso?: string | Date | null) =>
-  iso ? new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" }) : "—";
+  iso ? new Date(iso).toLocaleDateString(dateLocale() ?? "en-GB", { day: "numeric", month: "long", year: "numeric" }) : "—";
 
 export const cap = (s: string) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : s);
 export const f2 = (n: number | null | undefined, d = 2) => (n == null || !Number.isFinite(n) ? NOT_MEASURED : n.toFixed(d));

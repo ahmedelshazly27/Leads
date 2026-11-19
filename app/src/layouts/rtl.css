@@ -1,0 +1,154 @@
+/* ---------------- Language switch (shell) ---------------- */
+.lang-switch {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid var(--line-2, var(--line));
+  background: #fff;
+  color: var(--ink-2);
+  font-size: 13px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.lang-switch:hover {
+  color: var(--ink);
+}
+.lang-switch:lang(ar) {
+  font-family: "IBM Plex Sans Arabic", var(--sans);
+}
+.rail-lang {
+  margin: auto 6px 10px;
+  align-self: flex-start;
+}
+.rail-lang + .rail-profile {
+  margin-top: 0;
+}
+.is-collapsed .rail-lang {
+  padding: 0 8px;
+  font-size: 11px;
+  margin-inline: 0;
+}
+.lang-switch-sm {
+  display: none;
+}
+.mbar-end {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+}
+@media (max-width: 900px) {
+  .shell .mbar {
+    grid-template-columns: minmax(44px, auto) 1fr auto;
+  }
+  .lang-switch-sm {
+    display: inline-flex;
+    height: 30px;
+    padding: 0 10px;
+    font-size: 12px;
+  }
+}
+
+/* ---------------- Arabic (app shell, analysis pages, report) ---------------- */
+/* every rule uses var(--sans) / var(--mono), so redefining them switches the faces;
+   Latin (numbers, units, citations) keeps Inter, Arabic letters fall back to Plex Arabic */
+.is-ar,
+.pv-ar {
+  --sans: "Inter", "IBM Plex Sans Arabic", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --mono: "JetBrains Mono", "IBM Plex Sans Arabic", ui-monospace, monospace;
+  font-family: var(--sans);
+}
+:is(.is-ar, .pv-ar) :is(.mono, .mono-sm, .kicker) {
+  letter-spacing: 0;
+}
+/* Arabic letters must not be spaced out (it breaks the joins) */
+:is(.is-ar, .pv-ar) :is(h1, h2, h3, .title-xl, .title-lg, .title-md, .pv-h) {
+  letter-spacing: 0;
+}
+
+/* Citations, formulas and units stay left to right inside Arabic text */
+:is(.is-ar, .pv-ar) :is(cite, .rp-cite, .tr-cite, .pr-gcard-cite, code, kbd) {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+/* numbers ("72 → 81", "1 : 1.62", "12%") keep their order inside right-to-left lines;
+   with an Arabic unit in them ("53 د.ك") they read right to left like the text */
+:is(.is-ar, .pv-ar) :is(.rp-num, .num, .score-num) {
+  direction: ltr;
+  unicode-bidi: plaintext;
+}
+
+/* Arrows that point "forward" (chevrons on links, "→" icons) flip in right-to-left */
+[dir="rtl"] :is(.shell, .pv) :is(.secnav-head svg, .btn svg, .pv-back svg, .arrow-fwd) {
+  transform: scaleX(-1);
+}
+
+/* Spectrum bars: the scale stays left (low) to right (high), like a number line */
+[dir="rtl"] :is(.shell, .pv) :is(.spectrum, .rp-bar, .ov-score-track, .nu-scale) {
+  direction: ltr;
+}
+[dir="rtl"] :is(.shell, .pv) :is(.spectrum-labels, .rp-bar-labels, .ov-track-labels) > * {
+  direction: rtl;
+}
+
+/* Charts are drawn left to right: keep the SVG coordinate system and only the labels flow */
+[dir="rtl"] :is(.shell, .pv) svg {
+  direction: ltr;
+}
+
+/* Text alignment: anything explicitly left-aligned in the English layout reads from the right */
+[dir="rtl"] :is(.shell, .pv) :is(th, td) {
+  text-align: start;
+}
+
+/* Report pages (A4): running head and foot mirror; the page itself keeps its size */
+[dir="rtl"] .pv-page-head,
+[dir="rtl"] .pv-page-foot {
+  direction: rtl;
+}
+
+/* score + suffix ("78/100") is one number: keep it left to right */
+:is(.is-ar, .pv-ar) :is(.ov-score-num, .rp-score b, .pv-score b) {
+  direction: ltr;
+  unicode-bidi: plaintext;
+}
+
+/* report viewer bar: the switch takes little room on phones */
+.pv-lang-short {
+  display: none;
+}
+@media (max-width: 700px) {
+  .pv-bar .pv-back {
+    flex: none;
+  }
+  .pv-bar .pv-title {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .pv-lang {
+    flex: none;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+  }
+  .pv-lang .pv-lang-full {
+    display: none;
+  }
+  .pv-lang .pv-lang-short {
+    display: inline;
+  }
+}
+@media (max-width: 430px) {
+  /* back, page controls, language and PDF fill the bar; the title would be a sliver */
+  .pv-bar .pv-title {
+    display: none;
+  }
+  .pv-bar .pv-group {
+    margin-inline-start: auto;
+  }
+}

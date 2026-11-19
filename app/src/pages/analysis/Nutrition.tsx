@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { joinNodes, useLang } from "../../lib/i18n";
 import { Link } from "react-router-dom";
 import { Citations, Empty, PageHeader } from "../../components/ui";
 import { buildNutrition, type Macros } from "../../lib/nutrition";
@@ -8,6 +9,7 @@ import "./Nutrition.css";
 export function Nutrition(p: SectionProps) {
   const n = useMemo(() => buildNutrition(p.scan, p.profile.intake, p.plan), [p.scan, p.profile, p.plan]);
   const [phaseIdx, setPhaseIdx] = useState(0);
+  const lang = useLang();
 
   if (!n.ok)
     return (
@@ -98,9 +100,16 @@ export function Nutrition(p: SectionProps) {
                   <span>{m.macros.kcal} kcal</span>
                 </div>
                 <div className="nu-meal-macros mono-sm">
-                  P {m.macros.protein} g · F {m.macros.fat} g · C {m.macros.carbs} g
+                  {joinNodes(
+                    ([[lang === "ar" ? "Protein" : "P", m.macros.protein], [lang === "ar" ? "Fat" : "F", m.macros.fat], [lang === "ar" ? "Carbs" : "C", m.macros.carbs]] as const).map(([l, v]) => (
+                      <span key={l}>
+                        <span>{l}</span> {v} g
+                      </span>
+                    )),
+                    " · ",
+                  )}
                 </div>
-                <div className="nu-meal-ex">{m.examples.join(" · ")}</div>
+                <div className="nu-meal-ex">{joinNodes(m.examples, " · ")}</div>
               </div>
             ))}
           </div>

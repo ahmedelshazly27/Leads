@@ -232,10 +232,23 @@ export async function signedPhotoUrls(rows: ScanPhotoRow[], ttl = SIGNED_URL_TTL
   return out;
 }
 
-/** The latest scan for an order plus signed photo URLs (empty once photos are deleted). */
+/**
+ * The scan of an order plus signed photo URLs (empty once photos are deleted):
+ * the one submit-scan accepted (orders.scan_id), or else the latest one.
+ */
 export async function getScanForOrder(orderId: string): Promise<{ scan: ScanRow; photos: PhotoUrls } | null> {
   if (backendMode === "mock") return mock.getScanForOrder(orderId);
-  const scan = check(await sb().from("scans").select("*").eq("order_id", orderId).order("created_at", { ascending: false }).limit(1).maybeSingle()) as ScanRow | null;
+  const client = sb();
+  // Tolerates a database without orders.scan_id yet (falls back to the latest scan).
+  const accepted = await client
+    .from("orders")
+    .select("scan_id")
+    .eq("id", orderId)
+    .maybeSingle()
+    .then((r) => (r.error ? null : ((r.data as { scan_id?: string | null } | null)?.scan_id ?? null)));
+  let scan: ScanRow | null = null;
+  if (accepted) scan = check(await client.from("scans").select("*").eq("id", accepted).maybeSingle()) as ScanRow | null;
+  scan ??= check(await client.from("scans").select("*").eq("order_id", orderId).order("created_at", { ascending: false }).limit(1).maybeSingle()) as ScanRow | null;
   if (!scan) return null;
   if (scan.photos_deleted_at) return { scan, photos: {} };
   const rows = (check(await sb().from("scan_photos").select("*").eq("scan_id", scan.id)) ?? []) as ScanPhotoRow[];

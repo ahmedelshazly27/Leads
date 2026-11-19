@@ -13,9 +13,13 @@
  * stay in memory only.
  *
  * Roles: sign in with an email starting with "admin" for the admin role, with
- * "review" for the reviewer role; any other email is a customer.
+ * "review" for the reviewer role; any other email is a customer. A new
+ * reviewer takes over the open orders of "Demo reviewer 1", so the queue is
+ * never empty. Seeded scans use the built-in synthetic sample profile
+ * (lib/sample.ts) for their measurements and the photos in public/sample/.
  */
 import { BackendError, invalidate, newId } from "./client";
+import { sampleProfile, sampleScan } from "../sample";
 import {
   PLANS,
   SLA_HOURS,
@@ -67,7 +71,9 @@ interface MockDb {
   audit_log: AuditLogRow[];
 }
 
-const STORAGE_KEY = "facet-mock-backend-v1";
+const STORAGE_KEY = "facet-mock-backend-v2";
+/** Seeded scans point at the sample profile instead of copying it (keeps sessionStorage small). */
+const SAMPLE_REF = "mock:sample";
 const HOUR = 3600_000;
 const DAY = 24 * HOUR;
 /** Mock-only figures (not real provider prices). */
@@ -227,7 +233,7 @@ function seed(now = Date.now()): MockDb {
     }
   };
 
-  const addOrder = (userId: string, product: "report" | "checkin", createdAt: number, status: OrderStatus, amount: number): OrderRow => {
+  const addOrder = (userId: string, product: "report" | "checkin", createdAt: number, status: OrderStatus, amount: number, subscriptionId: string | null = null): OrderRow => {
     const o: OrderRow = {
       id: newId(),
       user_id: userId,
@@ -237,6 +243,9 @@ function seed(now = Date.now()): MockDb {
       currency: "KWD",
       provider: "stripe",
       provider_ref: `mock_cs_${newId().slice(0, 8)}`,
+      plan: product === "report" ? "report" : null,
+      subscription_id: subscriptionId,
+      scan_id: null,
       assigned_reviewer: null,
       due_at: null,
       paid_at: null,
@@ -245,7 +254,7 @@ function seed(now = Date.now()): MockDb {
       created_at: iso(createdAt),
     };
     db.orders.push(o);
-    if (status === "pending_payment" || status === "cancelled") return o;
+    if (status === "pending_payment") return o;
     o.paid_at = iso(createdAt + 2 * 60_000);
     if (amount > 0) addPayment(userId, o.id, null, amount, createdAt + 2 * 60_000);
     if (status === "paid" || status === "awaiting_photos") {
@@ -257,8 +266,11 @@ function seed(now = Date.now()): MockDb {
     o.due_at = iso(submitted + SLA_HOURS * HOUR);
     o.assigned_reviewer = pick(reviewers).id;
     const scanId = newId();
-    db.scans.push({ id: scanId, user_id: userId, order_id: o.id, kind: product === "report" ? "baseline" : "checkin", intake: null, results: null, app_version: "demo", created_at: iso(submitted), photos_deleted_at: null });
-    for (const view of ["face", "body", "side"] as ScanPhotoView[]) db.scan_photos.push({ scan_id: scanId, view, storage_path: `mock:${view}` });
+    o.scan_id = scanId;
+    // Photos of orders delivered more than 90 days ago are gone, as purge-photos does.
+    const purged = status === "delivered" && submitted < now - 92 * DAY ? iso(submitted + 92 * DAY) : null;
+    db.scans.push({ id: scanId, user_id: userId, order_id: o.id, kind: product === "report" ? "baseline" : "checkin", intake: SAMPLE_REF, results: SAMPLE_REF, app_version: "demo", created_at: iso(submitted), photos_deleted_at: purged });
+    if (!purged) for (const view of Object.keys(SAMPLE_PHOTO) as ScanPhotoView[]) db.scan_photos.push({ scan_id: scanId, view, storage_path: `mock:${view}` });
     if (status === "delivered") {
       const delivered = submitted + (18 + rand() * 70) * HOUR; // some land past the 72h SLA
       o.delivered_at = iso(Math.min(delivered, now - HOUR));
@@ -267,6 +279,10 @@ function seed(now = Date.now()): MockDb {
     } else if (status === "in_review" && rand() < 0.5) {
       addGenerations(o, scanId, submitted + 2 * HOUR, false);
       db.reviews.push({ id: newId(), order_id: o.id, reviewer_id: o.assigned_reviewer, status: "in_progress", checklist: {}, notes: "", item_notes: {}, marker_grades: {}, approved_at: null });
+    }
+    if (status === "cancelled") {
+      // Cancelled after submission (e.g. photo consent withdrawn): refund by hand.
+      o.status = "cancelled";
     }
     if (status === "refunded") {
       // As the payment webhook does: the original payment stays "succeeded" and
@@ -295,15 +311,40 @@ function seed(now = Date.now()): MockDb {
       status: rand() < 0.88 ? "active" : "past_due",
       current_period_end: iso(now + (5 + rand() * 25) * DAY),
       cancel_at: null,
+      amount: plan === "monthly" ? PLANS.membership_monthly.recurringKwd : PLANS.membership_yearly.recurringKwd,
+      currency: "KWD",
+      trial_end: iso(Date.parse(report.created_at) + 30 * DAY),
       created_at: report.created_at,
     };
+    if (plan === "yearly") sub.current_period_end = iso(Date.parse(report.created_at) + (30 + 365) * DAY);
+    // A few members have cancelled: they keep their benefits until the period ends.
+    if (sub.status === "active" && rand() < 0.15) sub.cancel_at = sub.current_period_end;
     db.subscriptions.push(sub);
+    report.plan = plan === "monthly" ? "report_membership_monthly" : "report_membership_yearly";
+    report.subscription_id = sub.id;
+    if (sub.status === "past_due") {
+      const failedAt = now - rand() * 5 * DAY;
+      db.payments.push({ id: newId(), order_id: null, subscription_id: sub.id, user_id: c.id, provider: "stripe", provider_ref: `mock_in_${newId().slice(0, 8)}`, amount: PLANS.membership_monthly.recurringKwd ?? 0, currency: "KWD", fee: 0, net: 0, status: "failed", created_at: iso(failedAt) });
+    }
     // Renewal inside the window + its check-in order.
     if (sub.status === "active" && plan === "monthly") {
       const renewed = now - rand() * 25 * DAY;
       addPayment(c.id, null, sub.id, PLANS.membership_monthly.recurringKwd ?? 0, renewed);
-      addOrder(c.id, "checkin", renewed + HOUR, renewed < now - 4 * DAY ? "delivered" : "awaiting_photos", 0);
+      addOrder(c.id, "checkin", renewed + HOUR, renewed < now - 4 * DAY ? "delivered" : "awaiting_photos", 0, sub.id);
     }
+  }
+
+  // Two former members whose membership has ended.
+  for (let i = 0; i < 2; i++) {
+    const created = now - (70 + rand() * 40) * DAY;
+    const c = addCustomer(created, n++);
+    const report = addOrder(c.id, "report", created, "delivered", PLANS.report.dueNowKwd);
+    const ended = created + 60 * DAY;
+    const sub: SubscriptionRow = { id: newId(), user_id: c.id, provider: "stripe", provider_sub_id: `mock_sub_${newId().slice(0, 8)}`, plan: "monthly", status: "canceled", current_period_end: iso(ended), cancel_at: iso(ended), canceled_at: iso(ended), trial_end: iso(created + 30 * DAY), amount: PLANS.membership_monthly.recurringKwd, currency: "KWD", created_at: report.created_at };
+    db.subscriptions.push(sub);
+    report.plan = "report_membership_monthly";
+    report.subscription_id = sub.id;
+    addPayment(c.id, null, sub.id, sub.amount ?? 0, created + 30 * DAY);
   }
 
   // Customers in the last 30 days, slightly more recent ones.
@@ -317,24 +358,34 @@ function seed(now = Date.now()): MockDb {
     else if (ageDays < 0.5) status = rand() < 0.5 ? "awaiting_photos" : "in_review";
     else if (ageDays < 3.2) status = rand() < 0.15 ? "awaiting_photos" : "in_review";
     else if (roll < 0.1) status = "refunded";
+    else if (roll < 0.115) status = "cancelled";
     else if (roll < 0.13) status = "changes_requested";
     else if (roll < 0.17 && ageDays < 6) status = "in_review"; // overdue
     else status = "delivered";
     const o = addOrder(c.id, "report", created, status, PLANS.report.dueNowKwd);
-    if (status !== "pending_payment" && status !== "refunded" && rand() < 0.42) {
+    if (status !== "pending_payment" && status !== "refunded" && status !== "cancelled" && rand() < 0.42) {
       const plan = rand() < 0.75 ? "monthly" : "yearly";
       const trialEnd = Date.parse(o.created_at) + 30 * DAY;
-      db.subscriptions.push({
+      const sub: SubscriptionRow = {
         id: newId(),
         user_id: c.id,
         provider: "stripe",
         provider_sub_id: `mock_sub_${newId().slice(0, 8)}`,
         plan,
         status: trialEnd > now ? "trialing" : "active",
-        current_period_end: iso(trialEnd > now ? trialEnd : trialEnd + 30 * DAY),
+        current_period_end: iso(trialEnd > now ? trialEnd : trialEnd + (plan === "monthly" ? 30 : 365) * DAY),
         cancel_at: null,
+        trial_end: iso(trialEnd),
+        amount: plan === "monthly" ? PLANS.membership_monthly.recurringKwd : PLANS.membership_yearly.recurringKwd,
+        currency: "KWD",
         created_at: o.created_at,
-      });
+      };
+      if (rand() < 0.12) sub.cancel_at = sub.current_period_end;
+      db.subscriptions.push(sub);
+      o.plan = plan === "monthly" ? "report_membership_monthly" : "report_membership_yearly";
+      o.subscription_id = sub.id;
+      // The first membership payment, when the 30 days included with the report ended.
+      if (trialEnd <= now) addPayment(c.id, null, sub.id, sub.amount ?? 0, trialEnd);
     }
   }
 
@@ -431,8 +482,28 @@ function photoUrl(path: string): string | null {
 }
 
 function generationUrl(g: GenerationRow): string | null {
-  if (g.status !== "succeeded") return null;
+  if (g.status !== "succeeded" || !g.output_path) return null;
   return sampleBase() + SAMPLE_OUTPUT[g.kind];
+}
+
+/** A seeded scan carries the sample profile's intake and measurements (under the customer's demo name). */
+function hydrateScan(scan: ScanRow): ScanRow {
+  if (scan.results !== SAMPLE_REF && scan.intake !== SAMPLE_REF) return scan;
+  const owner = load().profiles.find((p) => p.id === scan.user_id);
+  return {
+    ...scan,
+    intake: scan.intake === SAMPLE_REF ? { ...sampleProfile.intake, name: owner?.full_name ?? "Demo customer" } : scan.intake,
+    results: scan.results === SAMPLE_REF ? { ...sampleScan, id: scan.id, createdAt: scan.created_at } : scan.results,
+  };
+}
+
+/** Whole calendar months from `from` until `to`. */
+function monthsLeft(from: Date, to: Date): number {
+  let m = (to.getUTCFullYear() - from.getUTCFullYear()) * 12 + (to.getUTCMonth() - from.getUTCMonth());
+  const probe = new Date(from);
+  probe.setUTCMonth(probe.getUTCMonth() + m);
+  if (probe > to) m--;
+  return Math.max(0, m);
 }
 
 /* ------------------------------ API -------------------------------- */
@@ -473,6 +544,15 @@ export const mock = {
       const meta = signupMeta.get(e) ?? {};
       p = { id: newId(), full_name: null, email: e, phone: null, locale: meta.locale ?? null, gender: meta.gender ?? null, birth_year: null, role, reviewer_gender: role === "reviewer" ? "male" : null, created_at: iso(Date.now()) };
       d.profiles.push(p);
+      if (role === "reviewer") {
+        // A demo reviewer gets work at once: the open orders of "Demo reviewer 1", plus any order
+        // sent in this demo session (so a customer's own test order can be reviewed end to end).
+        const first = d.profiles.find((x) => x.email === "reviewer1@example.com");
+        const seeded = (userId: string | null) => /^customer\d+@example\.com$/.test(d.profiles.find((x) => x.id === userId)?.email ?? "");
+        for (const o of d.orders)
+          if ((o.status === "in_review" || o.status === "changes_requested") && ((first && o.assigned_reviewer === first.id) || !seeded(o.user_id))) o.assigned_reviewer = p.id;
+        for (const r of d.reviews) if (first && r.reviewer_id === first.id && r.status === "in_progress") r.reviewer_id = p.id;
+      }
     }
     d.session = { userId: p.id, email: e };
     commit();
@@ -512,6 +592,9 @@ export const mock = {
     const now = Date.now();
     let subId: string | null = null;
     if (info.interval) {
+      if (d.subscriptions.some((x) => x.user_id === p.id && (x.status === "active" || x.status === "trialing" || x.status === "past_due"))) {
+        throw new BackendError("You already have a membership.", "already_member");
+      }
       subId = newId();
       d.subscriptions.push({
         id: subId,
@@ -522,6 +605,9 @@ export const mock = {
         status: info.trialDays ? "trialing" : "active",
         current_period_end: iso(now + (info.trialDays || (info.interval === "monthly" ? 30 : 365)) * DAY),
         cancel_at: null,
+        trial_end: info.trialDays ? iso(now + info.trialDays * DAY) : null,
+        amount: info.recurringKwd,
+        currency: "KWD",
         created_at: iso(now),
       });
     }
@@ -534,6 +620,9 @@ export const mock = {
       currency: "KWD",
       provider: "manual",
       provider_ref: `mock_cs_${newId().slice(0, 8)}`,
+      plan: info.includesReport ? plan : null,
+      subscription_id: subId,
+      scan_id: null,
       assigned_reviewer: null,
       due_at: null,
       paid_at: iso(now),
@@ -604,6 +693,7 @@ export const mock = {
     }
     const now = Date.now();
     o.status = "in_review";
+    o.scan_id = scanId;
     o.submitted_at = iso(now);
     o.due_at = iso(now + SLA_HOURS * HOUR);
     const reviewers = d.profiles.filter((x) => x.role === "reviewer");
@@ -616,10 +706,12 @@ export const mock = {
   async getScanForOrder(orderId: string): Promise<{ scan: ScanRow; photos: PhotoUrls } | null> {
     const p = me();
     const d = load();
-    const scan = d.scans
-      .filter((s) => s.order_id === orderId && (s.user_id === p.id || p.role !== "customer"))
-      .sort((a, b) => b.created_at.localeCompare(a.created_at))[0];
-    if (!scan) return null;
+    const visible = d.scans.filter((s) => s.order_id === orderId && (s.user_id === p.id || p.role !== "customer"));
+    // The scan submit-scan accepted, or else the latest one (as the real client does).
+    const acceptedId = d.orders.find((o) => o.id === orderId)?.scan_id;
+    const raw = visible.find((s) => s.id === acceptedId) ?? visible.sort((a, b) => b.created_at.localeCompare(a.created_at))[0];
+    if (!raw) return null;
+    const scan = hydrateScan(raw);
     const photos: PhotoUrls = {};
     if (!scan.photos_deleted_at)
       for (const ph of d.scan_photos.filter((x) => x.scan_id === scan.id)) {
@@ -784,11 +876,85 @@ export const mock = {
       orders: d.orders.filter((o) => o.user_id === p.id),
       subscriptions: d.subscriptions.filter((s) => s.user_id === p.id),
       payments: d.payments.filter((x) => x.user_id === p.id),
-      scans,
+      scans: scans.map(hydrateScan),
       scan_photos: d.scan_photos.filter((x) => scanIds.has(x.scan_id)),
       reviews: d.reviews.filter((r) => orderIds.has(r.order_id) && d.orders.find((o) => o.id === r.order_id)?.status === "delivered"),
     };
   },
+  /** As withdraw-photo-consent: photos and measurements gone, submitted-but-undelivered orders cancelled. */
+  async withdrawPhotoConsent(): Promise<{ scans: number; files: number; cancelledOrders: string[] }> {
+    await delay(300);
+    const p = me();
+    const d = load();
+    const now = iso(Date.now());
+    const scans = d.scans.filter((s) => s.user_id === p.id);
+    const scanIds = new Set(scans.map((s) => s.id));
+    let files = 0;
+    for (const ph of d.scan_photos.filter((x) => scanIds.has(x.scan_id))) {
+      const u = photoBlobs.get(ph.storage_path);
+      if (u) URL.revokeObjectURL(u);
+      photoBlobs.delete(ph.storage_path);
+      files++;
+    }
+    d.scan_photos = d.scan_photos.filter((x) => !scanIds.has(x.scan_id));
+    let cleared = 0;
+    for (const s of scans) {
+      if (s.photos_deleted_at && JSON.stringify(s.intake ?? {}) === "{}" && JSON.stringify(s.results ?? {}) === "{}") continue;
+      s.photos_deleted_at ??= now;
+      s.intake = {};
+      s.results = {};
+      cleared++;
+    }
+    for (const c of d.consents) if (c.user_id === p.id && c.kind === "photos" && !c.withdrawn_at) c.withdrawn_at = now;
+    const cancelled: string[] = [];
+    for (const o of d.orders) {
+      if (o.user_id !== p.id || (o.status !== "in_review" && o.status !== "changes_requested")) continue;
+      const started = d.reviews.some((r) => r.order_id === o.id) || d.generations.some((g) => g.order_id === o.id);
+      audit("orders.cancelled_consent_withdrawn", "orders", o.id, { from: o.status, refund: "manual", refund_policy: o.amount <= 0 ? "none (included check-in)" : started ? "partial" : "full" });
+      o.status = "cancelled";
+      for (const g of d.generations) if (g.order_id === o.id) {
+        g.output_path = null;
+        g.approved = false;
+      }
+      cancelled.push(o.id);
+    }
+    audit("consents.photos_withdrawn", "user", p.id, { scans: cleared, files, orders_cancelled: cancelled.length });
+    commit();
+    return { scans: cleared, files, cancelledOrders: cancelled };
+  },
+
+  /** As manage-membership (no money moves in the demo). */
+  async manageMembership(action: "cancel" | "resume" | "end_now"): Promise<{ subscription: SubscriptionRow; refund?: { amount: number; currency: string; months: number; pending: boolean } }> {
+    await delay(300);
+    const p = me();
+    const d = load();
+    const sub = d.subscriptions
+      .filter((x) => x.user_id === p.id && (x.status === "active" || x.status === "trialing" || x.status === "past_due"))
+      .sort((a, b) => b.created_at.localeCompare(a.created_at))[0];
+    if (!sub) throw new BackendError("You do not have an active membership.", "no_membership");
+    let refund: { amount: number; currency: string; months: number; pending: boolean } | undefined;
+    if (action === "cancel") sub.cancel_at ??= sub.current_period_end;
+    else if (action === "resume") sub.cancel_at = null;
+    else {
+      if (sub.plan !== "yearly") throw new BackendError("A monthly membership ends at the end of the month you have paid for, so it can only be cancelled.", "not_yearly");
+      if (sub.status === "trialing") throw new BackendError("Nothing has been charged for the membership yet, so it can only be cancelled.", "trialing");
+      const months = sub.current_period_end ? monthsLeft(new Date(), new Date(sub.current_period_end)) : 0;
+      const price = sub.amount ?? PLANS.membership_yearly.recurringKwd ?? 0;
+      const amount = Math.floor((Math.round(price * 1000) * months) / 12 / 10) * 10 / 1000;
+      const now = iso(Date.now());
+      sub.status = "canceled";
+      sub.canceled_at = now;
+      sub.cancel_at = now;
+      if (amount > 0) {
+        d.payments.push({ id: newId(), order_id: null, subscription_id: sub.id, user_id: p.id, provider: sub.provider, provider_ref: `mock_re_${newId().slice(0, 8)}`, amount: -amount, currency: "KWD", fee: 0, net: -amount, status: "refunded", created_at: now });
+        refund = { amount, currency: "KWD", months, pending: false };
+      }
+    }
+    audit(`membership.${action}`, "subscriptions", sub.id, refund ? { refund } : null);
+    commit();
+    return { subscription: sub, ...(refund ? { refund } : {}) };
+  },
+
   async deleteData(opts: { confirm: true }) {
     if (opts?.confirm !== true) throw new BackendError("Send { confirm: true } to delete your data.", "confirm_required");
     const p = me();

@@ -3,6 +3,8 @@
   "rewrites": [
     { "source": "/ar", "destination": "/ar/index.html" },
     { "source": "/library", "destination": "/library/index.html" },
+    { "source": "/(privacy|terms|refunds)", "destination": "/$1/index.html" },
+    { "source": "/ar/(privacy|terms|refunds)", "destination": "/ar/$1/index.html" },
     { "source": "/((?!assets/|wasm/|models/|sample/|library/|og\\.jpg|favicon\\.svg|manifest\\.webmanifest|robots\\.txt|sitemap\\.xml).*)", "destination": "/app.html" }
   ],
   "headers": [

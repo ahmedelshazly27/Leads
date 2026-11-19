@@ -138,7 +138,7 @@ async function openaiEdit(req: EditRequest): Promise<EditResult> {
   for (const [i, ref] of req.images.entries()) {
     const { bytes, mime } = await fetchBytes(ref.url);
     const ext = mime.includes("png") ? "png" : mime.includes("webp") ? "webp" : "jpg";
-    form.append("image[]", new Blob([bytes], { type: mime }), `ref-${i}.${ext}`);
+    form.append("image[]", new Blob([bytes as BlobPart], { type: mime }), `ref-${i}.${ext}`);
   }
 
   const res = await fetch("https://api.openai.com/v1/images/edits", {

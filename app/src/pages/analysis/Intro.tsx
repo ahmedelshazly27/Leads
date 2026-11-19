@@ -1,4 +1,5 @@
 import { useState, type ReactNode } from "react";
+import { dateLocale, joinNodes, useLang } from "../../lib/i18n";
 import { Link } from "react-router-dom";
 import { PageHeader, ScoreCard, GradeBadge, Citations } from "../../components/ui";
 import { User } from "../../components/icons";
@@ -16,7 +17,8 @@ import "./Intro.css";
 
 export function GettingStarted(p: SectionProps) {
   const first = p.profile.intake.name.split(" ")[0];
-  const scanDate = new Date(p.scan.createdAt).toLocaleDateString(undefined, { day: "numeric", month: "long", year: "numeric" });
+  const lang = useLang();
+  const scanDate = new Date(p.scan.createdAt).toLocaleDateString(dateLocale(lang), { day: "numeric", month: "long", year: "numeric" });
   return (
     <div className="page">
       <PageHeader
@@ -34,7 +36,7 @@ export function GettingStarted(p: SectionProps) {
           </div>
           <div className="in-stat">
             <span className="mono-sm">12-month potential</span>
-            <b>{Math.round(p.plan.overallProjected)}/100</b>
+            <b dir="ltr">{Math.round(p.plan.overallProjected)}/100</b>
           </div>
           <div className="in-stat">
             <span className="mono-sm">Plan steps</span>
@@ -51,9 +53,9 @@ export function GettingStarted(p: SectionProps) {
       <div className="in-groups">
         {NAV.filter((g) => g.id !== "introduction").map((g) => (
           <Link key={g.id} to={`/analysis/${g.items[0].id}`} className="in-group">
-            <div className="mono-sm">{g.items.length} sections</div>
+            <div className="mono-sm">{`${g.items.length} sections`}</div>
             <div className="in-group-title">{g.label}</div>
-            <div className="in-group-items">{g.items.map((i) => i.label.replace(" Analysis", "")).join(" · ")}</div>
+            <div className="in-group-items">{joinNodes(g.items.map((i) => i.label.replace(" Analysis", "")), " · ")}</div>
           </Link>
         ))}
       </div>
@@ -241,8 +243,12 @@ const METHOD_NAMES: Record<string, string> = {
   brows: "Brows",
   impression: "First impression",
   body: "Body proportions",
-  posture: "Posture",
+  posture: "Front posture",
   composition: "Composition",
+  sidePosture: "Side posture",
+  core: "Core & waist",
+  bodySymmetry: "Body symmetry",
+  physique: "Physique impression",
 };
 
 export function Methodology(_p: SectionProps) {
@@ -280,7 +286,7 @@ export function Methodology(_p: SectionProps) {
         </ul>
       </section>
       <section className="in-card">
-        <div className="mono">Bibliography · {refs.length} sources</div>
+        <div className="mono">{`Bibliography · ${refs.length} sources`}</div>
         <ol className="in-bib">
           {refs.map((r) => (
             <li key={r.id}>

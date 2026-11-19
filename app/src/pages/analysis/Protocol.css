@@ -4,7 +4,7 @@
   object-fit: cover;
   display: block;
 }
-.pr-card {
+.apr-card {
   border: 1px solid var(--line);
   border-radius: 16px;
   background: var(--surface);
@@ -207,8 +207,8 @@
 }
 .pr-group-head {
   margin-bottom: 10px;
-  padding-left: 10px;
-  border-left: 1px solid var(--line-2);
+  padding-inline-start: 10px;
+  border-inline-start: 1px solid var(--line-2);
 }
 .pr-recs {
   display: grid;
@@ -525,7 +525,7 @@
   width: 9px;
   height: 9px;
   border-radius: 2px;
-  margin-right: 6px;
+  margin-inline-end: 6px;
 }
 .sw-on {
   background: #69565a;

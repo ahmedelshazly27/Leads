@@ -714,7 +714,7 @@ export function BodySymmetry(p: SectionProps) {
           <div className="bdd-card">
             <div className="bdd-card-head">
               <span className="mono-sm">Half-width difference</span>
-              <span className="bdd-card-val">{m.lrBalance.toFixed(1)}% avg</span>
+              <span className="bdd-card-val">{`${m.lrBalance.toFixed(1)}% avg`}</span>
             </div>
             <div className="bdd-div">
               {rows.map(([name, v]) => (

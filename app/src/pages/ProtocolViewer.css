@@ -62,10 +62,10 @@
   margin: 0 16px;
 }
 .pv-expand {
-  margin-left: auto;
+  margin-inline-start: auto;
 }
 .pv-download {
-  margin-left: 220px;
+  margin-inline-start: 220px;
   display: inline-flex;
   align-items: center;
   gap: 14px;
@@ -95,7 +95,7 @@
 }
 .pv-thumbs {
   overflow-y: auto;
-  border-right: 1px solid var(--line);
+  border-inline-end: 1px solid var(--line);
   padding: 18px 18px 40px;
   display: flex;
   flex-direction: column;
@@ -135,7 +135,7 @@
 }
 .pv-side {
   overflow-y: auto;
-  border-left: 1px solid var(--line);
+  border-inline-start: 1px solid var(--line);
   padding: 16px 16px 40px;
   display: flex;
   flex-direction: column;
@@ -334,7 +334,7 @@
 }
 .pv-list {
   margin: 0;
-  padding-left: 16px;
+  padding-inline-start: 16px;
   display: grid;
   gap: 4px;
 }
@@ -405,7 +405,7 @@
 .pv-feats {
   columns: 2;
   margin: 12px 0 0;
-  padding-left: 16px;
+  padding-inline-start: 16px;
   font-size: 12.5px;
 }
 .pv-feats li {
@@ -499,7 +499,7 @@
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--ink-3);
-  margin-right: auto;
+  margin-inline-end: auto;
 }
 .pv-rec-foot {
   display: flex;
@@ -563,7 +563,7 @@
   padding: 2px 0;
 }
 .pv-task i {
-  margin-left: auto;
+  margin-inline-start: auto;
   font-style: normal;
   font-family: var(--mono);
   font-size: 9px;
@@ -583,7 +583,7 @@
   font-size: 13px;
 }
 .pv-table th {
-  text-align: left;
+  text-align: start;
   font-family: var(--mono);
   font-size: 10px;
   letter-spacing: 0.06em;
@@ -604,7 +604,7 @@
 }
 .pv-refs {
   margin: 0;
-  padding-left: 20px;
+  padding-inline-start: 20px;
   display: grid;
   gap: 6px;
   font-size: 10.5px;
@@ -620,7 +620,7 @@
     display: none;
   }
   .pv-download {
-    margin-left: 12px;
+    margin-inline-start: 12px;
   }
 }
 
@@ -823,7 +823,7 @@
   cursor: default;
 }
 .pv-contents button {
-  text-align: left;
+  text-align: start;
   color: var(--ink-2);
   font-size: 14px;
 }

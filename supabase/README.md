@@ -12,10 +12,15 @@ supabase/
     20261119000002_storage.sql        private buckets photos + visuals and their policies
     20261119000003_views.sql          fx_rates + dashboard views (admin only)
     20261119000004_cron.sql           daily jobs (pg_cron + pg_net, secrets from Vault)
+    20261119000005_hardening.sql      advisor fixes (function grants)
+    20261119000006_followups.sql      withdrawal_waiver consent, orders.scan_id, scan delete policies,
+                                      photo-consent withdrawal and retention SQL helpers
+    20261119000007_cron_retention.sql purge-records-daily job
   functions/
-    _shared/                          CORS, HTTP helpers, service client, auth, Stripe, image APIs, email, storage
+    _shared/                          CORS, HTTP helpers, service client, auth, Stripe, membership schedule, image APIs, email, storage
     create-checkout/  stripe-webhook/  submit-scan/  generate-visual/  approve-delivery/
     customer-visuals/ delete-my-data/  purge-photos/ sync-meta-ads/    join-waitlist/
+    withdraw-photo-consent/  manage-membership/  purge-records/
 ```
 
 ## 1. Create and link the project
@@ -35,9 +40,9 @@ supabase db push
 ```
 
 This creates everything, including the `pg_cron` and `pg_net` extensions and the
-three daily jobs. The jobs call `purge-photos` and `sync-meta-ads` with a
-dedicated **cron secret** (not the service key, so the scheduler holds only the
-power to start those two jobs). Make one random value and store it in two places:
+daily jobs (four once 20261119000007 is applied). The jobs call `purge-photos`,
+`purge-records` and `sync-meta-ads` with a dedicated **cron secret** (not the
+service key, so the scheduler holds only the power to start those jobs). Make one random value and store it in two places:
 
 ```bash
 openssl rand -hex 32                         # copy the output
@@ -65,7 +70,8 @@ Jobs (UTC; Kuwait is UTC+3):
 
 | Job | When | Does |
 |---|---|---|
-| `purge-photos-daily` | 02:15 | calls `purge-photos`: deletes photos 90 days after delivery, after a refund/cancellation, or (for orders that never finished) after the scan; also removes stray uploads older than 3 days that belong to no scan |
+| `purge-photos-daily` | 02:15 | calls `purge-photos`: deletes photos 90 days after delivery, after a refund/cancellation, or (for orders that never finished) after the scan; also removes stray uploads older than 3 days that belong to no scan, and the visuals of refunded/cancelled orders |
+| `purge-records-daily` | 02:45 | calls `purge-records`: 24 months after a customer's last order or membership ends, deletes their scans (measurements, health answers), visuals, reviewer notes and generation prompts; deletes waitlist entries older than 24 months |
 | `sync-meta-ads-daily` | 03:40 | calls `sync-meta-ads` for the last 7 days |
 | `monthly-checkins-daily` | 04:05 | `ensure_monthly_checkins()`: a check-in order each month for yearly members |
 
@@ -83,8 +89,13 @@ from net._http_response order by created desc limit 10;
 
 - **Authentication > URL Configuration**: Site URL = your production URL; add it
   and `http://localhost:5173` to Redirect URLs.
+- **Authentication > URL Configuration > Redirect URLs**: add `https://<your-domain>/**`
+  (and `http://localhost:5173/**`). The sign-in link in the email returns the user
+  to the page they asked from (`emailRedirectTo`) and signs them in there.
 - **Authentication > Emails > Magic Link** template: include `{{ .Token }}` so the
-  email carries the 6-digit code the app asks for (`signInWithOtp` + `verifyOtp`).
+  email carries the 6-digit code the app asks for (`signInWithOtp` + `verifyOtp`);
+  keep `{{ .ConfirmationURL }}` for the link. The link works in the same browser
+  (PKCE); on another device the code is the way in.
 - Set up a custom SMTP sender (Resend works) before launch; the built-in sender is rate-limited.
 
 ## 4. Secrets for the functions
@@ -113,7 +124,7 @@ supabase secrets set \
 |---|---|---|
 | `SITE_URL` | checkout, emails, CORS | No trailing slash. |
 | `ALLOWED_ORIGINS` | CORS | Optional, comma separated (e.g. a preview domain). `localhost` is always allowed. |
-| `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET` | create-checkout, stripe-webhook, delete-my-data | |
+| `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET` | create-checkout, stripe-webhook, delete-my-data, manage-membership | |
 | `STRIPE_PRICE_REPORT` / `_MONTHLY` / `_YEARLY` | create-checkout | Optional. Without them, checkout uses inline prices: 20.000 / 5.000 / 45.000 KWD. |
 | `IMAGE_PROVIDER` | generate-visual | `fal` (default) or `openai`. |
 | `FAL_KEY` / `OPENAI_API_KEY` | generate-visual | For the chosen provider. Optional: `FAL_IMAGE_MODEL`, `OPENAI_IMAGE_MODEL`, `OPENAI_IMAGE_QUALITY`. |
@@ -121,7 +132,8 @@ supabase secrets set \
 | `RESEND_API_KEY`, `EMAIL_FROM`, `BRAND_NAME` | approve-delivery | `EMAIL_FROM` must be on a domain verified in Resend. |
 | `META_ACCESS_TOKEN`, `META_AD_ACCOUNT_ID` | sync-meta-ads | System-user token with `ads_read`. Optional `META_API_VERSION` (default `v21.0`). |
 | `RATE_LIMIT_SALT` | join-waitlist | Optional random string used to hash IP addresses. |
-| `CRON_SECRET` | purge-photos, sync-meta-ads | Random value; the same value goes into Vault as `cron_secret` (section 2). |
+| `CRON_SECRET` | purge-photos, purge-records, sync-meta-ads | Random value; the same value goes into Vault as `cron_secret` (section 2). |
+| `VISUALS_WITH_PHOTOS` | purge-photos | Optional. `all` also deletes the visuals of delivered reports with their photos (90 days). Default: delivered visuals stay until the 24-month rule or account deletion, as the privacy policy says. |
 
 `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` are provided to functions automatically.
 
@@ -170,7 +182,29 @@ How the plans map to Stripe:
 | `membership_monthly` / `_yearly` | `mode=subscription`, no trial | none at checkout; each paid invoice creates a `checkin` order |
 
 Monthly members get a check-in order from every paid invoice; yearly members get
-one a month from the `monthly-checkins-daily` job. Payment fees come from the
+one a month from the `monthly-checkins-daily` job.
+
+**Yearly after the first year.** When a yearly subscription is created, the
+webhook attaches a subscription schedule: the current phase (the 30-day trial or
+the paid year), one yearly phase after a trial, then the monthly price, and the
+schedule is released so it simply continues at 5.000 KWD a month. The monthly
+price is `STRIPE_PRICE_MONTHLY`, or one the function finds or creates with the
+lookup key `membership_monthly_kwd` (`membership_yearly_kwd` for the yearly
+phase after a trial). Check it under Billing > Subscriptions > the subscription
+> Schedule. A failure shows as `stripe.schedule_failed` in `audit_log`.
+
+**Cancel, resume, end early** (`manage-membership`): cancel = at period end;
+resume = undo before the end; `end_now` = yearly only, ends today and refunds the
+full months left (price / 12 each, rounded down to 10 fils). Requests under the
+14-day right of withdrawal and refunds after a photo-consent withdrawal are
+issued by hand in the Stripe dashboard (the webhook records them); for the
+latter, `audit_log` rows with action `orders.cancelled_consent_withdrawn` say
+whether the refund policy suggests a full or partial refund:
+
+```sql
+select at, target_id as order_id, meta from public.audit_log
+where action = 'orders.cancelled_consent_withdrawn' order by at desc;
+``` Payment fees come from the
 balance transaction (converted back to KWD with Stripe's rate when the account
 settles in EUR) and are written to `payments.fee` and a `costs` row.
 
@@ -242,7 +276,10 @@ All take and return JSON. Errors are `{ "error": { "code", "message" } }`.
 | `approve-delivery` | reviewer / admin | `{ order_id, generation_ids, notes? }` | `{ order, emailed }` |
 | `customer-visuals` | signed-in user | `{ order_id? }` | `{ visuals: [{ order_id, generation_id, kind, url, created_at }], expires_in }` |
 | `delete-my-data` | signed-in user | `{ confirm: true }` | `{ deleted: true, ... }` |
-| `purge-photos` | cron (cron secret) | `{}` | `{ scans, scans_failed, files, orphans, more }` |
+| `withdraw-photo-consent` | signed-in user | `{}` | `{ scans, files, visuals, consents, cancelled_orders }` |
+| `manage-membership` | signed-in user | `{ action: 'cancel' \| 'resume' \| 'end_now' }` | `{ subscription, refund? }`. Errors: `no_membership`, `ended`, `not_yearly`, `trialing`, `not_stripe`. |
+| `purge-photos` | cron (cron secret) | `{}` | `{ scans, scans_failed, files, visuals, orphans, more }` |
+| `purge-records` | cron (cron secret) | `{}` | `{ users, users_failed, files, waitlist, more }` |
 | `sync-meta-ads` | cron (cron secret) | `{ days? }` | `{ rows, since, until, spend }` |
 | `join-waitlist` | anyone | `{ email, phone?, gender?, locale?, source? }` | `{ ok: true }` (also for duplicates) |
 
@@ -250,7 +287,9 @@ Notes for the client:
 
 - Photos go to `photos/{user_id}/{scan_id}/{view}.jpg`; insert `scans` and
   `scan_photos` rows (the `storage_path` must start with `{user_id}/{scan_id}/`),
-  then call `submit-scan`.
+  then call `submit-scan`. It records the accepted scan as `orders.scan_id`.
+- Before submitting, a customer may delete their own scans and scan photos
+  (retakes); after submission they are locked.
 - The waitlist is joined only through the `join-waitlist` function (rate-limited,
   honeypot, same answer for duplicates). Direct inserts into `waitlist` are not
   allowed for anon or signed-in users.

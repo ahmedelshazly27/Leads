@@ -7,6 +7,7 @@ import { buildNutrition } from "../lib/nutrition";
 import { buildTraining } from "../lib/training";
 import { photoUrl } from "../lib/store";
 import { useActive } from "../lib/useActive";
+import { setLang, useArabicPage, useLang } from "../lib/i18n";
 import { FACE_VIEWS, type FaceView } from "../lib/types";
 import {
   appendixChapter,
@@ -41,6 +42,7 @@ import {
 } from "./report/planChapters";
 import "./ProtocolViewer.css";
 import "./report/report.css";
+import "../layouts/rtl.css";
 
 type BaseCtx = Omit<ReportCtx, "pageNo" | "fig">;
 
@@ -85,6 +87,9 @@ export function ProtocolViewer() {
   const [zoom, setZoom] = useState(1);
   const [current, setCurrent] = useState(0);
   const docRef = useRef<HTMLDivElement>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const lang = useLang();
+  useArabicPage(rootRef, lang);
   const pageRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
@@ -110,10 +115,11 @@ export function ProtocolViewer() {
     };
   }, [profile, scan, plan, catalog, visuals, state.settings.currency]);
 
-  const draft = useMemo(() => (base ? buildReport(base, null) : []), [base]);
+  // lang: dates and lists are formatted per language, and Arabic text measures differently
+  const draft = useMemo(() => (base ? buildReport(base, null) : []), [base, lang]); // eslint-disable-line react-hooks/exhaustive-deps
   const contentKey = useMemo(
-    () => (base ? [base.scan.id, base.scan.review?.updatedAt ?? "", JSON.stringify(base.profile.intake), base.currency, base.catalog.length, Object.keys(base.visuals).join()].join("|") : "none"),
-    [base],
+    () => (base ? [base.scan.id, base.scan.review?.updatedAt ?? "", JSON.stringify(base.profile.intake), base.currency, base.catalog.length, Object.keys(base.visuals).join(), lang].join("|") : "none"),
+    [base, lang],
   );
   const name = profile?.intake.name ?? "";
   const rid = base ? reportId({ scan: base.scan } as ReportCtx) : "";
@@ -123,7 +129,7 @@ export function ProtocolViewer() {
     </Page>
   );
   const { layout, layer } = usePagination(draft, contentKey, frame);
-  const final = useMemo(() => (base && layout ? buildReport(base, layout.pageOf) : null), [base, layout]);
+  const final = useMemo(() => (base && layout ? buildReport(base, layout.pageOf) : null), [base, layout, lang]); // eslint-disable-line react-hooks/exhaustive-deps
   const pages = layout && final ? layout.pages : [];
 
   // Fit A4 pages (794 px wide) to narrow screens; user zoom multiplies on top.
@@ -157,7 +163,7 @@ export function ProtocolViewer() {
   // name the saved PDF after the client
   useEffect(() => {
     const prev = document.title;
-    const before = () => (document.title = `Analysis report — ${name}`);
+    const before = () => (document.title = lang === "ar" ? `تقرير التحليل — ${name}` : `Analysis report — ${name}`);
     const after = () => (document.title = prev);
     window.addEventListener("beforeprint", before);
     window.addEventListener("afterprint", after);
@@ -165,7 +171,7 @@ export function ProtocolViewer() {
       window.removeEventListener("beforeprint", before);
       window.removeEventListener("afterprint", after);
     };
-  }, [name]);
+  }, [name, lang]);
 
   if (!profile || !scan || !plan) return <Navigate to="/home" replace />;
 
@@ -188,7 +194,7 @@ export function ProtocolViewer() {
   };
 
   return (
-    <div className="pv">
+    <div className={`pv ${lang === "ar" ? "pv-ar" : ""}`} ref={rootRef}>
       <header className="pv-bar">
         <Link to="/analysis/summary" className="pv-back" title="Back to analysis">
           <ChevronLeft size={18} />
@@ -216,6 +222,11 @@ export function ProtocolViewer() {
             <ChevronDown size={20} />
           </button>
         </div>
+        <button type="button" className="lang-switch pv-lang" lang={lang === "ar" ? "en" : "ar"} onClick={() => setLang(lang === "ar" ? "en" : "ar")}>
+          {/* written so neither label is a dictionary key: it must not be swapped */}
+          <span className="pv-lang-full">{lang === "ar" ? "English\u200b" : "العربية"}</span>
+          <span className="pv-lang-short">{lang === "ar" ? "EN\u200b" : "ع"}</span>
+        </button>
         <button
           className="pv-btn pv-expand"
           aria-label="Full screen"

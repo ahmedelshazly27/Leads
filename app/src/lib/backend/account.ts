@@ -1,4 +1,4 @@
-import { BackendError, backendMode, callFunction, check, sb } from "./client";
+import { BackendError, backendMode, callFunction, check, invalidate, sb } from "./client";
 import { mock } from "./mock";
 import { getMyProfile, requireUserId, signOut } from "./auth";
 import { signedPhotoUrls } from "./scans";
@@ -77,10 +77,23 @@ export async function deleteMyData(opts: { confirm: true }): Promise<void> {
 }
 
 /**
- * Withdraw photo consent: deletes the user's photos, measurements and health
- * answers (GDPR art. 17(1)(b)) and marks the consent withdrawn. Orders not yet
- * delivered can no longer be reviewed. Stub: the backend stream implements it.
+ * Withdraw photo consent (GDPR art. 7(3), 17(1)(b)): deletes the user's photos
+ * and the measurements and health answers taken from them, and marks the
+ * consent withdrawn (withdraw-photo-consent function).
+ *
+ * Orders whose photos were already submitted but not delivered are cancelled:
+ * the review cannot continue. Refunds for those are handled by our team under
+ * the refund policy (full if the review had not started, otherwise less the
+ * work already done). Orders still waiting for photos stay open: the customer
+ * can give the consent again and submit. Delivered reports keep their visuals.
+ *
+ * Returns how many scans were cleared and photo files deleted, and the ids of
+ * cancelled orders.
  */
-export async function withdrawPhotoConsent(): Promise<{ scans: number; files: number }> {
-  throw new BackendError("Not available yet.", "not_built");
+export async function withdrawPhotoConsent(): Promise<{ scans: number; files: number; cancelledOrders?: string[] }> {
+  if (backendMode === "mock") return mock.withdrawPhotoConsent();
+  requireUserId();
+  const res = await callFunction<{ scans?: number; files?: number; cancelled_orders?: string[] }>("withdraw-photo-consent", {});
+  invalidate();
+  return { scans: res?.scans ?? 0, files: res?.files ?? 0, cancelledOrders: res?.cancelled_orders ?? [] };
 }

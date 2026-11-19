@@ -3,6 +3,9 @@ import { useRef, useState } from "react";
 import { PageHeader, Toggle } from "../components/ui";
 import { Download } from "../components/icons";
 import { exportAll, importAll, resetAll, setStaff, useAppState } from "../lib/store";
+import { backendEnabled } from "../lib/backend";
+import { useLang } from "../lib/i18n";
+import { legalHref } from "./legal/content";
 import "./pages.css";
 
 /** Staff mode is offered only in development or with ?staff=1 in the URL, until a server role replaces it. */
@@ -21,6 +24,7 @@ export function Settings() {
   const showStaff = staffSwitchAllowed() || !!s.settings.staff;
   const file = useRef<HTMLInputElement>(null);
   const [msg, setMsg] = useState<string | null>(null);
+  const lang = useLang();
 
   const doExport = async () => {
     const json = await exportAll();
@@ -45,6 +49,22 @@ export function Settings() {
           </div>
         }
       />
+
+      {backendEnabled && (
+        <div className="bt-card" style={{ padding: "4px 22px" }}>
+          <div className="st-row">
+            <div>
+              <div className="title-md">Your account</div>
+              <p className="lead">Orders, membership, and your data online: download it, withdraw photo consent or delete your account.</p>
+            </div>
+            <div className="st-actions">
+              <Link to="/account" className="btn">
+                Open account
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
 
       {showStaff && (
       <div className="bt-card" style={{ padding: "4px 22px" }}>
@@ -132,10 +152,28 @@ export function Settings() {
 
       <div className="bt-card">
         <h2 className="title-md">Privacy</h2>
+        {backendEnabled ? (
+          <p className="lead" style={{ maxWidth: "none", marginBottom: 12 }}>
+            Analysis runs on this device, and profiles, scans and photos on this page are stored only in this browser. When you order a reviewed report, your photos are uploaded
+            encrypted to our servers in the EU, only after you agree, and deleted 90 days after delivery. Results are estimates for tracking change, not medical advice.
+          </p>
+        ) : (
         <p className="lead" style={{ maxWidth: "none", marginBottom: 12 }}>
           Analysis runs on this device. In this preview, profiles, scans and photos are stored only in this browser (IndexedDB). Specialist review and the before/after visuals need your photos: when
           accounts launch, submitting a scan uploads it securely to the review team only, after you agree. Results are estimates for tracking change, not medical advice.
         </p>
+        )}
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", paddingBottom: 14 }}>
+          <Link to={legalHref("privacy", lang)} className="btn btn-ghost">
+            Privacy policy
+          </Link>
+          <Link to={legalHref("terms", lang)} className="btn btn-ghost">
+            Terms
+          </Link>
+          <Link to={legalHref("refunds", lang)} className="btn btn-ghost">
+            Refund policy
+          </Link>
+        </div>
       </div>
     </div>
   );

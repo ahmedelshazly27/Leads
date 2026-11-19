@@ -70,7 +70,7 @@
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0.12));
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-right: 1px solid rgba(255, 255, 255, 0.25);
+  border-inline-end: 1px solid rgba(255, 255, 255, 0.25);
 }
 .ov-score-label {
   color: rgba(255, 255, 255, 0.85);
@@ -137,8 +137,8 @@
   gap: 12px;
 }
 .ov-range-k {
-  border-left: 1px solid var(--line-2);
-  padding-left: 8px;
+  border-inline-start: 1px solid var(--line-2);
+  padding-inline-start: 8px;
 }
 .ov-range-label {
   font-size: 22px;
@@ -218,7 +218,7 @@
 }
 .prop-val small {
   color: var(--muted);
-  margin-left: 6px;
+  margin-inline-start: 6px;
   font-family: var(--sans);
 }
 
@@ -373,7 +373,7 @@
   flex-direction: column;
   justify-content: space-between;
   gap: 16px;
-  padding-right: 28px;
+  padding-inline-end: 28px;
 }
 .fi-row-r p {
   margin: 0;
@@ -398,20 +398,20 @@
   background: var(--card);
 }
 .fi-sum-k {
-  border-left: 1px solid var(--line-2);
-  padding-left: 8px;
+  border-inline-start: 1px solid var(--line-2);
+  padding-inline-start: 8px;
 }
 .fi-sum-block {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  padding-left: 22px;
+  padding-inline-start: 22px;
 }
 .fi-sum-block .mono-sm {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-left: -22px;
+  margin-inline-start: -22px;
 }
 .fi-sum-block p {
   margin: 0;
@@ -468,7 +468,7 @@
   font-size: 13px;
 }
 .mtable th {
-  text-align: left;
+  text-align: start;
   font-family: var(--mono);
   font-weight: 400;
   font-size: 10px;
@@ -493,7 +493,7 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  margin-right: 8px;
+  margin-inline-end: 8px;
   background: #b9c8bf;
 }
 .status-dot.off {
@@ -569,7 +569,7 @@
   padding: 0 16px;
   font-size: 13px;
   color: var(--ink-2);
-  border-left: 1px solid var(--line);
+  border-inline-start: 1px solid var(--line);
 }
 .skn-tab.on {
   background: var(--card-2);
@@ -580,7 +580,7 @@
   width: 40px;
   display: grid;
   place-items: center;
-  border-left: 1px solid var(--line);
+  border-inline-start: 1px solid var(--line);
   color: var(--ink-3);
 }
 .skn-cov {

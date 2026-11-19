@@ -1,4 +1,5 @@
 import { useState, type ReactNode } from "react";
+import { joinNodes } from "../../lib/i18n";
 import { Link } from "react-router-dom";
 import { CaptureWarning } from "../../components/CaptureWarning";
 import { FacePhoto, toPhoto } from "../../components/FacePhoto";
@@ -179,10 +180,10 @@ export function Averageness({ scan, facePhoto, profile }: SectionProps) {
       method="averageness"
       explanation={
         <>
-          {close.length > 0 && <>Your {close.slice(0, 3).join(", ")} sit close to population norms. </>}
+          {close.length > 0 && <>Your {joinNodes(close.slice(0, 3), ", ")} sit close to population norms. </>}
           {far.length > 0 ? (
             <>
-              The biggest departures are your {far.map((d) => `${d.label} (${d.z > 0 ? "above" : "below"} average)`).join(" and ")}, which give your face its distinctive character.
+              The biggest departures are your {joinNodes(far.map((d) => <>{d.label} (<span>{d.z > 0 ? "above average" : "below average"}</span>)</>), " and ")}, which give your face its distinctive character.
             </>
           ) : (
             <>No single ratio departs strongly from the reference — your proportions are close to the population prototype.</>
@@ -215,6 +216,11 @@ export function Dimorphism({ scan, facePhoto, profile }: SectionProps) {
     { name: "Lip fullness", masc: m.lipFullness < 0.3 },
     { name: "Eye openness", masc: m.eyeAspect < 0.33 },
   ];
+  // each cue its own text node, so the Arabic page swaps them one by one
+  const cuesOf = (masc: boolean) => {
+    const list = cues.filter((c) => c.masc === masc).map((c) => c.name.toLowerCase());
+    return list.length ? joinNodes(list, ", ") : "none";
+  };
   return (
     <Overview
       face={face}
@@ -246,8 +252,8 @@ export function Dimorphism({ scan, facePhoto, profile }: SectionProps) {
       }
       explanation={
         <>
-          Cues reading masculine: {cues.filter((c) => c.masc).map((c) => c.name.toLowerCase()).join(", ") || "none"}. Cues reading feminine:{" "}
-          {cues.filter((c) => !c.masc).map((c) => c.name.toLowerCase()).join(", ") || "none"}. This index combines several weak cues and is not calibrated against a
+          Cues reading masculine: {cuesOf(true)}. Cues reading feminine:{" "}
+          {cuesOf(false)}. This index combines several weak cues and is not calibrated against a
           rated sample, so treat it as descriptive. Facial hair is not measured.
         </>
       }
@@ -703,7 +709,7 @@ export function FirstImpression({ scan, facePhoto, plan }: SectionProps) {
           </div>
           <p>
             Your face reads most strongly on <b>{strongest.name.replace(" index", "").toLowerCase()}</b> ({strongest.value > 0.5 ? strongest.axis[strongest.axis.length - 1] : strongest.axis[0]}).
-            {plan.drivers.length > 0 && <> Measured drivers to work on: {plan.drivers.join(", ").toLowerCase()}.</>}
+            {plan.drivers.length > 0 && <> Measured drivers to work on: {joinNodes(plan.drivers.map((d) => d.toLowerCase()), ", ")}.</>}
           </p>
         </div>
         <div className="fi-sum-block">

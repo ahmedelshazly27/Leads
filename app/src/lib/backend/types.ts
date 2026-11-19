@@ -9,7 +9,12 @@
 export type Locale = "en" | "ar";
 export type GenderCode = "male" | "female";
 export type Role = "customer" | "reviewer" | "admin";
-export type ConsentKind = "age18" | "terms" | "privacy" | "photos" | "marketing";
+/**
+ * `withdrawal_waiver`: the customer asked us to start the report within the
+ * 14-day withdrawal period and understands the right to withdraw ends once it
+ * is delivered (terms section 8). Recorded before the photos are submitted.
+ */
+export type ConsentKind = "age18" | "terms" | "privacy" | "photos" | "marketing" | "withdrawal_waiver";
 export type OrderProduct = "report" | "checkin";
 export type OrderStatus =
   | "pending_payment"
@@ -76,6 +81,12 @@ export interface OrderRow {
   currency: string;
   provider: PaymentProvider;
   provider_ref: string | null;
+  /** what was bought at checkout (null for check-ins from renewals) */
+  plan?: CheckoutPlan | null;
+  /** the membership a check-in (or bundle) belongs to */
+  subscription_id?: string | null;
+  /** the scan submit-scan accepted for this order */
+  scan_id?: string | null;
   assigned_reviewer: string | null;
   due_at: string | null;
   paid_at: string | null;
@@ -93,7 +104,13 @@ export interface SubscriptionRow {
   plan: SubscriptionPlan;
   status: SubscriptionStatus;
   current_period_end: string | null;
+  /** set while the membership is cancelling (it ends then) */
   cancel_at: string | null;
+  trial_end?: string | null;
+  canceled_at?: string | null;
+  /** recurring price, in `currency` */
+  amount?: number | null;
+  currency?: string;
   created_at: string;
 }
 

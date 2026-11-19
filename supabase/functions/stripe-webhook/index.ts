@@ -8,9 +8,13 @@
 //   customer.subscription.created, customer.subscription.updated,
 //   customer.subscription.deleted, invoice.paid, invoice.payment_failed,
 //   charge.refunded
+//
+// Yearly subscriptions get a schedule on customer.subscription.created so they
+// continue at the monthly price after the first year.
 import { HttpError, json, requireEnv, serve } from "../_shared/http.ts";
 import { admin, audit, must, mustOne } from "../_shared/supabase.ts";
 import { cryptoProvider, fromMinor, type Stripe, stripe } from "../_shared/stripe.ts";
+import { ensureYearlyThenMonthly } from "../_shared/membership.ts";
 
 const round3 = (n: number) => Math.round(n * 1000) / 1000;
 const idOf = (v: string | { id: string } | null | undefined): string | null =>
@@ -176,7 +180,13 @@ async function upsertSubscription(sub: Stripe.Subscription): Promise<{ id: strin
   const item = sub.items.data[0];
   const price = item?.price;
   const interval = price?.recurring?.interval;
-  const plan = interval === "year" || sub.metadata?.plan?.endsWith("yearly") ? "yearly" : "monthly";
+  // The price decides: a yearly membership moves to the monthly price after its
+  // first 12 months (schedule), while its metadata still names the yearly plan.
+  const plan = interval
+    ? (interval === "year" ? "yearly" : "monthly")
+    : sub.metadata?.plan?.endsWith("yearly")
+    ? "yearly"
+    : "monthly";
   const currency = (price?.currency ?? sub.currency ?? "kwd").toUpperCase();
   // The period end moved from the subscription to its items in newer API versions.
   const periodEnd = (sub as unknown as { current_period_end?: number }).current_period_end ??
@@ -216,6 +226,26 @@ async function upsertSubscription(sub: Stripe.Subscription): Promise<{ id: strin
     await db.from("orders").update({ subscription_id: id }).eq("id", orderId).is("subscription_id", null);
   }
   return { id, userId: ownerId };
+}
+
+// Yearly plans continue monthly after the first 12 months (terms section 7):
+// a subscription schedule does that (see _shared/membership.ts). A failure is
+// logged for an admin instead of failing the event, so the subscription row is
+// still saved; the admin can retry with manage-membership resume or in Stripe.
+async function scheduleYearly(sub: Stripe.Subscription, rowId: string): Promise<void> {
+  if (sub.items.data[0]?.price?.recurring?.interval !== "year" || sub.schedule) return;
+  try {
+    const scheduleId = await ensureYearlyThenMonthly(sub.id);
+    if (scheduleId) {
+      await audit("stripe.schedule_created", "subscriptions", rowId, { subscription: sub.id, schedule: scheduleId });
+    }
+  } catch (err) {
+    console.error("yearly schedule failed", sub.id, (err as Error).message);
+    await audit("stripe.schedule_failed", "subscriptions", rowId, {
+      subscription: sub.id,
+      error: (err as Error).message,
+    });
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -523,7 +553,12 @@ serve(async (req) => {
     case "checkout.session.expired":
       await onCheckoutFailed(event.data.object as Stripe.Checkout.Session);
       break;
-    case "customer.subscription.created":
+    case "customer.subscription.created": {
+      const sub = event.data.object as Stripe.Subscription;
+      const { id } = await upsertSubscription(sub);
+      await scheduleYearly(sub, id);
+      break;
+    }
     case "customer.subscription.updated":
     case "customer.subscription.deleted":
       await upsertSubscription(event.data.object as Stripe.Subscription);

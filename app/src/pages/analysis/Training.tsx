@@ -36,11 +36,11 @@ export function Training(p: SectionProps) {
         <div className="tr-maps">
           <figure>
             <MuscleMap view="front" byId={byId} sel={sel} onSel={setSel} female={female} />
-            <figcaption className="mono-sm">Front</figcaption>
+            <figcaption className="mono-sm">Front view</figcaption>
           </figure>
           <figure>
             <MuscleMap view="back" byId={byId} sel={sel} onSel={setSel} female={female} />
-            <figcaption className="mono-sm">Back</figcaption>
+            <figcaption className="mono-sm">Back view</figcaption>
           </figure>
         </div>
         <div className="tr-side">

@@ -7,7 +7,7 @@
  */
 export { backendEnabled, backendMode, isMock, supabase, BackendError, invalidate, useBackendQuery, type BackendMode } from "./client";
 export * from "./types";
-export { getSession, useSession, whenSessionReady, consentsFlushed, sendCode, verifyCode, signOut, getMyProfile, updateMyProfile, useProfile, useRole } from "./auth";
+export { getSession, useSession, whenSessionReady, consentsFlushed, sendCode, type SendCodeOptions, verifyCode, signOut, getMyProfile, updateMyProfile, useProfile, useRole } from "./auth";
 export {
   startCheckout,
   redirectToCheckout,
@@ -49,8 +49,49 @@ export {
   loadAdminDashboard,
   useAdminDashboard,
   ordersToCsv,
+  toCsv,
+  ADMIN_RANGES,
+  ORDER_STATUS_ORDER,
+  FX_EDITABLE,
+  adminRangeStart,
+  kuwaitDay,
+  listFxRates,
+  saveFxRate,
+  fetchMrr,
+  listWaitlistEntries,
+  waitlistToCsv,
+  computeOperatorDashboard,
+  loadOperatorDashboard,
+  useOperatorDashboard,
+  type OrderCsvRow,
+  type AdminRange,
+  type FxRate,
+  type FxCurrency,
+  type MrrSummary,
+  type AdminWaitlistEntry,
+  type OperatorOrder,
+  type OperatorKpis,
+  type UnitEconomics,
+  type MarketingDay,
+  type MarketingCampaign,
+  type MarketingSummary,
+  type OperatorDailyPoint,
+  type OperatorDashboard,
+  type OperatorInput,
 } from "./admin";
 export { CONSENT_VERSION, recordConsents, pendingConsents, flushPendingConsents, listMyConsents, withdrawConsent, activeConsents, useMyConsents } from "./consents";
 export { joinWaitlist, type WaitlistEntry, type WaitlistResult } from "./waitlist";
 export { exportMyData, downloadMyData, deleteMyData, withdrawPhotoConsent } from "./account";
+export {
+  manageMembership,
+  cancelMembership,
+  resumeMembership,
+  endYearlyMembershipNow,
+  yearlyEndNowRefund,
+  fullMonthsBetween,
+  isCancelling,
+  type MembershipAction,
+  type MembershipRefund,
+  type MembershipResult,
+} from "./membership";
 export { mock as mockBackend } from "./mock";

@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
 import { SAMPLE_PROFILE_ID } from "../lib/sample";
 import type { Scan } from "../lib/types";
+import { dateLocale } from "../lib/i18n";
 
-const fmt = (iso?: string) => (iso ? new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }) : "");
+const fmt = (iso?: string) => (iso ? new Date(iso).toLocaleDateString(dateLocale() ?? "en-GB", { day: "numeric", month: "short", year: "numeric" }) : "");
 
 /** Client-facing review status for a scan. */
 export function ReviewBanner({ scan, compact = false }: { scan: Scan; compact?: boolean }) {

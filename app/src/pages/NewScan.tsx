@@ -5,11 +5,12 @@ import { fileToDataUrl, MIN_SHORT_SIDE, PhotoError, UNREADABLE_PHOTO } from "../
 import { runScan, ScanError, warmModels, type Stage } from "../lib/pipeline";
 import { bodyInputError, BODY_LIMITS } from "../lib/nutrition";
 import { addScan, createProfile, isSampleProfile, setActiveProfile, updateIntake, useAppState } from "../lib/store";
-import { FACE_VIEWS, type FaceView, type Intake, type Scan } from "../lib/types";
+import { FACE_VIEWS, type FaceView, type Intake, type PhotoKind, type Scan } from "../lib/types";
+import { BackendError, submitScan, updateMyProfile, type PhotoInput } from "../lib/backend";
 import SUMMARY from "../lib/markers/summary.json";
 import "./pages.css";
 
-const DEFAULT_INTAKE: Intake = {
+export const DEFAULT_INTAKE: Intake = {
   name: "",
   age: 25,
   gender: "male",
@@ -39,20 +40,42 @@ const DEFAULT_INTAKE: Intake = {
 };
 
 const STEPS = ["About you", "Photos", "Analysis"];
+const ORDER_STEPS = ["About you", "Photos", "Analysis", "Send for review"];
+
+/**
+ * Order mode (used by /orders/:orderId): the same guided capture and on-device
+ * analysis, then the scan is also sent for review with submitScan instead of
+ * only being saved on this device.
+ */
+export interface OrderScanMode {
+  orderId: string;
+  /** the scan was accepted: the order is now in review */
+  onSubmitted: (res: { scanId: string; dueAt: string | null; localScanId: string }) => void;
+  /** submit-scan says the photo consent is missing (or was withdrawn) */
+  onConsentRequired: () => void;
+  /** the order is no longer waiting for photos (already sent, refunded, ...) */
+  onWrongStatus: () => void;
+  /** change it to send again (e.g. after the photo consent was given) */
+  retryKey?: number;
+}
 
 export const MIN_AGE = 18;
 const MAX_AGE = 100;
 
 type ModelState = "idle" | "loading" | "ready" | "failed";
 
-export function NewScan() {
-  const { profileId } = useParams();
+export function NewScan({ order }: { order?: OrderScanMode } = {}) {
+  const params = useParams();
+  const profileId = order ? undefined : params.profileId;
   const s = useAppState();
   const nav = useNavigate();
   // the sample profile never takes a customer's scan: a "check-in" on it starts a new profile
   const existing = profileId && !isSampleProfile(profileId) ? s.profiles.find((p) => p.id === profileId && !p.sample) : undefined;
   const [step, setStep] = useState(0);
-  const [intake, setIntake] = useState<Intake>(() => ({ ...DEFAULT_INTAKE, ...(existing?.intake ?? {}) }));
+  // at launch the service is for men only, so an order's intake is always male
+  const [intake, setIntake] = useState<Intake>(() => ({ ...DEFAULT_INTAKE, ...(existing?.intake ?? {}), ...(order ? { gender: "male" as const, pregnancy: undefined } : {}) }));
+  const [saved, setSaved] = useState<{ scan: Scan; photos: Partial<Record<PhotoKind, PhotoInput>> } | null>(null);
+  const steps = order ? ORDER_STEPS : STEPS;
   const [face, setFace] = useState<string | null>(null);
   const [body, setBody] = useState<string | null>(null);
   const [side, setSide] = useState<string | null>(null);
@@ -77,13 +100,17 @@ export function NewScan() {
   return (
     <div className="page" style={{ maxWidth: 980 }}>
       <PageHeader
-        kicker={existing ? "Check-in" : "New analysis"}
-        muted={existing ? "New check-in for" : "Start your"}
-        strong={existing ? existing.intake.name : "analysis"}
-        lead="Your photos are analysed on this device. Nothing is uploaded."
+        kicker={order ? "Your order" : existing ? "Check-in" : "New analysis"}
+        muted={order ? "Take your" : existing ? "New check-in for" : "Start your"}
+        strong={order ? "photos" : existing ? existing.intake.name : "analysis"}
+        lead={
+          order
+            ? "Your photos are analysed on this device first. When you send them, they are uploaded encrypted for your reviewer."
+            : "Your photos are analysed on this device. Nothing is uploaded."
+        }
       />
       <div className="wz-steps">
-        {STEPS.map((label, i) => (
+        {steps.map((label, i) => (
           <div key={label} className={`wz-step ${i < step ? "done" : i === step ? "on" : ""}`}>
             <div className="bar" />
             <span className="mono-sm">
@@ -92,7 +119,7 @@ export function NewScan() {
           </div>
         ))}
       </div>
-      {step === 0 && <IntakeStep intake={intake} setIntake={setIntake} onNext={() => setStep(1)} />}
+      {step === 0 && <IntakeStep intake={intake} setIntake={setIntake} onNext={() => setStep(1)} fixedGender={!!order} />}
       {step === 1 && (
         <PhotoStep
           face={face}
@@ -104,6 +131,7 @@ export function NewScan() {
           views={views}
           models={models}
           setView={(k, v) => setViews((cur) => ({ ...cur, [k]: v ?? undefined }))}
+          faceRequired={!!order}
           onBack={() => setStep(0)}
           onNext={() => setStep(2)}
         />
@@ -122,11 +150,26 @@ export function NewScan() {
             if (pid) updateIntake(pid, intake);
             else pid = createProfile(intake).id;
             const got = FACE_VIEWS.filter((k) => views[k]);
-            await addScan({ ...scan, profileId: pid, views: got }, face, body, side, views);
+            const local = { ...scan, profileId: pid, views: got };
+            await addScan(local, face, body, side, views);
             setActiveProfile(pid);
-            nav("/analysis/getting-started");
+            if (!order) {
+              nav("/analysis/getting-started");
+              return;
+            }
+            // order mode: keep a copy on this device (for the report viewer), then send it for review
+            const photos: Partial<Record<PhotoKind, PhotoInput>> = {};
+            if (face) photos.face = face;
+            if (body) photos.body = body;
+            if (side) photos.side = side;
+            for (const k of got) photos[k] = views[k]!;
+            setSaved({ scan: local, photos });
+            setStep(3);
           }}
         />
+      )}
+      {step === 3 && order && saved && (
+        <SubmitStep order={order} scan={saved.scan} photos={saved.photos} intake={intake} onChangePhotos={() => setStep(1)} />
       )}
     </div>
   );
@@ -136,7 +179,7 @@ export function NewScan() {
 /*  Step 1: intake                                                     */
 /* ------------------------------------------------------------------ */
 
-function IntakeStep({ intake, setIntake, onNext }: { intake: Intake; setIntake: (i: Intake) => void; onNext: () => void }) {
+function IntakeStep({ intake, setIntake, onNext, fixedGender = false }: { intake: Intake; setIntake: (i: Intake) => void; onNext: () => void; fixedGender?: boolean }) {
   const set = <K extends keyof Intake>(k: K, v: Intake[K]) => setIntake({ ...intake, [k]: v });
   const num = (v: string) => (v === "" ? null : Number(v));
   const nameOk = intake.name.trim().length > 0;
@@ -161,6 +204,7 @@ function IntakeStep({ intake, setIntake, onNext }: { intake: Intake; setIntake: 
         <F label="Age" hint={`${MIN_AGE}+ only`} error={!ageOk ? (intake.age < MIN_AGE ? `You need to be ${MIN_AGE} or older.` : `Enter an age between ${MIN_AGE} and ${MAX_AGE}.`) : undefined}>
           <input type="number" min={MIN_AGE} max={MAX_AGE} value={Number.isFinite(intake.age) ? intake.age : ""} onChange={(e) => set("age", e.target.value === "" ? NaN : Number(e.target.value))} />
         </F>
+        {!fixedGender && (
         <F label="Gender">
           <select
             value={intake.gender}
@@ -174,6 +218,7 @@ function IntakeStep({ intake, setIntake, onNext }: { intake: Intake; setIntake: 
             <option value="other">Other / prefer not to say</option>
           </select>
         </F>
+        )}
         {intake.gender === "female" && (
           <F label="Pregnancy or breastfeeding" hint="Some skin and hair treatments aren't used during pregnancy or breastfeeding; we adjust your plan">
             <select value={intake.pregnancy ?? "no"} onChange={(e) => set("pregnancy", e.target.value as Intake["pregnancy"])}>
@@ -385,17 +430,19 @@ function PhotoStep(props: {
   views: Partial<Record<FaceView, string>>;
   models: ModelState;
   setView: (k: FaceView, v: string | null) => void;
+  /** order mode: the reviewer needs the front portrait */
+  faceRequired?: boolean;
   onBack: () => void;
   onNext: () => void;
 }) {
-  const canRun = !!(props.face || props.body);
+  const canRun = props.faceRequired ? !!props.face : !!(props.face || props.body);
   return (
     <div className="wz-card">
       <div className="wz-photos">
         <Drop
           testId="face-input"
           label="Front portrait"
-          optionalNote="Needed for face analysis · add this or a full body photo"
+          optionalNote={props.faceRequired ? "Required" : "Needed for face analysis · add this or a full body photo"}
           value={props.face}
           onChange={props.setFace}
           guide={<FaceGuide />}
@@ -437,7 +484,7 @@ function PhotoStep(props: {
         <div>
           <div className="title-md">Face views &amp; expressions</div>
           <p className="lead" style={{ margin: "4px 0 0" }}>
-            Optional, but each one unlocks more of the {SUMMARY.total} markers. Same light and spot as your front portrait, camera at eye level, about 1.5 m away.
+            {`Optional, but each one unlocks more of the ${SUMMARY.total} markers. Same light and spot as your front portrait, camera at eye level, about 1.5 m away.`}
           </p>
         </div>
         <span className="mono-sm">
@@ -464,7 +511,9 @@ function PhotoStep(props: {
         </button>
         <span className="lead" style={{ fontSize: 12 }} role="status" aria-live="polite">
           {!canRun
-            ? "Add a front portrait or a full body photo to continue."
+            ? props.faceRequired
+              ? "Add a front portrait to continue."
+              : "Add a front portrait or a full body photo to continue."
             : props.models === "loading"
               ? "Preparing on-device analysis…"
               : props.models === "ready"
@@ -813,4 +862,162 @@ function ProcessStep({
       </div>
     </div>
   );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Step 4 (order mode): send for review                               */
+/* ------------------------------------------------------------------ */
+
+type SubmitState =
+  | { kind: "sending"; done: number; total: number }
+  | { kind: "retrying"; inSeconds: number }
+  | { kind: "error"; code: string; message: string }
+  | { kind: "done" };
+
+/** Automatic retries for failures without a definite answer (network, 5xx); 4xx answers are final. */
+const RETRY_DELAYS_S = [2, 5];
+
+function SubmitStep({
+  order,
+  scan,
+  photos,
+  intake,
+  onChangePhotos,
+}: {
+  order: OrderScanMode;
+  scan: Scan;
+  photos: Partial<Record<PhotoKind, PhotoInput>>;
+  intake: Intake;
+  onChangePhotos: () => void;
+}) {
+  const total = Object.keys(photos).length;
+  const [state, setState] = useState<SubmitState>({ kind: "sending", done: 0, total });
+  const [attempt, setAttempt] = useState(0);
+  const orderRef = useRef(order);
+  orderRef.current = order;
+
+  // A repeated run (e.g. a development double effect) joins the upload in flight: submitScan de-duplicates per order.
+  useEffect(() => {
+    let live = true;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const run = async (tryNo: number, fixedProfile: boolean): Promise<void> => {
+      setState({ kind: "sending", done: 0, total });
+      try {
+        const res = await submitScan(order.orderId, scan, photos, {
+          intake,
+          onProgress: (done, t) => live && setState({ kind: "sending", done, total: t }),
+        });
+        if (!live) return;
+        setState({ kind: "done" });
+        orderRef.current.onSubmitted({ ...res, localScanId: scan.id });
+      } catch (e) {
+        if (!live) return;
+        const code = e instanceof BackendError ? e.code : "";
+        const status = e instanceof BackendError ? e.status : undefined;
+        if (code === "profile_incomplete" && !fixedProfile) {
+          // only men can order at launch, and the intake says so: complete the profile and try again
+          try {
+            await updateMyProfile({ gender: "male" });
+            return run(tryNo, true);
+          } catch {
+            /* fall through to the message */
+          }
+        }
+        const definite = (status !== undefined && status >= 400 && status < 500) || KNOWN_FINAL.has(code);
+        if (!definite && tryNo < RETRY_DELAYS_S.length) {
+          const wait = RETRY_DELAYS_S[tryNo];
+          setState({ kind: "retrying", inSeconds: wait });
+          timer = setTimeout(() => live && run(tryNo + 1, fixedProfile), wait * 1000);
+          return;
+        }
+        console.warn("submitScan failed", e);
+        setState({ kind: "error", code, message: submitMessage(code) });
+      }
+    };
+    run(0, false);
+    return () => {
+      live = false;
+      if (timer) clearTimeout(timer);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [attempt, order.retryKey]);
+
+  const face = typeof photos.face === "string" ? photos.face : null;
+  return (
+    <div className="wz-card">
+      <div className="proc">
+        <div className="proc-photo">
+          {face && <img src={face} alt="" />}
+          {state.kind === "sending" && <div className="proc-scan" />}
+        </div>
+        <div className="proc-list" role="status" aria-live="polite">
+          <div className="title-md" style={{ marginBottom: 6 }}>
+            {state.kind === "error" ? "Not sent yet" : state.kind === "done" ? "Sent for review" : "Sending your photos…"}
+          </div>
+          {state.kind === "sending" && (
+            <p className="lead">{state.done > 0 ? `Uploaded ${state.done} of ${state.total} photos` : "Uploading encrypted to our servers in the EU."}</p>
+          )}
+          {state.kind === "retrying" && <p className="lead">{`The connection dropped. Trying again in ${state.inSeconds} seconds…`}</p>}
+          {state.kind === "done" && <p className="lead">Your reviewer has your photos and results.</p>}
+          {state.kind === "error" && (
+            <>
+              <div className="proc-err" role="alert">
+                {state.message}
+              </div>
+              <p className="lead" style={{ fontSize: 12 }}>
+                Your analysis is saved on this device, so you don't need to take the photos again.
+              </p>
+              <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                {state.code === "photo_consent_required" ? (
+                  <button className="btn" onClick={order.onConsentRequired}>
+                    Review the photo consent
+                  </button>
+                ) : state.code === "wrong_status" ? (
+                  <button className="btn" onClick={order.onWrongStatus}>
+                    Back to my order
+                  </button>
+                ) : state.code === "photo_missing" || state.code === "photos_missing" || state.code === "bad_photo_path" || state.code === "photo_unreadable" ? (
+                  <button className="btn" onClick={onChangePhotos}>
+                    Change photos
+                  </button>
+                ) : (
+                  <button className="btn" onClick={() => setAttempt((a) => a + 1)}>
+                    Try again
+                  </button>
+                )}
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const KNOWN_FINAL = new Set(["photo_consent_required", "profile_incomplete", "wrong_status", "photo_missing", "photos_missing", "bad_photo_path", "photo_unreadable", "not_found", "not_signed_in"]);
+
+function submitMessage(code: string): string {
+  switch (code) {
+    case "photo_consent_required":
+      return "We need your photo consent before we can receive your photos.";
+    case "profile_incomplete":
+      return "Your profile is missing some details. Please try again, or contact us if this keeps happening.";
+    case "wrong_status":
+      return "This order is no longer waiting for photos.";
+    case "photo_missing":
+    case "photos_missing":
+      return "The front portrait is required.";
+    case "bad_photo_path":
+      return "A photo could not be stored. Please take the photos again.";
+    case "photo_unreadable":
+      return "A photo could not be read. Please retake it.";
+    case "not_found":
+      return "We could not find this order in your account.";
+    case "not_signed_in":
+      return "Please sign in again, then try again.";
+    case "upload_failed":
+      return "The upload did not finish. Check your connection and try again.";
+    default:
+      return "Sending did not work. Check your connection and try again.";
+  }
 }

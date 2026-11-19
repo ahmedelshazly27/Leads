@@ -169,7 +169,7 @@
 }
 .tr-reasons {
   margin: 0;
-  padding-left: 16px;
+  padding-inline-start: 16px;
   display: grid;
   gap: 4px;
   font-size: 13px;
@@ -317,7 +317,7 @@
 }
 .tr-rules {
   margin: 14px 0 0;
-  padding-left: 18px;
+  padding-inline-start: 18px;
   display: grid;
   gap: 4px;
   font-size: 13px;

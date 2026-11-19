@@ -6,7 +6,7 @@ major_version = 17
 
 [auth]
 site_url = "http://localhost:5173"
-additional_redirect_urls = ["http://localhost:5173"]
+additional_redirect_urls = ["http://localhost:5173", "http://localhost:5173/**"]
 
 [auth.email]
 enable_signup = true
@@ -45,4 +45,13 @@ verify_jwt = false
 verify_jwt = false
 
 [functions.join-waitlist]
+verify_jwt = false
+
+[functions.withdraw-photo-consent]
+verify_jwt = false
+
+[functions.manage-membership]
+verify_jwt = false
+
+[functions.purge-records]
 verify_jwt = false

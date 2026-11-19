@@ -1564,13 +1564,18 @@ a.ls-src:hover {
   align-items: center;
 }
 .ls-women .ls-kicker { color: #fff; background: rgba(255, 255, 255, 0.12); border-color: rgba(255, 255, 255, 0.3); }
-.ls-women h3 { font-size: 28px; font-weight: 400; line-height: 1.2; margin: 14px 0 12px; letter-spacing: -0.01em; }
-.ls-women h3 span { color: rgba(255, 255, 255, 0.62); }
-.ls-women p { margin: 0; color: rgba(255, 255, 255, 0.82); line-height: 1.6; font-size: 15px; }
-.ls-women ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
-.ls-women li { padding: 14px 16px; border-radius: 12px; background: rgba(255, 255, 255, 0.08); font-size: 14px; }
+.ls-women > div > h3 { font-size: 28px; font-weight: 400; line-height: 1.2; margin: 14px 0 12px; letter-spacing: -0.01em; }
+.ls-women > div > h3 span { color: rgba(255, 255, 255, 0.62); }
+.ls-women > div > p { margin: 0; color: rgba(255, 255, 255, 0.82); line-height: 1.6; font-size: 15px; }
+.ls-women > div > ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.ls-women > div > ul li { padding: 14px 16px; border-radius: 12px; background: rgba(255, 255, 255, 0.08); font-size: 14px; }
 @media (max-width: 860px) {
   .ls-privacy-grid { grid-template-columns: 1fr; }
   .ls-women { grid-template-columns: 1fr; padding: 26px 22px; }
-  .ls-women h3 { font-size: 23px; }
+  .ls-women > div > h3 { font-size: 23px; }
 }
+.ls-women-k { display: block; margin: 22px 0 10px; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255, 255, 255, 0.62); }
+.ls-women > div > p.ls-women-note { margin-top: 16px; font-size: 13px; color: rgba(255, 255, 255, 0.7); }
+.ls-women-wait { min-height: 320px; }
+.ls-women .wl { max-width: 440px; }
+.ls-women .wl-card { box-shadow: 0 24px 60px rgba(30, 14, 18, 0.28); }

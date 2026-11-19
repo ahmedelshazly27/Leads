@@ -5,16 +5,25 @@ import { photoUrl, useAppState } from "../../lib/store";
 import type { ReviewStatus, Scan } from "../../lib/types";
 import { checklistFor } from "./checklist";
 import { StaffOnly } from "./StaffOnly";
+import { ServerQueue } from "./ServerQueue";
+import { backendEnabled } from "../../lib/backend";
 import "./review.css";
 
 const LABEL: Record<ReviewStatus, string> = { awaiting: "Awaiting review", "in-review": "In review", approved: "Approved" };
 
 export const statusOf = (s: Scan): ReviewStatus => s.review?.status ?? "awaiting";
 
-/** Reviewer queue: every scan on this device, oldest waiting first. */
+/**
+ * Reviewer queue. With the backend on, the server queue of orders assigned to
+ * the signed-in reviewer; otherwise the local console over this device's scans.
+ */
 export function Review() {
+  return backendEnabled ? <ServerQueue /> : <LocalReview />;
+}
+
+/** Local reviewer queue: every scan on this device, oldest waiting first. */
+function LocalReview() {
   const state = useAppState();
-  if (!state.settings.staff) return <StaffOnly />;
   const [filter, setFilter] = useState<ReviewStatus | "all">("all");
   const rows = state.scans
     .map((s) => ({ s, p: state.profiles.find((p) => p.id === s.profileId) }))
@@ -23,6 +32,7 @@ export function Review() {
       const order = { awaiting: 0, "in-review": 1, approved: 2 };
       return order[statusOf(a.s)] - order[statusOf(b.s)] || a.s.createdAt.localeCompare(b.s.createdAt);
     });
+  if (!state.settings.staff) return <StaffOnly />;
   const count = (k: ReviewStatus) => state.scans.filter((s) => statusOf(s) === k).length;
 
   return (

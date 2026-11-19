@@ -42,14 +42,25 @@ async function exists(url: string) {
   }
 }
 
+/**
+ * Keep a loader's promise while it is pending or resolved, but forget it when it
+ * rejects (offline, a failed download), so the next scan tries again without a reload.
+ */
+function retryable<T>(make: () => Promise<T>, clear: () => void): Promise<T> {
+  const p = make();
+  p.catch(clear);
+  return p;
+}
+
 let filesetP: ReturnType<typeof FilesetResolver.forVisionTasks> | null = null;
 async function fileset() {
-  if (!filesetP) {
-    filesetP = (async () => {
+  filesetP ??= retryable(
+    async () => {
       const local = await exists(`${LOCAL.wasm}/vision_wasm_internal.js`);
       return FilesetResolver.forVisionTasks(local ? LOCAL.wasm : REMOTE.wasm);
-    })();
-  }
+    },
+    () => (filesetP = null),
+  );
   return filesetP;
 }
 
@@ -57,7 +68,7 @@ let faceP: Promise<FaceLandmarker> | null = null;
 let poseP: Promise<PoseLandmarker> | null = null;
 
 function getFace() {
-  faceP ??= (async () => {
+  faceP ??= retryable(async () => {
     const fs = await fileset();
     const path = (await exists(LOCAL.face)) ? LOCAL.face : REMOTE.face;
     return FaceLandmarker.createFromOptions(fs, {
@@ -65,12 +76,12 @@ function getFace() {
       runningMode: "IMAGE",
       numFaces: 1,
     });
-  })();
+  }, () => (faceP = null));
   return faceP;
 }
 
 function getPose() {
-  poseP ??= (async () => {
+  poseP ??= retryable(async () => {
     const fs = await fileset();
     const path = (await exists(LOCAL.pose)) ? LOCAL.pose : REMOTE.pose;
     // Segmentation masks need the GPU (WebGL) graph; MediaPipe's CPU mask path aborts.
@@ -90,13 +101,13 @@ function getPose() {
         outputSegmentationMasks: false,
       });
     }
-  })();
+  }, () => (poseP = null));
   return poseP;
 }
 
 let segP: Promise<ImageSegmenter> | null = null;
 function getSegmenter() {
-  segP ??= (async () => {
+  segP ??= retryable(async () => {
     const fs = await fileset();
     const path = (await exists(LOCAL.seg)) ? LOCAL.seg : REMOTE.seg;
     return ImageSegmenter.createFromOptions(fs, {
@@ -105,7 +116,7 @@ function getSegmenter() {
       outputCategoryMask: true,
       outputConfidenceMasks: false,
     });
-  })();
+  }, () => (segP = null));
   return segP;
 }
 
@@ -186,8 +197,10 @@ function readMask(m: { width: number; height: number; hasFloat32Array(): boolean
   return out;
 }
 
-/** Warm the models while the user is filling in the intake form. */
-export function preloadVision() {
-  getFace().catch(() => {});
-  getPose().catch(() => {});
+/**
+ * Warm the models while the user is filling in the intake form. Resolves once both
+ * are ready (or have failed: a failure is retried by the next scan); never rejects.
+ */
+export function preloadVision(): Promise<void> {
+  return Promise.allSettled([getFace(), getPose()]).then(() => undefined);
 }

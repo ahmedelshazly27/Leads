@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { getLang, joinNodes } from "../../lib/i18n";
 import { GradeBadge, Radar, money, shortCite } from "../../components/ui";
 import { categoriesFor } from "../../lib/library";
 import { MYTHS, type PlanItem } from "../../lib/plan";
@@ -26,6 +27,13 @@ import {
   type ReportCtx,
 } from "./kit";
 import { tocId, type Block, type Chapter } from "./paginate";
+
+/** The online service (accounts, upload, human review) is configured; same test as lib/backend/client without importing it. */
+const ONLINE = (() => {
+  const env = import.meta.env;
+  const mock = String(env.VITE_BACKEND_MOCK ?? "").trim();
+  return mock === "1" || mock === "true" || !!(String(env.VITE_SUPABASE_URL ?? "").trim() && String(env.VITE_SUPABASE_PUBLISHABLE_KEY ?? "").trim());
+})();
 
 /* ------------------------------------------------------------------ */
 /*  Disclaimer                                                         */
@@ -64,11 +72,20 @@ export function disclaimerChapter(): Chapter {
             </div>
             <div>
               <h3>Privacy policy</h3>
-              <p>
-                Analysis runs on your device. In this preview, photographs, measurements and plan progress are stored only in this browser. Human review needs your photos: when accounts
-                launch, submitting a scan for review will upload it over an encrypted connection to the reviewer assigned to you only (women\u2019s scans go only to female reviewers), and we will ask you first.
-              </p>
-              <p>Photos leave your device only if you choose to use an external image generator for visualisations; that provider's terms then apply.</p>
+              {ONLINE ? (
+                <p>
+                  Analysis runs on your device. Photos you send for your report are seen by the reviewer assigned to you and, only where their work needs it, a small number of authorised
+                  staff; every access to photos is logged. They are deleted 90 days after delivery, or sooner if you ask.
+                </p>
+              ) : (
+                <>
+                  <p>
+                    Analysis runs on your device. In this preview, photographs, measurements and plan progress are stored only in this browser. Human review needs your photos: when accounts
+                    launch, submitting a scan for review will upload it over an encrypted connection to the reviewer assigned to you only (women’s scans go only to female reviewers), and we will ask you first.
+                  </p>
+                  <p>Photos leave your device only if you choose to use an external image generator for visualisations; that provider's terms then apply.</p>
+                </>
+              )}
               <p>This document contains your photographs and personal measurements. Share it only with people you trust.</p>
               <h3>Limitations</h3>
               <ul className="pv-list">
@@ -140,7 +157,8 @@ export function protocolChapter(c: ReportCtx): Chapter {
       block(
         "protocol",
         <>
-          <H strong={possessive(firstName(c.profile.intake))} muted="Protocol" />
+          {/* Arabic puts the noun first: «خطة خالد» */}
+          {getLang() === "ar" ? <H strong="Protocol" muted={firstName(c.profile.intake)} /> : <H strong={possessive(firstName(c.profile.intake))} muted="Protocol" />}
           <div className="pv-ba">
             <div className="pv-ba-img">
               {before ? <img src={before} alt="" /> : <div className="pv-ph">No photo</div>}
@@ -191,7 +209,7 @@ export function protocolChapter(c: ReportCtx): Chapter {
             </div>
           </div>
           <p className="pv-small">
-            {c.plan.improvements.slice(0, 3).join(". ")}. Projections assume consistent adherence and only count changes the plan can produce.
+            {joinNodes(c.plan.improvements.slice(0, 3), ". ")}. Projections assume consistent adherence and only count changes the plan can produce.
           </p>
         </>,
       ),
@@ -255,7 +273,7 @@ function RecCard({ it, n, c }: { it: PlanItem; n: number; c: ReportCtx }) {
       <dl className="rp-rec-meta">
         <div>
           <dt>Driven by</dt>
-          <dd>{it.drivenBy.join(", ") || "Intake answers"}</dd>
+          <dd>{it.drivenBy.length ? joinNodes(it.drivenBy, ", ") : "Intake answers"}</dd>
         </div>
         <div>
           <dt>Visible in</dt>
@@ -267,7 +285,7 @@ function RecCard({ it, n, c }: { it: PlanItem; n: number; c: ReportCtx }) {
         </div>
         <div>
           <dt>Score impact</dt>
-          <dd>{impact.length ? impact.map(([k, v]) => `${SCORE_LABEL[k]} +${Math.round(v)}`).join(" · ") : "Supportive"}</dd>
+          <dd>{impact.length ? joinNodes(impact.map(([k, v]) => <>{SCORE_LABEL[k]} <span className="rp-num">+{Math.round(v)}</span></>), " · ") : "Supportive"}</dd>
         </div>
         <div className="wide">
           <dt>Evidence</dt>
@@ -463,7 +481,7 @@ export function nutritionChapter(c: ReportCtx): Chapter {
           ["P / F / C (g)", "16%"],
           ["Examples", "52%"],
         ],
-        ph.meals.map((ml) => [<b>{ml.name}</b>, `${Math.round(ml.share * 100)}%`, ml.macros.kcal, `${ml.macros.protein} / ${ml.macros.fat} / ${ml.macros.carbs}`, <span className="rp-small">{ml.examples.join(" · ")}</span>]),
+        ph.meals.map((ml) => [<b>{ml.name}</b>, `${Math.round(ml.share * 100)}%`, ml.macros.kcal, `${ml.macros.protein} / ${ml.macros.fat} / ${ml.macros.carbs}`, <span className="rp-small">{joinNodes(ml.examples, " · ")}</span>]),
       ),
     );
     blocks.push(note(`ph-${ph.id}-x`, `Also aim for ~${m.fibre} g fibre and ~${m.waterL} L water a day.`));

@@ -1,11 +1,13 @@
 import { BRAND_NAME } from "../lib/brand";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Logo } from "../components/Logo";
 import { Bars, ChevronDown, ChevronRight, FaceScan, Gear, GradCap, LayoutGrid, ListIcon, PanelLeft, User } from "../components/icons";
 import { ALL_ITEMS, NAV, groupOf } from "../lib/sections";
 import { useActive } from "../lib/useActive";
+import { setLang, useArabicPage, useLang, type Lang } from "../lib/i18n";
 import "./AppShell.css";
+import "./rtl.css";
 
 const RAIL = [
   { to: "/home", label: "Home", icon: LayoutGrid },
@@ -41,8 +43,23 @@ function titleFor(path: string) {
   return key ? map[key] : BRAND_NAME;
 }
 
+/** Switches the whole app (and the report) between English and Arabic. */
+function LangSwitch({ className }: { className: string }) {
+  const lang = useLang();
+  const other: Lang = lang === "ar" ? "en" : "ar";
+  return (
+    <button type="button" className={className} lang={other} onClick={() => setLang(other)}>
+      {/* written so neither label is a dictionary key: it must not be swapped */}
+      {other === "ar" ? "العربية" : "English\u200b"}
+    </button>
+  );
+}
+
 export function AppShell() {
   const loc = useLocation();
+  const lang = useLang();
+  const root = useRef<HTMLDivElement>(null);
+  useArabicPage(root, lang);
   const [collapsed, setCollapsed] = useState(false);
   const [drawer, setDrawer] = useState(false);
   const inAnalysis = loc.pathname.startsWith("/analysis");
@@ -53,7 +70,7 @@ export function AppShell() {
     window.scrollTo(0, 0);
   }, [loc.pathname]);
   return (
-    <div className={`shell ${collapsed ? "is-collapsed" : ""} ${inAnalysis ? "has-secnav" : ""}`}>
+    <div ref={root} className={`shell ${collapsed ? "is-collapsed" : ""} ${inAnalysis ? "has-secnav" : ""} ${lang === "ar" ? "is-ar" : ""}`}>
       <header className="mbar">
         {inAnalysis ? (
           <button className="mbar-btn" onClick={() => setDrawer(true)} aria-label="Open sections">
@@ -64,9 +81,12 @@ export function AppShell() {
           <NavLink to="/home" className="mbar-logo" aria-label="Home"><Logo /></NavLink>
         )}
         <div className="mbar-title">{titleFor(loc.pathname)}</div>
-        <NavLink to={inAnalysis ? "/analysis/about-you" : "/home"} className="mbar-avatar" aria-label={profile?.intake.name ?? "Profile"}>
-          {facePhoto ? <img src={facePhoto} alt="" /> : <User size={16} />}
-        </NavLink>
+        <div className="mbar-end">
+          <LangSwitch className="lang-switch lang-switch-sm" />
+          <NavLink to={inAnalysis ? "/analysis/about-you" : "/home"} className="mbar-avatar" aria-label={profile?.intake.name ?? "Profile"}>
+            {facePhoto ? <img src={facePhoto} alt="" /> : <User size={16} />}
+          </NavLink>
+        </div>
       </header>
       {inAnalysis && (
         <div className={`drawer ${drawer ? "open" : ""}`} aria-hidden={!drawer}>
@@ -95,6 +115,7 @@ export function AppShell() {
             </NavLink>
           ))}
         </nav>
+        <LangSwitch className="lang-switch rail-lang" />
         <ProfileSwitch />
       </aside>
       {inAnalysis && <SectionNav />}
@@ -173,7 +194,7 @@ function ProfileSwitch() {
         <option value="__new">+ New analysis…</option>
       </select>
       <div className="rail-profile-name">{profile.intake.name}</div>
-      <div className="rail-profile-sub">{profile.sample ? "Sample data" : `${profile.intake.age} · ${profile.intake.gender}`}</div>
+      <div className="rail-profile-sub">{profile.sample ? "Sample data" : <>{`${profile.intake.age} · `}<span>{profile.intake.gender === "male" ? "Male" : profile.intake.gender === "female" ? "Female" : profile.intake.gender}</span></>}</div>
     </div>
   );
 }

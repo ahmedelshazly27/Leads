@@ -1,4 +1,4 @@
-import { backendMode, check, num, sb, useBackendQuery } from "./client";
+import { BackendError, backendMode, check, invalidate, num, sb, useBackendQuery } from "./client";
 import { mock } from "./mock";
 import { normOrder, normPayment } from "./orders";
 import {
@@ -8,6 +8,7 @@ import {
   type AdminDashboard,
   type AdminRows,
   type CampaignSpend,
+  SLA_HOURS,
   type CostRow,
   type CustomerEconomics,
   type DailyPoint,
@@ -15,8 +16,10 @@ import {
   type Kpis,
   type OrderEconomics,
   type OrderRow,
+  type OrderStatus,
   type QueryState,
   type SubscriptionStatus,
+  type WaitlistRow,
   type WaitlistSummary,
 } from "./types";
 
@@ -361,12 +364,744 @@ export function useAdminDashboard(range: KpiRange): QueryState<AdminDashboard> {
   return useBackendQuery(backendMode === "off" ? null : `admin:${range}`, () => loadAdminDashboard(range));
 }
 
+const CSV_COLS = ["order_id", "email", "product", "status", "created_at", "paid_at", "delivered_at", "revenueKwd", "paymentFeeKwd", "imageCostUsd", "imageCostKwd", "otherCostKwd", "marginKwd"] as const;
+/** Any per-order row with the CSV columns (OrderEconomics, or the operator dashboard's rows, whose KWD values may be null). */
+export type OrderCsvRow = { [K in (typeof CSV_COLS)[number]]: unknown };
+
 /** Orders as CSV for the accountant (from the dashboard's per-order economics). */
-export function ordersToCsv(orders: OrderEconomics[]): string {
-  const cols: (keyof OrderEconomics)[] = ["order_id", "email", "product", "status", "created_at", "paid_at", "delivered_at", "revenueKwd", "paymentFeeKwd", "imageCostUsd", "imageCostKwd", "otherCostKwd", "marginKwd"];
+export function ordersToCsv(orders: OrderCsvRow[]): string {
+  const cols = CSV_COLS;
+  return toCsv(cols, orders as Record<string, unknown>[]);
+}
+
+/**
+ * CSV with one header row. Text cells that a spreadsheet would read as a
+ * formula (=, +, -, @ at the start, but not plain numbers) get a leading quote.
+ */
+export function toCsv(cols: readonly string[], rows: Record<string, unknown>[]): string {
   const esc = (v: unknown) => {
-    const s = v == null ? "" : String(v);
-    return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+    let s = v == null ? "" : String(v);
+    if (typeof v === "string" && /^[=+\-@\t\r]/.test(s) && !/^-?\d+(\.\d+)?$/.test(s)) s = `'${s}`;
+    return /[",\n\r]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
   };
-  return [cols.join(","), ...orders.map((o) => cols.map((c) => esc(o[c])).join(","))].join("\n");
+  return [cols.join(","), ...rows.map((o) => cols.map((c) => esc(o[c])).join(","))].join("\n");
+}
+
+/* =================================================================== */
+/*  Operator dashboard (/admin)                                         */
+/*                                                                      */
+/*  Same raw rows as above, but USD / EUR amounts are converted with    */
+/*  the fx_rates table (kept by an admin) instead of fixed defaults.    */
+/*  When a rate is missing the converted value is null and the          */
+/*  currency is listed in `fxMissing`, never silently counted as zero.  */
+/* =================================================================== */
+
+export type AdminRange = "7d" | "30d" | "90d" | "all";
+export const ADMIN_RANGES: { value: AdminRange; label: string }[] = [
+  { value: "7d", label: "7 days" },
+  { value: "30d", label: "30 days" },
+  { value: "90d", label: "90 days" },
+  { value: "all", label: "All time" },
+];
+const RANGE_DAYS: Record<AdminRange, number | null> = { "7d": 7, "30d": 30, "90d": 90, all: null };
+
+/** Start of a dashboard range in ms (0 for all time): rolling windows ending now. */
+export function adminRangeStart(range: AdminRange, now = Date.now()): number {
+  const d = RANGE_DAYS[range];
+  return d == null ? 0 : now - d * DAY;
+}
+
+/** Calendar day in Kuwait (UTC+3, no daylight saving), YYYY-MM-DD. */
+const KW_OFFSET = 3 * 3600_000;
+export const kuwaitDay = (ms: number) => new Date(ms + KW_OFFSET).toISOString().slice(0, 10);
+
+/* ----------------------------- FX rates ---------------------------- */
+
+export interface FxRate {
+  currency: string;
+  /** KWD per one unit of the currency */
+  kwd_per_unit: number;
+  updated_at: string | null;
+}
+export type FxCurrency = "USD" | "EUR";
+export const FX_EDITABLE: FxCurrency[] = ["USD", "EUR"];
+
+// Demo mode keeps the rates here (the mock backend has no fx_rates table).
+const MOCK_FX_KEY = "admin-demo-fx-rates";
+let mockFx: FxRate[] | null = null;
+function demoFx(): FxRate[] {
+  if (mockFx) return mockFx;
+  try {
+    const raw = sessionStorage.getItem(MOCK_FX_KEY);
+    if (raw) mockFx = JSON.parse(raw) as FxRate[];
+  } catch {
+    /* storage blocked */
+  }
+  // Demo values only, roughly in line with recent rates; the operator sets the real ones.
+  mockFx ??= [
+    { currency: "USD", kwd_per_unit: FX_TO_KWD.USD, updated_at: null },
+    { currency: "EUR", kwd_per_unit: FX_TO_KWD.EUR, updated_at: null },
+  ];
+  return mockFx;
+}
+
+/** All rows of fx_rates (KWD is always 1). Admin only (RLS). */
+export async function listFxRates(): Promise<FxRate[]> {
+  if (backendMode === "mock") return [{ currency: "KWD", kwd_per_unit: 1, updated_at: null }, ...demoFx()];
+  const rows = check(await sb().from("fx_rates").select("currency,kwd_per_unit,updated_at").order("currency"));
+  return ((rows ?? []) as FxRate[]).map((r) => ({ ...r, kwd_per_unit: num(r.kwd_per_unit) }));
+}
+
+/** Set the rate for USD or EUR (KWD per 1 unit). Admin only: the "fx_rates: admin all" policy allows the upsert. */
+export async function saveFxRate(currency: FxCurrency, kwdPerUnit: number): Promise<FxRate> {
+  if (!FX_EDITABLE.includes(currency)) throw new BackendError("Only USD and EUR rates can be edited here.", "invalid_currency");
+  if (!Number.isFinite(kwdPerUnit) || kwdPerUnit <= 0 || kwdPerUnit > 100) throw new BackendError(`Enter the KWD value of 1 ${currency} (a number above 0).`, "invalid_rate");
+  const row: FxRate = { currency, kwd_per_unit: round(kwdPerUnit, 6), updated_at: new Date().toISOString() };
+  if (backendMode === "mock") {
+    mockFx = [...demoFx().filter((r) => r.currency !== currency), row].sort((a, b) => a.currency.localeCompare(b.currency));
+    try {
+      sessionStorage.setItem(MOCK_FX_KEY, JSON.stringify(mockFx));
+    } catch {
+      /* storage blocked: kept in memory */
+    }
+    invalidate();
+    return row;
+  }
+  const saved = check(await sb().from("fx_rates").upsert(row, { onConflict: "currency" }).select("currency,kwd_per_unit,updated_at").single()) as FxRate;
+  invalidate();
+  return { ...saved, kwd_per_unit: num(saved.kwd_per_unit) };
+}
+
+/* ------------------------------- MRR ------------------------------- */
+
+export interface MrrSummary {
+  /** active subscriptions, monthly equivalent, KWD; null when an amount or rate is missing */
+  mrrKwd: number | null;
+  /** what trialing members will add once they pay */
+  trialingMrrKwd: number | null;
+  active: number;
+  trialing: number;
+  pastDue: number;
+  cancelling: number;
+  byPlan: { plan: string; active: number; trialing: number; mrrKwd: number | null }[];
+  /** true when v_mrr reports a missing amount or rate */
+  dataMissing: boolean;
+  source: "v_mrr" | "computed";
+}
+
+function computeMrr(rows: AdminRows): MrrSummary {
+  const subs = rows.subscriptions;
+  const plans = [...new Set(subs.map((s) => s.plan))];
+  const mrrOf = (status: SubscriptionStatus, plan?: string) => round(sum(subs.filter((s) => s.status === status && (!plan || s.plan === plan)).map((s) => monthlyEquivalentKwd(s.plan))));
+  return {
+    mrrKwd: mrrOf("active"),
+    trialingMrrKwd: mrrOf("trialing"),
+    active: subs.filter((s) => s.status === "active").length,
+    trialing: subs.filter((s) => s.status === "trialing").length,
+    pastDue: subs.filter((s) => s.status === "past_due").length,
+    cancelling: subs.filter((s) => (s.status === "active" || s.status === "trialing") && s.cancel_at).length,
+    byPlan: plans.map((plan) => ({
+      plan,
+      active: subs.filter((s) => s.plan === plan && s.status === "active").length,
+      trialing: subs.filter((s) => s.plan === plan && s.status === "trialing").length,
+      mrrKwd: mrrOf("active", plan),
+    })),
+    dataMissing: false,
+    source: "computed",
+  };
+}
+
+interface MrrViewRow {
+  plan: string;
+  active: number | string;
+  trialing: number | string;
+  past_due: number | string;
+  cancelling: number | string;
+  mrr_kwd: number | string | null;
+  trialing_mrr_kwd: number | string | null;
+  data_missing: boolean | null;
+}
+
+/** MRR from the v_mrr view (amounts and fx as stored); the demo computes it from list prices. */
+export async function fetchMrr(rows: AdminRows): Promise<MrrSummary> {
+  if (backendMode === "mock") return computeMrr(rows);
+  const view = (check(await sb().from("v_mrr").select("*")) ?? []) as MrrViewRow[];
+  const missing = view.some((v) => v.data_missing);
+  const total = (k: "mrr_kwd" | "trialing_mrr_kwd") => (missing ? null : round(sum(view.map((v) => num(v[k])))));
+  return {
+    mrrKwd: total("mrr_kwd"),
+    trialingMrrKwd: total("trialing_mrr_kwd"),
+    active: sum(view.map((v) => num(v.active))),
+    trialing: sum(view.map((v) => num(v.trialing))),
+    pastDue: sum(view.map((v) => num(v.past_due))),
+    cancelling: sum(view.map((v) => num(v.cancelling))),
+    byPlan: view.map((v) => ({ plan: v.plan, active: num(v.active), trialing: num(v.trialing), mrrKwd: v.data_missing ? null : round(num(v.mrr_kwd)) })),
+    dataMissing: missing,
+    source: "v_mrr",
+  };
+}
+
+/* ----------------------------- Waitlist ---------------------------- */
+
+export interface AdminWaitlistEntry {
+  id: string;
+  /** null in demo mode (the mock does not hand out waitlist emails) */
+  email: string | null;
+  gender: WaitlistRow["gender"];
+  locale: WaitlistRow["locale"];
+  source: string | null;
+  created_at: string;
+}
+
+/** Every waitlist entry, newest first. Admin only (RLS). */
+export async function listWaitlistEntries(fallback: AdminRows["waitlist"] = []): Promise<AdminWaitlistEntry[]> {
+  if (backendMode === "mock") {
+    return fallback.map((w) => ({ id: w.id, email: null, gender: w.gender, locale: null, source: null, created_at: w.created_at })).sort((a, b) => b.created_at.localeCompare(a.created_at));
+  }
+  return fetchAll<AdminWaitlistEntry>((a, b) => sb().from("waitlist").select("id,email,gender,locale,source,created_at").order("created_at", { ascending: false }).order("id").range(a, b));
+}
+
+export function waitlistToCsv(rows: AdminWaitlistEntry[]): string {
+  return toCsv(["email", "gender", "locale", "source", "created_at"], rows as unknown as Record<string, unknown>[]);
+}
+
+/* ------------------------------ Types ------------------------------ */
+
+export interface OperatorOrder {
+  order_id: string;
+  /** null after the customer deleted their account */
+  user_id: string | null;
+  email: string | null;
+  product: OrderRow["product"];
+  status: OrderStatus;
+  created_at: string;
+  paid_at: string | null;
+  submitted_at: string | null;
+  delivered_at: string | null;
+  due_at: string | null;
+  /** payments of the order after refunds, KWD (null when a rate is missing) */
+  revenueKwd: number | null;
+  refundedKwd: number | null;
+  paymentFeeKwd: number | null;
+  imageCostUsd: number;
+  imageCostKwd: number | null;
+  otherCostKwd: number | null;
+  marginKwd: number | null;
+  generations: number;
+  /** generations made from an earlier one (parent_id set); null when not known */
+  regenerations: number | null;
+  /** open review order past its due time */
+  overdue: boolean;
+  fxMissing: boolean;
+}
+
+export interface OperatorKpis {
+  range: AdminRange;
+  from: string | null;
+  revenueKwd: number | null;
+  grossRevenueKwd: number | null;
+  refundedKwd: number | null;
+  /** paid orders created in the range */
+  orders: number;
+  /** orders delivered in the range */
+  delivered: number;
+  /** submitted -> delivered, hours, for orders delivered in the range */
+  avgTurnaroundHours: number | null;
+  /** share (0..1) of those delivered within the 72-hour promise */
+  withinSlaShare: number | null;
+  openOrders: number;
+  overdueNow: number;
+  awaitingPhotos: number;
+  mrr: MrrSummary;
+}
+
+export interface UnitEconomics {
+  /** paid orders created in the range */
+  orders: number;
+  revenueKwd: number | null;
+  paymentFeeKwd: number | null;
+  imageCostUsd: number;
+  imageCostKwd: number | null;
+  otherCostKwd: number | null;
+  marginKwd: number | null;
+  /** margin / revenue, 0..1 */
+  marginShare: number | null;
+  perOrder: { revenueKwd: number | null; paymentFeeKwd: number | null; imageCostKwd: number | null; marginKwd: number | null };
+  /** customers with an account (deleted accounts are left out of per-customer figures) */
+  customers: number;
+  deletedAccountOrders: number;
+  membershipRevenueKwd: number | null;
+  perCustomer: { revenueKwd: number | null; marginKwd: number | null; orders: number | null };
+  generations: number;
+  regenerations: number | null;
+  ordersWithGenerations: number;
+  imageCostPerOrderKwd: number | null;
+  imageCostPerGenerationUsd: number | null;
+  imageCostPerGenerationKwd: number | null;
+}
+
+export interface MarketingDay {
+  date: string;
+  spendKwd: number | null;
+  impressions: number;
+  clicks: number;
+  /** purchases the ad platform reports (its own attribution) */
+  purchases: number;
+  /** customers whose first report was paid that day (all channels) */
+  newCustomers: number;
+  revenueKwd: number | null;
+  /** spend / new paying customers that day (blended, all channels) */
+  cacKwd: number | null;
+  /** net revenue that day / spend (blended) */
+  roas: number | null;
+}
+
+export interface MarketingCampaign {
+  platform: AdSpendRow["platform"];
+  campaign_id: string;
+  campaign_name: string | null;
+  spendKwd: number | null;
+  impressions: number;
+  clicks: number;
+  purchases: number;
+  ctr: number | null;
+  /** spend / platform-reported purchases */
+  cpaKwd: number | null;
+  /** platform purchases x average report payment / spend: an estimate */
+  estRoas: number | null;
+}
+
+export interface MarketingSummary {
+  hasRows: boolean;
+  spendKwd: number | null;
+  impressions: number;
+  clicks: number;
+  purchases: number;
+  ctr: number | null;
+  newPayingCustomers: number;
+  cacKwd: number | null;
+  roas: number | null;
+  days: MarketingDay[];
+  campaigns: MarketingCampaign[];
+  currencies: string[];
+}
+
+export interface OperatorDailyPoint {
+  date: string;
+  revenueKwd: number | null;
+  adSpendKwd: number | null;
+  orders: number;
+}
+
+export interface OperatorDashboard {
+  generatedAt: string;
+  range: AdminRange;
+  kpis: OperatorKpis;
+  daily: OperatorDailyPoint[];
+  statusCounts: { status: OrderStatus; count: number }[];
+  orders: OperatorOrder[];
+  economics: UnitEconomics;
+  marketing: { meta: MarketingSummary; all: MarketingSummary };
+  waitlist: { total: number; women: number; men: number; unknown: number; last7d: number; entries: AdminWaitlistEntry[]; emailsAvailable: boolean };
+  fx: FxRate[];
+  /** currencies that appear in the data but have no rate in fx_rates */
+  fxMissing: string[];
+  /** non-fatal problems while loading (shown as notes) */
+  warnings: string[];
+}
+
+export interface OperatorInput {
+  rows: AdminRows;
+  rates: FxRate[];
+  mrr: MrrSummary;
+  /** ids of generations that have a parent (regenerations); null when not known */
+  regenerated: Set<string> | null;
+  waitlist: AdminWaitlistEntry[];
+  warnings?: string[];
+}
+
+export const ORDER_STATUS_ORDER: OrderStatus[] = ["pending_payment", "paid", "awaiting_photos", "in_review", "changes_requested", "delivered", "refunded", "cancelled"];
+
+/* ----------------------------- Compute ----------------------------- */
+
+type N = number | null;
+const addN = (xs: N[]): N => (xs.some((x) => x == null) ? null : sum(xs as number[]));
+const roundN = (x: N, d = 3): N => (x == null ? null : round(x, d));
+const divN = (a: N, b: N, d = 3): N => (a == null || b == null || b === 0 ? null : round(a / b, d));
+
+/** Pure: the operator dashboard from raw rows and fx rates (shared by Supabase and demo mode). */
+export function computeOperatorDashboard(input: OperatorInput, range: AdminRange, now = Date.now()): OperatorDashboard {
+  const { rows, rates, mrr, regenerated, waitlist } = input;
+  const from = adminRangeStart(range, now);
+  const rate = new Map(rates.map((r) => [r.currency.toUpperCase(), r.kwd_per_unit]));
+  rate.set("KWD", 1);
+  const missing = new Set<string>();
+  const conv = (amount: number, currency: string | null | undefined): N => {
+    if (!amount) return 0;
+    const c = (currency ?? "KWD").toUpperCase();
+    const r = rate.get(c);
+    if (r == null) {
+      missing.add(c);
+      return null;
+    }
+    return amount * r;
+  };
+  const isPaid = (s: OrderStatus) => s !== "pending_payment" && s !== "cancelled";
+  const email = new Map(rows.profiles.map((p) => [p.id, p.email]));
+  const OPEN_S = OPEN as OrderStatus[];
+
+  /* per order */
+  const paysBy = new Map<string, AdminRows["payments"]>();
+  for (const p of rows.payments) if (p.order_id && countsForRevenue(p)) paysBy.set(p.order_id, [...(paysBy.get(p.order_id) ?? []), p]);
+  const gensBy = new Map<string, AdminRows["generations"]>();
+  for (const g of rows.generations) gensBy.set(g.order_id, [...(gensBy.get(g.order_id) ?? []), g]);
+  const otherBy = new Map<string, CostRow[]>();
+  for (const c of rows.costs) if (c.order_id && !COUNTED_ELSEWHERE.has(c.category)) otherBy.set(c.order_id, [...(otherBy.get(c.order_id) ?? []), c]);
+
+  const allOrders: OperatorOrder[] = rows.orders.map((o) => {
+    const pays = paysBy.get(o.id) ?? [];
+    const gens = gensBy.get(o.id) ?? [];
+    const revenueKwd = addN(pays.map((p) => conv(revenueOf(p), p.currency)));
+    const refundedKwd = addN(pays.filter((p) => p.status === "refunded").map((p) => conv(Math.abs(p.amount), p.currency)));
+    const paymentFeeKwd = addN(pays.map((p) => conv(p.fee, p.currency)));
+    const imageCostUsd = sum(gens.map((g) => g.cost_usd));
+    const imageCostKwd = conv(imageCostUsd, "USD");
+    const otherCostKwd = addN((otherBy.get(o.id) ?? []).map((c) => conv(c.amount, c.currency)));
+    const marginKwd = addN([revenueKwd, paymentFeeKwd == null ? null : -paymentFeeKwd, imageCostKwd == null ? null : -imageCostKwd, otherCostKwd == null ? null : -otherCostKwd]);
+    return {
+      order_id: o.id,
+      user_id: o.user_id,
+      email: o.user_id ? email.get(o.user_id) ?? null : null,
+      product: o.product,
+      status: o.status,
+      created_at: o.created_at,
+      paid_at: o.paid_at,
+      submitted_at: o.submitted_at,
+      delivered_at: o.delivered_at,
+      due_at: o.due_at,
+      revenueKwd: roundN(revenueKwd),
+      refundedKwd: roundN(refundedKwd),
+      paymentFeeKwd: roundN(paymentFeeKwd),
+      imageCostUsd: round(imageCostUsd, 4),
+      imageCostKwd: roundN(imageCostKwd),
+      otherCostKwd: roundN(otherCostKwd),
+      marginKwd: roundN(marginKwd),
+      generations: gens.length,
+      regenerations: regenerated ? gens.filter((g) => regenerated.has(g.id)).length : null,
+      overdue: OPEN_S.includes(o.status) && !!o.due_at && Date.parse(o.due_at) < now,
+      fxMissing: [revenueKwd, paymentFeeKwd, imageCostKwd, otherCostKwd].some((x) => x == null),
+    };
+  });
+  allOrders.sort((a, b) => b.created_at.localeCompare(a.created_at));
+  const createdIn = (o: { created_at: string }) => inRange(o.created_at, from, now);
+  const tableOrders = allOrders.filter((o) => createdIn(o) || OPEN_S.includes(o.status));
+  const paidInRange = allOrders.filter((o) => createdIn(o) && isPaid(o.status));
+
+  /* KPIs */
+  const pays = rows.payments.filter((p) => inRange(p.created_at, from, now));
+  const gross = addN(pays.filter((p) => p.status === "succeeded").map((p) => conv(p.amount, p.currency)));
+  const refunds = addN(pays.filter((p) => p.status === "refunded").map((p) => conv(Math.abs(p.amount), p.currency)));
+  const delivered = rows.orders.filter((o) => inRange(o.delivered_at, from, now));
+  const timed = delivered.filter((o) => o.submitted_at);
+  const hours = timed.map((o) => (Date.parse(o.delivered_at!) - Date.parse(o.submitted_at!)) / 3600_000);
+  const within = timed.filter((o) => Date.parse(o.delivered_at!) <= (o.due_at ? Date.parse(o.due_at) : Date.parse(o.submitted_at!) + SLA_HOURS * 3600_000)).length;
+  const openOrders = rows.orders.filter((o) => OPEN_S.includes(o.status));
+  const kpis: OperatorKpis = {
+    range,
+    from: from ? new Date(from).toISOString() : null,
+    revenueKwd: gross == null || refunds == null ? null : round(gross - refunds),
+    grossRevenueKwd: roundN(gross),
+    refundedKwd: roundN(refunds),
+    orders: paidInRange.length,
+    delivered: delivered.length,
+    avgTurnaroundHours: hours.length ? round(sum(hours) / hours.length, 1) : null,
+    withinSlaShare: timed.length ? round(within / timed.length, 3) : null,
+    openOrders: openOrders.length,
+    overdueNow: openOrders.filter((o) => o.due_at && Date.parse(o.due_at) < now).length,
+    awaitingPhotos: rows.orders.filter((o) => o.status === "awaiting_photos").length,
+    mrr,
+  };
+
+  /* daily (Kuwait days) */
+  const fromDay = from
+    ? kuwaitDay(from)
+    : [...rows.payments.map((p) => p.created_at), ...rows.orders.map((o) => o.created_at)].map((t) => kuwaitDay(Date.parse(t))).concat(rows.adSpend.map((a) => a.date)).sort()[0] ?? kuwaitDay(now);
+  const days: string[] = [];
+  for (let t = Date.parse(`${fromDay}T00:00:00Z`), end = Date.parse(`${kuwaitDay(now)}T00:00:00Z`); t <= end; t += DAY) days.push(new Date(t).toISOString().slice(0, 10));
+  const dayMap = new Map<string, { rev: N[]; ad: N[]; orders: number }>(days.map((d) => [d, { rev: [], ad: [], orders: 0 }]));
+  for (const p of pays) if (countsForRevenue(p)) dayMap.get(kuwaitDay(Date.parse(p.created_at)))?.rev.push(conv(revenueOf(p), p.currency));
+  for (const o of paidInRange) {
+    const x = dayMap.get(kuwaitDay(Date.parse(o.created_at)));
+    if (x) x.orders++;
+  }
+  const adInRange = rows.adSpend.filter((a) => a.date >= fromDay);
+  for (const a of adInRange) dayMap.get(a.date)?.ad.push(conv(a.spend, a.currency));
+  const daily: OperatorDailyPoint[] = days.map((date) => {
+    const x = dayMap.get(date)!;
+    return { date, revenueKwd: roundN(addN(x.rev)), adSpendKwd: roundN(addN(x.ad)), orders: x.orders };
+  });
+
+  /* orders by status (created in the range) */
+  const statusCounts = ORDER_STATUS_ORDER.map((status) => ({ status, count: rows.orders.filter((o) => o.status === status && createdIn(o)).length })).filter((s) => s.count > 0);
+
+  /* unit economics */
+  const tot = (k: "revenueKwd" | "paymentFeeKwd" | "imageCostKwd" | "otherCostKwd" | "marginKwd") => roundN(addN(paidInRange.map((o) => o[k])));
+  const n = paidInRange.length;
+  const generations = sum(paidInRange.map((o) => o.generations));
+  const regenerations = regenerated ? sum(paidInRange.map((o) => o.regenerations ?? 0)) : null;
+  const withGens = paidInRange.filter((o) => o.generations > 0);
+  const imageCostUsd = round(sum(paidInRange.map((o) => o.imageCostUsd)), 4);
+  const imageCostKwd = tot("imageCostKwd");
+  const revenueKwd = tot("revenueKwd");
+  const marginKwd = tot("marginKwd");
+  // Per customer: order economics plus membership payments, for customers with an account.
+  const memberPays = pays.filter((p) => !p.order_id && countsForRevenue(p));
+  const membershipRevenueKwd = roundN(addN(memberPays.map((p) => conv(revenueOf(p), p.currency))));
+  const cust = new Map<string, { revenue: N[]; margin: N[]; orders: number }>();
+  const c = (uid: string) => {
+    let x = cust.get(uid);
+    if (!x) cust.set(uid, (x = { revenue: [], margin: [], orders: 0 }));
+    return x;
+  };
+  for (const o of paidInRange) {
+    if (!o.user_id) continue;
+    const x = c(o.user_id);
+    x.orders++;
+    x.revenue.push(o.revenueKwd);
+    x.margin.push(o.marginKwd);
+  }
+  for (const p of memberPays) {
+    if (!p.user_id) continue;
+    const x = c(p.user_id);
+    const r = conv(revenueOf(p), p.currency);
+    const f = conv(p.fee, p.currency);
+    x.revenue.push(r);
+    x.margin.push(r == null || f == null ? null : r - f);
+  }
+  const custList = [...cust.values()];
+  const economics: UnitEconomics = {
+    orders: n,
+    revenueKwd,
+    paymentFeeKwd: tot("paymentFeeKwd"),
+    imageCostUsd,
+    imageCostKwd,
+    otherCostKwd: tot("otherCostKwd"),
+    marginKwd,
+    marginShare: revenueKwd && marginKwd != null && revenueKwd > 0 ? round(marginKwd / revenueKwd, 3) : null,
+    perOrder: {
+      revenueKwd: divN(revenueKwd, n),
+      paymentFeeKwd: divN(tot("paymentFeeKwd"), n),
+      imageCostKwd: divN(imageCostKwd, n),
+      marginKwd: divN(marginKwd, n),
+    },
+    customers: custList.length,
+    deletedAccountOrders: paidInRange.filter((o) => !o.user_id).length,
+    membershipRevenueKwd,
+    perCustomer: {
+      revenueKwd: divN(addN(custList.flatMap((x) => x.revenue)), custList.length),
+      marginKwd: divN(addN(custList.flatMap((x) => x.margin)), custList.length),
+      orders: divN(sum(custList.map((x) => x.orders)), custList.length, 2),
+    },
+    generations,
+    regenerations,
+    ordersWithGenerations: withGens.length,
+    imageCostPerOrderKwd: divN(addN(withGens.map((o) => o.imageCostKwd)), withGens.length),
+    imageCostPerGenerationUsd: generations ? round(imageCostUsd / generations, 4) : null,
+    imageCostPerGenerationKwd: divN(imageCostKwd, generations),
+  };
+
+  /* marketing */
+  const reportPays = pays.filter((p) => p.status === "succeeded" && p.order_id);
+  const reportPayKwd = addN(reportPays.map((p) => conv(p.amount, p.currency)));
+  const avgReportKwd = reportPays.length ? divN(reportPayKwd, reportPays.length) : null;
+  const firstPaid = new Map<string, number>(); // new paying customers per Kuwait day
+  const seen = new Set<string>();
+  for (const o of rows.orders) {
+    if (o.product !== "report" || !inRange(o.paid_at, from, now)) continue;
+    const who = o.user_id ?? `deleted:${o.id}`;
+    if (seen.has(who)) continue;
+    seen.add(who);
+    const d = kuwaitDay(Date.parse(o.paid_at!));
+    firstPaid.set(d, (firstPaid.get(d) ?? 0) + 1);
+  }
+  const marketingFor = (platform: AdSpendRow["platform"] | null): MarketingSummary => {
+    const ads = adInRange.filter((a) => !platform || a.platform === platform);
+    const byDay = new Map<string, AdSpendRow[]>();
+    for (const a of ads) byDay.set(a.date, [...(byDay.get(a.date) ?? []), a]);
+    const mdays: MarketingDay[] = [...byDay.entries()]
+      .sort((a, b) => b[0].localeCompare(a[0]))
+      .map(([date, list]) => {
+        const spendKwd = roundN(addN(list.map((a) => conv(a.spend, a.currency))));
+        const dp = daily.find((x) => x.date === date);
+        // No point for the day means no revenue (0); a point with null revenue means a rate is missing (keep null).
+        const dayRevenue: N = dp ? dp.revenueKwd : 0;
+        const newCustomers = firstPaid.get(date) ?? 0;
+        return {
+          date,
+          spendKwd,
+          impressions: sum(list.map((a) => a.impressions)),
+          clicks: sum(list.map((a) => a.clicks)),
+          purchases: sum(list.map((a) => a.purchases)),
+          newCustomers,
+          revenueKwd: dayRevenue,
+          cacKwd: divN(spendKwd, newCustomers),
+          roas: divN(dayRevenue, spendKwd, 2),
+        };
+      });
+    const byCamp = new Map<string, AdSpendRow[]>();
+    for (const a of ads) byCamp.set(`${a.platform}:${a.campaign_id}`, [...(byCamp.get(`${a.platform}:${a.campaign_id}`) ?? []), a]);
+    const campaigns: MarketingCampaign[] = [...byCamp.values()].map((list) => {
+      const spendKwd = roundN(addN(list.map((a) => conv(a.spend, a.currency))));
+      const impressions = sum(list.map((a) => a.impressions));
+      const clicks = sum(list.map((a) => a.clicks));
+      const purchases = sum(list.map((a) => a.purchases));
+      return {
+        platform: list[0].platform,
+        campaign_id: list[0].campaign_id,
+        campaign_name: list.map((a) => a.campaign_name).filter(Boolean).pop() ?? null,
+        spendKwd,
+        impressions,
+        clicks,
+        purchases,
+        ctr: impressions ? round(clicks / impressions, 4) : null,
+        cpaKwd: divN(spendKwd, purchases),
+        estRoas: avgReportKwd == null ? null : divN(purchases * avgReportKwd, spendKwd, 2),
+      };
+    });
+    campaigns.sort((a, b) => (b.spendKwd ?? 0) - (a.spendKwd ?? 0));
+    const spendKwd = roundN(addN(ads.map((a) => conv(a.spend, a.currency))));
+    const impressions = sum(ads.map((a) => a.impressions));
+    const clicks = sum(ads.map((a) => a.clicks));
+    const newPaying = sum([...firstPaid.values()]);
+    return {
+      hasRows: ads.length > 0,
+      spendKwd,
+      impressions,
+      clicks,
+      purchases: sum(ads.map((a) => a.purchases)),
+      ctr: impressions ? round(clicks / impressions, 4) : null,
+      newPayingCustomers: newPaying,
+      cacKwd: divN(spendKwd, newPaying),
+      roas: divN(kpis.revenueKwd, spendKwd, 2),
+      days: mdays,
+      campaigns,
+      currencies: [...new Set(ads.map((a) => a.currency.toUpperCase()))],
+    };
+  };
+
+  /* waitlist */
+  const wl = rows.waitlist;
+  const waitlistSummary = {
+    total: wl.length,
+    women: wl.filter((w) => w.gender === "female").length,
+    men: wl.filter((w) => w.gender === "male").length,
+    unknown: wl.filter((w) => !w.gender).length,
+    last7d: wl.filter((w) => Date.parse(w.created_at) >= now - 7 * DAY).length,
+    entries: waitlist,
+    emailsAvailable: waitlist.some((w) => w.email),
+  };
+
+  const result: OperatorDashboard = {
+    generatedAt: new Date(now).toISOString(),
+    range,
+    kpis,
+    daily,
+    statusCounts,
+    orders: tableOrders,
+    economics,
+    marketing: { meta: marketingFor("meta"), all: marketingFor(null) },
+    waitlist: waitlistSummary,
+    fx: rates,
+    fxMissing: [],
+    warnings: input.warnings ?? [],
+  };
+  result.fxMissing = [...missing].sort();
+  return result;
+}
+
+/**
+ * Open orders created before the range are listed too, but fetchAdminRows only
+ * reads payments, generations and costs created in the range, so those orders
+ * would show 0 revenue and a negative margin. Read their rows by order id.
+ * Returns the merged rows and the ids of their regenerations.
+ */
+async function backfillOlderOrders(rows: AdminRows, since: string): Promise<{ rows: AdminRows; regenerated: string[] }> {
+  const ids = rows.orders.filter((o) => o.created_at < since).map((o) => o.id);
+  if (!ids.length) return { rows, regenerated: [] };
+  let payments: AdminRows["payments"] = [];
+  let generations: (AdminRows["generations"][number] & { parent_id?: string | null })[] = [];
+  let costs: CostRow[] = [];
+  if (backendMode === "mock") {
+    const want = new Set(ids);
+    const full = await mock.adminRows(new Date(0).toISOString());
+    payments = full.payments.filter((p) => p.order_id && want.has(p.order_id));
+    generations = full.generations.filter((g) => want.has(g.order_id));
+    costs = full.costs.filter((c) => c.order_id && want.has(c.order_id));
+  } else {
+    const c = sb();
+    for (let i = 0; i < ids.length; i += 100) {
+      const chunk = ids.slice(i, i + 100);
+      const [p, g, k] = await Promise.all([
+        fetchAll<AdminRows["payments"][number]>((a, b) => c.from("payments").select("*").in("order_id", chunk).order("id").range(a, b)),
+        fetchAll<AdminRows["generations"][number] & { parent_id: string | null }>((a, b) => c.from("generations").select("id,order_id,cost_usd,status,created_at,parent_id").in("order_id", chunk).order("id").range(a, b)),
+        fetchAll<CostRow>((a, b) => c.from("costs").select("*").in("order_id", chunk).order("id").range(a, b)),
+      ]);
+      payments.push(...p.map(normPayment));
+      generations.push(...g.map((x) => ({ ...x, cost_usd: num(x.cost_usd) })));
+      costs.push(...k.map((x) => ({ ...x, amount: num(x.amount) })));
+    }
+  }
+  const merge = <T extends { id: string }>(a: T[], b: T[]) => {
+    const seen = new Set(a.map((x) => x.id));
+    return [...a, ...b.filter((x) => !seen.has(x.id))];
+  };
+  return {
+    rows: {
+      ...rows,
+      payments: merge(rows.payments, payments),
+      generations: merge(rows.generations, generations.map(({ id, order_id, cost_usd, status, created_at }) => ({ id, order_id, cost_usd, status, created_at }))),
+      costs: merge(rows.costs, costs),
+    },
+    regenerated: generations.filter((g) => g.parent_id).map((g) => g.id),
+  };
+}
+
+/** Fetch everything the operator dashboard needs for a range. Admin only (RLS). */
+export async function loadOperatorDashboard(range: AdminRange): Promise<OperatorDashboard> {
+  const now = Date.now();
+  const since = new Date(adminRangeStart(range, now)).toISOString();
+  const warnings: string[] = [];
+  const fetched = await fetchAdminRows(since);
+  let rows = fetched;
+  let olderRegens: string[] = [];
+  try {
+    ({ rows, regenerated: olderRegens } = await backfillOlderOrders(fetched, since));
+  } catch (e) {
+    warnings.push(`Payments of open orders from before the range could not be loaded, so their amounts may be incomplete: ${e instanceof Error ? e.message : String(e)}`);
+  }
+  const soft = async <T,>(what: string, p: Promise<T>, fallback: T): Promise<T> => {
+    try {
+      return await p;
+    } catch (e) {
+      warnings.push(`${what}: ${e instanceof Error ? e.message : String(e)}`);
+      return fallback;
+    }
+  };
+  const regen = async (): Promise<Set<string> | null> => {
+    // The demo rows carry no parent_id, so regenerations are only known with Supabase.
+    if (backendMode === "mock") return null;
+    const gens = await fetchAll<{ id: string; parent_id: string | null }>((a, b) => sb().from("generations").select("id,parent_id").gte("created_at", since).not("parent_id", "is", null).order("id").range(a, b));
+    return new Set([...gens.map((g) => g.id), ...olderRegens]);
+  };
+  const [rates, mrr, regenerated, waitlist] = await Promise.all([
+    soft("Exchange rates could not be loaded", listFxRates(), [] as FxRate[]),
+    soft("MRR view could not be read, computed from list prices instead", fetchMrr(rows), computeMrr(rows)),
+    soft("Regenerations could not be counted", regen(), null),
+    soft("Waitlist emails could not be loaded", listWaitlistEntries(rows.waitlist), [] as AdminWaitlistEntry[]),
+  ]);
+  return computeOperatorDashboard({ rows, rates, mrr, regenerated, waitlist, warnings }, range, now);
+}
+
+export function useOperatorDashboard(range: AdminRange, enabled = true): QueryState<OperatorDashboard> {
+  return useBackendQuery(backendMode === "off" || !enabled ? null : `admin-op:${range}`, () => loadOperatorDashboard(range));
 }

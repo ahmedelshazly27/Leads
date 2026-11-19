@@ -11,24 +11,54 @@ import type { ConsentKind, ConsentRow, QueryState } from "./types";
 export const CONSENT_VERSION = "2026-11-19";
 
 const PENDING_KEY = "facet-pending-consents";
+/** Pending consents older than this are dropped (a sign-in code or link expires long before). */
+const PENDING_MAX_AGE_MS = 2 * 3600_000;
 
 interface Pending {
   kind: ConsentKind;
   version: string;
   at: string;
+  /** the email the sign-in code was sent to (set by sendCode); only that account receives these consents */
+  email?: string;
 }
 
-function readPending(): Pending[] {
+/*
+ * Consents given before sign-in are kept in localStorage, not sessionStorage:
+ * the sign-in link in the email opens a new tab, which has its own
+ * sessionStorage, and the consents would be lost there. They hold only the
+ * consent kind, version and time, and expire after two hours.
+ */
+function readStore(store: Storage | undefined): Pending[] {
   try {
-    return JSON.parse(sessionStorage.getItem(PENDING_KEY) ?? "[]") as Pending[];
+    const list = JSON.parse(store?.getItem(PENDING_KEY) ?? "[]") as Pending[];
+    return Array.isArray(list) ? list : [];
   } catch {
     return [];
   }
 }
+
+function readPending(): Pending[] {
+  // Older builds kept them in sessionStorage.
+  const all = [...readStore(typeof sessionStorage !== "undefined" ? sessionStorage : undefined), ...readStore(typeof localStorage !== "undefined" ? localStorage : undefined)];
+  const cutoff = Date.now() - PENDING_MAX_AGE_MS;
+  const latest = new Map<ConsentKind, Pending>();
+  for (const p of all) {
+    if (!p?.kind || !p.version || !(Date.parse(p.at) >= cutoff)) continue;
+    const prev = latest.get(p.kind);
+    if (!prev || prev.at < p.at) latest.set(p.kind, p);
+  }
+  return [...latest.values()];
+}
+
 function writePending(list: Pending[]) {
   try {
-    if (list.length) sessionStorage.setItem(PENDING_KEY, JSON.stringify(list));
-    else sessionStorage.removeItem(PENDING_KEY);
+    if (list.length) localStorage.setItem(PENDING_KEY, JSON.stringify(list));
+    else localStorage.removeItem(PENDING_KEY);
+  } catch {
+    /* storage blocked */
+  }
+  try {
+    sessionStorage.removeItem(PENDING_KEY);
   } catch {
     /* storage blocked */
   }
@@ -37,7 +67,8 @@ function writePending(list: Pending[]) {
 /**
  * Record consents for the signed-in user. When nobody is signed in yet (e.g.
  * the 18+ and terms checks on /start happen before the email code), they are
- * kept for this browser tab and saved right after sign-in.
+ * kept in this browser (up to two hours) and saved right after sign-in, also
+ * when the sign-in link opens in a new tab.
  */
 export async function recordConsents(kinds: ConsentKind[], version = CONSENT_VERSION): Promise<void> {
   if (!kinds.length) return;
@@ -57,19 +88,51 @@ export async function recordConsents(kinds: ConsentKind[], version = CONSENT_VER
   invalidate();
 }
 
+/**
+ * Ties the pending consents to the email a sign-in code is being sent to, so
+ * that on a shared browser they are saved only for the person who gave them
+ * (localStorage outlives the tab). Called by sendCode.
+ */
+export function tagPendingConsents(email: string): void {
+  const list = readPending();
+  if (list.length) writePending(list.map((p) => ({ ...p, email: email.trim().toLowerCase() })));
+}
+
 /** Consents given before sign-in that have not been saved yet. */
 export function pendingConsents(): ConsentKind[] {
   return readPending().map((p) => p.kind);
 }
 
-/** Save consents stashed before sign-in. Called automatically when a session starts. */
-export async function flushPendingConsents(): Promise<void> {
-  const list = readPending();
-  if (!list.length || !getSession()) return;
-  const byVersion = new Map<string, ConsentKind[]>();
-  for (const p of list) byVersion.set(p.version, [...(byVersion.get(p.version) ?? []), p.kind]);
-  for (const [version, kinds] of byVersion) await recordConsents(kinds, version);
-  writePending([]);
+let flushInFlight: Promise<void> | null = null;
+
+/**
+ * Save consents stashed before sign-in. Called automatically when a session
+ * starts (and again by consentsFlushed before checkout). Only the entries that
+ * were saved are removed from the pending list, so a consent given while a
+ * save is running is kept for the next one. Concurrent calls share one save.
+ */
+export function flushPendingConsents(): Promise<void> {
+  if (flushInFlight) return flushInFlight;
+  flushInFlight = (async () => {
+    const session = getSession();
+    if (!session || backendMode === "off") return;
+    const mine = session.email?.trim().toLowerCase() ?? null;
+    // Consents tagged with another email were given by someone else on this browser: drop them.
+    const all = readPending();
+    const list = all.filter((p) => !p.email || !mine || p.email === mine);
+    if (list.length !== all.length) writePending(list);
+    if (!list.length) return;
+    const byVersion = new Map<string, ConsentKind[]>();
+    for (const p of list) byVersion.set(p.version, [...(byVersion.get(p.version) ?? []), p.kind]);
+    for (const [version, kinds] of byVersion) {
+      await recordConsents(kinds, version);
+      const saved = new Set(kinds);
+      writePending(readPending().filter((p) => !(saved.has(p.kind) && p.version === version)));
+    }
+  })().finally(() => {
+    flushInFlight = null;
+  });
+  return flushInFlight;
 }
 
 export async function listMyConsents(): Promise<ConsentRow[]> {

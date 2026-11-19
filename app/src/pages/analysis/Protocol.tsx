@@ -1,4 +1,5 @@
 import { useState, type ReactNode } from "react";
+import { dateLocale, joinNodes, useLang } from "../../lib/i18n";
 import { Link } from "react-router-dom";
 import { Placeholder } from "../../components/FacePhoto";
 import { ChatHeart, ChevronDown, ChevronRight, GradCap, HeartHand } from "../../components/icons";
@@ -37,7 +38,7 @@ export function YourProtocol(p: SectionProps) {
         lead="Where you are now, what the plan targets, and the visible result of 12 months of evidence-based changes — organised so you can see what drives each improvement."
       />
       <div className="pr-hero">
-        <div className="pr-card pr-figure">
+        <div className="apr-card pr-figure">
           {visuals.after ? (
             <BeforeAfter before={<Img src={before} />} after={<Img src={visuals.after} />} caption={<><b>FIG 1</b> LOOKS</>} />
           ) : (
@@ -55,7 +56,7 @@ export function YourProtocol(p: SectionProps) {
           )}
         </div>
         <div className="pr-side">
-          <div className="pr-card pr-goal">
+          <div className="apr-card pr-goal">
             <div className="mono">What we're working toward</div>
             <h2 className="pr-goal-title">
               <span className="hl">{plan.goal.headline[0]}</span>
@@ -72,7 +73,7 @@ export function YourProtocol(p: SectionProps) {
               </ul>
             </div>
           </div>
-          <div className="pr-card pr-drivers">
+          <div className="apr-card pr-drivers">
             <div className="mono">Driven by</div>
             <div className="pr-chips">
               {(plan.drivers.length ? plan.drivers : ["General optimisation"]).map((d) => (
@@ -315,7 +316,7 @@ export function Estimations(p: SectionProps) {
           <div className="pr-est-num">{money(tot.yLo, cur)}–{money(tot.yHi, cur)}</div>
         </div>
       </div>
-      <div className="pr-card pr-table">
+      <div className="apr-card pr-table">
         <div className="pr-tr pr-th mono-sm">
           <span>Category</span>
           <span>Monthly</span>
@@ -327,7 +328,7 @@ export function Estimations(p: SectionProps) {
           <div key={r.k} className="pr-tr">
             <span>
               <b>{r.k}</b>
-              <small>{r.items.join(" · ")}</small>
+              <small>{joinNodes(r.items, " · ")}</small>
             </span>
             <span>{r.hi ? `${money(r.lo, cur)}–${money(r.hi, cur)}` : "—"}</span>
             <span>{r.oHi ? `${money(r.oLo, cur)}–${money(r.oHi, cur)}` : "—"}</span>
@@ -350,6 +351,7 @@ export function Estimations(p: SectionProps) {
 
 export function Progress(p: SectionProps) {
   const intake = p.profile.intake;
+  const lang = useLang();
   const pts = p.scans.map((s) => ({ date: new Date(s.createdAt), score: overall(currentScores(s, intake)), scan: s }));
   const first = pts[0]?.date ?? new Date();
   const end = new Date(first.getTime() + 365 * 864e5);
@@ -370,7 +372,7 @@ export function Progress(p: SectionProps) {
         lead="Each check-in is measured the same way, so changes reflect you — not the camera. Take check-ins in the same place, light and distance."
         right={<Link to={`/new/${p.profile.id}`} className="btn">New check-in</Link>}
       />
-      <div className="pr-card pr-chart">
+      <div className="apr-card pr-chart">
         <div className="pr-chart-head">
           <div className="mono-sm">Overall score</div>
           <div className="pr-legend mono-sm">
@@ -407,11 +409,11 @@ export function Progress(p: SectionProps) {
             <rect x={-30} y={-12} width={36} height={20} rx={5} fill="#69565a" />
             <text x={-12} y={3} textAnchor="middle" className="pr-bubble pr-bubble-on">{Math.round(p.plan.overallProjected)}</text>
           </g>
-          <text x={L} y={H - 10} className="pr-axis">{first.toLocaleDateString(undefined, { month: "short", year: "numeric" })}</text>
+          <text x={L} y={H - 10} className="pr-axis">{first.toLocaleDateString(dateLocale(lang), { month: "short", year: "numeric" })}</text>
           <text x={W - R} y={H - 10} textAnchor="end" className="pr-axis">+12 months</text>
         </svg>
       </div>
-      <div className="pr-card pr-table pr-checkins">
+      <div className="apr-card pr-table pr-checkins">
         <div className="pr-tr pr-th mono-sm">
           <span>Check-in</span>
           <span>Overall</span>
@@ -424,7 +426,7 @@ export function Progress(p: SectionProps) {
           const f = (v?: number) => (v == null ? "—" : Math.round(v));
           return (
             <div key={q.scan.id} className="pr-tr">
-              <span><b>#{i + 1}</b> <small>{q.date.toLocaleDateString()}</small></span>
+              <span><b>#{i + 1}</b> <small>{q.date.toLocaleDateString(dateLocale(lang))}</small></span>
               <span>{f(q.score)} <small>{band(q.score)}</small></span>
               <span>{f(s.skin)}</span>
               <span>{f(s.leanness)}</span>
@@ -446,6 +448,8 @@ export function Summary(p: SectionProps) {
   const { plan, visuals, profile } = p;
   const first = profile.intake.name.split(" ")[0];
   const owner = first.toLowerCase() === "you" ? "Your" : first.endsWith("s") ? `${first}'` : `${first}'s`;
+  // Arabic puts the noun first: «خطة خالد», not «خالد خطة»
+  const lang = useLang();
   const keys = Object.keys(plan.current) as ScoreKey[];
   const short: Record<ScoreKey, string> = { skin: "Skin", leanness: "Leanness", rested: "Rested", symmetry: "Symmetry", harmony: "Harmony", body: "Body", posture: "Posture", core: "Core" };
   const gain = plan.overallProjected - plan.overallNow;
@@ -453,7 +457,15 @@ export function Summary(p: SectionProps) {
     <div className="page">
       <section className="page-card pr-sum">
         <h1 className="title-xl">
-          {owner} <span className="hl">Protocol</span>
+          {lang === "ar" ? (
+            <>
+              <span className="hl">Protocol</span> {first.toLowerCase() === "you" ? null : first}
+            </>
+          ) : (
+            <>
+              {owner} <span className="hl">Protocol</span>
+            </>
+          )}
         </h1>
         <div className="pr-sum-photos">
           <div className="pr-sum-ph">
@@ -500,7 +512,7 @@ export function Summary(p: SectionProps) {
           </div>
         </div>
         <p className="pr-sum-text">
-          {plan.drivers.length ? `Biggest levers: ${plan.drivers.join(", ").toLowerCase()}.` : "You're already close to your potential — the plan focuses on maintenance."} Bone structure is held constant; gains come from skin, body composition, sleep, training and grooming.
+          {plan.drivers.length ? <>Biggest levers: {joinNodes(plan.drivers.map((d) => d.toLowerCase()), ", ")}.</> : "You're already close to your potential — the plan focuses on maintenance."} Bone structure is held constant; gains come from skin, body composition, sleep, training and grooming.
         </p>
         <div className="pr-sum-actions">
           <Link to="/protocol" className="btn">Open protocol document</Link>

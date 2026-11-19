@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { joinNodes } from "../../lib/i18n";
 import { FacePhoto, toPhoto } from "../../components/FacePhoto";
 import { MethodNote } from "../../components/MethodNote";
 import { PageHeader, ScoreCard, SpectrumBar } from "../../components/ui";
@@ -59,7 +60,7 @@ function MissingData({ fields }: { fields: string[] }) {
   return (
     <div className="bd-missing">
       <div>
-        <b>Add {fields.join(", ")}</b> to unlock body-composition estimates (BMI, body fat, waist-to-height).
+        <b>Add {joinNodes(fields, ", ")}</b> to unlock body-composition estimates (BMI, body fat, waist-to-height).
       </div>
       <Link to="/analysis/about-you" className="btn btn-ghost">Update About You</Link>
     </div>
@@ -261,7 +262,7 @@ export function Posture(p: SectionProps) {
           <div className="bd-card">
             <div className="bd-card-head">
               <span className="mono-sm">Arm symmetry</span>
-              <span className="bd-card-val">{Math.round(m.armSymmetry)}/100</span>
+              <span className="bd-card-val" dir="ltr">{Math.round(m.armSymmetry)}/100</span>
             </div>
           </div>
           <div className="bd-expl">

@@ -1,6 +1,6 @@
 # Marketing claims register
 
-Source of truth for every health, appearance and product claim used in ads, store listings, social posts, landing pages and sales material (launch: Kuwait only, English and Arabic; one product at 20 KWD).
+Source of truth for every health, appearance and product claim used in ads, store listings, social posts, landing pages and sales material (launch: Kuwait only, men only, English and Arabic; the report at 20 KWD plus an optional membership). The operator is a Dutch B.V.; see `docs/LAUNCH.md`.
 
 ## How to use this register
 
@@ -106,14 +106,17 @@ Source of truth for every health, appearance and product claim used in ads, stor
 |---|---|---|---|
 | "Every plan step is graded A–C by the strength of its evidence and cited." | plan.ts (every item has grade + refs; C = limited evidence or guidance) | product fact | "Every step is scientifically proven"; "100% science-backed" |
 | "Analysis runs on your device; photos you send for review are deleted 90 days after delivery." | product/privacy policy (verify before use) | product fact | "We never see your photos" |
-| "Only the reviewer assigned to you sees your photos." | access control in the backend (per-scan reviewer assignment, audit log) — **not built yet** | launch blocker | "Nobody sees your photos" |
-| "Women's photos and results are reviewed only by female reviewers." | reviewer roster + gender-matched assignment enforced in code; at least one female reviewer hired before women can sign up — **operational commitment** | launch blocker | "Women-only team" (unless true) |
+| "The reviewer assigned to you sees your photos. Other staff open them only where their work needs it, and every access is logged." | backend: per-order reviewer assignment, row-level security on orders and the private photo bucket, audit log (`supabase/migrations`); admins can also open orders, as privacy policy section 6 says ("a small number of authorised staff ... every access to photos is logged") | product fact (keep true; re-check before ads) | "Only your reviewer sees your photos" / "seen by one reviewer" (admins can open them too); "Nobody sees your photos"; "no human sees your photos" |
+| "At launch the service is for men aged 18 or over in Kuwait." | `/start` only lets men order; women are sent to the waitlist | product fact | "For men and women"; "for everyone" |
+| "Coming for women: join the waitlist and we'll email you when it opens." | `WaitlistForm` (`gender="female"`), `join-waitlist` function | product fact | "The women's service is live"; "book now" (to women); any launch date |
+| "When it opens, we plan to have women's photos and results reviewed only by female reviewers." (future tense only, as a plan) | backend trigger already refuses to assign a woman's order to a non-female reviewer; at least one female reviewer must be hired before women can order — **operational commitment** | plan (not live) | Present tense ("reviewed only by women", "a private service for women"); "women-only team"; "women's service is live" |
 | "No photos of women on this site or in our marketing." | site audit (library women's types are drawn, photo files removed) + marketing policy | product fact | — |
 | "We don't sell your data, use photos in marketing, or train AI models on them." | privacy policy + vendor DPAs | legal | "Your data never leaves your phone" |
-| "Encrypted and handled in line with Kuwait's data-protection rules." | encryption at rest + CITRA Data Privacy Protection Regulation assessment (consent, transfer abroad, breach notice) — **not set up yet** | launch blocker | "Stored in Kuwait" (until the region is chosen) |
+| "Your data is encrypted, stored in the EU and handled under the GDPR, the EU's data-protection law." | Supabase project in Frankfurt (encryption at rest, private buckets); the Dutch B.V. is the GDPR controller; DPAs with every processor — **DPAs to be signed** (see `docs/LAUNCH.md`) | product fact once the DPAs are signed | "Stored in Kuwait"; "handled in line with Kuwait's data-protection rules" (until a lawyer has checked the CITRA regulation); "GDPR-certified" (there is no such certificate) |
 | "Your photo goes to our image provider only to create the visual, under a contract that bars keeping or reusing it." | signed DPA with the image vendor that forbids retention/training — **must be confirmed with the vendor** | launch blocker | name the vendor without their consent |
 | "Specialist partner network coming soon in Kuwait." | Landing.tsx (not yet live) | product fact | "Book a dermatologist now"; "our partner clinics"; "MOH-licensed partners" (until contracts are live) |
-| "Monthly check-ins compared with your baseline." | product fact | product fact | "Predicts your progress" |
+| "Membership: a re-scan every month with updated scores and an updated plan, a note from your reviewer each month, and a new 12-month visual every 3 months." | membership in the backend (monthly check-in orders from paid invoices / the `monthly-checkins-daily` job); reviewer note and the 3-monthly visual are reviewer tasks — **keep staffed** | product fact (keep true) | "Unlimited reviews"; "a reviewer on call"; "weekly check-ins" |
+| "Monthly check-ins compared with your baseline" (only together with "with membership"). | as above | product fact | Implying check-ins come with the report alone after the first 30 days; "predicts your progress" |
 
 ## Never claim
 
@@ -126,6 +129,8 @@ Source of truth for every health, appearance and product claim used in ads, stor
 - That the **partner network is live**, or naming partner clinics, doctors or licences before contracts are signed.
 - **Superlatives and comparisons**: "best", "#1", "most accurate", "only app that…", "better than a dermatologist / trainer".
 - **Skin lightening / whitening** language of any kind.
+- That **KNET** is accepted (until it is live), **"no subscription"** (the membership is one), or that the first 30 days are **free** (they are part of the paid report).
+- That the **women's service is live**, or anything about it in the present tense.
 - Recommendations for specific **injectables or prescription drugs** in ads.
 - Claims based on studies **not in `REFS`**, or a study result stated more broadly than its finding (for example, applying female-face hairstyle findings to men as proven).
 
@@ -154,5 +159,7 @@ Approved wording is what the landing page shows; each line is the cited paper's 
 
 | Claim | Evidence | Grade | Don't say |
 |---|---|---|---|
-| "20 KWD, one payment, no subscription." | Landing.tsx PRICE_KWD; checkout amount must match | product fact | Any other price or currency in Kuwait marketing; "free" (it is not) |
-| "Pay with KNET, Visa, Mastercard or Apple Pay." | payment gateway contract with KNET enabled — **not set up yet** | launch blocker | list a method the gateway doesn't support |
+| "Report 20 KWD, one payment, includes 30 days of membership. Optional membership 5 KWD a month or 45 KWD a year, cancel any time." | `PRICES_KWD` and `BUNDLE_TRIAL_DAYS` in `app/src/lib/backend/types.ts`; Stripe prices (README section 6) must match | product fact | "No subscription"; "one payment" without "for the report"; "free 30 days" / "free trial" / "free month" (the 30 days are part of the paid report); "free" in any form; any other price or currency in Kuwait marketing |
+| "Yearly membership: 45 KWD for the first year, then 5 KWD a month. Cancel any time." (say this whenever the yearly price is shown on its own) | `membership_yearly` is put on a Stripe subscription schedule that continues month to month at 5 KWD after the first 12 months (docs/BACKEND.md, "Membership and refunds"; terms and refund policy say the same) | product fact | "45 KWD a year" on its own, as if it renewed yearly; "yearly, then it ends" |
+| "Report only: the 30 days of membership simply end. Nothing renews." | `report` plan is a one-time Stripe payment with no subscription | product fact | — |
+| "Pay by card, Apple Pay or Google Pay." | Stripe Checkout on the B.V., in KWD | product fact (keep true) | "KNET" (until KNET is live through a second processor); naming card brands Stripe isn't set up for |

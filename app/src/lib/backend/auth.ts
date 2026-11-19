@@ -1,7 +1,7 @@
 import { useSyncExternalStore } from "react";
 import { BackendError, backendMode, check, invalidate, sb, supabase, useBackendQuery } from "./client";
 import { mock } from "./mock";
-import { flushPendingConsents, pendingConsents } from "./consents";
+import { flushPendingConsents, pendingConsents, tagPendingConsents } from "./consents";
 import type { GenderCode, Locale, ProfilePatch, ProfileRow, QueryState, SessionInfo } from "./types";
 
 /* ------------------------- Session store --------------------------- */
@@ -21,10 +21,14 @@ function setSession(next: SessionInfo | null) {
   sessionReady = true;
   if (changed) {
     if (next) {
-      flushing = flushPendingConsents().catch((e) => {
-        console.warn("could not save consents", e);
-        // Leave them pending; consentsFlushed() retries.
-      });
+      // Deferred one tick: this runs inside Supabase's auth state callback,
+      // and a database call from within it can wait on the auth lock.
+      flushing = new Promise<void>((r) => setTimeout(r, 0))
+        .then(() => flushPendingConsents())
+        .catch((e) => {
+          console.warn("could not save consents", e);
+          // Leave them pending; consentsFlushed() retries.
+        });
     }
     emit();
     invalidate();
@@ -93,18 +97,35 @@ export function requireUserId(): string {
 
 const normEmail = (e: string) => e.trim().toLowerCase();
 
+export interface SendCodeOptions {
+  locale?: Locale;
+  gender?: GenderCode;
+  /**
+   * Where the sign-in link in the email lands (it signs the user in on that
+   * page; the client picks the session up from the URL). Defaults to the
+   * current page. The URL must be allowed under Authentication > URL
+   * Configuration > Redirect URLs (e.g. https://<domain>/**).
+   */
+  emailRedirectTo?: string;
+  /** Alias of emailRedirectTo. */
+  redirectTo?: string;
+}
+
 /**
- * Send a 6-digit sign-in code to the email. Creates the account on first use.
- * `gender` and `locale` are stored on the new profile (only when the account is
- * created); checkout needs gender "male", so pass it from the /start form or
- * call updateMyProfile({ gender }) before paying.
+ * Send a 6-digit sign-in code to the email (the same email also carries a
+ * sign-in link). Creates the account on first use. `gender` and `locale` are
+ * stored on the new profile (only when the account is created); checkout
+ * needs gender "male", so pass it from the /start form or call
+ * updateMyProfile({ gender }) before paying.
  */
-export async function sendCode(email: string, opts: { locale?: Locale; gender?: GenderCode } = {}): Promise<void> {
+export async function sendCode(email: string, opts: SendCodeOptions = {}): Promise<void> {
   const meta = Object.fromEntries(Object.entries({ locale: opts.locale, gender: opts.gender }).filter(([, v]) => v !== undefined)) as { locale?: Locale; gender?: GenderCode };
+  tagPendingConsents(normEmail(email));
   if (backendMode === "mock") return mock.sendCode(normEmail(email), meta);
+  const emailRedirectTo = opts.emailRedirectTo ?? opts.redirectTo ?? (typeof window !== "undefined" ? window.location.href : undefined);
   const { error } = await sb().auth.signInWithOtp({
     email: normEmail(email),
-    options: { shouldCreateUser: true, data: Object.keys(meta).length ? meta : undefined },
+    options: { shouldCreateUser: true, data: Object.keys(meta).length ? meta : undefined, ...(emailRedirectTo ? { emailRedirectTo } : {}) },
   });
   if (error) throw new BackendError(error.message, error.code ?? "otp_failed");
 }
