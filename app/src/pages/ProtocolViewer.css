@@ -30,6 +30,20 @@
   letter-spacing: -0.03em;
   width: 220px;
 }
+/* the other document (plan <-> detailed analysis) */
+.pv-other {
+  font-size: 13px;
+  color: var(--ink-3);
+  padding: 7px 12px;
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  white-space: nowrap;
+  text-decoration: none;
+}
+.pv-other:hover {
+  color: var(--ink);
+  background: var(--card);
+}
 .pv-group {
   display: flex;
   align-items: center;
@@ -651,7 +665,8 @@
   }
   .pv-zoomgroup,
   .pv-sep,
-  .pv-expand {
+  .pv-expand,
+  .pv-other {
     display: none;
   }
   .pv-btn {

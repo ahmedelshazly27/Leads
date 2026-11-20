@@ -1,7 +1,7 @@
 import { BackendError, backendMode, callFunction, invalidate } from "./client";
 import { mock } from "./mock";
 import { requireUserId } from "./auth";
-import type { SubscriptionRow } from "./types";
+import { pricesIn, type SubscriptionRow } from "./types";
 
 /**
  * Membership changes by the customer (manage-membership function):
@@ -17,7 +17,7 @@ import type { SubscriptionRow } from "./types";
 export type MembershipAction = "cancel" | "resume" | "end_now";
 
 export interface MembershipRefund {
-  /** in `currency` (KWD) */
+  /** in `currency` (the membership's currency) */
   amount: number;
   currency: string;
   /** full months refunded */
@@ -55,14 +55,27 @@ export function fullMonthsBetween(from: Date, to: Date): number {
 
 /**
  * What ending a yearly membership today would refund (same rule as the
- * server: full months left x price / 12, in whole 10 fils). Null when "end_now"
- * does not apply (monthly, trialing, ended, or no period end known).
+ * server: full months left x price / 12, in the membership's currency,
+ * rounded down to whole 10 fils/baisa for KWD, BHD and OMR and to whole
+ * halalas/fils/cents otherwise). Null when "end_now" does not apply (monthly,
+ * trialing, ended, or no period end known). `yearlyPrice` defaults to the list
+ * price in the membership's currency; `amountKwd` is the same number as
+ * `amount` (older name, from when everything was KWD).
  */
-export function yearlyEndNowRefund(sub: SubscriptionRow | null | undefined, yearlyPriceKwd: number, now = Date.now()): { months: number; amountKwd: number } | null {
+export function yearlyEndNowRefund(
+  sub: SubscriptionRow | null | undefined,
+  yearlyPrice?: number,
+  now = Date.now(),
+): { months: number; amount: number; currency: string; amountKwd: number } | null {
   if (!sub || sub.plan !== "yearly" || sub.status !== "active" || !sub.current_period_end) return null;
+  const currency = (sub.currency ?? "KWD").toUpperCase();
+  const unit = 10 ** pricesIn(currency).decimals;
+  const step = unit === 1000 ? 10 : 1;
+  const price = yearlyPrice ?? sub.amount ?? pricesIn(currency).yearly;
   const months = fullMonthsBetween(new Date(now), new Date(sub.current_period_end));
-  const fils = Math.floor((Math.round(yearlyPriceKwd * 1000) * months) / 12 / 10) * 10;
-  return { months, amountKwd: fils / 1000 };
+  const minor = Math.floor(Math.floor((Math.round(price * unit) * months) / 12) / step) * step;
+  const amount = minor / unit;
+  return { months, amount, currency, amountKwd: amount };
 }
 
 /** The membership is set to end at `cancel_at` (still active until then). Never true for the included month (it has no renewal to cancel). */

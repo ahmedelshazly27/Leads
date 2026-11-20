@@ -1,4 +1,5 @@
 import type { Currency } from "../lib/types";
+import { currencyFor, getCountry } from "../lib/pricing";
 import { useRef, useState, type ReactNode } from "react";
 import { GRADE_LABEL, REFS, type EvidenceGrade } from "../lib/science";
 import { Arrows, Infinity as InfinityIcon } from "./icons";
@@ -262,16 +263,29 @@ export function Toggle<T extends string>({ value, options, onChange }: { value: 
   );
 }
 
-/** Approximate fixed conversion from EUR (plan prices are researched in EUR): 1 EUR ≈ 0.33 KWD, rounded to whole dinars. */
-const FX: Record<Currency, number> = { KWD: 0.33 };
-const dinars = (eur: number, cur: Currency) => Math.max(eur > 0 ? 1 : 0, Math.round(eur * FX[cur]));
-export const money = (eur: number, cur: Currency = "KWD") => `${dinars(eur, cur).toLocaleString("en")} KWD`;
+/*
+ * Approximate fixed conversion from EUR (product prices in the plan are researched in EUR),
+ * rounded to whole units. Indicative only: these are shop prices, not what we charge.
+ * The default currency is the visitor's (lib/pricing). The format stays "12 KWD" / "3–5 SAR"
+ * (one string; the Arabic copy has a template per currency, e.g. "{0} SAR" -> "{0} ر.س").
+ */
+const FX: Record<string, number> = { KWD: 0.33, SAR: 4.05, AED: 3.97, QAR: 3.93, BHD: 0.41, OMR: 0.42, USD: 1.08 };
+const unit = (cur?: string) => {
+  const c = (cur ?? currencyFor(getCountry())).toUpperCase();
+  return c in FX ? c : "USD";
+};
+const whole = (eur: number, cur: string) => Math.max(eur > 0 ? 1 : 0, Math.round(eur * FX[cur]));
+export const money = (eur: number, cur?: Currency | string) => {
+  const c = unit(cur);
+  return `${whole(eur, c).toLocaleString("en")} ${c}`;
+};
 /**
  * A price range with the currency once: "3–5 KWD" (Arabic "3–5 د.ك", not "3 د.ك–5 د.ك").
  * One string, so the language swap sees the whole range. Equal ends collapse to one price.
  */
-export const moneyRange = (lo: number, hi: number, cur: Currency = "KWD", sep = "–") => {
-  const a = dinars(lo, cur);
-  const b = dinars(hi, cur);
-  return a === b ? money(lo, cur) : `${a.toLocaleString("en")}${sep}${b.toLocaleString("en")} KWD`;
+export const moneyRange = (lo: number, hi: number, cur?: Currency | string, sep = "–") => {
+  const c = unit(cur);
+  const a = whole(lo, c);
+  const b = whole(hi, c);
+  return a === b ? money(lo, c) : `${a.toLocaleString("en")}${sep}${b.toLocaleString("en")} ${c}`;
 };

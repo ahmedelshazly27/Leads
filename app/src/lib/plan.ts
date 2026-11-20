@@ -1,4 +1,4 @@
-import { REVIEWED_AT, faceNeeds, rankBeard, rankHair, withReview } from "./styles";
+import { REVIEWED_AT, faceNeeds, rankBeard, rankHair, withReview, type HairStyle, type Ranked } from "./styles";
 import type { Intake, Scan } from "./types";
 import type { EvidenceGrade } from "./science";
 import { MODIFIABLE, currentScores, overall, regionOf, type ScoreKey } from "./report";
@@ -10,7 +10,7 @@ import { bodyInputError } from "./nutrition";
 /*  Glow-up plan engine                                                */
 /*                                                                    */
 /*  Every item is triggered by a measurement or an intake answer,     */
-/*  carries an evidence grade + references, a phase, costs, and the  */
+/*  carries an evidence grade + references, a phase and the          */
 /*  score gains it can plausibly produce within 12 months.           */
 /* ------------------------------------------------------------------ */
 
@@ -37,13 +37,16 @@ export interface PlanItem {
   category: Category;
   title: string;
   why: string; // personalised, references a measurement
+  /**
+   * The same "why" as separately translatable parts, for items whose reason is assembled
+   * from measured fragments (haircut, beard). Renderers prefer it over `why`.
+   */
+  whyParts?: WhyPart[];
   how: string[];
   grade: EvidenceGrade;
   refs: string[];
   phase: 1 | 2 | 3; // 1: weeks 0-4, 2: months 1-3, 3: months 3-12
   timeToVisible: string;
-  monthly: [number, number]; // EUR range
-  oneOff: [number, number];
   impact: Partial<Record<ScoreKey, number>>; // points at 12 months with good adherence
   drivenBy: string[];
   priority: 1 | 2 | 3; // 1 = highest
@@ -57,6 +60,18 @@ export interface PlanItem {
   reviewerNote?: string;
   /** removed by the reviewer (only present with includeHidden) */
   hidden?: boolean;
+}
+
+/**
+ * One sentence of a "why". A plain string is one sentence. A lead with a list renders as
+ * "Lead: a · b · c." with every part its own text node, so the Arabic text-swap layer
+ * (keyed by whole text nodes) translates the lead and each fragment on its own.
+ */
+export type WhyPart = string | { lead: string; list: string[] };
+
+/** The English sentence a list of parts stands for (staff pages, plain-text uses). */
+export function whyText(parts: WhyPart[]): string {
+  return parts.map((p) => (typeof p === "string" ? p : `${p.lead} ${p.list.join("; ")}.`)).join(" ");
 }
 
 export interface Myth {
@@ -126,8 +141,6 @@ export function buildPlan(scan: Scan, intake: Intake, opts: { includeHidden?: bo
     refs: ["hughes2013"],
     phase: 1,
     timeToVisible: "Prevention: protects against further UV damage (benefit builds over years)",
-    monthly: [8, 15],
-    oneOff: [0, 0],
     impact: { skin: 4 },
     drivenBy: ["Skin evenness"],
     priority: 1,
@@ -156,8 +169,6 @@ export function buildPlan(scan: Scan, intake: Intake, opts: { includeHidden?: bo
         refs: ["zaenglein2016"],
         phase: 1,
         timeToVisible: "8–12 weeks",
-        monthly: [10, 20],
-        oneOff: [0, 0],
         impact: { skin: intake.activeAcne ? 10 : 6 },
         drivenBy: ["Skin coverage", "Texture"],
         priority: 1,
@@ -181,8 +192,6 @@ export function buildPlan(scan: Scan, intake: Intake, opts: { includeHidden?: bo
         refs: ["zaenglein2016", "weiss1988"],
         phase: 1,
         timeToVisible: "8–12 weeks",
-        monthly: [10, 20],
-        oneOff: [0, 0],
         impact: { skin: intake.activeAcne ? 14 : 9 },
         drivenBy: ["Skin coverage", "Texture"],
         priority: 1,
@@ -207,8 +216,6 @@ export function buildPlan(scan: Scan, intake: Intake, opts: { includeHidden?: bo
         refs: ["zaenglein2016"],
         phase: 3,
         timeToVisible: "Gradual",
-        monthly: [0, 10],
-        oneOff: [0, 0],
         impact: { skin: 2 },
         drivenBy: ["Texture"],
         priority: 3,
@@ -225,8 +232,6 @@ export function buildPlan(scan: Scan, intake: Intake, opts: { includeHidden?: bo
         refs: ["weiss1988", "mukherjee2006"],
         phase: 3,
         timeToVisible: "12–24 weeks",
-        monthly: [10, 25],
-        oneOff: [0, 0],
         impact: { skin: 6 },
         drivenBy: ["Texture"],
         priority: 2,
@@ -246,8 +251,6 @@ export function buildPlan(scan: Scan, intake: Intake, opts: { includeHidden?: bo
         refs: ["bissett2005"],
         phase: 2,
         timeToVisible: "8–12 weeks",
-        monthly: [6, 12],
-        oneOff: [0, 0],
         impact: { skin: 4 },
         drivenBy: ["Redness", "Pigmentation"],
         priority: 2,
@@ -271,8 +274,6 @@ export function buildPlan(scan: Scan, intake: Intake, opts: { includeHidden?: bo
       refs: ["watson2015", "axelsson2010", "sundelin2013", "sundelin2017"],
       phase: 1,
       timeToVisible: "1–2 weeks",
-      monthly: [0, 0],
-      oneOff: [0, 0],
       impact: { rested: 18, skin: 2 },
       drivenBy: ["Under-eye", "Sleep"],
       priority: 1,
@@ -329,8 +330,6 @@ export function buildPlan(scan: Scan, intake: Intake, opts: { includeHidden?: bo
       refs: ["hall2011", "helms2014", "garthe2011", "coetzee2009", "re2016"],
       phase: 1,
       timeToVisible: "In one study, ~1.3 BMI units (≈4 kg for many adults) was the smallest change noticeable in the face",
-      monthly: [0, 0],
-      oneOff: [0, 0],
       impact: { leanness: 30, body: 14, rested: 3, core: 22 },
       drivenBy: ["Body fat", "Facial adiposity"],
       priority: 1,
@@ -352,8 +351,6 @@ export function buildPlan(scan: Scan, intake: Intake, opts: { includeHidden?: bo
     refs: ["morton2018", "helms2014"],
     phase: 2,
     timeToVisible: "Supports visible change over 3–6 months",
-    monthly: [15, 35],
-    oneOff: [0, 0],
     impact: { body: 4 },
     drivenBy: ["Body composition"],
     priority: 2,
@@ -369,8 +366,6 @@ export function buildPlan(scan: Scan, intake: Intake, opts: { includeHidden?: bo
     refs: ["whitehead2012", "stephen2011"],
     phase: 2,
     timeToVisible: "6 weeks",
-    monthly: [10, 25],
-    oneOff: [0, 0],
     impact: { skin: 3 },
     drivenBy: ["Skin colour"],
     priority: 3,
@@ -398,7 +393,10 @@ export function buildPlan(scan: Scan, intake: Intake, opts: { includeHidden?: bo
     ].filter(Boolean).join(" "),
     how: [
       `Currently ${intake.trainingDays} day(s)/week → 4 days: Upper A / Lower A / Upper B / Lower B`,
-      `Priority (${focus.join("; ")}): 14–18 sets/week; everything else 10–12 sets/week`,
+      // one fixed sentence per count, so each muscle group is translated on its own
+      focus.length > 1
+        ? `Priority (${focus[0]}; ${focus[1]}): 14–18 sets/week; everything else 10–12 sets/week`
+        : `Priority (${focus[0]}): 14–18 sets/week; everything else 10–12 sets/week`,
       ...(() => {
         const top = focusMuscles(scan, intake);
         return top.length ? [`From your analysis, focus muscles: ${top.join(", ")} — see the muscle-by-muscle Training Plan`] : [];
@@ -413,8 +411,6 @@ export function buildPlan(scan: Scan, intake: Intake, opts: { includeHidden?: bo
     refs: ["schoenfeld2016", "schoenfeld2017", ...(male ? ["sell2017"] : [])],
     phase: 1,
     timeToVisible: "8–12 weeks",
-    monthly: [25, 45],
-    oneOff: [0, 0],
     impact: { body: 12, posture: 4, core: 4 },
     drivenBy: [swr != null ? "Shoulder-to-waist ratio" : "Body composition", ...(armRatio != null && armRatio < 0.22 ? ["Arm size"] : [])],
     priority: 1,
@@ -441,8 +437,6 @@ export function buildPlan(scan: Scan, intake: Intake, opts: { includeHidden?: bo
       refs: ["kendall2005"],
       phase: 3,
       timeToVisible: "8–12 weeks",
-      monthly: [0, 0],
-      oneOff: [0, 0],
       impact: { posture: 10 },
       drivenBy: ["Shoulder tilt", "Pelvic tilt"],
       priority: 3,
@@ -467,8 +461,6 @@ export function buildPlan(scan: Scan, intake: Intake, opts: { includeHidden?: bo
       refs: ["sheikhhoseini2018", "yip2008"],
       phase: 1,
       timeToVisible: "6–10 weeks",
-      monthly: [0, 0],
-      oneOff: [0, 25],
       impact: { posture: 10 },
       drivenBy: ["Head position (side)"],
       priority: 2,
@@ -487,8 +479,6 @@ export function buildPlan(scan: Scan, intake: Intake, opts: { includeHidden?: bo
       refs: ["lynch2010", "kendall2005"],
       phase: 2,
       timeToVisible: "8–12 weeks",
-      monthly: [0, 0],
-      oneOff: [0, 15],
       impact: { posture: 6 },
       drivenBy: ["Shoulder position (side)"],
       priority: 3,
@@ -508,8 +498,6 @@ export function buildPlan(scan: Scan, intake: Intake, opts: { includeHidden?: bo
     refs: ["sadr2003"],
     phase: 2,
     timeToVisible: "Immediate",
-    monthly: [0, 5],
-    oneOff: [5, 15],
     impact: {},
     drivenBy: ["Brows"],
     priority: 3,
@@ -525,31 +513,17 @@ export function buildPlan(scan: Scan, intake: Intake, opts: { includeHidden?: bo
       id: "beard",
       category: "Grooming",
       title: beardPick ? `Beard: ${beardPick.item.name}` : patchy ? "Even heavy stubble with a defined neckline" : "Groomed heavy stubble or short beard",
-      why: [
-        beardPick
-          ? `${(() => {
-              const rs = beardPick.reasons.filter((r) => !/needs denser/.test(r));
-              if (beardRev.reviewed && !rs.length) return "Chosen by your reviewer to suit your face and growth pattern: dense where it adds structure (chin and jaw line), faded where it would add width.";
-              return `${beardRev.reviewed ? "Reviewer's pick, f" : "F"}itted to your face${needs?.notes.length ? ` (${needs.notes.join("; ")})` : ""}: ${rs.join("; ") || "balanced proportions suit most beard shapes"}.`;
-            })()}`
-          : "",
-        "Facial hair changes how a face is judged: in a rating study, women rated heavy stubble most attractive and perceived masculinity rose with beard length. Matching the beard shape and neckline to your face proportions is grooming guidance, not tested in studies.",
-        beardPick?.reasons.some((r) => /needs denser/.test(r)) ? "Your current growth is patchy — expect 3–6 months of growth (optionally minoxidil, discuss with a doctor) to reach full coverage." : "",
-      ]
-        .filter(Boolean)
-        .join(" "),
+      ...withWhy(beardWhy(beardPick, beardRev.reviewed, needs?.notes ?? [])),
       how: [
         ...(beardPick ? [`Shape: ${beardPick.item.prompt}`] : ["Trim to 3–5 mm every 3–4 days with a guard"]),
         "Neckline: one finger above the Adam's apple, curving up to behind the jaw angle",
         "Trim with a guard weekly; barber line-up every 3–4 weeks",
-        ...(beardAlts.length ? [`Also suits you: ${beardAlts.map((b) => `${b.item.name} (${Math.round(b.fit)}% fit)`).join(" · ")}`] : []),
+        ...(beardAlts.length ? [alsoSuits(beardAlts)] : []),
       ],
       grade: "B",
       refs: ["dixson2013", "janif2014", ...(patchy ? ["ingprasert2016"] : [])],
       phase: 1,
       timeToVisible: patchy ? "3–6 months for full coverage" : "2–3 weeks",
-      monthly: [0, 5],
-      oneOff: [40, 80],
       impact: {},
       drivenBy: ["Facial hair", ...(needs?.notes.length ? ["Face proportions"] : [])],
       priority: 2,
@@ -567,8 +541,6 @@ export function buildPlan(scan: Scan, intake: Intake, opts: { includeHidden?: bo
         refs: ["ingprasert2016"],
         phase: 2,
         timeToVisible: "16+ weeks",
-        monthly: [10, 20],
-        oneOff: [0, 0],
         impact: {},
         drivenBy: ["Patchy beard"],
         priority: 3,
@@ -591,12 +563,12 @@ export function buildPlan(scan: Scan, intake: Intake, opts: { includeHidden?: bo
     id: "haircut",
     category: "Hair",
     title: hairPick ? `Haircut: ${hairPick.name}` : hairAdvice(intake, shapeForHair).title,
-    why: `${hairPick ? `${hairRev.reviewed ? "Reviewer's pick among the closest-scoring cuts" : "The current cut"} (editorial library, reviewed ${REVIEWED_AT}) that balances your face${needs?.notes.length ? ` — ${needs.notes.join("; ")}` : ""}: ${hairRanked[0].reasons.join("; ") || "your proportions are balanced, so the most versatile current cut is chosen"}${hairPick.heatFriendly ? "; practical in Gulf heat" : ""}.` : hairAdvice(intake, shapeForHair).why} Hair grows ~1 cm/month, so styles up to ~${reach} cm on top are reachable within 12 months. Research shows hairstyle changes how attractive the same face is rated (studied in female faces), but which cut suits which face shape has not been tested — face-fit is grooming guidance.`,
+    ...withWhy(hairWhy(hairPick ? hairRanked[0] : null, hairRev.reviewed, needs?.notes ?? [], reach, hairAdvice(intake, shapeForHair).why)),
     how: hairPick
       ? [
           `Ask your barber: ${hairPick.barber}`,
           `Re-cut every ${hairPick.maintenanceWeeks} weeks`,
-          ...(hairAlts.length ? [`Also suits you: ${hairRanked.slice(1).map((r) => `${r.item.name} (${Math.round(r.fit)}% fit)`).join(" · ")}`] : []),
+          ...(hairAlts.length ? [alsoSuits(hairRanked.slice(1))] : []),
           ...hairAdvice(intake, shapeForHair).how.filter((h) => /curl cream|paste|looser waves/i.test(h)),
         ]
       : hairAdvice(intake, shapeForHair).how,
@@ -604,8 +576,6 @@ export function buildPlan(scan: Scan, intake: Intake, opts: { includeHidden?: bo
     refs: ["mesko2004", "saitoh1970"],
     phase: 1,
     timeToVisible: "Immediate at the barber",
-    monthly: [20, 35],
-    oneOff: [0, 0],
     impact: {},
     drivenBy: ["Face shape", "Hair type"],
     priority: 2,
@@ -631,9 +601,6 @@ export function buildPlan(scan: Scan, intake: Intake, opts: { includeHidden?: bo
       refs: ["kaufman1998", "olsen2002"],
       phase: 1,
       timeToVisible: "6–12 months",
-      // while pregnant/breastfeeding the item is a doctor's visit only: no daily treatment, no medication costs
-      monthly: pregCaution ? [0, 0] : [15, 40],
-      oneOff: [60, 150],
       impact: {},
       drivenBy: ["Hair loss"],
       priority: 1,
@@ -656,8 +623,6 @@ export function buildPlan(scan: Scan, intake: Intake, opts: { includeHidden?: bo
       refs: ["morita2007", "hartmannboyce2018"],
       phase: 1,
       timeToVisible: "Stops further smoking-related skin damage; visible change varies",
-      monthly: [0, 0],
-      oneOff: [0, 0],
       impact: { skin: 6, rested: 3 },
       drivenBy: ["Smoking"],
       priority: 1,
@@ -675,8 +640,6 @@ export function buildPlan(scan: Scan, intake: Intake, opts: { includeHidden?: bo
       refs: ["goodman2019"],
       phase: 1,
       timeToVisible: "Varies (evidence is observational)",
-      monthly: [0, 0],
-      oneOff: [0, 0],
       impact: { rested: 6, leanness: 4 },
       drivenBy: ["Alcohol"],
       priority: 2,
@@ -702,8 +665,6 @@ export function buildPlan(scan: Scan, intake: Intake, opts: { includeHidden?: bo
       refs: ["alam2014", "zaenglein2016"],
       phase: 3,
       timeToVisible: "3–6 months (several sessions)",
-      monthly: [0, 0],
-      oneOff: [150, 600],
       impact: { skin: 4 },
       drivenBy: ["Skin texture", "Marks"],
       priority: 3,
@@ -728,8 +689,6 @@ export function buildPlan(scan: Scan, intake: Intake, opts: { includeHidden?: bo
       refs: ["cavallini2014", "funt2013"],
       phase: 3,
       timeToVisible: "Depends on the practitioner's advice",
-      monthly: [0, 0],
-      oneOff: [0, 300],
       impact: {},
       drivenBy: ["Your preference"],
       priority: 3,
@@ -749,8 +708,6 @@ export function buildPlan(scan: Scan, intake: Intake, opts: { includeHidden?: bo
       refs: ["mclester2020", "deurenberg1991", "woolcott2018"],
       phase: 1,
       timeToVisible: "Immediate (measurement)",
-      monthly: [0, 0],
-      oneOff: [80, 200],
       impact: {},
       drivenBy: ["Body-fat estimate"],
       priority: 3,
@@ -831,6 +788,59 @@ function pregnancyLabel(intake: Intake) {
 
 function labelRegion(k: string) {
   return { forehead: "forehead", leftCheek: "left cheek", rightCheek: "right cheek", nose: "nose", underEye: "under-eye area", chin: "chin" }[k] ?? k;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Haircut and beard reasons, as translatable parts                   */
+/* ------------------------------------------------------------------ */
+
+const withWhy = (parts: WhyPart[]) => ({ why: whyText(parts), whyParts: parts });
+
+/** "Also suits you: A (80% fit) · B (78% fit)": one fixed sentence per count, so it is one dictionary template. */
+function alsoSuits(alts: Ranked<{ name: string }>[]): string {
+  const [a, b] = alts;
+  return b
+    ? `Also suits you: ${a.item.name} (${Math.round(a.fit)}% fit) · ${b.item.name} (${Math.round(b.fit)}% fit)`
+    : `Also suits you: ${a.item.name} (${Math.round(a.fit)}% fit)`;
+}
+
+const NEEDS_DENSER = /needs denser/;
+
+function beardWhy(pick: Ranked<{ name: string }> | undefined, reviewed: boolean, notes: string[]): WhyPart[] {
+  const parts: WhyPart[] = [];
+  if (pick) {
+    const rs = pick.reasons.filter((r) => !NEEDS_DENSER.test(r));
+    if (reviewed && !rs.length) parts.push("Chosen by your reviewer to suit your face and growth pattern: dense where it adds structure (chin and jaw line), faded where it would add width.");
+    else {
+      parts.push(reviewed ? "Your reviewer's pick, fitted to your face." : "Fitted to your face.");
+      if (notes.length) parts.push({ lead: "What we measured:", list: notes });
+      parts.push(rs.length ? { lead: "Why it suits you:", list: rs } : "Balanced proportions suit most beard shapes.");
+    }
+  }
+  parts.push("Facial hair changes how a face is judged: in a rating study, women rated heavy stubble most attractive and perceived masculinity rose with beard length.");
+  parts.push("Matching the beard shape and neckline to your face proportions is grooming guidance, not tested in studies.");
+  if (pick?.reasons.some((r) => NEEDS_DENSER.test(r)))
+    parts.push("Your current growth is patchy — expect 3–6 months of growth (optionally minoxidil, discuss with a doctor) to reach full coverage.");
+  return parts;
+}
+
+function hairWhy(top: Ranked<HairStyle> | null, reviewed: boolean, notes: string[], reachCm: number, fallback: string): WhyPart[] {
+  const parts: WhyPart[] = [];
+  if (top) {
+    parts.push(
+      reviewed
+        ? `Your reviewer picked this cut from the closest-scoring options in our style library (reviewed ${REVIEWED_AT}).`
+        : `The current cut from our style library (reviewed ${REVIEWED_AT}) that best balances your face.`,
+    );
+    if (notes.length) parts.push({ lead: "What we measured:", list: notes });
+    parts.push(top.reasons.length ? { lead: "Why it suits you:", list: top.reasons } : "Your proportions are balanced, so the most versatile current cut is chosen.");
+    if (top.item.heatFriendly) parts.push("Practical in Gulf heat.");
+  } else parts.push(fallback);
+  parts.push(`Hair grows ~1 cm/month, so styles up to ~${reachCm} cm on top are reachable within 12 months.`);
+  parts.push(
+    "Research shows hairstyle changes how attractive the same face is rated (studied in female faces), but which cut suits which face shape has not been tested — face-fit is grooming guidance.",
+  );
+  return parts;
 }
 
 export function hairAdvice(intake: Intake, shape: string | null) {

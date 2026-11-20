@@ -3,11 +3,12 @@ import { dateLocale, joinNodes, useLang } from "../../lib/i18n";
 import { Link } from "react-router-dom";
 import { Placeholder } from "../../components/FacePhoto";
 import { ChatHeart, ChevronDown, ChevronRight, GradCap, HeartHand } from "../../components/icons";
-import { BeforeAfter, Citations, GradeBadge, PageHeader, Radar, moneyRange, shortCite } from "../../components/ui";
+import { BeforeAfter, Citations, GradeBadge, PageHeader, Radar, shortCite } from "../../components/ui";
+import { WhyText } from "../report/kit";
 import type { Category, PlanItem } from "../../lib/plan";
 import { MYTHS } from "../../lib/plan";
 import { SCORE_LABEL, band, currentScores, overall, type ScoreKey } from "../../lib/report";
-import { toggleProgress, useAppState } from "../../lib/store";
+import { toggleProgress } from "../../lib/store";
 import { useActive } from "../../lib/useActive";
 import type { SectionProps } from "./types";
 import "./Protocol.css";
@@ -135,7 +136,6 @@ function GainCard({ icon, muted, strong, text, cite, dark }: { icon: ReactNode; 
 /* ------------------------------------------------------------------ */
 
 export function Recommendations(p: SectionProps) {
-  const cur = useAppState().settings.currency;
   const groups = new Map<Category, PlanItem[]>();
   for (const it of p.plan.items) groups.set(it.category, [...(groups.get(it.category) ?? []), it]);
   return (
@@ -146,7 +146,7 @@ export function Recommendations(p: SectionProps) {
           <div className="pr-group-head mono">{cat}</div>
           <div className="pr-recs">
             {items.map((it) => (
-              <RecCard key={it.id} item={it} cur={cur} />
+              <RecCard key={it.id} item={it} />
             ))}
           </div>
         </section>
@@ -167,14 +167,8 @@ export function Recommendations(p: SectionProps) {
   );
 }
 
-function RecCard({ item, cur }: { item: PlanItem; cur: import("../../lib/types").Currency }) {
+function RecCard({ item }: { item: PlanItem }) {
   const [open, setOpen] = useState(false);
-  const cost =
-    item.monthly[1] > 0
-      ? `${moneyRange(item.monthly[0], item.monthly[1], cur)}/mo`
-      : item.oneOff[1] > 0
-        ? `${moneyRange(item.oneOff[0], item.oneOff[1], cur)} once`
-        : "Free";
   return (
     <article className="pr-rec">
       <header className="pr-rec-head">
@@ -185,7 +179,7 @@ function RecCard({ item, cur }: { item: PlanItem; cur: import("../../lib/types")
           {item.clinical && <span className="chip mono-chip">Clinical · consult</span>}
         </div>
       </header>
-      <p className="pr-rec-why">{item.why}</p>
+      <p className="pr-rec-why"><WhyText it={item} /></p>
       {item.reviewerNote && (
         <p className="pr-rec-note">
           <b>Reviewer note</b> {item.reviewerNote}
@@ -199,7 +193,6 @@ function RecCard({ item, cur }: { item: PlanItem; cur: import("../../lib/types")
       </ul>
       <div className="pr-rec-meta">
         <div><span className="mono-sm">Visible in</span><span>{item.timeToVisible}</span></div>
-        <div><span className="mono-sm">Cost</span><span>{cost}</span></div>
       </div>
       <div className="pr-rec-foot">
         <div className="pr-chips">
@@ -280,67 +273,6 @@ export function ActionPlan(p: SectionProps) {
           );
         })}
       </div>
-    </div>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/*  Estimations                                                         */
-/* ------------------------------------------------------------------ */
-
-export function Estimations(p: SectionProps) {
-  const cur = useAppState().settings.currency;
-  const cats = new Map<string, { lo: number; hi: number; oLo: number; oHi: number; items: string[] }>();
-  for (const it of p.plan.items) {
-    const c = cats.get(it.category) ?? { lo: 0, hi: 0, oLo: 0, oHi: 0, items: [] };
-    c.lo += it.monthly[0];
-    c.hi += it.monthly[1];
-    c.oLo += it.oneOff[0];
-    c.oHi += it.oneOff[1];
-    c.items.push(it.title);
-    cats.set(it.category, c);
-  }
-  const rows = [...cats.entries()].map(([k, v]) => ({ k, ...v, yLo: v.lo * 12 + v.oLo, yHi: v.hi * 12 + v.oHi }));
-  const tot = rows.reduce((s, r) => ({ lo: s.lo + r.lo, hi: s.hi + r.hi, yLo: s.yLo + r.yLo, yHi: s.yHi + r.yHi }), { lo: 0, hi: 0, yLo: 0, yHi: 0 });
-  const max = Math.max(1, ...rows.map((r) => r.yHi));
-  return (
-    <div className="page">
-      <PageHeader kicker="Estimations" muted="Your" strong="investment" mutedFirst lead="A detailed estimate of the expected cost of your protocol, organised by category, to help you see where the budget goes and prioritise." />
-      <div className="pr-est-top">
-        <div className="pr-est-card pr-gcard-dark">
-          <div className="mono-sm">Monthly</div>
-          <div className="pr-est-num">{moneyRange(tot.lo, tot.hi, cur)}</div>
-        </div>
-        <div className="pr-est-card">
-          <div className="mono-sm">First 12 months</div>
-          <div className="pr-est-num">{moneyRange(tot.yLo, tot.yHi, cur)}</div>
-        </div>
-      </div>
-      <div className="apr-card pr-table">
-        <div className="pr-tr pr-th mono-sm">
-          <span>Category</span>
-          <span>Monthly</span>
-          <span>One-off</span>
-          <span>12 months</span>
-          <span />
-        </div>
-        {rows.map((r) => (
-          <div key={r.k} className="pr-tr">
-            <span>
-              <b>{r.k}</b>
-              <small>{joinNodes(r.items, " · ")}</small>
-            </span>
-            <span>{r.hi ? `${moneyRange(r.lo, r.hi, cur)}` : "—"}</span>
-            <span>{r.oHi ? `${moneyRange(r.oLo, r.oHi, cur)}` : "—"}</span>
-            <span>{r.yHi ? `${moneyRange(r.yLo, r.yHi, cur)}` : "Free"}</span>
-            <span className="pr-est-bar">
-              <i style={{ left: `${(r.yLo / max) * 100}%`, width: `${Math.max(1, ((r.yHi - r.yLo) / max) * 100)}%` }} />
-              <em style={{ width: `${(r.yLo / max) * 100}%` }} />
-            </span>
-          </div>
-        ))}
-      </div>
-      <p className="pr-fine">Approximate retail prices, converted at a fixed rate; gym, barber and clinic prices vary widely by city. Clinical items exclude consultation fees unless stated.</p>
     </div>
   );
 }
@@ -515,8 +447,8 @@ export function Summary(p: SectionProps) {
           {plan.drivers.length ? <>Biggest levers: {joinNodes(plan.drivers.map((d) => d.toLowerCase()), ", ")}.</> : "You're already close to your potential — the plan focuses on maintenance."} Bone structure is held constant; gains come from skin, body composition, sleep, training and grooming.
         </p>
         <div className="pr-sum-actions">
-          <Link to="/protocol" className="btn">Open protocol document</Link>
-          <Link to="/analysis/recommendations" className="btn btn-ghost">See recommendations</Link>
+          <Link to="/protocol" className="btn">Open your plan</Link>
+          <Link to="/analysis-report" className="btn btn-ghost">Open the detailed analysis</Link>
         </div>
       </section>
     </div>

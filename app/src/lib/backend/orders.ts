@@ -2,29 +2,61 @@ import { BackendError, backendMode, callFunction, check, num, sb, useBackendQuer
 import { mock } from "./mock";
 import { consentsFlushed, requireUserId, useSession } from "./auth";
 import { currentSubscription } from "./subscription";
-import type { CheckoutPlan, CustomerVisual, Locale, OrderRow, PaymentRow, QueryState, ReviewRow, SubscriptionRow } from "./types";
+import { SELLING_COUNTRIES, type CheckoutPlan, type CustomerVisual, type Locale, type OrderRow, type PaymentRow, type QueryState, type ReviewRow, type SubscriptionRow } from "./types";
 
 export { currentSubscription };
 
 export const normOrder = (o: OrderRow): OrderRow => ({ ...o, amount: num(o.amount) });
 export const normPayment = (p: PaymentRow): PaymentRow => ({ ...p, amount: num(p.amount), fee: num(p.fee), net: num(p.net) });
 
+/** What startCheckout / redirectToCheckout take. */
+export interface CheckoutRequest {
+  plan: CheckoutPlan;
+  /** page language: the return pages and the payment page follow it */
+  locale?: Locale;
+  /**
+   * The customer's country (ISO-2, e.g. "SA"). The server charges that
+   * country's currency and price (prices.json) and refuses countries we do
+   * not sell in with "country_not_available". Left out: Kuwait (KWD), as
+   * before multi-currency.
+   */
+  country?: string;
+}
+
+const normRequest = (a: CheckoutPlan | CheckoutRequest, locale?: Locale): Required<Pick<CheckoutRequest, "plan" | "locale">> & { country?: string } => {
+  const r = typeof a === "string" ? { plan: a, locale } : a;
+  const country = r.country?.trim().toUpperCase() || undefined;
+  return { plan: r.plan, locale: r.locale ?? "en", ...(country ? { country } : {}) };
+};
+
 /**
  * Create the order and a hosted checkout session. Returns the URL to send the
  * customer to; `redirectToCheckout` does the redirect for you.
+ *
+ *   startCheckout({ plan: "report", locale: "ar", country: "SA" })
+ *   startCheckout("report", "en")   // older form: Kuwait / KWD
+ *
+ * Errors (BackendError.code): country_not_available (400), currency_mismatch
+ * (409: the Stripe customer already pays another currency), already_member,
+ * waitlist, profile_incomplete, age_required, under_18, payment_provider.
  */
-export async function startCheckout(plan: CheckoutPlan, locale: Locale = "en"): Promise<{ url: string }> {
+export async function startCheckout(req: CheckoutPlan | CheckoutRequest, locale?: Locale): Promise<{ url: string }> {
+  const body = normRequest(req, locale);
+  if (body.country && !SELLING_COUNTRIES.includes(body.country)) {
+    // Same answer as the server, without a round trip.
+    throw new BackendError("We are not open in your country yet. Join the waitlist and we will let you know.", "country_not_available", 400);
+  }
   // The 18+ consent given before sign-in must be on record before checkout.
   await consentsFlushed();
-  if (backendMode === "mock") return mock.startCheckout(plan, locale);
+  if (backendMode === "mock") return mock.startCheckout(body.plan, body.locale, body.country);
   requireUserId();
-  const res = await callFunction<{ url?: string }>("create-checkout", { plan, locale });
+  const res = await callFunction<{ url?: string }>("create-checkout", body);
   if (!res?.url) throw new BackendError("Checkout could not be started. Please try again.", "checkout_failed");
   return { url: res.url };
 }
 
-export async function redirectToCheckout(plan: CheckoutPlan, locale: Locale = "en"): Promise<void> {
-  const { url } = await startCheckout(plan, locale);
+export async function redirectToCheckout(req: CheckoutPlan | CheckoutRequest, locale?: Locale): Promise<void> {
+  const { url } = await startCheckout(req, locale);
   window.location.assign(url);
 }
 

@@ -23,10 +23,8 @@ import {
   isCancelling,
   isIncluded,
   manageMembership,
-  PRICES_KWD,
   yearlyEndNowRefund,
   type MembershipAction,
-  redirectToCheckout,
   signOut,
   useMyConsents,
   useMyOrders,
@@ -39,7 +37,10 @@ import {
   type SubscriptionRow,
 } from "../../lib/backend";
 import { legalHref } from "../legal/content";
-import { amt, errCode, FlowHead, FlowOff, FlowShell, flowHref, fmtDate, LegalLinks, Spinner, useFlowLang } from "./FlowShell";
+import { CountrySelect } from "../../components/CountrySelect";
+import { fmt, priceFor, priceIn, useMarket } from "../../lib/pricing";
+import { errCode, FlowHead, FlowOff, FlowShell, flowHref, fmtDate, goToCheckout, LegalLinks, money, Spinner, useFlowLang } from "./FlowShell";
+import { OpenReport } from "./openReport";
 
 export function Account() {
   const lang = useFlowLang();
@@ -170,6 +171,7 @@ const statusTone = (s: OrderStatus) => (s === "delivered" ? " is-ok" : s === "aw
 
 function Orders({ lang }: { lang: Lang }) {
   const orders = useMyOrders();
+  const { country } = useMarket();
   // abandoned checkouts are not orders from the customer's point of view
   // (a paid order cancelled later, e.g. after the photo consent was withdrawn, stays visible)
   const list = (orders.data ?? []).filter((o) => o.status !== "pending_payment" && !(o.status === "cancelled" && !o.paid_at));
@@ -187,16 +189,19 @@ function Orders({ lang }: { lang: Lang }) {
           <p>No orders yet.</p>
           <div className="fl-row">
             <Link to={lang === "ar" ? "/ar/start" : "/start"} className="fl-btn">
-              {`Get your report (${amt(PRICES_KWD.report)} KWD)`}
+              {`Get your report (${fmt(priceFor("report", country), lang)})`}
             </Link>
           </div>
         </>
       ) : (
-        <div className="fl-orders">
-          {list.map((o) => (
-            <OrderLine key={o.id} order={o} lang={lang} />
-          ))}
-        </div>
+        <>
+          <div className="fl-orders">
+            {list.map((o) => (
+              <OrderLine key={o.id} order={o} lang={lang} />
+            ))}
+          </div>
+          <LatestReport orders={list} lang={lang} />
+        </>
       )}
     </section>
   );
@@ -207,10 +212,22 @@ function OrderLine({ order, lang }: { order: OrderRow; lang: Lang }) {
     <Link to={flowHref(`/orders/${order.id}`, lang)} className="fl-order">
       <span className="fl-choice-body">
         <span className="fl-order-title">{order.product === "checkin" ? "Monthly check-in" : "Report and 12-month plan"}</span>
-        <span className="fl-muted">{order.amount > 0 ? `${fmtDate(order.created_at, lang)} · ${amt(order.amount)} KWD paid` : fmtDate(order.created_at, lang)}</span>
+        <span className="fl-muted">{order.amount > 0 ? `${fmtDate(order.created_at, lang)} · ${money(order.amount, order.currency, lang)} paid` : fmtDate(order.created_at, lang)}</span>
       </span>
       <span className={`fl-status${statusTone(order.status)}`}>{STATUS_LABEL[order.status]}</span>
     </Link>
+  );
+}
+
+/** The newest delivered report: open the plan (first) or the detailed analysis. */
+function LatestReport({ orders, lang }: { orders: OrderRow[]; lang: Lang }) {
+  const latest = orders.find((o) => o.status === "delivered");
+  if (!latest) return null;
+  return (
+    <div className="fl-report-open">
+      <h3>Your latest report</h3>
+      <OpenReport order={latest} lang={lang} />
+    </div>
   );
 }
 
@@ -296,16 +313,19 @@ function IncludedDetails({ sub, lang }: { sub: SubscriptionRow; lang: Lang }) {
 }
 
 function MemberDetails({ sub, lang }: { sub: SubscriptionRow; lang: Lang }) {
-  const price =
-    sub.plan === "monthly"
-      ? `${amt(PRICES_KWD.membership_monthly)} KWD a month`
-      : `${amt(PRICES_KWD.membership_yearly)} KWD for 12 months, then ${amt(PRICES_KWD.membership_monthly)} KWD a month`;
+  // the currency the membership was bought in (the visitor's country may differ)
+  const { currency: visitorCurrency } = useMarket();
+  const cur = sub.currency || visitorCurrency;
+  const monthly = fmt(priceIn("monthly", cur), lang);
+  const yearlyPrice = priceIn("yearly", cur);
+  const price = sub.plan === "monthly" ? `${monthly} a month` : `${fmt(yearlyPrice, lang)} for 12 months, then ${monthly} a month`;
   const end = fmtDate(sub.current_period_end, lang);
   const ending = isCancelling(sub) ? fmtDate(sub.cancel_at, lang) || end : null;
   const [confirm, setConfirm] = useState<null | "cancel" | "end_now">(null);
   const [busy, setBusy] = useState<MembershipAction | null>(null);
   const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
-  const refundPreview = yearlyEndNowRefund(sub, PRICES_KWD.membership_yearly);
+  // sub.amount is what was actually paid for the year, as the server uses
+  const refundPreview = yearlyEndNowRefund(sub);
   const canEndNow = !ending && !!refundPreview;
 
   const act = async (action: MembershipAction) => {
@@ -321,8 +341,8 @@ function MemberDetails({ sub, lang }: { sub: SubscriptionRow; lang: Lang }) {
           ok: true,
           text: res.refund
             ? res.refund.pending
-              ? `Your membership has ended. We will refund ${amt(res.refund.amount)} KWD to your card; our team sends it within a few days.`
-              : `Your membership has ended. ${amt(res.refund.amount)} KWD is refunded to your card; your bank may take a few days to show it.`
+              ? `Your membership has ended. We will refund ${money(res.refund.amount, res.refund.currency ?? cur, lang)} to your card; our team sends it within a few days.`
+              : `Your membership has ended. ${money(res.refund.amount, res.refund.currency ?? cur, lang)} is refunded to your card; your bank may take a few days to show it.`
             : "Your membership has ended.",
         });
     } catch (e) {
@@ -352,7 +372,7 @@ function MemberDetails({ sub, lang }: { sub: SubscriptionRow; lang: Lang }) {
     <>
       <dl className="fl-dl">
         <dt>Billing</dt>
-        <dd>{sub.plan === "monthly" ? "Monthly" : "Yearly"}</dd>
+        <dd>{sub.plan === "monthly" ? "Monthly" : "12 months, then monthly"}</dd>
         <dt>Price</dt>
         <dd>{price}</dd>
         <dt>Status</dt>
@@ -426,9 +446,9 @@ function MemberDetails({ sub, lang }: { sub: SubscriptionRow; lang: Lang }) {
             <div className="fl-note">
               <p>
                 {refundPreview.months > 1
-                  ? `Your membership ends today and we refund ${amt(refundPreview.amountKwd)} KWD for the ${refundPreview.months} full months left, to the card you paid with.`
+                  ? `Your membership ends today and we refund ${money(refundPreview.amount, refundPreview.currency, lang)} for the ${refundPreview.months} full months left, to the card you paid with.`
                   : refundPreview.months === 1
-                    ? `Your membership ends today and we refund ${amt(refundPreview.amountKwd)} KWD for the one full month left, to the card you paid with.`
+                    ? `Your membership ends today and we refund ${money(refundPreview.amount, refundPreview.currency, lang)} for the one full month left, to the card you paid with.`
                   : "Your membership ends today. Less than a full month is left, so there is no refund."}
               </p>
               <div className="fl-row" style={{ marginTop: 10 }}>
@@ -461,6 +481,9 @@ function MemberDetails({ sub, lang }: { sub: SubscriptionRow; lang: Lang }) {
 }
 
 function JoinMembership({ lang }: { lang: Lang }) {
+  const { country, selling } = useMarket();
+  const monthly = fmt(priceFor("monthly", country), lang);
+  const yearly = fmt(priceFor("yearly", country), lang);
   const [busy, setBusy] = useState<"membership_monthly" | "membership_yearly" | null>(null);
   const [error, setError] = useState<string | null>(null);
   // the reminder email links to /account?join=membership_monthly|membership_yearly: highlight that choice
@@ -479,7 +502,7 @@ function JoinMembership({ lang }: { lang: Lang }) {
     setBusy(plan);
     setError(null);
     try {
-      await redirectToCheckout(plan, lang);
+      await goToCheckout(plan, lang, country);
     } catch (e) {
       setBusy(null);
       const code = errCode(e);
@@ -490,30 +513,40 @@ function JoinMembership({ lang }: { lang: Lang }) {
             ? "We could not start the membership. Please write to us and we will help."
             : code === "payment_provider"
               ? "We could not start the payment. Please try again in a moment."
-              : "Something went wrong on our side. Please try again in a moment.",
+              : code === "country_not_available"
+                ? "We don't take payments from this country yet. If you live in one of the countries we serve, choose it above."
+                : code === "currency_mismatch"
+                  ? "Your account is already billed in another currency. Please choose the country you used before, or contact us."
+                  : "Something went wrong on our side. Please try again in a moment.",
       );
-      if (code !== "already_member" && code !== "payment_provider") console.warn("membership checkout failed", e);
+      if (code !== "already_member" && code !== "payment_provider" && code !== "country_not_available" && code !== "currency_mismatch") console.warn("membership checkout failed", e);
     }
   };
   return (
     <>
       {picked && (
         <p className="fl-note" role="status">
-          {picked === "membership_yearly" ? "To keep going yearly, press “Join yearly” below. You pay on the next page." : "To keep going monthly, press “Join monthly” below. You pay on the next page."}
+          {picked === "membership_yearly" ? "To keep going for 12 months, press “Join for 12 months” below. You pay on the next page." : "To keep going monthly, press “Join monthly” below. You pay on the next page."}
         </p>
       )}
+      {!selling && (
+        <div className="fl-note">
+          <p>Membership is paid in the currency of the country you live in. Choose your country to see your price.</p>
+          <CountrySelect lang={lang} label={lang === "ar" ? "دولتك" : "Your country"} />
+        </div>
+      )}
       <div className="fl-row">
-        <button type="button" ref={picked === "membership_monthly" ? pickedRef : undefined} className={btnClass("membership_monthly")} disabled={!!busy} onClick={() => start("membership_monthly")}>
+        <button type="button" ref={picked === "membership_monthly" ? pickedRef : undefined} className={btnClass("membership_monthly")} disabled={!!busy || !selling} onClick={() => start("membership_monthly")}>
           {busy === "membership_monthly" && <Spinner />}
-          {`Join monthly (${amt(PRICES_KWD.membership_monthly)} KWD a month)`}
+          {`Join monthly (${monthly} a month)`}
         </button>
-        <button type="button" ref={picked === "membership_yearly" ? pickedRef : undefined} className={btnClass("membership_yearly")} disabled={!!busy} onClick={() => start("membership_yearly")}>
+        <button type="button" ref={picked === "membership_yearly" ? pickedRef : undefined} className={btnClass("membership_yearly")} disabled={!!busy || !selling} onClick={() => start("membership_yearly")}>
           {busy === "membership_yearly" && <Spinner />}
-          {`Join yearly (${amt(PRICES_KWD.membership_yearly)} KWD for 12 months)`}
+          {`Join for 12 months (${yearly})`}
         </button>
       </div>
-      <p className="fl-muted">{`After the first 12 months, the yearly membership continues at ${amt(PRICES_KWD.membership_monthly)} KWD a month. Cancel any time.`}</p>
-      <p className="fl-muted">Paid by card, Apple Pay or Google Pay on a secure Stripe page.</p>
+      <p className="fl-muted">{`After the first 12 months, the 12-month membership continues at ${monthly} a month. Cancel any time.`}</p>
+      <p className="fl-muted">Prices include VAT where it applies. Paid by card, Apple Pay or Google Pay on a secure Stripe page.</p>
       {error && (
         <p className="fl-note is-bad" role="alert">
           {error}

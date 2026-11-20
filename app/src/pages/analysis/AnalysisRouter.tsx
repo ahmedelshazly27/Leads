@@ -59,7 +59,8 @@ const SECTIONS: Record<string, ComponentType<SectionProps>> = {
   "your-protocol": P.YourProtocol,
   recommendations: P.Recommendations,
   "action-plan": P.ActionPlan,
-  estimations: P.Estimations,
+  // costs are no longer shown; old links land on the action plan
+  estimations: () => <Navigate to="/analysis/action-plan" replace />,
   nutrition: Nutrition,
   training: Training,
   partners: Partners,

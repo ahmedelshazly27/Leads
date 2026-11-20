@@ -636,3 +636,65 @@
     text-align: center;
   }
 }
+
+/* ---------------- Country & local prices (lib/pricing) ---------------- */
+.fl-country {
+  display: flex;
+  justify-content: flex-start;
+  color: var(--ink-3);
+}
+.fl-price,
+.fl-amount {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.fl-row.is-split {
+  justify-content: space-between;
+}
+.fl-choice.is-preview {
+  cursor: default;
+}
+.fl-choice.is-preview .fl-radio {
+  visibility: hidden;
+}
+.fl-soon h2 {
+  text-wrap: balance;
+}
+.fl-open + .fl-muted {
+  margin-top: 10px;
+}
+.fl-report-open {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+.fl-report-open h3 {
+  margin: 0 0 10px;
+}
+.fl-title,
+.fl-card h2 {
+  text-wrap: balance;
+}
+.fl-lead,
+.fl-card p {
+  text-wrap: pretty;
+}
+.fl-note .cs {
+  margin-top: 8px;
+}
+.fl-choice-sub,
+.fl-muted {
+  text-wrap: pretty;
+}
+
+/* A fieldset legend sits on the card's top edge by default; floated, it is laid out
+   as the card's first line like any other label. */
+.fl-legend {
+  float: left;
+  width: 100%;
+  padding: 0;
+  margin: 0 0 10px;
+}
+.fl-legend + * {
+  clear: both;
+}

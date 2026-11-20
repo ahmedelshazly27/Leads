@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { joinNodes } from "../../lib/i18n";
+import { getLang, joinNodes } from "../../lib/i18n";
 import { Logo } from "../../components/Logo";
 import { GradeBadge } from "../../components/ui";
 import { BASIS_LABEL, REGIONS, categoriesFor, matchFor } from "../../lib/library";
@@ -68,6 +68,7 @@ import {
 import {
   Attrs,
   Bar,
+  DocLink,
   NOT_MEASURED,
   Pill,
   Score,
@@ -148,12 +149,11 @@ export function coverChapter(c: ReportCtx): Chapter {
           <div className="rp-cover-main">
             <div className="rp-cover-text">
               <div className="rp-mono rp-cover-k">Client report · Confidential</div>
-              <h1 className="rp-cover-title">
-                Analysis <span>report</span>
-              </h1>
+              {/* Arabic: the whole title is one entry (the word order differs) */}
+              <h1 className="rp-cover-title">{getLang() === "ar" ? <span>Detailed analysis</span> : <>Detailed <span>analysis</span></>}</h1>
               <div className="rp-cover-name">{i.name}</div>
               <p className="rp-cover-lead">
-                A complete record of your face and body analysis: every photo, measurement, marker and score, the norms each one is compared with, and your 12-month plan.
+                A complete record of your face and body analysis: every photo, measurement, marker and score, and the norms each one is compared with. What to do about it is in your plan, a separate document.
               </p>
             </div>
             <div className="rp-cover-photo">
@@ -180,7 +180,8 @@ export function coverChapter(c: ReportCtx): Chapter {
               </p>
             </div>
           </div>
-          <p className="rp-cover-foot">For education and self-tracking only — not a medical diagnosis. Read the disclaimer on page 2 before acting on this report.</p>
+          <DocLink to="plan" />
+          <p className="rp-cover-foot">{`For education and self-tracking only — not a medical diagnosis. Read the disclaimer on page ${c.pageNo("disclaimer")} before acting on this report.`}</p>
         </div>,
       ),
     ],
@@ -248,7 +249,6 @@ export function profileRows(i: Intake): [string, ReactNode][] {
     ["Smoking", { no: "No", occasionally: "Occasionally", daily: "Daily" }[i.smoking]],
     ["Alcohol", { never: "Never", occasional: "Occasional social drinker", weekly: "Weekly", daily: "Daily" }[i.drinking]],
     ["Treatment preference", { "non-invasive": "Non-invasive treatments only", "open-to-clinical": "Open to clinical treatments", "open-to-surgical": "Open to surgical options" }[i.preferences]],
-    ["Budget", cap(i.budget)],
     ["Goals", i.goals.length ? <>{joinNodes(i.goals, ", ")}</> : "None given"],
     ["Limitations", i.limitations || "None reported"],
     ["Allergies", i.allergies || "None reported"],
@@ -1216,7 +1216,7 @@ export function typesChapter(c: ReportCtx): Chapter {
             m ? (
               <span className="rp-small">
                 {m.by === "reviewer" ? "Set by your reviewer" : BASIS_LABEL[m.by]}
-                {m.value ? ` · ${m.value}` : ""}
+                {m.value && <> · {m.value}</>}
               </span>
             ) : (
               <span className="rp-small rp-muted">{cat.basis === "reviewer" ? "Awaiting reviewer" : cat.basis === "you" ? "No answer given" : "Not measured (photo missing)"}</span>

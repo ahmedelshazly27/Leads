@@ -8,7 +8,7 @@ import type { ConsentKind, ConsentRow, QueryState } from "./types";
  * terms, privacy policy or photo-consent screen changes, so we can tell which
  * text a person agreed to.
  */
-export const CONSENT_VERSION = "2026-11-19.2";
+export const CONSENT_VERSION = "2026-11-20.1";
 
 const PENDING_KEY = "facet-pending-consents";
 /** Pending consents older than this are dropped (a sign-in code or link expires long before). */

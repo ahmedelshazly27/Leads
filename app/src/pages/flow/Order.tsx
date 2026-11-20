@@ -9,20 +9,18 @@
  * - in_review: status and due time. delivered: report, approved AI
  *   illustrations, reviewer notes and the PDF.
  */
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useEffect, useMemo, useState } from "react";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import { ConsentGate, type ConsentResult } from "../../components/ConsentGate";
 import { SignIn } from "../../components/SignIn";
-import { DEFAULT_INTAKE, NewScan } from "../NewScan";
+import { NewScan } from "../NewScan";
+import { OpenReport, rememberLocalScan, useLocalScan } from "./openReport";
 import type { Lang } from "../../lib/i18n";
-import { addScan, createProfile, getState, setActiveProfile, setReview, useAppState } from "../../lib/store";
-import { FACE_VIEWS, type FaceView, type Intake, type Scan } from "../../lib/types";
 import {
   activeConsents,
   backendEnabled,
   hoursLeft,
   recordConsents,
-  scanResults,
   SLA_HOURS,
   useMyConsents,
   useMyReview,
@@ -33,9 +31,6 @@ import {
   type CustomerVisual,
   type OrderRow,
   type OrderStatus,
-  type PhotoUrls,
-  type ReviewRow,
-  type ScanRow,
 } from "../../lib/backend";
 import { visualCaptions } from "../review/serverShared";
 import { FlowHead, FlowOff, FlowShell, flowHref, fmtDate, LegalLinks, Spinner, useFlowLang } from "./FlowShell";
@@ -44,24 +39,6 @@ import { FlowHead, FlowOff, FlowShell, flowHref, fmtDate, LegalLinks, Spinner, u
 const PHOTO_RETENTION_DAYS = 90;
 const DAY = 86_400_000;
 
-/** order id -> id of the local scan made for it on this device */
-const LOCAL_KEY = "facet-order-scans";
-function localScanFor(orderId: string): string | null {
-  try {
-    return (JSON.parse(localStorage.getItem(LOCAL_KEY) ?? "{}") as Record<string, string>)[orderId] ?? null;
-  } catch {
-    return null;
-  }
-}
-function rememberLocalScan(orderId: string, scanId: string) {
-  try {
-    const m = JSON.parse(localStorage.getItem(LOCAL_KEY) ?? "{}") as Record<string, string>;
-    m[orderId] = scanId;
-    localStorage.setItem(LOCAL_KEY, JSON.stringify(m));
-  } catch {
-    /* storage blocked */
-  }
-}
 
 export function Order() {
   const lang = useFlowLang();
@@ -529,48 +506,16 @@ function Delivered({ order, lang }: { order: OrderRow; lang: Lang }) {
   const review = useMyReview(order.id);
   const visuals = useMyVisuals(order.id);
   const server = useOrderScan(order.id);
-  const local = useLocalScan(order.id, server.data ?? null, review.data ?? null);
-  const [opening, setOpening] = useState<string | null>(null);
-  const [openError, setOpenError] = useState<string | null>(null);
 
   const photosGoneAt = server.data?.scan.photos_deleted_at ?? null;
   const deleteOn = order.delivered_at ? new Date(Date.parse(order.delivered_at) + PHOTO_RETENTION_DAYS * DAY).toISOString() : null;
-
-  const open = async (to: string) => {
-    setOpening(to);
-    setOpenError(null);
-    try {
-      await local.open(to);
-    } catch (e) {
-      console.warn("open report failed", e);
-      setOpenError("We could not open your report on this device. Please try again.");
-      setOpening(null);
-    }
-  };
-  const canOpen = !!local.scan || !!scanResults(server.data?.scan);
 
   return (
     <>
       <div className="fl-card">
         <h2>Your report is ready</h2>
         <p>Checked and approved by your reviewer.</p>
-        <div className="fl-row">
-          <button type="button" className="fl-btn" disabled={!canOpen || !!opening} onClick={() => open("/analysis/getting-started")}>
-            {opening === "/analysis/getting-started" && <Spinner />}
-            Open your report
-          </button>
-          <button type="button" className="fl-btn is-ghost" disabled={!canOpen || !!opening} onClick={() => open("/protocol")}>
-            {opening === "/protocol" && <Spinner />}
-            Open the PDF
-          </button>
-        </div>
-        {!canOpen && server.loading && <p className="fl-muted">Loading your results…</p>}
-        {!canOpen && !server.loading && <p className="fl-note">Your results could not be loaded. Please reload the page, or contact us if this keeps happening.</p>}
-        {openError && (
-          <p className="fl-note is-bad" role="alert">
-            {openError}
-          </p>
-        )}
+        <OpenReport order={order} lang={lang} />
       </div>
 
       <div className="fl-card">
@@ -632,77 +577,4 @@ function VisualGrid({ visuals }: { visuals: CustomerVisual[] }) {
       })}
     </div>
   );
-}
-
-/* ---------------------- The local copy of the report ------------------- */
-
-const isIntake = (v: unknown): v is Intake => !!v && typeof v === "object" && "name" in (v as Record<string, unknown>) && "gender" in (v as Record<string, unknown>);
-
-async function toDataUrl(url: string): Promise<string | null> {
-  try {
-    const res = await fetch(url);
-    if (!res.ok) return null;
-    const blob = await res.blob();
-    return await new Promise<string | null>((resolve) => {
-      const r = new FileReader();
-      r.onload = () => resolve(typeof r.result === "string" ? r.result : null);
-      r.onerror = () => resolve(null);
-      r.readAsDataURL(blob);
-    });
-  } catch {
-    return null;
-  }
-}
-
-/**
- * The report viewer works on the device's own store. Use the scan made on this
- * device for the order when there is one; otherwise copy the reviewed scan
- * (results, intake and, while they exist, the photos) from the account.
- * The reviewer's notes are applied to the local copy.
- */
-function useLocalScan(orderId: string, server: { scan: ScanRow; photos: PhotoUrls } | null, review: ReviewRow | null = null) {
-  const navigate = useNavigate();
-  const results = scanResults(server?.scan);
-  const findLocal = useCallback((): Scan | null => {
-    const st = getState();
-    const id = localScanFor(orderId) ?? results?.id ?? null;
-    return (id && st.scans.find((x) => x.id === id)) || null;
-  }, [orderId, results?.id]);
-  const app = useAppState();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const scan = useMemo(findLocal, [findLocal, app.scans]);
-
-  const open = useCallback(
-    async (to: string) => {
-      let s = findLocal();
-      if (!s) {
-        if (!results || !server) throw new Error("no results");
-        const intake: Intake = isIntake(server.scan.intake) ? server.scan.intake : { ...DEFAULT_INTAKE, name: "Me" };
-        const profile = createProfile(intake);
-        const [face, body, side, ...views] = await Promise.all(
-          (["face", "body", "side", ...FACE_VIEWS] as const).map((k) => (server.photos[k] ? toDataUrl(server.photos[k]!) : Promise.resolve(null))),
-        );
-        const viewMap: Partial<Record<FaceView, string>> = {};
-        FACE_VIEWS.forEach((k, i) => {
-          if (views[i]) viewMap[k] = views[i]!;
-        });
-        s = { ...results, profileId: profile.id, views: FACE_VIEWS.filter((k) => viewMap[k]), hasFacePhoto: !!face, hasBodyPhoto: !!body, hasSidePhoto: !!side };
-        await addScan(s, face, body, side, viewMap);
-        rememberLocalScan(orderId, s.id);
-      }
-      if (review && review.status === "approved") {
-        setReview(s.id, {
-          status: "approved",
-          note: review.notes ?? "",
-          itemNotes: review.item_notes ?? {},
-          ...(review.approved_at ? { approvedAt: review.approved_at } : {}),
-        });
-      }
-      setActiveProfile(s.profileId);
-      navigate(to);
-    },
-    [findLocal, results, server, review, orderId, navigate],
-  );
-
-  return { scan, open };
 }

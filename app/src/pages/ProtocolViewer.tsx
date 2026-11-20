@@ -30,49 +30,80 @@ import type { ReportCtx } from "./report/kit";
 import { PieceView, usePagination, type Chapter } from "./report/paginate";
 import {
   actionChapter,
+  checkinChapter,
   contentsChapter,
-  costsChapter,
   disclaimerChapter,
   nutritionChapter,
-  protocolChapter,
+  planCoverChapter,
+  planDisclaimerChapter,
   recommendationsChapter,
   referencesChapter,
+  roadmapChapter,
+  startChapter,
+  styleChapter,
   trainingChapter,
   visualChapter,
 } from "./report/planChapters";
+import { DOCS, endBlock, type DocKind } from "./report/kit";
 import "./ProtocolViewer.css";
 import "./report/report.css";
 import "../layouts/rtl.css";
 
 type BaseCtx = Omit<ReportCtx, "pageNo" | "fig">;
 
-/** Builds every chapter of the report, in order. `pageOf` is null while measuring. */
-function buildReport(base: BaseCtx, pageOf: Record<string, number> | null): Chapter[] {
+/** Adds the closing link to the other document to a document's last chapter. */
+function withEnd(chapters: Chapter[], to: DocKind): Chapter[] {
+  const last = chapters[chapters.length - 1];
+  return [...chapters.slice(0, -1), { ...last, blocks: [...last.blocks, endBlock(to)] }];
+}
+
+/**
+ * Builds every chapter of a document, in order. `pageOf` is null while measuring.
+ * "plan": the practical 12-month plan anyone can follow. "analysis": the detailed analysis.
+ * Neither shows prices or costs.
+ */
+function buildDoc(kind: DocKind, base: BaseCtx, pageOf: Record<string, number> | null): Chapter[] {
   let fig = 0;
   const c: ReportCtx = {
     ...base,
     pageNo: (id) => (pageOf ? String(pageOf[id] ?? "–").padStart(2, "0") : "00"),
     fig: () => ++fig,
   };
-  const body: Chapter[] = [
-    summaryChapter(c),
-    photosChapter(c),
-    faceChapter(c),
-    profileChapter(c),
-    markersChapter(c),
-    typesChapter(c),
-    bodyChapter(c),
-    protocolChapter(c),
-    recommendationsChapter(c),
-    actionChapter(c),
-    costsChapter(c),
-    nutritionChapter(c),
-    trainingChapter(c),
-    visualChapter(c),
-    referencesChapter(c),
-    methodologyChapter(c, shortCite),
-    appendixChapter(c),
-  ];
+  if (kind === "plan") {
+    const cover = planCoverChapter(c);
+    const body = withEnd(
+      [
+        startChapter(c),
+        roadmapChapter(c),
+        recommendationsChapter(c),
+        actionChapter(c),
+        nutritionChapter(c),
+        trainingChapter(c),
+        visualChapter(c),
+        styleChapter(c),
+        checkinChapter(c),
+        planDisclaimerChapter(),
+        referencesChapter(c, "plan"),
+      ].filter((ch): ch is Chapter => !!ch),
+      "analysis",
+    );
+    return [cover, contentsChapter(c, body), ...body];
+  }
+  const body = withEnd(
+    [
+      summaryChapter(c),
+      photosChapter(c),
+      faceChapter(c),
+      profileChapter(c),
+      markersChapter(c),
+      typesChapter(c),
+      bodyChapter(c),
+      methodologyChapter(c, shortCite),
+      appendixChapter(c),
+      referencesChapter(c, "full"),
+    ],
+    "plan",
+  );
   const cover = coverChapter(c);
   const disclaimer = disclaimerChapter();
   // the contents lists itself out; its rows don't depend on the page numbers' values
@@ -80,7 +111,17 @@ function buildReport(base: BaseCtx, pageOf: Record<string, number> | null): Chap
   return [cover, disclaimer, contents, ...body];
 }
 
+/** The plan (the protocol): /protocol. */
 export function ProtocolViewer() {
+  return <DocViewer kind="plan" />;
+}
+
+/** The detailed analysis: /analysis-report. */
+export function AnalysisReportViewer() {
+  return <DocViewer kind="analysis" />;
+}
+
+function DocViewer({ kind }: { kind: DocKind }) {
   const { profile, scan, facePhoto, state } = useActive();
   const plan = useMemo(() => (scan && profile ? buildPlan(scan, profile.intake) : null), [scan, profile]);
   const [catalog, setCatalog] = useState<MarkerRow[] | null>(null);
@@ -117,20 +158,22 @@ export function ProtocolViewer() {
   }, [profile, scan, plan, catalog, visuals, state.settings.currency, arReady]);
 
   // lang: dates and lists are formatted per language, and Arabic text measures differently
-  const draft = useMemo(() => (base ? buildReport(base, null) : []), [base, lang]); // eslint-disable-line react-hooks/exhaustive-deps
+  const draft = useMemo(() => (base ? buildDoc(kind, base, null) : []), [kind, base, lang]); // eslint-disable-line react-hooks/exhaustive-deps
   const contentKey = useMemo(
-    () => (base ? [base.scan.id, base.scan.review?.updatedAt ?? "", JSON.stringify(base.profile.intake), base.currency, base.catalog.length, Object.keys(base.visuals).join(), lang].join("|") : "none"),
-    [base, lang],
+    () => (base ? [kind, base.scan.id, base.scan.review?.updatedAt ?? "", JSON.stringify(base.profile.intake), base.currency, base.catalog.length, Object.keys(base.visuals).join(), lang].join("|") : "none"),
+    [kind, base, lang],
   );
   const name = profile?.intake.name ?? "";
   const rid = base ? reportId({ scan: base.scan } as ReportCtx) : "";
+  const doc = DOCS[kind];
+  const other = DOCS[kind === "plan" ? "analysis" : "plan"];
   const frame = (bodyNode: ReactNode) => (
-    <Page index={0} total={1} chapter="Measure" name={name} rid={rid}>
+    <Page index={0} total={1} chapter="Measure" doc={doc.title} name={name} rid={rid}>
       {bodyNode}
     </Page>
   );
   const { layout, layer } = usePagination(draft, contentKey, frame);
-  const final = useMemo(() => (base && layout ? buildReport(base, layout.pageOf) : null), [base, layout, lang]); // eslint-disable-line react-hooks/exhaustive-deps
+  const final = useMemo(() => (base && layout ? buildDoc(kind, base, layout.pageOf) : null), [kind, base, layout, lang]); // eslint-disable-line react-hooks/exhaustive-deps
   const pages = layout && final ? layout.pages : [];
 
   // Fit A4 pages (794 px wide) to narrow screens; user zoom multiplies on top.
@@ -164,7 +207,7 @@ export function ProtocolViewer() {
   // name the saved PDF after the client
   useEffect(() => {
     const prev = document.title;
-    const before = () => (document.title = lang === "ar" ? `تقرير التحليل — ${arText(name)}` : `Analysis report — ${name}`);
+    const before = () => (document.title = `${lang === "ar" ? arText(doc.title) : doc.title} — ${lang === "ar" ? arText(name) : name}`);
     const after = () => (document.title = prev);
     window.addEventListener("beforeprint", before);
     window.addEventListener("afterprint", after);
@@ -172,7 +215,7 @@ export function ProtocolViewer() {
       window.removeEventListener("beforeprint", before);
       window.removeEventListener("afterprint", after);
     };
-  }, [name, lang]);
+  }, [name, lang, doc.title]);
 
   if (!profile || !scan || !plan) return <Navigate to="/home" replace />;
 
@@ -186,7 +229,7 @@ export function ProtocolViewer() {
     const pl = pages[i];
     const ch = final![pl.chapter];
     return (
-      <Page index={i} total={pages.length} chapter={ch.title} bare={ch.bare} name={name} rid={rid}>
+      <Page index={i} total={pages.length} chapter={ch.title} bare={ch.bare} doc={doc.title} name={name} rid={rid}>
         {pl.pieces.map((p, k) => (
           <PieceView key={k} ch={ch} p={p} />
         ))}
@@ -200,7 +243,10 @@ export function ProtocolViewer() {
         <Link to="/analysis/summary" className="pv-back" title="Back to analysis">
           <ChevronLeft size={18} />
         </Link>
-        <div className="pv-title">Report</div>
+        <div className="pv-title">{doc.title}</div>
+        <Link to={other.path} className="pv-other">
+          {other.title}
+        </Link>
         <div className="pv-group pv-zoomgroup">
           <button className="pv-btn" onClick={() => setZoom((z) => Math.max(0.5, +(z - 0.1).toFixed(2)))} aria-label="Zoom out">
             <ZoomOut size={20} />
@@ -262,7 +308,7 @@ export function ProtocolViewer() {
               <p className="pv-overview">{base ? overviewText({ ...base, pageNo: () => "", fig: () => 0 }) : ""}</p>
             </div>
           </details>
-          {!pages.length && <div className="pv-loading">Preparing your report…</div>}
+          {!pages.length && <div className="pv-loading">{kind === "plan" ? "Preparing your plan…" : "Preparing your report…"}</div>}
           <div className="pv-pages" data-ready={pages.length ? "true" : "false"} data-pages={pages.length} style={{ zoom: +(zoom * fit).toFixed(3) }}>
             {pages.map((_, i) => (
               <div key={i} data-index={i} ref={(el) => (pageRefs.current[i] = el)} className="pv-page-wrap">
@@ -313,7 +359,7 @@ function buildTrainingSafe(...args: Parameters<typeof buildTraining>) {
 /*  Page frame                                                         */
 /* ------------------------------------------------------------------ */
 
-function Page({ index, total, chapter, bare, name, rid, children }: { index: number; total: number; chapter: string; bare?: boolean; name: string; rid: string; children: ReactNode }) {
+function Page({ index, total, chapter, bare, doc, name, rid, children }: { index: number; total: number; chapter: string; bare?: boolean; doc: string; name: string; rid: string; children: ReactNode }) {
   if (bare)
     return (
       <section className="pv-page pv-page-bare" aria-label={`Page ${index + 1} of ${total}`}>
@@ -332,7 +378,7 @@ function Page({ index, total, chapter, bare, name, rid, children }: { index: num
       <div className="pv-page-body">{children}</div>
       <div className="pv-page-foot">
         <span>
-          {name} · Report {rid}
+          {name} · {doc} {rid}
         </span>
         <span>Confidential · education and self-tracking only</span>
         <span>

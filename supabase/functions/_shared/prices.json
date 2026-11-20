@@ -1,0 +1,64 @@
+{
+  "version": 1,
+  "currencies": {
+    "KWD": {
+      "report": 20,
+      "monthly": 5,
+      "yearly": 45,
+      "decimals": 3
+    },
+    "SAR": {
+      "report": 249,
+      "monthly": 59,
+      "yearly": 549,
+      "decimals": 2
+    },
+    "AED": {
+      "report": 239,
+      "monthly": 59,
+      "yearly": 539,
+      "decimals": 2
+    },
+    "QAR": {
+      "report": 239,
+      "monthly": 59,
+      "yearly": 529,
+      "decimals": 2
+    },
+    "BHD": {
+      "report": 25,
+      "monthly": 6,
+      "yearly": 55,
+      "decimals": 3
+    },
+    "OMR": {
+      "report": 25,
+      "monthly": 6,
+      "yearly": 56,
+      "decimals": 3
+    },
+    "USD": {
+      "report": 65,
+      "monthly": 16,
+      "yearly": 145,
+      "decimals": 2
+    }
+  },
+  "countries": {
+    "KW": "KWD",
+    "SA": "SAR",
+    "AE": "AED",
+    "QA": "QAR",
+    "BH": "BHD",
+    "OM": "OMR"
+  },
+  "fallbackCurrency": "USD",
+  "selling": [
+    "KW",
+    "SA",
+    "AE",
+    "QA",
+    "BH",
+    "OM"
+  ]
+}

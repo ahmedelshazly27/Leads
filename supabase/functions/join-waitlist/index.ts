@@ -1,9 +1,12 @@
-// Public. POST { email, phone?, gender?, locale?, source?, website? } -> { ok: true }
+// Public. POST { email, phone?, gender?, locale?, source?, country?, website? } -> { ok: true }
+// country: ISO-2 of the person (e.g. a country we do not sell in yet: the
+// "coming to your country soon" list); anything else is stored as null.
 // Adds an email to the waitlist (women's service and launch list). Duplicates
 // are ignored and get the same answer, so the endpoint does not reveal who is
 // already on the list. Rate-limited per IP (hashed, never stored in clear).
 import { HttpError, json, readJson, serve } from "../_shared/http.ts";
 import { admin, must } from "../_shared/supabase.ts";
+import { normCountry } from "../_shared/prices.ts";
 
 const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 const PER_HOUR = 10;
@@ -29,6 +32,7 @@ serve(async (req) => {
     gender?: string;
     locale?: string;
     source?: string;
+    country?: string;
     website?: string; // honeypot: real people leave it empty
   }>(req);
 
@@ -45,6 +49,7 @@ serve(async (req) => {
   const gender = body.gender === "male" || body.gender === "female" ? body.gender : null;
   const locale = body.locale === "ar" ? "ar" : "en";
   const source = typeof body.source === "string" ? body.source.trim().slice(0, 64) || null : null;
+  const country = normCountry(body.country);
 
   const db = admin();
   const salt = Deno.env.get("RATE_LIMIT_SALT") ?? Deno.env.get("SUPABASE_URL") ?? "";
@@ -58,7 +63,7 @@ serve(async (req) => {
   else if (allowed === false) throw new HttpError(429, "rate_limited", "Too many attempts. Please try again later.");
 
   must(
-    await db.from("waitlist").upsert({ email, phone, gender, locale, source }, {
+    await db.from("waitlist").upsert({ email, phone, gender, locale, source, country }, {
       onConflict: "email",
       ignoreDuplicates: true,
     }),

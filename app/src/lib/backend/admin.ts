@@ -1,9 +1,11 @@
+import { useMemo } from "react";
 import { BackendError, backendMode, check, invalidate, num, sb, useBackendQuery } from "./client";
 import { mock } from "./mock";
 import { normOrder, normPayment } from "./orders";
 import {
   ADMIN_AUDIT_ACTIONS,
   OPEN_REVIEW_STATUSES,
+  monthlyEquivalent,
   monthlyEquivalentKwd,
   type AdminAuditEvent,
   type AdSpendRow,
@@ -20,6 +22,7 @@ import {
   type OrderRow,
   type OrderStatus,
   type QueryState,
+  type SubscriptionRow,
   type SubscriptionStatus,
   type WaitlistRow,
   type WaitlistSummary,
@@ -36,12 +39,21 @@ const envRate = (k: string, fallback: number) => {
   const v = Number(import.meta.env[k]);
   return Number.isFinite(v) && v > 0 ? v : fallback;
 };
+const USD_KWD = envRate("VITE_FX_USD_KWD", 0.307);
+// The GCC currencies pegged to the US dollar (units per 1 USD), so an older
+// caller never counts SAR 249 as KWD 249.
+const GCC_PER_USD: Record<string, number> = { SAR: 3.75, AED: 3.6725, QAR: 3.64, BHD: 0.376, OMR: 0.3845 };
 export const FX_TO_KWD: Record<string, number> = {
   KWD: 1,
-  USD: envRate("VITE_FX_USD_KWD", 0.307),
+  USD: USD_KWD,
   EUR: envRate("VITE_FX_EUR_KWD", 0.335),
+  ...Object.fromEntries(Object.entries(GCC_PER_USD).map(([c, perUsd]) => [c, USD_KWD / perUsd])),
 };
-export const toKwd = (amount: number, currency: string | null | undefined) => amount * (FX_TO_KWD[(currency ?? "KWD").toUpperCase()] ?? 1);
+/**
+ * Older KWD-only dashboard helper (the operator page uses fx_rates through
+ * fxConverter). A currency with no rate here counts as 0, not as KWD.
+ */
+export const toKwd = (amount: number, currency: string | null | undefined) => amount * (FX_TO_KWD[(currency ?? "KWD").toUpperCase()] ?? 0);
 
 /* ----------------------------- Ranges ------------------------------ */
 
@@ -92,7 +104,7 @@ export async function fetchAdminRows(sinceIso: string): Promise<AdminRows> {
     fetchAll<CostRow>((a, b) => c.from("costs").select("*").gte("created_at", sinceIso).order("id").range(a, b)),
     fetchAll<AdSpendRow>((a, b) => c.from("ad_spend").select("*").gte("date", sinceIso.slice(0, 10)).order("id").range(a, b)),
     fetchAll<AdminRows["profiles"][number]>((a, b) => c.from("profiles").select("id,email,role,created_at").order("id").range(a, b)),
-    fetchAll<AdminRows["waitlist"][number]>((a, b) => c.from("waitlist").select("id,email,gender,locale,source,created_at").order("id").range(a, b)),
+    fetchAll<AdminRows["waitlist"][number]>((a, b) => c.from("waitlist").select("id,email,gender,locale,source,country,created_at").order("id").range(a, b)),
     c
       .from("audit_log")
       .select("id,action,target_type,target_id,meta,at")
@@ -426,10 +438,12 @@ export function toCsv(cols: readonly string[], rows: Record<string, unknown>[]):
 /* =================================================================== */
 /*  Operator dashboard (/admin)                                         */
 /*                                                                      */
-/*  Same raw rows as above, but USD / EUR amounts are converted with    */
-/*  the fx_rates table (kept by an admin) instead of fixed defaults.    */
-/*  When a rate is missing the converted value is null and the          */
-/*  currency is listed in `fxMissing`, never silently counted as zero.  */
+/*  Same raw rows as above. Every amount is converted to the dashboard  */
+/*  currency (EUR by default, the B.V.'s books; KWD or USD on request)  */
+/*  with the fx_rates table. Fields ending in "Rep" are in that         */
+/*  currency (OperatorDashboard.currency). When a rate is missing the   */
+/*  converted value is null and the currency is listed in `fxMissing`,  */
+/*  never silently counted as zero.                                     */
 /* =================================================================== */
 
 export type AdminRange = "7d" | "30d" | "90d" | "all";
@@ -453,17 +467,87 @@ export const kuwaitDay = (ms: number) => new Date(ms + KW_OFFSET).toISOString().
 
 /* ----------------------------- FX rates ---------------------------- */
 
+/**
+ * One row of fx_rates (migration 010). Rates are in EUR, the reporting
+ * currency the B.V. books in: eur_per_unit = EUR value of one unit.
+ *   base    EUR itself (1)
+ *   peg     fixed to the US dollar (per_usd units per 1 USD: SAR, AED, QAR,
+ *           BHD, OMR); its EUR value follows the USD rate (the database
+ *           recomputes it)
+ *   manual  set by an admin (USD, KWD, and any other currency, e.g. an ad
+ *           account's); max_age_days says how often (KWD: daily)
+ */
 export interface FxRate {
   currency: string;
-  /** KWD per one unit of the currency */
-  kwd_per_unit: number;
+  /** EUR per one unit; null = rate missing */
+  eur_per_unit: number | null;
+  basis: "base" | "peg" | "manual";
+  /** pegged currencies: units per 1 USD */
+  per_usd: number | null;
+  /** manual rates: warn when older than this */
+  max_age_days: number | null;
+  note: string | null;
   updated_at: string | null;
 }
-export type FxCurrency = "USD" | "EUR";
-export const FX_EDITABLE: FxCurrency[] = ["USD", "EUR"];
+/** Any ISO 4217 code: every currency in fx_rates can be edited (pegs through per_usd). */
+export type FxCurrency = string;
+/** The rates an admin has to keep up to date (the pegs follow USD). */
+export const FX_EDITABLE: FxCurrency[] = ["USD", "KWD"];
+
+/** Currencies the operator dashboard can show amounts in (converted with fx_rates). EUR is the books' currency. */
+export const REPORT_CURRENCIES = ["EUR", "KWD", "USD"] as const;
+export type ReportCurrency = (typeof REPORT_CURRENCIES)[number];
+export const DEFAULT_REPORT_CURRENCY: ReportCurrency = "EUR";
+
+/** The official pegs to the US dollar (units per 1 USD), as seeded by migration 010. */
+export const USD_PEGS: Record<string, number> = { SAR: 3.75, AED: 3.6725, QAR: 3.64, BHD: 0.376, OMR: 0.3845 };
+
+/** Same rules as refresh_fx_rates(): EUR = 1, pegs from the USD rate. */
+export function deriveFxRates(rows: FxRate[]): FxRate[] {
+  const usd = rows.find((r) => r.currency === "USD")?.eur_per_unit ?? null;
+  return rows.map((r) =>
+    r.basis === "base"
+      ? { ...r, eur_per_unit: 1 }
+      : r.basis === "peg" && r.per_usd
+        ? { ...r, eur_per_unit: usd == null ? null : round(usd / r.per_usd, 10) }
+        : r,
+  );
+}
+
+/** A manual rate older than its max_age_days (KWD: 1 day, USD: 7). */
+export function fxStale(r: FxRate, now = Date.now()): boolean {
+  if (r.basis !== "manual" || !r.max_age_days || r.eur_per_unit == null) return false;
+  return !r.updated_at || now - Date.parse(r.updated_at) > r.max_age_days * DAY;
+}
+
+/**
+ * Converter to `to` with the given rates. Returns null for a missing rate (and
+ * records the currency in `missing`), never zero.
+ */
+export function fxConverter(rates: FxRate[], to: string) {
+  const eur = new Map<string, number>();
+  for (const r of rates) if (r.eur_per_unit != null && r.eur_per_unit > 0) eur.set(r.currency.toUpperCase(), r.eur_per_unit);
+  eur.set("EUR", 1);
+  const missing = new Set<string>();
+  const target = to.toUpperCase();
+  const conv = (amount: number, currency: string | null | undefined): number | null => {
+    if (!amount) return 0;
+    const c = (currency ?? "KWD").toUpperCase();
+    if (c === target) return amount;
+    const a = eur.get(c);
+    const b = eur.get(target);
+    if (a == null || b == null) {
+      if (a == null) missing.add(c);
+      if (b == null) missing.add(target);
+      return null;
+    }
+    return (amount * a) / b;
+  };
+  return { conv, missing };
+}
 
 // Demo mode keeps the rates here (the mock backend has no fx_rates table).
-const MOCK_FX_KEY = "admin-demo-fx-rates";
+const MOCK_FX_KEY = "admin-demo-fx-rates-v2";
 let mockFx: FxRate[] | null = null;
 function demoFx(): FxRate[] {
   if (mockFx) return mockFx;
@@ -474,75 +558,144 @@ function demoFx(): FxRate[] {
     /* storage blocked */
   }
   // Demo values only, roughly in line with recent rates; the operator sets the real ones.
-  mockFx ??= [
-    { currency: "USD", kwd_per_unit: FX_TO_KWD.USD, updated_at: null },
-    { currency: "EUR", kwd_per_unit: FX_TO_KWD.EUR, updated_at: null },
-  ];
+  const manual = (currency: string, eur: number, max: number, note: string): FxRate => ({ currency, eur_per_unit: eur, basis: "manual", per_usd: null, max_age_days: max, note, updated_at: new Date().toISOString() });
+  mockFx ??= deriveFxRates([
+    { currency: "EUR", eur_per_unit: 1, basis: "base", per_usd: null, max_age_days: null, note: "Reporting currency.", updated_at: null },
+    manual("USD", 0.92, 7, "EUR value of 1 USD (demo value)."),
+    manual("KWD", 2.98, 1, "Pegged to an undisclosed basket: update daily (demo value)."),
+    ...Object.entries(USD_PEGS).map<FxRate>(([currency, per_usd]) => ({ currency, eur_per_unit: null, basis: "peg", per_usd, max_age_days: null, note: `Fixed at ${per_usd} per USD.`, updated_at: null })),
+  ]);
   return mockFx;
 }
-
-/** All rows of fx_rates (KWD is always 1). Admin only (RLS). */
-export async function listFxRates(): Promise<FxRate[]> {
-  if (backendMode === "mock") return [{ currency: "KWD", kwd_per_unit: 1, updated_at: null }, ...demoFx()];
-  const rows = check(await sb().from("fx_rates").select("currency,kwd_per_unit,updated_at").order("currency"));
-  return ((rows ?? []) as FxRate[]).map((r) => ({ ...r, kwd_per_unit: num(r.kwd_per_unit) }));
+function saveDemoFx(rows: FxRate[]) {
+  mockFx = deriveFxRates(rows).sort((a, b) => a.currency.localeCompare(b.currency));
+  try {
+    sessionStorage.setItem(MOCK_FX_KEY, JSON.stringify(mockFx));
+  } catch {
+    /* storage blocked: kept in memory */
+  }
+  invalidate();
 }
 
-/** Set the rate for USD or EUR (KWD per 1 unit). Admin only: the "fx_rates: admin all" policy allows the upsert. */
-export async function saveFxRate(currency: FxCurrency, kwdPerUnit: number): Promise<FxRate> {
-  if (!FX_EDITABLE.includes(currency)) throw new BackendError("Only USD and EUR rates can be edited here.", "invalid_currency");
-  if (!Number.isFinite(kwdPerUnit) || kwdPerUnit <= 0 || kwdPerUnit > 100) throw new BackendError(`Enter the KWD value of 1 ${currency} (a number above 0).`, "invalid_rate");
-  const row: FxRate = { currency, kwd_per_unit: round(kwdPerUnit, 6), updated_at: new Date().toISOString() };
+const FX_COLS = "currency,eur_per_unit,basis,per_usd,max_age_days,note,updated_at";
+const normFx = (r: FxRate): FxRate => ({
+  ...r,
+  eur_per_unit: r.eur_per_unit == null ? null : num(r.eur_per_unit),
+  per_usd: r.per_usd == null ? null : num(r.per_usd),
+  max_age_days: r.max_age_days == null ? null : num(r.max_age_days),
+  basis: r.basis ?? "manual",
+  note: r.note ?? null,
+});
+
+/** All rows of fx_rates (EUR is always 1). Admin only (RLS). */
+export async function listFxRates(): Promise<FxRate[]> {
+  if (backendMode === "mock") return demoFx();
+  const rows = check(await sb().from("fx_rates").select(FX_COLS).order("currency"));
+  return ((rows ?? []) as FxRate[]).map(normFx);
+}
+
+const ISO_CURRENCY = /^[A-Z]{3}$/;
+
+/**
+ * Set a manual rate: `unitsPerEur` is how much 1 EUR buys, as rates are
+ * usually quoted (ECB: 1 EUR = 1.08 USD; 1 EUR = 0.335 KWD). Stored as
+ * eur_per_unit = 1 / unitsPerEur. A currency not in the table yet is added
+ * as a manual rate (e.g. an ad account's currency). Admin only.
+ */
+export async function saveFxRate(currency: FxCurrency, unitsPerEur: number): Promise<FxRate> {
+  const cur = currency.trim().toUpperCase();
+  if (!ISO_CURRENCY.test(cur)) throw new BackendError("Enter a three-letter currency code, e.g. GBP.", "invalid_currency");
+  if (cur === "EUR") throw new BackendError("EUR is the reporting currency: its rate is always 1.", "invalid_currency");
+  if (!Number.isFinite(unitsPerEur) || unitsPerEur <= 0 || unitsPerEur > 1_000_000) throw new BackendError(`Enter how many ${cur} 1 EUR buys (a number above 0).`, "invalid_rate");
+  const existing = (await listFxRates()).find((r) => r.currency === cur);
+  if (existing?.basis === "peg") throw new BackendError(`${cur} is pegged to the US dollar: change the USD rate, or its peg.`, "pegged_currency");
+  const eur = round(1 / unitsPerEur, 10);
+  const now = new Date().toISOString();
   if (backendMode === "mock") {
-    mockFx = [...demoFx().filter((r) => r.currency !== currency), row].sort((a, b) => a.currency.localeCompare(b.currency));
-    try {
-      sessionStorage.setItem(MOCK_FX_KEY, JSON.stringify(mockFx));
-    } catch {
-      /* storage blocked: kept in memory */
-    }
-    invalidate();
-    return row;
+    const row: FxRate = existing ? { ...existing, eur_per_unit: eur, updated_at: now } : { currency: cur, eur_per_unit: eur, basis: "manual", per_usd: null, max_age_days: 7, note: null, updated_at: now };
+    saveDemoFx([...demoFx().filter((r) => r.currency !== cur), row]);
+    return demoFx().find((r) => r.currency === cur)!;
   }
-  const saved = check(await sb().from("fx_rates").upsert(row, { onConflict: "currency" }).select("currency,kwd_per_unit,updated_at").single()) as FxRate;
+  const saved = check(await sb().from("fx_rates").upsert({ currency: cur, eur_per_unit: eur, updated_at: now }, { onConflict: "currency" }).select(FX_COLS).single()) as FxRate;
   invalidate();
-  return { ...saved, kwd_per_unit: num(saved.kwd_per_unit) };
+  return normFx(saved);
+}
+
+/** Change the peg of a pegged currency (units per 1 USD). Pegs rarely move; check the central bank first. Admin only. */
+export async function saveFxPeg(currency: FxCurrency, perUsd: number): Promise<FxRate> {
+  const cur = currency.trim().toUpperCase();
+  const existing = (await listFxRates()).find((r) => r.currency === cur);
+  if (existing?.basis !== "peg") throw new BackendError(`${cur} is not a pegged currency.`, "not_pegged");
+  if (!Number.isFinite(perUsd) || perUsd <= 0 || perUsd > 1_000_000) throw new BackendError(`Enter how many ${cur} 1 USD buys (a number above 0).`, "invalid_rate");
+  const now = new Date().toISOString();
+  if (backendMode === "mock") {
+    saveDemoFx([...demoFx().filter((r) => r.currency !== cur), { ...existing, per_usd: round(perUsd, 6), updated_at: now }]);
+    return demoFx().find((r) => r.currency === cur)!;
+  }
+  const saved = check(await sb().from("fx_rates").update({ per_usd: round(perUsd, 6), updated_at: now }).eq("currency", cur).select(FX_COLS).single()) as FxRate;
+  invalidate();
+  return normFx(saved);
 }
 
 /* ------------------------------- MRR ------------------------------- */
 
-export interface MrrSummary {
-  /** active subscriptions, monthly equivalent, KWD; null when an amount or rate is missing */
-  mrrKwd: number | null;
+/** Paying memberships per plan and currency, amounts in that currency (the included month is left out). */
+export interface MrrRow {
+  plan: string;
+  currency: string;
+  active: number;
+  trialing: number;
+  /** monthly equivalent of active memberships, in `currency`; null when an amount is missing */
+  mrr: number | null;
   /** what trialing members will add once they pay */
-  trialingMrrKwd: number | null;
+  trialingMrr: number | null;
+}
+
+export interface MrrSummary {
   active: number;
   trialing: number;
   pastDue: number;
   cancelling: number;
-  byPlan: { plan: string; active: number; trialing: number; mrrKwd: number | null }[];
-  /** true when v_mrr reports a missing amount or rate */
+  rows: MrrRow[];
+  /** true when v_mrr reports a missing amount */
   dataMissing: boolean;
   source: "v_mrr" | "computed";
 }
 
+/** MrrSummary converted to the dashboard currency. */
+export interface OperatorMrr extends MrrSummary {
+  /** active subscriptions, monthly equivalent; null when an amount or rate is missing */
+  mrrRep: number | null;
+  trialingMrrRep: number | null;
+  byPlan: { plan: string; active: number; trialing: number; mrrRep: number | null }[];
+}
+
 function computeMrr(rows: AdminRows): MrrSummary {
-  // Same as v_mrr: the included month (no payment) is left out.
-  const subs = rows.subscriptions.filter((s) => s.plan !== "included");
-  const plans = [...new Set(subs.map((s) => s.plan))];
-  const mrrOf = (status: SubscriptionStatus, plan?: string) => round(sum(subs.filter((s) => s.status === status && (!plan || s.plan === plan)).map((s) => monthlyEquivalentKwd(s.plan))));
+  // Same as v_mrr: the included month (no payment) is left out; amounts are the stored ones, else list prices.
+  const subs = rows.subscriptions.filter((s) => s.plan !== "included" && s.status !== "canceled");
+  const curOf = (s: SubscriptionRow) => (s.currency ?? "KWD").toUpperCase();
+  const keys = [...new Set(subs.map((s) => `${s.plan}|${curOf(s)}`))];
+  const monthly = (s: SubscriptionRow) => {
+    const amount = s.amount ?? null;
+    return amount == null ? monthlyEquivalent(s.plan, curOf(s)) : s.plan === "yearly" ? amount / 12 : amount;
+  };
   return {
-    mrrKwd: mrrOf("active"),
-    trialingMrrKwd: mrrOf("trialing"),
     active: subs.filter((s) => s.status === "active").length,
     trialing: subs.filter((s) => s.status === "trialing").length,
     pastDue: subs.filter((s) => s.status === "past_due").length,
     cancelling: subs.filter((s) => (s.status === "active" || s.status === "trialing") && s.cancel_at).length,
-    byPlan: plans.map((plan) => ({
-      plan,
-      active: subs.filter((s) => s.plan === plan && s.status === "active").length,
-      trialing: subs.filter((s) => s.plan === plan && s.status === "trialing").length,
-      mrrKwd: mrrOf("active", plan),
-    })),
+    rows: keys.map((k) => {
+      const [plan, currency] = k.split("|");
+      const of = subs.filter((s) => s.plan === plan && curOf(s) === currency);
+      return {
+        plan,
+        currency,
+        active: of.filter((s) => s.status === "active").length,
+        trialing: of.filter((s) => s.status === "trialing").length,
+        mrr: round(sum(of.filter((s) => s.status === "active").map(monthly))),
+        trialingMrr: round(sum(of.filter((s) => s.status === "trialing").map(monthly))),
+      };
+    }),
     dataMissing: false,
     source: "computed",
   };
@@ -550,30 +703,34 @@ function computeMrr(rows: AdminRows): MrrSummary {
 
 interface MrrViewRow {
   plan: string;
+  currency: string;
   active: number | string;
   trialing: number | string;
   past_due: number | string;
   cancelling: number | string;
-  mrr_kwd: number | string | null;
-  trialing_mrr_kwd: number | string | null;
+  mrr: number | string | null;
+  trialing_mrr: number | string | null;
   data_missing: boolean | null;
 }
 
-/** MRR from the v_mrr view (amounts and fx as stored); the demo computes it from list prices. */
+/** MRR from the v_mrr view (per plan and currency, amounts as stored); the demo computes it from its rows. */
 export async function fetchMrr(rows: AdminRows): Promise<MrrSummary> {
   if (backendMode === "mock") return computeMrr(rows);
-  const view = (check(await sb().from("v_mrr").select("*")) ?? []) as MrrViewRow[];
-  const missing = view.some((v) => v.data_missing);
-  const total = (k: "mrr_kwd" | "trialing_mrr_kwd") => (missing ? null : round(sum(view.map((v) => num(v[k])))));
+  const view = (check(await sb().from("v_mrr").select("plan,currency,active,trialing,past_due,cancelling,mrr,trialing_mrr,data_missing")) ?? []) as MrrViewRow[];
   return {
-    mrrKwd: total("mrr_kwd"),
-    trialingMrrKwd: total("trialing_mrr_kwd"),
     active: sum(view.map((v) => num(v.active))),
     trialing: sum(view.map((v) => num(v.trialing))),
     pastDue: sum(view.map((v) => num(v.past_due))),
     cancelling: sum(view.map((v) => num(v.cancelling))),
-    byPlan: view.map((v) => ({ plan: v.plan, active: num(v.active), trialing: num(v.trialing), mrrKwd: v.data_missing ? null : round(num(v.mrr_kwd)) })),
-    dataMissing: missing,
+    rows: view.map((v) => ({
+      plan: v.plan,
+      currency: (v.currency ?? "KWD").toUpperCase(),
+      active: num(v.active),
+      trialing: num(v.trialing),
+      mrr: v.data_missing ? null : round(num(v.mrr)),
+      trialingMrr: v.data_missing ? null : round(num(v.trialing_mrr)),
+    })),
+    dataMissing: view.some((v) => v.data_missing),
     source: "v_mrr",
   };
 }
@@ -587,19 +744,21 @@ export interface AdminWaitlistEntry {
   gender: WaitlistRow["gender"];
   locale: WaitlistRow["locale"];
   source: string | null;
+  /** ISO-2, when given */
+  country: string | null;
   created_at: string;
 }
 
 /** Every waitlist entry, newest first. Admin only (RLS). */
 export async function listWaitlistEntries(fallback: AdminRows["waitlist"] = []): Promise<AdminWaitlistEntry[]> {
   if (backendMode === "mock") {
-    return fallback.map((w) => ({ id: w.id, email: w.email ?? null, gender: w.gender, locale: w.locale ?? null, source: w.source ?? null, created_at: w.created_at })).sort((a, b) => b.created_at.localeCompare(a.created_at));
+    return fallback.map((w) => ({ id: w.id, email: w.email ?? null, gender: w.gender, locale: w.locale ?? null, source: w.source ?? null, country: w.country ?? null, created_at: w.created_at })).sort((a, b) => b.created_at.localeCompare(a.created_at));
   }
-  return fetchAll<AdminWaitlistEntry>((a, b) => sb().from("waitlist").select("id,email,gender,locale,source,created_at").order("created_at", { ascending: false }).order("id").range(a, b));
+  return fetchAll<AdminWaitlistEntry>((a, b) => sb().from("waitlist").select("id,email,gender,locale,source,country,created_at").order("created_at", { ascending: false }).order("id").range(a, b));
 }
 
 export function waitlistToCsv(rows: AdminWaitlistEntry[]): string {
-  return toCsv(["email", "gender", "locale", "source", "created_at"], rows as unknown as Record<string, unknown>[]);
+  return toCsv(["email", "gender", "locale", "country", "source", "created_at"], rows as unknown as Record<string, unknown>[]);
 }
 
 /* ------------------------------ Types ------------------------------ */
@@ -616,14 +775,21 @@ export interface OperatorOrder {
   submitted_at: string | null;
   delivered_at: string | null;
   due_at: string | null;
-  /** payments of the order after refunds, KWD (null when a rate is missing) */
-  revenueKwd: number | null;
-  refundedKwd: number | null;
-  paymentFeeKwd: number | null;
+  /** country chosen at checkout (null for orders from before multi-currency) */
+  country: string | null;
+  /** the order's currency and list price in it */
+  currency: string;
+  amount: number;
+  /** payments of the order after refunds, in the order's currency (null when they are in mixed currencies) */
+  revenue: number | null;
+  /** payments of the order after refunds, in the dashboard currency (null when a rate is missing) */
+  revenueRep: number | null;
+  refundedRep: number | null;
+  paymentFeeRep: number | null;
   imageCostUsd: number;
-  imageCostKwd: number | null;
-  otherCostKwd: number | null;
-  marginKwd: number | null;
+  imageCostRep: number | null;
+  otherCostRep: number | null;
+  marginRep: number | null;
   generations: number;
   /** generations made from an earlier one (parent_id set); null when not known */
   regenerations: number | null;
@@ -635,9 +801,9 @@ export interface OperatorOrder {
 export interface OperatorKpis {
   range: AdminRange;
   from: string | null;
-  revenueKwd: number | null;
-  grossRevenueKwd: number | null;
-  refundedKwd: number | null;
+  revenueRep: number | null;
+  grossRevenueRep: number | null;
+  refundedRep: number | null;
   /** paid orders created in the range */
   orders: number;
   /** orders delivered in the range */
@@ -649,46 +815,46 @@ export interface OperatorKpis {
   openOrders: number;
   overdueNow: number;
   awaitingPhotos: number;
-  mrr: MrrSummary;
+  mrr: OperatorMrr;
 }
 
 export interface UnitEconomics {
   /** paid orders created in the range */
   orders: number;
-  revenueKwd: number | null;
-  paymentFeeKwd: number | null;
+  revenueRep: number | null;
+  paymentFeeRep: number | null;
   imageCostUsd: number;
-  imageCostKwd: number | null;
-  otherCostKwd: number | null;
-  marginKwd: number | null;
+  imageCostRep: number | null;
+  otherCostRep: number | null;
+  marginRep: number | null;
   /** margin / revenue, 0..1 */
   marginShare: number | null;
-  perOrder: { revenueKwd: number | null; paymentFeeKwd: number | null; imageCostKwd: number | null; marginKwd: number | null };
+  perOrder: { revenueRep: number | null; paymentFeeRep: number | null; imageCostRep: number | null; marginRep: number | null };
   /** customers with an account (deleted accounts are left out of per-customer figures) */
   customers: number;
   deletedAccountOrders: number;
-  membershipRevenueKwd: number | null;
-  perCustomer: { revenueKwd: number | null; marginKwd: number | null; orders: number | null };
+  membershipRevenueRep: number | null;
+  perCustomer: { revenueRep: number | null; marginRep: number | null; orders: number | null };
   generations: number;
   regenerations: number | null;
   ordersWithGenerations: number;
-  imageCostPerOrderKwd: number | null;
+  imageCostPerOrderRep: number | null;
   imageCostPerGenerationUsd: number | null;
-  imageCostPerGenerationKwd: number | null;
+  imageCostPerGenerationRep: number | null;
 }
 
 export interface MarketingDay {
   date: string;
-  spendKwd: number | null;
+  spendRep: number | null;
   impressions: number;
   clicks: number;
   /** purchases the ad platform reports (its own attribution) */
   purchases: number;
   /** customers whose first report was paid that day (all channels) */
   newCustomers: number;
-  revenueKwd: number | null;
+  revenueRep: number | null;
   /** spend / new paying customers that day (blended, all channels) */
-  cacKwd: number | null;
+  cacRep: number | null;
   /** net revenue that day / spend (blended) */
   roas: number | null;
 }
@@ -697,26 +863,26 @@ export interface MarketingCampaign {
   platform: AdSpendRow["platform"];
   campaign_id: string;
   campaign_name: string | null;
-  spendKwd: number | null;
+  spendRep: number | null;
   impressions: number;
   clicks: number;
   purchases: number;
   ctr: number | null;
   /** spend / platform-reported purchases */
-  cpaKwd: number | null;
+  cpaRep: number | null;
   /** platform purchases x average report payment / spend: an estimate */
   estRoas: number | null;
 }
 
 export interface MarketingSummary {
   hasRows: boolean;
-  spendKwd: number | null;
+  spendRep: number | null;
   impressions: number;
   clicks: number;
   purchases: number;
   ctr: number | null;
   newPayingCustomers: number;
-  cacKwd: number | null;
+  cacRep: number | null;
   roas: number | null;
   days: MarketingDay[];
   campaigns: MarketingCampaign[];
@@ -725,24 +891,52 @@ export interface MarketingSummary {
 
 export interface OperatorDailyPoint {
   date: string;
-  revenueKwd: number | null;
-  adSpendKwd: number | null;
+  revenueRep: number | null;
+  adSpendRep: number | null;
   orders: number;
+}
+
+/** One market: a country and the currency it paid in (country null = not recorded, before multi-currency). */
+export interface MarketRow {
+  country: string | null;
+  currency: string;
+  /** paid report orders created in the range */
+  orders: number;
+  /** customers with a succeeded payment in the range */
+  payingCustomers: number;
+  /** in `currency`: succeeded payments, refunds (positive), net */
+  gross: number;
+  refunds: number;
+  net: number;
+  /** net in the dashboard currency (null when a rate is missing) */
+  netRep: number | null;
+  /** share of all net revenue in the range (0..1; null when a rate is missing) */
+  share: number | null;
+  /** paying memberships now (not range-bound) and their MRR */
+  activeMembers: number;
+  mrr: number;
+  mrrRep: number | null;
 }
 
 export interface OperatorDashboard {
   generatedAt: string;
   range: AdminRange;
+  /** the currency of every "Rep" amount */
+  currency: string;
   kpis: OperatorKpis;
   daily: OperatorDailyPoint[];
   statusCounts: { status: OrderStatus; count: number }[];
   orders: OperatorOrder[];
   economics: UnitEconomics;
+  /** revenue per country and currency, largest first */
+  markets: MarketRow[];
   marketing: { meta: MarketingSummary; all: MarketingSummary };
   waitlist: { total: number; women: number; men: number; unknown: number; last7d: number; entries: AdminWaitlistEntry[]; emailsAvailable: boolean };
   fx: FxRate[];
   /** currencies that appear in the data but have no rate in fx_rates */
   fxMissing: string[];
+  /** manual rates older than their max_age_days (KWD daily, USD weekly) */
+  fxStale: string[];
   /** non-fatal problems while loading (shown as notes) */
   warnings: string[];
 }
@@ -763,25 +957,32 @@ export const ORDER_STATUS_ORDER: OrderStatus[] = ["pending_payment", "paid", "aw
 
 type N = number | null;
 const addN = (xs: N[]): N => (xs.some((x) => x == null) ? null : sum(xs as number[]));
-const roundN = (x: N, d = 3): N => (x == null ? null : round(x, d));
-const divN = (a: N, b: N, d = 3): N => (a == null || b == null || b === 0 ? null : round(a / b, d));
 
-/** Pure: the operator dashboard from raw rows and fx rates (shared by Supabase and demo mode). */
-export function computeOperatorDashboard(input: OperatorInput, range: AdminRange, now = Date.now()): OperatorDashboard {
-  const { rows, rates, mrr, regenerated, waitlist } = input;
+/**
+ * Pure: the operator dashboard from raw rows and fx rates (shared by Supabase
+ * and demo mode), with every amount in `currency` (EUR by default).
+ */
+export function computeOperatorDashboard(input: OperatorInput, range: AdminRange, now = Date.now(), currency: string = DEFAULT_REPORT_CURRENCY): OperatorDashboard {
+  const { rows, rates, regenerated, waitlist } = input;
   const from = adminRangeStart(range, now);
-  const rate = new Map(rates.map((r) => [r.currency.toUpperCase(), r.kwd_per_unit]));
-  rate.set("KWD", 1);
-  const missing = new Set<string>();
-  const conv = (amount: number, currency: string | null | undefined): N => {
-    if (!amount) return 0;
-    const c = (currency ?? "KWD").toUpperCase();
-    const r = rate.get(c);
-    if (r == null) {
-      missing.add(c);
-      return null;
-    }
-    return amount * r;
+  const { conv, missing } = fxConverter(rates, currency);
+  // 3 decimals for KWD, 2 for EUR / USD.
+  const dp = currency.toUpperCase() === "KWD" || currency.toUpperCase() === "BHD" || currency.toUpperCase() === "OMR" ? 3 : 2;
+  const roundN = (x: N, d = dp): N => (x == null ? null : round(x, d));
+  const divN = (a: N, b: N, d = dp): N => (a == null || b == null || b === 0 ? null : round(a / b, d));
+  const mrr: OperatorMrr = {
+    ...input.mrr,
+    mrrRep: roundN(addN(input.mrr.rows.map((r) => (r.mrr == null ? null : conv(r.mrr, r.currency))))),
+    trialingMrrRep: roundN(addN(input.mrr.rows.map((r) => (r.trialingMrr == null ? null : conv(r.trialingMrr, r.currency))))),
+    byPlan: [...new Set(input.mrr.rows.map((r) => r.plan))].map((plan) => {
+      const of = input.mrr.rows.filter((r) => r.plan === plan);
+      return {
+        plan,
+        active: sum(of.map((r) => r.active)),
+        trialing: sum(of.map((r) => r.trialing)),
+        mrrRep: roundN(addN(of.map((r) => (r.mrr == null ? null : conv(r.mrr, r.currency))))),
+      };
+    }),
   };
   const isPaid = (s: OrderStatus) => s !== "pending_payment" && s !== "cancelled";
   const email = new Map(rows.profiles.map((p) => [p.id, p.email]));
@@ -798,13 +999,16 @@ export function computeOperatorDashboard(input: OperatorInput, range: AdminRange
   const allOrders: OperatorOrder[] = rows.orders.map((o) => {
     const pays = paysBy.get(o.id) ?? [];
     const gens = gensBy.get(o.id) ?? [];
-    const revenueKwd = addN(pays.map((p) => conv(revenueOf(p), p.currency)));
-    const refundedKwd = addN(pays.filter((p) => p.status === "refunded").map((p) => conv(Math.abs(p.amount), p.currency)));
-    const paymentFeeKwd = addN(pays.map((p) => conv(p.fee, p.currency)));
+    const revenueRep = addN(pays.map((p) => conv(revenueOf(p), p.currency)));
+    const payCurrencies = new Set(pays.map((p) => p.currency.toUpperCase()));
+    const ownCurrency = (o.currency ?? "KWD").toUpperCase();
+    const revenueRaw = payCurrencies.size > 1 || (payCurrencies.size === 1 && !payCurrencies.has(ownCurrency)) ? null : sum(pays.map(revenueOf));
+    const refundedRep = addN(pays.filter((p) => p.status === "refunded").map((p) => conv(Math.abs(p.amount), p.currency)));
+    const paymentFeeRep = addN(pays.map((p) => conv(p.fee, p.currency)));
     const imageCostUsd = sum(gens.map((g) => g.cost_usd));
-    const imageCostKwd = conv(imageCostUsd, "USD");
-    const otherCostKwd = addN((otherBy.get(o.id) ?? []).map((c) => conv(c.amount, c.currency)));
-    const marginKwd = addN([revenueKwd, paymentFeeKwd == null ? null : -paymentFeeKwd, imageCostKwd == null ? null : -imageCostKwd, otherCostKwd == null ? null : -otherCostKwd]);
+    const imageCostRep = conv(imageCostUsd, "USD");
+    const otherCostRep = addN((otherBy.get(o.id) ?? []).map((c) => conv(c.amount, c.currency)));
+    const marginRep = addN([revenueRep, paymentFeeRep == null ? null : -paymentFeeRep, imageCostRep == null ? null : -imageCostRep, otherCostRep == null ? null : -otherCostRep]);
     return {
       order_id: o.id,
       user_id: o.user_id,
@@ -816,17 +1020,21 @@ export function computeOperatorDashboard(input: OperatorInput, range: AdminRange
       submitted_at: o.submitted_at,
       delivered_at: o.delivered_at,
       due_at: o.due_at,
-      revenueKwd: roundN(revenueKwd),
-      refundedKwd: roundN(refundedKwd),
-      paymentFeeKwd: roundN(paymentFeeKwd),
+      country: o.country ?? null,
+      currency: ownCurrency,
+      amount: o.amount,
+      revenue: revenueRaw == null ? null : round(revenueRaw, 3),
+      revenueRep: roundN(revenueRep),
+      refundedRep: roundN(refundedRep),
+      paymentFeeRep: roundN(paymentFeeRep),
       imageCostUsd: round(imageCostUsd, 4),
-      imageCostKwd: roundN(imageCostKwd),
-      otherCostKwd: roundN(otherCostKwd),
-      marginKwd: roundN(marginKwd),
+      imageCostRep: roundN(imageCostRep),
+      otherCostRep: roundN(otherCostRep),
+      marginRep: roundN(marginRep),
       generations: gens.length,
       regenerations: regenerated ? gens.filter((g) => regenerated.has(g.id)).length : null,
       overdue: OPEN_S.includes(o.status) && !!o.due_at && Date.parse(o.due_at) < now,
-      fxMissing: [revenueKwd, paymentFeeKwd, imageCostKwd, otherCostKwd].some((x) => x == null),
+      fxMissing: [revenueRep, paymentFeeRep, imageCostRep, otherCostRep].some((x) => x == null),
     };
   });
   allOrders.sort((a, b) => b.created_at.localeCompare(a.created_at));
@@ -846,9 +1054,9 @@ export function computeOperatorDashboard(input: OperatorInput, range: AdminRange
   const kpis: OperatorKpis = {
     range,
     from: from ? new Date(from).toISOString() : null,
-    revenueKwd: gross == null || refunds == null ? null : round(gross - refunds),
-    grossRevenueKwd: roundN(gross),
-    refundedKwd: roundN(refunds),
+    revenueRep: gross == null || refunds == null ? null : round(gross - refunds),
+    grossRevenueRep: roundN(gross),
+    refundedRep: roundN(refunds),
     orders: paidInRange.length,
     delivered: delivered.length,
     avgTurnaroundHours: hours.length ? round(sum(hours) / hours.length, 1) : null,
@@ -875,25 +1083,25 @@ export function computeOperatorDashboard(input: OperatorInput, range: AdminRange
   for (const a of adInRange) dayMap.get(a.date)?.ad.push(conv(a.spend, a.currency));
   const daily: OperatorDailyPoint[] = days.map((date) => {
     const x = dayMap.get(date)!;
-    return { date, revenueKwd: roundN(addN(x.rev)), adSpendKwd: roundN(addN(x.ad)), orders: x.orders };
+    return { date, revenueRep: roundN(addN(x.rev)), adSpendRep: roundN(addN(x.ad)), orders: x.orders };
   });
 
   /* orders by status (created in the range) */
   const statusCounts = ORDER_STATUS_ORDER.map((status) => ({ status, count: rows.orders.filter((o) => o.status === status && createdIn(o)).length })).filter((s) => s.count > 0);
 
   /* unit economics */
-  const tot = (k: "revenueKwd" | "paymentFeeKwd" | "imageCostKwd" | "otherCostKwd" | "marginKwd") => roundN(addN(paidInRange.map((o) => o[k])));
+  const tot = (k: "revenueRep" | "paymentFeeRep" | "imageCostRep" | "otherCostRep" | "marginRep") => roundN(addN(paidInRange.map((o) => o[k])));
   const n = paidInRange.length;
   const generations = sum(paidInRange.map((o) => o.generations));
   const regenerations = regenerated ? sum(paidInRange.map((o) => o.regenerations ?? 0)) : null;
   const withGens = paidInRange.filter((o) => o.generations > 0);
   const imageCostUsd = round(sum(paidInRange.map((o) => o.imageCostUsd)), 4);
-  const imageCostKwd = tot("imageCostKwd");
-  const revenueKwd = tot("revenueKwd");
-  const marginKwd = tot("marginKwd");
+  const imageCostRep = tot("imageCostRep");
+  const revenueRep = tot("revenueRep");
+  const marginRep = tot("marginRep");
   // Per customer: order economics plus membership payments, for customers with an account.
   const memberPays = pays.filter((p) => !p.order_id && countsForRevenue(p));
-  const membershipRevenueKwd = roundN(addN(memberPays.map((p) => conv(revenueOf(p), p.currency))));
+  const membershipRevenueRep = roundN(addN(memberPays.map((p) => conv(revenueOf(p), p.currency))));
   const cust = new Map<string, { revenue: N[]; margin: N[]; orders: number }>();
   const c = (uid: string) => {
     let x = cust.get(uid);
@@ -904,8 +1112,8 @@ export function computeOperatorDashboard(input: OperatorInput, range: AdminRange
     if (!o.user_id) continue;
     const x = c(o.user_id);
     x.orders++;
-    x.revenue.push(o.revenueKwd);
-    x.margin.push(o.marginKwd);
+    x.revenue.push(o.revenueRep);
+    x.margin.push(o.marginRep);
   }
   for (const p of memberPays) {
     if (!p.user_id) continue;
@@ -918,39 +1126,39 @@ export function computeOperatorDashboard(input: OperatorInput, range: AdminRange
   const custList = [...cust.values()];
   const economics: UnitEconomics = {
     orders: n,
-    revenueKwd,
-    paymentFeeKwd: tot("paymentFeeKwd"),
+    revenueRep,
+    paymentFeeRep: tot("paymentFeeRep"),
     imageCostUsd,
-    imageCostKwd,
-    otherCostKwd: tot("otherCostKwd"),
-    marginKwd,
-    marginShare: revenueKwd && marginKwd != null && revenueKwd > 0 ? round(marginKwd / revenueKwd, 3) : null,
+    imageCostRep,
+    otherCostRep: tot("otherCostRep"),
+    marginRep,
+    marginShare: revenueRep && marginRep != null && revenueRep > 0 ? round(marginRep / revenueRep, 3) : null,
     perOrder: {
-      revenueKwd: divN(revenueKwd, n),
-      paymentFeeKwd: divN(tot("paymentFeeKwd"), n),
-      imageCostKwd: divN(imageCostKwd, n),
-      marginKwd: divN(marginKwd, n),
+      revenueRep: divN(revenueRep, n),
+      paymentFeeRep: divN(tot("paymentFeeRep"), n),
+      imageCostRep: divN(imageCostRep, n),
+      marginRep: divN(marginRep, n),
     },
     customers: custList.length,
     deletedAccountOrders: paidInRange.filter((o) => !o.user_id).length,
-    membershipRevenueKwd,
+    membershipRevenueRep,
     perCustomer: {
-      revenueKwd: divN(addN(custList.flatMap((x) => x.revenue)), custList.length),
-      marginKwd: divN(addN(custList.flatMap((x) => x.margin)), custList.length),
+      revenueRep: divN(addN(custList.flatMap((x) => x.revenue)), custList.length),
+      marginRep: divN(addN(custList.flatMap((x) => x.margin)), custList.length),
       orders: divN(sum(custList.map((x) => x.orders)), custList.length, 2),
     },
     generations,
     regenerations,
     ordersWithGenerations: withGens.length,
-    imageCostPerOrderKwd: divN(addN(withGens.map((o) => o.imageCostKwd)), withGens.length),
+    imageCostPerOrderRep: divN(addN(withGens.map((o) => o.imageCostRep)), withGens.length),
     imageCostPerGenerationUsd: generations ? round(imageCostUsd / generations, 4) : null,
-    imageCostPerGenerationKwd: divN(imageCostKwd, generations),
+    imageCostPerGenerationRep: divN(imageCostRep, generations),
   };
 
   /* marketing */
   const reportPays = pays.filter((p) => p.status === "succeeded" && p.order_id);
-  const reportPayKwd = addN(reportPays.map((p) => conv(p.amount, p.currency)));
-  const avgReportKwd = reportPays.length ? divN(reportPayKwd, reportPays.length) : null;
+  const reportPayRep = addN(reportPays.map((p) => conv(p.amount, p.currency)));
+  const avgReportRep = reportPays.length ? divN(reportPayRep, reportPays.length) : null;
   const firstPaid = new Map<string, number>(); // new paying customers per Kuwait day
   const seen = new Set<string>();
   for (const o of rows.orders) {
@@ -968,27 +1176,27 @@ export function computeOperatorDashboard(input: OperatorInput, range: AdminRange
     const mdays: MarketingDay[] = [...byDay.entries()]
       .sort((a, b) => b[0].localeCompare(a[0]))
       .map(([date, list]) => {
-        const spendKwd = roundN(addN(list.map((a) => conv(a.spend, a.currency))));
+        const spendRep = roundN(addN(list.map((a) => conv(a.spend, a.currency))));
         const dp = daily.find((x) => x.date === date);
         // No point for the day means no revenue (0); a point with null revenue means a rate is missing (keep null).
-        const dayRevenue: N = dp ? dp.revenueKwd : 0;
+        const dayRevenue: N = dp ? dp.revenueRep : 0;
         const newCustomers = firstPaid.get(date) ?? 0;
         return {
           date,
-          spendKwd,
+          spendRep,
           impressions: sum(list.map((a) => a.impressions)),
           clicks: sum(list.map((a) => a.clicks)),
           purchases: sum(list.map((a) => a.purchases)),
           newCustomers,
-          revenueKwd: dayRevenue,
-          cacKwd: divN(spendKwd, newCustomers),
-          roas: divN(dayRevenue, spendKwd, 2),
+          revenueRep: dayRevenue,
+          cacRep: divN(spendRep, newCustomers),
+          roas: divN(dayRevenue, spendRep, 2),
         };
       });
     const byCamp = new Map<string, AdSpendRow[]>();
     for (const a of ads) byCamp.set(`${a.platform}:${a.campaign_id}`, [...(byCamp.get(`${a.platform}:${a.campaign_id}`) ?? []), a]);
     const campaigns: MarketingCampaign[] = [...byCamp.values()].map((list) => {
-      const spendKwd = roundN(addN(list.map((a) => conv(a.spend, a.currency))));
+      const spendRep = roundN(addN(list.map((a) => conv(a.spend, a.currency))));
       const impressions = sum(list.map((a) => a.impressions));
       const clicks = sum(list.map((a) => a.clicks));
       const purchases = sum(list.map((a) => a.purchases));
@@ -996,35 +1204,73 @@ export function computeOperatorDashboard(input: OperatorInput, range: AdminRange
         platform: list[0].platform,
         campaign_id: list[0].campaign_id,
         campaign_name: list.map((a) => a.campaign_name).filter(Boolean).pop() ?? null,
-        spendKwd,
+        spendRep,
         impressions,
         clicks,
         purchases,
         ctr: impressions ? round(clicks / impressions, 4) : null,
-        cpaKwd: divN(spendKwd, purchases),
-        estRoas: avgReportKwd == null ? null : divN(purchases * avgReportKwd, spendKwd, 2),
+        cpaRep: divN(spendRep, purchases),
+        estRoas: avgReportRep == null ? null : divN(purchases * avgReportRep, spendRep, 2),
       };
     });
-    campaigns.sort((a, b) => (b.spendKwd ?? 0) - (a.spendKwd ?? 0));
-    const spendKwd = roundN(addN(ads.map((a) => conv(a.spend, a.currency))));
+    campaigns.sort((a, b) => (b.spendRep ?? 0) - (a.spendRep ?? 0));
+    const spendRep = roundN(addN(ads.map((a) => conv(a.spend, a.currency))));
     const impressions = sum(ads.map((a) => a.impressions));
     const clicks = sum(ads.map((a) => a.clicks));
     const newPaying = sum([...firstPaid.values()]);
     return {
       hasRows: ads.length > 0,
-      spendKwd,
+      spendRep,
       impressions,
       clicks,
       purchases: sum(ads.map((a) => a.purchases)),
       ctr: impressions ? round(clicks / impressions, 4) : null,
       newPayingCustomers: newPaying,
-      cacKwd: divN(spendKwd, newPaying),
-      roas: divN(kpis.revenueKwd, spendKwd, 2),
+      cacRep: divN(spendRep, newPaying),
+      roas: divN(kpis.revenueRep, spendRep, 2),
       days: mdays,
       campaigns,
       currencies: [...new Set(ads.map((a) => a.currency.toUpperCase()))],
     };
   };
+
+  /* per country and currency */
+  function computeMarkets(): MarketRow[] {
+    const orderById = new Map(rows.orders.map((o) => [o.id, o]));
+    const subById = new Map(rows.subscriptions.map((x) => [x.id, x]));
+    const countryOfPay = (p: AdminRows["payments"][number]) =>
+      p.country ?? (p.order_id ? orderById.get(p.order_id)?.country : null) ?? (p.subscription_id ? subById.get(p.subscription_id)?.country : null) ?? null;
+    const key = (country: string | null | undefined, cur: string | null | undefined) => `${country ?? ""}|${(cur ?? "KWD").toUpperCase()}`;
+    const m = new Map<string, MarketRow & { customers: Set<string> }>();
+    const at = (country: string | null | undefined, cur: string | null | undefined) => {
+      const k = key(country, cur);
+      let x = m.get(k);
+      if (!x) m.set(k, (x = { country: country ?? null, currency: (cur ?? "KWD").toUpperCase(), orders: 0, payingCustomers: 0, gross: 0, refunds: 0, net: 0, netRep: 0, share: null, activeMembers: 0, mrr: 0, mrrRep: 0, customers: new Set() }));
+      return x;
+    };
+    for (const p of pays) {
+      if (!countsForRevenue(p)) continue;
+      const x = at(countryOfPay(p), p.currency);
+      if (p.status === "succeeded") {
+        x.gross += p.amount;
+        if (p.user_id) x.customers.add(p.user_id);
+      } else x.refunds += Math.abs(p.amount);
+    }
+    for (const o of paidInRange) at(o.country, o.currency).orders++;
+    for (const x of rows.subscriptions) {
+      if (x.plan === "included" || x.status !== "active") continue;
+      const r = at(x.country, x.currency);
+      r.activeMembers++;
+      r.mrr += x.amount == null ? monthlyEquivalent(x.plan, x.currency) : x.plan === "yearly" ? x.amount / 12 : x.amount;
+    }
+    const list = [...m.values()].map(({ customers, ...x }) => {
+      const net = x.gross - x.refunds;
+      return { ...x, payingCustomers: customers.size, gross: round(x.gross, 3), refunds: round(x.refunds, 3), net: round(net, 3), netRep: roundN(conv(net, x.currency)), mrr: round(x.mrr, 3), mrrRep: roundN(conv(x.mrr, x.currency)) };
+    });
+    const total = addN(list.map((x) => x.netRep));
+    for (const x of list) x.share = total && x.netRep != null ? round(x.netRep / total, 3) : null;
+    return list.sort((a, b) => (b.netRep ?? -Infinity) - (a.netRep ?? -Infinity) || b.orders - a.orders);
+  }
 
   /* waitlist */
   const wl = rows.waitlist;
@@ -1046,10 +1292,13 @@ export function computeOperatorDashboard(input: OperatorInput, range: AdminRange
     statusCounts,
     orders: tableOrders,
     economics,
+    markets: computeMarkets(),
     marketing: { meta: marketingFor("meta"), all: marketingFor(null) },
     waitlist: waitlistSummary,
+    currency: currency.toUpperCase(),
     fx: rates,
     fxMissing: [],
+    fxStale: rates.filter((r) => fxStale(r, now)).map((r) => r.currency),
     warnings: input.warnings ?? [],
   };
   result.fxMissing = [...missing].sort();
@@ -1103,8 +1352,8 @@ async function backfillOlderOrders(rows: AdminRows, since: string): Promise<{ ro
   };
 }
 
-/** Fetch everything the operator dashboard needs for a range. Admin only (RLS). */
-export async function loadOperatorDashboard(range: AdminRange): Promise<OperatorDashboard> {
+/** Fetch everything the operator dashboard needs for a range (raw amounts; computeOperatorDashboard converts). Admin only (RLS). */
+export async function loadOperatorInput(range: AdminRange): Promise<{ input: OperatorInput; now: number }> {
   const now = Date.now();
   const since = new Date(adminRangeStart(range, now)).toISOString();
   const warnings: string[] = [];
@@ -1136,9 +1385,50 @@ export async function loadOperatorDashboard(range: AdminRange): Promise<Operator
     soft("Regenerations could not be counted", regen(), null),
     soft("Waitlist emails could not be loaded", listWaitlistEntries(rows.waitlist), [] as AdminWaitlistEntry[]),
   ]);
-  return computeOperatorDashboard({ rows, rates, mrr, regenerated, waitlist, warnings }, range, now);
+  return { input: { rows, rates, mrr, regenerated, waitlist, warnings }, now };
 }
 
-export function useOperatorDashboard(range: AdminRange, enabled = true): QueryState<OperatorDashboard> {
-  return useBackendQuery(backendMode === "off" || !enabled ? null : `admin-op:${range}`, () => loadOperatorDashboard(range));
+/** Fetch and compute the operator dashboard for a range, in `currency` (EUR by default). Admin only. */
+export async function loadOperatorDashboard(range: AdminRange, currency: string = DEFAULT_REPORT_CURRENCY): Promise<OperatorDashboard> {
+  const { input, now } = await loadOperatorInput(range);
+  return computeOperatorDashboard(input, range, now, currency);
+}
+
+/**
+ * The operator dashboard for a range in `currency`. Switching the currency
+ * only recomputes (the rows and rates are fetched once per range).
+ */
+export function useOperatorDashboard(range: AdminRange, enabled = true, currency: string = DEFAULT_REPORT_CURRENCY): QueryState<OperatorDashboard> {
+  const q = useBackendQuery(backendMode === "off" || !enabled ? null : `admin-op:${range}`, () => loadOperatorInput(range));
+  const data = useMemo(() => (q.data ? computeOperatorDashboard(q.data.input, range, q.data.now, currency) : undefined), [q.data, range, currency]);
+  return { ...q, data };
+}
+
+const OPERATOR_CSV_COLS = ["order_id", "email", "product", "status", "country", "currency", "list_price", "revenue", "created_at", "paid_at", "delivered_at", "revenue_rep", "payment_fee_rep", "image_cost_usd", "image_cost_rep", "other_cost_rep", "margin_rep", "rep_currency"] as const;
+
+/** The operator dashboard's orders as CSV: raw amounts in the order's currency plus the converted ones (rep_currency). */
+export function operatorOrdersToCsv(orders: OperatorOrder[], currency: string): string {
+  return toCsv(
+    OPERATOR_CSV_COLS,
+    orders.map((o) => ({
+      order_id: o.order_id,
+      email: o.email,
+      product: o.product,
+      status: o.status,
+      country: o.country,
+      currency: o.currency,
+      list_price: o.amount,
+      revenue: o.revenue,
+      created_at: o.created_at,
+      paid_at: o.paid_at,
+      delivered_at: o.delivered_at,
+      revenue_rep: o.revenueRep,
+      payment_fee_rep: o.paymentFeeRep,
+      image_cost_usd: o.imageCostUsd,
+      image_cost_rep: o.imageCostRep,
+      other_cost_rep: o.otherCostRep,
+      margin_rep: o.marginRep,
+      rep_currency: currency,
+    })),
+  );
 }

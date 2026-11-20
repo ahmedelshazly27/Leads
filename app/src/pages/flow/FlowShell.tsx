@@ -11,7 +11,8 @@ import { useEffect, useRef, type ReactNode } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { BRAND_NAME } from "../../lib/brand";
 import { getLang, setLang, useArabicPage, useLang, type Lang } from "../../lib/i18n";
-import { backendEnabled, BackendError } from "../../lib/backend";
+import { backendEnabled, BackendError, redirectToCheckout, type CheckoutPlan } from "../../lib/backend";
+import { displayPrice, type CountryCode } from "../../lib/pricing";
 import { legalHref } from "../legal/content";
 import "./flow.css";
 
@@ -147,14 +148,20 @@ export function Spinner() {
 
 /* ------------------------------ Helpers ------------------------------ */
 
-/** "20 KWD", "5 KWD", "12.500 KWD" (KWD has 3 decimals; whole amounts are shown without them). */
-export function kwd(amount: number): string {
-  return `${amt(amount)} KWD`;
-}
-/** The number part of a KWD amount. Inside sentences write `${amt(x)} KWD` so the Arabic template keeps the unit. */
-export function amt(amount: number): string {
-  const n = Math.round(amount * 1000) / 1000;
-  return Number.isInteger(n) ? String(n) : n.toFixed(3);
+/**
+ * An amount in its currency, in the page language: "SAR 249" / "249 ر.س".
+ * Inside sentences build one string (`${money(x, cur, lang)} a month`) so the
+ * Arabic template ("{0} a month") matches a single text node.
+ */
+export const money = (amount: number, currency: string | null | undefined, lang: Lang): string => displayPrice(amount, (currency || "KWD").toUpperCase(), lang);
+
+/**
+ * Start Stripe Checkout for a plan in the visitor's country. The server
+ * resolves the currency and amount from the country and refuses countries we
+ * don't sell in ("country_not_available").
+ */
+export async function goToCheckout(plan: CheckoutPlan, lang: Lang, country: CountryCode): Promise<void> {
+  await redirectToCheckout({ plan, locale: lang, country });
 }
 
 export const errCode = (e: unknown): string => (e instanceof BackendError ? e.code : "");

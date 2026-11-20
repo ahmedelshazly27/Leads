@@ -19,6 +19,7 @@ supabase/
     20261119000008_membership_included.sql  included month of a report bought on its own (plan 'included'),
                                       email_reminders, reminder query, retention clock without orders.updated_at
     20261119000009_cron_membership.sql included-memberships-daily and membership-reminders-daily jobs
+    20261120000010_multi_currency.sql country columns, costs in any currency, EUR-based fx_rates (GCC pegs), views in EUR
   functions/
     _shared/                          CORS, HTTP helpers, service client, auth, Stripe, membership schedule, image APIs, email, storage
     create-checkout/  stripe-webhook/  submit-scan/  generate-visual/  approve-delivery/
@@ -113,9 +114,6 @@ supabase secrets set \
   SITE_URL=https://<your-domain> \
   STRIPE_SECRET_KEY=sk_live_... \
   STRIPE_WEBHOOK_SECRET=whsec_... \
-  STRIPE_PRICE_REPORT=price_... \
-  STRIPE_PRICE_MONTHLY=price_... \
-  STRIPE_PRICE_YEARLY=price_... \
   IMAGE_PROVIDER=fal \
   FAL_KEY=... \
   RESEND_API_KEY=re_... \
@@ -131,7 +129,9 @@ supabase secrets set \
 | `SITE_URL` | checkout, emails, CORS | No trailing slash. |
 | `ALLOWED_ORIGINS` | CORS | Optional, comma separated (e.g. a preview domain). `localhost` is always allowed. |
 | `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET` | create-checkout, stripe-webhook, delete-my-data, manage-membership | |
-| `STRIPE_PRICE_REPORT` / `_MONTHLY` / `_YEARLY` | create-checkout | Optional. Without them, checkout uses inline prices: 20.000 / 5.000 / 45.000 KWD. |
+| `STRIPE_AUTOMATIC_TAX` | create-checkout | Optional. `1` turns on Stripe Tax (and asks for the billing address). Only once the owner is registered for VAT where Stripe should collect it; see section 6. |
+| `STRIPE_PRODUCT_REPORT` | create-checkout | Optional `prod_...`: groups every report sale under one Stripe product. |
+| `STRIPE_PRICE_MONTHLY_<CUR>` / `STRIPE_PRICE_YEARLY_<CUR>` | create-checkout, stripe-webhook, manage-membership | Optional, e.g. `STRIPE_PRICE_MONTHLY_SAR`. Used only if the price has exactly the amount in `prices.json`; otherwise (and by default) the functions find or create the price by lookup key. The older `STRIPE_PRICE_MONTHLY` / `_YEARLY` count for KWD only; `STRIPE_PRICE_REPORT` is no longer used (the report is an inline price from `prices.json`). |
 | `IMAGE_PROVIDER` | generate-visual | `fal` (default) or `openai`. |
 | `FAL_KEY` / `OPENAI_API_KEY` | generate-visual | For the chosen provider. Optional: `FAL_IMAGE_MODEL`, `OPENAI_IMAGE_MODEL`, `OPENAI_IMAGE_QUALITY`. |
 | `IMAGE_PRICES_JSON` | generate-visual | Optional override of the USD price per call, e.g. `{"fal-ai/nano-banana/edit":0.039}`. Check the provider's pricing page; costs in the dashboard come from this table (OpenAI uses the token usage it reports). |
@@ -158,14 +158,48 @@ or Stripe signature).
 
 ## 6. Stripe
 
-1. **Products and prices** (Dashboard > Product catalog), currency **KWD**:
-   - Report: one-time **20.000 KWD**
-   - Membership monthly: recurring **5.000 KWD / month**
-   - Membership yearly: recurring **45.000 KWD / year**
+1. **Prices.** The price table is `functions/_shared/prices.json` (the app has
+   an identical copy, `app/src/lib/prices.json`; `npm run check:prices` in `app/`
+   fails when they differ). Customers pay in their country's currency, VAT
+   included where VAT applies:
 
-   Put the `price_...` ids in the `STRIPE_PRICE_*` secrets. KWD has three
-   decimals; Stripe takes amounts in fils (20 KWD = 20000) and requires the last
-   digit to be 0.
+   | Country | Currency | Report | Monthly | 12-month |
+   |---|---|---|---|---|
+   | Kuwait | KWD | 20 | 5 | 45 |
+   | Saudi Arabia | SAR | 249 | 59 | 549 |
+   | UAE | AED | 239 | 59 | 539 |
+   | Qatar | QAR | 239 | 59 | 529 |
+   | Bahrain | BHD | 25 | 6 | 55 |
+   | Oman | OMR | 25 | 6 | 56 |
+   | other (when enabled) | USD | 65 | 16 | 145 |
+
+   Nothing has to be created in Stripe by hand: the report is an inline price
+   and the memberships use prices found or created by lookup key
+   (`membership_monthly_sar`, `membership_yearly_kwd`, ...), all with
+   `tax_behavior: inclusive`. When the table changes, the next checkout creates
+   a new price and moves the lookup key to it; running subscriptions keep their
+   price. KWD, BHD and OMR have three decimals and Stripe requires those amounts
+   in whole 10 fils/baisa; every price in the table is checked against that
+   before a checkout is created.
+
+   To open or close a country, change `selling` (and `countries` for its
+   currency) in both copies of `prices.json`, then redeploy the functions and
+   the site. A country not in `selling` gets `400 country_not_available`.
+   A Stripe customer keeps one currency for subscriptions while one is open;
+   a customer who switches country gets `409 currency_mismatch`.
+
+   **Checkout language.** Stripe Checkout has no Arabic, so Arabic customers
+   get `locale: auto` (the browser's language where Stripe has it, otherwise
+   English).
+
+   **Tax.** Prices are VAT-inclusive whether or not Stripe Tax is on, so the
+   customer always pays the listed amount. Set `STRIPE_AUTOMATIC_TAX=1` only
+   after the owner has registered where Stripe should calculate VAT and added
+   those registrations under Stripe > Tax. With it on, Checkout asks for the
+   billing address and Stripe shows the VAT inside the price on the receipt.
+   When the billing country differs from the country chosen on the site, the
+   webhook writes `checkout.country_mismatch` to `audit_log` (the sale is not
+   refused; it shows under "Needs attention" on /admin). Whether and where to register is a question for the tax adviser.
 2. **Webhook** (Developers > Webhooks > Add endpoint):
    - URL: `https://<project-ref>.supabase.co/functions/v1/stripe-webhook`
    - Events:
@@ -193,15 +227,15 @@ one a month from the `monthly-checkins-daily` job.
 **Yearly after the first year.** When a yearly subscription is created, the
 webhook attaches a subscription schedule: the current phase (the 30-day trial or
 the paid year), one yearly phase after a trial, then the monthly price, and the
-schedule is released so it simply continues at 5.000 KWD a month. The monthly
-price is `STRIPE_PRICE_MONTHLY`, or one the function finds or creates with the
-lookup key `membership_monthly_kwd` (`membership_yearly_kwd` for the yearly
-phase after a trial). Check it under Billing > Subscriptions > the subscription
+schedule is released so it simply continues at the monthly price of the same
+currency (KWD 45 then KWD 5 a month, SAR 549 then SAR 59, ...). The prices are
+the lookup-key prices above (`membership_monthly_<cur>`, `membership_yearly_<cur>`). Check it under Billing > Subscriptions > the subscription
 > Schedule. A failure shows as `stripe.schedule_failed` in `audit_log`.
 
 **Cancel, resume, end early** (`manage-membership`): cancel = at period end;
 resume = undo before the end; `end_now` = yearly only, ends today and refunds the
-full months left (price / 12 each, rounded down to 10 fils). Requests under the
+full months left (price / 12 each, in the membership's currency, rounded down to
+10 fils/baisa for KWD, BHD and OMR and to whole halalas/fils/cents otherwise). Requests under the
 14-day right of withdrawal and refunds after a photo-consent withdrawal are
 issued by hand in the Stripe dashboard (the webhook records them); for the
 latter, `audit_log` rows with action `orders.cancelled_consent_withdrawn` say
@@ -211,8 +245,9 @@ whether the refund policy suggests a full or partial refund:
 select at, target_id as order_id, meta from public.audit_log
 where action = 'orders.cancelled_consent_withdrawn' order by at desc;
 ``` Payment fees come from the
-balance transaction (converted back to KWD with Stripe's rate when the account
-settles in EUR) and are written to `payments.fee` and a `costs` row.
+balance transaction: `payments.fee` is in the payment currency (converted back
+with Stripe's rate), and the `costs` row is in the settlement currency (EUR for
+the B.V.'s account), the exact amount Stripe kept.
 
 ## 7. Make the first admin and the reviewers
 
@@ -247,18 +282,37 @@ its order is delivered, refunded or cancelled.
 
 ## 8. Exchange rates for the dashboard
 
-The dashboard reports in KWD. Image costs are in USD and Meta spend is in the ad
-account's currency, so set the rates you want to use (KWD per 1 unit) and update
-them now and then:
+The views and the operator dashboard report in **EUR**, the currency the B.V.
+books in (`v_order_economics`, `v_daily_kpis`, `v_mrr` have `*_eur` columns;
+`v_revenue_by_market` breaks revenue down per country and currency in the raw
+currency and in EUR). The admin page can show the same figures in KWD or USD;
+it converts with the same table.
+
+`fx_rates` holds the EUR value of one unit of each currency (`eur_per_unit`):
+
+| Currency | Basis | Who sets it |
+|---|---|---|
+| EUR | base | always 1 |
+| USD | manual | the admin, e.g. weekly (ECB reference rate or the accountant's) |
+| KWD | manual | the admin, **daily**: the dinar is pegged to an undisclosed basket |
+| SAR, AED, QAR, BHD, OMR | peg | nobody: fixed pegs to USD (3.75, 3.6725, 3.64, 0.376, 0.3845 per USD); their EUR value follows the USD rate (a trigger recomputes it) |
+
+Set the manual ones in the admin page (Exchange rates, quoted as "1 EUR = x")
+or in SQL:
 
 ```sql
-insert into public.fx_rates (currency, kwd_per_unit) values
-  ('USD', <rate>), ('EUR', <rate>)
-on conflict (currency) do update set kwd_per_unit = excluded.kwd_per_unit, updated_at = now();
+update public.fx_rates set eur_per_unit = <EUR per 1 USD>, updated_at = now() where currency = 'USD';
+update public.fx_rates set eur_per_unit = <EUR per 1 KWD>, updated_at = now() where currency = 'KWD';
+-- an ad account in another currency:
+insert into public.fx_rates (currency, eur_per_unit) values ('GBP', <EUR per 1 GBP>)
+on conflict (currency) do update set eur_per_unit = excluded.eur_per_unit, updated_at = now();
 ```
 
-Until a needed rate exists, the affected margin / spend values are `null` and
-`fx_missing` is `true` in the views (nothing is silently counted as zero).
+Migration 010 carries over USD and EUR rates already set in KWD terms. The
+admin page warns when KWD is more than a day old or USD more than a week. Until
+a needed rate exists, the affected values are `null` and `fx_missing` is `true`
+(nothing is silently counted as zero). `kwd_per_unit` is still filled in
+(derived) for older queries.
 
 ## 9. Local development (optional)
 

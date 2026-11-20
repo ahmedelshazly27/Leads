@@ -196,9 +196,32 @@ export function changesRequestedEmail(
 export interface MembershipPrices {
   monthly: number;
   yearly: number;
+  /** ISO code of the membership's currency (the one the customer pays in) */
+  currency: string;
 }
 
-const kwd = (n: number, locale: EmailLocale) => (locale === "ar" ? `${n} د.ك` : `${n} KWD`);
+// The same symbols as the site (app/src/lib/pricing.ts formatPrice).
+const AR_SYMBOL: Record<string, string> = {
+  KWD: "د.ك",
+  SAR: "ر.س",
+  AED: "د.إ",
+  QAR: "ر.ق",
+  BHD: "د.ب",
+  OMR: "ر.ع",
+};
+const THREE_DECIMALS = new Set(["KWD", "BHD", "OMR", "JOD", "TND"]);
+
+/** An amount in the email's language: "SAR 249" / "249 ر.س", "USD 65" / "$65". Whole amounts without decimals. */
+export function money(n: number, currency: string, locale: EmailLocale): string {
+  const cur = currency.toUpperCase();
+  const digits = Number.isInteger(n) ? 0 : THREE_DECIMALS.has(cur) ? 3 : 2;
+  const num = n.toFixed(digits);
+  if (locale === "ar") {
+    if (cur === "USD") return `$${num}`;
+    return `${num} ${AR_SYMBOL[cur] ?? cur}`;
+  }
+  return `${cur} ${num}`;
+}
 
 /** Whole days until `iso` (at least 1). */
 export function daysUntil(iso: string, now = Date.now()): number {
@@ -229,7 +252,8 @@ export function includedEndingEmail(opts: {
 }): Omit<EmailMessage, "to"> {
   const days = daysUntil(opts.endsAt, opts.now);
   const date = formatDate(opts.endsAt, opts.locale);
-  const { monthly, yearly } = opts.prices;
+  const { monthly, yearly, currency } = opts.prices;
+  const price = (n: number, l: EmailLocale) => money(n, currency, l);
   if (opts.locale === "ar") {
     return compose({
       locale: "ar",
@@ -241,9 +265,9 @@ export function includedEndingEmail(opts: {
         "إذا تبي تكمّل مع فحص شهري يحدّث درجاتك وخطتك، وملاحظة من المراجع كل شهر، تقدر تشترك الحين. وتقدر تلغي أي وقت.",
       ],
       buttons: [
-        { label: `اشترك شهري: ${kwd(monthly, "ar")} بالشهر`, href: opts.monthlyLink },
+        { label: `اشترك شهري: ${price(monthly, "ar")} بالشهر`, href: opts.monthlyLink },
         {
-          label: `اشترك سنوي: ${kwd(yearly, "ar")} لـ12 شهر، بعدها ${kwd(monthly, "ar")} بالشهر`,
+          label: `اشترك سنوي: ${price(yearly, "ar")} لـ12 شهر، بعدها ${price(monthly, "ar")} بالشهر`,
           href: opts.yearlyLink,
         },
       ],
@@ -262,9 +286,9 @@ export function includedEndingEmail(opts: {
       "If you want to keep a monthly check-in scan with updated scores and plan, and a reviewer note each month, you can join now. Cancel any time.",
     ],
     buttons: [
-      { label: `Join monthly: ${kwd(monthly, "en")} a month`, href: opts.monthlyLink },
+      { label: `Join monthly: ${price(monthly, "en")} a month`, href: opts.monthlyLink },
       {
-        label: `Join yearly: ${kwd(yearly, "en")} for 12 months, then ${kwd(monthly, "en")} a month`,
+        label: `Join yearly: ${price(yearly, "en")} for 12 months, then ${price(monthly, "en")} a month`,
         href: opts.yearlyLink,
       },
     ],
@@ -286,7 +310,8 @@ export function yearlyRenewalEmail(opts: {
   brand?: string;
 }): Omit<EmailMessage, "to"> {
   const date = formatDate(opts.endsAt, opts.locale);
-  const { monthly } = opts.prices;
+  const { monthly, currency } = opts.prices;
+  const price = (n: number, l: EmailLocale) => money(n, currency, l);
   if (opts.locale === "ar") {
     return compose({
       locale: "ar",
@@ -295,7 +320,7 @@ export function yearlyRenewalEmail(opts: {
       subject: `عضويتك السنوية تخلص يوم ${date}`,
       paragraphs: [
         `مثل ما وعدناك، هذا تذكير: الـ12 شهر من عضويتك السنوية تخلص يوم ${date}.`,
-        `بعدها تستمر عضويتك شهر بشهر بـ${kwd(monthly, "ar")} بالشهر على نفس البطاقة، لين ما تلغيها.`,
+        `بعدها تستمر عضويتك شهر بشهر بـ${price(monthly, "ar")} بالشهر على نفس البطاقة، لين ما تلغيها.`,
         `وإذا تبي توقف، ألغها أي وقت قبل ${date} من صفحة حسابك، وما راح ينخصم منك شي بعدها.`,
       ],
       buttons: [{ label: "افتح صفحة حسابك", href: opts.accountLink }],
@@ -309,7 +334,7 @@ export function yearlyRenewalEmail(opts: {
     paragraphs: [
       `This is the reminder we promised: the 12 months of your yearly membership end on ${date}.`,
       `After that, your membership continues month to month at ${
-        kwd(monthly, "en")
+        price(monthly, "en")
       } a month on the same card, until you cancel.`,
       `If you would rather stop, cancel any time before ${date} on your account page and nothing more is charged.`,
     ],

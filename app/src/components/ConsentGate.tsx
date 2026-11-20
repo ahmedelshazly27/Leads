@@ -7,10 +7,24 @@
  * ["photos"] before the intake questionnaire (it also covers the health-related
  * answers, so it must come before them, not only before the camera).
  *
+ * The photos step is the separate, explicit consent for sensitive data (face
+ * and body photos, the measurements taken from them, health-related answers).
+ * It has four required, un-ticked boxes that are all recorded as one consent
+ * of kind "photos": (1) explicit consent to the analysis and human review,
+ * (2) storage in the EU and transfer to the named countries (needed for the
+ * UAE and Oman, research: data-protection.verified.md section 10), (3) the AI
+ * illustration notice (EU AI Act art. 50(4)), (4) "these are photos of me".
+ * Recording (2) and (3) as their own consent kinds, or making (3) optional,
+ * needs new ConsentKind values (lib/backend/types.ts) and a migration; see
+ * docs/legal/LEGAL_MEMO.md.
+ *
  * The photos step also asks, by default, for the request to start work within
- * the 14-day withdrawal period (terms section 8, refund policy section 1). It is
+ * the 14-day withdrawal period (terms section 9, refund policy section 1). It is
  * returned in `consents` as kind "withdrawal_waiver" (submit-scan refuses the
  * photos without it) and, for convenience, also as `withdrawalWaiver`.
+ *
+ * Wording changed 2026-11-20: CONSENT_VERSION must be bumped (see
+ * CONSENT_VERSION_BUMP in pages/legal/content.ts).
  */
 import { useId, useMemo, useState, type ReactNode } from "react";
 import { CONSENT_VERSION } from "../lib/backend/consents";
@@ -91,20 +105,25 @@ const T = {
     },
     photos: {
       title: "Your photos",
-      lead: "Before you take your photos, here is exactly what happens to them.",
+      lead: "Before you take your photos, here is exactly what happens to them. This is a separate consent: please read it and tick each box yourself.",
       items: [
         ["What we capture", "Your face from the front, both sides and at an angle, with a few expressions (smile, frown, raised brows), and your body from the front and side. Plus the answers you give, such as height, weight, smoking, and skin and hair concerns. Some of these answers, and results such as your body-fat estimate, are health information."],
-        ["Where", "Measurements are made on your device first. When you submit, your photos are uploaded encrypted to our servers in the EU (Frankfurt, Germany). To make your AI illustration, the photos needed are sent to our image provider in [REGION]."],
+        ["Why", "Only to prepare your report and plan: a person reviews your photos and measurements, and we make your AI illustrations. We never use them to identify you or recognise you, and never for facial recognition. This is not medical advice and not a diagnosis."],
+        ["Where", "Measurements are made on your device first. When you submit, your photos are uploaded encrypted to our servers in the EU (Frankfurt, Germany), run by our company in the Netherlands. To make your AI illustrations, the photos needed are sent to our image provider, [IMAGE PROVIDER], in the United States. Our email provider in the United States receives your email address, never your photos."],
         ["Who sees them", PHOTO_ACCESS_TEXT.en],
-        ["Never", "Your photos are never sold, never used in marketing and never used to train AI models."],
+        ["Leaving your country", "Your data leaves your country for the Netherlands, Germany and the United States. It is protected there by the GDPR and the EU's standard contractual clauses (and the EU-US Data Privacy Framework where the provider is certified). Where your country's law needs your consent to this transfer, you give it below. Details are in the [[privacy policy|privacy]]."],
+        ["AI illustrations", "The \"after\" pictures in your plan are made by AI from your photos and are labelled as AI illustrations. They are not photos of you, not a prediction and not a promise of any result. They are never used in advertising."],
+        ["Never", "Your photos are never sold, never used in marketing and never used to train AI models. [NO-TRAINING: keep the training promise only once the signed contract with [IMAGE PROVIDER] forbids training on our requests.]"],
         ["Deletion", "Photos are deleted automatically 90 days after your report is delivered, or earlier if you ask. Your measurements and plan stay in your account until you delete it, or at most 24 months after your last order or membership ends."],
         ["Changing your mind", "You can withdraw this consent at any time on your Account page or by email, and we delete your photos and the measurements and health answers taken from them. If you do this before delivery, we can't finish your report; see the [[refund policy|refunds]]."],
       ] as [string, string][],
-      consent: "I give my explicit consent for my photos, the face and body measurements taken from them, and the health-related answers I give (such as weight, smoking, skin and hair concerns) to be processed as described above.",
+      consent: "I give my explicit consent for my photos, the face and body measurements taken from them, and the health-related answers I give (such as weight, smoking, skin and hair concerns) to be processed as described above, including review by the reviewer assigned to my order and authorised staff. I know I can withdraw this consent at any time.",
+      transfer: "I explicitly agree that my photos and data are stored and processed outside my country: in the Netherlands and Germany (EU), and, for my AI illustrations and emails, by the providers named above in the United States.",
+      ai: "I understand that my plan includes AI-generated illustrations made from my photos by our image provider, and that they are not real results or predictions.",
       own: "These photos are of me only. They show no one else and no one under 18.",
-      // the canonical wording, shared with terms section 8 and refund policy section 1
+      // the canonical wording, shared with terms section 9 and refund policy section 1
       waiver: WAIVER_TEXT.en,
-      waiverMore: "Your 14-day right to withdraw is explained in the [[Terms|terms]] and the [[Refund policy|refunds]].",
+      waiverMore: "Until our review starts you can still cancel for a full refund. Your rights are explained in the [[Terms|terms]] and the [[Refund policy|refunds]].",
       more: "Full details are in the [[Privacy policy|privacy]].",
     },
   },
@@ -138,19 +157,24 @@ const T = {
     },
     photos: {
       title: "صوركم",
-      lead: "قبل التقاط صوركم، إليكم بالتحديد ما يحدث لها.",
+      lead: "قبل التقاط صوركم، إليكم بالتحديد ما يحدث لها. هذه موافقة مستقلة: يُرجى قراءتها وتحديد كل خانة بأنفسكم.",
       items: [
         ["ما نلتقطه", "وجهكم من الأمام ومن الجانبين ومن زاوية مائلة، مع بعض التعابير (ابتسامة، تقطيب، رفع الحواجب)، وجسمكم من الأمام والجانب. بالإضافة إلى إجاباتكم مثل الطول والوزن والتدخين ومشاكل البشرة والشعر. وبعض هذه الإجابات، وبعض النتائج مثل تقدير نسبة الدهون في الجسم، معلومات صحية."],
-        ["أين", "تُحسَب القياسات على جهازكم أولاً. وعند الإرسال، تُرفَع صوركم مشفّرة إلى خوادمنا في الاتحاد الأوروبي (فرانكفورت، ألمانيا). ولإنشاء الصورة التوضيحية، تُرسَل الصور اللازمة إلى مزوّد خدمة إنشاء الصور في [REGION]."],
+        ["لماذا", "لإعداد تقريركم وخطتكم فقط: يراجع شخص من فريقنا صوركم وقياساتكم، ونُنشئ صوركم التوضيحية بالذكاء الاصطناعي. ولا نستخدمها أبداً للتعرّف على هويتكم أو لتمييزكم، ولا لأي تقنية للتعرّف على الوجه. وهذه ليست استشارة طبية ولا تشخيصاً."],
+        ["أين", "تُحسَب القياسات على جهازكم أولاً. وعند الإرسال، تُرفَع صوركم مشفّرة إلى خوادمنا في الاتحاد الأوروبي (فرانكفورت، ألمانيا)، وتديرها شركتنا في هولندا. ولإنشاء الصور التوضيحية، تُرسَل الصور اللازمة إلى مزوّد خدمة إنشاء الصور، [IMAGE PROVIDER]، في الولايات المتحدة. ويتلقّى مزوّد البريد الإلكتروني في الولايات المتحدة عنوان بريدكم فقط، ولا يتلقّى صوركم أبداً."],
         ["من يراها", PHOTO_ACCESS_TEXT.ar],
-        ["أبداً", "صوركم لا تُباع، ولا تُستخدم في التسويق، ولا تُستخدم لتدريب نماذج الذكاء الاصطناعي."],
+        ["خروج البيانات من بلدكم", "تخرج بياناتكم من بلدكم إلى هولندا وألمانيا والولايات المتحدة، وتحميها هناك اللائحة الأوروبية لحماية البيانات والبنود التعاقدية النموذجية للاتحاد الأوروبي (وإطار خصوصية البيانات بين الاتحاد الأوروبي والولايات المتحدة إذا كان المزوّد معتمداً فيه). وحيث يشترط قانون بلدكم موافقتكم على هذا النقل، تقدّمونها أدناه. والتفاصيل في [[سياسة الخصوصية|privacy]]."],
+        ["الصور التوضيحية", "صور \"بعد\" في خطتكم يُنشئها الذكاء الاصطناعي من صوركم، وتحمل علامة توضّح أنها صور توضيحية بالذكاء الاصطناعي. وهي ليست صوراً لكم، ولا توقّعاً، ولا وعداً بأي نتيجة، ولا تُستخدم أبداً في الإعلانات."],
+        ["أبداً", "صوركم لا تُباع، ولا تُستخدم في التسويق، ولا تُستخدم لتدريب نماذج الذكاء الاصطناعي. [NO-TRAINING: keep the training promise only once the signed contract with [IMAGE PROVIDER] forbids training on our requests.]"],
         ["الحذف", "تُحذَف الصور تلقائياً بعد 90 يوماً من تسليم التقرير، أو قبل ذلك إذا طلبتم. وتبقى قياساتكم وخطتكم في حسابكم حتى تحذفوه، أو 24 شهراً كحد أقصى بعد آخر طلب أو انتهاء عضويتكم."],
         ["إذا غيّرتم رأيكم", "يمكنكم سحب هذه الموافقة في أي وقت من صفحة حسابكم أو بالبريد الإلكتروني، وعندها نحذف صوركم والقياسات والإجابات الصحية المأخوذة منها. وإذا سحبتموها قبل التسليم، لا يمكننا إكمال تقريركم؛ اطّلعوا على [[سياسة الاسترداد|refunds]]."],
       ] as [string, string][],
-      consent: "أوافق موافقة صريحة على معالجة صوري، وقياسات الوجه والجسم المأخوذة منها، وإجاباتي المتعلقة بالصحة (مثل الوزن والتدخين ومشاكل البشرة والشعر)، كما هو موضّح أعلاه.",
+      consent: "أوافق موافقة صريحة على معالجة صوري، وقياسات الوجه والجسم المأخوذة منها، وإجاباتي المتعلقة بالصحة (مثل الوزن والتدخين ومشاكل البشرة والشعر)، كما هو موضّح أعلاه، بما في ذلك مراجعتها من قبل المراجِع المكلّف بطلبي والموظفين المخوّلين. وأعلم أنه يمكنني سحب هذه الموافقة في أي وقت.",
+      transfer: "أوافق صراحةً على حفظ صوري وبياناتي ومعالجتها خارج بلدي: في هولندا وألمانيا (الاتحاد الأوروبي)، ولدى المزوّدين المذكورين أعلاه في الولايات المتحدة لإنشاء صوري التوضيحية وإرسال الرسائل الإلكترونية.",
+      ai: "أفهم أن خطتي تتضمّن صوراً توضيحية يُنشئها مزوّد خدمة إنشاء الصور بالذكاء الاصطناعي من صوري، وأنها ليست نتائج حقيقية ولا توقّعات.",
       own: "هذه الصور لي أنا فقط، ولا يظهر فيها أي شخص آخر ولا أي شخص دون 18 سنة.",
       waiver: WAIVER_TEXT.ar,
-      waiverMore: "حقكم في الانسحاب خلال 14 يوماً موضّح في [[الشروط والأحكام|terms]] و[[سياسة الاسترداد|refunds]].",
+      waiverMore: "يمكنكم الإلغاء مع استرداد المبلغ كاملاً إلى أن تبدأ مراجعتنا. وحقوقكم موضّحة في [[الشروط والأحكام|terms]] و[[سياسة الاسترداد|refunds]].",
       more: "التفاصيل الكاملة في [[سياسة الخصوصية|privacy]].",
     },
   },
@@ -209,6 +233,8 @@ export function ConsentGate({
   const [marketing, setMarketing] = useState(false);
   // photos
   const [photos, setPhotos] = useState(false);
+  const [transfer, setTransfer] = useState(false);
+  const [aiNotice, setAiNotice] = useState(false);
   const [ownPhotos, setOwnPhotos] = useState(false);
   const [waiver, setWaiver] = useState(false);
   const needWaiver = askWithdrawalWaiver && steps.includes("photos");
@@ -219,7 +245,7 @@ export function ConsentGate({
   const dobAge = dobComplete ? ageFromDob(+year, +month, +day, now) : null;
 
   const canContinue =
-    step === "age" ? (noDob ? ageConfirmed : dobComplete) : step === "terms" ? terms && privacy : step === "photos" ? photos && ownPhotos && (!needWaiver || waiver) : false;
+    step === "age" ? (noDob ? ageConfirmed : dobComplete) : step === "terms" ? terms && privacy : step === "photos" ? photos && transfer && aiNotice && ownPhotos && (!needWaiver || waiver) : false;
 
   function finish() {
     const consents: GivenConsent[] = [];
@@ -414,6 +440,12 @@ export function ConsentGate({
             </p>
             <Check checked={photos} onChange={setPhotos} required>
               {t.photos.consent}
+            </Check>
+            <Check checked={transfer} onChange={setTransfer} required>
+              {t.photos.transfer}
+            </Check>
+            <Check checked={aiNotice} onChange={setAiNotice} required>
+              {t.photos.ai}
             </Check>
             <Check checked={ownPhotos} onChange={setOwnPhotos} required>
               {t.photos.own}

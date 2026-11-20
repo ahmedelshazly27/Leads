@@ -19,7 +19,7 @@ import { json, readJson, serve } from "../_shared/http.ts";
 import { requireService } from "../_shared/auth.ts";
 import { admin, audit, customerContact, must } from "../_shared/supabase.ts";
 import { customerUrl, includedEndingEmail, sendEmail, yearlyRenewalEmail } from "../_shared/email.ts";
-import { PRICES_KWD } from "../_shared/stripe.ts";
+import { currencyForCountry, FALLBACK_CURRENCY, hasCurrency, priceOf } from "../_shared/prices.ts";
 
 interface Due {
   kind: "included_ending" | "yearly_renewal";
@@ -55,12 +55,33 @@ serve(async (req) => {
     });
   }
 
-  const prices = { monthly: PRICES_KWD.monthly, yearly: PRICES_KWD.yearly };
+  // Prices in the membership's currency: a yearly plan continues at the
+  // monthly price of its own currency, and the included month offers the
+  // memberships in the currency the report was paid in.
+  const subIds = [...new Set(due.map((r) => r.subscription_id))];
+  const subCur = new Map<string, string>();
+  for (let i = 0; i < subIds.length; i += 200) {
+    const rows = must(
+      await db.from("subscriptions").select("id, currency, country").in("id", subIds.slice(i, i + 200)),
+      "subscription currencies",
+    ) ?? [];
+    for (const s of rows) {
+      const cur = String(s.currency ?? "").toUpperCase();
+      subCur.set(
+        s.id as string,
+        hasCurrency(cur) ? cur : s.country ? currencyForCountry(s.country as string) : FALLBACK_CURRENCY,
+      );
+    }
+  }
+  const pricesFor = (subscriptionId: string) => {
+    const currency = subCur.get(subscriptionId) ?? "KWD";
+    return { monthly: priceOf("monthly", currency), yearly: priceOf("yearly", currency), currency };
+  };
   const counts = { sent: 0, skipped: 0, failed: 0, held: 0 };
 
   for (const r of due) {
     // Without the schedule the membership would renew yearly, so the reminder
-    // ("then 5 KWD a month") would be wrong. Hold it (no claim) until an admin
+    // ("then KWD 5 a month", in its own currency) would be wrong. Hold it (no claim) until an admin
     // fixes the schedule (stripe.schedule_failed is on the admin dashboard);
     // a later run sends it while the 30-day window is still open.
     if (r.kind === "yearly_renewal" && r.schedule_failed) {
@@ -101,14 +122,14 @@ serve(async (req) => {
           endsAt: r.period_end,
           monthlyLink: customerUrl(to.locale, "/account?join=membership_monthly"),
           yearlyLink: customerUrl(to.locale, "/account?join=membership_yearly"),
-          prices,
+          prices: pricesFor(r.subscription_id),
         })
         : yearlyRenewalEmail({
           locale: to.locale,
           name: to.name,
           endsAt: r.period_end,
           accountLink: customerUrl(to.locale, "/account"),
-          prices,
+          prices: pricesFor(r.subscription_id),
         });
       const res = await sendEmail({ to: to.email, ...msg });
       if (res.ok) sentId = res.id ?? "sent";

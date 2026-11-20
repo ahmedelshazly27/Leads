@@ -5,6 +5,7 @@ import { Download } from "../components/icons";
 import { exportAll, importAll, resetAll, setStaff, useAppState } from "../lib/store";
 import { backendEnabled } from "../lib/backend";
 import { setLang, useLang, type Lang } from "../lib/i18n";
+import { CountrySelect } from "../components/CountrySelect";
 import { legalHref } from "./legal/content";
 import "./pages.css";
 
@@ -65,6 +66,13 @@ export function Settings() {
               { value: "ar", label: "العربية" },
             ]}
           />
+        </div>
+        <div className="st-row">
+          <div>
+            <div className="title-md">Country</div>
+            <p className="lead">Sets the currency of prices and where you can order.</p>
+          </div>
+          <CountrySelect lang={lang} />
         </div>
       </div>
 

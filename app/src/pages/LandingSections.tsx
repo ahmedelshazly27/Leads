@@ -1,4 +1,6 @@
 import { useState, type ReactNode } from "react";
+import { useLocation } from "react-router-dom";
+import { countryName, currencyLabel, useMarket } from "../lib/pricing";
 import { Radar, Toggle } from "../components/ui";
 import { REFS } from "../lib/science";
 import { SCORE_LABEL, type ScoreKey } from "../lib/report";
@@ -336,16 +338,7 @@ export function TakingIntoAccount({ data }: { data: SampleData }) {
             </div>
           }
         />
-        <Row
-          title="Region"
-          text="Prices in Kuwaiti dinars, sun protection for Kuwait’s summer UV and heat, and specialist partners in Kuwait (coming soon)."
-          thumb={
-            <div className="ls-th-chips">
-              <span>KWD</span>
-              <span>Kuwait</span>
-            </div>
-          }
-        />
+        <RegionRow />
       </div>
     </section>
   );
@@ -555,5 +548,24 @@ export function PersonalPlan({ data }: { data: SampleData }) {
         </div>
       </div>
     </section>
+  );
+}
+
+/** "Region": the visitor's own country and currency (lib/pricing). */
+function RegionRow() {
+  const { pathname } = useLocation();
+  const lang = pathname === "/ar" || pathname.startsWith("/ar/") ? "ar" : "en";
+  const { country, currency } = useMarket();
+  return (
+    <Row
+      title="Region"
+      text="Prices in your local currency, sun protection for the Gulf’s summer UV and heat, and specialist partners in your country (coming soon)."
+      thumb={
+        <div className="ls-th-chips" translate="no">
+          <span>{currencyLabel(currency, lang)}</span>
+          <span>{countryName(country, lang)}</span>
+        </div>
+      }
+    />
   );
 }

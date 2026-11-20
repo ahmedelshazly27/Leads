@@ -75,7 +75,6 @@ export const NAV: NavGroup[] = [
       { id: "projection", label: "Your Projection" },
       { id: "recommendations", label: "Recommendations" },
       { id: "action-plan", label: "Action Plan" },
-      { id: "estimations", label: "Estimations" },
       { id: "nutrition", label: "Nutrition Plan" },
       { id: "training", label: "Training Plan" },
       { id: "partners", label: "Partners · soon" },

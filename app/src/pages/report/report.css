@@ -662,7 +662,7 @@
   display: grid;
   grid-template-columns: 1fr 300px;
   gap: 36px;
-  margin-top: 110px;
+  margin-top: 60px;
 }
 .rp-cover-k {
   margin-bottom: 18px;
@@ -697,7 +697,7 @@
   background: var(--photo);
 }
 .rp-cover-meta {
-  margin: 64px 0 0;
+  margin: 40px 0 0;
   border-top: 1px solid var(--line-2);
 }
 .rp-cover-meta > div {
@@ -755,4 +755,125 @@
   margin: auto 0 0;
   font-size: 10px;
   color: var(--muted);
+}
+
+/* ------------------------- Links between documents ---------------- */
+.rp-doclink {
+  display: grid;
+  gap: 2px;
+  margin-top: 18px;
+  padding: 12px 16px;
+  border: 1px solid var(--line-2);
+  border-radius: 8px;
+  color: var(--ink);
+  text-decoration: none;
+}
+.rp-doclink b {
+  font-weight: 500;
+  font-size: 14px;
+}
+.rp-doclink b::after {
+  content: " →";
+  color: var(--hl);
+}
+[dir="rtl"] .rp-doclink b::after {
+  content: " ←";
+}
+.rp-doclink-sub {
+  font-size: 11px;
+  color: var(--ink-3);
+}
+.rp-end {
+  padding-top: 18px;
+}
+
+/* ------------------------------ Plan ------------------------------ */
+.rp-lines {
+  margin: 4px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 10px;
+}
+.rp-lines li {
+  font-size: 16px;
+  line-height: 1.45;
+  padding-inline-start: 16px;
+  border-inline-start: 3px solid var(--hl);
+}
+.rp-steps {
+  margin: 0;
+  padding-inline-start: 18px;
+  display: grid;
+  gap: 7px;
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+.rp-steps b {
+  font-weight: 500;
+}
+.rp-phase {
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: var(--card);
+}
+.rp-phase-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.rp-phase-head b {
+  display: block;
+  font-weight: 500;
+  font-size: 16px;
+}
+.rp-phase-n {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--ink);
+  color: #fff;
+  font-size: 13px;
+  flex: none;
+}
+.pv-page-body .rp-phase p {
+  margin: 6px 0;
+  font-size: 12px;
+  color: var(--ink-3);
+}
+.rp-phase-items {
+  font-size: 11px;
+}
+.rp-phase-items b {
+  font-weight: 500;
+}
+.rp-routine {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px 24px;
+}
+.pv-page-body .rp-routine h3 {
+  margin: 0 0 4px;
+  font-size: 13px;
+  font-weight: 500;
+}
+.rp-routine ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 3px;
+  font-size: 11px;
+}
+.rp-style-name {
+  font-size: 18px;
+  letter-spacing: -0.02em;
+  margin-bottom: 4px;
+}
+.pv-page-body .rp-style p {
+  margin: 0 0 6px;
+  font-size: 11.5px;
+  line-height: 1.5;
 }

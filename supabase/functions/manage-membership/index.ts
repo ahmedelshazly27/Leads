@@ -6,7 +6,8 @@
 //            until then; nothing more is charged.
 //   resume   undo a cancel while the period is still running.
 //   end_now  yearly plan only, after the year has been paid: end today and
-//            refund the full months that are left (price / 12 per month).
+//            refund the full months that are left (price / 12 per month),
+//            in the currency the year was paid in.
 //            The refund goes to the card through Stripe; stripe-webhook
 //            records it from charge.refunded.
 // The included month of a report bought on its own is refused with 409
@@ -16,7 +17,7 @@
 import { HttpError, json, readJson, serve } from "../_shared/http.ts";
 import { requireUser } from "../_shared/auth.ts";
 import { admin, audit, must } from "../_shared/supabase.ts";
-import { fromMinor, type Stripe, stripe } from "../_shared/stripe.ts";
+import { fromMinor, refundAmount, type Stripe, stripe } from "../_shared/stripe.ts";
 import { ensureYearlyThenMonthly, isYearly, releaseSchedule } from "../_shared/membership.ts";
 
 type Action = "cancel" | "resume" | "end_now";
@@ -138,9 +139,10 @@ serve(async (req) => {
     const unit = sub.items.data[0]?.price?.unit_amount ?? 0;
     const paid = inv?.status === "paid" ? inv.amount_paid : 0;
     const yearMinor = Math.min(unit, paid);
-    // Stripe needs KWD amounts in whole 10 fils.
-    let amountMinor = Math.floor((yearMinor * months) / 12);
-    if (currency === "KWD") amountMinor = Math.floor(amountMinor / 10) * 10;
+    // In the membership's own currency, rounded down to an amount Stripe
+    // accepts (whole 10 fils/baisa for KWD, BHD, OMR; whole halalas, fils or
+    // cents for SAR, AED, QAR, USD).
+    const amountMinor = refundAmount(Math.floor((yearMinor * months) / 12), currency);
 
     await releaseSchedule(sub);
     sub = await s.subscriptions.cancel(sub.id, { prorate: false, invoice_now: false });

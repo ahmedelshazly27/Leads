@@ -29,6 +29,7 @@ function page(load: Loader) {
 
 const Landing = page(() => import("./pages/Landing").then((m) => m.Landing));
 const ProtocolViewer = page(() => import("./pages/ProtocolViewer").then((m) => m.ProtocolViewer));
+const AnalysisReportViewer = page(() => import("./pages/ProtocolViewer").then((m) => m.AnalysisReportViewer));
 const AppShell = page(() => import("./layouts/AppShell").then((m) => m.AppShell));
 const Protocols = page(() => import("./pages/Protocols").then((m) => m.Protocols));
 const NewScan = page(() => import("./pages/NewScan").then((m) => m.NewScan));
@@ -67,6 +68,7 @@ const ToReports = redirect("/#reports", Landing);
 const PRELOAD: [RegExp, { preload: () => Promise<unknown> }[]][] = [
   [/^\/(ar\/?)?$/, [Landing]],
   [/^\/protocol\/?$/, [ProtocolViewer]],
+  [/^\/analysis-report\/?$/, [AnalysisReportViewer]],
   [/^\/(ar\/)?start\/?$/, [Start]],
   [/^\/(ar\/)?orders\/[^/]+/, [Order]],
   [/^\/(ar\/)?account\/?$/, [Account]],
@@ -116,9 +118,10 @@ const TITLES: [RegExp, string][] = [
   [/^\/measurements/, "Measurements"],
   [/^\/settings/, "Settings"],
   [/^\/review/, "Review console"],
+  [/^\/analysis-report/, "Detailed analysis"],
   [/^\/analysis\/all-markers/, "All markers"],
   [/^\/analysis/, "Analysis"],
-  [/^\/protocol/, "Report"],
+  [/^\/protocol/, "Your plan"],
   [/^\/(ar\/)?start/, "Start"],
   [/^\/(ar\/)?orders/, "Your order"],
   [/^\/(ar\/)?account/, "Your account"],
@@ -159,6 +162,7 @@ export function App() {
       <Route path="/" element={<Landing />} />
       <Route path="/ar" element={<Landing />} />
       <Route path="/protocol" element={<ProtocolViewer />} />
+      <Route path="/analysis-report" element={<AnalysisReportViewer />} />
       <Route path="/plans" element={<ToReports />} />
       <Route path="/start" element={<Start />} />
       <Route path="/ar/start" element={<Start />} />

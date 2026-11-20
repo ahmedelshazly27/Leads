@@ -8,7 +8,9 @@
  * admin dashboard (KPIs computed from the seeded demo rows below).
  *
  * Everything here is demo data: emails are @example.com, money and costs are
- * made-up round figures, and nothing leaves the browser. State is kept in
+ * made-up round figures, and nothing leaves the browser. Customers come from
+ * all six GCC countries and pay the list price of their country's currency
+ * (prices.json), as with the real checkout. State is kept in
  * sessionStorage so it survives the redirect after the fake checkout; photos
  * stay in memory only.
  *
@@ -24,8 +26,11 @@ import { sampleProfile, sampleScan } from "../sample";
 import {
   ADMIN_AUDIT_ACTIONS,
   INCLUDED_MEMBERSHIP_DAYS,
-  PLANS,
+  SELLING_COUNTRIES,
   SLA_HOURS,
+  checkoutCurrency,
+  planInfo,
+  pricesIn,
   type AdminAuditEvent,
   type AdSpendRow,
   type AdminRows,
@@ -75,14 +80,15 @@ interface MockDb {
   audit_log: AuditLogRow[];
 }
 
-const STORAGE_KEY = "facet-mock-backend-v3";
+const STORAGE_KEY = "facet-mock-backend-v4";
 /** Seeded scans point at the sample profile instead of copying it (keeps sessionStorage small). */
 const SAMPLE_REF = "mock:sample";
 const HOUR = 3600_000;
 const DAY = 24 * HOUR;
 /** Mock-only figures (not real provider prices). */
 const MOCK_FEE_RATE = 0.029;
-const MOCK_FEE_FIXED_KWD = 0.09;
+/** Mock fixed part of the card fee, in the payment currency (roughly 0.25 EUR each). */
+const MOCK_FEE_FIXED: Record<string, number> = { KWD: 0.09, BHD: 0.11, OMR: 0.11, SAR: 1.1, AED: 1.1, QAR: 1.1, USD: 0.3 };
 const MOCK_IMAGE_COST_USD = 0.05;
 
 const sampleBase = () => `${import.meta.env.BASE_URL ?? "/"}sample/`;
@@ -106,7 +112,14 @@ const SAMPLE_PHOTO: Partial<Record<ScanPhotoView, string>> = {
 
 const iso = (t: number) => new Date(t).toISOString();
 const r3 = (n: number) => Math.round(n * 1000) / 1000;
-const fee = (amount: number) => r3(amount * MOCK_FEE_RATE + MOCK_FEE_FIXED_KWD);
+/** Round to the currency's minor unit (3 decimals for KWD/BHD/OMR, 2 otherwise). */
+const rc = (n: number, currency: string) => {
+  const u = 10 ** pricesIn(currency).decimals;
+  return Math.round(n * u) / u;
+};
+const fee = (amount: number, currency = "KWD") => rc(amount * MOCK_FEE_RATE + (MOCK_FEE_FIXED[currency] ?? 0.3), currency);
+/** Where the demo customers come from, in turn (roughly KW 30%, SA 30%, AE 15%, QA 10%, BH and OM 7.5% each). */
+const DEMO_COUNTRIES = ["KW", "SA", "AE", "KW", "SA", "QA", "BH", "KW", "SA", "AE", "OM", "KW", "SA", "QA", "AE", "KW", "SA", "BH", "OM", "AE"];
 
 /* ------------------------------ Seed ------------------------------- */
 
@@ -167,6 +180,14 @@ function seed(now = Date.now()): MockDb {
     created_at: iso(now - 90 * DAY),
   });
 
+  // Country per demo customer (not a profile column: orders, payments and memberships carry it).
+  const countryOf = new Map<string, string>();
+  let nextCountry = 0;
+  const pickCountry = () => DEMO_COUNTRIES[nextCountry++ % DEMO_COUNTRIES.length];
+  const curOf = (userId: string) => checkoutCurrency(countryOf.get(userId) ?? "KW");
+  const price = (userId: string, plan: "report" | "monthly" | "yearly") => pricesIn(curOf(userId))[plan];
+  const subMeta = (userId: string) => ({ currency: curOf(userId), country: countryOf.get(userId) ?? "KW" });
+
   const addCustomer = (createdAt: number, n: number): ProfileRow => {
     const p: ProfileRow = {
       id: newId(),
@@ -181,13 +202,15 @@ function seed(now = Date.now()): MockDb {
       created_at: iso(createdAt),
     };
     db.profiles.push(p);
+    countryOf.set(p.id, pickCountry());
     for (const kind of ["age18", "terms", "privacy", "photos", "withdrawal_waiver"] as ConsentKind[])
       db.consents.push({ id: newId(), user_id: p.id, kind, version: "demo", granted_at: iso(createdAt), withdrawn_at: null });
     return p;
   };
 
   const addPayment = (userId: string, orderId: string | null, subId: string | null, amount: number, at: number): PaymentRow => {
-    const f = fee(amount);
+    const currency = curOf(userId);
+    const f = fee(amount, currency);
     const pay: PaymentRow = {
       id: newId(),
       order_id: orderId,
@@ -196,14 +219,15 @@ function seed(now = Date.now()): MockDb {
       provider: "stripe",
       provider_ref: `mock_${newId().slice(0, 8)}`,
       amount,
-      currency: "KWD",
+      currency,
+      country: countryOf.get(userId) ?? null,
       fee: f,
-      net: r3(amount - f),
+      net: rc(amount - f, currency),
       status: "succeeded",
       created_at: iso(at),
     };
     db.payments.push(pay);
-    db.costs.push({ id: newId(), order_id: orderId, user_id: userId, category: "payment_fee", amount: f, currency: "KWD", note: "mock fee", created_at: iso(at) });
+    db.costs.push({ id: newId(), order_id: orderId, user_id: userId, category: "payment_fee", amount: f, currency, note: "mock fee", created_at: iso(at) });
     return pay;
   };
 
@@ -245,7 +269,8 @@ function seed(now = Date.now()): MockDb {
       product,
       status,
       amount,
-      currency: "KWD",
+      currency: curOf(userId),
+      country: countryOf.get(userId) ?? null,
       provider: "stripe",
       provider_ref: `mock_cs_${newId().slice(0, 8)}`,
       plan: product === "report" ? "report" : null,
@@ -305,7 +330,7 @@ function seed(now = Date.now()): MockDb {
   for (let i = 0; i < 9; i++) {
     const created = now - (35 + rand() * 80) * DAY;
     const c = addCustomer(created, n++);
-    const report = addOrder(c.id, "report", created, "delivered", PLANS.report.dueNowKwd);
+    const report = addOrder(c.id, "report", created, "delivered", price(c.id, "report"));
     const plan = rand() < 0.7 ? "monthly" : "yearly";
     const sub: SubscriptionRow = {
       id: newId(),
@@ -316,8 +341,8 @@ function seed(now = Date.now()): MockDb {
       status: rand() < 0.88 ? "active" : "past_due",
       current_period_end: iso(now + (5 + rand() * 25) * DAY),
       cancel_at: null,
-      amount: plan === "monthly" ? PLANS.membership_monthly.recurringKwd : PLANS.membership_yearly.recurringKwd,
-      currency: "KWD",
+      amount: price(c.id, plan),
+      ...subMeta(c.id),
       trial_end: iso(Date.parse(report.created_at) + 30 * DAY),
       created_at: report.created_at,
     };
@@ -329,12 +354,12 @@ function seed(now = Date.now()): MockDb {
     report.subscription_id = sub.id;
     if (sub.status === "past_due") {
       const failedAt = now - rand() * 5 * DAY;
-      db.payments.push({ id: newId(), order_id: null, subscription_id: sub.id, user_id: c.id, provider: "stripe", provider_ref: `mock_in_${newId().slice(0, 8)}`, amount: PLANS.membership_monthly.recurringKwd ?? 0, currency: "KWD", fee: 0, net: 0, status: "failed", created_at: iso(failedAt) });
+      db.payments.push({ id: newId(), order_id: null, subscription_id: sub.id, user_id: c.id, provider: "stripe", provider_ref: `mock_in_${newId().slice(0, 8)}`, amount: price(c.id, "monthly"), currency: curOf(c.id), country: countryOf.get(c.id) ?? null, fee: 0, net: 0, status: "failed", created_at: iso(failedAt) });
     }
     // Renewal inside the window + its check-in order.
     if (sub.status === "active" && plan === "monthly") {
       const renewed = now - rand() * 25 * DAY;
-      addPayment(c.id, null, sub.id, PLANS.membership_monthly.recurringKwd ?? 0, renewed);
+      addPayment(c.id, null, sub.id, price(c.id, "monthly"), renewed);
       addOrder(c.id, "checkin", renewed + HOUR, renewed < now - 4 * DAY ? "delivered" : "awaiting_photos", 0, sub.id);
     }
   }
@@ -343,9 +368,9 @@ function seed(now = Date.now()): MockDb {
   for (let i = 0; i < 2; i++) {
     const created = now - (70 + rand() * 40) * DAY;
     const c = addCustomer(created, n++);
-    const report = addOrder(c.id, "report", created, "delivered", PLANS.report.dueNowKwd);
+    const report = addOrder(c.id, "report", created, "delivered", price(c.id, "report"));
     const ended = created + 60 * DAY;
-    const sub: SubscriptionRow = { id: newId(), user_id: c.id, provider: "stripe", provider_sub_id: `mock_sub_${newId().slice(0, 8)}`, plan: "monthly", status: "canceled", current_period_end: iso(ended), cancel_at: iso(ended), canceled_at: iso(ended), trial_end: iso(created + 30 * DAY), amount: PLANS.membership_monthly.recurringKwd, currency: "KWD", created_at: report.created_at };
+    const sub: SubscriptionRow = { id: newId(), user_id: c.id, provider: "stripe", provider_sub_id: `mock_sub_${newId().slice(0, 8)}`, plan: "monthly", status: "canceled", current_period_end: iso(ended), cancel_at: iso(ended), canceled_at: iso(ended), trial_end: iso(created + 30 * DAY), amount: price(c.id, "monthly"), ...subMeta(c.id), created_at: report.created_at };
     db.subscriptions.push(sub);
     report.plan = "report_membership_monthly";
     report.subscription_id = sub.id;
@@ -367,7 +392,7 @@ function seed(now = Date.now()): MockDb {
     else if (roll < 0.13) status = "changes_requested";
     else if (roll < 0.17 && ageDays < 6) status = "in_review"; // overdue
     else status = "delivered";
-    const o = addOrder(c.id, "report", created, status, PLANS.report.dueNowKwd);
+    const o = addOrder(c.id, "report", created, status, price(c.id, "report"));
     if (status !== "pending_payment" && status !== "refunded" && status !== "cancelled" && rand() < 0.42) {
       const plan = rand() < 0.75 ? "monthly" : "yearly";
       const trialEnd = Date.parse(o.created_at) + 30 * DAY;
@@ -381,8 +406,8 @@ function seed(now = Date.now()): MockDb {
         current_period_end: iso(trialEnd > now ? trialEnd : trialEnd + (plan === "monthly" ? 30 : 365) * DAY),
         cancel_at: null,
         trial_end: iso(trialEnd),
-        amount: plan === "monthly" ? PLANS.membership_monthly.recurringKwd : PLANS.membership_yearly.recurringKwd,
-        currency: "KWD",
+        amount: price(c.id, plan),
+        ...subMeta(c.id),
         created_at: o.created_at,
       };
       if (rand() < 0.12) sub.cancel_at = sub.current_period_end;
@@ -397,11 +422,13 @@ function seed(now = Date.now()): MockDb {
   // Always one order whose photos need retaking and one cancelled after a photo consent withdrawal.
   if (!db.orders.some((o) => o.status === "changes_requested")) {
     const created = now - 2 * DAY;
-    addOrder(addCustomer(created, n++).id, "report", created, "changes_requested", PLANS.report.dueNowKwd);
+    const c = addCustomer(created, n++);
+    addOrder(c.id, "report", created, "changes_requested", price(c.id, "report"));
   }
   if (!db.orders.some((o) => o.status === "cancelled" && o.submitted_at)) {
     const created = now - 9 * DAY;
-    addOrder(addCustomer(created, n++).id, "report", created, "cancelled", PLANS.report.dueNowKwd);
+    const c = addCustomer(created, n++);
+    addOrder(c.id, "report", created, "cancelled", price(c.id, "report"));
   }
 
   // Report bought on its own: the included month (ends 30 days after payment;
@@ -422,7 +449,8 @@ function seed(now = Date.now()): MockDb {
       canceled_at: end > now ? null : iso(end),
       trial_end: null,
       amount: 0,
-      currency: "KWD",
+      currency: o.currency,
+      country: o.country ?? null,
       created_at: o.paid_at,
     };
     db.subscriptions.push(sub);
@@ -433,7 +461,7 @@ function seed(now = Date.now()): MockDb {
   for (let i = 0; i < 2; i++) {
     const created = now - (8 + rand() * 18) * DAY;
     const c = addCustomer(created, n++);
-    const o = addOrder(c.id, "report", created, "delivered", PLANS.report.dueNowKwd);
+    const o = addOrder(c.id, "report", created, "delivered", price(c.id, "report"));
     db.profiles = db.profiles.filter((x) => x.id !== c.id);
     db.consents = db.consents.filter((x) => x.user_id !== c.id);
     const gone = new Set(db.scans.filter((x) => x.user_id === c.id).map((x) => x.id));
@@ -458,13 +486,18 @@ function seed(now = Date.now()): MockDb {
     if (o.status === "changes_requested") seedAudit("orders.changes_requested", "orders", o.id, { from: "in_review", emailed: true, with_message: true }, at + 5 * HOUR);
   }
   const yearly = db.subscriptions.find((x) => x.plan === "yearly");
+  // One checkout whose card billing address is in another country than the one chosen.
+  const mismatch = db.orders.filter((x) => x.product === "report" && x.country === "SA" && x.paid_at).sort((a, b) => b.paid_at!.localeCompare(a.paid_at!))[0];
+  if (mismatch) seedAudit("checkout.country_mismatch", "orders", mismatch.id, { session: "cs_demo_mismatch", country: "SA", billing_country: "AE", currency: mismatch.currency }, Date.parse(mismatch.paid_at!) + 60_000);
   if (yearly) seedAudit("stripe.schedule_failed", "subscriptions", yearly.id, { subscription: yearly.provider_sub_id, error: "demo: the schedule could not be created" }, Date.parse(yearly.created_at) + 60_000);
 
-  // Ad spend (USD), last 30 days.
+  // Ad spend (the ad accounts bill in USD), last 30 days.
   const campaigns: { platform: AdSpendRow["platform"]; id: string; name: string; base: number; cvr: number }[] = [
-    { platform: "meta", id: "demo_meta_1", name: "KW | Men 18-34 | Scan video (demo)", base: 18, cvr: 0.009 },
-    { platform: "meta", id: "demo_meta_2", name: "KW | Retargeting | Report preview (demo)", base: 7, cvr: 0.014 },
-    { platform: "snap", id: "demo_snap_1", name: "KW | Snap story | Glow-up (demo)", base: 9, cvr: 0.004 },
+    { platform: "meta", id: "demo_meta_1", name: "KW | Men 18-34 | Scan video (demo)", base: 14, cvr: 0.009 },
+    { platform: "meta", id: "demo_meta_3", name: "SA | Men 18-34 | Scan video (demo)", base: 16, cvr: 0.008 },
+    { platform: "meta", id: "demo_meta_4", name: "AE+QA+BH+OM | Men 18-34 (demo)", base: 9, cvr: 0.007 },
+    { platform: "meta", id: "demo_meta_2", name: "GCC | Retargeting | Report preview (demo)", base: 7, cvr: 0.014 },
+    { platform: "snap", id: "demo_snap_1", name: "KW+SA | Snap story | Glow-up (demo)", base: 9, cvr: 0.004 },
   ];
   for (let d = 0; d < 30; d++) {
     const date = iso(now - d * DAY).slice(0, 10);
@@ -480,7 +513,9 @@ function seed(now = Date.now()): MockDb {
   // Waitlist (women at launch, plus a few others).
   for (let i = 1; i <= 27; i++) {
     const gender: GenderCode = i % 9 === 0 ? "male" : "female";
-    db.waitlist.push({ id: newId(), email: `waitlist${i}@example.com`, phone: null, gender, locale: rand() < 0.6 ? "ar" : "en", source: pick(["landing", "instagram", "snapchat", "referral"]), created_at: iso(now - rand() * 40 * DAY) });
+    // Women from the launch countries, plus people from countries we do not sell in yet.
+    const country = gender === "male" || i % 4 === 0 ? pick(["EG", "JO", "MA", "IQ"]) : pickCountry();
+    db.waitlist.push({ id: newId(), email: `waitlist${i}@example.com`, phone: null, gender, locale: rand() < 0.6 ? "ar" : "en", source: pick(["landing", "instagram", "snapchat", "referral"]), country, created_at: iso(now - rand() * 40 * DAY) });
   }
 
   return db;
@@ -590,7 +625,7 @@ function grantIncluded(d: MockDb, o: OrderRow, now = Date.now()) {
     return;
   }
   const id = newId();
-  d.subscriptions.push({ id, user_id: o.user_id, provider: "manual", provider_sub_id: `included:${o.id}`, plan: "included", status: "active", current_period_end: end, cancel_at: null, canceled_at: null, trial_end: null, amount: 0, currency: "KWD", created_at: iso(now) });
+  d.subscriptions.push({ id, user_id: o.user_id, provider: "manual", provider_sub_id: `included:${o.id}`, plan: "included", status: "active", current_period_end: end, cancel_at: null, canceled_at: null, trial_end: null, amount: 0, currency: o.currency, country: o.country ?? null, created_at: iso(now) });
   o.subscription_id = id;
 }
 
@@ -691,16 +726,19 @@ export const mock = {
   },
 
   /* orders */
-  async startCheckout(plan: CheckoutPlan, locale: Locale): Promise<{ url: string; orderId: string | null }> {
+  async startCheckout(plan: CheckoutPlan, locale: Locale, country = "KW"): Promise<{ url: string; orderId: string | null }> {
     await delay(300);
     const p = me();
     const d = load();
+    // As create-checkout: the country decides the currency; other countries get the waitlist.
+    if (!SELLING_COUNTRIES.includes(country)) throw new BackendError("We are not open in your country yet. Join the waitlist and we will let you know.", "country_not_available", 400);
+    const currency = checkoutCurrency(country);
     // Same business rules as create-checkout.
     if (p.gender === "female") throw new BackendError("We are opening for women soon. Please join the waitlist.", "waitlist");
     if (p.gender !== "male") throw new BackendError("Please complete your profile before paying.", "profile_incomplete");
     if (!hasConsent(d, p.id, "age18")) throw new BackendError("Please confirm you are 18 or older.", "age_required");
     if (p.birth_year && new Date().getUTCFullYear() - p.birth_year < 18) throw new BackendError("This service is for people aged 18 and over.", "under_18");
-    const info = PLANS[plan];
+    const info = planInfo(plan, currency);
     const now = Date.now();
     let subId: string | null = null;
     // As create-checkout: the return pages are in the customer's language.
@@ -725,8 +763,9 @@ export const mock = {
         current_period_end: iso(trialUntil ?? now + (info.interval === "monthly" ? 30 : 365) * DAY),
         cancel_at: null,
         trial_end: trialUntil ? iso(trialUntil) : null,
-        amount: info.recurringKwd,
-        currency: "KWD",
+        amount: info.recurring,
+        currency,
+        country,
         created_at: iso(now),
       });
       // As on_paid_membership_started: the paid membership replaces the included month.
@@ -737,13 +776,13 @@ export const mock = {
       if (!info.includesReport) {
         // A plain membership: the first check-in comes with the first paid period (not during a trial).
         if (!trialUntil) {
-          const c: OrderRow = { id: newId(), user_id: p.id, product: "checkin", status: "awaiting_photos", amount: info.dueNowKwd, currency: "KWD", provider: "manual", provider_ref: `mock_in_${newId().slice(0, 8)}`, plan: null, subscription_id: subId, scan_id: null, assigned_reviewer: null, due_at: null, paid_at: iso(now), submitted_at: null, delivered_at: null, created_at: iso(now) };
+          const c: OrderRow = { id: newId(), user_id: p.id, product: "checkin", status: "awaiting_photos", amount: info.dueNow, currency, country, provider: "manual", provider_ref: `mock_in_${newId().slice(0, 8)}`, plan: null, subscription_id: subId, scan_id: null, assigned_reviewer: null, due_at: null, paid_at: iso(now), submitted_at: null, delivered_at: null, created_at: iso(now) };
           d.orders.push(c);
-          const f = fee(info.dueNowKwd);
-          d.payments.push({ id: newId(), order_id: c.id, subscription_id: subId, user_id: p.id, provider: "manual", provider_ref: c.provider_ref, amount: info.dueNowKwd, currency: "KWD", fee: f, net: r3(info.dueNowKwd - f), status: "succeeded", created_at: iso(now) });
-          d.costs.push({ id: newId(), order_id: c.id, user_id: p.id, category: "payment_fee", amount: f, currency: "KWD", note: "mock fee", created_at: iso(now) });
+          const f = fee(info.dueNow, currency);
+          d.payments.push({ id: newId(), order_id: c.id, subscription_id: subId, user_id: p.id, provider: "manual", provider_ref: c.provider_ref, amount: info.dueNow, currency, country, fee: f, net: rc(info.dueNow - f, currency), status: "succeeded", created_at: iso(now) });
+          d.costs.push({ id: newId(), order_id: c.id, user_id: p.id, category: "payment_fee", amount: f, currency, note: "mock fee", created_at: iso(now) });
         }
-        audit("membership.joined", "subscriptions", subId, { plan, trial_until: trialUntil ? iso(trialUntil) : null, mock: true });
+        audit("membership.joined", "subscriptions", subId, { plan, currency, country, trial_until: trialUntil ? iso(trialUntil) : null, mock: true });
         commit();
         return { url: `${base}account?checkout=success`, orderId: null };
       }
@@ -753,8 +792,9 @@ export const mock = {
       user_id: p.id,
       product: "report",
       status: "awaiting_photos",
-      amount: info.dueNowKwd,
-      currency: "KWD",
+      amount: info.dueNow,
+      currency,
+      country,
       provider: "manual",
       provider_ref: `mock_cs_${newId().slice(0, 8)}`,
       plan,
@@ -768,11 +808,11 @@ export const mock = {
       created_at: iso(now),
     };
     d.orders.push(o);
-    const f = fee(info.dueNowKwd);
-    d.payments.push({ id: newId(), order_id: o.id, subscription_id: null, user_id: p.id, provider: "manual", provider_ref: o.provider_ref, amount: info.dueNowKwd, currency: "KWD", fee: f, net: r3(info.dueNowKwd - f), status: "succeeded", created_at: iso(now) });
-    d.costs.push({ id: newId(), order_id: o.id, user_id: p.id, category: "payment_fee", amount: f, currency: "KWD", note: "mock fee", created_at: iso(now) });
+    const f = fee(info.dueNow, currency);
+    d.payments.push({ id: newId(), order_id: o.id, subscription_id: null, user_id: p.id, provider: "manual", provider_ref: o.provider_ref, amount: info.dueNow, currency, country, fee: f, net: rc(info.dueNow - f, currency), status: "succeeded", created_at: iso(now) });
+    d.costs.push({ id: newId(), order_id: o.id, user_id: p.id, category: "payment_fee", amount: f, currency, note: "mock fee", created_at: iso(now) });
     grantIncluded(d, o, now);
-    audit("order.paid", "order", o.id, { plan, mock: true });
+    audit("order.paid", "order", o.id, { plan, currency, country, mock: true });
     commit();
     return { url: `${base}orders/${o.id}?checkout=success`, orderId: o.id };
   },
@@ -982,7 +1022,7 @@ export const mock = {
       costs: d.costs.filter((c) => c.created_at >= sinceIso),
       adSpend: d.ad_spend.filter((a) => a.date >= sinceIso.slice(0, 10)),
       profiles: d.profiles.map(({ id, email, role, created_at }) => ({ id, email, role, created_at })),
-      waitlist: d.waitlist.map(({ id, email, gender, locale, source, created_at }) => ({ id, email, gender, locale, source, created_at })),
+      waitlist: d.waitlist.map(({ id, email, gender, locale, source, country, created_at }) => ({ id, email, gender, locale, source, country: country ?? null, created_at })),
       auditEvents: d.audit_log
         .filter((r) => ADMIN_ACTIONS.has(r.action))
         .sort((a, b) => b.at.localeCompare(a.at))
@@ -1013,12 +1053,12 @@ export const mock = {
   },
 
   /* waitlist */
-  async joinWaitlist(entry: { email: string; phone?: string | null; gender: GenderCode | null; locale: Locale; source?: string | null }): Promise<"joined" | "already"> {
+  async joinWaitlist(entry: { email: string; phone?: string | null; gender: GenderCode | null; locale: Locale; source?: string | null; country?: string | null }): Promise<"joined" | "already"> {
     await delay();
     const d = load();
     const email = entry.email.trim().toLowerCase();
     if (d.waitlist.some((w) => w.email === email)) return "already";
-    d.waitlist.push({ id: newId(), email, phone: entry.phone ?? null, gender: entry.gender, locale: entry.locale, source: entry.source ?? null, created_at: iso(Date.now()) });
+    d.waitlist.push({ id: newId(), email, phone: entry.phone ?? null, gender: entry.gender, locale: entry.locale, source: entry.source ?? null, country: entry.country ?? null, created_at: iso(Date.now()) });
     commit();
     return "joined";
   },
@@ -1102,15 +1142,19 @@ export const mock = {
       if (sub.plan !== "yearly") throw new BackendError("A monthly membership ends at the end of the month you have paid for, so it can only be cancelled.", "not_yearly");
       if (sub.status === "trialing") throw new BackendError("Nothing has been charged for the membership yet, so it can only be cancelled.", "trialing");
       const months = sub.current_period_end ? monthsLeft(new Date(), new Date(sub.current_period_end)) : 0;
-      const price = sub.amount ?? PLANS.membership_yearly.recurringKwd ?? 0;
-      const amount = Math.floor((Math.round(price * 1000) * months) / 12 / 10) * 10 / 1000;
+      // As manage-membership: in the membership's currency, whole 10 fils/baisa for KWD/BHD/OMR.
+      const currency = (sub.currency ?? "KWD").toUpperCase();
+      const unit = 10 ** pricesIn(currency).decimals;
+      const step = unit === 1000 ? 10 : 1;
+      const price = sub.amount ?? pricesIn(currency).yearly;
+      const amount = (Math.floor(Math.floor((Math.round(price * unit) * months) / 12) / step) * step) / unit;
       const now = iso(Date.now());
       sub.status = "canceled";
       sub.canceled_at = now;
       sub.cancel_at = now;
       if (amount > 0) {
-        d.payments.push({ id: newId(), order_id: null, subscription_id: sub.id, user_id: p.id, provider: sub.provider, provider_ref: `mock_re_${newId().slice(0, 8)}`, amount: -amount, currency: "KWD", fee: 0, net: -amount, status: "refunded", created_at: now });
-        refund = { amount, currency: "KWD", months, pending: false };
+        d.payments.push({ id: newId(), order_id: null, subscription_id: sub.id, user_id: p.id, provider: sub.provider, provider_ref: `mock_re_${newId().slice(0, 8)}`, amount: -amount, currency, country: sub.country ?? null, fee: 0, net: -amount, status: "refunded", created_at: now });
+        refund = { amount, currency, months, pending: false };
       }
     }
     audit(`membership.${action}`, "subscriptions", sub.id, refund ? { refund } : null);

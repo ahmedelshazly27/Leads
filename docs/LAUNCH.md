@@ -1,34 +1,53 @@
-# Launch plan: Kuwait, men first
+# Launch plan: the Gulf (GCC), men first
 
-Updated 19 Nov 2026 (after integration round 2). One market (Kuwait), English and
-Arabic, operated from the Netherlands. This is a checklist to take to a Dutch
-lawyer, a Dutch accountant and, for the Kuwait points, a Kuwaiti lawyer. **It is
-not legal or tax advice.**
+Updated 20 Nov 2026 (after integration round 3). Six markets in the code (Kuwait,
+Saudi Arabia, UAE, Qatar, Bahrain, Oman), English and Arabic, operated from the
+Netherlands. Which of them actually open, and in which order, follows the legal
+verdicts in the "Legal" section below and `docs/legal/LEGAL_MEMO.md`. This is a
+checklist to take to a Dutch lawyer, a Dutch accountant and local lawyers in each
+country. **It is not legal or tax advice.**
 
 ## The model in one paragraph
 
 A Dutch B.V. sells a non-surgical face and body analysis with a 12-month plan,
-checked by a person, to customers in Kuwait. There is **no Kuwaiti entity and no
-Kuwaiti licence**. The report costs **20 KWD** (one payment) and includes **30 days
-of membership**. After that the customer can keep the membership for **5 KWD a
-month, or 45 KWD for 12 months, then 5 KWD a month**, cancel any time, or let it
-end. Payment is by **Stripe on the B.V., in KWD** (card, Apple Pay, Google Pay).
-At launch the service is **for men aged 18 or over**; women can join a waitlist.
+checked by a person, to customers in the Gulf. There is **no local entity and no
+local licence** in any of the six countries. Each country pays in its own currency
+from one price table (`app/src/lib/prices.json`, identical copy in
+`supabase/functions/_shared/prices.json`; `npm run check:prices` compares them).
+The report is one payment and includes **30 days of membership**. After that the
+customer can keep the membership monthly, or for 12 months then monthly, cancel any
+time, or let it end. Payment is by **Stripe on the B.V.** (card, Apple Pay, Google
+Pay), prices VAT-inclusive where VAT applies. At launch the service is **for men
+aged 18 or over**; women, and visitors from countries not in `selling`, can join a
+waitlist.
 
 ## What the customer buys
 
+Prices (from `prices.json`; amounts are VAT-inclusive):
+
+| Currency | Report | Monthly | 12 months |
+|---|---|---|---|
+| KWD (Kuwait) | 20 | 5 | 45 |
+| SAR (Saudi Arabia) | 249 | 59 | 549 |
+| AED (UAE) | 239 | 59 | 539 |
+| QAR (Qatar) | 239 | 59 | 529 |
+| BHD (Bahrain) | 25 | 6 | 55 |
+| OMR (Oman) | 25 | 6 | 56 |
+| USD (shown for reference only, not sold) | 65 | 16 | 145 |
+
 | Plan (`create-checkout`) | Today | Then |
 |---|---|---|
-| `report` | 20 KWD | 30 days of included membership (`subscriptions.plan = 'included'`, no Stripe subscription). It simply ends; nothing renews. An email goes out about 5 days before it ends. |
-| `report_membership_monthly` | 20 KWD | 5 KWD a month from day 31, until cancelled |
-| `report_membership_yearly` | 20 KWD | 45 KWD for 12 months from day 31, then 5 KWD a month, until cancelled (a Stripe subscription schedule). A reminder email goes out about 30 days before the 12 months end. |
-| `membership_monthly` / `membership_yearly` | 5 / 45 KWD | for customers who already had a report; the yearly one is also 45 KWD for 12 months, then 5 KWD a month |
+| `report` | Report price | 30 days of included membership (`subscriptions.plan = 'included'`, no Stripe subscription). It simply ends; nothing renews. An email goes out about 5 days before it ends. |
+| `report_membership_monthly` | Report price | Monthly price from day 31, until cancelled |
+| `report_membership_yearly` | Report price | 12-month price from day 31, then the monthly price, until cancelled (a Stripe subscription schedule, in the customer's currency). A reminder email goes out about 30 days before the 12 months end. |
+| `membership_monthly` / `membership_yearly` | Monthly / 12-month price | for customers who already had a report |
 
 Membership gives: a re-scan every month with updated scores and an updated plan, a
 note from the reviewer each month, and a new 12-month visual every 3 months.
-Prices live in `app/src/lib/backend/types.ts` (`PRICES_KWD`, `BUNDLE_TRIAL_DAYS`) and
-must match the Stripe prices. Approved wording is in `docs/CLAIMS.md`: never "no
-subscription", never "free 30 days", never "45 KWD a year" on its own.
+Change prices only in `prices.json` (both copies). Stripe membership prices are found
+by lookup key `membership_<interval>_<currency>`; see `supabase/README.md` section 4.
+Approved wording is in `docs/CLAIMS.md`: never "no subscription", never "free 30
+days", never a 12-month price "a year" on its own.
 
 ## Where things stand
 
@@ -54,23 +73,25 @@ In this order. Steps 1 and 2 take the longest.
 ### 1. Name and company details
 - [ ] Choose the brand name and run a **trademark search** for it before you buy
       ads or print anything: EUIPO (eSearch plus, EU marks), the Benelux register
-      (BOIP), WIPO Global Brand Database (international marks designating Kuwait),
-      and the Kuwait trademark register (Ministry of Commerce and Industry), in Latin
-      and Arabic script. Ask the lawyer whether to file in the Benelux/EU and Kuwait.
+      (BOIP), WIPO Global Brand Database (international marks designating the GCC
+      states), and the national registers of each country you open, in Latin and
+      Arabic script. See `docs/legal/TRADEMARK.md` for the pre-screen and filing order.
 - [ ] Register the domain. Set the name in `VITE_BRAND_NAME` (Vercel), the
       `BRAND_NAME` function secret and `app/public/manifest.webmanifest`.
 - [ ] Fill in the legal placeholders (next section).
 
 ### 2. Stripe account on the B.V.
 - [ ] Open the Stripe account **in the name of the Dutch B.V.** (Netherlands),
-      complete verification, and confirm with Stripe that it can charge in **KWD**
-      and what it settles in (probably EUR).
-- [ ] Products and prices, currency KWD: Report **20.000 KWD** one-time; Membership
-      monthly **5.000 KWD / month**; Membership yearly **45.000 KWD / year**. Put
-      the ids in `STRIPE_PRICE_REPORT`, `STRIPE_PRICE_MONTHLY`, `STRIPE_PRICE_YEARLY`
-      (optional: without them checkout uses inline prices). After a yearly plan's
-      12 months the webhook moves it to the monthly price (`STRIPE_PRICE_MONTHLY`,
-      or a price it finds or creates with lookup key `membership_monthly_kwd`).
+      complete verification, and confirm with Stripe that it can charge in **KWD,
+      SAR, AED, QAR, BHD and OMR** and what it settles in (probably EUR).
+- [ ] Prices: nothing to create by hand. The report is charged as an inline price
+      from `prices.json`; membership prices are found or created by lookup key
+      `membership_<interval>_<cur>` (optional overrides `STRIPE_PRICE_<INTERVAL>_<CUR>`).
+      `STRIPE_PRICE_REPORT` is no longer used. Details: `supabase/README.md` section 4.
+- [ ] Run **one test-mode checkout per currency** (report, monthly, yearly) and one
+      refund in a three-decimal currency (KWD, BHD or OMR) before going live.
+- [ ] Decide with the tax adviser whether to turn on Stripe Tax
+      (`STRIPE_AUTOMATIC_TAX=1`); off by default.
 - [ ] Turn on Apple Pay (verify the domain) and Google Pay for Checkout.
 - [ ] Webhook (Developers > Webhooks > Add endpoint):
       - URL: `https://kmxmizakklawslfeguvw.supabase.co/functions/v1/stripe-webhook`
@@ -164,7 +185,9 @@ In this order. Steps 1 and 2 take the longest.
       Add reviewers the same way with `role = 'reviewer'` (`supabase/README.md`,
       section 7). Check with
       `select p.id, u.email, p.role, p.reviewer_gender from public.profiles p join auth.users u on u.id = p.id where p.role <> 'customer';`.
-- [ ] Set the exchange rates for the dashboard (`fx_rates`, README section 8).
+- [ ] Set the USD and KWD exchange rates on `/admin` (EUR-based `fx_rates`; the
+      USD-pegged currencies follow automatically). See `supabase/README.md`
+      sections 6 and 8. KWD needs a daily update.
 
 ### 9. Vercel
 - [ ] Set `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`, `VITE_SITE_URL`,
@@ -173,69 +196,71 @@ In this order. Steps 1 and 2 take the longest.
 
 ## Legal placeholders to fill in
 
-Every `[BRACKETED]` value shows to customers until it is replaced.
+Every `[BRACKETED]` value shows to customers until it is replaced. Never put in
+a registration or VAT number we do not hold.
 
 | Placeholder | Where |
 |---|---|
 | `[COMPANY NAME B.V.]`, `[KVK NUMBER]`, `[ADDRESS]`, `[CONTACT EMAIL]` | `app/src/pages/legal/content.ts` (`COMPANY`, used on all three legal pages, the contact line and the withdrawal form) |
 | `[COMPANY NAME B.V.]` | `app/src/pages/Landing.tsx` (`OPERATOR`, footer). Replace together with `COMPANY.name`. |
-| `[IMAGE PROVIDER]` | `app/src/pages/legal/content.ts`, privacy section 6 table (EN and AR) |
-| `[REGION]` for Vercel, Stripe, the image provider and Resend | `app/src/pages/legal/content.ts`, privacy section 6 table (EN and AR); also `app/src/components/ConsentGate.tsx` (the "Where" row of the photo consent) |
-| `[REVIEWERS: …]` (where reviewers work, transfer safeguards) | `app/src/pages/legal/content.ts`, privacy section 6 (EN and AR) |
-| `[KUWAIT: …]` (CITRA regulation) | `app/src/pages/legal/content.ts`, privacy section 7 (EN and AR) |
-| `[report / membership]`, `[date]` in the model withdrawal form | `app/src/pages/legal/content.ts`, refund policy section 7. These stay: the customer fills them in. |
+| `[IMAGE PROVIDER]` | `content.ts` privacy sections 5 and 7 (EN and AR); `app/src/components/ConsentGate.tsx` (photo-consent "Where" row) |
+| `[BACKUP WINDOW]`, `[IMAGE PROVIDER RETENTION: …]` | `content.ts` privacy section 9 |
+| `[VAT NUMBERS: …]`, `[LOCAL REGISTRATIONS: …]` | `content.ts` terms section 1. Only once issued or obtained. |
+| `[REVIEWERS: …]` (where reviewers work, transfer safeguards) | `content.ts` privacy section 7 |
+| `[DPO: …]` | `content.ts` privacy section 1, if counsel says a DPO is needed |
+| `[NO-TRAINING: …]` | `content.ts` privacy section 6. Remove once the image-provider contract forbids training and storage. |
+| `[FONTS: …]` | `content.ts` privacy section 13. Remove once the fonts are self-hosted. |
+| `[BUILD: …]` | `content.ts` terms sections 9–10 and refunds section 1: withdraw button, waiver confirmation email, bilingual tax invoice. Build them or change the wording. |
+| `[COUNSEL: …]` | Notes for the reviewing lawyer throughout `content.ts`. Resolve each, then delete it. |
+| `[report / membership]`, `[date]` in the model withdrawal form | `content.ts` refund policy section 7. These stay: the customer fills them in. |
 
 When any legal wording changes, bump `CONSENT_VERSION` in
-`app/src/lib/backend/consents.ts` so each consent record shows which text was agreed.
+`app/src/lib/backend/consents.ts` so each consent record shows which text was
+agreed. The 2026-11-20 rewrite needs the bump to `2026-11-20.1`
+(`CONSENT_VERSION_BUMP` in `content.ts`).
 
 ## Legal and tax: questions to settle
 
-### The B.V. selling into Kuwait
-- [ ] Confirm with a Kuwaiti lawyer that a foreign company may sell this online
-      service to Kuwaiti residents **without a local entity or licence**, and what
-      changes if we later hire people, run ads through local agencies or partner with
-      clinics in Kuwait.
-- [ ] Consumer law: the terms are under Dutch law, but Kuwaiti consumer rules may
-      still apply to Kuwaiti customers. Have the terms, refund policy and the
-      withdrawal waiver (`WAIVER_TEXT`) checked.
-- [ ] Advertising: health, cosmetic and appearance claims in ads are regulated in
-      Kuwait (Ministry of Health for health-related advertising, Ministry of
-      Information for paid and influencer ads). Ask what applies to a foreign
-      advertiser; keep to `docs/CLAIMS.md`.
+The full position, per-country verdicts and counsel questions are in
+[`docs/legal/LEGAL_MEMO.md`](legal/LEGAL_MEMO.md). Companion documents:
+[`VENDOR_CONTRACTS.md`](legal/VENDOR_CONTRACTS.md),
+[`AD_RULES.md`](legal/AD_RULES.md), [`TRADEMARK.md`](legal/TRADEMARK.md).
+This research briefs a lawyer; it is not legal advice.
 
-### Payments
-- [ ] **Stripe on the B.V., in KWD** (cards, Apple Pay, Google Pay). Ask Stripe to
-      confirm KWD presentment and settlement (the webhook converts fees back to KWD).
-- [ ] Local debit-card schemes are not offered at launch. Do not mention any payment
-      method on the site that is not live (`docs/CLAIMS.md`).
+### Per-country verdict (summary)
 
-### Data protection
-- [ ] **GDPR as the controller**: records of processing, a data-protection impact
-      assessment (face and body photos and health-related answers are special-category
-      data, processed on explicit consent), a breach procedure (72 hours to the Dutch
-      DPA) and a contact for requests.
-- [ ] **DPAs** signed with every processor: Supabase, Vercel, Stripe (partly an
-      independent controller), Resend and the image provider. Fill in their regions.
-- [ ] Transfers outside the EU: check each processor's location and transfer
-      mechanism (EU-US Data Privacy Framework or standard contractual clauses),
-      especially the image provider and Resend.
-- [ ] **CITRA check with counsel.** Ask a Kuwaiti lawyer whether and how CITRA's Data
-      Privacy Protection Regulation applies to a foreign provider serving Kuwaiti
-      residents: storing the data in the EU, consent wording (including consent to
-      transfer outside Kuwait), breach notification, and any registration. Put the
-      answer in privacy section 7, replacing the `[KUWAIT: …]` note.
-- [ ] Staff access: the privacy policy says the assigned reviewer and our admins can
-      open orders and photos. There is no per-view access log. If you want to promise
-      one, build it first.
-- [ ] 18+ only: age is confirmed and stored as a consent at sign-up.
+| Country | Verdict | What must happen first |
+|---|---|---|
+| Kuwait | Open first | A Kuwaiti firm confirms whether Decree-Law 10/2026 is in force and whether a foreign seller must register with MOCI |
+| UAE | Open | VAT registration (EmaraTax, 5%) before the first sale; bilingual tax invoice. Ads wait for counsel on the NMA permit |
+| Saudi Arabia | Open | VAT registration (ZATCA, 15%) with a representative or a guarantee |
+| Qatar | Hold | Data-protection scope opinion; permit for physical-condition data if in scope |
+| Bahrain | Hold checkout | NBR-approved resident representative, then VAT registration (10%) |
+| Oman | Hold orders | Data-protection permit position (MTCIT, ≥ 45 days) and VAT route (responsible person or guarantee) |
+| Other MENA | Not at launch | Each country reviewed on its own; Iraq, Lebanon, Tunisia only after sanctions/AML review |
 
-### Tax
-- [ ] **VAT on digital services to non-EU consumers.** Ask the Dutch accountant
-      whether the B.V. charges Dutch VAT on sales to consumers in Kuwait, what
-      evidence of the customer's location to keep, and whether any Kuwaiti tax
-      applies to foreign digital-service sellers.
-- [ ] Bookkeeping in KWD vs EUR: Stripe settlement currency, exchange-rate records,
-      and how membership revenue (including the 30 included days) is recognised.
+- [ ] Until a country is cleared, remove it from `selling` in `app/src/lib/prices.json`
+      and `supabase/functions/_shared/prices.json` (`npm run check:prices`).
+
+### Before any country opens
+- [ ] Counsel instructed on the questions in LEGAL_MEMO.md section 4.
+- [ ] Tax adviser's written classification opinion; SBI codes checked with KvK.
+- [ ] Stripe test charges in all seven currencies; settlement confirmed. No mada
+      or KNET at launch (do not mention payment methods that are not live).
+- [ ] DPIA, Art. 30 records, breach procedure (72 h to the Dutch AP; 72 h to SDAIA).
+- [ ] DPAs signed and vendor settings changed (VENDOR_CONTRACTS.md), including
+      Supabase functions pinned to eu-central-1 and an image provider with
+      written no-training and no-storage terms.
+- [ ] Fonts self-hosted; MediaPipe CDN fallback removed; no third-party request before consent.
+- [ ] Reviewer contractor agreements signed before access.
+- [ ] Build: withdraw/cancel-purchase button (Account and footer), waiver
+      confirmation email, reminder before the first paid membership renewal.
+- [ ] Build: Arabic/English tax invoice before KSA, UAE, Bahrain or Oman open.
+- [ ] AI illustrations labelled "AI-generated illustration" wherever shown (EU AI Act art. 50(4)).
+- [ ] Benelux trademark filing before public launch and ad spend (TRADEMARK.md).
+- [ ] Staff access: the privacy policy says the assigned reviewer and our admins
+      can open orders and photos. There is no per-view access log; build it
+      before promising one.
 
 ## How a paid order works
 
@@ -297,11 +322,11 @@ photos of women anywhere**, on the site or in ads.
       lawyer; every paid post says it's an ad.
 
 ### The day before
-- [ ] A real 20 KWD card payment, an Apple Pay payment and a refund all work, in live mode.
+- [ ] A real card payment in each currency you open, an Apple Pay payment and a refund all work, in live mode.
 - [ ] Report only: the account shows 30 included days, and nothing is charged after them.
 - [ ] A membership bundle: the trial starts, the first renewal invoice is right, and
       cancelling from the account page stops it. A yearly bundle shows its schedule
-      (45 KWD for 12 months, then 5 KWD a month) under Billing > Subscriptions.
+      (12-month price, then the monthly price, in its own currency) under Billing > Subscriptions.
 - [ ] `membership-reminders` with `{ "dry_run": true }` lists what is due without sending.
 - [ ] Photo submission without the waiver is refused; with it, it goes through.
 - [ ] A full order goes from payment to delivered report within 72 hours.

@@ -1,14 +1,13 @@
 import type { ReactNode } from "react";
 import { getLang, joinNodes } from "../../lib/i18n";
-import { GradeBadge, Radar, money, moneyRange, shortCite } from "../../components/ui";
+import { Logo } from "../../components/Logo";
+import { GradeBadge, shortCite } from "../../components/ui";
 import { categoriesFor } from "../../lib/library";
 import { MYTHS, type PlanItem } from "../../lib/plan";
 import { SCORE_LABEL, type ScoreKey } from "../../lib/report";
 import { LIMITATIONS, METHODS, REFS } from "../../lib/science";
-import type { Intake } from "../../lib/types";
 import { Fig, NoPhoto, Photo } from "./figures";
 import {
-  Attrs,
   H,
   NOT_MEASURED,
   Pill,
@@ -24,6 +23,8 @@ import {
   para,
   table,
   title,
+  DocLink,
+  WhyText,
   type ReportCtx,
 } from "./kit";
 import { tocId, type Block, type Chapter } from "./paginate";
@@ -139,104 +140,207 @@ export function contentsChapter(c: ReportCtx, chapters: Chapter[]): Chapter {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Protocol (projected potential)                                     */
+/*  Plan cover                                                         */
 /* ------------------------------------------------------------------ */
 
-const firstName = (i: Intake) => i.name.trim().split(/\s+/)[0] || "Your";
-const possessive = (n: string) => (n === "Your" || n.toLowerCase() === "you" ? "Your" : n.endsWith("s") ? `${n}'` : `${n}'s`);
-const FEATURES = ["Hair", "Eyebrows", "Eyes", "Nose", "Cheeks", "Jaw", "Lips", "Chin", "Skin", "Neck", "Body"];
-
-export function protocolChapter(c: ReportCtx): Chapter {
-  const before = c.visuals.baseline ?? c.photos.face;
-  const after = c.visuals.after;
-  const keys = Object.keys(c.plan.current) as ScoreKey[];
+export function planCoverChapter(c: ReportCtx): Chapter {
+  const i = c.profile.intake;
+  const r = c.scan.review;
+  const approved = r?.status === "approved";
+  const end = new Date(c.scan.createdAt);
+  end.setMonth(end.getMonth() + 12);
+  const rows: [string, ReactNode][] = [
+    ["Prepared for", i.name],
+    ["Plan ID", `#${c.scan.id.slice(0, 5).toUpperCase()}`],
+    ["Starts", fmtDate(c.scan.createdAt)],
+    ["Runs until", fmtDate(end)],
+    ["Checked by", approved ? (r?.reviewer ? r.reviewer : "Your reviewer") : "Awaiting review"],
+  ];
   return {
-    id: "protocol",
-    title: "Your protocol",
+    id: "cover",
+    title: "Cover",
+    bare: true,
+    inToc: false,
     blocks: [
       block(
-        "protocol",
-        <>
-          {/* Arabic puts the noun first: «خطة خالد» */}
-          {getLang() === "ar" ? <H strong="Protocol" muted={firstName(c.profile.intake)} /> : <H strong={possessive(firstName(c.profile.intake))} muted="Protocol" />}
-          <div className="pv-ba">
-            <div className="pv-ba-img">
-              {before ? <img src={before} alt="" /> : <div className="pv-ph">No photo</div>}
-              <span className="pv-tag">Before</span>
-            </div>
-            <div className="pv-ba-img">
-              {after ? <img src={after} alt="" /> : <div className="pv-ph">After image in preparation — released after review</div>}
-              <span className="pv-tag">After · AI illustration</span>
-            </div>
+        "cover",
+        <div className="rp-cover rp-cover-plan">
+          <div className="rp-cover-top">
+            <Logo size={34} />
+            <span className="rp-mono">12-month glow-up plan</span>
           </div>
-          <div className="pv-pp">
-            <div>
-              <h2>Projected potential</h2>
-              <p>
-                This report is organised around <b>{FEATURES.length} key features</b> for facial and physical aesthetics:
+          <div className="rp-cover-main">
+            <div className="rp-cover-text">
+              <div className="rp-mono rp-cover-k">Personal plan · Confidential</div>
+              <h1 className="rp-cover-title">{getLang() === "ar" ? <span>Your plan</span> : <>Your <span>plan</span></>}</h1>
+              <div className="rp-cover-name">{i.name}</div>
+              <p className="rp-cover-lead">
+                What to do, week by week, for the next 12 months: your daily routine, food, training, haircut and beard, and when to check your progress. No surgery, no shortcuts.
               </p>
-              <ul className="pv-feats">
-                {FEATURES.map((f) => (
-                  <li key={f}>{f}</li>
-                ))}
-              </ul>
             </div>
-            <div className="pv-radar">
-              {keys.length >= 3 && (
-                <Radar
-                  size={260}
-                  title={`AESTHETIC SCORE ${Math.round(c.plan.overallNow)}`}
-                  axes={keys.map((k) => SCORE_LABEL[k])}
-                  series={[
-                    { name: "Projected potential", values: keys.map((k) => c.plan.projected[k] ?? 0), tone: "a" },
-                    { name: "Client values", values: keys.map((k) => c.plan.current[k] ?? 0), tone: "b" },
-                  ]}
-                />
-              )}
+            <div className="rp-cover-photo">
+              <Photo src={c.photos.face ?? c.visuals.baseline} />
+              <span className="pv-tag">Your starting point</span>
             </div>
           </div>
-          <p className="pv-big">
-            Your projected score rises <span>{Math.max(0, Math.round(c.plan.overallProjected - c.plan.overallNow))} points</span> in 12 months.
-          </p>
-          <div className="pv-scores">
-            <div className="pv-score">
-              <span>Current score</span>
-              <b>{Math.round(c.plan.overallNow)}</b>
-            </div>
-            <div className="pv-score dark">
-              <span>Projected score</span>
-              <b>{Math.round(c.plan.overallProjected)}</b>
-            </div>
-          </div>
-          <p className="pv-small">
-            {joinNodes(c.plan.improvements.slice(0, 3), ". ")}. Projections assume consistent adherence and only count changes the plan can produce.
-          </p>
-        </>,
+          <dl className="rp-cover-meta">
+            {rows.map(([k, v]) => (
+              <div key={k}>
+                <dt>{k}</dt>
+                <dd>{v}</dd>
+              </div>
+            ))}
+          </dl>
+          <DocLink to="analysis" />
+          <p className="rp-cover-foot">{`For education and self-tracking only — not medical advice. Read the disclaimer on page ${c.pageNo("disclaimer")} before starting.`}</p>
+        </div>,
       ),
-      h2("proj", "Score projections"),
-      table(
-        "proj-t",
-        [
-          ["Score", "40%"],
-          ["Now", "15%"],
-          ["12 months", "15%"],
-          ["Change", "15%"],
-          ["", "15%"],
-        ],
-        [
-          [<b>Overall</b>, <b className="rp-num">{Math.round(c.plan.overallNow)}</b>, <b className="rp-num">{Math.round(c.plan.overallProjected)}</b>, `+${Math.round(c.plan.overallProjected - c.plan.overallNow)}`, ""],
-          ...keys.map((k) => [
-            SCORE_LABEL[k],
-            <span className="rp-num">{Math.round(c.plan.current[k] ?? 0)}</span>,
-            <span className="rp-num">{Math.round(c.plan.projected[k] ?? 0)}</span>,
-            `${(c.plan.projected[k] ?? 0) - (c.plan.current[k] ?? 0) >= 0 ? "+" : ""}${Math.round((c.plan.projected[k] ?? 0) - (c.plan.current[k] ?? 0))}`,
-            (c.plan.projected[k] ?? 0) === (c.plan.current[k] ?? 0) ? <span className="rp-muted">Held constant</span> : "",
-          ]),
-        ],
-      ),
-      note("proj-n", "Projections assume good adherence and diminishing returns near the top of the scale. Bone-driven scores (symmetry, proportions) are held constant."),
     ],
   };
+}
+
+/* ------------------------------------------------------------------ */
+/*  Where you start                                                    */
+/* ------------------------------------------------------------------ */
+
+/** A score name inside a sentence (each one its own text node, so it is translated on its own). */
+const lc = (k: ScoreKey) => SCORE_LABEL[k].toLowerCase();
+
+export function startChapter(c: ReportCtx): Chapter {
+  const plan = c.plan;
+  const keys = Object.keys(plan.current) as ScoreKey[];
+  const now = Math.round(plan.overallNow);
+  const next = Math.round(plan.overallProjected);
+  const strong = [...keys].sort((a, b) => (plan.current[b] ?? 0) - (plan.current[a] ?? 0)).slice(0, 2);
+  const gains = keys
+    .map((k) => ({ k, d: (plan.projected[k] ?? 0) - (plan.current[k] ?? 0) }))
+    .filter((x) => x.d > 0.5)
+    .sort((a, b) => b.d - a.d)
+    .slice(0, 2)
+    .map((x) => x.k);
+  // one fixed sentence per case, so each is a single dictionary template
+  const lines: string[] = [
+    `You start at ${now} out of 100 overall.`,
+    strong.length === 2 ? `Your strongest areas are ${lc(strong[0])} and ${lc(strong[1])}.` : strong.length === 1 ? `Your strongest area is ${lc(strong[0])}.` : "",
+    gains.length === 2
+      ? `The plan can help most with ${lc(gains[0])} and ${lc(gains[1])}.`
+      : gains.length === 1
+        ? `The plan can help most with ${lc(gains[0])}.`
+        : "You are already close to what habits can change, so the plan keeps you there.",
+    plan.targetBodyFat != null && plan.monthsToTarget ? `Body-fat goal: about ${plan.targetBodyFat}% in about ${plan.monthsToTarget} months, at a pace you can keep.` : "",
+    next > now ? `If you follow the plan, you can expect to reach about ${next} out of 100 in 12 months.` : "Follow the plan to hold your scores and look sharper day to day.",
+  ].filter(Boolean);
+  return {
+    id: "start",
+    title: "Where you start",
+    blocks: [
+      title("Where", "you start"),
+      block(
+        "start-lines",
+        <ul className="rp-lines">
+          {lines.map((l) => (
+            <li key={l}>{l}</li>
+          ))}
+        </ul>,
+      ),
+      h2("use", "How to use this plan", { toc: false }),
+      block(
+        "use-b",
+        <ol className="rp-steps">
+          <li>
+            <b>Start small.</b> In the first 4 weeks, only do the Phase 1 habits. Later phases add on top.
+          </li>
+          <li>
+            <b>Follow the routine.</b> Tick the boxes in the Action plan as you go — daily, weekly and monthly.
+          </li>
+          <li>
+            <b>Eat and train to the plan.</b> Your calories, protein and weekly workouts are set out in the Nutrition and Training chapters.
+          </li>
+          <li>
+            <b>Check in every 4 weeks.</b> Same photos, same light, same scale. The Check-ins chapter has the dates.
+          </li>
+        </ol>,
+      ),
+      callout("bone", "What this plan does not change", "Your bone structure, eye shape, nose and skin tone stay the same. Everything here is non-surgical: skin, body fat, muscle, sleep, posture and grooming.", "info"),
+    ],
+  };
+}
+
+/* ------------------------------------------------------------------ */
+/*  Your 12 months (the protocol by phase and month)                   */
+/* ------------------------------------------------------------------ */
+
+const PHASE_INFO = [
+  { n: 1, when: "Weeks 0–4", name: "Foundations", what: "Build the daily basics: skin care, sleep, food and getting started in the gym." },
+  { n: 2, when: "Months 1–3", name: "Build", what: "Add the next layer once the basics are automatic. Training moves to your full weekly split." },
+  { n: 3, when: "Months 3–12", name: "Refine", what: "Keep everything going and fine-tune. Most visible change shows up in this phase." },
+] as const;
+/** The month a phase's new items start in. */
+const PHASE_START = { 1: 1, 2: 2, 3: 4 } as const;
+
+export function roadmapChapter(c: ReportCtx): Chapter {
+  const items = c.plan.items;
+  const n = c.nutrition;
+  const t = c.training;
+  const eatingIn = (m: number) => (n.ok ? n.phases.find((ph) => m - 1 >= ph.fromMonth && m - 1 < ph.toMonth)?.name ?? n.phases[n.phases.length - 1]?.name ?? "—" : "—");
+  const trainingIn = (m: number) => (!t ? "—" : t.rampUp && m === 1 ? "Full-body ramp-up" : "Weekly split");
+  const blocks: Block[] = [title("Your", "12 months", "The plan in three phases. Each phase keeps everything from the one before and adds a little more.")];
+  for (const ph of PHASE_INFO) {
+    const list = items.filter((i) => i.phase === ph.n);
+    blocks.push(
+      block(
+        `ph${ph.n}`,
+        <div className="rp-phase">
+          <div className="rp-phase-head">
+            <span className="rp-phase-n">{ph.n}</span>
+            <div>
+              <b>{ph.name}</b>
+              <span className="rp-mono">{ph.when}</span>
+            </div>
+          </div>
+          <p>{ph.what}</p>
+          {list.length ? (
+            <ul className="rp-list rp-phase-items">
+              {list.map((it) => (
+                <li key={it.id}>
+                  <b>{it.title}</b> <span className="rp-muted">· {it.timeToVisible}</span>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="rp-muted">No new items — keep the earlier habits going.</p>
+          )}
+        </div>,
+      ),
+    );
+  }
+  blocks.push(h2("months", "Month by month"));
+  blocks.push(
+    table(
+      "months-t",
+      [
+        ["Month", "12%"],
+        ["Phase", "16%"],
+        ["Eating", "24%"],
+        ["Training", "20%"],
+        ["New this month", "28%"],
+      ],
+      Array.from({ length: 12 }, (_, k) => {
+        const m = k + 1;
+        const ph = m === 1 ? 1 : m <= 3 ? 2 : 3;
+        const starts = (Object.entries(PHASE_START) as [string, number][]).find(([, s]) => s === m)?.[0];
+        const fresh = starts ? items.filter((i) => i.phase === Number(starts)) : [];
+        return [
+          <b className="rp-num">{m}</b>,
+          PHASE_INFO[ph - 1].name,
+          eatingIn(m),
+          trainingIn(m),
+          fresh.length ? <span className="rp-small">{joinNodes(fresh.map((i) => i.title), " · ")}</span> : <span className="rp-muted">Keep going</span>,
+        ];
+      }),
+    ),
+  );
+  return { id: "roadmap", title: "Your 12 months", blocks };
 }
 
 /* ------------------------------------------------------------------ */
@@ -244,26 +348,23 @@ export function protocolChapter(c: ReportCtx): Chapter {
 /* ------------------------------------------------------------------ */
 
 const PHASE_LABEL = { 1: "Phase 1 · weeks 0–4", 2: "Phase 2 · months 1–3", 3: "Phase 3 · months 3–12" } as const;
+/** Shown in their own chapter (Haircut & beard), not as recommendation cards. */
+const STYLE_IDS = new Set(["haircut", "beard"]);
 
-export const costLabel = (it: PlanItem, cur: ReportCtx["currency"]) => {
-  const m = it.monthly[1] > 0 ? `${moneyRange(it.monthly[0], it.monthly[1], cur)}/mo` : "";
-  const o = it.oneOff[1] > 0 ? `${moneyRange(it.oneOff[0], it.oneOff[1], cur)} once` : "";
-  return [m, o].filter(Boolean).join(" + ") || "Free";
-};
-
-function RecCard({ it, n, c }: { it: PlanItem; n: number; c: ReportCtx }) {
-  const impact = (Object.entries(it.impact) as [ScoreKey, number][]).filter(([, v]) => v > 0);
+function RecCard({ it, n }: { it: PlanItem; n: number }) {
   return (
     <div className="pv-rec rp-rec">
       <div className="pv-rec-head">
         <span className="pv-rec-n">{String(n).padStart(2, "0")}</span>
         <span className="pv-rec-cat">
-          {it.category} · {PHASE_LABEL[it.phase]} · priority {it.priority}
+          {it.category} · {PHASE_LABEL[it.phase]}
         </span>
         <GradeBadge grade={it.grade} />
       </div>
       <h3>{it.title}</h3>
-      <p>{it.why}</p>
+      <p>
+        <WhyText it={it} />
+      </p>
       {it.reviewerNote && <p className="pv-note">Reviewer: {it.reviewerNote}</p>}
       <ul className="pv-list">
         {it.how.map((h) => (
@@ -272,23 +373,15 @@ function RecCard({ it, n, c }: { it: PlanItem; n: number; c: ReportCtx }) {
       </ul>
       <dl className="rp-rec-meta">
         <div>
-          <dt>Driven by</dt>
-          <dd>{it.drivenBy.length ? joinNodes(it.drivenBy, ", ") : "Intake answers"}</dd>
+          <dt>Based on</dt>
+          <dd>{it.drivenBy.length ? joinNodes(it.drivenBy, ", ") : "Your answers"}</dd>
         </div>
         <div>
-          <dt>Visible in</dt>
+          <dt>When you'll see it</dt>
           <dd>{it.timeToVisible}</dd>
         </div>
-        <div>
-          <dt>Cost</dt>
-          <dd>{costLabel(it, c.currency)}</dd>
-        </div>
-        <div>
-          <dt>Score impact</dt>
-          <dd>{impact.length ? joinNodes(impact.map(([k, v]) => <>{SCORE_LABEL[k]} <span className="rp-num">+{Math.round(v)}</span></>), " · ") : "Supportive"}</dd>
-        </div>
         <div className="wide">
-          <dt>Evidence</dt>
+          <dt>Research</dt>
           <dd>{it.refs.map(shortCite).join(" · ") || "—"}</dd>
         </div>
       </dl>
@@ -297,13 +390,15 @@ function RecCard({ it, n, c }: { it: PlanItem; n: number; c: ReportCtx }) {
 }
 
 export function recommendationsChapter(c: ReportCtx): Chapter {
-  const items = c.plan.items;
+  const items = c.plan.items.filter((it) => !STYLE_IDS.has(it.id));
+  const styled = c.plan.items.some((it) => STYLE_IDS.has(it.id));
   return {
     id: "recs",
     title: "Recommendations",
     blocks: [
-      title("Recommendations", "by priority", `${items.length} items, each triggered by one of your measurements or answers and graded by the strength of the evidence (A strong · B moderate · C limited). Costs are approximate retail prices in ${c.currency}.`),
-      ...items.map((it, i) => block(`rec-${it.id}`, <RecCard it={it} n={i + 1} c={c} />)),
+      title("Recommendations", "by priority", "Each step comes from one of your measurements or answers. The letter shows how strong the research is: A strong · B moderate · C limited."),
+      ...items.map((it, i) => block(`rec-${it.id}`, <RecCard it={it} n={i + 1} />)),
+      ...(styled ? [note("styled", "Your haircut and beard have their own chapter: Haircut & beard.")] : []),
       h2("myths", "Not recommended"),
       block(
         "myths-b",
@@ -334,9 +429,37 @@ export function actionChapter(c: ReportCtx): Chapter {
     title(
       "Action",
       "Plan",
-      `${c.plan.monthsToTarget ? `Body-fat target reached in ~${c.plan.monthsToTarget} months at a sustainable pace. ` : ""}Start every phase-1 habit in the first month; later phases add on top. Tick the boxes as you go.`,
+      "Start every phase-1 habit in the first month; later phases add on top. Tick the boxes as you go.",
     ),
   ];
+  // the routine at a glance: every task by how often it is done
+  const CADENCE = [
+    ["daily", "Every day"],
+    ["weekly", "Every week"],
+    ["monthly", "Every month"],
+    ["once", "Once"],
+  ] as const;
+  const byCadence = CADENCE.map(([k, label]) => ({ label, tasks: c.plan.items.flatMap((it) => it.tasks.filter((t) => t.cadence === k).map((t) => t.label)) })).filter((g) => g.tasks.length);
+  blocks.push(h2("routine", "Your routine at a glance"));
+  blocks.push(
+    block(
+      "routine-b",
+      <div className="rp-routine">
+        {byCadence.map((g) => (
+          <div key={g.label}>
+            <h3>{g.label}</h3>
+            <ul>
+              {[...new Set(g.tasks)].map((t) => (
+                <li key={t}>
+                  <span className="pv-box" /> {t}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>,
+    ),
+  );
   for (const ph of PHASES) {
     const items = c.plan.items.filter((i) => i.phase === ph.n);
     blocks.push(h2(`ph${ph.n}`, `Phase ${ph.n} · ${ph.label} · ${ph.sub}`, { toc: false }));
@@ -376,59 +499,6 @@ export function actionChapter(c: ReportCtx): Chapter {
     );
   }
   return { id: "action", title: "Action plan", blocks };
-}
-
-/* ------------------------------------------------------------------ */
-/*  Cost estimations                                                   */
-/* ------------------------------------------------------------------ */
-
-export function costsChapter(c: ReportCtx): Chapter {
-  const byCat = new Map<string, { m: [number, number]; o: [number, number] }>();
-  for (const it of c.plan.items) {
-    const e = byCat.get(it.category) ?? { m: [0, 0], o: [0, 0] };
-    e.m = [e.m[0] + it.monthly[0], e.m[1] + it.monthly[1]];
-    e.o = [e.o[0] + it.oneOff[0], e.o[1] + it.oneOff[1]];
-    byCat.set(it.category, e);
-  }
-  const rows = [...byCat.entries()];
-  const tm = rows.reduce<[number, number]>((s, [, e]) => [s[0] + e.m[0], s[1] + e.m[1]], [0, 0]);
-  const to = rows.reduce<[number, number]>((s, [, e]) => [s[0] + e.o[0], s[1] + e.o[1]], [0, 0]);
-  const cur = c.currency;
-  const r = (x: [number, number]) => (x[1] ? moneyRange(x[0], x[1], cur, " – ") : "—");
-  return {
-    id: "costs",
-    title: "Cost estimations",
-    blocks: [
-      title("Cost", "Estimations", "Approximate retail prices, organised by category, to show where your budget goes. Clinical items only appear if your preferences allow them."),
-      table(
-        "cat-t",
-        [
-          ["Category", "40%"],
-          ["Monthly", "30%"],
-          ["One-off", "30%"],
-        ],
-        [...rows.map(([cat, e]) => [cat, r(e.m), r(e.o)]), [<b>Total</b>, <b>{r(tm)}</b>, <b>{r(to)}</b>]],
-      ),
-      block(
-        "tot",
-        <div className="rp-tiles rp-tiles-2">
-          <Score label="Typical monthly" value={money(Math.round((tm[0] + tm[1]) / 2), cur)} suffix="" />
-          <Score label="First 12 months" value={money(Math.round(((tm[0] + tm[1]) / 2) * 12 + (to[0] + to[1]) / 2), cur)} suffix="" dark />
-        </div>,
-      ),
-      h2("items", "By item"),
-      table(
-        "items-t",
-        [
-          ["Item", "46%"],
-          ["Category", "20%"],
-          ["Cost", "34%"],
-        ],
-        c.plan.items.map((it) => [it.title, it.category, costLabel(it, cur)]),
-      ),
-      note("fx", "Prices are researched in EUR and shown in Kuwaiti dinars at a fixed approximate rate (1 EUR ≈ 0.33 KWD), rounded to whole dinars; check current local prices. Midpoints of each range are used for the typical totals."),
-    ],
-  };
 }
 
 /* ------------------------------------------------------------------ */
@@ -610,10 +680,9 @@ export function visualChapter(c: ReportCtx): Chapter {
   const v = c.visuals;
   const approved = c.scan.review?.status === "approved";
   const b = v.body ?? {};
-  const styles = (v.styles ?? []).filter((s) => s.front);
   const AI = <span className="rp-ai">AI illustration</span>;
   const blocks: Block[] = [
-    title("12-month", "visual", "A standardised studio portrait of you, and the same portrait after the plan's realistic 12-month changes — fat loss, skin, sleep, grooming and training. Bone structure is never changed."),
+    title("12-month", "visual", "A studio portrait of you now, and the same portrait after the plan's realistic 12-month changes — fat loss, skin, sleep, grooming and training. Bone structure is never changed."),
     callout(
       "ai",
       "AI-generated illustration",
@@ -638,30 +707,6 @@ export function visualChapter(c: ReportCtx): Chapter {
       </div>,
     ),
   );
-  if (c.scan.review?.realism)
-    blocks.push(
-      callout(
-        "realism",
-        c.scan.review.realism.pass ? "Realism verified" : "Realism check",
-        `Bone proportions were re-measured on the after image (${fmtDate(c.scan.review.realism.at)}): ${c.scan.review.realism.pass ? "all within tolerance" : "outside tolerance"}; largest change ${c.scan.review.realism.worst}.`,
-        c.scan.review.realism.pass ? "ok" : "warn",
-      ),
-    );
-  if (styles.length > 1) {
-    blocks.push(h2("styles", "Style options"));
-    blocks.push(
-      block(
-        "styles-b",
-        <div className="rp-grid3">
-          {styles.slice(0, 3).map((s, i) => (
-            <Fig key={s.name} n={c.fig()} h={250} caption={<>{s.name.replace(/\s*\(reviewer pick\)/i, "")}{i === 0 ? " · recommended" : ""} {AI}</>}>
-              <Photo src={s.front} />
-            </Fig>
-          ))}
-        </div>,
-      ),
-    );
-  }
   blocks.push(h2("changes", "What changes · what doesn't"));
   blocks.push(
     block(
@@ -696,40 +741,169 @@ export function visualChapter(c: ReportCtx): Chapter {
       ),
     );
   }
+  return { id: "visual", title: "12-month visual", blocks };
+}
+
+/* ------------------------------------------------------------------ */
+/*  Haircut & beard                                                    */
+/* ------------------------------------------------------------------ */
+
+const stripPrefix = (t: string, re: RegExp) => t.replace(re, "");
+
+export function styleChapter(c: ReportCtx): Chapter | null {
   const hair = c.plan.items.find((i) => i.id === "haircut");
   const beard = c.plan.items.find((i) => i.id === "beard");
-  if (hair || beard) {
-    blocks.push(h2("groom", "Grooming shown"));
+  if (!hair && !beard) return null;
+  const approved = c.scan.review?.status === "approved";
+  const styles = approved ? (c.visuals.styles ?? []).filter((s) => s.front) : [];
+  const AI = <span className="rp-ai">AI illustration</span>;
+  const blocks: Block[] = [title("Haircut", "& beard", "Picked from current styles for your face shape, hair type and growth. Take this page to your barber.")];
+  const section = (key: string, label: string, it: PlanItem, name: string) => {
+    blocks.push(h2(key, label));
     blocks.push(
       block(
-        "groom-b",
-        <Attrs
-          items={[
-            ...(hair ? ([["Hair", `${hair.title.replace(/^Haircut:\s*/, "")}${hair.reviewerNote ? ` — ${hair.reviewerNote}` : ""}`]] as [string, ReactNode][]) : []),
-            ...(beard ? ([["Beard", `${beard.title.replace(/^Beard:\s*/, "")}${beard.reviewerNote ? ` — ${beard.reviewerNote}` : ""}`]] as [string, ReactNode][]) : []),
-          ]}
-        />,
+        `${key}-b`,
+        <div className="rp-style">
+          <div className="rp-style-name">{name}</div>
+          <p>
+            <WhyText it={it} />
+          </p>
+          {it.reviewerNote && <p className="pv-note">Reviewer: {it.reviewerNote}</p>}
+          <ul className="pv-list">
+            {it.how.map((h) => (
+              <li key={h}>{h}</li>
+            ))}
+          </ul>
+        </div>,
+      ),
+    );
+  };
+  if (hair) section("hair", "Haircut", hair, stripPrefix(hair.title, /^Haircut:\s*/));
+  if (styles.length > 1) {
+    blocks.push(h3("styles", "Style options", "The same face with each option. The first one is the recommended cut."));
+    blocks.push(
+      block(
+        "styles-b",
+        <div className="rp-grid3">
+          {styles.slice(0, 3).map((s, i) => (
+            <Fig key={s.name} n={c.fig()} h={250} caption={<>{s.name.replace(/\s*\(reviewer pick\)/i, "")}{i === 0 ? " · recommended" : ""} {AI}</>}>
+              <Photo src={s.front} />
+            </Fig>
+          ))}
+        </div>,
       ),
     );
   }
-  return { id: "visual", title: "12-month visual", blocks };
+  if (beard) section("beard", "Beard", beard, stripPrefix(beard.title, /^Beard:\s*/));
+  return { id: "style", title: "Haircut & beard", blocks };
+}
+
+/* ------------------------------------------------------------------ */
+/*  Check-ins                                                          */
+/* ------------------------------------------------------------------ */
+
+export function checkinChapter(c: ReportCtx): Chapter {
+  const start = new Date(c.scan.createdAt);
+  const at = (m: number) => {
+    const d = new Date(start);
+    d.setMonth(d.getMonth() + m);
+    return fmtDate(d);
+  };
+  const what = (m: number) =>
+    m === 12
+      ? "Final photos and measurements. Compare with your first scan."
+      : m === 1
+        ? "First check-in: photos, weight and waist."
+        : m === 3 || m === 6 || m === 9
+          ? "Photos, weight and waist. Look back over the last 3 months and adjust if progress has stalled."
+          : "Photos, weight and waist.";
+  return {
+    id: "checkins",
+    title: "Check-ins",
+    blocks: [
+      title("Check-ins", "", "Progress is slow from day to day and easy to miss in the mirror. Regular check-ins show what is working."),
+      h2("week", "Every week", { toc: false }),
+      block(
+        "week-b",
+        <ul className="rp-list">
+          <li>Weigh yourself on 3–4 mornings, after the toilet and before eating. Use the weekly average, not single days.</li>
+          <li>Look back at your ticked routine: aim to keep most boxes ticked most weeks.</li>
+        </ul>,
+      ),
+      h2("month", "Every 4 weeks"),
+      table(
+        "month-t",
+        [
+          ["Check-in", "14%"],
+          ["Date", "26%"],
+          ["What to do", "60%"],
+        ],
+        [
+          ["First scan", fmtDate(c.scan.createdAt), "Your first scan: the photos in this plan."],
+          ...Array.from({ length: 12 }, (_, k) => [<b className="rp-num">{k + 1}</b>, at(k + 1), what(k + 1)]),
+        ],
+      ),
+      h2("photos", "How to take check-in photos", { toc: false }),
+      block(
+        "photos-b",
+        <ul className="rp-list">
+          <li>Same place, same light and the same time of day as your first scan.</li>
+          <li>Same distance and pose: face straight on, relaxed expression, no filter.</li>
+          <li>Measure your waist with a tape at the navel, relaxed, at the end of a normal breath.</li>
+        </ul>,
+      ),
+    ],
+  };
+}
+
+/* ------------------------------------------------------------------ */
+/*  Disclaimer (plan)                                                  */
+/* ------------------------------------------------------------------ */
+
+export function planDisclaimerChapter(): Chapter {
+  return {
+    id: "disclaimer",
+    title: "Disclaimer",
+    blocks: [
+      title("Disclaimer"),
+      block(
+        "disc-b",
+        <div className="pv-cols">
+          <div>
+            <h3>Not medical advice</h3>
+            <p>This plan is for education and self-tracking only. It is not medical, dermatological or nutritional advice, diagnosis or treatment.</p>
+            <p>
+              Talk to a doctor before starting a calorie deficit, supplements, prescription treatments or a new training programme — especially if you have a medical condition or take medication. Clinical options in this plan need a licensed practitioner.
+            </p>
+          </div>
+          <div>
+            <h3>About the illustrations</h3>
+            <p>The “after” images are AI illustrations of the plan's target changes. They are not photographs or a prediction of your result; results depend on genetics, consistency and your starting point.</p>
+            <h3>Your privacy</h3>
+            <p>This plan contains your photographs. Share it only with people you trust.</p>
+          </div>
+        </div>,
+      ),
+    ],
+  };
 }
 
 /* ------------------------------------------------------------------ */
 /*  References                                                         */
 /* ------------------------------------------------------------------ */
 
-export function referencesChapter(c: ReportCtx): Chapter {
+/** `plan`: only sources the plan cites; `full`: everything, including measurement methods and the feature library. */
+export function referencesChapter(c: ReportCtx, scope: "plan" | "full"): Chapter {
   const ids = new Set<string>();
   c.plan.items.forEach((i) => i.refs.forEach((r) => ids.add(r)));
-  Object.values(METHODS).forEach((m) => m.refs.forEach((r) => ids.add(r)));
+  if (scope === "full") Object.values(METHODS).forEach((m) => m.refs.forEach((r) => ids.add(r)));
   MYTHS.forEach((m) => m.refs.forEach((r) => ids.add(r)));
   if (c.nutrition.ok) c.nutrition.refs.forEach((r) => ids.add(r));
   if (c.training) {
     c.training.refs.forEach((r) => ids.add(r));
     c.training.muscles.forEach((m) => m.refs.forEach((r) => ids.add(r)));
   }
-  categoriesFor(c.profile.intake.gender).forEach((cat) => cat.refs.forEach((r) => ids.add(r)));
+  if (scope === "full") categoriesFor(c.profile.intake.gender).forEach((cat) => cat.refs.forEach((r) => ids.add(r)));
   const refs = [...ids]
     .map((id) => REFS[id])
     .filter(Boolean)
@@ -738,7 +912,13 @@ export function referencesChapter(c: ReportCtx): Chapter {
     id: "refs",
     title: "References",
     blocks: [
-      title("References", "", `${refs.length} sources cited by the measurements, plan, nutrition, training and feature library in this report. Sources for individual catalogue markers are listed in Appendix A.`),
+      title(
+        "References",
+        "",
+        scope === "full"
+          ? `${refs.length} sources cited by the measurements, plan, nutrition, training and feature library. Sources for individual catalogue markers are listed in Appendix A.`
+          : `${refs.length} sources behind the recommendations, nutrition and training in this plan.`,
+      ),
       table(
         "refs-t",
         [
@@ -751,7 +931,8 @@ export function referencesChapter(c: ReportCtx): Chapter {
             <span className="rp-num rp-muted">{i + 1}</span>,
             <span className="rp-ref">
               {r.authors} ({r.year}). <i>{r.title}</i>. {r.source}.{r.doi ? ` doi:${r.doi}` : ""}
-              <span className="rp-def">{r.finding}</span>
+              {/* the plan keeps its list short: what each study found is in the detailed analysis */}
+              {scope === "full" && <span className="rp-def">{r.finding}</span>}
             </span>,
           ],
         })),

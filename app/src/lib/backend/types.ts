@@ -3,6 +3,7 @@
  * shapes the client data layer returns. Money columns are `numeric` in
  * Postgres; they are normalised to JS numbers when read.
  */
+import PRICE_JSON from "../prices.json";
 
 /* ------------------------------ Enums ------------------------------ */
 
@@ -43,7 +44,8 @@ export type GenerationKind = "face_after" | "face_after_alt" | "body_after_front
 export type ImageProvider = "fal" | "openai" | "higgsfield";
 export type GenerationStatus = "queued" | "running" | "succeeded" | "failed";
 export type CostCategory = "image_generation" | "payment_fee" | "messaging" | "reviewer" | "other";
-export type MoneyCurrency = "USD" | "KWD" | "EUR";
+/** ISO 4217 code (costs can be in any currency since migration 010: USD image cost, EUR Stripe fee, ...). */
+export type MoneyCurrency = string;
 export type AdPlatform = "meta" | "snap" | "tiktok" | "google";
 
 export const SCAN_PHOTO_VIEWS: ScanPhotoView[] = ["face", "body", "side", "faceLeft", "faceRight", "face45", "smile", "frown", "browRaise"];
@@ -86,6 +88,8 @@ export interface OrderRow {
   status: OrderStatus;
   amount: number;
   currency: string;
+  /** country chosen at checkout (ISO-2); null/absent for orders from before multi-currency */
+  country?: string | null;
   provider: PaymentProvider;
   provider_ref: string | null;
   /** what was bought at checkout (null for check-ins from renewals) */
@@ -118,6 +122,8 @@ export interface SubscriptionRow {
   /** recurring price, in `currency` */
   amount?: number | null;
   currency?: string;
+  /** customer's country when it was bought (ISO-2), when known */
+  country?: string | null;
   created_at: string;
 }
 
@@ -131,6 +137,8 @@ export interface PaymentRow {
   provider_ref: string | null;
   amount: number;
   currency: string;
+  /** customer's country (ISO-2), when known */
+  country?: string | null;
   fee: number;
   net: number;
   status: PaymentStatus;
@@ -221,6 +229,8 @@ export interface WaitlistRow {
   gender: GenderCode | null;
   locale: Locale | null;
   source: string | null;
+  /** the person's country (ISO-2), when given */
+  country?: string | null;
   created_at: string;
 }
 
@@ -244,11 +254,34 @@ export type CheckoutPlan =
   | "membership_monthly"
   | "membership_yearly";
 
-/** Prices in KWD (3 decimals). Must match the Stripe prices the owner sets up. */
+/** One price row of the shared table (../prices.json, the copy of supabase/functions/_shared/prices.json). */
+export interface CurrencyPrices {
+  report: number;
+  monthly: number;
+  yearly: number;
+  decimals: number;
+}
+const PRICE_TABLE = PRICE_JSON as unknown as {
+  currencies: Record<string, CurrencyPrices>;
+  countries: Record<string, string>;
+  fallbackCurrency: string;
+  selling: string[];
+};
+/** Currencies that have prices (KWD, SAR, AED, QAR, BHD, OMR, USD). */
+export const PRICE_CURRENCIES: string[] = Object.keys(PRICE_TABLE.currencies);
+/** Countries where checkout is open (ISO-2). */
+export const SELLING_COUNTRIES: string[] = [...PRICE_TABLE.selling];
+/** Currency a country pays in (its own, else the fallback, USD). Same rule as create-checkout. */
+export const checkoutCurrency = (country: string): string => PRICE_TABLE.countries[country.toUpperCase()] ?? PRICE_TABLE.fallbackCurrency;
+/** Prices in a currency (unknown codes: the fallback currency's). */
+export const pricesIn = (currency: string | null | undefined): CurrencyPrices =>
+  PRICE_TABLE.currencies[(currency ?? "").toUpperCase()] ?? PRICE_TABLE.currencies[PRICE_TABLE.fallbackCurrency];
+
+/** Prices in KWD (3 decimals), from the shared table. Kept for older callers: use pricesIn(currency). */
 export const PRICES_KWD = {
-  report: 20,
-  membership_monthly: 5,
-  membership_yearly: 45,
+  report: PRICE_TABLE.currencies.KWD.report,
+  membership_monthly: PRICE_TABLE.currencies.KWD.monthly,
+  membership_yearly: PRICE_TABLE.currencies.KWD.yearly,
 } as const;
 
 /** Trial days on the membership when bought together with the report. */
@@ -275,9 +308,22 @@ export const PLANS: Record<CheckoutPlan, PlanInfo> = {
   membership_yearly: { plan: "membership_yearly", dueNowKwd: PRICES_KWD.membership_yearly, recurringKwd: PRICES_KWD.membership_yearly, interval: "yearly", trialDays: 0, includesReport: false },
 };
 
+/** A plan's prices in a currency (PLANS is the KWD version). */
+export function planInfo(plan: CheckoutPlan, currency: string): PlanInfo & { currency: string; dueNow: number; recurring: number | null } {
+  const p = pricesIn(currency);
+  const base = PLANS[plan];
+  const dueNow = base.includesReport ? p.report : base.interval === "yearly" ? p.yearly : p.monthly;
+  const recurring = base.interval == null ? null : base.interval === "yearly" ? p.yearly : p.monthly;
+  return { ...base, currency: currency.toUpperCase(), dueNow, recurring };
+}
+
 /** Monthly-equivalent revenue of one subscription, KWD (0 for the included month). */
 export const monthlyEquivalentKwd = (plan: SubscriptionPlan) =>
   plan === "included" ? 0 : plan === "monthly" ? PRICES_KWD.membership_monthly : PRICES_KWD.membership_yearly / 12;
+
+/** Monthly-equivalent revenue of one subscription in its currency, from list prices (0 for the included month). */
+export const monthlyEquivalent = (plan: SubscriptionPlan, currency: string | null | undefined) =>
+  plan === "included" ? 0 : plan === "monthly" ? pricesIn(currency).monthly : pricesIn(currency).yearly / 12;
 
 /** Review turnaround promised to the customer (submit-scan sets due_at = now + 72h). */
 export const SLA_HOURS = 72;
@@ -446,7 +492,7 @@ export interface AdminDashboard {
 }
 
 /** audit_log actions the operator dashboard lists (AdminRows.auditEvents). */
-export const ADMIN_AUDIT_ACTIONS = ["orders.cancelled_consent_withdrawn", "stripe.schedule_failed", "orders.changes_requested"] as const;
+export const ADMIN_AUDIT_ACTIONS = ["orders.cancelled_consent_withdrawn", "stripe.schedule_failed", "orders.changes_requested", "checkout.country_mismatch"] as const;
 export type AdminAuditAction = (typeof ADMIN_AUDIT_ACTIONS)[number];
 
 /** One audit_log row for the operator (newest first). */
@@ -472,7 +518,7 @@ export interface AdminRows {
   adSpend: AdSpendRow[];
   profiles: Pick<ProfileRow, "id" | "email" | "role" | "created_at">[];
   /** full rows (admin only); the demo uses @example.com addresses */
-  waitlist: Pick<WaitlistRow, "id" | "email" | "gender" | "locale" | "source" | "created_at">[];
+  waitlist: Pick<WaitlistRow, "id" | "email" | "gender" | "locale" | "source" | "country" | "created_at">[];
   /** recent audit_log rows of ADMIN_AUDIT_ACTIONS, newest first (at most 200) */
   auditEvents: AdminAuditEvent[];
 }

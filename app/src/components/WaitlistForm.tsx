@@ -4,6 +4,10 @@
  * for that list; leave it out for a general launch list (gender is then sent
  * as null, never guessed). 18+ only, like the service.
  *
+ * The person's country is sent with the entry (the visitor's country from
+ * lib/pricing, which they can change in the form), so we know where to open
+ * next and whom to tell when we do.
+ *
  * No phone field: there is no WhatsApp/SMS provider under contract yet. Add it
  * back together with that provider's row in the privacy policy.
  */
@@ -13,6 +17,8 @@ import { BackendError } from "../lib/backend/client";
 import type { GenderCode } from "../lib/backend/types";
 import { LegalText, useLegalLang } from "../pages/legal/Privacy";
 import type { LegalLang } from "../pages/legal/content";
+import { CountrySelect } from "./CountrySelect";
+import { useCountry, type CountryCode } from "../lib/pricing";
 import "./WaitlistForm.css";
 
 export interface WaitlistFormProps {
@@ -21,6 +27,8 @@ export interface WaitlistFormProps {
   /** the service the person is waiting for; omit for a general list (sent as null) */
   gender?: GenderCode | null;
   lang?: LegalLang;
+  /** the person's country (ISO-2); defaults to the visitor's country, which the form lets them change */
+  country?: CountryCode;
   /** hide the heading and intro when the surrounding page already explains it */
   bare?: boolean;
   onJoined?: (result: WaitlistResult) => void;
@@ -35,6 +43,7 @@ const T = {
     introWomen: "Our service for women isn't open yet. Leave your email and we'll tell you as soon as it is.",
     introGeneral: "We're not open yet. Leave your email and we'll tell you as soon as we are.",
     email: "Email",
+    country: "Country",
     adult: "I am 18 or older.",
     language: "Write to me in",
     submit: "Join the waitlist",
@@ -54,6 +63,7 @@ const T = {
     introWomen: "خدمتنا للنساء لم تُفتح بعد. اتركوا بريدكم الإلكتروني ونبلغكم أول ما تنفتح.",
     introGeneral: "ما فتحنا بعد. اتركوا بريدكم الإلكتروني ونبلغكم أول ما نفتح.",
     email: "البريد الإلكتروني",
+    country: "الدولة",
     adult: "عمري 18 سنة أو أكثر.",
     language: "راسلوني باللغة",
     submit: "انضمام إلى القائمة",
@@ -87,8 +97,10 @@ const AR_WOMEN: Partial<typeof T.ar> = {
   alreadyBody: "هذا الإيميل موجود في قائمة الانتظار. نتواصل وياچ أول ما نفتح.",
 };
 
-export function WaitlistForm({ source, gender = null, lang: langProp, bare = false, onJoined, className }: WaitlistFormProps) {
+export function WaitlistForm({ source, gender = null, lang: langProp, country: countryProp, bare = false, onJoined, className }: WaitlistFormProps) {
   const lang = useLegalLang(langProp);
+  const visitor = useCountry();
+  const country = countryProp ?? visitor;
   const t = lang === "ar" && gender === "female" ? { ...T.ar, ...AR_WOMEN } : T[lang];
   const id = useId();
   const [email, setEmail] = useState("");
@@ -106,7 +118,9 @@ export function WaitlistForm({ source, gender = null, lang: langProp, bare = fal
     setError(null);
     setBusy(true);
     try {
-      const r = await joinWaitlist({ email, phone: null, gender, locale, source });
+      // country: see lib/backend/waitlist (join-waitlist stores it with the entry)
+      const entry = { email, phone: null, gender, locale, source, country };
+      const r = await joinWaitlist(entry);
       setResult(r);
       onJoined?.(r);
     } catch (err) {
@@ -167,6 +181,12 @@ export function WaitlistForm({ source, gender = null, lang: langProp, bare = fal
           aria-describedby={error === "email" ? `${id}-err` : undefined}
           placeholder="name@example.com"
         />
+
+        {countryProp === undefined && (
+          <div className="wl-field wl-country">
+            <CountrySelect lang={lang} label={t.country} />
+          </div>
+        )}
 
         <div className="wl-field" role="group" aria-labelledby={`${id}-lang`}>
           <span id={`${id}-lang`}>{t.language}</span>

@@ -1,0 +1,40 @@
+# Waddah (وضّاح)
+
+> A face and body analysis with a 12-month non-surgical glow-up plan, for men aged 18 and over in Kuwait, Saudi Arabia, the United Arab Emirates, Qatar, Bahrain and Oman. Every report is checked by a person before it is delivered. English and Arabic.
+
+## What it is
+
+- The customer takes a few guided photos at home. Measurements of the face and body run on the customer's own device and are compared with published reference ranges.
+- A human reviewer checks the results, adds notes and releases the report. AI illustrations of a possible result are labelled as illustrations, not predictions.
+- The main deliverable is a 12-month plan for skin, hair, beard and body (habits, routines, training and nutrition). No surgery. A detailed technical analysis is available as an optional extra.
+- It is aesthetic and wellness guidance, not medical advice. Anything clinical is referred to a licensed practitioner.
+- Women: not available yet; there is a waitlist.
+
+## Prices
+
+One-off report (includes 30 days of membership), then an optional membership. Prices are what the customer pays, VAT included where it applies.
+
+| Country | Report | Monthly membership | 12-month membership |
+|---|---|---|---|
+| Kuwait | KWD 20 | KWD 5 | KWD 45 |
+| Saudi Arabia | SAR 249 | SAR 59 | SAR 549 |
+| United Arab Emirates | AED 239 | AED 59 | AED 539 |
+| Qatar | QAR 239 | QAR 59 | QAR 529 |
+| Bahrain | BHD 25 | BHD 6 | BHD 55 |
+| Oman | OMR 25 | OMR 6 | OMR 56 |
+
+The 12-month membership continues monthly after the first 12 months. Memberships can be cancelled at any time. Payment by card, Apple Pay or Google Pay. Other countries: waitlist.
+
+## Privacy
+
+- Photos are deleted 90 days after the report is delivered, or straight away when the customer withdraws photo consent.
+- Account data is kept for 24 months after the last activity.
+
+## Pages
+
+- [Home (English)](/): what the analysis measures, how it works, pricing and FAQ
+- [Home (Arabic)](/ar)
+- [Feature library](/library)
+- [Privacy policy](/privacy)
+- [Terms of service](/terms)
+- [Refund policy](/refunds)

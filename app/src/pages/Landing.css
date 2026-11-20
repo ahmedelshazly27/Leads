@@ -1792,3 +1792,100 @@
   .lp-foot-links { flex-wrap: wrap; gap: 10px 18px; }
   .lp-member { padding: 18px; }
 }
+
+/* ---------------- Country & currency (lib/pricing) ---------------- */
+.lp-nav-country {
+  margin-inline-start: auto;
+  color: rgba(255, 255, 255, 0.86);
+}
+.lp-nav-solid .lp-nav-country {
+  color: var(--ink-3);
+}
+.lp-nav-country + .lp-lang {
+  margin-inline-start: 4px;
+}
+.lp-price-country {
+  display: flex;
+  justify-content: center;
+  margin: -12px 0 28px;
+  color: var(--ink-3);
+}
+/* prices change with the country: keep the card the same height and width while they do */
+.lp-price-amt,
+.lp-price-alt em,
+.lp-price-alt span {
+  font-variant-numeric: tabular-nums;
+}
+.lp-price-amt {
+  min-height: 1em;
+  white-space: nowrap;
+}
+.lp-price-alt em {
+  white-space: nowrap;
+}
+.lp-title,
+.lp-hero-title,
+.lp-head .lp-lead {
+  text-wrap: balance;
+}
+.lp-lead,
+.lp-faq p,
+.lp-price-list span {
+  text-wrap: pretty;
+}
+/* footer: links, then country + language, then the operator and the small print */
+.lp-foot-prefs {
+  order: 3;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-inline-start: auto;
+  color: var(--ink-3);
+}
+.lp-foot-lang {
+  font-size: 13px;
+  color: var(--ink-3);
+}
+.lp-foot-lang:lang(ar) {
+  font-family: "IBM Plex Sans Arabic", var(--sans);
+}
+.lp-foot-lang:hover {
+  color: var(--ink);
+}
+.lp-foot-legal {
+  flex-basis: auto;
+}
+.lp-foot-base {
+  order: 4;
+  flex-basis: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 24px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+.lp-foot-base .lp-foot-op,
+.lp-foot-base .lp-foot-note {
+  flex-basis: auto;
+  margin: 0;
+}
+.lp-price-alt span,
+.lp-price-note,
+.lp-member-head span {
+  text-wrap: pretty;
+}
+@media (max-width: 900px) {
+  .lp-nav .lp-nav-country {
+    display: none;
+  }
+}
+@media (max-width: 760px) {
+  .lp-foot-prefs {
+    margin-inline-start: 0;
+    flex-basis: 100%;
+  }
+  .lp-foot-base {
+    flex-direction: column;
+  }
+}

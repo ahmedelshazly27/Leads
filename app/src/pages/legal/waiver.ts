@@ -11,12 +11,12 @@ export type WaiverLang = "en" | "ar";
 
 /**
  * The withdrawal waiver the customer confirms before submitting photos
- * (consent kind "withdrawal_waiver"). Terms section 8 and refund policy
+ * (consent kind "withdrawal_waiver"). Terms section 9 and refund policy
  * sections 1 and 2 describe the same thing.
  */
 export const WAIVER_TEXT: Record<WaiverLang, string> = {
-  en: "I ask you to start my report straight away, within my 14-day withdrawal period. I understand that if I withdraw after your review has started, I pay a proportional amount for the work already done, and that I lose my right of withdrawal once my report has been delivered.",
-  ar: "أطلب منكم البدء في إعداد تقريري فوراً، خلال مدة الانسحاب البالغة 14 يوماً. وأفهم أنني إذا انسحبت بعد بدء مراجعتكم أدفع مبلغاً متناسباً مقابل العمل المُنجز، وأنني أفقد حقي في الانسحاب بمجرد تسليم تقريري.",
+  en: "I ask you to start my report straight away, within my 14-day withdrawal period. I understand that if I withdraw after your review has started, I pay a proportional amount for the work already done, and that I lose my right of withdrawal once my report has been delivered. My rights if the report is faulty or not as described are not affected.",
+  ar: "أطلب منكم البدء في إعداد تقريري فوراً، خلال مدة الانسحاب البالغة 14 يوماً. وأفهم أنني إذا انسحبت بعد بدء مراجعتكم أدفع مبلغاً متناسباً مقابل العمل المُنجز، وأنني أفقد حقي في الانسحاب بمجرد تسليم تقريري. ولا يمسّ ذلك حقوقي إذا كان التقرير معيباً أو غير مطابق لما وُصف.",
 };
 
 /** Short label for the waiver checkbox or its heading. */
@@ -27,7 +27,7 @@ export const WAIVER_LABEL: Record<WaiverLang, string> = {
 
 /**
  * Who can see submitted photos. The landing, the photo consent step, the PDF
- * and privacy policy section 6 must all say this (docs/CLAIMS.md, "Product /
+ * and privacy policy section 7 must all say this (docs/CLAIMS.md, "Product /
  * process"). Admins can open every order (storage and row-level security:
  * is_admin()), so never say only the reviewer sees them.
  */

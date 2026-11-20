@@ -11,7 +11,7 @@
  *
  *   VITE_SITE_URL=https://example.com VITE_INDEXABLE=1 npm run build:site
  *
- * Also writes robots.txt and sitemap.xml. Without VITE_INDEXABLE=1 (previews)
+ * Also writes robots.txt and sitemap.xml (llms.txt is a static file in public/). Without VITE_INDEXABLE=1 (previews)
  * robots.txt blocks everything.
  */
 import { spawn } from "node:child_process";
@@ -51,7 +51,9 @@ const browser = await chromium.launch();
 const rendered = [];
 try {
   for (const [path, out] of PAGES) {
-    const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+    // a visitor in Kuwait (the default market): the static HTML shows KWD prices; the page
+    // re-renders with the visitor's own country and currency as soon as the script runs
+    const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, timezoneId: "Asia/Kuwait", locale: isArabic(path) ? "ar-KW" : "en-GB" });
     await page.goto(base + path, { waitUntil: "networkidle" });
     // the Arabic landing swaps its text in after load; the legal pages render Arabic directly and set <html lang dir> themselves
     if (isArabic(path)) await page.waitForFunction(() => document.documentElement.dir === "rtl" && /[؀-ۿ]/.test(document.querySelector("h1")?.textContent ?? ""));
@@ -79,7 +81,7 @@ for (const [path, out, html] of rendered) {
 
 writeFileSync(
   "dist/robots.txt",
-  INDEXABLE ? `User-agent: *\nAllow: /\nDisallow: /home\nDisallow: /new\nDisallow: /review\nDisallow: /analysis\nDisallow: /protocol\nDisallow: /settings\nDisallow: /measurements\nDisallow: /start\nDisallow: /account\nDisallow: /orders\nDisallow: /admin\nDisallow: /ar/start\nDisallow: /ar/account\nDisallow: /ar/orders\n\nSitemap: ${SITE}/sitemap.xml\n` : "User-agent: *\nDisallow: /\n",
+  INDEXABLE ? `User-agent: *\nAllow: /\nDisallow: /home\nDisallow: /new\nDisallow: /review\nDisallow: /analysis\nDisallow: /protocol\nDisallow: /analysis-report\nDisallow: /settings\nDisallow: /measurements\nDisallow: /start\nDisallow: /account\nDisallow: /orders\nDisallow: /admin\nDisallow: /ar/start\nDisallow: /ar/account\nDisallow: /ar/orders\n\nSitemap: ${SITE}/sitemap.xml\n` : "User-agent: *\nDisallow: /\n",
 );
 const today = new Date().toISOString().slice(0, 10);
 const url = (loc, alts) =>

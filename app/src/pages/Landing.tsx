@@ -15,14 +15,17 @@ import { sampleProfile, sampleScan } from "../lib/sample";
 import "./Landing.css";
 import { CompleteAnalysis, LooksInfluence, PersonalPlan, TakingIntoAccount, YouWillLearn } from "./LandingSections";
 import { Ancestry, Privacy, DiscoverYou, FollowPlan, LifeChanging, Mindset, NoSurgery, Pillars, StartCta, Support, Technology, useStartHref, warm } from "./LandingSections2";
-import { BUNDLE_TRIAL_DAYS, PRICES_KWD } from "../lib/backend/types";
+import { BUNDLE_TRIAL_DAYS } from "../lib/backend/types";
+import { CountrySelect } from "../components/CountrySelect";
+import { countryName, fmt, priceFor, SELLING, syncCountryFromUrl, useMarket, yearlySaving, priceIn, currencyFor } from "../lib/pricing";
 
 const S = `${import.meta.env.BASE_URL}sample/`;
 
-/** Launch market: Kuwait. The report, plus an optional membership (prices must match Stripe). */
-const PRICE_KWD = PRICES_KWD.report;
-const MONTHLY_KWD = PRICES_KWD.membership_monthly;
-const YEARLY_KWD = PRICES_KWD.membership_yearly;
+/*
+ * Launch markets: the six GCC countries, each in its own currency (lib/pricing,
+ * the same table the server charges from). Other countries see prices in USD
+ * and a waitlist on /start.
+ */
 const TRIAL_DAYS = BUNDLE_TRIAL_DAYS;
 /**
  * The operator, for the footer. Same placeholder as COMPANY.name in ./legal/content.ts:
@@ -87,7 +90,7 @@ function Head({ kicker, dark, muted, mutedFirst, lead, center, light }: { kicker
 /* ------------------------------------------------------------------ */
 
 export function Landing() {
-  const { hash, pathname } = useLocation();
+  const { hash, pathname, search } = useLocation();
   const navigate = useNavigate();
   // the URL decides the language: "/" is English, "/ar" is Arabic (each indexable on its own)
   const lang = pathname === "/ar" || pathname.startsWith("/ar/") ? "ar" : "en";
@@ -95,6 +98,9 @@ export function Landing() {
     setLang(lang);
   }, [lang]);
   const arDict = useArDict(lang === "ar");
+  useEffect(() => {
+    syncCountryFromUrl();
+  }, [search]);
   useSeo(landingSeo(lang, arDict));
   useEffect(() => {
     if (!hash) return;
@@ -130,6 +136,7 @@ export function Landing() {
             <a href="#privacy">Privacy</a>
             <a href="#faq">FAQ</a>
           </div>
+          <CountrySelect lang={lang} tone={scrolled ? "light" : "dark"} className="lp-nav-country" />
           <button type="button" className="lp-lang" onClick={() => navigate(lang === "ar" ? "/" : "/ar")} lang={lang === "ar" ? "en" : "ar"} data-i18n-skip>
             {lang === "ar" ? "English" : "العربية"}
           </button>
@@ -191,8 +198,17 @@ export function Landing() {
             <Link to={legal("terms")} {...warm(legal("terms"))}>Terms of service</Link>
             <Link to={legal("refunds")} {...warm(legal("refunds"))}>Refund policy</Link>
           </div>
-          <p className="lp-foot-note">Not medical advice · Product imagery uses a synthetic person · After images are AI illustrations, not results · © {new Date().getFullYear()}</p>
-          <p className="lp-foot-op">{`Operated by ${OPERATOR}, the Netherlands`}</p>
+          <div className="lp-foot-prefs">
+            <CountrySelect lang={lang} />
+            <Link to={lang === "ar" ? "/" : "/ar"} className="lp-foot-lang" lang={lang === "ar" ? "en" : "ar"} translate="no">
+              {lang === "ar" ? "English" : "العربية"}
+            </Link>
+          </div>
+          <div className="lp-foot-base">
+            {/* the name isolated (FSI…PDI): a Latin name with brackets and dots otherwise scrambles in the Arabic line */}
+            <p className="lp-foot-op">{`Operated by \u2068${OPERATOR}\u2069, the Netherlands`}</p>
+            <p className="lp-foot-note">{`Not medical advice · Product imagery uses a synthetic person · After images are AI illustrations, not results · © ${new Date().getFullYear()}`}</p>
+          </div>
         </div>
       </footer>
     </div>
@@ -493,7 +509,7 @@ const PARTNERS = [
   {
     k: "derm",
     name: "Dermatologists",
-    who: "Licensed (Kuwait Ministry of Health registration required)",
+    who: "Licensed by the health authority in your country",
     out: "Your skin findings & photos you choose to share",
     back: "Prescriptions and notes update your skin plan",
     cadence: "Follow-ups at weeks 6 and 12",
@@ -611,7 +627,7 @@ function CareNetwork() {
         ))}
       </div>
       <p className="lp-follow-note">Check-ins, plan updates and new visuals after the first 30 days are part of membership. Your report includes the first 30 days.</p>
-      <p className="lp-care-launch lp-mono">Partner network not yet live · launching in Kuwait</p>
+      <p className="lp-care-launch lp-mono">Partner network not yet live · opening country by country</p>
     </section>
   );
 }
@@ -721,12 +737,18 @@ function How() {
 
 function Pricing() {
   const start = useStartHref();
+  const lang = useLandingLang();
+  const { country, selling } = useMarket();
+  const report = fmt(priceFor("report", country), lang);
+  const monthly = fmt(priceFor("monthly", country), lang);
+  const yearly = fmt(priceFor("yearly", country), lang);
+  const saves = fmt(yearlySaving(country), lang);
   const features: [string, string][] = [
     ["Face & body analysis", "48 measurements against reference ranges."],
     ["Evidence-graded 12-month plan", "Every step graded A–C and cited."],
     ["Your 12-month visuals", "Face and body, front and side — reviewed by a human."],
     ["Nutrition targets", "Calories and macros for each phase of your plan."],
-    ["Your full report", "Every measurement, the plan and the research, as a PDF to keep."],
+    ["Your plan as a PDF", "Your 12-month plan to keep, with the detailed analysis as an optional extra."],
     [`${TRIAL_DAYS} days of membership`, "Included with every report. Keep it after that, or let it end."],
   ];
   const membership = [
@@ -734,7 +756,6 @@ function Pricing() {
     "A note from your reviewer each month",
     "A new 12-month visual every 3 months",
   ];
-  const saves = MONTHLY_KWD * 12 - YEARLY_KWD;
   return (
     <section className="lp-sec" id="pricing">
       <Head
@@ -742,8 +763,11 @@ function Pricing() {
         kicker="Pricing"
         dark="One report."
         muted="Membership if you want it."
-        lead={`The report is one payment of ${PRICE_KWD} KWD and includes ${TRIAL_DAYS} days of membership. After that, keep the membership or let it end.`}
+        lead={`The report is one payment and includes ${TRIAL_DAYS} days of membership. After that, keep the membership or let it end.`}
       />
+      <div className="lp-price-country">
+        <CountrySelect lang={lang} label={lang === "ar" ? "الأسعار لـ" : "Prices for"} />
+      </div>
       <div className="lp-price">
         <ul className="lp-price-list">
           {features.map(([t, d]) => (
@@ -764,11 +788,11 @@ function Pricing() {
                 <span className="lp-price-sub">{`One payment · face + body · includes ${TRIAL_DAYS} days of membership`}</span>
               </div>
             </div>
-            <div className="lp-price-amt">{`${PRICE_KWD} KWD`}</div>
+            <div className="lp-price-amt">{report}</div>
             <Link to={start("report")} {...warm(start())} className="lp-btn lp-btn-white lp-btn-block">
-              Get my report
+              {selling ? "Get my report" : "Join the waitlist"}
             </Link>
-            <p className="lp-price-note">{`Report only: the ${TRIAL_DAYS} days of membership simply end. Nothing renews.`}</p>
+            <p className="lp-price-note">{selling ? `Report only: the ${TRIAL_DAYS} days of membership simply end. Nothing renews.` : `Not yet available in ${countryName(country, lang)}. Join the waitlist and we'll tell you when it opens.`}</p>
           </div>
           <div className="lp-member">
             <div className="lp-member-head">
@@ -786,21 +810,27 @@ function Pricing() {
             <div className="lp-price-alt">
               <Link to={start("report_membership_monthly")} {...warm(start())}>
                 <b>Report + monthly membership</b>
-                <span>{`${PRICE_KWD} KWD today, then ${MONTHLY_KWD} KWD a month after ${TRIAL_DAYS} days`}</span>
-                <em>{`${MONTHLY_KWD} KWD / month`}</em>
+                <span>{`${report} today, then ${monthly} a month after ${TRIAL_DAYS} days`}</span>
+                <em>{`${monthly} / month`}</em>
               </Link>
               <Link to={start("report_membership_yearly")} {...warm(start())}>
-                <b>Report + yearly membership</b>
-                <span>{`${PRICE_KWD} KWD today. After ${TRIAL_DAYS} days, ${YEARLY_KWD} KWD for 12 months, then ${MONTHLY_KWD} KWD a month (saves ${saves} KWD over those 12 months)`}</span>
-                <em>{`${YEARLY_KWD} KWD / 12 months`}</em>
+                <b>Report + 12-month membership</b>
+                <span>{`${report} today. After ${TRIAL_DAYS} days, ${yearly} for 12 months, then ${monthly} a month (saves ${saves} over those 12 months)`}</span>
+                <em>{`${yearly} / 12 months`}</em>
               </Link>
             </div>
           </div>
-          <p className="lp-pay-note">Pay by card, Apple Pay or Google Pay.</p>
+          <p className="lp-pay-note">Prices include VAT where it applies. Pay by card, Apple Pay or Google Pay.</p>
         </div>
       </div>
     </section>
   );
+}
+
+/** The landing's language: "/ar" is Arabic. */
+function useLandingLang(): "en" | "ar" {
+  const { pathname } = useLocation();
+  return pathname === "/ar" || pathname.startsWith("/ar/") ? "ar" : "en";
 }
 
 /* ------------------------------------------------------------------ */
@@ -811,12 +841,13 @@ const FAQ: [string, string][] = [
   ["Is it medical advice?", "No. It's aesthetic and wellness guidance. Anything clinical points you to a licensed practitioner."],
   ["How accurate is it?", "Measurements use established face and pose landmark models (MediaPipe) and are compared with published norms where they exist. They are estimates — body-fat estimates carry errors of roughly ±4–5 points, and photo conditions matter, so we flag selfies, head turns and cropped body shots."],
   ["Who sees my photos?", "Analysis runs on your device. Photos you send for your report are seen by the reviewer assigned to you. Our admins, a small number of authorised staff, can also open orders to check quality and to help with support. Photos are deleted 90 days after delivery, or straight away if you withdraw your photo consent."],
-  ["Who is it for?", "At launch, men aged 18 or over in Kuwait."],
+  ["Who is it for?", "At launch, men aged 18 or over in Kuwait, Saudi Arabia, the UAE, Qatar, Bahrain and Oman."],
   ["Is there a service for women?", "Not yet. At launch the service is for men only. Women can join the waitlist on this page and we'll email them when it opens. When it does, we plan to have women's photos and results reviewed only by female reviewers. We never show photos of women on this site or in our marketing."],
   ["Do I need special equipment?", "No. A phone, a plain wall and someone (or a timer) to take the photos from about 1.5–3 m."],
-  ["Is it a subscription?", "The report is one payment of 20 KWD and includes 30 days of membership. If you choose the report only, those 30 days simply end and nothing renews. If you choose a membership, it continues after the 30 days at 5 KWD a month, or 45 KWD for 12 months, then 5 KWD a month, until you cancel, which you can do any time. Your report and plan stay yours either way."],
+  ["Is it a subscription?", "The report is one payment and includes 30 days of membership. If you choose the report only, those 30 days simply end and nothing renews. If you choose a membership, it continues after the 30 days monthly, or for 12 months and then monthly, until you cancel, which you can do any time. Your report and plan stay yours either way. Prices for your country are under Pricing."],
   ["What does membership give me?", "A re-scan every month with updated scores and an updated plan, a note from your reviewer each month, and a new 12-month visual every 3 months."],
-  ["How do I pay?", "By card, Apple Pay or Google Pay, in Kuwaiti dinars."],
+  ["How do I pay?", "By card, Apple Pay or Google Pay, in your local currency: Kuwaiti dinar, Saudi riyal, UAE dirham, Qatari riyal, Bahraini dinar or Omani rial. Prices include VAT where it applies."],
+  ["Which countries do you serve?", "Kuwait, Saudi Arabia, the United Arab Emirates, Qatar, Bahrain and Oman. If you live somewhere else, you can join the waitlist and we'll tell you when we open in your country."],
 ];
 
 function Faq() {
@@ -852,8 +883,8 @@ function landingSeo(lang: "en" | "ar", ar: Record<string, string> | null) {
       : `${BRAND_NAME} · Science-based face & body analysis and a 12-month glow-up plan`;
   const description =
     lang === "ar"
-      ? "حلّل وجهك وجسمك بـ48 قياس مبني على دراسات منشورة، يراجعها إنسان، واحصل على خطة 12 شهر للبشرة والشعر واللحية والجسم بدون جراحة. للرجال في الكويت: التقرير بـ20 د.ك، والعضوية اختيارية."
-      : "48 measurements of your face and body, compared with published norms and reviewed by a person, then a 12-month plan for skin, hair, beard and body. No surgery. For men in Kuwait: report 20 KWD, membership optional.";
+      ? "حلّل وجهك وجسمك بـ48 قياس مبني على دراسات منشورة، يراجعها إنسان، واحصل على خطة 12 شهر للبشرة والشعر واللحية والجسم بدون جراحة. للرجال في الكويت والسعودية والإمارات وقطر والبحرين وعُمان، بعملة بلدك."
+      : "48 measurements of your face and body, compared with published norms and reviewed by a person, then a 12-month plan for skin, hair, beard and body. No surgery. For men in Kuwait, Saudi Arabia, the UAE, Qatar, Bahrain and Oman, priced in your local currency.";
   const path = lang === "ar" ? "/ar" : "/";
   return {
     title,
@@ -862,36 +893,41 @@ function landingSeo(lang: "en" | "ar", ar: Record<string, string> | null) {
     lang,
     alternates: { en: "/", ar: "/ar" },
     jsonLd: [
-      { "@context": "https://schema.org", "@type": "Organization", name: BRAND_NAME, url: SITE_URL, logo: SITE_URL + "/favicon.svg", areaServed: ["KW"] },
+      { "@context": "https://schema.org", "@type": "Organization", name: BRAND_NAME, url: SITE_URL, logo: SITE_URL + "/favicon.svg", areaServed: [...SELLING] },
       { "@context": "https://schema.org", "@type": "WebSite", name: BRAND_NAME, url: SITE_URL, inLanguage: ["en", "ar"] },
       {
         "@context": "https://schema.org",
         "@type": "Service",
         name: lang === "ar" ? "تقرير تحليل الوجه والجسم وخطة 12 شهر" : "Face & body analysis report and 12-month plan",
         provider: { "@type": "Organization", name: BRAND_NAME },
-        areaServed: ["KW"],
-        offers: [
-          {
-            "@type": "Offer",
-            name: t("Glow-Up Report"),
-            description: t(`One payment · face + body · includes ${TRIAL_DAYS} days of membership`),
-            price: String(PRICE_KWD),
-            priceCurrency: "KWD",
-            areaServed: "KW",
-          },
-          ...([
-            ["Monthly membership", MONTHLY_KWD, "P1M", "Cancel any time."],
-            ["Yearly membership", YEARLY_KWD, "P1Y", `${YEARLY_KWD} KWD for 12 months, then ${MONTHLY_KWD} KWD a month. Cancel any time.`],
-          ] as const).map(([name, price, billingDuration, description]) => ({
-            "@type": "Offer",
-            name: t(name),
-            description: t(description),
-            price: String(price),
-            priceCurrency: "KWD",
-            areaServed: "KW",
-            priceSpecification: { "@type": "UnitPriceSpecification", price: String(price), priceCurrency: "KWD", billingDuration },
-          })),
-        ],
+        areaServed: [...SELLING],
+        // one offer per country and plan, in that country's currency (VAT included where it applies)
+        offers: SELLING.flatMap((cc) => {
+          const cur = currencyFor(cc);
+          const p = (plan: "report" | "monthly" | "yearly") => String(priceIn(plan, cur).amount);
+          return [
+            {
+              "@type": "Offer",
+              name: t("Glow-Up Report"),
+              description: t(`One payment · face + body · includes ${TRIAL_DAYS} days of membership`),
+              price: p("report"),
+              priceCurrency: cur,
+              eligibleRegion: cc,
+            },
+            ...([
+              ["Monthly membership", p("monthly"), "P1M", "Cancel any time."],
+              ["12-month membership", p("yearly"), "P1Y", "12 months, then monthly. Cancel any time."],
+            ] as const).map(([name, price, billingDuration, description]) => ({
+              "@type": "Offer",
+              name: t(name),
+              description: t(description),
+              price,
+              priceCurrency: cur,
+              eligibleRegion: cc,
+              priceSpecification: { "@type": "UnitPriceSpecification", price, priceCurrency: cur, billingDuration },
+            })),
+          ];
+        }),
       },
       {
         "@context": "https://schema.org",

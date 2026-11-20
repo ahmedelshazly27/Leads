@@ -12,19 +12,10 @@ import { ConsentGate, type ConsentResult } from "../../components/ConsentGate";
 import { SignIn } from "../../components/SignIn";
 import { WaitlistForm } from "../../components/WaitlistForm";
 import { useLang, type Lang } from "../../lib/i18n";
-import {
-  backendEnabled,
-  BUNDLE_TRIAL_DAYS,
-  PLANS,
-  PRICES_KWD,
-  recordConsents,
-  redirectToCheckout,
-  signOut,
-  updateMyProfile,
-  useSession,
-  type CheckoutPlan,
-} from "../../lib/backend";
-import { amt, errCode, FlowHead, FlowOff, FlowShell, flowHref, kwd, LegalLinks, Spinner, useRememberLang } from "./FlowShell";
+import { CountrySelect } from "../../components/CountrySelect";
+import { backendEnabled, BUNDLE_TRIAL_DAYS, recordConsents, signOut, updateMyProfile, useSession, type CheckoutPlan } from "../../lib/backend";
+import { countryName, fmt, priceFor, syncCountryFromUrl, useMarket, yearlySaving, type CountryCode } from "../../lib/pricing";
+import { errCode, FlowHead, FlowOff, FlowShell, flowHref, goToCheckout, LegalLinks, Spinner, useRememberLang } from "./FlowShell";
 
 type StartPlan = "report" | "report_membership_monthly" | "report_membership_yearly";
 const START_PLANS: StartPlan[] = ["report", "report_membership_monthly", "report_membership_yearly"];
@@ -113,6 +104,11 @@ function StartFlow({ lang, cancelled }: { lang: Lang; cancelled: boolean }) {
   });
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<{ code: string; text: string } | null>(null);
+  const { country, selling } = useMarket();
+  // /start?country=sa (ads, links from a country page) sets the country
+  useEffect(() => {
+    syncCountryFromUrl();
+  }, [search]);
 
   const update = (patch: Partial<Saved>) =>
     setSaved((cur) => {
@@ -172,7 +168,7 @@ function StartFlow({ lang, cancelled }: { lang: Lang; cancelled: boolean }) {
     setError(null);
     try {
       await updateMyProfile({ gender: "male", locale: lang, ...(saved.birthYear ? { birth_year: saved.birthYear } : {}) });
-      await redirectToCheckout(saved.plan as CheckoutPlan, lang);
+      await goToCheckout(saved.plan as CheckoutPlan, lang, country);
       // the browser is leaving for the payment page; keep the button busy
     } catch (e) {
       setBusy(false);
@@ -213,7 +209,10 @@ function StartFlow({ lang, cancelled }: { lang: Lang; cancelled: boolean }) {
         </p>
       )}
 
-      {step === "plan" && <PlanStep plan={saved.plan} onPlan={(plan) => update({ plan })} onNext={() => setStep("gender")} />}
+      {/* not selling in this country yet: prices for reference and the waitlist, never checkout */}
+      {!selling && step !== "gender" && <PlanStep lang={lang} country={country} plan={saved.plan} onPlan={(plan) => update({ plan })} onNext={() => setStep("gender")} />}
+
+      {selling && step === "plan" && <PlanStep lang={lang} country={country} plan={saved.plan} onPlan={(plan) => update({ plan })} onNext={() => setStep("gender")} />}
 
       {step === "gender" && (
         <GenderStep
@@ -225,7 +224,7 @@ function StartFlow({ lang, cancelled }: { lang: Lang; cancelled: boolean }) {
         />
       )}
 
-      {step === "consent" && (
+      {selling && step === "consent" && (
         <>
           <FlowHead muted="A few checks" strong="before you pay" lead="This service is for adults only. We also need you to accept the terms and privacy policy." />
           {error && (
@@ -237,7 +236,7 @@ function StartFlow({ lang, cancelled }: { lang: Lang; cancelled: boolean }) {
         </>
       )}
 
-      {step === "signin" && (
+      {selling && step === "signin" && (
         <>
           <FlowHead strong="Your account" lead="Your order, report and photos are kept in your account, so you can open them on any device." />
           <SignIn locale={lang} gender="male" onSignedIn={onSignedIn} />
@@ -247,9 +246,10 @@ function StartFlow({ lang, cancelled }: { lang: Lang; cancelled: boolean }) {
         </>
       )}
 
-      {step === "pay" && (
+      {selling && step === "pay" && (
         <PayStep
           lang={lang}
+          country={country}
           plan={saved.plan}
           email={session?.email ?? null}
           signedIn={!!session}
@@ -283,6 +283,10 @@ function checkoutError(code: string): string {
       return "We could not save your details. Please try again.";
     case "payment_provider":
       return "We could not start the payment. Please try again in a moment.";
+    case "country_not_available":
+      return "We don't take orders from this country yet. Choose your country above, or join the waitlist.";
+    case "currency_mismatch":
+      return "Your account is already billed in another currency. Please choose the country you used before, or contact us.";
     default:
       return "Something went wrong on our side. Please try again in a moment.";
   }
@@ -290,57 +294,66 @@ function checkoutError(code: string): string {
 
 /* ------------------------------ Steps ------------------------------ */
 
-function PlanStep({ plan, onPlan, onNext }: { plan: StartPlan; onPlan: (p: StartPlan) => void; onNext: () => void }) {
+function PlanStep({ lang, country, plan, onPlan, onNext }: { lang: Lang; country: CountryCode; plan: StartPlan; onPlan: (p: StartPlan) => void; onNext: () => void }) {
+  const { selling } = useMarket();
+  const report = fmt(priceFor("report", country), lang);
+  const monthly = fmt(priceFor("monthly", country), lang);
+  const yearly = fmt(priceFor("yearly", country), lang);
+  const saves = fmt(yearlySaving(country), lang);
   const choices: { plan: StartPlan; title: string; price: string; sub: string; tag?: string }[] = [
     {
       plan: "report",
       title: "Report only",
-      price: kwd(PRICES_KWD.report),
+      price: report,
       sub: `One payment. Includes ${BUNDLE_TRIAL_DAYS} days of membership, which then simply ends. Nothing renews.`,
     },
     {
       plan: "report_membership_monthly",
       title: "Report + monthly membership",
-      price: kwd(PRICES_KWD.report),
-      sub: `${amt(PRICES_KWD.report)} KWD today. After the first ${BUNDLE_TRIAL_DAYS} days, ${amt(PRICES_KWD.membership_monthly)} KWD a month. Cancel any time.`,
+      price: report,
+      sub: `${report} today. After the first ${BUNDLE_TRIAL_DAYS} days, ${monthly} a month. Cancel any time.`,
     },
     {
       plan: "report_membership_yearly",
-      title: "Report + yearly membership",
-      price: kwd(PRICES_KWD.report),
-      sub: `${amt(PRICES_KWD.report)} KWD today. After the first ${BUNDLE_TRIAL_DAYS} days, ${amt(PRICES_KWD.membership_yearly)} KWD for 12 months, then ${amt(PRICES_KWD.membership_monthly)} KWD a month. Cancel any time.`,
-      tag: `Saves ${amt(PRICES_KWD.membership_monthly * 12 - PRICES_KWD.membership_yearly)} KWD over the first 12 months compared with monthly`,
+      title: "Report + 12-month membership",
+      price: report,
+      sub: `${report} today. After the first ${BUNDLE_TRIAL_DAYS} days, ${yearly} for 12 months, then ${monthly} a month. Cancel any time.`,
+      tag: `Saves ${saves} over the first 12 months compared with monthly`,
     },
   ];
+  const place = countryName(country, lang);
   return (
     <>
       <FlowHead
         muted="Choose"
         strong="your plan"
-        lead="Your face and body analysis and a 12-month plan, checked by a person before you receive it. Non-surgical, available in Kuwait."
+        lead="Your face and body analysis and a 12-month plan, checked by a person before you receive it. Non-surgical."
       />
+      <div className="fl-country">
+        <CountrySelect lang={lang} label={lang === "ar" ? "الأسعار لـ" : "Prices for"} />
+      </div>
       <div className="fl-card">
         <h2>What you get</h2>
         <ul className="fl-list">
           <li>A guided photo session with the analysis done on your device</li>
           <li>A reviewer checks your results and adds notes</li>
-          <li>Your report, your 12-month plan and AI illustrations of possible results, after review</li>
-          <li>The report as a PDF you can keep</li>
+          <li>Your 12-month plan, your analysis and AI illustrations of possible results, after review</li>
+          <li>The plan as a PDF you can keep</li>
         </ul>
         <hr className="fl-sep" />
         <h3>{`Every report includes ${BUNDLE_TRIAL_DAYS} days of membership`}</h3>
         <p>Membership adds a monthly check-in scan with updated scores and plan, and a reviewer note each month.</p>
-        <p>{`After the first ${BUNDLE_TRIAL_DAYS} days you can keep it for ${amt(PRICES_KWD.membership_monthly)} KWD a month, or ${amt(PRICES_KWD.membership_yearly)} KWD for 12 months and then ${amt(PRICES_KWD.membership_monthly)} KWD a month, or let it end. Cancel any time.`}</p>
+        <p>{`After the first ${BUNDLE_TRIAL_DAYS} days you can keep it for ${monthly} a month, or ${yearly} for 12 months and then ${monthly} a month, or let it end. Cancel any time.`}</p>
       </div>
 
       <fieldset className="fl-card" style={{ border: 0, margin: 0 }}>
-        <legend className="fl-muted" style={{ padding: 0, marginBottom: 10 }}>
-          Choose one
+        <legend className="fl-muted fl-legend">
+          {selling ? "Choose one" : "Prices when we open in your country"}
         </legend>
         <div className="fl-choices">
           {choices.map((c) => (
-            <label key={c.plan} className={`fl-choice${plan === c.plan ? " is-on" : ""}`}>
-              <input type="radio" name="plan" value={c.plan} checked={plan === c.plan} onChange={() => onPlan(c.plan)} />
+            <label key={c.plan} className={`fl-choice${selling && plan === c.plan ? " is-on" : ""}${selling ? "" : " is-preview"}`}>
+              <input type="radio" name="plan" value={c.plan} checked={plan === c.plan} disabled={!selling} onChange={() => onPlan(c.plan)} />
               <span className="fl-radio" aria-hidden="true" />
               <span className="fl-choice-body">
                 <span className="fl-choice-head">
@@ -353,13 +366,25 @@ function PlanStep({ plan, onPlan, onNext }: { plan: StartPlan; onPlan: (p: Start
             </label>
           ))}
         </div>
-        <p className="fl-muted">Prices in Kuwaiti dinar. Pay by card, Apple Pay or Google Pay.</p>
-        <div className="fl-row is-end">
-          <button type="button" className="fl-btn" onClick={onNext}>
-            Continue
-          </button>
-        </div>
+        <p className="fl-muted">Prices include VAT where it applies. Pay by card, Apple Pay or Google Pay.</p>
+        {selling && (
+          <div className="fl-row is-end">
+            <button type="button" className="fl-btn" onClick={onNext}>
+              Continue
+            </button>
+          </div>
+        )}
       </fieldset>
+
+      {!selling && (
+        <>
+          <div className="fl-card fl-soon" id="waitlist">
+            <h2>{`Coming to ${place} soon`}</h2>
+            <p>We are open in Kuwait, Saudi Arabia, the UAE, Qatar, Bahrain and Oman. Leave your email and we will write to you when we open in your country. You won't be charged anything.</p>
+          </div>
+          <WaitlistForm source="start-country" lang={lang} country={country} bare />
+        </>
+      )}
       <p className="fl-muted">
         Just looking? <Link to="/new" className="fl-link">Try the analysis on your device first</Link>
       </p>
@@ -384,7 +409,7 @@ function GenderStep({
     <>
       <FlowHead muted="Who is" strong="this for?" lead="Plans and reviewers are matched to men and women separately." />
       <fieldset className="fl-card" style={{ border: 0, margin: 0 }}>
-        <legend className="fl-muted" style={{ padding: 0, marginBottom: 10 }}>
+        <legend className="fl-muted fl-legend">
           I am
         </legend>
         <div className="fl-choices is-2">
@@ -435,6 +460,7 @@ function GenderStep({
 
 function PayStep({
   lang,
+  country,
   plan,
   email,
   signedIn,
@@ -446,6 +472,7 @@ function PayStep({
   onSignIn,
 }: {
   lang: Lang;
+  country: CountryCode;
   plan: StartPlan;
   email: string | null;
   signedIn: boolean;
@@ -456,8 +483,11 @@ function PayStep({
   onChangePlan: () => void;
   onSignIn: () => void;
 }) {
-  const info = PLANS[plan];
-  const title = plan === "report" ? "Report only" : plan === "report_membership_monthly" ? "Report + monthly membership" : "Report + yearly membership";
+  const report = fmt(priceFor("report", country), lang);
+  const monthly = fmt(priceFor("monthly", country), lang);
+  const yearly = fmt(priceFor("yearly", country), lang);
+  const recurring = plan !== "report";
+  const title = plan === "report" ? "Report only" : plan === "report_membership_monthly" ? "Report + monthly membership" : "Report + 12-month membership";
   const stop = error?.code === "under_18";
   return (
     <>
@@ -467,19 +497,21 @@ function PayStep({
           <dt>Selected plan</dt>
           <dd>{title}</dd>
           <dt>Due today</dt>
-          <dd>{kwd(info.dueNowKwd)}</dd>
-          {info.recurringKwd !== null && (
+          <dd className="fl-amount">{report}</dd>
+          {recurring && (
             <>
               <dt>Then</dt>
               <dd>
-                {info.interval === "monthly"
-                  ? `${amt(info.recurringKwd)} KWD a month, starting ${info.trialDays} days after you pay`
-                  : `${amt(info.recurringKwd)} KWD for 12 months, starting ${info.trialDays} days after you pay, then ${amt(PRICES_KWD.membership_monthly)} KWD a month`}
+                {plan === "report_membership_monthly"
+                  ? `${monthly} a month, starting ${BUNDLE_TRIAL_DAYS} days after you pay`
+                  : `${yearly} for 12 months, starting ${BUNDLE_TRIAL_DAYS} days after you pay, then ${monthly} a month`}
               </dd>
             </>
           )}
           <dt>Membership</dt>
-          <dd>{info.recurringKwd === null ? `${BUNDLE_TRIAL_DAYS} days included, then it ends` : `${BUNDLE_TRIAL_DAYS} days included, then renews until you cancel`}</dd>
+          <dd>{recurring ? `${BUNDLE_TRIAL_DAYS} days included, then renews until you cancel` : `${BUNDLE_TRIAL_DAYS} days included, then it ends`}</dd>
+          <dt>Country</dt>
+          <dd>{countryName(country, lang)}</dd>
           {email && (
             <>
               <dt>Account</dt>
@@ -492,7 +524,8 @@ function PayStep({
             </>
           )}
         </dl>
-        {info.recurringKwd !== null && <p className="fl-muted">You can cancel the membership any time before it renews, and you won't be charged again.</p>}
+        <p className="fl-muted">Prices include VAT where it applies.</p>
+        {recurring && <p className="fl-muted">You can cancel the membership any time before it renews, and you won't be charged again.</p>}
         <p className="fl-muted">
           You pay on a secure Stripe page by card, Apple Pay or Google Pay. After paying you come back here to take your photos. Your reviewer has 72 hours from when you send your
           photos.
@@ -503,24 +536,29 @@ function PayStep({
             {error.code === "already_member" && plan !== "report" && (
               <div className="fl-row" style={{ marginTop: 10 }}>
                 <button type="button" className="fl-btn is-ghost" onClick={onReportOnly}>
-                  {`Buy the report only (${amt(PRICES_KWD.report)} KWD)`}
+                  {`Buy the report only (${report})`}
                 </button>
                 <Link to={flowHref("/account", lang)} className="fl-link">
                   See my membership
                 </Link>
               </div>
             )}
+            {error.code === "country_not_available" && (
+              <div className="fl-row" style={{ marginTop: 10 }}>
+                <CountrySelect lang={lang} label={lang === "ar" ? "دولتك" : "Your country"} />
+              </div>
+            )}
           </div>
         )}
         {!stop && (
-          <div className="fl-row" style={{ justifyContent: "space-between" }}>
+          <div className="fl-row is-split">
             <button type="button" className="fl-btn is-ghost" onClick={onChangePlan} disabled={busy}>
               Change plan
             </button>
             {signedIn ? (
               <button type="button" className="fl-btn" onClick={onPay} disabled={busy} aria-busy={busy || undefined}>
                 {busy && <Spinner />}
-                {busy ? "Opening the payment page…" : `Continue to payment (${amt(info.dueNowKwd)} KWD)`}
+                {busy ? "Opening the payment page…" : `Continue to payment (${report})`}
               </button>
             ) : (
               <button type="button" className="fl-btn" onClick={onSignIn}>

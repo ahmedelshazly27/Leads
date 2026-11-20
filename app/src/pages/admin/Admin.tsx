@@ -2,26 +2,32 @@
  * Operator dashboard (/admin): revenue, unit economics, marketing, orders,
  * waitlist and exchange rates. Admin accounts only; English only.
  *
- * Data comes from loadOperatorDashboard (lib/backend/admin.ts): the same rows
- * in Supabase and demo mode (VITE_BACKEND_MOCK=1). USD / EUR amounts are
- * converted with the fx_rates table; a missing rate shows as "rate missing",
- * never as zero.
+ * Data comes from useOperatorDashboard (lib/backend/admin.ts): the same rows
+ * in Supabase and demo mode (VITE_BACKEND_MOCK=1). Customers pay in their
+ * country's currency (KWD, SAR, AED, QAR, BHD, OMR); every amount is shown
+ * in the selected currency (EUR, the books' currency, by default; KWD or
+ * USD on request), converted with the fx_rates table. A missing rate shows
+ * as "rate missing", never as zero. The Markets table keeps the raw amounts
+ * per country and currency.
  */
-import { useEffect, useMemo, useRef, useState, type FormEvent, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useMemo, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { Empty, Toggle } from "../../components/ui";
 import { BRAND_NAME } from "../../lib/brand";
 import {
   ADMIN_AUDIT_ACTIONS,
   ADMIN_RANGES,
-  FX_EDITABLE,
+  DEFAULT_REPORT_CURRENCY,
   ORDER_STATUS_ORDER,
+  REPORT_CURRENCIES,
   SLA_HOURS,
   backendMode,
   isIncluded,
   isMock,
   mockBackend,
-  ordersToCsv,
+  fxStale,
+  operatorOrdersToCsv,
+  saveFxPeg,
   saveFxRate,
   signOut,
   supabase,
@@ -33,13 +39,15 @@ import {
   waitlistToCsv,
   type AdminAuditEvent,
   type AdminRange,
-  type FxCurrency,
+  type FxRate,
   type MarketingSummary,
   type OperatorDashboard,
   type OperatorOrder,
   type OrderStatus,
+  type ReportCurrency,
   type SubscriptionRow,
 } from "../../lib/backend";
+import { countryName } from "../../lib/pricing";
 import { StaffOnly } from "../review/StaffOnly";
 import { ENGLISH_ONLY } from "../review/serverShared";
 import { BarList, LineChart, SERIES } from "./charts";
@@ -61,19 +69,30 @@ const STATUS_LABEL: Record<OrderStatus, string> = {
 
 const int = (n: number) => n.toLocaleString("en");
 const kwdNum = (n: number, d = 3) => n.toLocaleString("en", { minimumFractionDigits: d, maximumFractionDigits: d });
+/** Decimals shown for a currency: 3 for the dinars and the rial (KWD, BHD, OMR), 2 otherwise. */
+const decimals = (cur: string) => (cur === "KWD" || cur === "BHD" || cur === "OMR" ? 3 : 2);
+const fmtMoney = (n: number, cur: string) => `${kwdNum(n, decimals(cur))} ${cur}`;
+/** The currency every dashboard amount is shown in. */
+const CurrencyCtx = createContext<string>(DEFAULT_REPORT_CURRENCY);
+const country = (code: string | null | undefined) => (code ? `${countryName(code, "en")} (${code})` : "Not recorded");
 const pct = (x: number | null, d = 0) => (x == null ? "—" : `${(x * 100).toFixed(d)}%`);
 const ratio = (x: number | null) => (x == null ? "—" : `${x.toFixed(2)}×`);
 const dateTime = (iso: string | null) =>
   iso ? new Date(iso).toLocaleString("en-GB", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit", timeZone: "Asia/Kuwait" }) : "—";
 const day = (d: string) => new Date(`${d}T12:00:00Z`).toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short", timeZone: "UTC" });
 
-/** A KWD amount; null means a needed exchange rate is missing (or nothing to show). */
-function Kwd({ v, fx, d = 3, plain }: { v: number | null | undefined; fx: boolean; d?: number; plain?: boolean }) {
+/**
+ * An amount in the dashboard currency (or `cur`); null means a needed
+ * exchange rate is missing (or nothing to show).
+ */
+function Money({ v, fx, d, plain, cur }: { v: number | null | undefined; fx: boolean; d?: number; plain?: boolean; cur?: string }) {
+  const ctx = useContext(CurrencyCtx);
+  const c = cur ?? ctx;
   if (v == null) return fx ? <span className="ad-missing">rate missing</span> : <span className="ad-dim">—</span>;
   return (
     <span className={`ad-num${!plain && v < 0 ? " is-neg" : ""}`}>
-      {kwdNum(v, d)}
-      <small> KWD</small>
+      {kwdNum(v, d ?? decimals(c))}
+      <small> {c}</small>
     </span>
   );
 }
@@ -151,15 +170,36 @@ function readRange(): AdminRange {
   return "30d";
 }
 
+const CURRENCY_KEY = "admin-currency";
+function readCurrency(): ReportCurrency {
+  try {
+    const v = localStorage.getItem(CURRENCY_KEY);
+    if (v && (REPORT_CURRENCIES as readonly string[]).includes(v)) return v as ReportCurrency;
+  } catch {
+    /* storage blocked */
+  }
+  return DEFAULT_REPORT_CURRENCY;
+}
+const CURRENCY_OPTIONS = REPORT_CURRENCIES.map((c) => ({ value: c, label: c }));
+
 function Dashboard() {
   const [range, setRange] = useState<AdminRange>(readRange);
-  const q = useOperatorDashboard(range);
+  const [currency, setCurrency] = useState<ReportCurrency>(readCurrency);
+  const q = useOperatorDashboard(range, true, currency);
   const members = useIncludedMembers();
   // Keep the previous frame while a new range loads (no flash, no layout jump).
   const last = useRef<OperatorDashboard | undefined>(undefined);
   if (q.data) last.current = q.data;
   const data = q.data ?? last.current;
 
+  const chooseCurrency = (c: ReportCurrency) => {
+    setCurrency(c);
+    try {
+      localStorage.setItem(CURRENCY_KEY, c);
+    } catch {
+      /* storage blocked */
+    }
+  };
   const choose = (r: AdminRange) => {
     setRange(r);
     try {
@@ -170,18 +210,21 @@ function Dashboard() {
   };
 
   return (
-    <>
+    <CurrencyCtx.Provider value={data?.currency ?? currency}>
       <div className="ad-head">
         <div>
           <h1 className="title-lg">
             <span className="hl">Operator</span> dashboard
           </h1>
           <p className="ad-sub">
-            {data ? `Updated ${dateTime(data.generatedAt)} (Kuwait time). Amounts in KWD.` : "Loading…"}
+            {data
+              ? `Updated ${dateTime(data.generatedAt)} (Kuwait time). Amounts in ${data.currency}${data.currency === "EUR" ? " (the books' currency)" : ", converted from EUR rates"}; per-country amounts in their own currency under Markets.`
+              : "Loading…"}
             {q.loading && data ? " Refreshing…" : ""}
           </p>
         </div>
         <div className="ad-filters">
+          <Toggle value={currency} options={CURRENCY_OPTIONS} onChange={chooseCurrency} />
           <Toggle value={range} options={ADMIN_RANGES} onChange={choose} />
           <button type="button" className="btn btn-ghost ad-btn-sm" onClick={q.refresh} disabled={q.loading}>
             Refresh
@@ -201,6 +244,11 @@ function Dashboard() {
             <div className="ad-alert is-warn" role="status">
               No exchange rate for {data.fxMissing.join(", ")}: amounts in {data.fxMissing.length > 1 ? "these currencies" : "this currency"} show as "rate missing". Set the rate under Exchange rates
               below.
+            </div>
+          )}
+          {data.fxStale.length > 0 && (
+            <div className="ad-alert is-warn" role="status">
+              {`Exchange rate${data.fxStale.length > 1 ? "s" : ""} for ${data.fxStale.join(", ")} ${data.fxStale.length > 1 ? "are" : "is"} out of date (KWD needs a daily update). Update under Exchange rates below.`}
             </div>
           )}
           {data.warnings.map((w) => (
@@ -223,6 +271,7 @@ function Dashboard() {
             </Section>
           </div>
           <Economics d={data} />
+          <Markets d={data} />
           <Marketing d={data} />
           <Orders d={data} />
           <div className="ad-grid-2">
@@ -231,7 +280,7 @@ function Dashboard() {
           </div>
         </div>
       )}
-    </>
+    </CurrencyCtx.Provider>
   );
 }
 
@@ -305,6 +354,7 @@ const ACTION_LABEL: Record<AdminAuditEvent["action"], string> = {
   "orders.cancelled_consent_withdrawn": "Cancelled: photo consent withdrawn",
   "stripe.schedule_failed": "Yearly schedule failed",
   "orders.changes_requested": "Changes requested",
+  "checkout.country_mismatch": "Billing country differs",
 };
 
 const str = (v: unknown): string | null => (typeof v === "string" && v ? v : null);
@@ -319,7 +369,7 @@ function suggestedRefund(details: Record<string, unknown>): { text: string; tone
   const policy = str(details.refund_policy);
   const amt = amount(details.amount);
   const cur = str(details.currency) ?? "KWD";
-  const price = amt == null ? "the price paid" : `${kwdNum(amt)} ${cur}`;
+  const price = amt == null ? "the price paid" : fmtMoney(amt, cur);
   if (policy === "full") return { text: `Full refund: ${price} (review had not started)`, tone: "warn" };
   if (policy === "partial") return { text: `Partial refund: ${price} less a fair amount for the review work already done. Decide the amount and refund in Stripe.`, tone: "warn" };
   if (policy && policy.startsWith("none")) return { text: "No refund: included check-in, nothing was paid" };
@@ -341,9 +391,18 @@ function eventSummary(e: AdminAuditEvent): { what: string; action?: { text: stri
     return {
       what: [sub ? `Subscription ${sub}` : null, on ? `on ${on}` : null, err].filter(Boolean).join(" · "),
       action: {
-        text: "The Stripe schedule that moves this yearly plan to 5 KWD/month after its 12 months could not be set up. Create it in Stripe by hand before the year ends.",
+        text: "The Stripe schedule that moves this yearly plan to the monthly price (same currency) after its 12 months could not be set up. Create it in Stripe by hand before the year ends.",
         tone: "warn",
       },
+    };
+  }
+  if (e.action === "checkout.country_mismatch") {
+    const chosen = str(x.country);
+    const billing = str(x.billing_country);
+    const cur = str(x.currency);
+    return {
+      what: [chosen ? `Chose ${chosen}${cur ? ` (paid in ${cur})` : ""}` : null, billing ? `card billing address in ${billing}` : null].filter(Boolean).join(" · "),
+      action: { text: "The sale went through at the chosen country's price. Check with your accountant which country's VAT applies." },
     };
   }
   const throttled = x.throttled === true;
@@ -375,7 +434,7 @@ function Attention({ d }: { d: OperatorDashboard }) {
       // nothing to refund (included check-in): informational, like the time window
       if (str(e.details.refund_policy)?.startsWith("none")) return Date.parse(e.created_at) >= since;
       // handled once any refund is recorded (a partial refund leaves the order "cancelled")
-      return o.status !== "refunded" && !((o.refundedKwd ?? 0) > 0);
+      return o.status !== "refunded" && !((o.refundedRep ?? 0) > 0);
     }
     return Date.parse(e.created_at) >= since;
   });
@@ -386,7 +445,7 @@ function Attention({ d }: { d: OperatorDashboard }) {
     <Section
       title="Needs attention"
       id="attention"
-      note={`Consent-withdrawn cancellations (with the refund the policy suggests), failed yearly schedules and changes requests, from the audit log. ${showAll ? `Showing the last ${AUDIT_LIMIT} events.` : `Open items (and anything from the last ${ATTENTION_DAYS} days whose order is outside the range).`}`}
+      note={`Consent-withdrawn cancellations (with the refund the policy suggests), failed yearly schedules, changes requests and checkouts whose billing country differs from the chosen one, from the audit log. ${showAll ? `Showing the last ${AUDIT_LIMIT} events.` : `Open items (and anything from the last ${ATTENTION_DAYS} days whose order is outside the range).`}`}
       right={
         <label className="ad-check">
           <input type="checkbox" checked={showAll} onChange={(e) => setShowAll(e.target.checked)} /> Include handled
@@ -468,20 +527,20 @@ function KpiRow({ d, members }: { d: OperatorDashboard; members: IncludedMembers
   const mrr = k.mrr;
   return (
     <div className="ad-kpis">
-      <Stat label="Revenue after refunds" sub={k.refundedKwd ? <>Refunds <Kwd v={k.refundedKwd} fx={fx} plain /></> : "No refunds"}>
-        <Kwd v={k.revenueKwd} fx={fx} />
+      <Stat label="Revenue after refunds" sub={k.refundedRep ? <>Refunds <Money v={k.refundedRep} fx={fx} plain /></> : "No refunds"}>
+        <Money v={k.revenueRep} fx={fx} />
       </Stat>
       <Stat label="Gross revenue" sub="Before refunds">
-        <Kwd v={k.grossRevenueKwd} fx={fx} />
+        <Money v={k.grossRevenueRep} fx={fx} />
       </Stat>
-      <Stat label="Refunds" tone={k.refundedKwd ? "warn" : undefined}>
-        <Kwd v={k.refundedKwd} fx={fx} plain />
+      <Stat label="Refunds" tone={k.refundedRep ? "warn" : undefined}>
+        <Money v={k.refundedRep} fx={fx} plain />
       </Stat>
       <Stat label="Orders" sub={`${int(k.delivered)} delivered in range`}>
         {int(k.orders)}
       </Stat>
-      <Stat label="MRR" sub={mrr.trialing ? <>{int(mrr.trialing)} in trial (<Kwd v={mrr.trialingMrrKwd} fx={mrr.dataMissing} plain /> once paying)</> : "Now, not range-bound"}>
-        <Kwd v={mrr.mrrKwd} fx={mrr.dataMissing} />
+      <Stat label="MRR" sub={mrr.trialing ? <>{int(mrr.trialing)} in trial (<Money v={mrr.trialingMrrRep} fx={mrr.dataMissing} plain /> once paying)</> : "Now, not range-bound"}>
+        <Money v={mrr.mrrRep} fx={mrr.dataMissing} />
       </Stat>
       <Stat label="Active members" sub={[mrr.pastDue ? `${mrr.pastDue} past due` : null, mrr.cancelling ? `${mrr.cancelling} cancelling` : null].filter(Boolean).join(" · ") || "Paying subscriptions"} tone={mrr.pastDue ? "warn" : undefined}>
         {int(mrr.active)}
@@ -509,15 +568,15 @@ function KpiRow({ d, members }: { d: OperatorDashboard; members: IncludedMembers
 
 function RevenueChart({ d }: { d: OperatorDashboard }) {
   const fx = d.fxMissing.length > 0;
-  const fmt = (v: number | null) => (v == null ? (fx ? "rate missing" : "—") : `${kwdNum(v)} KWD`);
-  const hasAds = d.daily.some((x) => x.adSpendKwd);
+  const fmt = (v: number | null) => (v == null ? (fx ? "rate missing" : "—") : fmtMoney(v, d.currency));
+  const hasAds = d.daily.some((x) => x.adSpendRep);
   const series = [
-    { key: "rev", name: "Revenue", color: SERIES.revenue, values: d.daily.map((x) => x.revenueKwd) },
-    ...(hasAds ? [{ key: "ads", name: "Ad spend", color: SERIES.adSpend, values: d.daily.map((x) => x.adSpendKwd) }] : []),
+    { key: "rev", name: "Revenue", color: SERIES.revenue, values: d.daily.map((x) => x.revenueRep) },
+    ...(hasAds ? [{ key: "ads", name: "Ad spend", color: SERIES.adSpend, values: d.daily.map((x) => x.adSpendRep) }] : []),
   ];
   return (
     <>
-      <LineChart dates={d.daily.map((x) => x.date)} series={series} unit="KWD" format={fmt} />
+      <LineChart dates={d.daily.map((x) => x.date)} series={series} unit={d.currency} format={fmt} />
       <details className="ad-details">
         <summary>Data table</summary>
         <div className="ad-table-wrap is-short">
@@ -535,10 +594,10 @@ function RevenueChart({ d }: { d: OperatorDashboard }) {
                 <tr key={x.date}>
                   <td>{day(x.date)}</td>
                   <td className="r">
-                    <Kwd v={x.revenueKwd} fx={fx} />
+                    <Money v={x.revenueRep} fx={fx} />
                   </td>
                   <td className="r">
-                    <Kwd v={x.adSpendKwd} fx={fx} plain />
+                    <Money v={x.adSpendRep} fx={fx} plain />
                   </td>
                   <td className="r">{x.orders}</td>
                 </tr>
@@ -569,6 +628,8 @@ function Economics({ d }: { d: OperatorDashboard }) {
   const e = d.economics;
   const fx = d.fxMissing.length > 0;
   const usdRate = d.fx.find((r) => r.currency === "USD");
+  const target = d.fx.find((r) => r.currency === d.currency);
+  const usdIn = usdRate?.eur_per_unit && (d.currency === "EUR" ? 1 : target?.eur_per_unit) ? usdRate.eur_per_unit / (d.currency === "EUR" ? 1 : target!.eur_per_unit!) : null;
   return (
     <Section
       title="Unit economics"
@@ -576,7 +637,7 @@ function Economics({ d }: { d: OperatorDashboard }) {
       note={
         <>
           Paid orders created in the range ({int(e.orders)}). Image cost is converted from USD at{" "}
-          {usdRate ? `${usdRate.kwd_per_unit} KWD per USD` : <span className="ad-missing">rate missing</span>}. Gross margin = revenue − payment fees − image cost − other order costs.
+          {d.currency === "USD" ? "1:1" : usdIn ? `${usdIn.toFixed(decimals(d.currency) + 1)} ${d.currency} per USD` : <span className="ad-missing">rate missing</span>}. Gross margin = revenue − payment fees − image cost − other order costs.
         </>
       }
     >
@@ -584,16 +645,16 @@ function Economics({ d }: { d: OperatorDashboard }) {
         <dl className="ad-dl">
           <h3>Per order (average)</h3>
           <Row label="Revenue">
-            <Kwd v={e.perOrder.revenueKwd} fx={fx} />
+            <Money v={e.perOrder.revenueRep} fx={fx} />
           </Row>
           <Row label="Payment fee">
-            <Kwd v={e.perOrder.paymentFeeKwd} fx={fx} plain />
+            <Money v={e.perOrder.paymentFeeRep} fx={fx} plain />
           </Row>
           <Row label="Image generation">
-            <Kwd v={e.perOrder.imageCostKwd} fx={fx} plain />
+            <Money v={e.perOrder.imageCostRep} fx={fx} plain />
           </Row>
           <Row label="Gross margin" hint={e.marginShare == null ? undefined : `${pct(e.marginShare, 1)} of revenue`}>
-            <Kwd v={e.perOrder.marginKwd} fx={fx} />
+            <Money v={e.perOrder.marginRep} fx={fx} />
           </Row>
         </dl>
         <dl className="ad-dl">
@@ -603,25 +664,25 @@ function Economics({ d }: { d: OperatorDashboard }) {
           </Row>
           <Row label="Orders per customer">{e.perCustomer.orders == null ? "—" : e.perCustomer.orders.toFixed(2)}</Row>
           <Row label="Revenue" hint="Orders and membership payments">
-            <Kwd v={e.perCustomer.revenueKwd} fx={fx} />
+            <Money v={e.perCustomer.revenueRep} fx={fx} />
           </Row>
           <Row label="Gross margin">
-            <Kwd v={e.perCustomer.marginKwd} fx={fx} />
+            <Money v={e.perCustomer.marginRep} fx={fx} />
           </Row>
           <Row label="Membership revenue (total)">
-            <Kwd v={e.membershipRevenueKwd} fx={fx} />
+            <Money v={e.membershipRevenueRep} fx={fx} />
           </Row>
         </dl>
         <dl className="ad-dl">
           <h3>Image generation</h3>
           <Row label="Total cost" hint={`${e.imageCostUsd.toFixed(2)} USD`}>
-            <Kwd v={e.imageCostKwd} fx={fx} plain />
+            <Money v={e.imageCostRep} fx={fx} plain />
           </Row>
           <Row label="Per order with images" hint={`${int(e.ordersWithGenerations)} orders`}>
-            <Kwd v={e.imageCostPerOrderKwd} fx={fx} plain />
+            <Money v={e.imageCostPerOrderRep} fx={fx} plain />
           </Row>
           <Row label="Per generation" hint={e.imageCostPerGenerationUsd == null ? undefined : `${e.imageCostPerGenerationUsd.toFixed(4)} USD`}>
-            <Kwd v={e.imageCostPerGenerationKwd} fx={fx} plain />
+            <Money v={e.imageCostPerGenerationRep} fx={fx} plain />
           </Row>
           <Row label="Generations">{int(e.generations)}</Row>
           <Row label="Regenerations" hint={e.regenerations == null ? "Not known (generations without parent_id)" : e.generations ? `${pct(e.regenerations / e.generations)} of generations · refined from an earlier attempt` : undefined}>
@@ -631,21 +692,102 @@ function Economics({ d }: { d: OperatorDashboard }) {
       </div>
       <div className="ad-totals">
         <span>
-          Revenue <Kwd v={e.revenueKwd} fx={fx} />
+          Revenue <Money v={e.revenueRep} fx={fx} />
         </span>
         <span>
-          Payment fees <Kwd v={e.paymentFeeKwd} fx={fx} plain />
+          Payment fees <Money v={e.paymentFeeRep} fx={fx} plain />
         </span>
         <span>
-          Image cost <Kwd v={e.imageCostKwd} fx={fx} plain />
+          Image cost <Money v={e.imageCostRep} fx={fx} plain />
         </span>
         <span>
-          Other costs <Kwd v={e.otherCostKwd} fx={fx} plain />
+          Other costs <Money v={e.otherCostRep} fx={fx} plain />
         </span>
         <span>
-          Gross margin <Kwd v={e.marginKwd} fx={fx} />
+          Gross margin <Money v={e.marginRep} fx={fx} />
         </span>
       </div>
+    </Section>
+  );
+}
+
+/* ------------------------------ Markets ---------------------------- */
+
+function Markets({ d }: { d: OperatorDashboard }) {
+  const fx = d.fxMissing.length > 0;
+  const rows = d.markets;
+  const currencies = [...new Set(rows.map((m) => m.currency))].sort();
+  return (
+    <Section
+      title="Markets"
+      id="markets"
+      note={`Per country and the currency it paid in. Gross, refunds and net are in that currency; the converted columns are in ${d.currency}. Payments in the range; members and MRR are now. "Not recorded" = orders from before multi-currency.`}
+    >
+      {!rows.length ? (
+        <p className="ad-dim">No payments in this range.</p>
+      ) : (
+        <>
+          <div className="ad-table-wrap">
+            <table className="ad-table">
+              <thead>
+                <tr>
+                  <th>Country</th>
+                  <th>Currency</th>
+                  <th className="r">Orders</th>
+                  <th className="r">Paying customers</th>
+                  <th className="r">Gross</th>
+                  <th className="r">Refunds</th>
+                  <th className="r">Net</th>
+                  <th className="r">Net ({d.currency})</th>
+                  <th className="r">Share</th>
+                  <th className="r">Members</th>
+                  <th className="r">MRR ({d.currency})</th>
+                </tr>
+              </thead>
+              <tbody>
+                {rows.map((m) => (
+                  <tr key={`${m.country ?? ""}|${m.currency}`}>
+                    <td>{m.country ? country(m.country) : <span className="ad-dim">Not recorded</span>}</td>
+                    <td>{m.currency}</td>
+                    <td className="r">{int(m.orders)}</td>
+                    <td className="r">{int(m.payingCustomers)}</td>
+                    <td className="r">
+                      <Money v={m.gross} fx={false} cur={m.currency} plain />
+                    </td>
+                    <td className="r">{m.refunds ? <Money v={m.refunds} fx={false} cur={m.currency} plain /> : <span className="ad-dim">—</span>}</td>
+                    <td className="r">
+                      <Money v={m.net} fx={false} cur={m.currency} />
+                    </td>
+                    <td className="r">
+                      <Money v={m.netRep} fx={fx} />
+                    </td>
+                    <td className="r">{pct(m.share)}</td>
+                    <td className="r">{int(m.activeMembers)}</td>
+                    <td className="r">{m.activeMembers ? <Money v={m.mrrRep} fx={fx} plain /> : <span className="ad-dim">—</span>}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          {currencies.length > 1 && (
+            <>
+              <h3 className="ad-h3">Per currency</h3>
+              <div className="ad-totals">
+                {currencies.map((c) => {
+                  const of = rows.filter((m) => m.currency === c);
+                  const net = of.reduce((a, m) => a + m.net, 0);
+                  const rep = of.some((m) => m.netRep == null) ? null : of.reduce((a, m) => a + (m.netRep ?? 0), 0);
+                  return (
+                    <span key={c}>
+                      {c} <Money v={net} fx={false} cur={c} /> <small className="ad-dim">≈</small> <Money v={rep} fx={fx} plain />
+                    </span>
+                  );
+                })}
+              </div>
+            </>
+          )}
+        </>
+      )}
     </Section>
   );
 }
@@ -689,7 +831,7 @@ function Marketing({ d }: { d: OperatorDashboard }) {
         <>
           <div className="ad-kpis is-compact">
             <Stat label="Spend">
-              <Kwd v={m.spendKwd} fx={fx} plain />
+              <Money v={m.spendRep} fx={fx} plain />
             </Stat>
             <Stat label="Impressions">{int(m.impressions)}</Stat>
             <Stat label="Clicks" sub={`CTR ${pct(m.ctr, 2)}`}>
@@ -699,7 +841,7 @@ function Marketing({ d }: { d: OperatorDashboard }) {
               {int(m.purchases)}
             </Stat>
             <Stat label="CAC" sub={`${int(m.newPayingCustomers)} new paying customers`}>
-              <Kwd v={m.cacKwd} fx={fx} plain />
+              <Money v={m.cacRep} fx={fx} plain />
             </Stat>
             <Stat label="ROAS" sub="Revenue after refunds / spend">
               {ratio(m.roas)}
@@ -733,14 +875,14 @@ function Marketing({ d }: { d: OperatorDashboard }) {
                     </td>
                     {scope === "all" && <td className="cap">{c.platform}</td>}
                     <td className="r">
-                      <Kwd v={c.spendKwd} fx={fx} plain />
+                      <Money v={c.spendRep} fx={fx} plain />
                     </td>
                     <td className="r">{int(c.impressions)}</td>
                     <td className="r">{int(c.clicks)}</td>
                     <td className="r">{pct(c.ctr, 2)}</td>
                     <td className="r">{int(c.purchases)}</td>
                     <td className="r">
-                      <Kwd v={c.cpaKwd} fx={fx && c.spendKwd == null} plain />
+                      <Money v={c.cpaRep} fx={fx && c.spendRep == null} plain />
                     </td>
                     <td className="r">{ratio(c.estRoas)}</td>
                   </tr>
@@ -769,17 +911,17 @@ function Marketing({ d }: { d: OperatorDashboard }) {
                   <tr key={x.date}>
                     <td>{day(x.date)}</td>
                     <td className="r">
-                      <Kwd v={x.spendKwd} fx={fx} plain />
+                      <Money v={x.spendRep} fx={fx} plain />
                     </td>
                     <td className="r">{int(x.impressions)}</td>
                     <td className="r">{int(x.clicks)}</td>
                     <td className="r">{int(x.purchases)}</td>
                     <td className="r">{int(x.newCustomers)}</td>
                     <td className="r">
-                      <Kwd v={x.revenueKwd} fx={fx} />
+                      <Money v={x.revenueRep} fx={fx} />
                     </td>
                     <td className="r">
-                      <Kwd v={x.cacKwd} fx={fx && x.spendKwd == null} plain />
+                      <Money v={x.cacRep} fx={fx && x.spendRep == null} plain />
                     </td>
                     <td className="r">{ratio(x.roas)}</td>
                   </tr>
@@ -827,7 +969,7 @@ function Orders({ d }: { d: OperatorDashboard }) {
       id="orders"
       note="Orders created in the range, plus every open review order."
       right={
-        <button type="button" className="btn btn-ghost ad-btn-sm" onClick={() => download(`orders-${d.range}-${stamp()}.csv`, ordersToCsv(list))} disabled={!list.length}>
+        <button type="button" className="btn btn-ghost ad-btn-sm" onClick={() => download(`orders-${d.range}-${d.currency}-${stamp()}.csv`, operatorOrdersToCsv(list, d.currency))} disabled={!list.length}>
           Export CSV ({int(list.length)})
         </button>
       }
@@ -861,6 +1003,7 @@ function Orders({ d }: { d: OperatorDashboard }) {
               <tr>
                 <th>Created</th>
                 <th>Customer</th>
+                <th>Country</th>
                 <th>Product</th>
                 <th>Status</th>
                 <th>Due</th>
@@ -893,23 +1036,26 @@ function OrderRowView({ o, fx }: { o: OperatorOrder; fx: boolean }) {
     <tr className={o.overdue ? "is-overdue" : ""}>
       <td className="nowrap">{dateTime(o.created_at)}</td>
       <td className="ad-ellipsis">{o.user_id ? o.email ?? <span className="ad-dim">No email</span> : <span className="ad-dim">Deleted account</span>}</td>
+      <td className="nowrap" title={o.country ? country(o.country) : "Not recorded (before multi-currency)"}>
+        {o.country ?? <span className="ad-dim">—</span>} <small className="ad-dim">{o.currency}</small>
+      </td>
       <td className="cap">{o.product === "checkin" ? "Check-in" : "Report"}</td>
       <td>
         <span className={`ad-status s-${o.status}`}>{STATUS_LABEL[o.status]}</span>
       </td>
       <td className="nowrap">{o.overdue ? <span className="ad-overdue">Overdue · {dateTime(o.due_at)}</span> : dateTime(o.due_at)}</td>
-      <td className="r">
-        <Kwd v={o.revenueKwd} fx={fx} />
+      <td className="r" title={o.revenue == null ? undefined : `Paid ${fmtMoney(o.revenue, o.currency)}`}>
+        <Money v={o.revenueRep} fx={fx} />
       </td>
       <td className="r">
-        <Kwd v={o.paymentFeeKwd} fx={fx} plain />
+        <Money v={o.paymentFeeRep} fx={fx} plain />
       </td>
       <td className="r" title={`${o.generations} generation(s)${o.regenerations != null ? `, ${o.regenerations} regenerated` : ""}, ${o.imageCostUsd.toFixed(2)} USD`}>
-        <Kwd v={o.imageCostKwd} fx={fx} plain />
+        <Money v={o.imageCostRep} fx={fx} plain />
         <small className="ad-dim"> · {o.generations}</small>
       </td>
       <td className="r">
-        <Kwd v={o.marginKwd} fx={fx} />
+        <Money v={o.marginRep} fx={fx} />
       </td>
       <td className="r">
         <Link to={`/review/orders/${o.order_id}`} className="ad-link">
@@ -961,6 +1107,7 @@ function Waitlist({ d }: { d: OperatorDashboard }) {
                 <th>Email</th>
                 <th>Gender</th>
                 <th>Locale</th>
+                <th>Country</th>
                 <th>Source</th>
               </tr>
             </thead>
@@ -971,6 +1118,7 @@ function Waitlist({ d }: { d: OperatorDashboard }) {
                   <td className="ad-ellipsis">{x.email ?? <span className="ad-dim">—</span>}</td>
                   <td className="cap">{x.gender ?? "—"}</td>
                   <td>{x.locale ?? "—"}</td>
+                  <td title={x.country ? country(x.country) : undefined}>{x.country ?? "—"}</td>
                   <td className="cap">{x.source ?? "—"}</td>
                 </tr>
               ))}
@@ -984,30 +1132,52 @@ function Waitlist({ d }: { d: OperatorDashboard }) {
 
 /* ------------------------------ FX rates --------------------------- */
 
+/** How a rate is quoted to the operator: 1 EUR = x units (the usual quote, e.g. ECB 1 EUR = 1.08 USD). */
+const perEur = (r: FxRate) => (r.eur_per_unit ? 1 / r.eur_per_unit : null);
+const sig = (n: number) => Number(n.toPrecision(6)).toString();
+
 function FxEditor({ d }: { d: OperatorDashboard }) {
-  const others = d.fxMissing.filter((c) => !FX_EDITABLE.includes(c as FxCurrency));
+  const now = Date.now();
+  const order = (r: FxRate) => (r.basis === "base" ? 0 : r.basis === "manual" ? 1 : 2);
+  const rows = [...d.fx].sort((a, b) => order(a) - order(b) || a.currency.localeCompare(b.currency));
+  const known = new Set(d.fx.map((r) => r.currency));
+  const absent = d.fxMissing.filter((c) => !known.has(c));
   return (
     <Section
       title="Exchange rates"
       id="fx"
-      note="KWD per 1 unit, from the fx_rates table. Used to convert image-generation cost (USD) and ad spend into KWD. Enter the rate your accountant uses."
+      note="From the fx_rates table, in EUR (the books' currency). Set USD and KWD yourself, from the rate your accountant uses: KWD moves daily (basket peg), USD can be weekly. SAR, AED, QAR, BHD and OMR are fixed to the US dollar, so they follow the USD rate."
     >
       <div className="ad-fx">
-        {FX_EDITABLE.map((c) => (
-          <FxRow key={c} currency={c} current={d.fx.find((r) => r.currency === c) ?? null} />
+        {rows.map((r) => (r.basis === "base" ? <FxBase key={r.currency} r={r} /> : <FxRow key={r.currency} r={r} stale={fxStale(r, now)} usd={d.fx.find((x) => x.currency === "USD") ?? null} />))}
+        {absent.map((c) => (
+          <FxRow key={c} r={{ currency: c, eur_per_unit: null, basis: "manual", per_usd: null, max_age_days: null, note: "Used in the data, no rate yet.", updated_at: null }} stale={false} usd={null} />
         ))}
+        <FxAdd />
       </div>
-      {others.length > 0 && <p className="ad-note">Also missing: {others.join(", ")}. Add {others.length > 1 ? "these rates" : "this rate"} to the fx_rates table in Supabase.</p>}
       {isMock && <p className="ad-note">Demo mode: rates are kept in this browser tab only.</p>}
     </Section>
   );
 }
 
-function FxRow({ currency, current }: { currency: FxCurrency; current: { kwd_per_unit: number; updated_at: string | null } | null }) {
-  const [value, setValue] = useState(current ? String(current.kwd_per_unit) : "");
+function FxBase({ r }: { r: FxRate }) {
+  return (
+    <div className="ad-fx-row">
+      <div className="field ad-grow">
+        <label>{r.currency}</label>
+        <input value="1 (reporting currency)" readOnly aria-readonly="true" />
+      </div>
+    </div>
+  );
+}
+
+function FxRow({ r, stale, usd }: { r: FxRate; stale: boolean; usd: FxRate | null }) {
+  const pegged = r.basis === "peg";
+  const shown = pegged ? (r.per_usd != null ? sig(r.per_usd) : "") : perEur(r) != null ? sig(perEur(r)!) : "";
+  const [value, setValue] = useState(shown);
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
-  useEffect(() => setValue(current ? String(current.kwd_per_unit) : ""), [current?.kwd_per_unit]); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => setValue(shown), [shown]);
 
   async function submit(e: FormEvent) {
     e.preventDefault();
@@ -1015,7 +1185,8 @@ function FxRow({ currency, current }: { currency: FxCurrency; current: { kwd_per
     setBusy(true);
     setMsg(null);
     try {
-      await saveFxRate(currency, n);
+      if (pegged) await saveFxPeg(r.currency, n);
+      else await saveFxRate(r.currency, n);
       setMsg({ ok: true, text: "Saved." });
     } catch (err) {
       setMsg({ ok: false, text: err instanceof Error ? err.message : String(err) });
@@ -1023,18 +1194,68 @@ function FxRow({ currency, current }: { currency: FxCurrency; current: { kwd_per
       setBusy(false);
     }
   }
-  const id = `fx-${currency}`;
+  const id = `fx-${r.currency}`;
+  const eurValue = r.eur_per_unit ? `1 ${r.currency} = ${sig(r.eur_per_unit)} EUR` : null;
+  let status: ReactNode;
+  if (msg) status = msg.text;
+  else if (r.eur_per_unit == null) status = <span className="ad-missing">{pegged && !usd?.eur_per_unit ? "rate missing: set USD first" : "rate missing"}</span>;
+  else if (pegged) status = `Fixed peg to USD · ${eurValue}`;
+  else if (stale) status = <span className="ad-missing">{`Out of date (${r.updated_at ? `updated ${dateTime(r.updated_at)}` : "never confirmed"}; update every ${r.max_age_days === 1 ? "day" : `${r.max_age_days} days`}) · ${eurValue}`}</span>;
+  else status = `${r.updated_at ? `Updated ${dateTime(r.updated_at)}` : "Demo value, not yet confirmed"} · ${eurValue}`;
   return (
     <form className="ad-fx-row" onSubmit={submit} noValidate>
       <div className="field ad-grow">
-        <label htmlFor={id}>1 {currency} in KWD</label>
-        <input id={id} inputMode="decimal" value={value} onChange={(e) => setValue(e.target.value)} placeholder="e.g. 0.300" aria-describedby={`${id}-s`} />
+        <label htmlFor={id} title={r.note ?? undefined}>
+          {pegged ? `${r.currency} per 1 USD (peg)` : `${r.currency} per 1 EUR`}
+        </label>
+        <input id={id} inputMode="decimal" value={value} onChange={(e) => setValue(e.target.value)} placeholder={pegged ? "e.g. 3.75" : r.currency === "KWD" ? "e.g. 0.335" : "e.g. 1.08"} aria-describedby={`${id}-s`} />
       </div>
-      <button type="submit" className="btn ad-btn-sm" disabled={busy || !value.trim()} aria-busy={busy || undefined}>
+      <button type="submit" className="btn ad-btn-sm" disabled={busy || !value.trim() || value === shown} aria-busy={busy || undefined}>
         Save
       </button>
       <p id={`${id}-s`} className={`ad-fx-status${msg && !msg.ok ? " is-bad" : ""}`} role={msg ? "status" : undefined}>
-        {msg ? msg.text : current ? (current.updated_at ? `Updated ${dateTime(current.updated_at)}` : "Demo value, not yet confirmed") : <span className="ad-missing">rate missing</span>}
+        {status}
+      </p>
+    </form>
+  );
+}
+
+/** Add a currency that is not in the table yet (e.g. an ad account billed in another currency). */
+function FxAdd() {
+  const [code, setCode] = useState("");
+  const [value, setValue] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
+  async function submit(e: FormEvent) {
+    e.preventDefault();
+    setBusy(true);
+    setMsg(null);
+    try {
+      await saveFxRate(code, Number(value.replace(",", ".")));
+      setMsg({ ok: true, text: `Added ${code.trim().toUpperCase()}.` });
+      setCode("");
+      setValue("");
+    } catch (err) {
+      setMsg({ ok: false, text: err instanceof Error ? err.message : String(err) });
+    } finally {
+      setBusy(false);
+    }
+  }
+  return (
+    <form className="ad-fx-row" onSubmit={submit} noValidate>
+      <div className="field">
+        <label htmlFor="fx-new-code">Add currency</label>
+        <input id="fx-new-code" value={code} onChange={(e) => setCode(e.target.value.toUpperCase().slice(0, 3))} placeholder="GBP" autoComplete="off" size={5} />
+      </div>
+      <div className="field ad-grow">
+        <label htmlFor="fx-new-rate">{code.trim().length === 3 ? `${code.trim().toUpperCase()} per 1 EUR` : "Per 1 EUR"}</label>
+        <input id="fx-new-rate" inputMode="decimal" value={value} onChange={(e) => setValue(e.target.value)} placeholder="e.g. 0.85" aria-describedby="fx-new-s" />
+      </div>
+      <button type="submit" className="btn btn-ghost ad-btn-sm" disabled={busy || code.trim().length !== 3 || !value.trim()} aria-busy={busy || undefined}>
+        Add
+      </button>
+      <p id="fx-new-s" className={`ad-fx-status${msg && !msg.ok ? " is-bad" : ""}`} role={msg ? "status" : undefined}>
+        {msg?.text ?? ""}
       </p>
     </form>
   );

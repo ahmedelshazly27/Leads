@@ -344,7 +344,7 @@ export function Support() {
           lead="A person reviews your report before release and adds notes on the steps that matter. With membership, you then track your progress against your starting point in the app. Your report includes the first 30 days."
         />
         <ul className="ls-checks">
-          {["A person reviews every report", "Notes from your reviewer on the steps that matter", "Monthly check-ins against your starting point, with membership", "Specialist partners in Kuwait (coming soon)"].map((t) => (
+          {["A person reviews every report", "Notes from your reviewer on the steps that matter", "Monthly check-ins against your starting point, with membership", "Specialist partners in your country (coming soon)"].map((t) => (
             <li key={t}>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M20 6 9 17l-5-5" />

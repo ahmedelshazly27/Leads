@@ -1,7 +1,7 @@
-import type { ReactNode } from "react";
-import { dateLocale } from "../../lib/i18n";
+import { Fragment, type ReactNode } from "react";
+import { dateLocale, joinNodes } from "../../lib/i18n";
 import { SpectrumBar } from "../../components/ui";
-import type { Plan } from "../../lib/plan";
+import type { Plan, PlanItem } from "../../lib/plan";
 import type { NutritionResult } from "../../lib/nutrition";
 import type { Training } from "../../lib/training";
 import type { Currency, FaceView, Profile, Scan, Visuals } from "../../lib/types";
@@ -199,3 +199,59 @@ export function Attrs({ items }: { items: [string, ReactNode][] }) {
     </dl>
   );
 }
+
+/**
+ * A plan item's reason. Parts built from measured fragments (haircut, beard) render as
+ * separate text nodes — lead, each fragment, the separators — so each is translated on its own.
+ */
+export function WhyText({ it }: { it: Pick<PlanItem, "why" | "whyParts"> }) {
+  if (!it.whyParts?.length) return <>{it.why}</>;
+  return (
+    <>
+      {it.whyParts.map((p, i) => (
+        <Fragment key={i}>
+          {i > 0 && " "}
+          {typeof p === "string" ? (
+            p
+          ) : (
+            <>
+              {p.lead} {joinNodes(p.list, " · ")}
+              {"."}
+            </>
+          )}
+        </Fragment>
+      ))}
+    </>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Links between the two documents                                    */
+/* ------------------------------------------------------------------ */
+
+/** The two documents a delivered order links to (the plan keeps the original /protocol URL). */
+export const DOCS = {
+  plan: { path: "/protocol", title: "Your plan", open: "Open your plan" },
+  analysis: { path: "/analysis-report", title: "Detailed analysis", open: "Open the detailed analysis" },
+} as const;
+export type DocKind = keyof typeof DOCS;
+
+/** A card pointing to the other document (cover and last page). */
+export function DocLink({ to }: { to: DocKind }) {
+  const d = DOCS[to];
+  return (
+    <a className="rp-doclink" href={d.path}>
+      <span className="rp-mono">{to === "analysis" ? "The numbers behind your plan" : "What to do next"}</span>
+      <b>{d.open}</b>
+      <span className="rp-doclink-sub">
+        {to === "analysis"
+          ? "Every photo, measurement and score, with the method and research behind it."
+          : "Your 12-month plan: routines, food, training, haircut and beard, check-ins."}
+      </span>
+    </a>
+  );
+}
+
+/** Closing block of a document: where to go next. */
+export const endBlock = (to: DocKind): FlowBlock => block("end-link", <div className="rp-end"><DocLink to={to} /></div>);
+

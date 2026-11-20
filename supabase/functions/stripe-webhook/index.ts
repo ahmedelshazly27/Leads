@@ -10,13 +10,20 @@
 //   charge.refunded
 //
 // Yearly subscriptions get a schedule on customer.subscription.created so they
-// continue at the monthly price after the first year.
+// continue at the monthly price of the same currency after the first year.
+//
+// Multi-currency: every amount is stored in the currency Stripe charged
+// (orders, payments, subscriptions keep their own currency, plus the
+// customer's country from the checkout metadata). The Stripe fee is stored as
+// a cost in the settlement currency (EUR for the B.V.'s account): that is the
+// exact amount Stripe kept. The dashboards convert to the reporting currency
+// with fx_rates.
 import { HttpError, json, requireEnv, serve } from "../_shared/http.ts";
 import { admin, audit, must, mustOne } from "../_shared/supabase.ts";
-import { cryptoProvider, fromMinor, type Stripe, stripe } from "../_shared/stripe.ts";
+import { cryptoProvider, fromMinor, roundMoney, type Stripe, stripe } from "../_shared/stripe.ts";
+import { normCountry } from "../_shared/prices.ts";
 import { ensureYearlyThenMonthly } from "../_shared/membership.ts";
 
-const round3 = (n: number) => Math.round(n * 1000) / 1000;
 const idOf = (v: string | { id: string } | null | undefined): string | null =>
   v == null ? null : typeof v === "string" ? v : v.id;
 
@@ -54,8 +61,8 @@ async function feeForCharge(chargeId: string | null): Promise<FeeInfo> {
   const rate = cur === sCur ? 1 : bt.exchange_rate ?? null;
   return {
     chargeId,
-    fee: rate ? round3(sFee / rate) : null,
-    net: rate ? round3(sNet / rate) : null,
+    fee: rate ? roundMoney(sFee / rate, cur) : null,
+    net: rate ? roundMoney(sNet / rate, cur) : null,
     settlementCurrency: sCur,
     settlementFee: sFee,
     settlementNet: sNet,
@@ -81,6 +88,8 @@ interface PaymentInput {
   userId: string | null;
   amountMinor: number;
   currency: string;
+  /** customer's country (ISO-2) when known */
+  country: string | null;
   status: "succeeded" | "refunded" | "failed";
   withFee: boolean;
 }
@@ -107,6 +116,7 @@ async function recordPayment(p: PaymentInput): Promise<void> {
     user_id: p.userId,
     amount: fromMinor(p.amountMinor, currency),
     currency,
+    ...(p.country ? { country: p.country } : {}),
     fee: fee?.fee ?? null,
     net: fee?.net ?? null,
     settlement_currency: fee?.settlementCurrency ?? null,
@@ -117,10 +127,11 @@ async function recordPayment(p: PaymentInput): Promise<void> {
   must(await db.from("payments").upsert(row, { onConflict: "provider,provider_ref" }), "payment upsert");
 
   if (fee) {
-    // Fee in KWD when Stripe gave a rate, otherwise in the settlement currency.
-    const amount = fee.fee ?? fee.settlementFee;
-    const feeCurrency = fee.fee != null ? currency : fee.settlementCurrency;
-    if (amount && amount > 0 && feeCurrency && ["KWD", "USD", "EUR"].includes(feeCurrency)) {
+    // The fee as Stripe deducted it, in the settlement currency (exact; EUR
+    // for the B.V.), else converted back to the charge currency.
+    const amount = fee.settlementFee ?? fee.fee;
+    const feeCurrency = fee.settlementFee != null ? fee.settlementCurrency : currency;
+    if (amount && amount > 0 && feeCurrency && /^[A-Z]{3}$/.test(feeCurrency)) {
       must(
         await db.from("costs").upsert({
           order_id: p.orderId,
@@ -188,6 +199,7 @@ async function upsertSubscription(sub: Stripe.Subscription): Promise<{ id: strin
     ? "yearly"
     : "monthly";
   const currency = (price?.currency ?? sub.currency ?? "kwd").toUpperCase();
+  const country = normCountry(sub.metadata?.country);
   // The period end moved from the subscription to its items in newer API versions.
   const periodEnd = (sub as unknown as { current_period_end?: number }).current_period_end ??
     (item as unknown as { current_period_end?: number } | undefined)?.current_period_end;
@@ -202,6 +214,8 @@ async function upsertSubscription(sub: Stripe.Subscription): Promise<{ id: strin
     status: mapSubStatus(sub.status),
     amount: price?.unit_amount != null ? fromMinor(price.unit_amount, currency) : null,
     currency,
+    // Left out when unknown so an update never clears it.
+    ...(country ? { country } : {}),
     current_period_end: toIso(periodEnd),
     trial_end: toIso(sub.trial_end),
     cancel_at: toIso(sub.cancel_at) ?? (sub.cancel_at_period_end ? toIso(periodEnd) : null),
@@ -282,6 +296,20 @@ async function onCheckoutCompleted(s: Stripe.Checkout.Session): Promise<void> {
   }
   if (orderId) await markOrderPaid(orderId);
 
+  // The country the customer chose sets the currency and price; the billing
+  // country (asked when Stripe Tax is on) can differ. Logged for the
+  // accountant, not refused: people pay with cards from other countries.
+  const country = normCountry(s.metadata?.country);
+  const billing = normCountry(s.customer_details?.address?.country);
+  if (country && billing && billing !== country) {
+    await audit("checkout.country_mismatch", "orders", orderId, {
+      session: s.id,
+      country,
+      billing_country: billing,
+      currency: s.currency?.toUpperCase() ?? null,
+    });
+  }
+
   if (s.mode === "payment") {
     const piId = idOf(s.payment_intent);
     if (piId) {
@@ -294,6 +322,7 @@ async function onCheckoutCompleted(s: Stripe.Checkout.Session): Promise<void> {
         userId,
         amountMinor: pi.amount_received || pi.amount,
         currency: pi.currency,
+        country,
         status: "succeeded",
         withFee: true,
       });
@@ -350,7 +379,7 @@ async function invoiceChargeId(inv: Stripe.Invoice): Promise<string | null> {
 // the losing insert gets a unique violation and reads the existing row.
 async function checkinOrderForInvoice(
   invoiceId: string,
-  row: { userId: string; amount: number; currency: string; subscriptionId: string },
+  row: { userId: string; amount: number; currency: string; country: string | null; subscriptionId: string },
 ): Promise<string> {
   const db = admin();
   const find = async () =>
@@ -370,6 +399,7 @@ async function checkinOrderForInvoice(
       status: "awaiting_photos",
       amount: row.amount,
       currency: row.currency,
+      ...(row.country ? { country: row.country } : {}),
       provider: "stripe",
       provider_ref: invoiceId,
       subscription_id: row.subscriptionId,
@@ -397,6 +427,7 @@ async function onInvoicePaid(inv: Stripe.Invoice): Promise<void> {
   const sub = await stripe().subscriptions.retrieve(subId);
   const { id: subscriptionId, userId } = await upsertSubscription(sub);
   const currency = inv.currency.toUpperCase();
+  const country = normCountry(sub.metadata?.country);
 
   let orderId: string | null = null;
   const reportOrder = sub.metadata?.order_id;
@@ -410,6 +441,7 @@ async function onInvoicePaid(inv: Stripe.Invoice): Promise<void> {
       userId,
       amount: fromMinor(inv.amount_paid, currency),
       currency,
+      country,
       subscriptionId,
     });
   }
@@ -422,6 +454,7 @@ async function onInvoicePaid(inv: Stripe.Invoice): Promise<void> {
     userId,
     amountMinor: inv.amount_paid,
     currency,
+    country,
     status: "succeeded",
     withFee: true,
   });
@@ -437,7 +470,7 @@ async function onInvoiceFailed(inv: Stripe.Invoice): Promise<void> {
   );
   if (existing) return;
   const sub = must(
-    await db.from("subscriptions").select("id, user_id").eq("provider", "stripe").eq("provider_sub_id", subId)
+    await db.from("subscriptions").select("id, user_id, country").eq("provider", "stripe").eq("provider_sub_id", subId)
       .maybeSingle(),
     "subscription lookup",
   );
@@ -449,6 +482,7 @@ async function onInvoiceFailed(inv: Stripe.Invoice): Promise<void> {
     userId: (sub?.user_id as string | undefined) ?? null,
     amountMinor: inv.amount_due,
     currency: inv.currency,
+    country: (sub?.country as string | undefined) ?? null,
     status: "failed",
     withFee: false,
   });
@@ -457,7 +491,7 @@ async function onInvoiceFailed(inv: Stripe.Invoice): Promise<void> {
 async function onChargeRefunded(charge: Stripe.Charge): Promise<void> {
   const db = admin();
   let original = must(
-    await db.from("payments").select("order_id, user_id, subscription_id").eq("provider", "stripe")
+    await db.from("payments").select("order_id, user_id, subscription_id, country").eq("provider", "stripe")
       .eq("provider_charge", charge.id).gt("amount", 0).limit(1).maybeSingle(),
     "payment by charge",
   );
@@ -466,7 +500,7 @@ async function onChargeRefunded(charge: Stripe.Charge): Promise<void> {
       .filter(Boolean) as string[];
     if (refs.length) {
       original = must(
-        await db.from("payments").select("order_id, user_id, subscription_id").eq("provider", "stripe")
+        await db.from("payments").select("order_id, user_id, subscription_id, country").eq("provider", "stripe")
           .in("provider_ref", refs).gt("amount", 0).limit(1).maybeSingle(),
         "payment by ref",
       );
@@ -492,6 +526,7 @@ async function onChargeRefunded(charge: Stripe.Charge): Promise<void> {
         user_id: original?.user_id ?? null,
         amount: -fromMinor(r.amount, currency),
         currency,
+        country: original?.country ?? null,
         status: "refunded",
       }),
       "refund insert",

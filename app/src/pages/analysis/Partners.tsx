@@ -47,7 +47,7 @@ export function Partners(p: SectionProps) {
         kicker="Care network · coming soon"
         muted="Partners"
         strong="coming soon"
-        lead="We're onboarding vetted dermatologists, dietitians and meal services, InBody centres, coaches and barbers across Kuwait. Until then, every step in your plan works on its own."
+        lead="We're onboarding vetted dermatologists, dietitians and meal services, InBody centres, coaches and barbers across the Gulf. Until then, every step in your plan works on its own."
       />
 
       {recommended.length > 0 && (
