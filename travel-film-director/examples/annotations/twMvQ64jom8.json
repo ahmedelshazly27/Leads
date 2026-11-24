@@ -1,0 +1,18 @@
+{
+  "source": "claude-code (viewed contact sheet 1 of 5 + computed metrics)",
+  "summary": "Opens with roughly 70 seconds of speech-free, music-driven aerial and landscape montage (green valleys, a lone rider in a desert, red badlands at golden hour, snow peaks above cloud) before the presenter appears. After that the film alternates host-with-locals coverage (eagle hunters, yurt building) with insert details (eagle talons, food, feet) and re-establishing wides. The grade is a saturated teal/green push with warm skin tones. Narration is 'we/our journey' guide-voice rather than diary-voice.",
+  "hook_analysis": "Visual-first cold open: a sequence of the most spectacular locations promises scale before any words; first narration ('Welcome to Kazakhstan... land of eagle hunters') lands as a thesis over the montage at ~0:21.",
+  "narrative_arc": "Chaptered country portrait: city arrival (Almaty) -> cultural immersion set-pieces (eagle hunting, yurt raising, food) -> further regions. Each chapter opens on an establishing wide.",
+  "camera_and_composition": "Drone aerials and long-lens landscapes for scale; handheld/gimbal medium two-shots with local guides; tight macro-like inserts (eagle talons 2:59-4:08) used as cutaways. Not observable at storyboard resolution: exact camera moves.",
+  "color_and_grade": "Strong teal/cyan sky and lush green push, high saturation, warm skin protected. Reads as a deliberate 'travel-commercial' grade.",
+  "sound_and_music": "Opening montage is music-only; speech gaps of 12s+ recur throughout (measured), consistent with music-led transitions between set-pieces.",
+  "what_to_borrow": ["Open on the 4-6 most spectacular shots with music only, then state the thesis in one line", "Re-establish every new location with a wide before people", "Use tight detail inserts to cover cuts in conversations"],
+  "what_to_avoid_copying": ["The heavy teal grade on footage that was not shot for it - grade to your own footage's latitude"],
+  "observations": [
+    {"start": 0, "end": 70, "name": "speech-free landscape cold open", "description": "Spectacular-location montage before the presenter appears; narration enters over it ~0:21.", "style_mode": "cinematic"},
+    {"start": 30, "end": 40, "name": "flash-forward tease", "description": "A costumed group shot from later in the film appears inside the opening montage as a promise of what is coming.", "style_mode": "documentary"},
+    {"start": 89, "end": 120, "name": "context sequence over archival-feel visuals", "description": "Space-launch heritage (rocket hall, retro TV showing a launch) used to deliver historical context.", "style_mode": "documentary"},
+    {"start": 179, "end": 250, "name": "detail inserts as cutaways", "description": "Close-ups of eagle talons/feet intercut with two-shot conversation with an eagle hunter.", "style_mode": "documentary"},
+    {"start": 377, "end": 440, "name": "process montage", "description": "Yurt construction shown as a progression of stages - participation rather than observation.", "style_mode": "personal"}
+  ]
+}

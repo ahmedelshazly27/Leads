@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Travel Film Director</title>
+<style>
+:root{--bg:#0e0e10;--panel:#16161a;--line:#26262c;--text:#ececf0;--mute:#8d8d98;--accent:#e8c27a;--ok:#7fc8a0;--bad:#e08a7a;
+  --cin:#7aa7e8;--doc:#e8c27a;--per:#c49ae8;font-family:ui-sans-serif,-apple-system,"Segoe UI",Inter,Roboto,sans-serif}
+@media (prefers-color-scheme:light){:root{--bg:#f6f5f2;--panel:#fff;--line:#e4e2dc;--text:#1b1b1f;--mute:#6f6f78;--accent:#a87a24}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-size:15px;line-height:1.5}
+header{display:flex;align-items:baseline;gap:28px;padding:28px 40px 0;max-width:1100px;margin:auto}
+h1{font-size:18px;font-weight:600;letter-spacing:.02em;margin:0}
+nav a{color:var(--mute);text-decoration:none;margin-right:20px;cursor:pointer;padding-bottom:6px}
+nav a.on{color:var(--text);border-bottom:1px solid var(--accent)}
+main{max-width:1100px;margin:auto;padding:24px 40px 80px}
+section{display:none}section.on{display:block}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px;margin-bottom:18px}
+h2{font-size:13px;font-weight:600;color:var(--mute);text-transform:uppercase;letter-spacing:.08em;margin:0 0 14px}
+textarea,input,select{width:100%;background:transparent;color:var(--text);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font:inherit}
+input[type=range]{accent-color:var(--accent);padding:0;border:0}
+textarea{min-height:90px;resize:vertical}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+.row3{display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px;margin:12px 0}
+button{background:var(--text);color:var(--bg);border:0;border-radius:10px;padding:10px 18px;font:inherit;font-weight:600;cursor:pointer}
+button.ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
+.mute{color:var(--mute);font-size:13px}
+table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:8px 6px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{color:var(--mute);font-weight:500}
+.bar{display:flex;height:8px;border-radius:4px;overflow:hidden;min-width:140px}
+.bar i{display:block}.cin{background:var(--cin)}.doc{background:var(--doc)}.per{background:var(--per)}
+.legend span{margin-right:14px;font-size:12px;color:var(--mute)}.legend b{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:5px}
+.pill{display:inline-block;font-size:12px;padding:2px 8px;border:1px solid var(--line);border-radius:20px;color:var(--mute)}
+.answer{white-space:pre-wrap;font-size:14px;margin-top:14px}
+.sheet{width:100%;border-radius:8px;margin-top:10px}
+.item{display:grid;grid-template-columns:70px 1fr 110px 30px;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px;align-items:start}
+.x{background:none;color:var(--mute);padding:0;font-size:18px}
+ul{margin:6px 0;padding-left:18px}a{color:var(--accent)}
+.jobs{position:fixed;right:20px;bottom:20px;width:320px;font-size:13px}
+.job{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin-top:6px}
+</style>
+</head>
+<body>
+<header><h1>Travel Film Director</h1>
+<nav><a data-s="refs" class="on">References</a><a data-s="compare">Compare &amp; ask</a><a data-s="projects">Projects</a></nav></header>
+<main>
+<section id="refs" class="on">
+  <div class="card"><h2>Add reference videos</h2>
+    <textarea id="urls" placeholder="Paste YouTube URLs, one per line"></textarea>
+    <div class="row"><input id="creator" list="creatorlist" placeholder="Creator (e.g. Joe Hattab)"><datalist id="creatorlist"></datalist>
+      <input id="notes" placeholder="Your notes (optional)"></div>
+    <button onclick="addRefs()">Analyse</button>
+    <p class="mute">Reads metadata, captions and YouTube's storyboard previews only. Videos are never downloaded.</p></div>
+  <div class="card"><h2>Library</h2><div class="legend"><span><b class="cin"></b>cinematic</span><span><b class="doc"></b>documentary</span><span><b class="per"></b>personal</span></div>
+    <table id="videos"></table></div>
+  <div class="card" id="detail" style="display:none"></div>
+</section>
+<section id="compare">
+  <div class="card"><h2>Ask about the references</h2>
+    <div class="row3"><input id="q" placeholder="How do the three creators open their films differently?"><select id="smode"><option value="">all modes</option><option>cinematic</option><option>documentary</option><option>personal</option></select><button onclick="ask()">Ask</button></div>
+    <div id="answer" class="answer mute"></div></div>
+  <div class="card"><h2>Creator weighting</h2><div id="weights"></div><p class="mute">Weights bias which creator the director borrows from when a scene's mode matches.</p></div>
+  <div class="card"><h2>Key differences</h2><ul id="diffs"></ul><table id="cmp"></table></div>
+</section>
+<section id="projects">
+  <div class="card"><h2>New travel project</h2>
+    <div class="row"><input id="pname" placeholder="Project name (e.g. Kyrgyzstan 2026)"><input id="pfolder" placeholder="Footage folder, e.g. D:\Trips\Kyrgyzstan\raw"></div>
+    <div class="row"><select id="pmin"><option value="4">4 min</option><option value="8" selected>8 min</option><option value="12">12 min</option><option value="20">20 min</option></select>
+      <select id="pdir"><option value="balanced">Balanced (per-scene)</option><option value="cinematic">Lean cinematic</option><option value="documentary">Lean documentary</option><option value="personal">Lean personal</option></select></div>
+    <label class="mute"><input type="checkbox" id="ptx" style="width:auto"> Transcribe speech locally (faster-whisper)</label><br><br>
+    <button onclick="newProject()">Analyse footage</button>
+    <p class="mute">Your originals are only read, never modified. Optional: put licensed music in &lt;project&gt;/music and facts in trip_notes.md.</p></div>
+  <div id="plist"></div>
+  <div class="card" id="plan" style="display:none"></div>
+</section>
+</main>
+<div class="jobs" id="jobs"></div>
+<script>
+const $=s=>document.querySelector(s), api=async(u,o)=>{const r=await fetch(u,o?{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(o)}:{});if(!r.ok)throw new Error((await r.json()).detail||r.status);return r.json()};
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fmt=t=>{t=Math.round(t);const m=Math.floor(t/60),s=t%60;return m+':'+String(s).padStart(2,'0')};
+const bar=m=>`<div class="bar"><i class="cin" style="width:${(m.cinematic||0)*100}%"></i><i class="doc" style="width:${(m.documentary||0)*100}%"></i><i class="per" style="width:${(m.personal||0)*100}%"></i></div>`;
+const rel=p=>{const i=p.indexOf('/data/');return i>=0?'/files/'+p.slice(i+6):(p.includes('\\data\\')?'/files/'+p.split('\\data\\')[1].replaceAll('\\','/'):p)};
+document.querySelectorAll('nav a').forEach(a=>a.onclick=()=>{document.querySelectorAll('nav a,section').forEach(x=>x.classList.remove('on'));a.classList.add('on');$('#'+a.dataset.s).classList.add('on');load()});
+let LIB=null;
+async function load(){
+  LIB=await api('/api/library');
+  $('#creatorlist').innerHTML=LIB.creators.map(c=>`<option value="${esc(c.name)}">`).join('');
+  const profs={};
+  $('#videos').innerHTML='<tr><th>Creator</th><th>Video</th><th>Mode mix</th><th></th></tr>'+LIB.videos.map(v=>`<tr><td>${esc(v.creator)}</td><td>${esc(v.title||v.url)}<div class="mute">${esc(v.notes)}</div></td><td id="m_${v.video_id}">${v.status=='done'?'':'<span class="pill">'+esc(v.status)+'</span>'}</td><td>${v.status=='done'?`<a onclick="detail('${v.video_id}')">open</a>`:esc(v.error||'')}</td></tr>`).join('');
+  for(const v of LIB.videos.filter(v=>v.status=='done')){api('/api/video/'+v.video_id).then(p=>{$('#m_'+v.video_id).innerHTML=bar(p.style_mode_mix)})}
+  const c=LIB.comparison;
+  if(c){$('#diffs').innerHTML=c.key_differences.map(d=>`<li>${esc(d)}</li>`).join('');
+    $('#cmp').innerHTML='<tr><th>Metric</th>'+c.creators.map(n=>`<th>${esc(n)}</th>`).join('')+'</tr>'+c.table.map(r=>`<tr><td class="mute">${esc(r.label)}</td>`+c.creators.map(n=>`<td>${r.values[n]!=null?(+r.values[n]).toFixed(3):'–'}</td>`).join('')+'</tr>').join('');}
+  $('#weights').innerHTML=LIB.creators.map(c=>`<div class="row3" style="align-items:center"><span>${esc(c.name)} <span class="mute">· ${c.videos} video(s)</span></span><input type="range" min="0" max="3" step="0.1" value="${c.weight}" onchange="setW('${esc(c.name)}',this.value)"><span class="mute">${c.weight}</span></div>`).join('');
+  const ps=await api('/api/projects');
+  $('#plist').innerHTML=ps.map(p=>`<div class="card"><h2>${esc(p.name)}</h2><span class="mute">${esc(p.footage)} · ${p.minutes} min · ${esc(p.direction)}</span><br><br>${p.has_plan?`<button class="ghost" onclick="plan('${p.slug}')">Review storyline</button>`:'<span class="pill">analysing…</span>'}</div>`).join('');
+}
+async function detail(id){const p=await api('/api/video/'+id);const d=$('#detail');d.style.display='block';
+  d.innerHTML=`<h2>${esc(p.creator)} — ${esc(p.title)}</h2>${bar(p.style_mode_mix)}<p class="mute">${esc(p.style_mode_basis)} · ${fmt(p.duration)} · transcript: ${esc(p.sources.transcript)} · ${esc(p.sources.frames)}</p>
+  <p><b>Hook:</b> ${esc(p.hook.pattern)}</p>${p.qualitative&&p.qualitative.summary?`<p>${esc(p.qualitative.summary)}</p>`:''}
+  <table><tr><th>Time</th><th>Mode</th><th>Shot / function</th><th>Techniques</th></tr>${p.scenes.map(s=>`<tr><td><a href="${p.url}&t=${Math.floor(s.start)}s" target="_blank">${fmt(s.start)}</a></td><td>${s.style_mode}</td><td>${esc(s.shot_type)}<div class="mute">${esc(s.narrative_function)} · ${esc(s.audio.description)}</div></td><td class="mute">${esc(s.editing_techniques.join(', '))}</td></tr>`).join('')}</table>
+  ${p.contact_sheets.slice(0,2).map(s=>`<img class="sheet" src="${rel(s)}">`).join('')}
+  <p class="mute">${p.limitations.map(esc).join('<br>')}</p>`;d.scrollIntoView({behavior:'smooth'})}
+async function addRefs(){const urls=$('#urls').value.split('\n').filter(Boolean),creator=$('#creator').value.trim();if(!urls.length||!creator)return alert('Add URLs and a creator');await api('/api/references',{urls,creator,notes:$('#notes').value});$('#urls').value='';poll()}
+async function setW(n,w){await api('/api/creators/'+encodeURIComponent(n),{weight:+w});load()}
+async function ask(){const q=$('#q').value.trim();if(!q)return;$('#answer').textContent='Thinking…';const r=await api('/api/ask',{question:q});$('#answer').textContent=r.answer}
+async function newProject(){try{await api('/api/projects',{name:$('#pname').value,footage:$('#pfolder').value,minutes:+$('#pmin').value,direction:$('#pdir').value,transcribe:$('#ptx').checked});poll();load()}catch(e){alert(e.message)}}
+let CUR=null;
+async function plan(slug){CUR=slug;const p=await api(`/api/projects/${slug}/plan`);const d=$('#plan');d.style.display='block';
+  d.innerHTML=`<h2>Proposed storyline · ${fmt(p.planned_seconds)} of ${fmt(p.target_seconds)}</h2>
+  <p class="mute">${p.footage_summary.clips} clips · ${p.footage_summary.usable} usable · ${p.footage_summary.duplicates} duplicates · ${(p.footage_summary.devices||[]).join(', ')}</p>
+  <ul>${p.decisions.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>
+  ${p.needs_review.map(r=>`<p class="mute">⚑ ${esc(r.issue)}</p>`).join('')}
+  ${p.timeline.map((it,i)=>`<div class="item"><span class="mute">${fmt(it.record_in)}</span><span><b>${esc(it.section)}</b> · ${esc(p.clips[it.clip].path.split(/[\\/]/).pop())}<div class="mute">${esc(it.reason)}</div></span><span class="pill">${esc(it.mode)}</span><button class="x" title="remove" onclick="rm(${i})">×</button></div>`).join('')}
+  <br><button onclick="approve()">Approve &amp; export timeline</button> <button class="ghost" onclick="renderP()">Render preview + QA</button><div id="pout" class="answer mute"></div>
+  ${p.qa?`<h2 style="margin-top:20px">Quality check</h2><p class="mute">${p.qa.issues.length} issue(s) · loudness ${p.qa.integrated_lufs} LUFS</p><ul>${p.qa.issues.slice(0,20).map(i=>`<li>${fmt(i.at)} ${esc(i.type)} — ${esc(i.detail)}</li>`).join('')}</ul>`:''}`}
+async function rm(i){await api(`/api/projects/${CUR}/plan`,{remove:[i]});plan(CUR)}
+async function approve(){const r=await api(`/api/projects/${CUR}/approve`,{});$('#pout').textContent='Exported:\n'+Object.values(r).join('\n')+'\n\nIn DaVinci Resolve: File › Import › Timeline… and pick the .otio file.'}
+async function renderP(){await api(`/api/projects/${CUR}/render`,{});poll()}
+async function poll(){const js=await api('/api/jobs');$('#jobs').innerHTML=js.filter(j=>j.status!='done'||Date.now()).slice(-5).map(j=>`<div class="job">${esc(j.label)}<br><span class="mute">${j.status}${j.error?' — '+esc(j.error):''}</span></div>`).join('');
+  if(js.some(j=>j.status=='running'||j.status=='queued'))setTimeout(poll,2000);else{load();if(CUR)plan(CUR)}}
+load();poll();
+</script>
+</body>
+</html>

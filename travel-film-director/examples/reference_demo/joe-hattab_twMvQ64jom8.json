@@ -1,0 +1,1932 @@
+{
+ "schema_version": "1.0",
+ "video_id": "twMvQ64jom8",
+ "url": "https://www.youtube.com/watch?v=twMvQ64jom8",
+ "creator": "Joe Hattab",
+ "title": "Kazakhstan Is the Strangest Country I've Ever Visited",
+ "channel": "Joe HaTTab",
+ "upload_date": "20260816",
+ "duration": 2162.0,
+ "view_count": 12705428,
+ "user_notes": "documentary-led, strong hooks",
+ "analysed_at": "2026-11-24T19:01:40+00:00",
+ "sources": {
+  "metadata": true,
+  "transcript": "manual",
+  "transcript_language": "en",
+  "frames": "YouTube storyboard 320x180, one frame every 9.9s",
+  "frame_interval_s": 9.91743119266055,
+  "chapters": 7,
+  "heatmap": true
+ },
+ "chapters": [
+  {
+   "start": 0.0,
+   "end": 123.0,
+   "title": "Welcome to Kazakhstan"
+  },
+  {
+   "start": 123.0,
+   "end": 342.0,
+   "title": "The nomadic eagle tradition"
+  },
+  {
+   "start": 342.0,
+   "end": 542.0,
+   "title": "Life in the nomadic tents"
+  },
+  {
+   "start": 542.0,
+   "end": 668.0,
+   "title": "Modernizing Kazakhstan"
+  },
+  {
+   "start": 668.0,
+   "end": 864.0,
+   "title": "Geological wonders"
+  },
+  {
+   "start": 864.0,
+   "end": 1379.0,
+   "title": "Astana and technological growth"
+  },
+  {
+   "start": 1379.0,
+   "end": 2162.0,
+   "title": "The Baikonur Cosmodrome"
+  }
+ ],
+ "replay_peaks": [
+  {
+   "start": 648.9,
+   "end": 670.53,
+   "value": 1.0
+  },
+  {
+   "start": 0.0,
+   "end": 21.63,
+   "value": 0.6197652480851767
+  },
+  {
+   "start": 1730.4,
+   "end": 1752.03,
+   "value": 0.6074325545118694
+  },
+  {
+   "start": 1276.17,
+   "end": 1297.8,
+   "value": 0.5199879504163893
+  },
+  {
+   "start": 346.08,
+   "end": 367.71,
+   "value": 0.5014293125027941
+  }
+ ],
+ "scenes": [
+  {
+   "index": 0,
+   "start": 0.0,
+   "end": 54.55,
+   "duration": 54.55,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 12.1,
+    "speech_coverage": 0.083,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "mostly non-speech"
+   },
+   "narrative_function": "opening hook",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.966,
+    "documentary": 0.017,
+    "personal": 0.017
+   },
+   "visual_characteristics": [
+    "cool tones",
+    "highly saturated"
+   ],
+   "editing_techniques": [
+    "audience replay peak (most-replayed)",
+    "speech-free fast montage"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 20% of frames",
+    "little speech (8% caption coverage)",
+    "est. 18.1 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 1,
+   "start": 54.55,
+   "end": 123.97,
+   "duration": 69.42,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 28.5,
+    "speech_coverage": 0.158,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "mostly non-speech"
+   },
+   "narrative_function": "atmosphere / montage",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.724,
+    "documentary": 0.059,
+    "personal": 0.218
+   },
+   "visual_characteristics": [
+    "neutral white balance",
+    "highly saturated",
+    "low-key / dark"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 33% of frames",
+    "first-person language 6% of words",
+    "little speech (16% caption coverage)",
+    "est. 18.1 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 2,
+   "start": 123.97,
+   "end": 252.9,
+   "duration": 128.93,
+   "representative_frame": null,
+   "shot_type": "medium shot with people",
+   "shot_type_confidence": 0.5,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 123.3,
+    "speech_coverage": 0.638,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.363,
+    "documentary": 0.426,
+    "personal": 0.211
+   },
+   "visual_characteristics": [
+    "neutral white balance",
+    "highly saturated"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 69% of frames, max face 27%",
+    "est. 11.3 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 3,
+   "start": 252.9,
+   "end": 342.15,
+   "duration": 89.25,
+   "representative_frame": null,
+   "shot_type": "medium shot with people",
+   "shot_type_confidence": 0.5,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 100.2,
+    "speech_coverage": 0.504,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.495,
+    "documentary": 0.446,
+    "personal": 0.059
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "highly saturated"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 44% of frames, max face 23%",
+    "est. 18.1 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 4,
+   "start": 342.15,
+   "end": 471.08,
+   "duration": 128.93,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 73.5,
+    "speech_coverage": 0.359,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "chapter opener / establishing",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.695,
+    "documentary": 0.177,
+    "personal": 0.128
+   },
+   "visual_characteristics": [
+    "cool tones",
+    "on-screen text or title"
+   ],
+   "editing_techniques": [
+    "on-screen text / title card"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 31% of frames",
+    "est. 18.1 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 5,
+   "start": 471.08,
+   "end": 520.66,
+   "duration": 49.58,
+   "representative_frame": null,
+   "shot_type": "general b-roll",
+   "shot_type_confidence": 0.3,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "medium",
+   "audio": {
+    "words_per_minute": 53.2,
+    "speech_coverage": 0.283,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "context / exposition",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.635,
+    "documentary": 0.35,
+    "personal": 0.016
+   },
+   "visual_characteristics": [
+    "neutral white balance",
+    "highly saturated",
+    "flat / low contrast",
+    "on-screen text or title"
+   ],
+   "editing_techniques": [
+    "on-screen text / title card"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "sky 21%, edges 0.05, no faces detected",
+    "contextual/factual vocabulary 7%",
+    "est. 9.7 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 6,
+   "start": 520.66,
+   "end": 540.5,
+   "duration": 19.84,
+   "representative_frame": null,
+   "shot_type": "medium shot with people",
+   "shot_type_confidence": 0.5,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 21.2,
+    "speech_coverage": 0.016,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "mostly non-speech"
+   },
+   "narrative_function": "atmosphere / montage",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.912,
+    "documentary": 0.073,
+    "personal": 0.015
+   },
+   "visual_characteristics": [
+    "cool tones",
+    "highly saturated",
+    "high contrast"
+   ],
+   "editing_techniques": [
+    "speech-free fast montage"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 50% of frames, max face 17%",
+    "little speech (2% caption coverage)",
+    "est. 18.1 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 7,
+   "start": 540.5,
+   "end": 600.0,
+   "duration": 59.5,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 90.7,
+    "speech_coverage": 0.434,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "chapter opener / establishing",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.628,
+    "documentary": 0.166,
+    "personal": 0.207
+   },
+   "visual_characteristics": [
+    "cool tones",
+    "highly saturated",
+    "on-screen text or title"
+   ],
+   "editing_techniques": [
+    "on-screen text / title card"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 17% of frames",
+    "est. 18.1 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 8,
+   "start": 600.0,
+   "end": 689.26,
+   "duration": 89.25,
+   "representative_frame": null,
+   "shot_type": "close-up on a person (talking head / selfie)",
+   "shot_type_confidence": 0.6,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 133.8,
+    "speech_coverage": 0.701,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "context / exposition",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.237,
+    "documentary": 0.513,
+    "personal": 0.251
+   },
+   "visual_characteristics": [
+    "cool tones",
+    "highly saturated"
+   ],
+   "editing_techniques": [
+    "audience replay peak (most-replayed)"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 56% of frames, max face 35% of frame height",
+    "face close-up (to-camera)",
+    "contextual/factual vocabulary 11%",
+    "est. 13.3 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 9,
+   "start": 689.26,
+   "end": 818.19,
+   "duration": 128.93,
+   "representative_frame": null,
+   "shot_type": "wide establishing / landscape",
+   "shot_type_confidence": 0.55,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 66.1,
+    "speech_coverage": 0.323,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "atmosphere / montage",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.754,
+    "documentary": 0.1,
+    "personal": 0.146
+   },
+   "visual_characteristics": [
+    "cool tones"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "sky in top third 65%, edge density 0.11",
+    "shot: wide establishing / landscape",
+    "est. 18.1 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 10,
+   "start": 818.19,
+   "end": 887.61,
+   "duration": 69.42,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 36.3,
+    "speech_coverage": 0.18,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "mostly non-speech"
+   },
+   "narrative_function": "context / exposition",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.65,
+    "documentary": 0.272,
+    "personal": 0.078
+   },
+   "visual_characteristics": [
+    "cool tones",
+    "highly saturated",
+    "on-screen text or title"
+   ],
+   "editing_techniques": [
+    "on-screen text / title card"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 29% of frames",
+    "contextual/factual vocabulary 14%",
+    "little speech (18% caption coverage)",
+    "est. 18.1 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 11,
+   "start": 887.61,
+   "end": 937.2,
+   "duration": 49.59,
+   "representative_frame": null,
+   "shot_type": "medium shot with people",
+   "shot_type_confidence": 0.5,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 105.3,
+    "speech_coverage": 0.524,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.45,
+    "documentary": 0.535,
+    "personal": 0.015
+   },
+   "visual_characteristics": [
+    "neutral white balance"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 60% of frames, max face 26%",
+    "contextual/factual vocabulary 5%",
+    "est. 18.1 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 12,
+   "start": 937.2,
+   "end": 1155.38,
+   "duration": 218.18,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 106.7,
+    "speech_coverage": 0.575,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.494,
+    "documentary": 0.369,
+    "personal": 0.138
+   },
+   "visual_characteristics": [
+    "cool tones",
+    "highly saturated",
+    "on-screen text or title"
+   ],
+   "editing_techniques": [
+    "on-screen text / title card"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 32% of frames",
+    "est. 18.1 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 13,
+   "start": 1155.38,
+   "end": 1214.88,
+   "duration": 59.5,
+   "representative_frame": null,
+   "shot_type": "close-up on a person (talking head / selfie)",
+   "shot_type_confidence": 0.6,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 123.0,
+    "speech_coverage": 0.659,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "context / exposition",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.281,
+    "documentary": 0.437,
+    "personal": 0.282
+   },
+   "visual_characteristics": [
+    "cool tones",
+    "highly saturated"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 50% of frames, max face 45% of frame height",
+    "face close-up (to-camera)",
+    "contextual/factual vocabulary 10%",
+    "est. 18.1 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 14,
+   "start": 1214.88,
+   "end": 1284.31,
+   "duration": 69.42,
+   "representative_frame": null,
+   "shot_type": "medium shot with people",
+   "shot_type_confidence": 0.5,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 138.3,
+    "speech_coverage": 0.833,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.242,
+    "documentary": 0.533,
+    "personal": 0.225
+   },
+   "visual_characteristics": [
+    "cool tones",
+    "highly saturated"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 43% of frames, max face 29%",
+    "est. 18.1 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 15,
+   "start": 1284.31,
+   "end": 1383.48,
+   "duration": 99.17,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 75.0,
+    "speech_coverage": 0.371,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "context / exposition",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.545,
+    "documentary": 0.419,
+    "personal": 0.036
+   },
+   "visual_characteristics": [
+    "cool tones"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 20% of frames",
+    "contextual/factual vocabulary 8%",
+    "est. 13.9 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 16,
+   "start": 1383.48,
+   "end": 1433.07,
+   "duration": 49.59,
+   "representative_frame": null,
+   "shot_type": "medium shot with people",
+   "shot_type_confidence": 0.5,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 114.9,
+    "speech_coverage": 0.657,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "context / exposition",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.315,
+    "documentary": 0.614,
+    "personal": 0.072
+   },
+   "visual_characteristics": [
+    "neutral white balance",
+    "low-key / dark"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 40% of frames, max face 16%",
+    "contextual/factual vocabulary 5%",
+    "est. 18.1 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 17,
+   "start": 1433.07,
+   "end": 1552.08,
+   "duration": 119.01,
+   "representative_frame": null,
+   "shot_type": "medium shot with people",
+   "shot_type_confidence": 0.5,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 92.3,
+    "speech_coverage": 0.55,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.464,
+    "documentary": 0.343,
+    "personal": 0.193
+   },
+   "visual_characteristics": [
+    "cool tones"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 42% of frames, max face 72%",
+    "est. 18.1 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 18,
+   "start": 1552.08,
+   "end": 1621.5,
+   "duration": 69.42,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 148.7,
+    "speech_coverage": 0.781,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.418,
+    "documentary": 0.404,
+    "personal": 0.177
+   },
+   "visual_characteristics": [
+    "cool tones"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 14% of frames",
+    "est. 18.1 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 19,
+   "start": 1621.5,
+   "end": 1720.68,
+   "duration": 99.18,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "medium",
+   "audio": {
+    "words_per_minute": 130.7,
+    "speech_coverage": 0.717,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "atmosphere / montage",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.506,
+    "documentary": 0.278,
+    "personal": 0.216
+   },
+   "visual_characteristics": [
+    "cool tones"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 30% of frames",
+    "est. 9.7 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 20,
+   "start": 1720.68,
+   "end": 1740.51,
+   "duration": 19.83,
+   "representative_frame": null,
+   "shot_type": "low-light / night shot",
+   "shot_type_confidence": 0.45,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 102.8,
+    "speech_coverage": 0.65,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "context / exposition",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.544,
+    "documentary": 0.443,
+    "personal": 0.013
+   },
+   "visual_characteristics": [
+    "cool tones",
+    "highly saturated",
+    "flat / low contrast",
+    "low-key / dark",
+    "letterboxed (cinematic aspect)"
+   ],
+   "editing_techniques": [
+    "audience replay peak (most-replayed)"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "mean brightness 0.04",
+    "shot: low-light / night shot",
+    "contextual/factual vocabulary 6%",
+    "est. 18.1 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 21,
+   "start": 1740.51,
+   "end": 1800.01,
+   "duration": 59.5,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 105.9,
+    "speech_coverage": 0.548,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "atmosphere / montage",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.574,
+    "documentary": 0.331,
+    "personal": 0.095
+   },
+   "visual_characteristics": [
+    "cool tones"
+   ],
+   "editing_techniques": [
+    "audience replay peak (most-replayed)"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 33% of frames",
+    "est. 18.1 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 22,
+   "start": 1800.01,
+   "end": 1909.11,
+   "duration": 109.09,
+   "representative_frame": null,
+   "shot_type": "medium shot with people",
+   "shot_type_confidence": 0.5,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 93.0,
+    "speech_coverage": 0.51,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.472,
+    "documentary": 0.497,
+    "personal": 0.03
+   },
+   "visual_characteristics": [
+    "cool tones",
+    "highly saturated"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 45% of frames, max face 30%",
+    "est. 18.1 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 23,
+   "start": 1909.11,
+   "end": 1958.69,
+   "duration": 49.59,
+   "representative_frame": null,
+   "shot_type": "busy street / detail-rich scene",
+   "shot_type_confidence": 0.4,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 145.2,
+    "speech_coverage": 0.677,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "context / exposition",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.276,
+    "documentary": 0.677,
+    "personal": 0.047
+   },
+   "visual_characteristics": [
+    "cool tones"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "edge density 0.23",
+    "contextual/factual vocabulary 6%",
+    "est. 18.1 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 24,
+   "start": 1958.69,
+   "end": 2067.78,
+   "duration": 109.09,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 107.8,
+    "speech_coverage": 0.481,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "resolution / outro",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.513,
+    "documentary": 0.333,
+    "personal": 0.154
+   },
+   "visual_characteristics": [
+    "cool tones",
+    "low-key / dark"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 27% of frames",
+    "est. 18.1 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 25,
+   "start": 2067.78,
+   "end": 2097.54,
+   "duration": 29.76,
+   "representative_frame": null,
+   "shot_type": "busy street / detail-rich scene",
+   "shot_type_confidence": 0.4,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 90.7,
+    "speech_coverage": 0.378,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "resolution / outro",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.542,
+    "documentary": 0.372,
+    "personal": 0.086
+   },
+   "visual_characteristics": [
+    "cool tones"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "edge density 0.16",
+    "contextual/factual vocabulary 4%",
+    "est. 18.1 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 26,
+   "start": 2097.54,
+   "end": 2127.29,
+   "duration": 29.75,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 98.8,
+    "speech_coverage": 0.421,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "resolution / outro",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.509,
+    "documentary": 0.445,
+    "personal": 0.047
+   },
+   "visual_characteristics": [
+    "neutral white balance",
+    "highly saturated",
+    "low-key / dark"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 33% of frames",
+    "contextual/factual vocabulary 8%",
+    "est. 18.1 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 27,
+   "start": 2127.29,
+   "end": 2162.0,
+   "duration": 34.71,
+   "representative_frame": null,
+   "shot_type": "wide establishing / landscape",
+   "shot_type_confidence": 0.55,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "medium",
+   "audio": {
+    "words_per_minute": 117.5,
+    "speech_coverage": 0.544,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "resolution / outro",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.662,
+    "documentary": 0.052,
+    "personal": 0.286
+   },
+   "visual_characteristics": [
+    "cool tones",
+    "highly saturated"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "sky in top third 38%, edge density 0.11",
+    "shot: wide establishing / landscape",
+    "first-person language 6% of words",
+    "est. 6.6 cuts/min in this sequence"
+   ]
+  }
+ ],
+ "narrative_structure": [
+  {
+   "start": 0.0,
+   "end": 60.0,
+   "label": "hook",
+   "description": "visual/musical opening - first words only at 0:21",
+   "evidence": []
+  },
+  {
+   "start": 60.0,
+   "end": 123.0,
+   "label": "Welcome to Kazakhstan",
+   "description": "2:03 chapter, leans personal",
+   "evidence": [
+    "39 words"
+   ]
+  },
+  {
+   "start": 123.0,
+   "end": 342.0,
+   "label": "The nomadic eagle tradition",
+   "description": "3:39 chapter, leans context",
+   "evidence": [
+    "403 words"
+   ]
+  },
+  {
+   "start": 342.0,
+   "end": 542.0,
+   "label": "Life in the nomadic tents",
+   "description": "3:20 chapter, leans context",
+   "evidence": [
+    "202 words"
+   ]
+  },
+  {
+   "start": 542.0,
+   "end": 668.0,
+   "label": "Modernizing Kazakhstan",
+   "description": "2:06 chapter, leans context",
+   "evidence": [
+    "231 words"
+   ]
+  },
+  {
+   "start": 648.9,
+   "end": 670.53,
+   "label": "audience peak",
+   "description": "highest replay density - likely emotional or visual climax",
+   "evidence": [
+    "heat 1.00"
+   ]
+  },
+  {
+   "start": 668.0,
+   "end": 864.0,
+   "label": "Geological wonders",
+   "description": "3:16 chapter, leans context",
+   "evidence": [
+    "194 words"
+   ]
+  },
+  {
+   "start": 864.0,
+   "end": 1379.0,
+   "label": "Astana and technological growth",
+   "description": "8:35 chapter, leans context",
+   "evidence": [
+    "885 words"
+   ]
+  },
+  {
+   "start": 1379.0,
+   "end": 2162.0,
+   "label": "The Baikonur Cosmodrome",
+   "description": "13:03 chapter, leans context",
+   "evidence": [
+    "1419 words"
+   ]
+  }
+ ],
+ "hook": {
+  "first_speech_at_s": 20.687,
+  "words_first_30s": 4,
+  "hook_vocabulary_first_30s": 0.0,
+  "title_uses_superlative_or_intrigue": true,
+  "cold_open": false,
+  "est_cuts_per_min_first_60s": 18.12,
+  "pattern": "visual/musical opening - first words only at 0:21"
+ },
+ "editing_characteristics": {
+  "est_cuts_per_min": 18.12,
+  "est_avg_shot_length_s": 3.31,
+  "estimator_saturated": true,
+  "changed_sample_fraction": 0.963,
+  "sample_interval_s": 9.92,
+  "visual_sequences": 28,
+  "median_sequence_s": 69.4,
+  "pacing_curve": [
+   {
+    "start": 0.0,
+    "end": 60.0,
+    "est_cuts_per_min": 18.12,
+    "speech_coverage": 0.08
+   },
+   {
+    "start": 60.0,
+    "end": 120.0,
+    "est_cuts_per_min": 18.12,
+    "speech_coverage": 0.17
+   },
+   {
+    "start": 120.0,
+    "end": 180.0,
+    "est_cuts_per_min": 18.12,
+    "speech_coverage": 0.55
+   },
+   {
+    "start": 180.0,
+    "end": 240.0,
+    "est_cuts_per_min": 6.65,
+    "speech_coverage": 0.69
+   },
+   {
+    "start": 240.0,
+    "end": 300.0,
+    "est_cuts_per_min": 18.12,
+    "speech_coverage": 0.65
+   },
+   {
+    "start": 300.0,
+    "end": 360.0,
+    "est_cuts_per_min": 18.12,
+    "speech_coverage": 0.37
+   },
+   {
+    "start": 360.0,
+    "end": 420.0,
+    "est_cuts_per_min": 18.12,
+    "speech_coverage": 0.39
+   },
+   {
+    "start": 420.0,
+    "end": 480.0,
+    "est_cuts_per_min": 18.12,
+    "speech_coverage": 0.26
+   },
+   {
+    "start": 480.0,
+    "end": 540.0,
+    "est_cuts_per_min": 10.84,
+    "speech_coverage": 0.24
+   },
+   {
+    "start": 540.0,
+    "end": 600.0,
+    "est_cuts_per_min": 18.12,
+    "speech_coverage": 0.43
+   },
+   {
+    "start": 600.0,
+    "end": 660.0,
+    "est_cuts_per_min": 18.12,
+    "speech_coverage": 0.77
+   },
+   {
+    "start": 660.0,
+    "end": 720.0,
+    "est_cuts_per_min": 10.84,
+    "speech_coverage": 0.44
+   },
+   {
+    "start": 720.0,
+    "end": 780.0,
+    "est_cuts_per_min": 18.12,
+    "speech_coverage": 0.46
+   },
+   {
+    "start": 780.0,
+    "end": 840.0,
+    "est_cuts_per_min": 18.12,
+    "speech_coverage": 0.06
+   },
+   {
+    "start": 840.0,
+    "end": 900.0,
+    "est_cuts_per_min": 18.12,
+    "speech_coverage": 0.37
+   },
+   {
+    "start": 900.0,
+    "end": 960.0,
+    "est_cuts_per_min": 18.12,
+    "speech_coverage": 0.43
+   },
+   {
+    "start": 960.0,
+    "end": 1020.0,
+    "est_cuts_per_min": 18.12,
+    "speech_coverage": 0.38
+   },
+   {
+    "start": 1020.0,
+    "end": 1080.0,
+    "est_cuts_per_min": 18.12,
+    "speech_coverage": 0.65
+   },
+   {
+    "start": 1080.0,
+    "end": 1140.0,
+    "est_cuts_per_min": 18.12,
+    "speech_coverage": 0.78
+   },
+   {
+    "start": 1140.0,
+    "end": 1200.0,
+    "est_cuts_per_min": 18.12,
+    "speech_coverage": 0.59
+   },
+   {
+    "start": 1200.0,
+    "end": 1260.0,
+    "est_cuts_per_min": 18.12,
+    "speech_coverage": 0.87
+   },
+   {
+    "start": 1260.0,
+    "end": 1320.0,
+    "est_cuts_per_min": 18.12,
+    "speech_coverage": 0.38
+   },
+   {
+    "start": 1320.0,
+    "end": 1380.0,
+    "est_cuts_per_min": 10.84,
+    "speech_coverage": 0.46
+   },
+   {
+    "start": 1380.0,
+    "end": 1440.0,
+    "est_cuts_per_min": 18.12,
+    "speech_coverage": 0.7
+   },
+   {
+    "start": 1440.0,
+    "end": 1500.0,
+    "est_cuts_per_min": 18.12,
+    "speech_coverage": 0.32
+   },
+   {
+    "start": 1500.0,
+    "end": 1560.0,
+    "est_cuts_per_min": 18.12,
+    "speech_coverage": 0.75
+   },
+   {
+    "start": 1560.0,
+    "end": 1620.0,
+    "est_cuts_per_min": 18.12,
+    "speech_coverage": 0.79
+   },
+   {
+    "start": 1620.0,
+    "end": 1680.0,
+    "est_cuts_per_min": 6.65,
+    "speech_coverage": 0.78
+   },
+   {
+    "start": 1680.0,
+    "end": 1740.0,
+    "est_cuts_per_min": 18.12,
+    "speech_coverage": 0.64
+   },
+   {
+    "start": 1740.0,
+    "end": 1800.0,
+    "est_cuts_per_min": 18.12,
+    "speech_coverage": 0.54
+   },
+   {
+    "start": 1800.0,
+    "end": 1860.0,
+    "est_cuts_per_min": 18.12,
+    "speech_coverage": 0.39
+   },
+   {
+    "start": 1860.0,
+    "end": 1920.0,
+    "est_cuts_per_min": 18.12,
+    "speech_coverage": 0.7
+   },
+   {
+    "start": 1920.0,
+    "end": 1980.0,
+    "est_cuts_per_min": 18.12,
+    "speech_coverage": 0.49
+   },
+   {
+    "start": 1980.0,
+    "end": 2040.0,
+    "est_cuts_per_min": 18.12,
+    "speech_coverage": 0.6
+   },
+   {
+    "start": 2040.0,
+    "end": 2100.0,
+    "est_cuts_per_min": 18.12,
+    "speech_coverage": 0.37
+   },
+   {
+    "start": 2100.0,
+    "end": 2160.0,
+    "est_cuts_per_min": 10.84,
+    "speech_coverage": 0.52
+   },
+   {
+    "start": 2160.0,
+    "end": 2162.0,
+    "est_cuts_per_min": 0.0,
+    "speech_coverage": 0.0
+   }
+  ],
+  "pacing_variability": 4.26,
+  "on_screen_text_frames": 5,
+  "chapters": 7,
+  "measurement_note": "Cut rate is a Poisson estimate from storyboard samples; individual cuts, transitions and camera moves are not observable at this sampling rate."
+ },
+ "sound_design": {
+  "available": true,
+  "speech_coverage": 0.502,
+  "non_speech_fraction": 0.334,
+  "longest_non_speech_s": 80.6,
+  "words_per_minute_overall": 93.6,
+  "caption_markers": {},
+  "music_marked_scenes": 0,
+  "note": "Music/ambience inferred from caption markers and speech gaps; audio itself is not downloaded."
+ },
+ "color_characteristics": {
+  "mean_brightness": 0.389,
+  "mean_contrast": 0.192,
+  "mean_saturation": 0.482,
+  "mean_colorfulness": 55.3,
+  "mean_warmth": -0.079,
+  "saturation_spread": 0.134,
+  "brightness_spread": 0.128,
+  "letterboxed_frame_fraction": 0.009,
+  "night_or_lowkey_fraction": 0.088,
+  "dominant_palette": [
+   "#1f252b",
+   "#347214",
+   "#39c1d2",
+   "#61777c",
+   "#887157",
+   "#41323c",
+   "#94849a",
+   "#76a79f"
+  ],
+  "grading_tags": [
+   "cool tones",
+   "highly saturated",
+   "on-screen text or title"
+  ]
+ },
+ "storytelling": {
+  "first_person_singular": 0.0042,
+  "first_person_plural": 0.0208,
+  "second_person": 0.0092,
+  "reflection": 0.0027,
+  "context_facts": 0.0379,
+  "hook_words": 0.0172,
+  "questions": 58,
+  "total_words": 3373,
+  "dialogue_score": 0.125,
+  "face_frame_fraction": 0.338,
+  "closeup_frame_fraction": 0.032,
+  "shot_type_distribution": {
+   "wide shot with people": 12,
+   "medium shot with people": 8,
+   "close-up on a person (talking head / selfie)": 2,
+   "wide establishing / landscape": 2,
+   "busy street / detail-rich scene": 2,
+   "general b-roll": 1,
+   "low-light / night shot": 1
+  },
+  "narrative_functions": {
+   "journey / progression": 8,
+   "context / exposition": 8,
+   "atmosphere / montage": 5,
+   "resolution / outro": 4,
+   "chapter opener / establishing": 2,
+   "opening hook": 1
+  }
+ },
+ "style_mode_mix": {
+  "cinematic": 0.519,
+  "documentary": 0.345,
+  "personal": 0.136
+ },
+ "techniques": [
+  {
+   "start": 0.0,
+   "end": 20.687,
+   "name": "speech-free montage",
+   "description": "21s without dialogue/narration, est. 18.1 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 0.0,
+   "end": 123.0,
+   "name": "chapter",
+   "description": "chapter: Welcome to Kazakhstan",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 0.0,
+   "end": 21.63,
+   "name": "replay peak",
+   "description": "most-replayed moment (heat 0.62) - audience-proven highlight",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 0.9,
+   "source": "heuristic"
+  },
+  {
+   "start": 44.502,
+   "end": 81.247,
+   "name": "speech-free montage",
+   "description": "37s without dialogue/narration, est. 18.1 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 123.0,
+   "end": 342.0,
+   "name": "chapter",
+   "description": "chapter: The nomadic eagle tradition",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 342.0,
+   "end": 542.0,
+   "name": "chapter",
+   "description": "chapter: Life in the nomadic tents",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 366.94,
+   "end": 376.85743119266056,
+   "name": "on-screen text",
+   "description": "title, location label or caption overlay detected",
+   "category": "graphics",
+   "style_mode": null,
+   "confidence": 0.4,
+   "source": "heuristic"
+  },
+  {
+   "start": 398.398,
+   "end": 412.12,
+   "name": "atmospheric non-speech sequence",
+   "description": "14s without dialogue/narration, est. 0.0 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 467.8,
+   "end": 480.021,
+   "name": "atmospheric non-speech sequence",
+   "description": "12s without dialogue/narration, est. 0.0 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 485.95,
+   "end": 495.86743119266055,
+   "name": "on-screen text",
+   "description": "title, location label or caption overlay detected",
+   "category": "graphics",
+   "style_mode": null,
+   "confidence": 0.4,
+   "source": "heuristic"
+  },
+  {
+   "start": 499.707,
+   "end": 516.224,
+   "name": "atmospheric non-speech sequence",
+   "description": "17s without dialogue/narration, est. 4.2 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 520.978,
+   "end": 542.458,
+   "name": "speech-free montage",
+   "description": "21s without dialogue/narration, est. 18.1 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 542.0,
+   "end": 668.0,
+   "name": "chapter",
+   "description": "chapter: Modernizing Kazakhstan",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 571.07,
+   "end": 594.385,
+   "name": "speech-free montage",
+   "description": "23s without dialogue/narration, est. 18.1 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 595.05,
+   "end": 604.9674311926605,
+   "name": "on-screen text",
+   "description": "title, location label or caption overlay detected",
+   "category": "graphics",
+   "style_mode": null,
+   "confidence": 0.4,
+   "source": "heuristic"
+  },
+  {
+   "start": 600.0,
+   "end": 689.26,
+   "name": "talking to camera",
+   "description": "presenter speaks directly to camera / selfie framing",
+   "category": "narration",
+   "style_mode": "personal",
+   "confidence": 0.5,
+   "source": "heuristic"
+  },
+  {
+   "start": 648.9,
+   "end": 670.53,
+   "name": "replay peak",
+   "description": "most-replayed moment (heat 1.00) - audience-proven highlight",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 0.9,
+   "source": "heuristic"
+  },
+  {
+   "start": 668.0,
+   "end": 864.0,
+   "name": "chapter",
+   "description": "chapter: Geological wonders",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 703.6610000000001,
+   "end": 721.137,
+   "name": "speech-free montage",
+   "description": "17s without dialogue/narration, est. 18.1 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 783.657,
+   "end": 864.238,
+   "name": "speech-free montage",
+   "description": "81s without dialogue/narration, est. 18.1 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 864.0,
+   "end": 1379.0,
+   "name": "chapter",
+   "description": "chapter: Astana and technological growth",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 926.967,
+   "end": 943.984,
+   "name": "speech-free montage",
+   "description": "17s without dialogue/narration, est. 18.1 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 968.717,
+   "end": 991.156,
+   "name": "speech-free montage",
+   "description": "22s without dialogue/narration, est. 18.1 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 1061.17,
+   "end": 1071.0874311926607,
+   "name": "on-screen text",
+   "description": "title, location label or caption overlay detected",
+   "category": "graphics",
+   "style_mode": null,
+   "confidence": 0.4,
+   "source": "heuristic"
+  },
+  {
+   "start": 1110.75,
+   "end": 1120.6674311926606,
+   "name": "on-screen text",
+   "description": "title, location label or caption overlay detected",
+   "category": "graphics",
+   "style_mode": null,
+   "confidence": 0.4,
+   "source": "heuristic"
+  },
+  {
+   "start": 1155.38,
+   "end": 1214.88,
+   "name": "talking to camera",
+   "description": "presenter speaks directly to camera / selfie framing",
+   "category": "narration",
+   "style_mode": "personal",
+   "confidence": 0.5,
+   "source": "heuristic"
+  },
+  {
+   "start": 1281.53,
+   "end": 1295.961,
+   "name": "atmospheric non-speech sequence",
+   "description": "14s without dialogue/narration, est. 0.0 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 1303.093,
+   "end": 1319.651,
+   "name": "speech-free montage",
+   "description": "17s without dialogue/narration, est. 18.1 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 1358.7740000000001,
+   "end": 1379.586,
+   "name": "atmospheric non-speech sequence",
+   "description": "21s without dialogue/narration, est. 4.2 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 1379.0,
+   "end": 2162.0,
+   "name": "chapter",
+   "description": "chapter: The Baikonur Cosmodrome",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 1439.146,
+   "end": 1463.253,
+   "name": "speech-free montage",
+   "description": "24s without dialogue/narration, est. 18.1 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 1730.4,
+   "end": 1752.03,
+   "name": "replay peak",
+   "description": "most-replayed moment (heat 0.61) - audience-proven highlight",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 0.9,
+   "source": "heuristic"
+  },
+  {
+   "start": 1843.758,
+   "end": 1858.147,
+   "name": "speech-free montage",
+   "description": "14s without dialogue/narration, est. 18.1 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 1949.864,
+   "end": 1974.097,
+   "name": "speech-free montage",
+   "description": "24s without dialogue/narration, est. 18.1 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 2048.463,
+   "end": 2063.519,
+   "name": "speech-free montage",
+   "description": "15s without dialogue/narration, est. 18.1 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 2092.0060000000003,
+   "end": 2104.268,
+   "name": "speech-free montage",
+   "description": "12s without dialogue/narration, est. 18.1 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  }
+ ],
+ "qualitative": {
+  "source": "claude-code (viewed contact sheet 1 of 5 + computed metrics)",
+  "summary": "Opens with roughly 70 seconds of speech-free, music-driven aerial and landscape montage (green valleys, a lone rider in a desert, red badlands at golden hour, snow peaks above cloud) before the presenter appears. After that the film alternates host-with-locals coverage (eagle hunters, yurt building) with insert details (eagle talons, food, feet) and re-establishing wides. The grade is a saturated teal/green push with warm skin tones. Narration is 'we/our journey' guide-voice rather than diary-voice.",
+  "hook_analysis": "Visual-first cold open: a sequence of the most spectacular locations promises scale before any words; first narration ('Welcome to Kazakhstan... land of eagle hunters') lands as a thesis over the montage at ~0:21.",
+  "narrative_arc": "Chaptered country portrait: city arrival (Almaty) -> cultural immersion set-pieces (eagle hunting, yurt raising, food) -> further regions. Each chapter opens on an establishing wide.",
+  "camera_and_composition": "Drone aerials and long-lens landscapes for scale; handheld/gimbal medium two-shots with local guides; tight macro-like inserts (eagle talons 2:59-4:08) used as cutaways. Not observable at storyboard resolution: exact camera moves.",
+  "color_and_grade": "Strong teal/cyan sky and lush green push, high saturation, warm skin protected. Reads as a deliberate 'travel-commercial' grade.",
+  "sound_and_music": "Opening montage is music-only; speech gaps of 12s+ recur throughout (measured), consistent with music-led transitions between set-pieces.",
+  "what_to_borrow": [
+   "Open on the 4-6 most spectacular shots with music only, then state the thesis in one line",
+   "Re-establish every new location with a wide before people",
+   "Use tight detail inserts to cover cuts in conversations"
+  ],
+  "what_to_avoid_copying": [
+   "The heavy teal grade on footage that was not shot for it - grade to your own footage's latitude"
+  ],
+  "observations": [
+   {
+    "start": 0,
+    "end": 70,
+    "name": "speech-free landscape cold open",
+    "description": "Spectacular-location montage before the presenter appears; narration enters over it ~0:21.",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 30,
+    "end": 40,
+    "name": "flash-forward tease",
+    "description": "A costumed group shot from later in the film appears inside the opening montage as a promise of what is coming.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 89,
+    "end": 120,
+    "name": "context sequence over archival-feel visuals",
+    "description": "Space-launch heritage (rocket hall, retro TV showing a launch) used to deliver historical context.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 179,
+    "end": 250,
+    "name": "detail inserts as cutaways",
+    "description": "Close-ups of eagle talons/feet intercut with two-shot conversation with an eagle hunter.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 377,
+    "end": 440,
+    "name": "process montage",
+    "description": "Yurt construction shown as a progression of stages - participation rather than observation.",
+    "style_mode": "personal"
+   }
+  ]
+ },
+ "contact_sheets": [],
+ "limitations": [
+  "Frames are YouTube storyboard previews (YouTube storyboard 320x180, one frame every 9.9s); fine detail, exact cuts, transitions and camera movement are not measured.",
+  "Shot types use face/sky/edge heuristics on low-resolution frames - treat as approximate."
+ ]
+}

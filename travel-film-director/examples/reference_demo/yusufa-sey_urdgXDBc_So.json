@@ -1,0 +1,1043 @@
+{
+ "schema_version": "1.0",
+ "video_id": "urdgXDBc_So",
+ "url": "https://www.youtube.com/watch?v=urdgXDBc_So",
+ "creator": "Yusufa Sey",
+ "title": "I spend a week with Gambia’s next President…",
+ "channel": "Yusufa Sey",
+ "upload_date": "20260125",
+ "duration": 1076.0,
+ "view_count": 5069,
+ "user_notes": "personal documentary, access to people",
+ "analysed_at": "2026-11-24T19:01:43+00:00",
+ "sources": {
+  "metadata": true,
+  "transcript": "none",
+  "transcript_language": null,
+  "frames": "YouTube storyboard 320x180, one frame every 9.9s",
+  "frame_interval_s": 9.871559633027523,
+  "chapters": 8,
+  "heatmap": false
+ },
+ "chapters": [
+  {
+   "start": 0.0,
+   "end": 37.0,
+   "title": "Gambia trip introduction"
+  },
+  {
+   "start": 37.0,
+   "end": 138.0,
+   "title": "Planning and community"
+  },
+  {
+   "start": 138.0,
+   "end": 241.0,
+   "title": "Community clean-up event"
+  },
+  {
+   "start": 241.0,
+   "end": 307.0,
+   "title": "Political mission launched"
+  },
+  {
+   "start": 307.0,
+   "end": 530.0,
+   "title": "Local culture and business"
+  },
+  {
+   "start": 530.0,
+   "end": 623.0,
+   "title": "Meetings and reflection"
+  },
+  {
+   "start": 623.0,
+   "end": 933.0,
+   "title": "Understanding leadership"
+  },
+  {
+   "start": 933.0,
+   "end": 1076.0,
+   "title": "The vision for change"
+  }
+ ],
+ "replay_peaks": [],
+ "scenes": [
+  {
+   "index": 0,
+   "start": 0.0,
+   "end": 34.55,
+   "duration": 34.55,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "opening hook",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.209,
+    "documentary": 0.59,
+    "personal": 0.201
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "low-key / dark"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 25% of frames",
+    "visual-only scoring (no transcript)",
+    "shot: wide shot with people",
+    "est. 18.2 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 1,
+   "start": 34.55,
+   "end": 83.91,
+   "duration": 49.36,
+   "representative_frame": null,
+   "shot_type": "general b-roll",
+   "shot_type_confidence": 0.3,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.397,
+    "documentary": 0.301,
+    "personal": 0.301
+   },
+   "visual_characteristics": [
+    "neutral white balance",
+    "muted / desaturated",
+    "high contrast"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "sky 16%, edges 0.06, no faces detected",
+    "visual-only scoring (no transcript)",
+    "shot: general b-roll",
+    "est. 18.2 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 2,
+   "start": 83.91,
+   "end": 133.26,
+   "duration": 49.36,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.296,
+    "documentary": 0.523,
+    "personal": 0.18
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "high contrast"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 20% of frames",
+    "visual-only scoring (no transcript)",
+    "shot: wide shot with people",
+    "est. 18.2 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 3,
+   "start": 133.26,
+   "end": 162.88,
+   "duration": 29.62,
+   "representative_frame": null,
+   "shot_type": "close-up on a person (talking head / selfie)",
+   "shot_type_confidence": 0.6,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "medium",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "personal",
+   "style_scores": {
+    "cinematic": 0.171,
+    "documentary": 0.276,
+    "personal": 0.553
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "highly saturated",
+    "high contrast"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 100% of frames, max face 40% of frame height",
+    "visual-only scoring (no transcript)",
+    "shot: close-up on a person (talking head / selfie)",
+    "est. 6.7 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 4,
+   "start": 162.88,
+   "end": 212.24,
+   "duration": 49.36,
+   "representative_frame": null,
+   "shot_type": "medium shot with people",
+   "shot_type_confidence": 0.5,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.199,
+    "documentary": 0.603,
+    "personal": 0.198
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "low-key / dark"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 40% of frames, max face 27%",
+    "visual-only scoring (no transcript)",
+    "shot: medium shot with people",
+    "est. 18.2 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 5,
+   "start": 212.24,
+   "end": 241.85,
+   "duration": 29.62,
+   "representative_frame": null,
+   "shot_type": "general b-roll",
+   "shot_type_confidence": 0.3,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.357,
+    "documentary": 0.321,
+    "personal": 0.321
+   },
+   "visual_characteristics": [
+    "neutral white balance",
+    "muted / desaturated"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "sky 6%, edges 0.06, no faces detected",
+    "visual-only scoring (no transcript)",
+    "shot: general b-roll",
+    "est. 18.2 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 6,
+   "start": 241.85,
+   "end": 310.95,
+   "duration": 69.1,
+   "representative_frame": null,
+   "shot_type": "close-up on a person (talking head / selfie)",
+   "shot_type_confidence": 0.6,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "medium",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "personal",
+   "style_scores": {
+    "cinematic": 0.2,
+    "documentary": 0.244,
+    "personal": 0.556
+   },
+   "visual_characteristics": [
+    "neutral white balance",
+    "muted / desaturated"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 71% of frames, max face 44% of frame height",
+    "visual-only scoring (no transcript)",
+    "shot: close-up on a person (talking head / selfie)",
+    "est. 5.1 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 7,
+   "start": 310.95,
+   "end": 340.56,
+   "duration": 29.61,
+   "representative_frame": null,
+   "shot_type": "busy street / detail-rich scene",
+   "shot_type_confidence": 0.4,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.225,
+    "documentary": 0.568,
+    "personal": 0.207
+   },
+   "visual_characteristics": [
+    "warm tones"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "edge density 0.20",
+    "visual-only scoring (no transcript)",
+    "shot: busy street / detail-rich scene",
+    "est. 18.2 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 8,
+   "start": 340.56,
+   "end": 389.93,
+   "duration": 49.36,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.234,
+    "documentary": 0.57,
+    "personal": 0.196
+   },
+   "visual_characteristics": [
+    "neutral white balance",
+    "high contrast"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 20% of frames",
+    "visual-only scoring (no transcript)",
+    "shot: wide shot with people",
+    "est. 18.2 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 9,
+   "start": 389.93,
+   "end": 528.12,
+   "duration": 138.2,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "medium",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.213,
+    "documentary": 0.586,
+    "personal": 0.201
+   },
+   "visual_characteristics": [
+    "warm tones"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 21% of frames",
+    "visual-only scoring (no transcript)",
+    "shot: wide shot with people",
+    "est. 5.1 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 10,
+   "start": 528.12,
+   "end": 557.74,
+   "duration": 29.62,
+   "representative_frame": null,
+   "shot_type": "general b-roll",
+   "shot_type_confidence": 0.3,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.355,
+    "documentary": 0.322,
+    "personal": 0.322
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "highly saturated"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "sky 5%, edges 0.08, no faces detected",
+    "visual-only scoring (no transcript)",
+    "shot: general b-roll",
+    "est. 18.2 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 11,
+   "start": 557.74,
+   "end": 626.85,
+   "duration": 69.1,
+   "representative_frame": null,
+   "shot_type": "medium shot with people",
+   "shot_type_confidence": 0.5,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "medium",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.241,
+    "documentary": 0.582,
+    "personal": 0.177
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "high contrast"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 71% of frames, max face 28%",
+    "visual-only scoring (no transcript)",
+    "shot: medium shot with people",
+    "est. 7.6 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 12,
+   "start": 626.85,
+   "end": 932.87,
+   "duration": 306.02,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "slow",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.25,
+    "documentary": 0.559,
+    "personal": 0.191
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "high contrast"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 23% of frames",
+    "visual-only scoring (no transcript)",
+    "shot: wide shot with people",
+    "est. 3.0 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 13,
+   "start": 932.87,
+   "end": 1051.33,
+   "duration": 118.46,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "resolution / outro",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.203,
+    "documentary": 0.595,
+    "personal": 0.203
+   },
+   "visual_characteristics": [
+    "neutral white balance",
+    "high contrast"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 25% of frames",
+    "visual-only scoring (no transcript)",
+    "shot: wide shot with people",
+    "est. 10.9 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 14,
+   "start": 1051.33,
+   "end": 1076.0,
+   "duration": 24.67,
+   "representative_frame": null,
+   "shot_type": "low-light / night shot",
+   "shot_type_confidence": 0.45,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "medium",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "resolution / outro",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.636,
+    "documentary": 0.182,
+    "personal": 0.182
+   },
+   "visual_characteristics": [
+    "neutral white balance",
+    "muted / desaturated",
+    "flat / low contrast",
+    "low-key / dark",
+    "letterboxed (cinematic aspect)"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "mean brightness 0.02",
+    "visual-only scoring (no transcript)",
+    "shot: low-light / night shot",
+    "est. 4.2 cuts/min in this sequence"
+   ]
+  }
+ ],
+ "narrative_structure": [
+  {
+   "start": 0.0,
+   "end": 60.0,
+   "label": "hook",
+   "description": "short visual lead-in followed by speech",
+   "evidence": []
+  },
+  {
+   "start": 60.0,
+   "end": 138.0,
+   "label": "Planning and community",
+   "description": "1:41 chapter, leans context",
+   "evidence": [
+    "0 words"
+   ]
+  },
+  {
+   "start": 138.0,
+   "end": 241.0,
+   "label": "Community clean-up event",
+   "description": "1:43 chapter, leans context",
+   "evidence": [
+    "0 words"
+   ]
+  },
+  {
+   "start": 241.0,
+   "end": 307.0,
+   "label": "Political mission launched",
+   "description": "1:06 chapter, leans context",
+   "evidence": [
+    "0 words"
+   ]
+  },
+  {
+   "start": 307.0,
+   "end": 530.0,
+   "label": "Local culture and business",
+   "description": "3:43 chapter, leans context",
+   "evidence": [
+    "0 words"
+   ]
+  },
+  {
+   "start": 530.0,
+   "end": 623.0,
+   "label": "Meetings and reflection",
+   "description": "1:33 chapter, leans context",
+   "evidence": [
+    "0 words"
+   ]
+  },
+  {
+   "start": 623.0,
+   "end": 933.0,
+   "label": "Understanding leadership",
+   "description": "5:10 chapter, leans context",
+   "evidence": [
+    "0 words"
+   ]
+  },
+  {
+   "start": 933.0,
+   "end": 1076.0,
+   "label": "The vision for change",
+   "description": "2:23 chapter, leans context",
+   "evidence": [
+    "0 words"
+   ]
+  }
+ ],
+ "hook": {
+  "first_speech_at_s": null,
+  "words_first_30s": 0,
+  "hook_vocabulary_first_30s": 0.0,
+  "title_uses_superlative_or_intrigue": false,
+  "cold_open": false,
+  "est_cuts_per_min_first_60s": 18.21,
+  "pattern": "short visual lead-in followed by speech"
+ },
+ "editing_characteristics": {
+  "est_cuts_per_min": 7.02,
+  "est_avg_shot_length_s": 8.54,
+  "estimator_saturated": false,
+  "changed_sample_fraction": 0.685,
+  "sample_interval_s": 9.87,
+  "visual_sequences": 15,
+  "median_sequence_s": 49.4,
+  "pacing_curve": [
+   {
+    "start": 0.0,
+    "end": 60.0,
+    "est_cuts_per_min": 18.21,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 60.0,
+    "end": 120.0,
+    "est_cuts_per_min": 18.21,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 120.0,
+    "end": 180.0,
+    "est_cuts_per_min": 10.89,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 180.0,
+    "end": 240.0,
+    "est_cuts_per_min": 18.21,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 240.0,
+    "end": 300.0,
+    "est_cuts_per_min": 4.21,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 300.0,
+    "end": 360.0,
+    "est_cuts_per_min": 18.21,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 360.0,
+    "end": 420.0,
+    "est_cuts_per_min": 18.21,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 420.0,
+    "end": 480.0,
+    "est_cuts_per_min": 2.46,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 480.0,
+    "end": 540.0,
+    "est_cuts_per_min": 6.68,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 540.0,
+    "end": 600.0,
+    "est_cuts_per_min": 10.89,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 600.0,
+    "end": 660.0,
+    "est_cuts_per_min": 10.89,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 660.0,
+    "end": 720.0,
+    "est_cuts_per_min": 6.68,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 720.0,
+    "end": 780.0,
+    "est_cuts_per_min": 2.05,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 780.0,
+    "end": 840.0,
+    "est_cuts_per_min": -0.0,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 840.0,
+    "end": 900.0,
+    "est_cuts_per_min": -0.0,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 900.0,
+    "end": 960.0,
+    "est_cuts_per_min": 6.68,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 960.0,
+    "end": 1020.0,
+    "est_cuts_per_min": 18.21,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 1020.0,
+    "end": 1076.0,
+    "est_cuts_per_min": 9.78,
+    "speech_coverage": 0.0
+   }
+  ],
+  "pacing_variability": 6.64,
+  "on_screen_text_frames": 0,
+  "chapters": 8,
+  "measurement_note": "Cut rate is a Poisson estimate from storyboard samples; individual cuts, transitions and camera moves are not observable at this sampling rate."
+ },
+ "sound_design": {
+  "available": false,
+  "speech_coverage": 0.0,
+  "non_speech_fraction": 0.0,
+  "longest_non_speech_s": 0,
+  "words_per_minute_overall": 0.0,
+  "caption_markers": {},
+  "music_marked_scenes": 0,
+  "note": "Music/ambience inferred from caption markers and speech gaps; audio itself is not downloaded."
+ },
+ "color_characteristics": {
+  "mean_brightness": 0.363,
+  "mean_contrast": 0.256,
+  "mean_saturation": 0.293,
+  "mean_colorfulness": 34.8,
+  "mean_warmth": 0.09,
+  "saturation_spread": 0.118,
+  "brightness_spread": 0.122,
+  "letterboxed_frame_fraction": 0.037,
+  "night_or_lowkey_fraction": 0.064,
+  "dominant_palette": [
+   "#953836",
+   "#d5cdbe",
+   "#633729",
+   "#633628",
+   "#322522",
+   "#5e4b44",
+   "#73584e",
+   "#39251e"
+  ],
+  "grading_tags": [
+   "warm tones"
+  ]
+ },
+ "storytelling": {
+  "first_person_singular": 0.0,
+  "first_person_plural": 0.0,
+  "second_person": 0.0,
+  "reflection": 0.0,
+  "context_facts": 0.0,
+  "hook_words": 0.0,
+  "questions": 0,
+  "total_words": 0,
+  "dialogue_score": 0.0,
+  "face_frame_fraction": 0.284,
+  "closeup_frame_fraction": 0.073,
+  "shot_type_distribution": {
+   "wide shot with people": 6,
+   "general b-roll": 3,
+   "close-up on a person (talking head / selfie)": 2,
+   "medium shot with people": 2,
+   "busy street / detail-rich scene": 1,
+   "low-light / night shot": 1
+  },
+  "narrative_functions": {
+   "journey / progression": 12,
+   "resolution / outro": 2,
+   "opening hook": 1
+  }
+ },
+ "style_mode_mix": {
+  "cinematic": 0.253,
+  "documentary": 0.508,
+  "personal": 0.239
+ },
+ "techniques": [
+  {
+   "start": 0.0,
+   "end": 37.0,
+   "name": "chapter",
+   "description": "chapter: Gambia trip introduction",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 37.0,
+   "end": 138.0,
+   "name": "chapter",
+   "description": "chapter: Planning and community",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 138.0,
+   "end": 241.0,
+   "name": "chapter",
+   "description": "chapter: Community clean-up event",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 241.0,
+   "end": 307.0,
+   "name": "chapter",
+   "description": "chapter: Political mission launched",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 307.0,
+   "end": 530.0,
+   "name": "chapter",
+   "description": "chapter: Local culture and business",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 530.0,
+   "end": 623.0,
+   "name": "chapter",
+   "description": "chapter: Meetings and reflection",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 623.0,
+   "end": 933.0,
+   "name": "chapter",
+   "description": "chapter: Understanding leadership",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 933.0,
+   "end": 1076.0,
+   "name": "chapter",
+   "description": "chapter: The vision for change",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  }
+ ],
+ "qualitative": {
+  "source": "claude-code (viewed contact sheet 1 of 3 + computed metrics; YouTube offers no captions for this video, so speech metrics are missing)",
+  "summary": "Observational, access-driven documentary-vlog: the camera rides along in cars, waits at doors, and sits at tables with a politician's circle. It is punctuated by black interstitial title cards ('ZERO TO £100M' series branding at 0:30, 'THE NEXT DAY' at 3:27) and pieces to camera that explain stakes. Burned-in subtitles carry the dialogue. The grade is warm with magenta/orange highlights, shallow depth of field on people, and handheld fly-on-the-wall framing.",
+  "hook_analysis": "In medias res: the film opens inside a moving car and on campaign activity before the series title card; context is given only after the viewer is already 'in the room'.",
+  "narrative_arc": "Day-by-day chronology signposted by text cards ('THE NEXT DAY'); stakes are set by a piece to camera ('He's running for president and I'm here to support him'); scenes alternate private moments (car, dinner) with public ones (community events).",
+  "camera_and_composition": "Observational handheld; car-interior profiles against windows; shallow-focus medium close-ups for pieces to camera; dashboard POV of the street.",
+  "color_and_grade": "Warm, slightly magenta-shifted highlights; lifted shadows; skin tones prioritised.",
+  "sound_and_music": "Not measurable here (no captions available, and audio is not downloaded).",
+  "what_to_borrow": [
+   "Black text interstitials to mark time jumps",
+   "One crisp piece to camera to state the stakes early",
+   "Ride-along car scenes as connective tissue between locations"
+  ],
+  "what_to_avoid_copying": [
+   "Series branding cards - use your own title system"
+  ],
+  "observations": [
+   {
+    "start": 0,
+    "end": 30,
+    "name": "in medias res opening",
+    "description": "Starts inside the action (car, campaign) before any title.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 30,
+    "end": 39,
+    "name": "black title card",
+    "description": "Series title on black - a hard visual reset after the cold open.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 197,
+    "end": 207,
+    "name": "time-jump interstitial",
+    "description": "'THE NEXT DAY' text on black to mark chronology.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 247,
+    "end": 290,
+    "name": "stakes-setting piece to camera",
+    "description": "Presenter explains why he is there and what is at stake.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 335,
+    "end": 400,
+    "name": "car ride-along",
+    "description": "Profile shots in a moving car and dashboard street POV as connective sequences.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 414,
+    "end": 470,
+    "name": "observational dinner scene",
+    "description": "Two-person table conversation filmed fly-on-the-wall with burned-in subtitles.",
+    "style_mode": "documentary"
+   }
+  ]
+ },
+ "contact_sheets": [],
+ "limitations": [
+  "Frames are YouTube storyboard previews (YouTube storyboard 320x180, one frame every 9.9s); fine detail, exact cuts, transitions and camera movement are not measured.",
+  "Shot types use face/sky/edge heuristics on low-resolution frames - treat as approximate.",
+  "No transcript available - speech/story metrics are empty."
+ ]
+}

@@ -1,0 +1,70 @@
+"""Export plan.json as an editable OpenTimelineIO timeline (imports natively into DaVinci Resolve 18.5+,
+File > Import > Timeline). Original media is referenced in place - never copied or re-encoded."""
+from __future__ import annotations
+
+from pathlib import Path
+
+import opentimelineio as otio
+
+from ..log import get_logger
+from ..util import safe_output_path
+
+log = get_logger("otio")
+
+
+def _rt(sec: float, rate: float) -> otio.opentime.RationalTime:
+    return otio.opentime.RationalTime(round(sec * rate), rate)
+
+
+def build_timeline(plan: dict, rate: float = 25.0) -> otio.schema.Timeline:
+    tl = otio.schema.Timeline(name=Path(plan["project"]).name + " - AI director cut")
+    tl.global_start_time = otio.opentime.RationalTime(0, rate)
+    v1 = otio.schema.Track(name="V1 picture", kind=otio.schema.TrackKind.Video)
+    a1 = otio.schema.Track(name="A1 sync/ambient", kind=otio.schema.TrackKind.Audio)
+    for i, item in enumerate(plan["timeline"]):
+        c = plan["clips"][item["clip"]]
+        crate = c["fps"] or rate
+        ref = otio.schema.ExternalReference(
+            target_url=Path(c["path"]).resolve().as_uri(),
+            available_range=otio.opentime.TimeRange(_rt(0, crate), _rt(c["duration"], crate)))
+        rng = otio.opentime.TimeRange(_rt(item["src_in"], crate), _rt(item["src_out"] - item["src_in"], crate))
+        meta = {"tfd": {k: item.get(k) for k in ("section", "mode", "reference", "audio", "reason", "sequence")}}
+        clip = otio.schema.Clip(name=f"{i:03d} {Path(c['path']).name}", media_reference=ref, source_range=rng, metadata=meta)
+        clip.markers.append(otio.schema.Marker(name=item["reason"][:200], marked_range=otio.opentime.TimeRange(rng.start_time, _rt(0, crate)),
+                                               color=otio.schema.MarkerColor.BLUE))
+        v1.append(clip)
+        aclip = otio.schema.Clip(name=clip.name, media_reference=otio.schema.ExternalReference(target_url=ref.target_url,
+                                 available_range=ref.available_range), source_range=rng, metadata=meta)
+        a1.append(aclip)
+    tl.tracks.extend([v1, a1])
+    if plan.get("music"):
+        a2 = otio.schema.Track(name="A2 music", kind=otio.schema.TrackKind.Audio)
+        for m in plan["music"][:1]:
+            a2.append(otio.schema.Clip(name=Path(m).name, media_reference=otio.schema.ExternalReference(target_url=Path(m).resolve().as_uri()),
+                                       source_range=otio.opentime.TimeRange(_rt(0, rate), _rt(plan["planned_seconds"], rate))))
+        tl.tracks.append(a2)
+    for t in plan.get("titles", []):
+        tl.tracks.markers.append(otio.schema.Marker(name=f"TITLE: {t['text']}", marked_range=otio.opentime.TimeRange(
+            _rt(t["at"], rate), _rt(t["duration"], rate)), color=otio.schema.MarkerColor.YELLOW))
+    for r in plan.get("needs_review", []):
+        tl.tracks.markers.append(otio.schema.Marker(name=f"REVIEW: {r['issue']}"[:250], marked_range=otio.opentime.TimeRange(
+            _rt(r["at"], rate), _rt(0, rate)), color=otio.schema.MarkerColor.RED))
+    tl.metadata["tfd"] = {"decisions": plan.get("decisions", []), "audio_rules": plan.get("audio_rules", {})}
+    return tl
+
+
+def export_timeline(project: Path, plan: dict) -> dict:
+    out_dir = project / "timelines"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    tl = build_timeline(plan)
+    paths = {}
+    p = safe_output_path(out_dir / "director_cut.otio")
+    otio.adapters.write_to_file(tl, str(p))
+    paths["otio"] = p
+    try:  # FCP7 XML, if the adapter plugin is installed (pip install otio-fcp-adapter)
+        x = safe_output_path(out_dir / "director_cut.xml")
+        otio.adapters.write_to_file(tl, str(x), adapter_name="fcp_xml")
+        paths["fcp_xml"] = x
+    except Exception as e:
+        log.info("FCP XML not written (%s); the .otio file imports directly into Resolve 18.5+", type(e).__name__)
+    return paths

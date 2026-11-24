@@ -1,0 +1,19 @@
+{
+  "source": "claude-code (viewed contact sheet 1 of 3 + computed metrics; YouTube offers no captions for this video, so speech metrics are missing)",
+  "summary": "Observational, access-driven documentary-vlog: the camera rides along in cars, waits at doors, and sits at tables with a politician's circle. It is punctuated by black interstitial title cards ('ZERO TO £100M' series branding at 0:30, 'THE NEXT DAY' at 3:27) and pieces to camera that explain stakes. Burned-in subtitles carry the dialogue. The grade is warm with magenta/orange highlights, shallow depth of field on people, and handheld fly-on-the-wall framing.",
+  "hook_analysis": "In medias res: the film opens inside a moving car and on campaign activity before the series title card; context is given only after the viewer is already 'in the room'.",
+  "narrative_arc": "Day-by-day chronology signposted by text cards ('THE NEXT DAY'); stakes are set by a piece to camera ('He's running for president and I'm here to support him'); scenes alternate private moments (car, dinner) with public ones (community events).",
+  "camera_and_composition": "Observational handheld; car-interior profiles against windows; shallow-focus medium close-ups for pieces to camera; dashboard POV of the street.",
+  "color_and_grade": "Warm, slightly magenta-shifted highlights; lifted shadows; skin tones prioritised.",
+  "sound_and_music": "Not measurable here (no captions available, and audio is not downloaded).",
+  "what_to_borrow": ["Black text interstitials to mark time jumps", "One crisp piece to camera to state the stakes early", "Ride-along car scenes as connective tissue between locations"],
+  "what_to_avoid_copying": ["Series branding cards - use your own title system"],
+  "observations": [
+    {"start": 0, "end": 30, "name": "in medias res opening", "description": "Starts inside the action (car, campaign) before any title.", "style_mode": "documentary"},
+    {"start": 30, "end": 39, "name": "black title card", "description": "Series title on black - a hard visual reset after the cold open.", "style_mode": "documentary"},
+    {"start": 197, "end": 207, "name": "time-jump interstitial", "description": "'THE NEXT DAY' text on black to mark chronology.", "style_mode": "documentary"},
+    {"start": 247, "end": 290, "name": "stakes-setting piece to camera", "description": "Presenter explains why he is there and what is at stake.", "style_mode": "personal"},
+    {"start": 335, "end": 400, "name": "car ride-along", "description": "Profile shots in a moving car and dashboard street POV as connective sequences.", "style_mode": "documentary"},
+    {"start": 414, "end": 470, "name": "observational dinner scene", "description": "Two-person table conversation filmed fly-on-the-wall with burned-in subtitles.", "style_mode": "documentary"}
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "source": "claude-code (viewed contact sheet 1 of 4 + computed metrics)",
+  "summary": "A diary-style 'pov' vlog where the creator's voice carries almost the entire runtime (98% speech coverage). A 20-second teaser of upcoming moments is followed by a bold yellow location title, then a long static sit-down to camera in a garden (~0:30-4:18). The rest is wide-angle selfie footage (low angles, ceiling lights), friends hanging out at home, and phone-in-hand updates. Captions are burned in. The tone is warm, natural light, slightly lifted blacks.",
+  "hook_analysis": "Spoken cold open plus a visual teaser: brief glimpses (walking in a rainforest, a 'MELBOURNE' title card, cooking) followed immediately by direct-address talk; the hook is the creator's personality and stated premise rather than spectacle.",
+  "narrative_arc": "Chronological diary: reflection/sit-down -> daily life with friends -> travel to the next city ('we'll be flying to Melbourne tomorrow'). Progression is marked by stated plans, not chapters.",
+  "camera_and_composition": "Locked-off medium sit-down; ultra-wide handheld selfie (GoPro/Osmo-style) at low angles; candid over-the-shoulder group moments. Composition is casual and functional.",
+  "color_and_grade": "Warm, natural daylight greens; interiors are dim and moody with practical lights; mild contrast.",
+  "sound_and_music": "Dense talk (~175 wpm); music is mostly a bed under speech rather than standalone montage (only ~1% of runtime has no speech).",
+  "what_to_borrow": ["A 10-20 second teaser of later moments before the talk starts", "Bold typographic location cards to mark arrivals", "Burned-in captions for talk-heavy personal sections", "Unpolished wide-angle selfie for authenticity in transitional moments"],
+  "what_to_avoid_copying": ["Four-minute static talking-head blocks - for a travel film keep reflections short and cover them with b-roll"],
+  "observations": [
+    {"start": 0, "end": 20, "name": "teaser cold open", "description": "Rapid preview of later moments before the talk begins.", "style_mode": "personal"},
+    {"start": 10, "end": 20, "name": "bold typographic location title", "description": "Large yellow 'MELBOURNE' text over a street shot - a graphic location card.", "style_mode": "cinematic"},
+    {"start": 30, "end": 258, "name": "static sit-down reflection", "description": "Locked-off to-camera talk in a garden; the narrative engine of the opening.", "style_mode": "personal"},
+    {"start": 268, "end": 300, "name": "wide-angle low-angle selfie", "description": "Ultra-wide handheld selfie with ceiling practicals in frame - candid vlog texture.", "style_mode": "personal"},
+    {"start": 308, "end": 368, "name": "behind-the-scenes with friends", "description": "Candid hanging-out footage at home, overheard banter.", "style_mode": "personal"},
+    {"start": 377, "end": 466, "name": "plan-forward ending of a segment", "description": "Phone-in-hand update announcing tomorrow's move to Melbourne - progression by stated plan.", "style_mode": "personal"}
+  ]
+}
