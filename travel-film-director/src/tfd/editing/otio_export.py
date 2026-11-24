@@ -67,4 +67,10 @@ def export_timeline(project: Path, plan: dict) -> dict:
         paths["fcp_xml"] = x
     except Exception as e:
         log.info("FCP XML not written (%s); the .otio file imports directly into Resolve 18.5+", type(e).__name__)
+    try:  # Final Cut Pro X/11 FCPXML (pip install otio-fcpx-xml-adapter)
+        fx = safe_output_path(out_dir / "director_cut.fcpxml")
+        otio.adapters.write_to_file(tl, str(fx), adapter_name="fcpx_xml")
+        paths["fcpxml"] = fx
+    except Exception as e:
+        log.info("FCPXML not written (%s: %s)", type(e).__name__, str(e)[:200])
     return paths

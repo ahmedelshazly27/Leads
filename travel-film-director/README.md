@@ -1,32 +1,47 @@
 # AI Travel Film Director
 
-A local, Python-first system that learns *how* travel filmmakers you admire structure, pace, frame and score their films. It does this from public YouTube references, without downloading them. It then uses that knowledge to plan and assemble an **editable** cut of your own raw footage, for DaVinci Resolve, with an explanation for every decision.
+A local, Python-first system that learns *how* travel filmmakers you admire structure, pace, frame and score their films. It does this from public YouTube references, without downloading them. It then uses that knowledge to plan and assemble an **editable** cut of your own raw footage, for DaVinci Resolve or Final Cut Pro on your Mac, with an explanation for every decision.
 
-Status: **milestone 1 (reference intelligence) works end to end on real videos.** The footage → plan → OTIO → preview render → QA path works on test clips and needs real-trip tuning. See [ROADMAP.md](ROADMAP.md).
+Status: **milestone 1 (reference intelligence) works end to end on real videos.** The footage → plan → timeline export → preview render → QA path works on test clips and needs real-trip tuning. See [ROADMAP.md](ROADMAP.md).
 
 - [RESEARCH.md](RESEARCH.md): tool research, comparison matrix, final choices
 - [ARCHITECTURE.md](ARCHITECTURE.md): modules, data layout, algorithms
 - [CHANGELOG.md](CHANGELOG.md) · [ROADMAP.md](ROADMAP.md)
 
-## Install (Windows 11)
+## Install (macOS)
 
-1. Install **Python 3.11–3.13** (python.org, tick "Add to PATH").
-2. Install **FFmpeg** and make sure `ffmpeg` and `ffprobe` are on PATH: `winget install Gyan.FFmpeg`.
-3. Install **DaVinci Resolve 18.5+** (Free is fine; it imports `.otio` timelines).
-4. In PowerShell:
+Target: macOS 14+ on Apple Silicon. Intel Macs should work too, with CPU-only transcription. Not yet run on a real Mac; see ROADMAP item 1.
 
-```powershell
+1. Install [Homebrew](https://brew.sh).
+2. Install **DaVinci Resolve 18.5+** (free, from blackmagicdesign.com) and/or **Final Cut Pro**.
+3. In Terminal:
+
+```bash
 cd travel-film-director
-py -m venv .venv
-.venv\Scripts\Activate.ps1
+./scripts/setup_macos.sh
+```
+
+The script installs Python 3.12 and FFmpeg via Homebrew, creates `.venv`, and installs everything. On Apple Silicon that includes `mlx-whisper`, which runs speech-to-text on the GPU. It then runs the test suite.
+
+Afterwards, double-click **`scripts/Travel Film Director.command`** in Finder to start the app. If macOS blocks it the first time, right-click it and choose Open. You can also run `source .venv/bin/activate && tfd serve`.
+
+**Manual install** (equivalent):
+
+```bash
+brew install python@3.12 ffmpeg
+python3.12 -m venv .venv && source .venv/bin/activate
 pip install -e ".[claude,transcribe,dev]"
-copy .env.example .env    # optional: add ANTHROPIC_API_KEY, cookies settings
+cp .env.example .env
 pytest -q
 ```
 
-macOS and Linux work the same way, with `python3 -m venv .venv && source .venv/bin/activate`. GPU is optional: faster-whisper uses CUDA 12 and cuDNN 9 when present, and otherwise runs on CPU (int8).
+If YouTube asks you to "confirm you're not a bot", set `TFD_YT_COOKIES_FROM_BROWSER=safari` in `.env` (or `chrome`/`firefox`). This uses your own logged-in browser session. Safari cookies require giving Terminal **Full Disk Access** (System Settings › Privacy & Security).
 
-If YouTube asks you to "confirm you're not a bot", set `TFD_YT_COOKIES_FROM_BROWSER=firefox` (or `chrome`) in `.env`. This uses your own logged-in browser session.
+**Mac specifics**
+
+- **iPhone footage:** clips in the Photos app aren't plain files. Select them, choose File › Export › **Export Unmodified Originals**, and save them into a trip folder. The scanner reads the exact iPhone model from the clip metadata and flags HDR (HLG/Dolby Vision) and ProRes clips.
+- **External drives:** macOS `._*` sidecar files, hidden files and library bundles (`.photoslibrary`, `.fcpbundle`) are skipped automatically.
+- **Speed:** preview renders use the Apple hardware encoder (VideoToolbox) when available. Set `TFD_VIDEO_ENCODER=libx264` to force software. Transcription uses MLX on Apple Silicon; override with `TFD_WHISPER_BACKEND=faster-whisper` and `TFD_WHISPER_MODEL=small|medium|large-v3`.
 
 ## Use
 
@@ -38,7 +53,12 @@ tfd serve          # then open http://127.0.0.1:8765
 
 - **References:** paste YouTube URLs, assign a creator, add notes. Open a video to see scenes, techniques, contact sheets and limitations.
 - **Compare & ask:** see measured differences, set creator weights, and ask questions.
-- **Projects:** pick your footage folder, target length and direction. Review the proposed storyline, remove shots, then approve, which exports `.otio`. In Resolve, choose **File › Import › Timeline…** and pick the `.otio`. You can also render a preview, which runs automatic QA.
+- **Projects:** click **Choose…** to pick your footage folder in a Finder dialog, then set target length and direction. Review the proposed storyline, remove shots, then approve, which exports the timeline (**Show in Finder** reveals it):
+  - **DaVinci Resolve:** File › Import › Timeline… › `director_cut.otio`
+  - **Final Cut Pro:** File › Import › XML… › `director_cut.fcpxml`
+  - **Premiere Pro:** import `director_cut.xml` (FCP7 XML)
+
+  You can also render a preview, which runs automatic QA.
 
 ### CLI
 
@@ -52,7 +72,7 @@ tfd ask "How do the three creators open their films?"
 tfd annotate <video_id> notes.json             # merge qualitative notes (e.g. written by Claude Code)
 tfd ref rebuild                                # recompute profiles offline after upgrades
 
-tfd footage "D:\Trips\Kyrgyzstan\raw" --transcribe   # read-only analysis -> data/projects/raw
+tfd footage ~/Movies/Trips/Kyrgyzstan/raw --transcribe   # read-only analysis -> data/projects/raw
 tfd direct data/projects/raw --minutes 8 --direction balanced
 tfd render data/projects/raw                   # preview MP4 + qa_report.json
 ```

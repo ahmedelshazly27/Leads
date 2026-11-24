@@ -167,6 +167,45 @@ def create_project(body: ProjectIn):
     return {"job": jid, "slug": pd.name}
 
 
+@app.get("/api/platform")
+def platform_info():
+    import platform
+    return {"system": platform.system(), "machine": platform.machine()}
+
+
+@app.post("/api/pick-folder")
+def pick_folder():
+    """Native macOS folder chooser (Finder dialog) via AppleScript. The dialog opens on the machine running tfd."""
+    import platform
+    import subprocess
+    if platform.system() != "Darwin":
+        raise HTTPException(501, "Folder picker is only available on macOS - type the path instead.")
+    r = subprocess.run(["osascript", "-e", 'POSIX path of (choose folder with prompt "Choose your raw footage folder")'],
+                       capture_output=True, text=True, timeout=300)
+    if r.returncode != 0:  # user cancelled
+        return {"path": None}
+    return {"path": r.stdout.strip().rstrip("/")}
+
+
+class RevealIn(BaseModel):
+    path: str
+
+
+@app.post("/api/reveal")
+def reveal(body: RevealIn):
+    """Show an exported file in Finder (macOS only, data directory only)."""
+    import platform
+    import subprocess
+    s = get_settings()
+    p = Path(body.path).resolve()
+    if s.data_dir not in p.parents or not p.exists():
+        raise HTTPException(404)
+    if platform.system() != "Darwin":
+        raise HTTPException(501, "Reveal is only available on macOS")
+    subprocess.run(["open", "-R", str(p)], check=False)
+    return {"ok": True}
+
+
 @app.get("/api/projects/{name}/plan")
 def get_plan(name: str):
     p = _project_dir(name) / "plan.json"

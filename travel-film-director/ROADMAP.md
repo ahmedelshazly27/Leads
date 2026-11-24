@@ -11,8 +11,8 @@
 - [x] Phase 7 (v0): local web UI covering the whole flow
 
 ## Next (in order)
-1. **Resolve round-trip on your machine:** import `director_cut.otio` into Resolve 20/21 Free, confirm clip paths, ranges and markers. Add `otio-fcp-adapter` (FCP7 XML) as a fallback if needed.
-2. **Run on a real trip folder** (hundreds of clips): profile runtime, tune quality thresholds per device (iPhone HDR/HLG, DJI D-Log, GoPro), parallelise ingest.
+1. **Round-trip on your Mac:** run `scripts/setup_macos.sh`, then import `director_cut.otio` into Resolve 20/21 Free and `director_cut.fcpxml` into Final Cut Pro. Confirm clip paths, ranges and markers, MLX transcription and the VideoToolbox render.
+2. **Run on a real trip folder** (hundreds of clips): profile runtime, tune quality thresholds per device (iPhone HLG/Dolby Vision/Apple Log, DJI D-Log, GoPro), parallelise ingest.
 3. **Semantic understanding of footage:** CLIP/SigLIP embeddings for scene and activity labels (market, temple, hike, food, transport), near-duplicate search, and matching your shots to reference techniques. Optional Claude pass on footage contact sheets to label people, places and activities and to propose the story.
 4. **Claude-as-director pass:** feed footage contact sheets, transcripts and the reference library to Claude (API or Claude Code) to rewrite `plan.json` (story arc, hook choice, narration slots), keeping the no-fabrication rule.
 5. **Music:** beat tracking (beat_this or librosa) and snapping cinematic-sequence cuts to beats; music selection by energy curve.
@@ -20,4 +20,5 @@
 7. **Speed ramps, match cuts and transitions** as OTIO effects and transitions. Only where a sequence's mode and reference justify them.
 8. **Titles and subtitles:** SRT export from transcripts, location cards from trip notes; QA subtitle sync.
 9. **Resolve Studio integration (optional):** create the project, apply LUTs/CST and render presets through the scripting API or davinci-resolve-mcp.
-10. Replace Haar faces with YuNet (OpenCV 5-compatible); move pinned dependencies to a lock file per OS.
+10. Optional: Apple Vision framework (via PyObjC) for faces, saliency and horizon detection on macOS; local VLM via MLX-VLM.
+11. Replace Haar faces with YuNet (OpenCV 5-compatible); move pinned dependencies to a macOS lock file.

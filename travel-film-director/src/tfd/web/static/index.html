@@ -64,12 +64,12 @@ ul{margin:6px 0;padding-left:18px}a{color:var(--accent)}
 </section>
 <section id="projects">
   <div class="card"><h2>New travel project</h2>
-    <div class="row"><input id="pname" placeholder="Project name (e.g. Kyrgyzstan 2026)"><input id="pfolder" placeholder="Footage folder, e.g. D:\Trips\Kyrgyzstan\raw"></div>
+    <div class="row"><input id="pname" placeholder="Project name (e.g. Kyrgyzstan 2026)"><div style="display:flex;gap:8px"><input id="pfolder" placeholder="Footage folder, e.g. ~/Movies/Trips/Kyrgyzstan/raw"><button class="ghost" id="pickbtn" style="display:none;white-space:nowrap" onclick="pick()">Choose…</button></div></div>
     <div class="row"><select id="pmin"><option value="4">4 min</option><option value="8" selected>8 min</option><option value="12">12 min</option><option value="20">20 min</option></select>
       <select id="pdir"><option value="balanced">Balanced (per-scene)</option><option value="cinematic">Lean cinematic</option><option value="documentary">Lean documentary</option><option value="personal">Lean personal</option></select></div>
     <label class="mute"><input type="checkbox" id="ptx" style="width:auto"> Transcribe speech locally (faster-whisper)</label><br><br>
     <button onclick="newProject()">Analyse footage</button>
-    <p class="mute">Your originals are only read, never modified. Optional: put licensed music in &lt;project&gt;/music and facts in trip_notes.md.</p></div>
+    <p class="mute">Your originals are only read, never modified. iPhone clips in Apple Photos: select them, File › Export › Export Unmodified Originals into a folder first. Optional: licensed music in &lt;project&gt;/music, facts in trip_notes.md.</p></div>
   <div id="plist"></div>
   <div class="card" id="plan" style="display:none"></div>
 </section>
@@ -116,7 +116,11 @@ async function plan(slug){CUR=slug;const p=await api(`/api/projects/${slug}/plan
   <br><button onclick="approve()">Approve &amp; export timeline</button> <button class="ghost" onclick="renderP()">Render preview + QA</button><div id="pout" class="answer mute"></div>
   ${p.qa?`<h2 style="margin-top:20px">Quality check</h2><p class="mute">${p.qa.issues.length} issue(s) · loudness ${p.qa.integrated_lufs} LUFS</p><ul>${p.qa.issues.slice(0,20).map(i=>`<li>${fmt(i.at)} ${esc(i.type)} — ${esc(i.detail)}</li>`).join('')}</ul>`:''}`}
 async function rm(i){await api(`/api/projects/${CUR}/plan`,{remove:[i]});plan(CUR)}
-async function approve(){const r=await api(`/api/projects/${CUR}/approve`,{});$('#pout').textContent='Exported:\n'+Object.values(r).join('\n')+'\n\nIn DaVinci Resolve: File › Import › Timeline… and pick the .otio file.'}
+async function approve(){const r=await api(`/api/projects/${CUR}/approve`,{});
+  $('#pout').innerHTML='Exported:<br>'+Object.values(r).map(esc).join('<br>')+'<br><br>DaVinci Resolve: File › Import › Timeline… › director_cut.otio<br>Final Cut Pro: File › Import › XML… › director_cut.fcpxml'+(MAC?`<br><br><button class="ghost" onclick='reveal(${JSON.stringify(r.otio)})'>Show in Finder</button>`:'')}
+async function reveal(p){await api('/api/reveal',{path:p})}
+async function pick(){const r=await api('/api/pick-folder',{});if(r.path)$('#pfolder').value=r.path}
+let MAC=false;api('/api/platform').then(p=>{MAC=p.system==='Darwin';if(MAC)$('#pickbtn').style.display=''});
 async function renderP(){await api(`/api/projects/${CUR}/render`,{});poll()}
 async function poll(){const js=await api('/api/jobs');$('#jobs').innerHTML=js.filter(j=>j.status!='done'||Date.now()).slice(-5).map(j=>`<div class="job">${esc(j.label)}<br><span class="mute">${j.status}${j.error?' — '+esc(j.error):''}</span></div>`).join('');
   if(js.some(j=>j.status=='running'||j.status=='queued'))setTimeout(poll,2000);else{load();if(CUR)plan(CUR)}}

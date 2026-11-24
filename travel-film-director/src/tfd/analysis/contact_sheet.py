@@ -8,7 +8,8 @@ from ..util import fmt_ts
 
 
 def _font(size: int):
-    for name in ("DejaVuSans.ttf", "arial.ttf", "Arial.ttf", "segoeui.ttf"):
+    for name in ("/System/Library/Fonts/Helvetica.ttc", "/System/Library/Fonts/SFNS.ttf",
+                 "/Library/Fonts/Arial Unicode.ttf", "DejaVuSans.ttf", "Arial.ttf"):
         try:
             return ImageFont.truetype(name, size)
         except OSError:

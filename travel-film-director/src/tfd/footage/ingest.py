@@ -24,6 +24,16 @@ log = get_logger("footage")
 VIDEO_EXT = {".mp4", ".mov", ".m4v", ".mkv", ".avi", ".mts", ".m2ts", ".insv", ".lrv", ".mxf", ".webm"}
 
 
+def _skip(path: Path, root: Path) -> bool:
+    """Ignore macOS AppleDouble files ("._IMG_0001.MOV" on exFAT drives), hidden files, and package bundles
+    such as .photoslibrary / .fcpbundle / .drp (export originals from Photos instead)."""
+    rel = path.relative_to(root)
+    if any(part.startswith(".") for part in rel.parts):
+        return True
+    return any(part.endswith((".photoslibrary", ".fcpbundle", ".fcpxbundle", ".imovielibrary", ".tvlibrary"))
+               for part in rel.parts[:-1])
+
+
 def _ffprobe(path: Path) -> dict:
     exe = shutil.which("ffprobe")
     if not exe:
@@ -46,6 +56,9 @@ def _rotation(vs: dict) -> int:
 
 
 def device_guess(fmt_tags: dict, vs: dict, name: str) -> str:
+    model = fmt_tags.get("com.apple.quicktime.model") or ""
+    if model:
+        return model if model.lower().startswith(("iphone", "ipad")) else f"Apple {model}"
     blob = " ".join(str(v) for v in list(fmt_tags.values()) + [vs.get("codec_name", ""), name]).lower()
     if "apple" in blob or "iphone" in blob:
         return "iPhone"
@@ -78,6 +91,8 @@ def probe(path: Path) -> dict:
         "orientation": "vertical" if dh > dw else "horizontal" if dw > dh else "square",
         "codec": vs.get("codec_name"), "pix_fmt": vs.get("pix_fmt"),
         "hdr": vs.get("color_transfer") in ("smpte2084", "arib-std-b67"),
+        "dolby_vision": any(sd.get("side_data_type", "").startswith("DOVI") for sd in vs.get("side_data_list", []) or []),
+        "prores": str(vs.get("codec_name", "")).startswith("prores"),
         "color_transfer": vs.get("color_transfer"),
         "has_audio": aus is not None,
         "creation_time": tags.get("creation_time"),
@@ -154,7 +169,29 @@ def scene_cuts(path: Path) -> list[float]:
         return []
 
 
-def transcribe(path: Path, model_size: str = "small") -> list[dict]:
+def _whisper_backend() -> str:
+    import os
+    import platform
+    forced = os.environ.get("TFD_WHISPER_BACKEND")
+    if forced:
+        return forced
+    if platform.system() == "Darwin" and platform.machine() == "arm64":
+        try:
+            import mlx_whisper  # noqa: F401  (Apple Silicon GPU via MLX)
+            return "mlx"
+        except ImportError:
+            pass
+    return "faster-whisper"
+
+
+def transcribe(path: Path, model_size: str | None = None) -> list[dict]:
+    import os
+    model_size = model_size or os.environ.get("TFD_WHISPER_MODEL", "small")
+    if _whisper_backend() == "mlx":
+        import mlx_whisper
+        res = mlx_whisper.transcribe(str(path), path_or_hf_repo=f"mlx-community/whisper-{model_size}-mlx")
+        return [{"start": round(s["start"], 2), "end": round(s["end"], 2), "text": s["text"].strip()}
+                for s in res.get("segments", [])]
     try:
         from faster_whisper import WhisperModel
     except ImportError:
@@ -164,7 +201,7 @@ def transcribe(path: Path, model_size: str = "small") -> list[dict]:
     try:
         _WHISPER
     except NameError:
-        _WHISPER = WhisperModel(model_size, device="auto", compute_type="int8")
+        _WHISPER = WhisperModel(model_size, device="auto", compute_type="int8")  # macOS/Intel: CPU int8
     segs, _info = _WHISPER.transcribe(str(path), vad_filter=True)
     return [{"start": round(s.start, 2), "end": round(s.end, 2), "text": s.text.strip()} for s in segs]
 
@@ -198,7 +235,7 @@ def ingest_folder(folder: Path, out_dir: Path, transcribe_speech: bool = False, 
     if out_dir == folder or folder in out_dir.parents:
         raise ValueError("Output directory must be outside the footage folder (originals are never written to).")
     out_dir.mkdir(parents=True, exist_ok=True)
-    clips = sorted(p for p in folder.rglob("*") if p.suffix.lower() in VIDEO_EXT and p.is_file())
+    clips = sorted(p for p in folder.rglob("*") if p.suffix.lower() in VIDEO_EXT and p.is_file() and not _skip(p, folder))
     log.info("found %d clips in %s", len(clips), folder)
     records, sigs = [], []
     for i, path in enumerate(clips):

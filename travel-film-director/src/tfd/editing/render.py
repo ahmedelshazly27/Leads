@@ -23,12 +23,28 @@ def _ff(args: list[str]) -> None:
         raise RuntimeError(r.stderr.strip()[-800:])
 
 
+def video_encoder() -> list[str]:
+    """Hardware H.264 (VideoToolbox) on macOS when FFmpeg has it, else libx264. Override: TFD_VIDEO_ENCODER."""
+    import os
+    import platform
+    forced = os.environ.get("TFD_VIDEO_ENCODER")
+    exe = shutil.which("ffmpeg") or "ffmpeg"
+    if forced == "libx264" or (not forced and platform.system() != "Darwin"):
+        return ["-c:v", "libx264", "-preset", "veryfast", "-crf", "20"]
+    encs = subprocess.run([exe, "-hide_banner", "-encoders"], capture_output=True, text=True).stdout
+    if "h264_videotoolbox" in encs and forced in (None, "", "h264_videotoolbox"):
+        return ["-c:v", "h264_videotoolbox", "-b:v", "16M", "-allow_sw", "1"]
+    return ["-c:v", "libx264", "-preset", "veryfast", "-crf", "20"]
+
+
 def render_preview(project: Path, width: int = 1920, height: int = 1080, fps: int = 25) -> Path:
     plan = read_json(project / "plan.json")
     out_dir = project / "renders"
     out_dir.mkdir(parents=True, exist_ok=True)
     vf = (f"scale={width}:{height}:force_original_aspect_ratio=decrease,pad={width}:{height}:(ow-iw)/2:(oh-ih)/2,"
           f"setsar=1,fps={fps},format=yuv420p")
+    venc = video_encoder()
+    log.info("video encoder: %s", venc[1])
     with tempfile.TemporaryDirectory(dir=out_dir) as tmp:
         parts = []
         for i, item in enumerate(plan["timeline"]):
@@ -41,7 +57,7 @@ def render_preview(project: Path, width: int = 1920, height: int = 1080, fps: in
                     "-filter_complex",
                     f"[0:v]{vf}[v];[0:a]aresample=48000,aformat=channel_layouts=stereo,volume={gain}dB[a0];"
                     f"[a0][1:a]amix=inputs=2:duration=longest:normalize=0,atrim=0:{dur:.3f}[a]",
-                    "-map", "[v]", "-map", "[a]", "-c:v", "libx264", "-preset", "veryfast", "-crf", "20",
+                    "-map", "[v]", "-map", "[a]", *venc,
                     "-c:a", "aac", "-b:a", "192k", str(part)]
             try:
                 _ff(args)
@@ -49,7 +65,7 @@ def render_preview(project: Path, width: int = 1920, height: int = 1080, fps: in
                 _ff(["-ss", f"{item['src_in']:.3f}", "-t", f"{dur:.3f}", "-i", c["path"],
                      "-f", "lavfi", "-t", f"{dur:.3f}", "-i", "anullsrc=r=48000:cl=stereo",
                      "-filter_complex", f"[0:v]{vf}[v]", "-map", "[v]", "-map", "1:a",
-                     "-c:v", "libx264", "-preset", "veryfast", "-crf", "20", "-c:a", "aac", "-shortest", str(part)])
+                     *venc, "-c:a", "aac", "-shortest", str(part)])
             parts.append(part)
         lst = Path(tmp) / "list.txt"
         lst.write_text("".join(f"file '{p.as_posix()}'\n" for p in parts), encoding="utf-8")

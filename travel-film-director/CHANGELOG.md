@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.2.0 (2026-11-24): retarget to macOS
+### Added
+- `scripts/setup_macos.sh` (Homebrew Python 3.12 + FFmpeg, venv, install, tests) and a double-clickable `scripts/Travel Film Director.command`.
+- Final Cut Pro export (`director_cut.fcpxml`) and FCP7 XML (`director_cut.xml`) alongside `.otio`.
+- Apple Silicon transcription via mlx-whisper (auto-selected; `TFD_WHISPER_BACKEND` / `TFD_WHISPER_MODEL`).
+- VideoToolbox hardware H.264 for preview renders on macOS (`TFD_VIDEO_ENCODER`).
+- Footage: skip `._*` AppleDouble/hidden files and Photos/FCP library bundles; exact iPhone model from QuickTime tags; HDR, Dolby Vision and ProRes flags.
+- Web UI: native Finder folder picker, Show in Finder, Final Cut/Premiere import instructions; macOS paths.
+- Tests: 18 (adds macOS behaviour and the FCPXML round-trip).
+### Changed
+- Docs, install instructions and research updated from Windows 11 to macOS. Safari cookies supported for YouTube sign-in checks.
+
 ## 0.1.0 (2026-11-24)
 ### Added
 - YouTube reference ingestion without downloading the video: metadata, chapters, replay heatmap, captions (json3, retries, client rotation, youtube-transcript-api fallback, user SRT/VTT), storyboard frames.

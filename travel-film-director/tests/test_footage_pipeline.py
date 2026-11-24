@@ -35,6 +35,10 @@ def test_full_footage_pipeline(footage_dir, tmp_path):
     paths = export_timeline(proj, plan)
     tl = otio.adapters.read_from_file(str(paths["otio"]))
     assert len(tl.video_tracks()[0]) == len(plan["timeline"])
+    for key in ("fcp_xml", "fcpxml"):  # Premiere/Resolve fallback and Final Cut Pro
+        assert key in paths and paths[key].is_file()
+    fcpx = otio.adapters.read_from_file(str(paths["fcpxml"]))
+    assert len(fcpx.video_tracks()[0]) == len(plan["timeline"])
     out = render_preview(proj)
     assert out.is_file() and out.stat().st_size > 10_000
     qa = run_qa(proj, out)
