@@ -1,0 +1,2930 @@
+{
+ "title": "Intelic - Building A Stronger Europe",
+ "desc": "Autonomy software built for modern defense, Intelic connects air and ground umanned verhicles for military missions.",
+ "html": "",
+ "lenis": false,
+ "H": 7070,
+ "body": "rgb(32, 34, 37)",
+ "sections": [
+  {
+   "name": "Desktop",
+   "y": 0,
+   "h": 64
+  },
+  {
+   "name": "Topbar",
+   "y": 0,
+   "h": 64
+  },
+  {
+   "name": "Application",
+   "y": 64,
+   "h": 1
+  },
+  {
+   "name": "Inactive",
+   "y": 64,
+   "h": 238
+  },
+  {
+   "name": "hero landingpage",
+   "y": 0,
+   "h": 900
+  },
+  {
+   "name": "video landscape",
+   "y": 0,
+   "h": 900
+  },
+  {
+   "name": "hero homepage",
+   "y": 0,
+   "h": 900
+  },
+  {
+   "name": "Desktop",
+   "y": 0,
+   "h": 900
+  },
+  {
+   "name": "Line",
+   "y": 411,
+   "h": 1
+  },
+  {
+   "name": "Hero Content Text Block",
+   "y": 428,
+   "h": 432
+  },
+  {
+   "name": "the challenge / solution",
+   "y": 1060,
+   "h": 810
+  },
+  {
+   "name": "Variant 1",
+   "y": 1080,
+   "h": 14
+  },
+  {
+   "name": "Title",
+   "y": 1080,
+   "h": 14
+  },
+  {
+   "name": "Title Block",
+   "y": 1648,
+   "h": 162
+  },
+  {
+   "name": "meet nexus",
+   "y": 2030,
+   "h": 715
+  },
+  {
+   "name": "Line",
+   "y": 2050,
+   "h": 1
+  },
+  {
+   "name": "Variant 1",
+   "y": 2055,
+   "h": 14
+  },
+  {
+   "name": "Title",
+   "y": 2055,
+   "h": 14
+  },
+  {
+   "name": "Introduction mission profiles",
+   "y": 3749,
+   "h": 810
+  },
+  {
+   "name": "SUPPLY",
+   "y": 3749,
+   "h": 810
+  },
+  {
+   "name": "SCREEN",
+   "y": 3749,
+   "h": 810
+  },
+  {
+   "name": "SUPPLY",
+   "y": 3749,
+   "h": 810
+  },
+  {
+   "name": "ATTACK",
+   "y": 3749,
+   "h": 810
+  },
+  {
+   "name": "About us introduction",
+   "y": 4719,
+   "h": 864
+  },
+  {
+   "name": "Image",
+   "y": 4719,
+   "h": 702
+  },
+  {
+   "name": "Variant 1",
+   "y": 4819,
+   "h": 14
+  },
+  {
+   "name": "Title",
+   "y": 4819,
+   "h": 14
+  },
+  {
+   "name": "Image",
+   "y": 4719,
+   "h": 864
+  },
+  {
+   "name": "Variant 1",
+   "y": 5763,
+   "h": 565
+  },
+  {
+   "name": "Desktop",
+   "y": 6308,
+   "h": 561
+  },
+  {
+   "name": "Container + Padding",
+   "y": 6408,
+   "h": 417
+  },
+  {
+   "name": "Content",
+   "y": 6408,
+   "h": 417
+  },
+  {
+   "name": "Footer Content Grid",
+   "y": 6847,
+   "h": 22
+  },
+  {
+   "name": "Legal Content",
+   "y": 6851,
+   "h": 14
+  },
+  {
+   "name": "Legal Links Wrapper",
+   "y": 6851,
+   "h": 14
+  }
+ ],
+ "fonts": [
+  "DM Mono 500 normal",
+  "Magnetik Regular 400 normal",
+  "Magnetik Regular normal normal",
+  "Magnetik Light 300 normal",
+  "Magnetik Medium 500 normal",
+  "Magnetik Light normal normal"
+ ],
+ "fontFaces": [
+  "@font-face { font-family: Geist; font-style: normal; font-weight: 300; font-display: swap; src: url(\"https://fonts.gstatic.com/s/geist/v5/gyByhwUxId8gMEwRGFWfOw.woff2\") format(\"woff2\"); unicode-range: U+460-52F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F; }",
+  "@font-face { font-family: Geist; font-style: normal; font-weight: 300; font-display: swap; src: url(\"https://fonts.gstatic.com/s/geist/v5/gyByhwUxId8gMEwYGFWfOw.woff2\") format(\"woff2\"); unicode-range: U+301, U+400-45F, U+490-491, U+4B0-4B1, U+2116; }",
+  "@font-face { font-family: Geist; font-style: normal; font-weight: 300; font-display: swap; src: url(\"https://fonts.gstatic.com/s/geist/v5/gyByhwUxId8gMEwTGFWfOw.woff2\") format(\"woff2\"); unicode-range: U+102-103, U+110-111, U+128-129, U+168-169, U+1A0-1A1, U+1AF-1B0, U+300-301, U+303-304, U+308-309, ",
+  "@font-face { font-family: Geist; font-style: normal; font-weight: 300; font-display: swap; src: url(\"https://fonts.gstatic.com/s/geist/v5/gyByhwUxId8gMEwSGFWfOw.woff2\") format(\"woff2\"); unicode-range: U+100-2BA, U+2BD-2C5, U+2C7-2CC, U+2CE-2D7, U+2DD-2FF, U+304, U+308, U+329, U+1D00-1DBF, U+1E00-1E9",
+  "@font-face { font-family: Geist; font-style: normal; font-weight: 300; font-display: swap; src: url(\"https://fonts.gstatic.com/s/geist/v5/gyByhwUxId8gMEwcGFU.woff2\") format(\"woff2\"); unicode-range: U+0-FF, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+304, U+308, U+329, U+2000-206F, U+20AC, U+",
+  "@font-face { font-family: Geist; font-style: normal; font-weight: 600; font-display: swap; src: url(\"https://fonts.gstatic.com/s/geist/v5/gyByhwUxId8gMEwRGFWfOw.woff2\") format(\"woff2\"); unicode-range: U+460-52F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F; }",
+  "@font-face { font-family: Geist; font-style: normal; font-weight: 600; font-display: swap; src: url(\"https://fonts.gstatic.com/s/geist/v5/gyByhwUxId8gMEwYGFWfOw.woff2\") format(\"woff2\"); unicode-range: U+301, U+400-45F, U+490-491, U+4B0-4B1, U+2116; }",
+  "@font-face { font-family: Geist; font-style: normal; font-weight: 600; font-display: swap; src: url(\"https://fonts.gstatic.com/s/geist/v5/gyByhwUxId8gMEwTGFWfOw.woff2\") format(\"woff2\"); unicode-range: U+102-103, U+110-111, U+128-129, U+168-169, U+1A0-1A1, U+1AF-1B0, U+300-301, U+303-304, U+308-309, ",
+  "@font-face { font-family: Geist; font-style: normal; font-weight: 600; font-display: swap; src: url(\"https://fonts.gstatic.com/s/geist/v5/gyByhwUxId8gMEwSGFWfOw.woff2\") format(\"woff2\"); unicode-range: U+100-2BA, U+2BD-2C5, U+2C7-2CC, U+2CE-2D7, U+2DD-2FF, U+304, U+308, U+329, U+1D00-1DBF, U+1E00-1E9",
+  "@font-face { font-family: Geist; font-style: normal; font-weight: 600; font-display: swap; src: url(\"https://fonts.gstatic.com/s/geist/v5/gyByhwUxId8gMEwcGFU.woff2\") format(\"woff2\"); unicode-range: U+0-FF, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+304, U+308, U+329, U+2000-206F, U+20AC, U+",
+  "@font-face { font-family: \"Inter Tight\"; font-style: normal; font-weight: 400; font-display: swap; src: url(\"https://fonts.gstatic.com/s/intertight/v9/NGSnv5HMAFg6IuGlBNMjxJEL2VmU3NS7Z2mjDw-aVi5SkK8.woff2\") format(\"woff2\"); unicode-range: U+460-52F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+F",
+  "@font-face { font-family: \"Inter Tight\"; font-style: normal; font-weight: 400; font-display: swap; src: url(\"https://fonts.gstatic.com/s/intertight/v9/NGSnv5HMAFg6IuGlBNMjxJEL2VmU3NS7Z2mjDw-aXy5SkK8.woff2\") format(\"woff2\"); unicode-range: U+301, U+400-45F, U+490-491, U+4B0-4B1, U+2116; }",
+  "@font-face { font-family: \"Inter Tight\"; font-style: normal; font-weight: 400; font-display: swap; src: url(\"https://fonts.gstatic.com/s/intertight/v9/NGSnv5HMAFg6IuGlBNMjxJEL2VmU3NS7Z2mjDw-aVy5SkK8.woff2\") format(\"woff2\"); unicode-range: U+1F00-1FFF; }",
+  "@font-face { font-family: \"Inter Tight\"; font-style: normal; font-weight: 400; font-display: swap; src: url(\"https://fonts.gstatic.com/s/intertight/v9/NGSnv5HMAFg6IuGlBNMjxJEL2VmU3NS7Z2mjDw-aWC5SkK8.woff2\") format(\"woff2\"); unicode-range: U+370-377, U+37A-37F, U+384-38A, U+38C, U+38E-3A1, U+3A3-3FF;",
+  "@font-face { font-family: \"Inter Tight\"; font-style: normal; font-weight: 400; font-display: swap; src: url(\"https://fonts.gstatic.com/s/intertight/v9/NGSnv5HMAFg6IuGlBNMjxJEL2VmU3NS7Z2mjDw-aVC5SkK8.woff2\") format(\"woff2\"); unicode-range: U+102-103, U+110-111, U+128-129, U+168-169, U+1A0-1A1, U+1AF-",
+  "@font-face { font-family: \"Inter Tight\"; font-style: normal; font-weight: 400; font-display: swap; src: url(\"https://fonts.gstatic.com/s/intertight/v9/NGSnv5HMAFg6IuGlBNMjxJEL2VmU3NS7Z2mjDw-aVS5SkK8.woff2\") format(\"woff2\"); unicode-range: U+100-2BA, U+2BD-2C5, U+2C7-2CC, U+2CE-2D7, U+2DD-2FF, U+304,",
+  "@font-face { font-family: \"Inter Tight\"; font-style: normal; font-weight: 400; font-display: swap; src: url(\"https://fonts.gstatic.com/s/intertight/v9/NGSnv5HMAFg6IuGlBNMjxJEL2VmU3NS7Z2mjDw-aWy5S.woff2\") format(\"woff2\"); unicode-range: U+0-FF, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+304,",
+  "@font-face { font-family: \"Geist Variable\"; font-style: normal; font-weight: 100 900; font-display: swap; src: url(\"https://fonts.gstatic.com/s/geist/v5/gyByhwUxId8gMEwRGFWfOw.woff2\") format(\"woff2\"); unicode-range: U+460-52F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F; }",
+  "@font-face { font-family: \"Geist Variable\"; font-style: normal; font-weight: 100 900; font-display: swap; src: url(\"https://fonts.gstatic.com/s/geist/v5/gyByhwUxId8gMEwYGFWfOw.woff2\") format(\"woff2\"); unicode-range: U+301, U+400-45F, U+490-491, U+4B0-4B1, U+2116; }",
+  "@font-face { font-family: \"Geist Variable\"; font-style: normal; font-weight: 100 900; font-display: swap; src: url(\"https://fonts.gstatic.com/s/geist/v5/gyByhwUxId8gMEwTGFWfOw.woff2\") format(\"woff2\"); unicode-range: U+102-103, U+110-111, U+128-129, U+168-169, U+1A0-1A1, U+1AF-1B0, U+300-301, U+303-3",
+  "@font-face { font-family: \"Geist Variable\"; font-style: normal; font-weight: 100 900; font-display: swap; src: url(\"https://fonts.gstatic.com/s/geist/v5/gyByhwUxId8gMEwSGFWfOw.woff2\") format(\"woff2\"); unicode-range: U+100-2BA, U+2BD-2C5, U+2C7-2CC, U+2CE-2D7, U+2DD-2FF, U+304, U+308, U+329, U+1D00-1",
+  "@font-face { font-family: \"Geist Variable\"; font-style: normal; font-weight: 100 900; font-display: swap; src: url(\"https://fonts.gstatic.com/s/geist/v5/gyByhwUxId8gMEwcGFU.woff2\") format(\"woff2\"); unicode-range: U+0-FF, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+304, U+308, U+329, U+2000-2",
+  "@font-face { font-family: \"DM Mono\"; font-style: italic; font-weight: 500; src: url(\"https://fonts.gstatic.com/s/dmmono/v16/aFTT7PB1QTsUX8KYth-o9YedYY35Zlk.woff2\") format(\"woff2\"); unicode-range: U+100-2BA, U+2BD-2C5, U+2C7-2CC, U+2CE-2D7, U+2DD-2FF, U+304, U+308, U+329, U+1D00-1DBF, U+1E00-1E9F, U+",
+  "@font-face { font-family: \"DM Mono\"; font-style: italic; font-weight: 500; src: url(\"https://fonts.gstatic.com/s/dmmono/v16/aFTT7PB1QTsUX8KYth-o9Yedb435.woff2\") format(\"woff2\"); unicode-range: U+0-FF, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+304, U+308, U+329, U+2000-206F, U+20AC, U+2122,",
+  "@font-face { font-family: \"DM Mono\"; font-style: normal; font-weight: 500; src: url(\"https://fonts.gstatic.com/s/dmmono/v16/aFTR7PB1QTsUX8KYvumzEY2tbZX9.woff2\") format(\"woff2\"); unicode-range: U+100-2BA, U+2BD-2C5, U+2C7-2CC, U+2CE-2D7, U+2DD-2FF, U+304, U+308, U+329, U+1D00-1DBF, U+1E00-1E9F, U+1EF",
+  "@font-face { font-family: \"DM Mono\"; font-style: normal; font-weight: 500; src: url(\"https://fonts.gstatic.com/s/dmmono/v16/aFTR7PB1QTsUX8KYvumzEYOtbQ.woff2\") format(\"woff2\"); unicode-range: U+0-FF, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+304, U+308, U+329, U+2000-206F, U+20AC, U+2122, U",
+  "@font-face { font-family: \"Fragment Mono\"; font-style: normal; font-weight: 400; src: url(\"https://fonts.gstatic.com/s/fragmentmono/v6/4iCr6K5wfMRRjxp0DA6-2CLnB45HhrUI.woff2\") format(\"woff2\"); unicode-range: U+460-52F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F; }",
+  "@font-face { font-family: \"Fragment Mono\"; font-style: normal; font-weight: 400; src: url(\"https://fonts.gstatic.com/s/fragmentmono/v6/4iCr6K5wfMRRjxp0DA6-2CLnB41HhrUI.woff2\") format(\"woff2\"); unicode-range: U+100-2BA, U+2BD-2C5, U+2C7-2CC, U+2CE-2D7, U+2DD-2FF, U+304, U+308, U+329, U+1D00-1DBF, U+1",
+  "@font-face { font-family: \"Fragment Mono\"; font-style: normal; font-weight: 400; src: url(\"https://fonts.gstatic.com/s/fragmentmono/v6/4iCr6K5wfMRRjxp0DA6-2CLnB4NHhg.woff2\") format(\"woff2\"); unicode-range: U+0-FF, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+304, U+308, U+329, U+2000-206F, U+",
+  "@font-face { font-family: \"Funnel Display\"; font-style: normal; font-weight: 400; src: url(\"https://fonts.gstatic.com/s/funneldisplay/v3/B50bF7FGv37QNVWgE0ga--4PbZSRJXrOHcLHLoAYmmPnUc9xEZA.woff2\") format(\"woff2\"); unicode-range: U+100-2BA, U+2BD-2C5, U+2C7-2CC, U+2CE-2D7, U+2DD-2FF, U+304, U+308, U+",
+  "@font-face { font-family: \"Funnel Display\"; font-style: normal; font-weight: 400; src: url(\"https://fonts.gstatic.com/s/funneldisplay/v3/B50bF7FGv37QNVWgE0ga--4PbZSRJXrOHcLHLoAYmmPnX89x.woff2\") format(\"woff2\"); unicode-range: U+0-FF, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+304, U+308, U+",
+  "@font-face { font-family: \"Magnetik Regular\"; src: url(\"https://framerusercontent.com/assets/FzQsMsOQt1QeIJSxzKTYjioA.woff2\"); font-display: swap; font-style: normal; font-weight: 400; }",
+  "@font-face { font-family: \"Magnetik Regular\"; src: url(\"https://framerusercontent.com/assets/FzQsMsOQt1QeIJSxzKTYjioA.woff2\"); font-display: swap; }",
+  "@font-face { font-family: \"Magnetik Light\"; src: url(\"https://framerusercontent.com/assets/NdEt1woTluZcvxI34m9fgYGtQ.woff2\"); font-display: swap; font-style: normal; font-weight: 300; }",
+  "@font-face { font-family: \"Magnetik Medium\"; src: url(\"https://framerusercontent.com/assets/e9BR3F6VlzCB0zpLM2UfMJt6XI.woff2\"); font-display: swap; font-style: normal; font-weight: 500; }",
+  "@font-face { font-family: \"Magnetik Light\"; src: url(\"https://framerusercontent.com/assets/NdEt1woTluZcvxI34m9fgYGtQ.woff2\"); font-display: swap; }",
+  "@font-face { font-family: Inter; src: url(\"https://framerusercontent.com/assets/5vvr9Vy74if2I6bQbJvbw7SY1pQ.woff2\"); font-display: swap; font-style: normal; font-weight: 400; unicode-range: U+460-52F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F; }",
+  "@font-face { font-family: Inter; src: url(\"https://framerusercontent.com/assets/EOr0mi4hNtlgWNn9if640EZzXCo.woff2\"); font-display: swap; font-style: normal; font-weight: 400; unicode-range: U+301, U+400-45F, U+490-491, U+4B0-4B1, U+2116; }",
+  "@font-face { font-family: Inter; src: url(\"https://framerusercontent.com/assets/Y9k9QrlZAqio88Klkmbd8VoMQc.woff2\"); font-display: swap; font-style: normal; font-weight: 400; unicode-range: U+1F00-1FFF; }",
+  "@font-face { font-family: Inter; src: url(\"https://framerusercontent.com/assets/OYrD2tBIBPvoJXiIHnLoOXnY9M.woff2\"); font-display: swap; font-style: normal; font-weight: 400; unicode-range: U+370-3FF; }",
+  "@font-face { font-family: Inter; src: url(\"https://framerusercontent.com/assets/JeYwfuaPfZHQhEG8U5gtPDZ7WQ.woff2\"); font-display: swap; font-style: normal; font-weight: 400; unicode-range: U+100-24F, U+259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF; }",
+  "@font-face { font-family: Inter; src: url(\"https://framerusercontent.com/assets/GrgcKwrN6d3Uz8EwcLHZxwEfC4.woff2\"); font-display: swap; font-style: normal; font-weight: 400; unicode-range: U+0-FF, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+2000-206F, U+2070, U+2074-207E, U+2080-208E, U+20AC",
+  "@font-face { font-family: Inter; src: url(\"https://framerusercontent.com/assets/b6Y37FthZeALduNqHicBT6FutY.woff2\"); font-display: swap; font-style: normal; font-weight: 400; unicode-range: U+102-103, U+110-111, U+128-129, U+168-169, U+1A0-1A1, U+1AF-1B0, U+1EA0-1EF9, U+20AB; }",
+  "@font-face { font-family: Inter; src: url(\"https://framerusercontent.com/assets/5A3Ce6C9YYmCjpQx9M4inSaKU.woff2\"); font-display: swap; font-style: normal; font-weight: 500; unicode-range: U+460-52F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F; }",
+  "@font-face { font-family: Inter; src: url(\"https://framerusercontent.com/assets/Qx95Xyt0Ka3SGhinnbXIGpEIyP4.woff2\"); font-display: swap; font-style: normal; font-weight: 500; unicode-range: U+301, U+400-45F, U+490-491, U+4B0-4B1, U+2116; }",
+  "@font-face { font-family: Inter; src: url(\"https://framerusercontent.com/assets/6mJuEAguuIuMog10gGvH5d3cl8.woff2\"); font-display: swap; font-style: normal; font-weight: 500; unicode-range: U+1F00-1FFF; }",
+  "@font-face { font-family: Inter; src: url(\"https://framerusercontent.com/assets/xYYWaj7wCU5zSQH0eXvSaS19wo.woff2\"); font-display: swap; font-style: normal; font-weight: 500; unicode-range: U+370-3FF; }",
+  "@font-face { font-family: Inter; src: url(\"https://framerusercontent.com/assets/otTaNuNpVK4RbdlT7zDDdKvQBA.woff2\"); font-display: swap; font-style: normal; font-weight: 500; unicode-range: U+100-24F, U+259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF; }",
+  "@font-face { font-family: Inter; src: url(\"https://framerusercontent.com/assets/UjlFhCnUjxhNfep4oYBPqnEssyo.woff2\"); font-display: swap; font-style: normal; font-weight: 500; unicode-range: U+0-FF, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+2000-206F, U+2070, U+2074-207E, U+2080-208E, U+20A",
+  "@font-face { font-family: Inter; src: url(\"https://framerusercontent.com/assets/DolVirEGb34pEXEp8t8FQBSK4.woff2\"); font-display: swap; font-style: normal; font-weight: 500; unicode-range: U+102-103, U+110-111, U+128-129, U+168-169, U+1A0-1A1, U+1AF-1B0, U+1EA0-1EF9, U+20AB; }",
+  "@font-face { font-family: Inter; src: url(\"https://framerusercontent.com/assets/hyOgCu0Xnghbimh0pE8QTvtt2AU.woff2\"); font-display: swap; font-style: normal; font-weight: 600; unicode-range: U+460-52F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F; }",
+  "@font-face { font-family: Inter; src: url(\"https://framerusercontent.com/assets/NeGmSOXrPBfEFIy5YZeHq17LEDA.woff2\"); font-display: swap; font-style: normal; font-weight: 600; unicode-range: U+301, U+400-45F, U+490-491, U+4B0-4B1, U+2116; }",
+  "@font-face { font-family: Inter; src: url(\"https://framerusercontent.com/assets/oYaAX5himiTPYuN8vLWnqBbfD2s.woff2\"); font-display: swap; font-style: normal; font-weight: 600; unicode-range: U+1F00-1FFF; }",
+  "@font-face { font-family: Inter; src: url(\"https://framerusercontent.com/assets/lEJLP4R0yuCaMCjSXYHtJw72M.woff2\"); font-display: swap; font-style: normal; font-weight: 600; unicode-range: U+370-3FF; }",
+  "@font-face { font-family: Inter; src: url(\"https://framerusercontent.com/assets/cRJyLNuTJR5jbyKzGi33wU9cqIQ.woff2\"); font-display: swap; font-style: normal; font-weight: 600; unicode-range: U+100-24F, U+259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF; }",
+  "@font-face { font-family: Inter; src: url(\"https://framerusercontent.com/assets/yDtI2UI8XcEg1W2je9XPN3Noo.woff2\"); font-display: swap; font-style: normal; font-weight: 600; unicode-range: U+0-FF, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+2000-206F, U+2070, U+2074-207E, U+2080-208E, U+20AC,",
+  "@font-face { font-family: Inter; src: url(\"https://framerusercontent.com/assets/A0Wcc7NgXMjUuFdquHDrIZpzZw0.woff2\"); font-display: swap; font-style: normal; font-weight: 600; unicode-range: U+102-103, U+110-111, U+128-129, U+168-169, U+1A0-1A1, U+1AF-1B0, U+1EA0-1EF9, U+20AB; }",
+  "@font-face { font-family: Inter; src: url(\"https://framerusercontent.com/assets/DpPBYI0sL4fYLgAkX8KXOPVt7c.woff2\"); font-display: swap; font-style: normal; font-weight: 700; unicode-range: U+460-52F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F; }",
+  "@font-face { font-family: Inter; src: url(\"https://framerusercontent.com/assets/4RAEQdEOrcnDkhHiiCbJOw92Lk.woff2\"); font-display: swap; font-style: normal; font-weight: 700; unicode-range: U+301, U+400-45F, U+490-491, U+4B0-4B1, U+2116; }",
+  "@font-face { font-family: Inter; src: url(\"https://framerusercontent.com/assets/1K3W8DizY3v4emK8Mb08YHxTbs.woff2\"); font-display: swap; font-style: normal; font-weight: 700; unicode-range: U+1F00-1FFF; }",
+  "@font-face { font-family: Inter; src: url(\"https://framerusercontent.com/assets/tUSCtfYVM1I1IchuyCwz9gDdQ.woff2\"); font-display: swap; font-style: normal; font-weight: 700; unicode-range: U+370-3FF; }",
+  "@font-face { font-family: Inter; src: url(\"https://framerusercontent.com/assets/VgYFWiwsAC5OYxAycRXXvhze58.woff2\"); font-display: swap; font-style: normal; font-weight: 700; unicode-range: U+100-24F, U+259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF; }",
+  "@font-face { font-family: Inter; src: url(\"https://framerusercontent.com/assets/syRNPWzAMIrcJ3wIlPIP43KjQs.woff2\"); font-display: swap; font-style: normal; font-weight: 700; unicode-range: U+0-FF, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+2000-206F, U+2070, U+2074-207E, U+2080-208E, U+20AC",
+  "@font-face { font-family: Inter; src: url(\"https://framerusercontent.com/assets/GIryZETIX4IFypco5pYZONKhJIo.woff2\"); font-display: swap; font-style: normal; font-weight: 700; unicode-range: U+102-103, U+110-111, U+128-129, U+168-169, U+1A0-1A1, U+1AF-1B0, U+1EA0-1EF9, U+20AB; }",
+  "@font-face { font-family: Inter; src: url(\"https://framerusercontent.com/assets/H89BbHkbHDzlxZzxi8uPzTsp90.woff2\"); font-display: swap; font-style: italic; font-weight: 700; unicode-range: U+460-52F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F; }",
+  "@font-face { font-family: Inter; src: url(\"https://framerusercontent.com/assets/u6gJwDuwB143kpNK1T1MDKDWkMc.woff2\"); font-display: swap; font-style: italic; font-weight: 700; unicode-range: U+301, U+400-45F, U+490-491, U+4B0-4B1, U+2116; }",
+  "@font-face { font-family: Inter; src: url(\"https://framerusercontent.com/assets/43sJ6MfOPh1LCJt46OvyDuSbA6o.woff2\"); font-display: swap; font-style: italic; font-weight: 700; unicode-range: U+1F00-1FFF; }",
+  "@font-face { font-family: Inter; src: url(\"https://framerusercontent.com/assets/wccHG0r4gBDAIRhfHiOlq6oEkqw.woff2\"); font-display: swap; font-style: italic; font-weight: 700; unicode-range: U+370-3FF; }",
+  "@font-face { font-family: Inter; src: url(\"https://framerusercontent.com/assets/WZ367JPwf9bRW6LdTHN8rXgSjw.woff2\"); font-display: swap; font-style: italic; font-weight: 700; unicode-range: U+100-24F, U+259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF; }",
+  "@font-face { font-family: Inter; src: url(\"https://framerusercontent.com/assets/ia3uin3hQWqDrVloC1zEtYHWw.woff2\"); font-display: swap; font-style: italic; font-weight: 700; unicode-range: U+0-FF, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+2000-206F, U+2070, U+2074-207E, U+2080-208E, U+20AC,",
+  "@font-face { font-family: Inter; src: url(\"https://framerusercontent.com/assets/2A4Xx7CngadFGlVV4xrO06OBHY.woff2\"); font-display: swap; font-style: italic; font-weight: 700; unicode-range: U+102-103, U+110-111, U+128-129, U+168-169, U+1A0-1A1, U+1AF-1B0, U+1EA0-1EF9, U+20AB; }",
+  "@font-face { font-family: Inter; src: url(\"https://framerusercontent.com/assets/CfMzU8w2e7tHgF4T4rATMPuWosA.woff2\"); font-display: swap; font-style: italic; font-weight: 400; unicode-range: U+460-52F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F; }",
+  "@font-face { font-family: Inter; src: url(\"https://framerusercontent.com/assets/867QObYax8ANsfX4TGEVU9YiCM.woff2\"); font-display: swap; font-style: italic; font-weight: 400; unicode-range: U+301, U+400-45F, U+490-491, U+4B0-4B1, U+2116; }",
+  "@font-face { font-family: Inter; src: url(\"https://framerusercontent.com/assets/Oyn2ZbENFdnW7mt2Lzjk1h9Zb9k.woff2\"); font-display: swap; font-style: italic; font-weight: 400; unicode-range: U+1F00-1FFF; }",
+  "@font-face { font-family: Inter; src: url(\"https://framerusercontent.com/assets/cdAe8hgZ1cMyLu9g005pAW3xMo.woff2\"); font-display: swap; font-style: italic; font-weight: 400; unicode-range: U+370-3FF; }",
+  "@font-face { font-family: Inter; src: url(\"https://framerusercontent.com/assets/DOfvtmE1UplCq161m6Hj8CSQYg.woff2\"); font-display: swap; font-style: italic; font-weight: 400; unicode-range: U+100-24F, U+259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF; }",
+  "@font-face { font-family: Inter; src: url(\"https://framerusercontent.com/assets/pKRFNWFoZl77qYCAIp84lN1h944.woff2\"); font-display: swap; font-style: italic; font-weight: 400; unicode-range: U+0-FF, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+2000-206F, U+2070, U+2074-207E, U+2080-208E, U+20A",
+  "@font-face { font-family: Inter; src: url(\"https://framerusercontent.com/assets/tKtBcDnBMevsEEJKdNGhhkLzYo.woff2\"); font-display: swap; font-style: italic; font-weight: 400; unicode-range: U+102-103, U+110-111, U+128-129, U+168-169, U+1A0-1A1, U+1AF-1B0, U+1EA0-1EF9, U+20AB; }",
+  "@font-face { font-family: Inter; src: url(\"https://framerusercontent.com/assets/vQyevYAyHtARFwPqUzQGpnDs.woff2\"); font-display: swap; font-style: normal; font-weight: 400; unicode-range: U+0-FF, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+",
+  "@font-face { font-family: Satoshi; src: url(\"https://framerusercontent.com/third-party-assets/fontshare/wf/TTX2Z3BF3P6Y5BQT3IV2VNOK6FL22KUT/7QYRJOI3JIMYHGY6CH7SOIFRQLZOLNJ6/KFIAZD4RUMEZIYV6FQ3T3GP5PDBDB6JY.woff2\"); font-display: swap; font-style: normal; font-weight: 400; }",
+  "@font-face { font-family: Satoshi; src: url(\"https://framerusercontent.com/third-party-assets/fontshare/wf/P2LQKHE6KA6ZP4AAGN72KDWMHH6ZH3TA/ZC32TK2P7FPS5GFTL46EU6KQJA24ZYDB/7AHDUZ4A7LFLVFUIFSARGIWCRQJHISQP.woff2\"); font-display: swap; font-style: normal; font-weight: 500; }",
+  "@font-face { font-family: \"Geist Variable Placeholder\"; src: local(\"Arial\"); ascent-override: 94.56%; descent-override: 27.76%; line-gap-override: 0%; size-adjust: 106.28%; }",
+  "@font-face { font-family: \"Geist Placeholder\"; src: local(\"Arial\"); ascent-override: 94.56%; descent-override: 27.76%; line-gap-override: 0%; size-adjust: 106.28%; }",
+  "@font-face { font-family: \"Inter Tight Placeholder\"; src: local(\"Arial\"); ascent-override: 99.65%; descent-override: 24.81%; line-gap-override: 0%; size-adjust: 97.21%; }",
+  "@font-face { font-family: \"Magnetik Regular Placeholder\"; src: local(\"Arial\"); ascent-override: 101.5%; descent-override: 29.86%; line-gap-override: 0%; size-adjust: 96.64%; }",
+  "@font-face { font-family: \"Magnetik Light Placeholder\"; src: local(\"Arial\"); ascent-override: 105.27%; descent-override: 31.06%; line-gap-override: 0%; size-adjust: 93.55%; }",
+  "@font-face { font-family: \"Magnetik Medium Placeholder\"; src: local(\"Arial\"); ascent-override: 99.79%; descent-override: 29.23%; line-gap-override: 0%; size-adjust: 98.06%; }",
+  "@font-face { font-family: \"Inter Placeholder\"; src: local(\"Arial\"); ascent-override: 89.79%; descent-override: 22.36%; line-gap-override: 0%; size-adjust: 107.89%; }",
+  "@font-face { font-family: \"Satoshi Placeholder\"; src: local(\"Arial\"); ascent-override: 102.23%; descent-override: 24.29%; line-gap-override: 10.12%; size-adjust: 98.8%; }"
+ ],
+ "imgs": [
+  {
+   "src": "https://framerusercontent.com/images/vHHOJV5znHOB8ii59Lcn5COXt4.webp?scale-down-to=512&width=4949&height=3873",
+   "alt": "",
+   "w": 308,
+   "h": 198,
+   "y": 84
+  },
+  {
+   "src": "https://framerusercontent.com/images/UJJFuqm6vGOY5GNBf2OdOgzBNhI.webp?scale-down-to=512&width=5472&height=3648",
+   "alt": "",
+   "w": 308,
+   "h": 198,
+   "y": 84
+  },
+  {
+   "src": "https://framerusercontent.com/images/iJaSo3DyYFQwazS3OilFl21FdE.webp?scale-down-to=512&width=5988&height=3959",
+   "alt": "",
+   "w": 308,
+   "h": 198,
+   "y": 84
+  },
+  {
+   "src": "https://framerusercontent.com/images/Bh6clgiKqMwIdn9ydqFoxbo2U.webp?scale-down-to=512&width=5752&height=3833",
+   "alt": "A soldier in camouflage gear holds a military drone overhead, ready for deployment with an industrial landscape in the background during early dawn.",
+   "w": 204,
+   "h": 200,
+   "y": 438
+  },
+  {
+   "src": "https://framerusercontent.com/images/z6LdFqX8c9iRyj1ltX7YFzNLbM.webp?scale-down-to=512&width=6840&height=3808",
+   "alt": "Soldiers in camouflage uniforms are preparing a small, gray drone for launch in a grassy field while one operates a tablet displaying a tactical map interface.",
+   "w": 204,
+   "h": 200,
+   "y": 650
+  },
+  {
+   "src": "https://framerusercontent.com/images/MBaC4qCAxdnxFdSllifsKwZ4nfA.webp?scale-down-to=2048&width=3984&height=2988",
+   "alt": "Two silhouetted soldiers stand against a dramatic sunset, with a vast, open landscape stretching behind them in the twilight.",
+   "w": 1440,
+   "h": 621,
+   "y": 1249
+  },
+  {
+   "src": "https://framerusercontent.com/images/PoXOmkzxTPIPHAfmEHHc8If8M.webp?scale-down-to=512&width=1440&height=900",
+   "alt": "software ui nexus on three screens stacked",
+   "w": 248,
+   "h": 244,
+   "y": 2205
+  },
+  {
+   "src": "https://framerusercontent.com/images/qtOvuTEjYWN6x8mqHV4J4GTv3d0.webp?scale-down-to=512&width=3840&height=2160",
+   "alt": "soldier keeping a drone in her hand",
+   "w": 248,
+   "h": 244,
+   "y": 2461
+  },
+  {
+   "src": "https://framerusercontent.com/images/kes9j4kZRf1KRdDIARLUxe8WY.webp?scale-down-to=2048&width=3840&height=2160",
+   "alt": "A digital rendering illustrates drone technology over a mountainous terrain, featuring grids projected onto the landscape to demonstrate surveying and mapping capabilities with detailed topographic analysis.",
+   "w": 1440,
+   "h": 810,
+   "y": 3749
+  },
+  {
+   "src": "https://framerusercontent.com/images/K2BDP1uWX2gI4WZ6G1PPmsng0.webp?scale-down-to=2048&width=3840&height=2160",
+   "alt": "A futuristic, digital rendering shows a dark, mountainous terrain with highlighted circular grids displaying various icons and symbols, suggesting technology and data analysis integration.",
+   "w": 1440,
+   "h": 810,
+   "y": 3749
+  },
+  {
+   "src": "https://framerusercontent.com/images/bU5rqNuPi3GC3SsMCr8Hgilblmc.webp?scale-down-to=2048&width=3840&height=2160",
+   "alt": "A dark, futuristic landscape with grid overlays and circular holographic displays highlighting multiple vehicles and strategic points across a rugged terrain, suggesting a high-tech surveillance or military operation.",
+   "w": 1440,
+   "h": 810,
+   "y": 3749
+  },
+  {
+   "src": "https://framerusercontent.com/images/EnwumARJ9O1PczlC7x61BPZRpQM.webp?scale-down-to=2048&width=6749&height=4533",
+   "alt": "A military vehicle drives along a rocky coastal landscape with a clear blue sky in the background, highlighting an open terrain and ocean view.",
+   "w": 1440,
+   "h": 864,
+   "y": 4719
+  },
+  {
+   "src": "https://framerusercontent.com/images/3qDoboZxb0mGdCeH8peS20gyPx0.png?scale-down-to=512&width=1319&height=642",
+   "alt": "logo parnter Roboneers",
+   "w": 141,
+   "h": 48,
+   "y": 5906
+  },
+  {
+   "src": "https://framerusercontent.com/images/J6FW6R0i7ddhbjR3Bf1rLZwc4.png?scale-down-to=512&width=2560&height=1060",
+   "alt": "logo parnter Ministery of Defense",
+   "w": 144,
+   "h": 47,
+   "y": 5906
+  },
+  {
+   "src": "https://framerusercontent.com/images/QEcRudZRYekOJvfo5yE4mhuMo.png?width=421&height=80",
+   "alt": "logo parnter Destinus",
+   "w": 121,
+   "h": 30,
+   "y": 5915
+  },
+  {
+   "src": "https://framerusercontent.com/images/mkHb3qGXdWkHPhSjkAmnAQDd1tc.webp?width=499&height=107",
+   "alt": "logo Auterion partner ",
+   "w": 126,
+   "h": 31,
+   "y": 5914
+  },
+  {
+   "src": "https://framerusercontent.com/images/ZynAgTcEG5H97sejUHpKoJTsoc.png?width=496&height=248",
+   "alt": "logo parnter TNO",
+   "w": 126,
+   "h": 31,
+   "y": 5914
+  },
+  {
+   "src": "https://framerusercontent.com/images/KKVoteuxNWbUBIkpqS2kIjco.png?width=250&height=329",
+   "alt": "NLR logo partner",
+   "w": 40,
+   "h": 53,
+   "y": 5904
+  },
+  {
+   "src": "https://framerusercontent.com/images/cPakTMdQGIQiJrkQYiY8SQNRS8.png?scale-down-to=512&width=1362&height=321",
+   "alt": "logo parnter Hylus",
+   "w": 103,
+   "h": 57,
+   "y": 5901
+  },
+  {
+   "src": "https://framerusercontent.com/images/iRkgvHY3980c5C7jiDywEAvdBk.png?scale-down-to=512&width=914&height=230",
+   "alt": "logo parnter Hylus",
+   "w": 103,
+   "h": 57,
+   "y": 5901
+  },
+  {
+   "src": "https://framerusercontent.com/images/x4M5hXkxgUjhHuD7Pt7Njx72Sw.png?scale-down-to=512&width=915&height=371",
+   "alt": "logo parnter Hylus",
+   "w": 103,
+   "h": 57,
+   "y": 5901
+  },
+  {
+   "src": "https://framerusercontent.com/images/3qDoboZxb0mGdCeH8peS20gyPx0.png?scale-down-to=512&width=1319&height=642",
+   "alt": "logo parnter Roboneers",
+   "w": 141,
+   "h": 48,
+   "y": 5906
+  },
+  {
+   "src": "https://framerusercontent.com/images/J6FW6R0i7ddhbjR3Bf1rLZwc4.png?scale-down-to=512&width=2560&height=1060",
+   "alt": "logo parnter Ministery of Defense",
+   "w": 144,
+   "h": 47,
+   "y": 5906
+  },
+  {
+   "src": "https://framerusercontent.com/images/QEcRudZRYekOJvfo5yE4mhuMo.png?width=421&height=80",
+   "alt": "logo parnter Destinus",
+   "w": 121,
+   "h": 30,
+   "y": 5915
+  },
+  {
+   "src": "https://framerusercontent.com/images/mkHb3qGXdWkHPhSjkAmnAQDd1tc.webp?width=499&height=107",
+   "alt": "logo Auterion partner ",
+   "w": 126,
+   "h": 31,
+   "y": 5914
+  },
+  {
+   "src": "https://framerusercontent.com/images/ZynAgTcEG5H97sejUHpKoJTsoc.png?width=496&height=248",
+   "alt": "logo parnter TNO",
+   "w": 126,
+   "h": 31,
+   "y": 5914
+  },
+  {
+   "src": "https://framerusercontent.com/images/KKVoteuxNWbUBIkpqS2kIjco.png?width=250&height=329",
+   "alt": "NLR logo partner",
+   "w": 40,
+   "h": 53,
+   "y": 5904
+  },
+  {
+   "src": "https://framerusercontent.com/images/cPakTMdQGIQiJrkQYiY8SQNRS8.png?scale-down-to=512&width=1362&height=321",
+   "alt": "logo parnter Hylus",
+   "w": 103,
+   "h": 57,
+   "y": 5901
+  },
+  {
+   "src": "https://framerusercontent.com/images/iRkgvHY3980c5C7jiDywEAvdBk.png?scale-down-to=512&width=914&height=230",
+   "alt": "logo parnter Hylus",
+   "w": 103,
+   "h": 57,
+   "y": 5901
+  },
+  {
+   "src": "https://framerusercontent.com/images/x4M5hXkxgUjhHuD7Pt7Njx72Sw.png?scale-down-to=512&width=915&height=371",
+   "alt": "logo parnter Hylus",
+   "w": 103,
+   "h": 57,
+   "y": 5901
+  },
+  {
+   "src": "https://framerusercontent.com/images/3qDoboZxb0mGdCeH8peS20gyPx0.png?scale-down-to=512&width=1319&height=642",
+   "alt": "logo parnter Roboneers",
+   "w": 141,
+   "h": 48,
+   "y": 5906
+  },
+  {
+   "src": "https://framerusercontent.com/images/J6FW6R0i7ddhbjR3Bf1rLZwc4.png?scale-down-to=512&width=2560&height=1060",
+   "alt": "logo parnter Ministery of Defense",
+   "w": 144,
+   "h": 47,
+   "y": 5906
+  },
+  {
+   "src": "https://framerusercontent.com/images/QEcRudZRYekOJvfo5yE4mhuMo.png?width=421&height=80",
+   "alt": "logo parnter Destinus",
+   "w": 121,
+   "h": 30,
+   "y": 5915
+  },
+  {
+   "src": "https://framerusercontent.com/images/mkHb3qGXdWkHPhSjkAmnAQDd1tc.webp?width=499&height=107",
+   "alt": "logo Auterion partner ",
+   "w": 126,
+   "h": 31,
+   "y": 5914
+  },
+  {
+   "src": "https://framerusercontent.com/images/ZynAgTcEG5H97sejUHpKoJTsoc.png?width=496&height=248",
+   "alt": "logo parnter TNO",
+   "w": 126,
+   "h": 31,
+   "y": 5914
+  },
+  {
+   "src": "https://framerusercontent.com/images/KKVoteuxNWbUBIkpqS2kIjco.png?width=250&height=329",
+   "alt": "NLR logo partner",
+   "w": 40,
+   "h": 53,
+   "y": 5904
+  },
+  {
+   "src": "https://framerusercontent.com/images/cPakTMdQGIQiJrkQYiY8SQNRS8.png?scale-down-to=512&width=1362&height=321",
+   "alt": "logo parnter Hylus",
+   "w": 103,
+   "h": 57,
+   "y": 5901
+  },
+  {
+   "src": "https://framerusercontent.com/images/iRkgvHY3980c5C7jiDywEAvdBk.png?scale-down-to=512&width=914&height=230",
+   "alt": "logo parnter Hylus",
+   "w": 103,
+   "h": 57,
+   "y": 5901
+  },
+  {
+   "src": "https://framerusercontent.com/images/x4M5hXkxgUjhHuD7Pt7Njx72Sw.png?scale-down-to=512&width=915&height=371",
+   "alt": "logo parnter Hylus",
+   "w": 103,
+   "h": 57,
+   "y": 5901
+  },
+  {
+   "src": "https://framerusercontent.com/images/v7ZnquYDZKRM0IqmC1Pu6XyFY.png?scale-down-to=512&width=2998&height=1322",
+   "alt": "logo partner ARX Robotics",
+   "w": 126,
+   "h": 39,
+   "y": 6043
+  },
+  {
+   "src": "https://framerusercontent.com/images/f6uKRK9oD6s5P5dn2SQHuUM3y7w.png?scale-down-to=512&width=1191&height=842",
+   "alt": "milrem robotics logo",
+   "w": 126,
+   "h": 39,
+   "y": 6043
+  },
+  {
+   "src": "https://framerusercontent.com/images/zlz2jqfjfdBk1ruOAcCbDqWhc.png?scale-down-to=512&width=1528&height=371",
+   "alt": "Logo skeyton partner",
+   "w": 126,
+   "h": 43,
+   "y": 6040
+  },
+  {
+   "src": "https://framerusercontent.com/images/CpxM9hCcp0TtRbkGVaJQ9HB2kI.webp?scale-down-to=512&width=1024&height=154",
+   "alt": "deltaquad logo",
+   "w": 193,
+   "h": 29,
+   "y": 6047
+  },
+  {
+   "src": "https://framerusercontent.com/images/aBX7I0rbzydj0YS9HIdceiIy0.png?scale-down-to=512&width=1840&height=370",
+   "alt": "logo partner airvolute",
+   "w": 169,
+   "h": 34,
+   "y": 6045
+  },
+  {
+   "src": "https://framerusercontent.com/images/FEXCGmPakY3wxSmoptC4zxAkw4.png?width=210&height=81",
+   "alt": "EFRO OOST logo partner",
+   "w": 133,
+   "h": 36,
+   "y": 6044
+  },
+  {
+   "src": "https://framerusercontent.com/images/rZsONIThIQbTnfkfOpn7pP0o.png?width=512&height=244",
+   "alt": "Gurzuf Defence logo",
+   "w": 125,
+   "h": 41,
+   "y": 6041
+  },
+  {
+   "src": "https://framerusercontent.com/images/WjUUjla1X7ELFpIhiOdoAENu4e4.png?scale-down-to=512&width=2009&height=452",
+   "alt": "Gurzuf Defence logo",
+   "w": 125,
+   "h": 41,
+   "y": 6041
+  },
+  {
+   "src": "https://framerusercontent.com/images/m2obxf8xTpsp1G4jFnEF7Kfgv5Q.png?scale-down-to=512&width=1837&height=276",
+   "alt": "logo parnter Hylus",
+   "w": 103,
+   "h": 57,
+   "y": 6033
+  },
+  {
+   "src": "https://framerusercontent.com/images/v7ZnquYDZKRM0IqmC1Pu6XyFY.png?scale-down-to=512&width=2998&height=1322",
+   "alt": "logo partner ARX Robotics",
+   "w": 126,
+   "h": 39,
+   "y": 6043
+  },
+  {
+   "src": "https://framerusercontent.com/images/f6uKRK9oD6s5P5dn2SQHuUM3y7w.png?scale-down-to=512&width=1191&height=842",
+   "alt": "milrem robotics logo",
+   "w": 126,
+   "h": 39,
+   "y": 6043
+  },
+  {
+   "src": "https://framerusercontent.com/images/zlz2jqfjfdBk1ruOAcCbDqWhc.png?scale-down-to=512&width=1528&height=371",
+   "alt": "Logo skeyton partner",
+   "w": 126,
+   "h": 43,
+   "y": 6040
+  },
+  {
+   "src": "https://framerusercontent.com/images/CpxM9hCcp0TtRbkGVaJQ9HB2kI.webp?scale-down-to=512&width=1024&height=154",
+   "alt": "deltaquad logo",
+   "w": 193,
+   "h": 29,
+   "y": 6047
+  },
+  {
+   "src": "https://framerusercontent.com/images/aBX7I0rbzydj0YS9HIdceiIy0.png?scale-down-to=512&width=1840&height=370",
+   "alt": "logo partner airvolute",
+   "w": 169,
+   "h": 34,
+   "y": 6045
+  },
+  {
+   "src": "https://framerusercontent.com/images/FEXCGmPakY3wxSmoptC4zxAkw4.png?width=210&height=81",
+   "alt": "EFRO OOST logo partner",
+   "w": 133,
+   "h": 36,
+   "y": 6044
+  },
+  {
+   "src": "https://framerusercontent.com/images/rZsONIThIQbTnfkfOpn7pP0o.png?width=512&height=244",
+   "alt": "Gurzuf Defence logo",
+   "w": 125,
+   "h": 41,
+   "y": 6041
+  },
+  {
+   "src": "https://framerusercontent.com/images/WjUUjla1X7ELFpIhiOdoAENu4e4.png?scale-down-to=512&width=2009&height=452",
+   "alt": "Gurzuf Defence logo",
+   "w": 125,
+   "h": 41,
+   "y": 6041
+  },
+  {
+   "src": "https://framerusercontent.com/images/m2obxf8xTpsp1G4jFnEF7Kfgv5Q.png?scale-down-to=512&width=1837&height=276",
+   "alt": "logo parnter Hylus",
+   "w": 103,
+   "h": 57,
+   "y": 6033
+  },
+  {
+   "src": "https://framerusercontent.com/images/v7ZnquYDZKRM0IqmC1Pu6XyFY.png?scale-down-to=512&width=2998&height=1322",
+   "alt": "logo partner ARX Robotics",
+   "w": 126,
+   "h": 39,
+   "y": 6043
+  },
+  {
+   "src": "https://framerusercontent.com/images/f6uKRK9oD6s5P5dn2SQHuUM3y7w.png?scale-down-to=512&width=1191&height=842",
+   "alt": "milrem robotics logo",
+   "w": 126,
+   "h": 39,
+   "y": 6043
+  },
+  {
+   "src": "https://framerusercontent.com/images/zlz2jqfjfdBk1ruOAcCbDqWhc.png?scale-down-to=512&width=1528&height=371",
+   "alt": "Logo skeyton partner",
+   "w": 126,
+   "h": 43,
+   "y": 6040
+  },
+  {
+   "src": "https://framerusercontent.com/images/CpxM9hCcp0TtRbkGVaJQ9HB2kI.webp?scale-down-to=512&width=1024&height=154",
+   "alt": "deltaquad logo",
+   "w": 193,
+   "h": 29,
+   "y": 6047
+  },
+  {
+   "src": "https://framerusercontent.com/images/aBX7I0rbzydj0YS9HIdceiIy0.png?scale-down-to=512&width=1840&height=370",
+   "alt": "logo partner airvolute",
+   "w": 169,
+   "h": 34,
+   "y": 6045
+  },
+  {
+   "src": "https://framerusercontent.com/images/FEXCGmPakY3wxSmoptC4zxAkw4.png?width=210&height=81",
+   "alt": "EFRO OOST logo partner",
+   "w": 133,
+   "h": 36,
+   "y": 6044
+  },
+  {
+   "src": "https://framerusercontent.com/images/rZsONIThIQbTnfkfOpn7pP0o.png?width=512&height=244",
+   "alt": "Gurzuf Defence logo",
+   "w": 125,
+   "h": 41,
+   "y": 6041
+  },
+  {
+   "src": "https://framerusercontent.com/images/WjUUjla1X7ELFpIhiOdoAENu4e4.png?scale-down-to=512&width=2009&height=452",
+   "alt": "Gurzuf Defence logo",
+   "w": 125,
+   "h": 41,
+   "y": 6041
+  },
+  {
+   "src": "https://framerusercontent.com/images/m2obxf8xTpsp1G4jFnEF7Kfgv5Q.png?scale-down-to=512&width=1837&height=276",
+   "alt": "logo parnter Hylus",
+   "w": 103,
+   "h": 57,
+   "y": 6033
+  },
+  {
+   "src": "https://framerusercontent.com/images/2HKLhYWX3fEoZwNsSIVzbvpfvQs.png?scale-down-to=512&width=1489&height=1459",
+   "alt": "Logo intelic\n",
+   "w": 238,
+   "h": 233,
+   "y": 6453
+  }
+ ],
+ "videos": [
+  {
+   "src": "https://framerusercontent.com/assets/fCANjHaqw3N7EmbRjamXTbgEY.mp4",
+   "poster": "https://framerusercontent.com/images/tgL0sX1p5Y4GBQOd5DTlQ1BxEA.webp?width=2778&height=1556",
+   "loop": true,
+   "muted": true,
+   "autoplay": true
+  }
+ ],
+ "canvases": [
+  {
+   "w": 1440,
+   "h": 715,
+   "y": 2030
+  }
+ ],
+ "anims": [
+  {
+   "type": "Animation",
+   "dur": 400,
+   "it": 1,
+   "ease": "linear",
+   "target": "framer-1ctjtj4"
+  },
+  {
+   "type": "Animation",
+   "dur": 400,
+   "it": 1,
+   "ease": "linear",
+   "target": "framer-1ctjtj4"
+  },
+  {
+   "type": "Animation",
+   "dur": 38675,
+   "it": null,
+   "ease": "linear",
+   "target": ""
+  },
+  {
+   "type": "Animation",
+   "dur": 44150,
+   "it": null,
+   "ease": "linear",
+   "target": ""
+  }
+ ],
+ "texts": [
+  {
+   "tag": "A",
+   "t": "Nexus",
+   "font": "\"Magnetik Light\" 300 16px/19.2px ls:0.32px",
+   "color": "rgb(255, 255, 255)",
+   "y": 40,
+   "x": 380,
+   "href": "https://intelic.ai/nexus"
+  },
+  {
+   "tag": "P",
+   "t": "Nexus",
+   "font": "\"Magnetik Light\" 400 16px/19.2px ls:0.32px",
+   "color": "rgb(255, 255, 255)",
+   "y": 22,
+   "x": 380
+  },
+  {
+   "tag": "A",
+   "t": "Applications",
+   "font": "\"Magnetik Light\" 400 16px/19.2px ls:0.32px",
+   "color": "rgb(255, 255, 255)",
+   "y": 40,
+   "x": 474,
+   "href": ""
+  },
+  {
+   "tag": "P",
+   "t": "Applications",
+   "font": "\"Magnetik Light\" 400 16px/19.2px ls:0.32px",
+   "color": "rgb(255, 255, 255)",
+   "y": 22,
+   "x": 474
+  },
+  {
+   "tag": "A",
+   "t": "Newsroom",
+   "font": "\"Magnetik Light\" 300 16px/19.2px ls:0.32px",
+   "color": "rgb(255, 255, 255)",
+   "y": 40,
+   "x": 621,
+   "href": "https://intelic.ai/newsroom"
+  },
+  {
+   "tag": "P",
+   "t": "Newsroom",
+   "font": "\"Magnetik Light\" 400 16px/19.2px ls:0.32px",
+   "color": "rgb(255, 255, 255)",
+   "y": 22,
+   "x": 621
+  },
+  {
+   "tag": "A",
+   "t": "Careers",
+   "font": "\"Magnetik Light\" 300 16px/19.2px ls:0.32px",
+   "color": "rgb(255, 255, 255)",
+   "y": 40,
+   "x": 745,
+   "href": "https://intelic.ai/careers"
+  },
+  {
+   "tag": "P",
+   "t": "Careers",
+   "font": "\"Magnetik Light\" 400 16px/19.2px ls:0.32px",
+   "color": "rgb(255, 255, 255)",
+   "y": 22,
+   "x": 745
+  },
+  {
+   "tag": "A",
+   "t": "About us",
+   "font": "\"Magnetik Light\" 300 16px/19.2px ls:0.32px",
+   "color": "rgb(255, 255, 255)",
+   "y": 40,
+   "x": 857,
+   "href": "https://intelic.ai/about-us"
+  },
+  {
+   "tag": "P",
+   "t": "About us",
+   "font": "\"Magnetik Light\" 400 16px/19.2px ls:0.32px",
+   "color": "rgb(255, 255, 255)",
+   "y": 22,
+   "x": 857
+  },
+  {
+   "tag": "A",
+   "t": "Intelic BASE",
+   "font": "\"Magnetik Light\" 300 16px/19.2px ls:0.32px",
+   "color": "rgb(255, 255, 255)",
+   "y": 40,
+   "x": 961,
+   "href": "https://base.intelic.ai/"
+  },
+  {
+   "tag": "P",
+   "t": "Intelic BASE",
+   "font": "\"Magnetik Light\" 400 16px/19.2px ls:0.32px",
+   "color": "rgb(255, 255, 255)",
+   "y": 22,
+   "x": 961
+  },
+  {
+   "tag": "P",
+   "t": "Contact us",
+   "font": "\"DM Mono\" 500 12px/14.4px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 25,
+   "x": 1216,
+   "href": "https://intelic.ai/contact-us"
+  },
+  {
+   "tag": "P",
+   "t": "Mission types",
+   "font": "\"DM Mono\" 500 12px/14.4px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 84,
+   "x": 157
+  },
+  {
+   "tag": "P",
+   "t": "Explore how Nexus provides mission-first functionalities",
+   "font": "\"Magnetik Regular\" 400 14px/20px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 242,
+   "x": 140
+  },
+  {
+   "tag": "P",
+   "t": "SCREEN",
+   "font": "\"Magnetik Regular\" 400 15px/19.5px ls:0.3px",
+   "color": "rgb(255, 255, 255)",
+   "y": 251,
+   "x": 384,
+   "href": "https://intelic.ai/screen"
+  },
+  {
+   "tag": "P",
+   "t": "SUPPLY",
+   "font": "\"Magnetik Regular\" 400 15px/19.5px ls:0.3px",
+   "color": "rgb(255, 255, 255)",
+   "y": 251,
+   "x": 694,
+   "href": "https://intelic.ai/supply"
+  },
+  {
+   "tag": "P",
+   "t": "ATTACK",
+   "font": "\"Magnetik Regular\" 400 15px/19.5px ls:0.3px",
+   "color": "rgb(255, 255, 255)",
+   "y": 251,
+   "x": 1004,
+   "href": "https://intelic.ai/attack"
+  },
+  {
+   "tag": "P",
+   "t": "We deliver for today’s battlefield, and build for tomorrow’s resilience.",
+   "font": "\"Magnetik Regular\" 400 15px/19.5px ls:0.3px",
+   "color": "rgb(255, 255, 255)",
+   "y": 428,
+   "x": 160
+  },
+  {
+   "tag": "P",
+   "t": "With Nexus - our platform-agnostic C2 software - we unify the fragmented landscape of unmanned defense systems, so that industry leaders unlock new capabilities",
+   "font": "\"Magnetik Regular\" 400 15px/19.5px ls:0.3px",
+   "color": "rgb(255, 255, 255)",
+   "y": 469,
+   "x": 938
+  },
+  {
+   "tag": "P",
+   "t": "Discover Nexus",
+   "font": "\"DM Mono\" 500 12px/14.4px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 569,
+   "x": 938,
+   "href": "https://intelic.ai/nexus"
+  },
+  {
+   "tag": "P",
+   "t": "We power the European procurement hub for interoperable defense systems. Source, compare and procure mission-ready unmanned systems, ready to deploy.",
+   "font": "\"Magnetik Regular\" 400 15px/19.5px ls:0.3px",
+   "color": "rgb(255, 255, 255)",
+   "y": 681,
+   "x": 724
+  },
+  {
+   "tag": "P",
+   "t": "Gain access now",
+   "font": "\"DM Mono\" 500 12px/14.4px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 781,
+   "x": 724,
+   "href": "https://base.intelic.ai/"
+  },
+  {
+   "tag": "P",
+   "t": "The challenge",
+   "font": "\"DM Mono\" 500 12px/14.4px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 1080,
+   "x": 177
+  },
+  {
+   "tag": "SPAN",
+   "t": "A",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1090,
+   "x": 160
+  },
+  {
+   "tag": "SPAN",
+   "t": "f",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1090,
+   "x": 195
+  },
+  {
+   "tag": "SPAN",
+   "t": "r",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1090,
+   "x": 209
+  },
+  {
+   "tag": "SPAN",
+   "t": "a",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1090,
+   "x": 222
+  },
+  {
+   "tag": "SPAN",
+   "t": "g",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1090,
+   "x": 244
+  },
+  {
+   "tag": "SPAN",
+   "t": "m",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1090,
+   "x": 267
+  },
+  {
+   "tag": "SPAN",
+   "t": "e",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1090,
+   "x": 300
+  },
+  {
+   "tag": "SPAN",
+   "t": "n",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1090,
+   "x": 322
+  },
+  {
+   "tag": "SPAN",
+   "t": "t",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1090,
+   "x": 344
+  },
+  {
+   "tag": "SPAN",
+   "t": "e",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1090,
+   "x": 357
+  },
+  {
+   "tag": "SPAN",
+   "t": "d",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1090,
+   "x": 379
+  },
+  {
+   "tag": "SPAN",
+   "t": "l",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1090,
+   "x": 412
+  },
+  {
+   "tag": "SPAN",
+   "t": "a",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1090,
+   "x": 421
+  },
+  {
+   "tag": "SPAN",
+   "t": "n",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1090,
+   "x": 444
+  },
+  {
+   "tag": "SPAN",
+   "t": "d",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1090,
+   "x": 466
+  },
+  {
+   "tag": "SPAN",
+   "t": "s",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1090,
+   "x": 489
+  },
+  {
+   "tag": "SPAN",
+   "t": "c",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1090,
+   "x": 509
+  },
+  {
+   "tag": "SPAN",
+   "t": "a",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1090,
+   "x": 531
+  },
+  {
+   "tag": "SPAN",
+   "t": "p",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1090,
+   "x": 553
+  },
+  {
+   "tag": "SPAN",
+   "t": "e",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1090,
+   "x": 577
+  },
+  {
+   "tag": "SPAN",
+   "t": "o",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1090,
+   "x": 609
+  },
+  {
+   "tag": "SPAN",
+   "t": "f",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1090,
+   "x": 631
+  },
+  {
+   "tag": "SPAN",
+   "t": "u",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1090,
+   "x": 654
+  },
+  {
+   "tag": "SPAN",
+   "t": "n",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1090,
+   "x": 676
+  },
+  {
+   "tag": "SPAN",
+   "t": "m",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1090,
+   "x": 698
+  },
+  {
+   "tag": "SPAN",
+   "t": "a",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1090,
+   "x": 731
+  },
+  {
+   "tag": "SPAN",
+   "t": "n",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1090,
+   "x": 754
+  },
+  {
+   "tag": "SPAN",
+   "t": "n",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1090,
+   "x": 776
+  },
+  {
+   "tag": "SPAN",
+   "t": "e",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1090,
+   "x": 798
+  },
+  {
+   "tag": "SPAN",
+   "t": "d",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1090,
+   "x": 820
+  },
+  {
+   "tag": "SPAN",
+   "t": "s",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1090,
+   "x": 854
+  },
+  {
+   "tag": "SPAN",
+   "t": "y",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1090,
+   "x": 874
+  },
+  {
+   "tag": "SPAN",
+   "t": "s",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1090,
+   "x": 892
+  },
+  {
+   "tag": "SPAN",
+   "t": "t",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1090,
+   "x": 912
+  },
+  {
+   "tag": "SPAN",
+   "t": "e",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1090,
+   "x": 924
+  },
+  {
+   "tag": "SPAN",
+   "t": "m",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1090,
+   "x": 946
+  },
+  {
+   "tag": "SPAN",
+   "t": "s",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1090,
+   "x": 979
+  },
+  {
+   "tag": "SPAN",
+   "t": "u",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1134,
+   "x": 160
+  },
+  {
+   "tag": "SPAN",
+   "t": "n",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1134,
+   "x": 182
+  },
+  {
+   "tag": "SPAN",
+   "t": "d",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1134,
+   "x": 204
+  },
+  {
+   "tag": "SPAN",
+   "t": "e",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1134,
+   "x": 227
+  },
+  {
+   "tag": "SPAN",
+   "t": "r",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1134,
+   "x": 248
+  },
+  {
+   "tag": "SPAN",
+   "t": "m",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1134,
+   "x": 263
+  },
+  {
+   "tag": "SPAN",
+   "t": "i",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1134,
+   "x": 296
+  },
+  {
+   "tag": "SPAN",
+   "t": "n",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1134,
+   "x": 304
+  },
+  {
+   "tag": "SPAN",
+   "t": "e",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1134,
+   "x": 326
+  },
+  {
+   "tag": "SPAN",
+   "t": "s",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1134,
+   "x": 348
+  },
+  {
+   "tag": "SPAN",
+   "t": "o",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1134,
+   "x": 379
+  },
+  {
+   "tag": "SPAN",
+   "t": "p",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1134,
+   "x": 401
+  },
+  {
+   "tag": "SPAN",
+   "t": "e",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1134,
+   "x": 424
+  },
+  {
+   "tag": "SPAN",
+   "t": "r",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1134,
+   "x": 446
+  },
+  {
+   "tag": "SPAN",
+   "t": "a",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1134,
+   "x": 459
+  },
+  {
+   "tag": "SPAN",
+   "t": "t",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1134,
+   "x": 481
+  },
+  {
+   "tag": "SPAN",
+   "t": "i",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1134,
+   "x": 495
+  },
+  {
+   "tag": "SPAN",
+   "t": "o",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1134,
+   "x": 504
+  },
+  {
+   "tag": "SPAN",
+   "t": "n",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1134,
+   "x": 526
+  },
+  {
+   "tag": "SPAN",
+   "t": "a",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1134,
+   "x": 548
+  },
+  {
+   "tag": "SPAN",
+   "t": "l",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1134,
+   "x": 571
+  },
+  {
+   "tag": "SPAN",
+   "t": "s",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1134,
+   "x": 590
+  },
+  {
+   "tag": "SPAN",
+   "t": "p",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1134,
+   "x": 610
+  },
+  {
+   "tag": "SPAN",
+   "t": "e",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1134,
+   "x": 633
+  },
+  {
+   "tag": "SPAN",
+   "t": "e",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1134,
+   "x": 655
+  },
+  {
+   "tag": "SPAN",
+   "t": "d",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1134,
+   "x": 677
+  },
+  {
+   "tag": "SPAN",
+   "t": ",",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1134,
+   "x": 700
+  },
+  {
+   "tag": "SPAN",
+   "t": "c",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1134,
+   "x": 721
+  },
+  {
+   "tag": "SPAN",
+   "t": "o",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1134,
+   "x": 743
+  },
+  {
+   "tag": "SPAN",
+   "t": "o",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1134,
+   "x": 765
+  },
+  {
+   "tag": "SPAN",
+   "t": "r",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1134,
+   "x": 787
+  },
+  {
+   "tag": "SPAN",
+   "t": "d",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1134,
+   "x": 800
+  },
+  {
+   "tag": "SPAN",
+   "t": "i",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1134,
+   "x": 823
+  },
+  {
+   "tag": "SPAN",
+   "t": "n",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1134,
+   "x": 832
+  },
+  {
+   "tag": "SPAN",
+   "t": "a",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1134,
+   "x": 854
+  },
+  {
+   "tag": "SPAN",
+   "t": "t",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1134,
+   "x": 876
+  },
+  {
+   "tag": "SPAN",
+   "t": "i",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1134,
+   "x": 890
+  },
+  {
+   "tag": "SPAN",
+   "t": "o",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1134,
+   "x": 898
+  },
+  {
+   "tag": "SPAN",
+   "t": "n",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1134,
+   "x": 920
+  },
+  {
+   "tag": "SPAN",
+   "t": "a",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1134,
+   "x": 953
+  },
+  {
+   "tag": "SPAN",
+   "t": "n",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1134,
+   "x": 976
+  },
+  {
+   "tag": "SPAN",
+   "t": "d",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1134,
+   "x": 998
+  },
+  {
+   "tag": "SPAN",
+   "t": "c",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1178,
+   "x": 160
+  },
+  {
+   "tag": "SPAN",
+   "t": "o",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1178,
+   "x": 182
+  },
+  {
+   "tag": "SPAN",
+   "t": "n",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1178,
+   "x": 204
+  },
+  {
+   "tag": "SPAN",
+   "t": "t",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1178,
+   "x": 226
+  },
+  {
+   "tag": "SPAN",
+   "t": "r",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1178,
+   "x": 240
+  },
+  {
+   "tag": "SPAN",
+   "t": "o",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1178,
+   "x": 253
+  },
+  {
+   "tag": "SPAN",
+   "t": "l",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1178,
+   "x": 275
+  },
+  {
+   "tag": "SPAN",
+   "t": ",",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1178,
+   "x": 284
+  },
+  {
+   "tag": "SPAN",
+   "t": "l",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1178,
+   "x": 305
+  },
+  {
+   "tag": "SPAN",
+   "t": "e",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1178,
+   "x": 313
+  },
+  {
+   "tag": "SPAN",
+   "t": "a",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1178,
+   "x": 335
+  },
+  {
+   "tag": "SPAN",
+   "t": "v",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1178,
+   "x": 357
+  },
+  {
+   "tag": "SPAN",
+   "t": "i",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1178,
+   "x": 376
+  },
+  {
+   "tag": "SPAN",
+   "t": "n",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1178,
+   "x": 384
+  },
+  {
+   "tag": "SPAN",
+   "t": "g",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1178,
+   "x": 406
+  },
+  {
+   "tag": "SPAN",
+   "t": "m",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1178,
+   "x": 440
+  },
+  {
+   "tag": "SPAN",
+   "t": "i",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1178,
+   "x": 473
+  },
+  {
+   "tag": "SPAN",
+   "t": "l",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1178,
+   "x": 481
+  },
+  {
+   "tag": "SPAN",
+   "t": "i",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1178,
+   "x": 489
+  },
+  {
+   "tag": "SPAN",
+   "t": "t",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1178,
+   "x": 498
+  },
+  {
+   "tag": "SPAN",
+   "t": "a",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1178,
+   "x": 511
+  },
+  {
+   "tag": "SPAN",
+   "t": "r",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1178,
+   "x": 534
+  },
+  {
+   "tag": "SPAN",
+   "t": "y",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1178,
+   "x": 548
+  },
+  {
+   "tag": "SPAN",
+   "t": "f",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1178,
+   "x": 577
+  },
+  {
+   "tag": "SPAN",
+   "t": "o",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1178,
+   "x": 590
+  },
+  {
+   "tag": "SPAN",
+   "t": "r",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1178,
+   "x": 612
+  },
+  {
+   "tag": "SPAN",
+   "t": "c",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1178,
+   "x": 625
+  },
+  {
+   "tag": "SPAN",
+   "t": "e",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1178,
+   "x": 646
+  },
+  {
+   "tag": "SPAN",
+   "t": "s",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1178,
+   "x": 668
+  },
+  {
+   "tag": "SPAN",
+   "t": "v",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1178,
+   "x": 699
+  },
+  {
+   "tag": "SPAN",
+   "t": "u",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1178,
+   "x": 718
+  },
+  {
+   "tag": "SPAN",
+   "t": "l",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1178,
+   "x": 739
+  },
+  {
+   "tag": "SPAN",
+   "t": "n",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1178,
+   "x": 748
+  },
+  {
+   "tag": "SPAN",
+   "t": "e",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1178,
+   "x": 770
+  },
+  {
+   "tag": "SPAN",
+   "t": "r",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1178,
+   "x": 791
+  },
+  {
+   "tag": "SPAN",
+   "t": "a",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1178,
+   "x": 805
+  },
+  {
+   "tag": "SPAN",
+   "t": "b",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1178,
+   "x": 827
+  },
+  {
+   "tag": "SPAN",
+   "t": "l",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1178,
+   "x": 850
+  },
+  {
+   "tag": "SPAN",
+   "t": "e",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1178,
+   "x": 859
+  },
+  {
+   "tag": "SPAN",
+   "t": "i",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1178,
+   "x": 891
+  },
+  {
+   "tag": "SPAN",
+   "t": "n",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1178,
+   "x": 900
+  },
+  {
+   "tag": "SPAN",
+   "t": "c",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1178,
+   "x": 932
+  },
+  {
+   "tag": "SPAN",
+   "t": "o",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1178,
+   "x": 954
+  },
+  {
+   "tag": "SPAN",
+   "t": "n",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1178,
+   "x": 976
+  },
+  {
+   "tag": "SPAN",
+   "t": "t",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1178,
+   "x": 998
+  },
+  {
+   "tag": "SPAN",
+   "t": "e",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1178,
+   "x": 1011
+  },
+  {
+   "tag": "SPAN",
+   "t": "s",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1178,
+   "x": 1033
+  },
+  {
+   "tag": "SPAN",
+   "t": "t",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1178,
+   "x": 1053
+  },
+  {
+   "tag": "SPAN",
+   "t": "e",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1178,
+   "x": 1066
+  },
+  {
+   "tag": "SPAN",
+   "t": "d",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1178,
+   "x": 1088
+  },
+  {
+   "tag": "SPAN",
+   "t": "e",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1222,
+   "x": 160
+  },
+  {
+   "tag": "SPAN",
+   "t": "n",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1222,
+   "x": 182
+  },
+  {
+   "tag": "SPAN",
+   "t": "v",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1222,
+   "x": 204
+  },
+  {
+   "tag": "SPAN",
+   "t": "i",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1222,
+   "x": 223
+  },
+  {
+   "tag": "SPAN",
+   "t": "r",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1222,
+   "x": 231
+  },
+  {
+   "tag": "SPAN",
+   "t": "o",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1222,
+   "x": 244
+  },
+  {
+   "tag": "SPAN",
+   "t": "n",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1222,
+   "x": 266
+  },
+  {
+   "tag": "SPAN",
+   "t": "m",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1222,
+   "x": 288
+  },
+  {
+   "tag": "SPAN",
+   "t": "e",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1222,
+   "x": 321
+  },
+  {
+   "tag": "SPAN",
+   "t": "n",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1222,
+   "x": 343
+  },
+  {
+   "tag": "SPAN",
+   "t": "t",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1222,
+   "x": 365
+  },
+  {
+   "tag": "SPAN",
+   "t": "s",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1222,
+   "x": 379
+  },
+  {
+   "tag": "SPAN",
+   "t": ".",
+   "font": "\"Magnetik Regular\" 400 40px/44px ls:0.8px",
+   "color": "rgb(255, 255, 255)",
+   "y": 1222,
+   "x": 399
+  },
+  {
+   "tag": "P",
+   "t": "The solution",
+   "font": "\"DM Mono\" 500 12px/14.4px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 1648,
+   "x": 737
+  },
+  {
+   "tag": "P",
+   "t": "Product",
+   "font": "\"DM Mono\" 500 12px/14.4px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 2055,
+   "x": 177
+  },
+  {
+   "tag": "H3",
+   "t": "Meet Nexus",
+   "font": "\"Magnetik Light\" 300 80px/88px ls:1.6px",
+   "color": "rgb(255, 255, 255)",
+   "y": 2073,
+   "x": 160
+  },
+  {
+   "tag": "P",
+   "t": "Discover nexus",
+   "font": "\"DM Mono\" 500 12px/14.4px ls:normal",
+   "color": "rgb(219, 219, 219)",
+   "y": 2286,
+   "x": 182,
+   "href": "https://intelic.ai/nexus"
+  },
+  {
+   "tag": "P",
+   "t": "Nexus bridges the gap between ground control stations and Battle Management Systems, providing full control up to the command of multiple unmanned systems. With",
+   "font": "\"Magnetik Regular\" 400 15px/19.5px ls:0.3px",
+   "color": "rgb(255, 255, 255)",
+   "y": 2340,
+   "x": 898
+  },
+  {
+   "tag": "P",
+   "t": "Across Europe, defense systems often struggle to work together. Nexus changes that by bridging gaps between manufacturers and nations, transforming fragmentatio",
+   "font": "\"Magnetik Regular\" 400 15px/19.5px ls:0.3px",
+   "color": "rgb(255, 255, 255)",
+   "y": 2615,
+   "x": 640
+  },
+  {
+   "tag": "SPAN",
+   "t": "Explore how Nexus enables",
+   "font": "\"Magnetik Regular\" 400 15px/19.5px ls:0.3px",
+   "color": "rgb(117, 117, 117)",
+   "y": 3314,
+   "x": 629
+  },
+  {
+   "tag": "SPAN",
+   "t": "different high-stakes missions",
+   "font": "\"Magnetik Regular\" 400 15px/19.5px ls:0.3px",
+   "color": "rgb(117, 117, 117)",
+   "y": 3333,
+   "x": 621
+  },
+  {
+   "tag": "P",
+   "t": "SCREEN",
+   "font": "\"DM Mono\" 500 12px/14.4px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 3771,
+   "x": 157
+  },
+  {
+   "tag": "P",
+   "t": "Supply",
+   "font": "\"DM Mono\" 500 12px/14.4px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 3771,
+   "x": 554
+  },
+  {
+   "tag": "P",
+   "t": "ATTACK",
+   "font": "\"DM Mono\" 500 12px/14.4px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 3771,
+   "x": 952
+  },
+  {
+   "tag": "H3",
+   "t": "Supply",
+   "font": "\"Magnetik Light\" 300 80px/88px ls:1.6px",
+   "color": "rgb(255, 255, 255)",
+   "y": 3817,
+   "x": 140
+  },
+  {
+   "tag": "SPAN",
+   "t": "P",
+   "font": "\"Magnetik Medium\" 500 20px/23px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 3917,
+   "x": 140
+  },
+  {
+   "tag": "SPAN",
+   "t": "l",
+   "font": "\"Magnetik Medium\" 500 20px/23px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 3917,
+   "x": 152
+  },
+  {
+   "tag": "SPAN",
+   "t": "a",
+   "font": "\"Magnetik Medium\" 500 20px/23px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 3917,
+   "x": 156
+  },
+  {
+   "tag": "SPAN",
+   "t": "n",
+   "font": "\"Magnetik Medium\" 500 20px/23px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 3917,
+   "x": 167
+  },
+  {
+   "tag": "SPAN",
+   "t": "a",
+   "font": "\"Magnetik Medium\" 500 20px/23px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 3917,
+   "x": 183
+  },
+  {
+   "tag": "SPAN",
+   "t": "n",
+   "font": "\"Magnetik Medium\" 500 20px/23px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 3917,
+   "x": 193
+  },
+  {
+   "tag": "SPAN",
+   "t": "d",
+   "font": "\"Magnetik Medium\" 500 20px/23px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 3917,
+   "x": 204
+  },
+  {
+   "tag": "SPAN",
+   "t": "e",
+   "font": "\"Magnetik Medium\" 500 20px/23px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 3917,
+   "x": 221
+  },
+  {
+   "tag": "SPAN",
+   "t": "x",
+   "font": "\"Magnetik Medium\" 500 20px/23px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 3917,
+   "x": 231
+  },
+  {
+   "tag": "SPAN",
+   "t": "e",
+   "font": "\"Magnetik Medium\" 500 20px/23px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 3917,
+   "x": 241
+  },
+  {
+   "tag": "SPAN",
+   "t": "c",
+   "font": "\"Magnetik Medium\" 500 20px/23px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 3917,
+   "x": 252
+  },
+  {
+   "tag": "SPAN",
+   "t": "u",
+   "font": "\"Magnetik Medium\" 500 20px/23px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 3917,
+   "x": 263
+  },
+  {
+   "tag": "SPAN",
+   "t": "t",
+   "font": "\"Magnetik Medium\" 500 20px/23px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 3917,
+   "x": 273
+  },
+  {
+   "tag": "SPAN",
+   "t": "e",
+   "font": "\"Magnetik Medium\" 500 20px/23px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 3917,
+   "x": 280
+  },
+  {
+   "tag": "SPAN",
+   "t": "a",
+   "font": "\"Magnetik Medium\" 500 20px/23px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 3917,
+   "x": 296
+  },
+  {
+   "tag": "SPAN",
+   "t": "u",
+   "font": "\"Magnetik Medium\" 500 20px/23px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 3917,
+   "x": 306
+  },
+  {
+   "tag": "SPAN",
+   "t": "t",
+   "font": "\"Magnetik Medium\" 500 20px/23px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 3917,
+   "x": 317
+  },
+  {
+   "tag": "SPAN",
+   "t": "o",
+   "font": "\"Magnetik Medium\" 500 20px/23px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 3917,
+   "x": 324
+  },
+  {
+   "tag": "SPAN",
+   "t": "n",
+   "font": "\"Magnetik Medium\" 500 20px/23px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 3917,
+   "x": 335
+  },
+  {
+   "tag": "SPAN",
+   "t": "o",
+   "font": "\"Magnetik Medium\" 500 20px/23px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 3917,
+   "x": 346
+  },
+  {
+   "tag": "SPAN",
+   "t": "m",
+   "font": "\"Magnetik Medium\" 500 20px/23px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 3917,
+   "x": 357
+  },
+  {
+   "tag": "SPAN",
+   "t": "o",
+   "font": "\"Magnetik Medium\" 500 20px/23px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 3917,
+   "x": 373
+  },
+  {
+   "tag": "SPAN",
+   "t": "u",
+   "font": "\"Magnetik Medium\" 500 20px/23px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 3917,
+   "x": 384
+  },
+  {
+   "tag": "SPAN",
+   "t": "s",
+   "font": "\"Magnetik Medium\" 500 20px/23px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 3917,
+   "x": 395
+  },
+  {
+   "tag": "SPAN",
+   "t": "r",
+   "font": "\"Magnetik Medium\" 500 20px/23px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 3917,
+   "x": 410
+  },
+  {
+   "tag": "SPAN",
+   "t": "e",
+   "font": "\"Magnetik Medium\" 500 20px/23px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 3917,
+   "x": 417
+  },
+  {
+   "tag": "SPAN",
+   "t": "s",
+   "font": "\"Magnetik Medium\" 500 20px/23px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 3917,
+   "x": 427
+  },
+  {
+   "tag": "SPAN",
+   "t": "u",
+   "font": "\"Magnetik Medium\" 500 20px/23px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 3917,
+   "x": 437
+  },
+  {
+   "tag": "SPAN",
+   "t": "p",
+   "font": "\"Magnetik Medium\" 500 20px/23px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 3917,
+   "x": 448
+  },
+  {
+   "tag": "SPAN",
+   "t": "p",
+   "font": "\"Magnetik Medium\" 500 20px/23px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 3917,
+   "x": 459
+  },
+  {
+   "tag": "SPAN",
+   "t": "l",
+   "font": "\"Magnetik Medium\" 500 20px/23px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 3917,
+   "x": 471
+  },
+  {
+   "tag": "SPAN",
+   "t": "y",
+   "font": "\"Magnetik Medium\" 500 20px/23px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 3917,
+   "x": 475
+  },
+  {
+   "tag": "P",
+   "t": "Discover mission type",
+   "font": "\"DM Mono\" 500 12px/14.4px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 3962,
+   "x": 146,
+   "href": "https://intelic.ai/supply"
+  },
+  {
+   "tag": "P",
+   "t": "F.01",
+   "font": "\"Magnetik Light\" 400 12px/14.4px ls:0.12px",
+   "color": "rgb(255, 255, 255)",
+   "y": 4211,
+   "x": 132
+  },
+  {
+   "tag": "P",
+   "t": "Flexible mission control",
+   "font": "\"Magnetik Regular\" 400 15px/19.5px ls:0.3px",
+   "color": "rgb(255, 255, 255)",
+   "y": 4348,
+   "x": 132
+  },
+  {
+   "tag": "P",
+   "t": "F.02",
+   "font": "\"Magnetik Light\" 400 12px/14.4px ls:0.12px",
+   "color": "rgb(255, 255, 255)",
+   "y": 4211,
+   "x": 732
+  },
+  {
+   "tag": "P",
+   "t": "Battlefield integrations",
+   "font": "\"Magnetik Regular\" 400 15px/19.5px ls:0.3px",
+   "color": "rgb(255, 255, 255)",
+   "y": 4348,
+   "x": 732
+  },
+  {
+   "tag": "P",
+   "t": "F.03",
+   "font": "\"Magnetik Light\" 400 12px/14.4px ls:0.12px",
+   "color": "rgb(255, 255, 255)",
+   "y": 4391,
+   "x": 132
+  },
+  {
+   "tag": "P",
+   "t": "Powerful onboard AI",
+   "font": "\"Magnetik Regular\" 400 15px/19.5px ls:0.3px",
+   "color": "rgb(255, 255, 255)",
+   "y": 4528,
+   "x": 132
+  },
+  {
+   "tag": "P",
+   "t": "F.04",
+   "font": "\"Magnetik Light\" 400 12px/14.4px ls:0.12px",
+   "color": "rgb(255, 255, 255)",
+   "y": 4391,
+   "x": 732
+  },
+  {
+   "tag": "P",
+   "t": "Military user interface",
+   "font": "\"Magnetik Regular\" 400 15px/19.5px ls:0.3px",
+   "color": "rgb(255, 255, 255)",
+   "y": 4528,
+   "x": 732
+  },
+  {
+   "tag": "P",
+   "t": "Our Commitment",
+   "font": "\"DM Mono\" 500 12px/14.4px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 4819,
+   "x": 177
+  },
+  {
+   "tag": "P",
+   "t": "Europe is facing increasing threats. While we do not seek conflict, we must be prepared to respond when necessary. With military forces experiencing personnel s",
+   "font": "\"Magnetik Regular\" 400 15px/19.5px ls:0.3px",
+   "color": "rgb(252, 251, 249)",
+   "y": 5203,
+   "x": 450
+  },
+  {
+   "tag": "P",
+   "t": "True strategic advantage is realized through the seamless and effective operation of these unmanned systems. We reduce integration and deployment times, compres",
+   "font": "\"Magnetik Regular\" 400 15px/19.5px ls:0.3px",
+   "color": "rgb(252, 251, 249)",
+   "y": 5203,
+   "x": 881
+  },
+  {
+   "tag": "P",
+   "t": "About us",
+   "font": "\"DM Mono\" 500 12px/14.4px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 5394,
+   "x": 1170,
+   "href": "https://intelic.ai/about-us"
+  },
+  {
+   "tag": "P",
+   "t": "PARTNERS",
+   "font": "\"DM Mono\" 500 12px/14.4px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 5803,
+   "x": 177
+  },
+  {
+   "tag": "P",
+   "t": "We work with unmanned system companies around the world to enhance their platforms, and provide a simple solution for a unified landscape of systems to the arme",
+   "font": "\"Magnetik Regular\" 400 15px/19.5px ls:0.3px",
+   "color": "rgb(255, 255, 255)",
+   "y": 6058,
+   "x": 160
+  },
+  {
+   "tag": "P",
+   "t": "Partner with us",
+   "font": "\"DM Mono\" 500 12px/14.4px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 6161,
+   "x": 182,
+   "href": "https://intelic.ai/contact-us"
+  },
+  {
+   "tag": "H2",
+   "t": "Intelic",
+   "font": "\"Magnetik Regular\" 400 116.118px/110px ls:normal",
+   "color": "rgba(255, 255, 255, 0.95)",
+   "y": 6728,
+   "x": 160
+  },
+  {
+   "tag": "P",
+   "t": "Contact us",
+   "font": "\"DM Mono\" 500 12px/14.4px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 6529,
+   "x": 528,
+   "href": "https://intelic.ai/contact-us"
+  },
+  {
+   "tag": "P",
+   "t": "Open roles",
+   "font": "\"DM Mono\" 500 12px/14.4px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 6529,
+   "x": 687,
+   "href": "https://intelic.ai/careers"
+  },
+  {
+   "tag": "P",
+   "t": "Subscribe to our newsletter for updates and news",
+   "font": "\"Magnetik Regular\" 400 15px/19.5px ls:0.3px",
+   "color": "rgba(252, 251, 249, 0.8)",
+   "y": 6623,
+   "x": 516
+  },
+  {
+   "tag": "P",
+   "t": "Submit",
+   "font": "\"DM Mono\" 500 12px/14.4px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 6666,
+   "x": 1175
+  },
+  {
+   "tag": "P",
+   "t": "Navigation",
+   "font": "\"DM Mono\" 500 12px/14.4px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 6713,
+   "x": 533
+  },
+  {
+   "tag": "A",
+   "t": "Home",
+   "font": "\"Magnetik Regular\" 400 14px/18.2px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 6760,
+   "x": 540,
+   "href": "https://intelic.ai/"
+  },
+  {
+   "tag": "A",
+   "t": "Home",
+   "font": "\"Magnetik Regular\" 400 14px/18.2px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 6742,
+   "x": 540,
+   "href": "https://intelic.ai/"
+  },
+  {
+   "tag": "A",
+   "t": "Nexus",
+   "font": "\"Magnetik Regular\" 400 14px/18.2px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 6788,
+   "x": 540,
+   "href": "https://intelic.ai/nexus"
+  },
+  {
+   "tag": "A",
+   "t": "Nexus",
+   "font": "\"Magnetik Regular\" 400 14px/18.2px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 6770,
+   "x": 540,
+   "href": "https://intelic.ai/nexus"
+  },
+  {
+   "tag": "A",
+   "t": "Newsroom",
+   "font": "\"Magnetik Regular\" 400 14px/18.2px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 6816,
+   "x": 540,
+   "href": "https://intelic.ai/newsroom"
+  },
+  {
+   "tag": "A",
+   "t": "Newsroom",
+   "font": "\"Magnetik Regular\" 400 14px/18.2px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 6798,
+   "x": 540,
+   "href": "https://intelic.ai/newsroom"
+  },
+  {
+   "tag": "A",
+   "t": "Screen",
+   "font": "\"Magnetik Regular\" 400 14px/18.2px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 6760,
+   "x": 657,
+   "href": "https://intelic.ai/screen"
+  },
+  {
+   "tag": "A",
+   "t": "Screen",
+   "font": "\"Magnetik Regular\" 400 14px/18.2px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 6742,
+   "x": 657,
+   "href": "https://intelic.ai/screen"
+  },
+  {
+   "tag": "A",
+   "t": "Supply",
+   "font": "\"Magnetik Regular\" 400 14px/18.2px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 6788,
+   "x": 657,
+   "href": "https://intelic.ai/supply"
+  },
+  {
+   "tag": "A",
+   "t": "Supply",
+   "font": "\"Magnetik Regular\" 400 14px/18.2px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 6770,
+   "x": 657,
+   "href": "https://intelic.ai/supply"
+  },
+  {
+   "tag": "A",
+   "t": "Attack",
+   "font": "\"Magnetik Regular\" 400 14px/18.2px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 6816,
+   "x": 657,
+   "href": "https://intelic.ai/attack"
+  },
+  {
+   "tag": "A",
+   "t": "Attack",
+   "font": "\"Magnetik Regular\" 400 14px/18.2px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 6798,
+   "x": 657,
+   "href": "https://intelic.ai/attack"
+  },
+  {
+   "tag": "A",
+   "t": "Contact us",
+   "font": "\"Magnetik Regular\" 400 14px/18.2px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 6760,
+   "x": 775,
+   "href": "https://intelic.ai/contact-us"
+  },
+  {
+   "tag": "A",
+   "t": "Contact us",
+   "font": "\"Magnetik Regular\" 400 14px/18.2px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 6742,
+   "x": 775,
+   "href": "https://intelic.ai/contact-us"
+  },
+  {
+   "tag": "P",
+   "t": "Company",
+   "font": "\"DM Mono\" 500 12px/14.4px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 6713,
+   "x": 921
+  },
+  {
+   "tag": "A",
+   "t": "Careers",
+   "font": "\"Magnetik Regular\" 400 14px/18.2px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 6760,
+   "x": 928,
+   "href": "https://intelic.ai/careers"
+  },
+  {
+   "tag": "A",
+   "t": "Careers",
+   "font": "\"Magnetik Regular\" 400 14px/18.2px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 6742,
+   "x": 928,
+   "href": "https://intelic.ai/careers"
+  },
+  {
+   "tag": "A",
+   "t": "About us",
+   "font": "\"Magnetik Regular\" 400 14px/18.2px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 6788,
+   "x": 928,
+   "href": "https://intelic.ai/about-us"
+  },
+  {
+   "tag": "A",
+   "t": "About us",
+   "font": "\"Magnetik Regular\" 400 14px/18.2px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 6770,
+   "x": 928,
+   "href": "https://intelic.ai/about-us"
+  },
+  {
+   "tag": "P",
+   "t": "Social",
+   "font": "\"DM Mono\" 500 12px/14.4px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 6713,
+   "x": 1109
+  },
+  {
+   "tag": "A",
+   "t": "LinkedIn",
+   "font": "\"Magnetik Regular\" 400 14px/20px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 6761,
+   "x": 1114,
+   "href": "https://www.linkedin.com/company/intelic-ai"
+  },
+  {
+   "tag": "A",
+   "t": "LinkedIn",
+   "font": "\"Magnetik Regular\" 400 14px/18.2px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 6742,
+   "x": 1114,
+   "href": "https://www.linkedin.com/company/intelic-ai"
+  },
+  {
+   "tag": "P",
+   "t": "Intelic is a tradename of Avalor AI BV",
+   "font": "\"DM Mono\" 500 12px/14.4px ls:normal",
+   "color": "rgb(117, 117, 117)",
+   "y": 6851,
+   "x": 132
+  },
+  {
+   "tag": "P",
+   "t": "KvK:82695806",
+   "font": "\"DM Mono\" 500 12px/14.4px ls:normal",
+   "color": "rgb(117, 117, 117)",
+   "y": 6851,
+   "x": 406
+  },
+  {
+   "tag": "P",
+   "t": "Amsterdam",
+   "font": "\"DM Mono\" 500 12px/14.4px ls:normal",
+   "color": "rgb(117, 117, 117)",
+   "y": 6851,
+   "x": 556
+  },
+  {
+   "tag": "A",
+   "t": "Privacy Policy",
+   "font": "\"DM Mono\" 500 12px/14.4px ls:normal",
+   "color": "rgb(117, 117, 117)",
+   "y": 6850,
+   "x": 691,
+   "href": "https://intelic.ai/privacy-policy"
+  },
+  {
+   "tag": "SPAN",
+   "t": "COOKIE SETTINGS",
+   "font": "\"DM Mono\" 500 12px/12px ls:normal",
+   "color": "rgb(117, 117, 117)",
+   "y": 6852,
+   "x": 856
+  },
+  {
+   "tag": "P",
+   "t": "52° 22' 12.7776'' N4° , 53' 42.6048'' E",
+   "font": "\"DM Mono\" 500 12px/14.4px ls:normal",
+   "color": "rgb(117, 117, 117)",
+   "y": 6851,
+   "x": 1027
+  },
+  {
+   "tag": "P",
+   "t": "We use cookies to personalize content, run ads, and analyze traffic.",
+   "font": "\"Magnetik Regular\" 400 14px/14px ls:normal",
+   "color": "rgb(255, 255, 255)",
+   "y": 846,
+   "x": 1080
+  }
+ ]
+}

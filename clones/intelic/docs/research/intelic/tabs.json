@@ -1,0 +1,267 @@
+{
+ "states": {
+  "Screen": {
+   "h": "Screen",
+   "txt": "SCREEN | SUPPLY | ATTACK | Screen | From fast planning to a common picture with a wide range of systems | DISCOVER MISSION TYPE | F.01 | Many-to-many mission control | Supports flexible control setups where one user can operate multiple, different unmanned systems, and multiple users with specific roles can access a single system. | F.02 | Battlefield integrations | F.03 | Powerful onboard AI | F.04 | Military user interface",
+   "imgs": [
+    "kes9j4kZRf1KRdDIARLUxe8WY.webp@1",
+    "K2BDP1uWX2gI4WZ6G1PPmsng0.webp@1",
+    "bU5rqNuPi3GC3SsMCr8Hgilblmc.webp@1"
+   ],
+   "bars": [
+    "365:rgba(0, 0, 0, 0)",
+    "365:rgba(191, 191, 191, 0.36)",
+    "12:rgb(30, 102, 130)",
+    "365:rgb(191, 191, 191)",
+    "365:rgb(191, 191, 191)"
+   ]
+  },
+  "Supply": {
+   "h": "Supply",
+   "txt": "SCREEN | SUPPLY | ATTACK | Supply | Plan and execute autonomous resupply  | DISCOVER MISSION TYPE | F.01 | Flexible mission control | Supports flexible control setups where one user can operate multiple, different unmanned systems, and multiple users with specific roles can access a single system. | F.02 | Battlefield integrations | F.03 | Powerful onboard AI | F.04 | Military user interface",
+   "imgs": [
+    "kes9j4kZRf1KRdDIARLUxe8WY.webp@1",
+    "K2BDP1uWX2gI4WZ6G1PPmsng0.webp@1",
+    "bU5rqNuPi3GC3SsMCr8Hgilblmc.webp@1"
+   ],
+   "bars": [
+    "365:rgb(191, 191, 191)",
+    "365:rgba(0, 0, 0, 0)",
+    "365:rgba(191, 191, 191, 0.36)",
+    "365:rgb(191, 191, 191)"
+   ]
+  },
+  "Attack": {
+   "h": "Attack",
+   "txt": "SCREEN | SUPPLY | ATTACK | Attack | Synchronize target detection with fire support and strike systems | DISCOVER MISSION TYPE | F.01 | Flexible mission control | Supports flexible control setups where one user can operate multiple, different unmanned systems, and multiple users with specific roles can access a single system. | F.02 | Battlefield integrations | F.03 | Powerful onboard AI | F.04 | Military user interface",
+   "imgs": [
+    "kes9j4kZRf1KRdDIARLUxe8WY.webp@1",
+    "K2BDP1uWX2gI4WZ6G1PPmsng0.webp@1",
+    "bU5rqNuPi3GC3SsMCr8Hgilblmc.webp@1"
+   ],
+   "bars": [
+    "365:rgb(191, 191, 191)",
+    "365:rgb(191, 191, 191)",
+    "365:rgba(0, 0, 0, 0)",
+    "365:rgba(191, 191, 191, 0.36)",
+    "12:rgb(30, 102, 130)"
+   ]
+  }
+ },
+ "nav": [
+  {
+   "href": "https://intelic.ai/screen",
+   "t": "SCREEN",
+   "img": "https://framerusercontent.com/images/vHHOJV5znHOB8ii59Lcn5COXt4.webp?scale-down-to=512&width=4949&height=3873"
+  },
+  {
+   "href": "https://intelic.ai/supply",
+   "t": "SUPPLY",
+   "img": "https://framerusercontent.com/images/UJJFuqm6vGOY5GNBf2OdOgzBNhI.webp?scale-down-to=512&width=5472&height=3648"
+  },
+  {
+   "href": "https://intelic.ai/attack",
+   "t": "ATTACK",
+   "img": "https://framerusercontent.com/images/iJaSo3DyYFQwazS3OilFl21FdE.webp?scale-down-to=512&width=5988&height=3959"
+  }
+ ],
+ "barSamples": [
+  {
+   "t": 0,
+   "h": "Screen",
+   "bars": [
+    "365:rgba(0, 0, 0, 0)",
+    "365:rgba(191, 191, 191, 0.36)",
+    "12:rgb(30, 102, 130)",
+    "365:rgb(191, 191, 191)",
+    "365:rgb(191, 191, 191)"
+   ]
+  },
+  {
+   "t": 2000,
+   "h": "Supply",
+   "bars": [
+    "365:rgb(191, 191, 191)",
+    "365:rgba(0, 0, 0, 0)",
+    "365:rgba(191, 191, 191, 0.36)",
+    "365:rgb(191, 191, 191)"
+   ]
+  },
+  {
+   "t": 4000,
+   "h": "Supply",
+   "bars": [
+    "365:rgb(191, 191, 191)",
+    "365:rgba(0, 0, 0, 0)",
+    "365:rgba(191, 191, 191, 0.36)",
+    "69:rgb(30, 102, 130)",
+    "365:rgb(191, 191, 191)"
+   ]
+  },
+  {
+   "t": 6000,
+   "h": "Supply",
+   "bars": [
+    "365:rgb(191, 191, 191)",
+    "365:rgba(0, 0, 0, 0)",
+    "365:rgba(191, 191, 191, 0.36)",
+    "143:rgb(30, 102, 130)",
+    "365:rgb(191, 191, 191)"
+   ]
+  },
+  {
+   "t": 8000,
+   "h": "Supply",
+   "bars": [
+    "365:rgb(191, 191, 191)",
+    "365:rgba(0, 0, 0, 0)",
+    "365:rgba(191, 191, 191, 0.36)",
+    "216:rgb(30, 102, 130)",
+    "365:rgb(191, 191, 191)"
+   ]
+  },
+  {
+   "t": 10000,
+   "h": "Supply",
+   "bars": [
+    "365:rgb(191, 191, 191)",
+    "365:rgba(0, 0, 0, 0)",
+    "365:rgba(191, 191, 191, 0.36)",
+    "289:rgb(30, 102, 130)",
+    "365:rgb(191, 191, 191)"
+   ]
+  },
+  {
+   "t": 12000,
+   "h": "Supply",
+   "bars": [
+    "365:rgb(191, 191, 191)",
+    "365:rgba(0, 0, 0, 0)",
+    "365:rgba(191, 191, 191, 0.36)",
+    "363:rgb(30, 102, 130)",
+    "365:rgb(191, 191, 191)"
+   ]
+  },
+  {
+   "t": 14000,
+   "h": "Attack",
+   "bars": [
+    "365:rgb(191, 191, 191)",
+    "365:rgb(191, 191, 191)",
+    "365:rgba(0, 0, 0, 0)",
+    "365:rgba(191, 191, 191, 0.36)",
+    "72:rgb(30, 102, 130)"
+   ]
+  },
+  {
+   "t": 16000,
+   "h": "Attack",
+   "bars": [
+    "365:rgb(191, 191, 191)",
+    "365:rgb(191, 191, 191)",
+    "365:rgba(0, 0, 0, 0)",
+    "365:rgba(191, 191, 191, 0.36)",
+    "146:rgb(30, 102, 130)"
+   ]
+  },
+  {
+   "t": 18000,
+   "h": "Attack",
+   "bars": [
+    "365:rgb(191, 191, 191)",
+    "365:rgb(191, 191, 191)",
+    "365:rgba(0, 0, 0, 0)",
+    "365:rgba(191, 191, 191, 0.36)",
+    "220:rgb(30, 102, 130)"
+   ]
+  },
+  {
+   "t": 20000,
+   "h": "Attack",
+   "bars": [
+    "365:rgb(191, 191, 191)",
+    "365:rgb(191, 191, 191)",
+    "365:rgba(0, 0, 0, 0)",
+    "365:rgba(191, 191, 191, 0.36)",
+    "293:rgb(30, 102, 130)"
+   ]
+  },
+  {
+   "t": 22000,
+   "h": "Attack",
+   "bars": [
+    "365:rgb(191, 191, 191)",
+    "365:rgb(191, 191, 191)",
+    "365:rgba(0, 0, 0, 0)",
+    "365:rgba(191, 191, 191, 0.36)",
+    "365:rgb(30, 102, 130)"
+   ]
+  },
+  {
+   "t": 24000,
+   "h": "Screen",
+   "bars": [
+    "365:rgba(0, 0, 0, 0)",
+    "365:rgba(191, 191, 191, 0.36)",
+    "41:rgb(30, 102, 130)",
+    "365:rgb(191, 191, 191)",
+    "365:rgb(191, 191, 191)"
+   ]
+  },
+  {
+   "t": 26000,
+   "h": "Screen",
+   "bars": [
+    "365:rgba(0, 0, 0, 0)",
+    "365:rgba(191, 191, 191, 0.36)",
+    "114:rgb(30, 102, 130)",
+    "365:rgb(191, 191, 191)",
+    "365:rgb(191, 191, 191)"
+   ]
+  },
+  {
+   "t": 28000,
+   "h": "Screen",
+   "bars": [
+    "365:rgba(0, 0, 0, 0)",
+    "365:rgba(191, 191, 191, 0.36)",
+    "188:rgb(30, 102, 130)",
+    "365:rgb(191, 191, 191)",
+    "365:rgb(191, 191, 191)"
+   ]
+  },
+  {
+   "t": 30000,
+   "h": "Screen",
+   "bars": [
+    "365:rgba(0, 0, 0, 0)",
+    "365:rgba(191, 191, 191, 0.36)",
+    "262:rgb(30, 102, 130)",
+    "365:rgb(191, 191, 191)",
+    "365:rgb(191, 191, 191)"
+   ]
+  },
+  {
+   "t": 32000,
+   "h": "Screen",
+   "bars": [
+    "365:rgba(0, 0, 0, 0)",
+    "365:rgba(191, 191, 191, 0.36)",
+    "335:rgb(30, 102, 130)",
+    "365:rgb(191, 191, 191)",
+    "365:rgb(191, 191, 191)"
+   ]
+  },
+  {
+   "t": 34000,
+   "h": "Supply",
+   "bars": [
+    "365:rgb(191, 191, 191)",
+    "365:rgba(0, 0, 0, 0)",
+    "365:rgba(191, 191, 191, 0.36)",
+    "25:rgb(30, 102, 130)",
+    "365:rgb(191, 191, 191)"
+   ]
+  }
+ ]
+}
