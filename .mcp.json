@@ -1,0 +1,38 @@
+{
+  "mcpServers": {
+    "chrome-devtools": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "chrome-devtools-mcp@1.14.0",
+        "--headless",
+        "--isolated",
+        "--viewport=1440x900",
+        "--executablePath=/opt/pw-browsers/chromium",
+        "--chrome-arg=--no-sandbox",
+        "--chrome-arg=--disable-setuid-sandbox"
+      ]
+    },
+    "playwright": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@playwright/mcp@0.0.86",
+        "--headless",
+        "--isolated",
+        "--no-sandbox",
+        "--executable-path=/opt/pw-browsers/chromium",
+        "--caps=vision,pdf",
+        "--output-dir=.playwright-mcp"
+      ]
+    },
+    "designlang": {
+      "command": "npx",
+      "args": ["-y", "designlang@13.4.1", "mcp"]
+    },
+    "dembrandt": {
+      "command": "npx",
+      "args": ["-y", "-p", "dembrandt@0.41.0", "dembrandt-mcp"]
+    }
+  }
+}

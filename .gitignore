@@ -9,3 +9,8 @@ Thumbs.db
 # Clay CLI exports / scratch output
 *.csv
 !**/fixtures/**/*.csv
+# website-cloning tooling
+.claude/skills/reanimate/scripts/node_modules/
+.reanimate/
+.playwright-mcp/
+design-extract-output/
