@@ -9,7 +9,7 @@
  "duration": 2043.0,
  "view_count": 204587,
  "user_notes": "Bali with friends",
- "analysed_at": "2026-11-27T19:25:41+00:00",
+ "analysed_at": "2026-11-27T19:55:20+00:00",
  "sources": {
   "metadata": true,
   "transcript": "auto",
@@ -144,7 +144,7 @@
    "representative_frame": null,
    "shot_type": "medium shot with people",
    "shot_type_confidence": 0.5,
-   "camera_movement": "not measurable from storyboard sampling",
+   "camera_movement": "not measurable (no same-shot sample pairs)",
    "pacing": "unknown",
    "audio": {
     "words_per_minute": 76.6,
@@ -181,7 +181,7 @@
    "representative_frame": null,
    "shot_type": "wide shot with people",
    "shot_type_confidence": 0.35,
-   "camera_movement": "not measurable from storyboard sampling",
+   "camera_movement": "tilt up (measured on 1 sample pair)",
    "pacing": "fast",
    "audio": {
     "words_per_minute": 33.5,
@@ -219,7 +219,7 @@
    "representative_frame": null,
    "shot_type": "general b-roll",
    "shot_type_confidence": 0.3,
-   "camera_movement": "not measurable from storyboard sampling",
+   "camera_movement": "static / locked-off (measured on 6 sample pairs)",
    "pacing": "slow",
    "audio": {
     "words_per_minute": 164.1,
@@ -255,7 +255,7 @@
    "representative_frame": null,
    "shot_type": "close-up on a person (talking head / selfie)",
    "shot_type_confidence": 0.6,
-   "camera_movement": "not measurable from storyboard sampling",
+   "camera_movement": "static / locked-off (measured on 1 sample pair)",
    "pacing": "slow",
    "audio": {
     "words_per_minute": 87.7,
@@ -296,7 +296,7 @@
    "representative_frame": null,
    "shot_type": "busy street / detail-rich scene",
    "shot_type_confidence": 0.4,
-   "camera_movement": "not measurable from storyboard sampling",
+   "camera_movement": "not measurable (no same-shot sample pairs)",
    "pacing": "fast",
    "audio": {
     "words_per_minute": 95.9,
@@ -336,7 +336,7 @@
    "representative_frame": null,
    "shot_type": "wide shot with people",
    "shot_type_confidence": 0.35,
-   "camera_movement": "not measurable from storyboard sampling",
+   "camera_movement": "not measurable (no same-shot sample pairs)",
    "pacing": "fast",
    "audio": {
     "words_per_minute": 101.3,
@@ -371,7 +371,7 @@
    "representative_frame": null,
    "shot_type": "general b-roll",
    "shot_type_confidence": 0.3,
-   "camera_movement": "not measurable from storyboard sampling",
+   "camera_movement": "static / locked-off (measured on 1 sample pair)",
    "pacing": "fast",
    "audio": {
     "words_per_minute": 126.4,
@@ -409,7 +409,7 @@
    "representative_frame": null,
    "shot_type": "wide shot with people",
    "shot_type_confidence": 0.35,
-   "camera_movement": "not measurable from storyboard sampling",
+   "camera_movement": "static / locked-off (measured on 3 sample pairs)",
    "pacing": "fast",
    "audio": {
     "words_per_minute": 174.4,
@@ -451,7 +451,7 @@
    "representative_frame": null,
    "shot_type": "wide shot with people",
    "shot_type_confidence": 0.35,
-   "camera_movement": "not measurable from storyboard sampling",
+   "camera_movement": "static / locked-off (measured on 2 sample pairs)",
    "pacing": "slow",
    "audio": {
     "words_per_minute": 178.8,
@@ -488,7 +488,7 @@
    "representative_frame": null,
    "shot_type": "wide shot with people",
    "shot_type_confidence": 0.35,
-   "camera_movement": "not measurable from storyboard sampling",
+   "camera_movement": "tilt down (measured on 3 sample pairs)",
    "pacing": "medium",
    "audio": {
     "words_per_minute": 146.3,
@@ -528,7 +528,7 @@
    "representative_frame": null,
    "shot_type": "wide shot with people",
    "shot_type_confidence": 0.35,
-   "camera_movement": "not measurable from storyboard sampling",
+   "camera_movement": "not measurable (no same-shot sample pairs)",
    "pacing": "fast",
    "audio": {
     "words_per_minute": 161.8,
@@ -564,7 +564,7 @@
    "representative_frame": null,
    "shot_type": "busy street / detail-rich scene",
    "shot_type_confidence": 0.4,
-   "camera_movement": "not measurable from storyboard sampling",
+   "camera_movement": "not measurable (no same-shot sample pairs)",
    "pacing": "fast",
    "audio": {
     "words_per_minute": 70.6,
@@ -598,7 +598,7 @@
    "representative_frame": null,
    "shot_type": "general b-roll",
    "shot_type_confidence": 0.3,
-   "camera_movement": "not measurable from storyboard sampling",
+   "camera_movement": "not measurable (no same-shot sample pairs)",
    "pacing": "fast",
    "audio": {
     "words_per_minute": 157.3,
@@ -635,7 +635,7 @@
    "representative_frame": null,
    "shot_type": "wide shot with people",
    "shot_type_confidence": 0.35,
-   "camera_movement": "not measurable from storyboard sampling",
+   "camera_movement": "not measurable (no same-shot sample pairs)",
    "pacing": "fast",
    "audio": {
     "words_per_minute": 126.4,
@@ -674,7 +674,7 @@
    "representative_frame": null,
    "shot_type": "wide shot with people",
    "shot_type_confidence": 0.35,
-   "camera_movement": "not measurable from storyboard sampling",
+   "camera_movement": "not measurable (no same-shot sample pairs)",
    "pacing": "fast",
    "audio": {
     "words_per_minute": 137.1,
@@ -709,7 +709,7 @@
    "representative_frame": null,
    "shot_type": "wide shot with people",
    "shot_type_confidence": 0.35,
-   "camera_movement": "not measurable from storyboard sampling",
+   "camera_movement": "static / locked-off (measured on 1 sample pair)",
    "pacing": "medium",
    "audio": {
     "words_per_minute": 149.1,
@@ -748,7 +748,7 @@
    "representative_frame": null,
    "shot_type": "medium shot with people",
    "shot_type_confidence": 0.5,
-   "camera_movement": "not measurable from storyboard sampling",
+   "camera_movement": "not measurable (no same-shot sample pairs)",
    "pacing": "fast",
    "audio": {
     "words_per_minute": 130.5,
@@ -782,7 +782,7 @@
    "representative_frame": null,
    "shot_type": "wide shot with people",
    "shot_type_confidence": 0.35,
-   "camera_movement": "not measurable from storyboard sampling",
+   "camera_movement": "static / locked-off (measured on 2 sample pairs)",
    "pacing": "fast",
    "audio": {
     "words_per_minute": 173.4,
@@ -819,7 +819,7 @@
    "representative_frame": null,
    "shot_type": "busy street / detail-rich scene",
    "shot_type_confidence": 0.4,
-   "camera_movement": "not measurable from storyboard sampling",
+   "camera_movement": "static / locked-off (measured on 1 sample pair)",
    "pacing": "fast",
    "audio": {
     "words_per_minute": 157.3,
@@ -856,7 +856,7 @@
    "representative_frame": null,
    "shot_type": "medium shot with people",
    "shot_type_confidence": 0.5,
-   "camera_movement": "not measurable from storyboard sampling",
+   "camera_movement": "not measurable (no same-shot sample pairs)",
    "pacing": "fast",
    "audio": {
     "words_per_minute": 89.9,
@@ -897,7 +897,7 @@
    "representative_frame": null,
    "shot_type": "busy street / detail-rich scene",
    "shot_type_confidence": 0.4,
-   "camera_movement": "not measurable from storyboard sampling",
+   "camera_movement": "not measurable (no same-shot sample pairs)",
    "pacing": "fast",
    "audio": {
     "words_per_minute": 157.3,
@@ -935,7 +935,7 @@
    "representative_frame": null,
    "shot_type": "busy street / detail-rich scene",
    "shot_type_confidence": 0.4,
-   "camera_movement": "not measurable from storyboard sampling",
+   "camera_movement": "not measurable (no same-shot sample pairs)",
    "pacing": "fast",
    "audio": {
     "words_per_minute": 74.8,
@@ -973,7 +973,7 @@
    "representative_frame": null,
    "shot_type": "wide shot with people",
    "shot_type_confidence": 0.35,
-   "camera_movement": "not measurable from storyboard sampling",
+   "camera_movement": "static / locked-off (measured on 2 sample pairs)",
    "pacing": "medium",
    "audio": {
     "words_per_minute": 152.1,
@@ -1015,7 +1015,7 @@
    "representative_frame": null,
    "shot_type": "wide shot with people",
    "shot_type_confidence": 0.35,
-   "camera_movement": "not measurable from storyboard sampling",
+   "camera_movement": "static / locked-off (measured on 2 sample pairs)",
    "pacing": "medium",
    "audio": {
     "words_per_minute": 168.7,
@@ -1056,7 +1056,7 @@
    "representative_frame": null,
    "shot_type": "general b-roll",
    "shot_type_confidence": 0.3,
-   "camera_movement": "not measurable from storyboard sampling",
+   "camera_movement": "not measurable (no same-shot sample pairs)",
    "pacing": "fast",
    "audio": {
     "words_per_minute": 127.0,
@@ -1092,7 +1092,7 @@
    "representative_frame": null,
    "shot_type": "wide shot with people",
    "shot_type_confidence": 0.35,
-   "camera_movement": "not measurable from storyboard sampling",
+   "camera_movement": "not measurable (no same-shot sample pairs)",
    "pacing": "fast",
    "audio": {
     "words_per_minute": 152.4,
@@ -1523,6 +1523,24 @@
   "pacing_variability": 6.56,
   "on_screen_text_frames": 3,
   "chapters": 17,
+  "camera_motion": {
+   "same_shot_pairs": 72,
+   "measured_pairs": 19,
+   "uncertain_pairs": 16,
+   "moving_share": 0.105,
+   "move_distribution": {
+    "static / locked-off": 10,
+    "slight drift": 7,
+    "tilt": 2
+   },
+   "transitions_seen": {},
+   "transitions_per_hour_seen": {},
+   "note": "Moves are measured only between samples 10 s apart inside the same shot (slow, sustained moves). Transitions are counted only when a sample lands inside one, so counts are a lower bound."
+  },
+  "moving_camera_share": 0.105,
+  "push_pull_share": 0.0,
+  "pan_tilt_share": 0.105,
+  "orbit_roll_share": 0.0,
   "measurement_note": "Cut rate is a Poisson estimate from storyboard samples; individual cuts, transitions and camera moves are not observable at this sampling rate."
  },
  "sound_design": {
@@ -1628,6 +1646,16 @@
    "category": "pacing",
    "style_mode": "cinematic",
    "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 69.42,
+   "end": 79.34,
+   "name": "tilt up",
+   "description": "sustained camera move across 10s (scale 1.015, shift -0.02/+0.11, roll -2.7 deg)",
+   "category": "visual",
+   "style_mode": "cinematic",
+   "confidence": 0.57,
    "source": "heuristic"
   },
   {
@@ -2004,7 +2032,7 @@
  },
  "contact_sheets": [],
  "limitations": [
-  "Frames are YouTube storyboard previews (YouTube storyboard 159x90, one frame every 9.9s); fine detail, exact cuts, transitions and camera movement are not measured.",
+  "Frames are YouTube storyboard previews (YouTube storyboard 159x90, one frame every 9.9s). Camera moves are measured only when consecutive samples fall in the same shot (slow, sustained moves); transitions only when a sample lands inside one (counts are lower bounds); individual cut points are not observable.",
   "Shot types use face/sky/edge heuristics on low-resolution frames - treat as approximate.",
   "Transcript is YouTube auto-captions (no punctuation, occasional errors, speaker changes not marked)."
  ]

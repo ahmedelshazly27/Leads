@@ -16,6 +16,7 @@ from . import transcript as tx
 from .contact_sheet import build_contact_sheets
 from .frames import analyse_frame, frame_distance, hist_signature
 from .scenes import changed_pairs, poisson_cut_rate, segment_sequences
+from .motion import analyse_sequence
 
 log = get_logger("analysis")
 
@@ -32,6 +33,17 @@ def _local_cut_rate(changed: list[bool], times: list[float], start: float, end: 
     return poisson_cut_rate(sum(pairs) / len(pairs), interval)[0]
 
 
+def _share(motion: dict, keys: tuple[str, ...]) -> float | None:
+    moves = [m for m in motion["camera_moves"] if m["move"] != "uncertain"]
+    if not moves:
+        return None
+    return round(sum(1 for m in moves if any(k in m["move"] for k in keys)) / len(moves), 3)
+
+
+def _per_hour(motion: dict, kind: str) -> float:
+    return float(motion["summary"].get("transitions_per_hour_seen", {}).get(kind, 0.0))
+
+
 def build_profile(src: ReferenceSource, creator: str, out_dir: Path, notes: str = "") -> VideoProfile:
     meta, segs = src.meta, src.transcript
     duration = float(meta.get("duration") or 0)
@@ -43,6 +55,8 @@ def build_profile(src: ReferenceSource, creator: str, out_dir: Path, notes: str 
     dists = [frame_distance(a, b) for a, b in zip(sigs, sigs[1:])]
     times = [f.t for f in frames]
     changed = changed_pairs(dists)
+    motion = analyse_sequence(frames, interval, same_shot_threshold=0.35, dists=dists) if len(frames) > 2 else \
+        {"camera_moves": [], "transitions": [], "summary": {}}
     sheets = build_contact_sheets(src.frames, out_dir / "contact_sheets", title=f"{creator} - {meta.get('title', '')}")
 
     # ---- global cut-rate estimate
@@ -82,6 +96,15 @@ def build_profile(src: ReferenceSource, creator: str, out_dir: Path, notes: str 
             has_transcript=bool(segs))
         local_cpm = _local_cut_rate(changed, times, s, e, interval)
         rep = fr[len(fr) // 2].path if fr else None
+        scene_moves = [m for m in motion["camera_moves"] if s <= m["start"] < e]
+        if scene_moves:
+            from collections import Counter as _C
+            scene_moves = [m for m in scene_moves if m["move"] != "uncertain"] or scene_moves
+            moving = [m["move"] for m in scene_moves if m["move"] not in ("static / locked-off", "slight drift", "uncertain")]
+            cam = (_C(moving).most_common(1)[0][0] if moving else "static / locked-off") + \
+                f" (measured on {len(scene_moves)} sample pair{'s' if len(scene_moves) > 1 else ''})"
+        else:
+            cam = "not measurable (no same-shot sample pairs)"
         audio_desc = []
         if not segs:
             audio_desc.append("unknown (no transcript)")
@@ -95,7 +118,7 @@ def build_profile(src: ReferenceSource, creator: str, out_dir: Path, notes: str 
             audio_desc.append("music present (caption marker)")
         scenes.append(Scene(
             index=i, start=round(s, 2), end=round(e, 2), duration=round(e - s, 2), representative_frame=rep,
-            shot_type=shot, shot_type_confidence=conf, pacing=style.pacing_label(local_cpm),
+            shot_type=shot, shot_type_confidence=conf, pacing=style.pacing_label(local_cpm), camera_movement=cam,
             audio=SceneAudio(words_per_minute=round(wpm, 1), speech_coverage=round(sp_cov, 3), music_marker=music,
                              other_markers=[m for m in markers if m != "music"], description=", ".join(audio_desc)),
             style_mode=max(scores, key=scores.get), style_scores=scores,
@@ -163,6 +186,18 @@ def build_profile(src: ReferenceSource, creator: str, out_dir: Path, notes: str 
         if "close-up" in sc.shot_type and sc.audio.speech_coverage > 0.5 and sc.duration >= 20:
             techniques.append(Technique(start=sc.start, end=sc.end, category="narration", style_mode="personal",
                 name="talking to camera", description="presenter speaks directly to camera / selfie framing", confidence=0.5))
+    for m in motion["camera_moves"]:
+        if m["move"] in ("static / locked-off", "slight drift", "uncertain") or m["confidence"] < 0.5:
+            continue
+        sc = next((x for x in scenes if x.start <= m["start"] < x.end), None)
+        aerial = sc is not None and ("establishing" in sc.shot_type or "landscape" in sc.shot_type)
+        techniques.append(Technique(start=m["start"], end=m["end"], category="visual", style_mode="cinematic",
+            name=("aerial/wide " if aerial else "") + m["move"],
+            description=f"sustained camera move across {m['end'] - m['start']:.0f}s (scale {m['scale']}, "
+                        f"shift {m['dx']:+.2f}/{m['dy']:+.2f}, roll {m['rot_deg']:+.1f} deg)", confidence=m["confidence"]))
+    for t in motion["transitions"]:
+        techniques.append(Technique(start=t["t"], end=t["t"] + interval, category="transition", name=t["type"],
+                                    description="transition caught between storyboard samples", confidence=t["confidence"]))
     techniques.sort(key=lambda t: t.start)
 
     # ---- hook
@@ -237,6 +272,11 @@ def build_profile(src: ReferenceSource, creator: str, out_dir: Path, notes: str 
         "pacing_variability": round(float(np.std([p["est_cuts_per_min"] for p in pacing_curve])), 2) if pacing_curve else 0,
         "on_screen_text_frames": sum(1 for f in frames if f.text_like > 0.5),
         "chapters": len(src.chapters),
+        "camera_motion": motion["summary"],
+        "moving_camera_share": motion["summary"].get("moving_share"),
+        "push_pull_share": _share(motion, ("push-in", "pull-out")),
+        "pan_tilt_share": _share(motion, ("pan/track", "tilt")),
+        "orbit_roll_share": _share(motion, ("orbit/roll",)),
         "measurement_note": ("Cut rate is a Poisson estimate from storyboard samples; individual cuts, transitions "
                              "and camera moves are not observable at this sampling rate."),
     }
@@ -276,8 +316,9 @@ def build_profile(src: ReferenceSource, creator: str, out_dir: Path, notes: str 
         "narrative_functions": dict(Counter(s.narrative_function for s in scenes).most_common()),
     }
     limitations = [
-        f"Frames are YouTube storyboard previews ({src.storyboard_label}); fine detail, exact cuts, transitions "
-        "and camera movement are not measured.",
+        f"Frames are YouTube storyboard previews ({src.storyboard_label}). Camera moves are measured only when "
+        "consecutive samples fall in the same shot (slow, sustained moves); transitions only when a sample lands "
+        "inside one (counts are lower bounds); individual cut points are not observable.",
         "Shot types use face/sky/edge heuristics on low-resolution frames - treat as approximate.",
     ]
     if src.transcript_kind == "auto":

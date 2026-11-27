@@ -46,12 +46,7 @@
       "transcript": "none"
     }
   ],
-  "data_gaps": [
-    "I spend a week with Gambia’s next President…: no transcript - speech, language and music metrics unavailable",
-    "3 Days in Africa with Manchester United Football Legend Louis Saha: no transcript - speech, language and music metrics unavailable",
-    "Zero to £100M | M&A entrepreneur buying businesses from Copenhagen: no transcript - speech, language and music metrics unavailable",
-    "Zero to £100M | buying businesses in the UK | vlog 11: no transcript - speech, language and music metrics unavailable"
-  ],
+  "data_gaps": [],
   "metrics": {
     "editing_characteristics.est_cuts_per_min": {
       "label": "Estimated cuts per minute",
@@ -76,6 +71,46 @@
       "max": 10.14,
       "n": 6,
       "unit": ""
+    },
+    "editing_characteristics.camera_motion.same_shot_pairs": {
+      "label": "Sample pairs still in the same shot after 10 s (per video)",
+      "mean": 74.6667,
+      "min": 35,
+      "max": 127,
+      "n": 6,
+      "unit": ""
+    },
+    "editing_characteristics.moving_camera_share": {
+      "label": "Moving camera (of measured same-shot pairs)",
+      "mean": 0.146,
+      "min": 0.0,
+      "max": 0.667,
+      "n": 6,
+      "unit": "%"
+    },
+    "editing_characteristics.push_pull_share": {
+      "label": "Push-in / pull-out moves",
+      "mean": 0.0,
+      "min": 0.0,
+      "max": 0.0,
+      "n": 6,
+      "unit": "%"
+    },
+    "editing_characteristics.pan_tilt_share": {
+      "label": "Pan / tilt / track moves",
+      "mean": 0.146,
+      "min": 0.0,
+      "max": 0.667,
+      "n": 6,
+      "unit": "%"
+    },
+    "editing_characteristics.orbit_roll_share": {
+      "label": "Orbit / roll moves",
+      "mean": 0.0,
+      "min": 0.0,
+      "max": 0.0,
+      "n": 6,
+      "unit": "%"
     },
     "sound_design.speech_coverage": {
       "label": "Share of runtime with speech",
@@ -254,7 +289,9 @@
     "music bed under speech": 10,
     "speech-free montage": 4,
     "talking to camera": 3,
-    "atmospheric non-speech sequence": 2
+    "atmospheric non-speech sequence": 2,
+    "dip to black / fade": 1,
+    "tilt down": 1
   },
   "grading_tags": {
     "warm tones": 5,

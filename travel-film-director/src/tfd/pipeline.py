@@ -83,6 +83,10 @@ def rebuild_profiles(settings: Settings | None = None) -> list[str]:
         old = VideoProfile.model_validate_json(Path(v["profile_path"]).read_text(encoding="utf-8"))
         prof = build_profile(load_cached_source(out), old.creator, out, old.user_notes)
         prof.qualitative = old.qualitative
+        if "full_rate" in old.editing_characteristics:
+            prof.editing_characteristics["full_rate"] = old.editing_characteristics["full_rate"]
+            prof.techniques = sorted(prof.techniques + [t for t in old.techniques if t.name.startswith("[full-rate]")],
+                                     key=lambda t: t.start)
         if not prof.qualitative:
             prof.limitations.append("Claude qualitative analysis not run; run `tfd annotate` from Claude Code to add it.")
         write_json(Path(v["profile_path"]), prof.model_dump())
@@ -90,6 +94,45 @@ def rebuild_profiles(settings: Settings | None = None) -> list[str]:
         done.append(v["video_id"])
     refresh_creator_profiles(settings, lib)
     return done
+
+
+def attach_full_rate(video_id: str, video_file: Path, settings: Settings | None = None) -> dict:
+    """Analyse a local copy of a reference video at full frame rate (a file you are entitled to use) and merge
+    exact shot/transition/camera-move data into its profile. The file itself is not copied or stored."""
+    from .analysis.local_video import analyse_video
+    from .schemas import Technique
+    settings = settings or get_settings()
+    lib = open_library(settings)
+    row = next((v for v in lib.videos() if v["video_id"] == video_id), None)
+    if not row:
+        raise KeyError(f"{video_id} is not in the library - add its URL with `tfd ref add` first")
+    path = Path(row["profile_path"])
+    profile = VideoProfile.model_validate_json(path.read_text(encoding="utf-8"))
+    res = analyse_video(Path(video_file))
+    res.pop("file", None)  # don't record where the user keeps files
+    write_json(path.parent / "full_rate.json", res)
+    if profile.duration and abs(res["duration"] - profile.duration) > max(5.0, 0.03 * profile.duration):
+        log.warning("local file is %.0fs but the YouTube video is %.0fs - is it the same edit?", res["duration"], profile.duration)
+    profile.editing_characteristics["full_rate"] = res["summary"]
+    profile.techniques = [t for t in profile.techniques if t.source != "user" or not t.name.startswith("[full-rate]")]
+    for t in res["transitions"]:
+        if t["type"] != "hard cut":
+            profile.techniques.append(Technique(start=t.get("start", t["t"]), end=t.get("end", t["t"]), category="transition",
+                                                name=f"[full-rate] {t['type']}", description="measured at full frame rate",
+                                                confidence=0.8, source="user"))
+    for sh in res["shots"]:
+        if sh["camera_move"] not in ("static / locked-off", "unmeasured"):
+            profile.techniques.append(Technique(start=sh["start"], end=sh["end"], category="visual",
+                                                name=f"[full-rate] {sh['camera_move']}",
+                                                description=f"{sh['duration']:.1f}s shot, {'handheld' if sh.get('handheld') else 'stabilised'}",
+                                                confidence=0.8, source="user"))
+    profile.techniques.sort(key=lambda t: t.start)
+    profile.limitations = [l for l in profile.limitations if not l.startswith("Frames are YouTube storyboard")] + [
+        "Cuts, transitions and camera moves come from a full-frame-rate analysis of a local file (see full_rate.json)."]
+    write_json(path, profile.model_dump())
+    lib.add_profile(profile, path)
+    refresh_creator_profiles(settings, lib)
+    return res["summary"]
 
 
 def annotate(video_id: str, annotation_file: Path, settings: Settings | None = None) -> VideoProfile:

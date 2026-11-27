@@ -9,7 +9,7 @@
  "duration": 1677.0,
  "view_count": 1517620,
  "user_notes": "Arabian horses, Qatar",
- "analysed_at": "2026-11-27T19:26:44+00:00",
+ "analysed_at": "2026-11-27T19:56:54+00:00",
  "sources": {
   "metadata": true,
   "transcript": "none",
@@ -58,7 +58,7 @@
    "representative_frame": null,
    "shot_type": "general b-roll",
    "shot_type_confidence": 0.3,
-   "camera_movement": "not measurable from storyboard sampling",
+   "camera_movement": "not measurable (no same-shot sample pairs)",
    "pacing": "unknown",
    "audio": {
     "words_per_minute": 0.0,
@@ -98,7 +98,7 @@
    "representative_frame": null,
    "shot_type": "general b-roll",
    "shot_type_confidence": 0.3,
-   "camera_movement": "not measurable from storyboard sampling",
+   "camera_movement": "not measurable (no same-shot sample pairs)",
    "pacing": "fast",
    "audio": {
     "words_per_minute": 0.0,
@@ -136,7 +136,7 @@
    "representative_frame": null,
    "shot_type": "wide shot with people",
    "shot_type_confidence": 0.35,
-   "camera_movement": "not measurable from storyboard sampling",
+   "camera_movement": "not measurable (no same-shot sample pairs)",
    "pacing": "fast",
    "audio": {
     "words_per_minute": 0.0,
@@ -172,7 +172,7 @@
    "representative_frame": null,
    "shot_type": "wide shot with people",
    "shot_type_confidence": 0.35,
-   "camera_movement": "not measurable from storyboard sampling",
+   "camera_movement": "not measurable (no same-shot sample pairs)",
    "pacing": "fast",
    "audio": {
     "words_per_minute": 0.0,
@@ -208,7 +208,7 @@
    "representative_frame": null,
    "shot_type": "wide shot with people",
    "shot_type_confidence": 0.35,
-   "camera_movement": "not measurable from storyboard sampling",
+   "camera_movement": "static / locked-off (measured on 1 sample pair)",
    "pacing": "fast",
    "audio": {
     "words_per_minute": 0.0,
@@ -246,7 +246,7 @@
    "representative_frame": null,
    "shot_type": "wide establishing / landscape",
    "shot_type_confidence": 0.55,
-   "camera_movement": "not measurable from storyboard sampling",
+   "camera_movement": "static / locked-off (measured on 1 sample pair)",
    "pacing": "fast",
    "audio": {
     "words_per_minute": 0.0,
@@ -282,7 +282,7 @@
    "representative_frame": null,
    "shot_type": "wide shot with people",
    "shot_type_confidence": 0.35,
-   "camera_movement": "not measurable from storyboard sampling",
+   "camera_movement": "static / locked-off (measured on 1 sample pair)",
    "pacing": "fast",
    "audio": {
     "words_per_minute": 0.0,
@@ -318,7 +318,7 @@
    "representative_frame": null,
    "shot_type": "wide shot with people",
    "shot_type_confidence": 0.35,
-   "camera_movement": "not measurable from storyboard sampling",
+   "camera_movement": "not measurable (no same-shot sample pairs)",
    "pacing": "fast",
    "audio": {
     "words_per_minute": 0.0,
@@ -354,7 +354,7 @@
    "representative_frame": null,
    "shot_type": "wide shot with people",
    "shot_type_confidence": 0.35,
-   "camera_movement": "not measurable from storyboard sampling",
+   "camera_movement": "not measurable (no same-shot sample pairs)",
    "pacing": "fast",
    "audio": {
     "words_per_minute": 0.0,
@@ -390,7 +390,7 @@
    "representative_frame": null,
    "shot_type": "wide shot with people",
    "shot_type_confidence": 0.35,
-   "camera_movement": "not measurable from storyboard sampling",
+   "camera_movement": "static / locked-off (measured on 1 sample pair)",
    "pacing": "medium",
    "audio": {
     "words_per_minute": 0.0,
@@ -426,7 +426,7 @@
    "representative_frame": null,
    "shot_type": "medium shot with people",
    "shot_type_confidence": 0.5,
-   "camera_movement": "not measurable from storyboard sampling",
+   "camera_movement": "not measurable (no same-shot sample pairs)",
    "pacing": "fast",
    "audio": {
     "words_per_minute": 0.0,
@@ -462,7 +462,7 @@
    "representative_frame": null,
    "shot_type": "wide shot with people",
    "shot_type_confidence": 0.35,
-   "camera_movement": "not measurable from storyboard sampling",
+   "camera_movement": "not measurable (no same-shot sample pairs)",
    "pacing": "fast",
    "audio": {
     "words_per_minute": 0.0,
@@ -727,6 +727,22 @@
   "pacing_variability": 3.26,
   "on_screen_text_frames": 0,
   "chapters": 0,
+  "camera_motion": {
+   "same_shot_pairs": 22,
+   "measured_pairs": 2,
+   "uncertain_pairs": 3,
+   "moving_share": 0.0,
+   "move_distribution": {
+    "static / locked-off": 2
+   },
+   "transitions_seen": {},
+   "transitions_per_hour_seen": {},
+   "note": "Moves are measured only between samples 10 s apart inside the same shot (slow, sustained moves). Transitions are counted only when a sample lands inside one, so counts are a lower bound."
+  },
+  "moving_camera_share": 0.0,
+  "push_pull_share": 0.0,
+  "pan_tilt_share": 0.0,
+  "orbit_roll_share": 0.0,
   "measurement_note": "Cut rate is a Poisson estimate from storyboard samples; individual cuts, transitions and camera moves are not observable at this sampling rate."
  },
  "sound_design": {
@@ -956,7 +972,7 @@
  },
  "contact_sheets": [],
  "limitations": [
-  "Frames are YouTube storyboard previews (YouTube storyboard 320x180, one frame every 9.9s); fine detail, exact cuts, transitions and camera movement are not measured.",
+  "Frames are YouTube storyboard previews (YouTube storyboard 320x180, one frame every 9.9s). Camera moves are measured only when consecutive samples fall in the same shot (slow, sustained moves); transitions only when a sample lands inside one (counts are lower bounds); individual cut points are not observable.",
   "Shot types use face/sky/edge heuristics on low-resolution frames - treat as approximate.",
   "No transcript available - speech/story metrics are empty."
  ]

@@ -9,7 +9,7 @@
  "duration": 1300.0,
  "view_count": 1945621,
  "user_notes": "Matmata underground city, Tunisia",
- "analysed_at": "2026-11-27T19:26:49+00:00",
+ "analysed_at": "2026-11-27T19:57:01+00:00",
  "sources": {
   "metadata": true,
   "transcript": "manual",
@@ -58,7 +58,7 @@
    "representative_frame": null,
    "shot_type": "general b-roll",
    "shot_type_confidence": 0.3,
-   "camera_movement": "not measurable from storyboard sampling",
+   "camera_movement": "not measurable (no same-shot sample pairs)",
    "pacing": "unknown",
    "audio": {
     "words_per_minute": 438.6,
@@ -95,7 +95,7 @@
    "representative_frame": null,
    "shot_type": "wide shot with people",
    "shot_type_confidence": 0.35,
-   "camera_movement": "not measurable from storyboard sampling",
+   "camera_movement": "not measurable (no same-shot sample pairs)",
    "pacing": "fast",
    "audio": {
     "words_per_minute": 759.1,
@@ -131,7 +131,7 @@
    "representative_frame": null,
    "shot_type": "general b-roll",
    "shot_type_confidence": 0.3,
-   "camera_movement": "not measurable from storyboard sampling",
+   "camera_movement": "not measurable (no same-shot sample pairs)",
    "pacing": "fast",
    "audio": {
     "words_per_minute": 505.6,
@@ -167,7 +167,7 @@
    "representative_frame": null,
    "shot_type": "medium shot with people",
    "shot_type_confidence": 0.5,
-   "camera_movement": "not measurable from storyboard sampling",
+   "camera_movement": "not measurable (no same-shot sample pairs)",
    "pacing": "fast",
    "audio": {
     "words_per_minute": 103.8,
@@ -202,7 +202,7 @@
    "representative_frame": null,
    "shot_type": "wide shot with people",
    "shot_type_confidence": 0.35,
-   "camera_movement": "not measurable from storyboard sampling",
+   "camera_movement": "not measurable (no same-shot sample pairs)",
    "pacing": "fast",
    "audio": {
     "words_per_minute": 92.6,
@@ -238,7 +238,7 @@
    "representative_frame": null,
    "shot_type": "wide shot with people",
    "shot_type_confidence": 0.35,
-   "camera_movement": "not measurable from storyboard sampling",
+   "camera_movement": "static / locked-off (measured on 1 sample pair)",
    "pacing": "fast",
    "audio": {
     "words_per_minute": 148.3,
@@ -275,7 +275,7 @@
    "representative_frame": null,
    "shot_type": "wide shot with people",
    "shot_type_confidence": 0.35,
-   "camera_movement": "not measurable from storyboard sampling",
+   "camera_movement": "tilt down (measured on 3 sample pairs)",
    "pacing": "fast",
    "audio": {
     "words_per_minute": 157.0,
@@ -314,7 +314,7 @@
    "representative_frame": null,
    "shot_type": "medium shot with people",
    "shot_type_confidence": 0.5,
-   "camera_movement": "not measurable from storyboard sampling",
+   "camera_movement": "not measurable (no same-shot sample pairs)",
    "pacing": "fast",
    "audio": {
     "words_per_minute": 158.4,
@@ -349,7 +349,7 @@
    "representative_frame": null,
    "shot_type": "wide shot with people",
    "shot_type_confidence": 0.35,
-   "camera_movement": "not measurable from storyboard sampling",
+   "camera_movement": "static / locked-off (measured on 1 sample pair)",
    "pacing": "fast",
    "audio": {
     "words_per_minute": 121.0,
@@ -383,7 +383,7 @@
    "representative_frame": null,
    "shot_type": "wide shot with people",
    "shot_type_confidence": 0.35,
-   "camera_movement": "not measurable from storyboard sampling",
+   "camera_movement": "static / locked-off (measured on 1 sample pair)",
    "pacing": "fast",
    "audio": {
     "words_per_minute": 0.0,
@@ -421,7 +421,7 @@
    "representative_frame": null,
    "shot_type": "wide shot with people",
    "shot_type_confidence": 0.35,
-   "camera_movement": "not measurable from storyboard sampling",
+   "camera_movement": "not measurable (no same-shot sample pairs)",
    "pacing": "fast",
    "audio": {
     "words_per_minute": 0.0,
@@ -459,7 +459,7 @@
    "representative_frame": null,
    "shot_type": "low-light / night shot",
    "shot_type_confidence": 0.45,
-   "camera_movement": "not measurable from storyboard sampling",
+   "camera_movement": "static / locked-off (measured on 1 sample pair)",
    "pacing": "medium",
    "audio": {
     "words_per_minute": 0.0,
@@ -694,6 +694,25 @@
   "pacing_variability": 3.96,
   "on_screen_text_frames": 2,
   "chapters": 0,
+  "camera_motion": {
+   "same_shot_pairs": 26,
+   "measured_pairs": 5,
+   "uncertain_pairs": 2,
+   "moving_share": 0.4,
+   "move_distribution": {
+    "static / locked-off": 2,
+    "tilt": 2,
+    "pull-out": 1,
+    "slight drift": 1
+   },
+   "transitions_seen": {},
+   "transitions_per_hour_seen": {},
+   "note": "Moves are measured only between samples 10 s apart inside the same shot (slow, sustained moves). Transitions are counted only when a sample lands inside one, so counts are a lower bound."
+  },
+  "moving_camera_share": 0.4,
+  "push_pull_share": 0.2,
+  "pan_tilt_share": 0.4,
+  "orbit_roll_share": 0.0,
   "measurement_note": "Cut rate is a Poisson estimate from storyboard samples; individual cuts, transitions and camera moves are not observable at this sampling rate."
  },
  "sound_design": {
@@ -821,6 +840,16 @@
    "category": "graphics",
    "style_mode": null,
    "confidence": 0.4,
+   "source": "heuristic"
+  },
+  {
+   "start": 896.21,
+   "end": 906.06,
+   "name": "pull-out + tilt down",
+   "description": "sustained camera move across 10s (scale 0.9037, shift +0.02/-0.07, roll +1.4 deg)",
+   "category": "visual",
+   "style_mode": "cinematic",
+   "confidence": 0.51,
    "source": "heuristic"
   },
   {
@@ -963,7 +992,7 @@
  },
  "contact_sheets": [],
  "limitations": [
-  "Frames are YouTube storyboard previews (YouTube storyboard 320x180, one frame every 9.8s); fine detail, exact cuts, transitions and camera movement are not measured.",
+  "Frames are YouTube storyboard previews (YouTube storyboard 320x180, one frame every 9.8s). Camera moves are measured only when consecutive samples fall in the same shot (slow, sustained moves); transitions only when a sample lands inside one (counts are lower bounds); individual cut points are not observable.",
   "Shot types use face/sky/edge heuristics on low-resolution frames - treat as approximate.",
   "Transcript timing suspect: 100 caption cues in minute 0 vs median 21/min - cue timing looks corrupted; speech/vocabulary metrics excluded from creator averages"
  ]

@@ -72,6 +72,46 @@
       "n": 6,
       "unit": ""
     },
+    "editing_characteristics.camera_motion.same_shot_pairs": {
+      "label": "Sample pairs still in the same shot after 10 s (per video)",
+      "mean": 93.0,
+      "min": 58,
+      "max": 135,
+      "n": 6,
+      "unit": ""
+    },
+    "editing_characteristics.moving_camera_share": {
+      "label": "Moving camera (of measured same-shot pairs)",
+      "mean": 0.044,
+      "min": 0.0,
+      "max": 0.111,
+      "n": 6,
+      "unit": "%"
+    },
+    "editing_characteristics.push_pull_share": {
+      "label": "Push-in / pull-out moves",
+      "mean": 0.0,
+      "min": 0.0,
+      "max": 0.0,
+      "n": 6,
+      "unit": "%"
+    },
+    "editing_characteristics.pan_tilt_share": {
+      "label": "Pan / tilt / track moves",
+      "mean": 0.0255,
+      "min": 0.0,
+      "max": 0.105,
+      "n": 6,
+      "unit": "%"
+    },
+    "editing_characteristics.orbit_roll_share": {
+      "label": "Orbit / roll moves",
+      "mean": 0.0185,
+      "min": 0.0,
+      "max": 0.111,
+      "n": 6,
+      "unit": "%"
+    },
     "sound_design.speech_coverage": {
       "label": "Share of runtime with speech",
       "mean": 0.8665,
@@ -252,7 +292,8 @@
     "replay peak": 12,
     "on-screen text / title card": 12,
     "on-screen text": 8,
-    "breathing room: non-speech atmospheric sequence": 1
+    "tilt up": 1,
+    "tilt down": 1
   },
   "grading_tags": {
     "warm tones": 5,

@@ -146,6 +146,11 @@ def main(argv=None) -> int:
     rr = rs.add_parser("rebuild", help="recompute all profiles from cached data (no network)")
     rr.set_defaults(fn=lambda a: print("rebuilt:", ", ".join(__import__("tfd.pipeline", fromlist=["x"]).rebuild_profiles())) or 0)
 
+    rl = rs.add_parser("local", help="full-frame-rate cut/transition/camera-move analysis of a local copy you are entitled to use")
+    rl.add_argument("video_id")
+    rl.add_argument("file")
+    rl.set_defaults(fn=lambda a: print(json.dumps(__import__("tfd.pipeline", fromlist=["x"]).attach_full_rate(a.video_id, Path(a.file)), indent=2)) or 0)
+
     sub.add_parser("library", help="list analysed videos").set_defaults(fn=_library)
     sub.add_parser("compare", help="rebuild + print creator comparison").set_defaults(fn=_compare)
     se = sub.add_parser("search", help="full-text search of scenes/techniques")

@@ -72,6 +72,7 @@ tfd search "title card" --mode documentary     # timestamped examples with links
 tfd ask "How do the three creators open their films?"
 tfd annotate <video_id> notes.json             # merge qualitative notes (e.g. written by Claude Code)
 tfd ref rebuild                                # recompute profiles offline after upgrades
+tfd ref local <video_id> /path/to/file.mp4      # exact cuts, transitions, camera moves from a local copy you're entitled to use
 
 tfd footage ~/Movies/Trips/Kyrgyzstan/raw --transcribe   # read-only analysis -> data/projects/raw
 tfd direct data/projects/raw --minutes 8 --direction balanced
@@ -98,7 +99,9 @@ Put licensed music files in `<project>/music/`.
 ## What is and isn't analysed in references
 
 - **Analysed:** metadata, chapters, the most-replayed heatmap, captions, and YouTube's own storyboard previews (320×180, one frame every ~10 s). From these come timestamped scenes, a per-scene cinematic/documentary/personal mix, hook pattern, narrative beats, estimated pacing, speech/music balance, grade and palette, letterboxing, on-screen text, and signature techniques.
-- **Not analysed:** exact cuts, transitions and camera moves (they aren't observable at that sampling rate), and the audio itself. Every profile lists its own `limitations`.
+- **From storyboards:** how long shots are held, and slow camera moves between same-shot samples (push/pull, pan, tilt).
+- **Needs a local file:** exact cuts, transition types (cut, dissolve, fade, whip) and every shot's camera move. Use `tfd ref local` on a copy you're entitled to use; nothing is downloaded.
+- **Not analysed:** the audio. Every profile lists its own `limitations`.
 
 ## Example output
 

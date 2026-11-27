@@ -72,6 +72,46 @@
       "n": 6,
       "unit": ""
     },
+    "editing_characteristics.camera_motion.same_shot_pairs": {
+      "label": "Sample pairs still in the same shot after 10 s (per video)",
+      "mean": 13.6667,
+      "min": 7,
+      "max": 22,
+      "n": 6,
+      "unit": ""
+    },
+    "editing_characteristics.moving_camera_share": {
+      "label": "Moving camera (of measured same-shot pairs)",
+      "mean": 0.0,
+      "min": 0.0,
+      "max": 0.0,
+      "n": 6,
+      "unit": "%"
+    },
+    "editing_characteristics.push_pull_share": {
+      "label": "Push-in / pull-out moves",
+      "mean": 0.0,
+      "min": 0.0,
+      "max": 0.0,
+      "n": 6,
+      "unit": "%"
+    },
+    "editing_characteristics.pan_tilt_share": {
+      "label": "Pan / tilt / track moves",
+      "mean": 0.0,
+      "min": 0.0,
+      "max": 0.0,
+      "n": 6,
+      "unit": "%"
+    },
+    "editing_characteristics.orbit_roll_share": {
+      "label": "Orbit / roll moves",
+      "mean": 0.0,
+      "min": 0.0,
+      "max": 0.0,
+      "n": 6,
+      "unit": "%"
+    },
     "sound_design.speech_coverage": {
       "label": "Share of runtime with speech",
       "mean": 0.5688,

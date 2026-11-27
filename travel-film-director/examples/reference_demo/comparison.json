@@ -37,6 +37,76 @@
       }
     },
     {
+      "metric": "editing_characteristics.full_rate.cuts_per_min",
+      "label": "Cuts per minute (full-rate, exact)",
+      "values": {}
+    },
+    {
+      "metric": "editing_characteristics.full_rate.median_shot_s",
+      "label": "Median shot length (full-rate, exact)",
+      "values": {}
+    },
+    {
+      "metric": "editing_characteristics.full_rate.moving_shot_share",
+      "label": "Shots with camera movement (full-rate)",
+      "values": {}
+    },
+    {
+      "metric": "editing_characteristics.full_rate.handheld_share",
+      "label": "Handheld shots (full-rate)",
+      "values": {}
+    },
+    {
+      "metric": "editing_characteristics.camera_motion.same_shot_pairs",
+      "label": "Sample pairs still in the same shot after 10 s (per video)",
+      "values": {
+        "Daniel Dalen": 93.0,
+        "Joe Hattab": 13.6667,
+        "Omar Farooq": 20.1667,
+        "Yusufa Sey": 74.6667
+      }
+    },
+    {
+      "metric": "editing_characteristics.moving_camera_share",
+      "label": "Moving camera (of measured same-shot pairs)",
+      "values": {
+        "Daniel Dalen": 0.044,
+        "Joe Hattab": 0.0,
+        "Omar Farooq": 0.2333,
+        "Yusufa Sey": 0.146
+      }
+    },
+    {
+      "metric": "editing_characteristics.push_pull_share",
+      "label": "Push-in / pull-out moves",
+      "values": {
+        "Daniel Dalen": 0.0,
+        "Joe Hattab": 0.0,
+        "Omar Farooq": 0.0333,
+        "Yusufa Sey": 0.0
+      }
+    },
+    {
+      "metric": "editing_characteristics.pan_tilt_share",
+      "label": "Pan / tilt / track moves",
+      "values": {
+        "Daniel Dalen": 0.0255,
+        "Joe Hattab": 0.0,
+        "Omar Farooq": 0.2333,
+        "Yusufa Sey": 0.146
+      }
+    },
+    {
+      "metric": "editing_characteristics.orbit_roll_share",
+      "label": "Orbit / roll moves",
+      "values": {
+        "Daniel Dalen": 0.0185,
+        "Joe Hattab": 0.0,
+        "Omar Farooq": 0.0,
+        "Yusufa Sey": 0.0
+      }
+    },
+    {
       "metric": "sound_design.speech_coverage",
       "label": "Share of runtime with speech",
       "values": {
@@ -218,8 +288,13 @@
     }
   ],
   "key_differences": [
+    "Moving camera (of measured same-shot pairs): Omar Farooq 23% vs Joe Hattab 0.0% - Omar Farooq shows more camera movement.",
+    "Pan / tilt / track moves: Omar Farooq 23% vs Joe Hattab 0.0% - Omar Farooq shows more lateral moves.",
     "Mean warmth (R-B): Omar Farooq 0.09 vs Joe Hattab -0.07 - Omar Farooq shows warmer.",
+    "Push-in / pull-out moves: Omar Farooq 3.3% vs Daniel Dalen 0.0% - Omar Farooq shows more zoom/dolly moves.",
+    "Orbit / roll moves: Daniel Dalen 1.8% vs Joe Hattab 0.0% - Daniel Dalen shows more orbiting moves.",
     "Letterboxed (cinematic aspect) frames: Yusufa Sey 4.2% vs Joe Hattab 0.6% - Yusufa Sey shows more letterboxing.",
+    "Sample pairs still in the same shot after 10 s (per video): Daniel Dalen 93.00 vs Joe Hattab 13.67 - Daniel Dalen shows longer-held shots.",
     "First-person singular language: Daniel Dalen 5.3% vs Joe Hattab 1.3% - Daniel Dalen shows more personal.",
     "Share of runtime without speech (music/ambience): Joe Hattab 29% vs Yusufa Sey 8.3% - Joe Hattab shows more breathing room.",
     "Estimated cuts per minute: Joe Hattab 18.13 vs Daniel Dalen 5.64 - Joe Hattab shows faster cutting.",

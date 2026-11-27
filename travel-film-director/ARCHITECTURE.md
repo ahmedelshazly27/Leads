@@ -38,6 +38,8 @@ data/
 | `youtube/ingest.py` | yt-dlp extraction with client rotation and cookies; caption tracks (json3), with fallback to youtube-transcript-api or a user SRT/VTT; storyboard sheets sliced into timestamped frames; `source.json` cache |
 | `analysis/frames.py` | Per-frame measurements: brightness, contrast, saturation, colourfulness, warmth, sharpness, edge density, faces (Haar), sky fraction, text likelihood, palette, letterbox crop |
 | `analysis/scenes.py` | Visual-sequence segmentation (adaptive threshold, chapter-aware) and the Poisson cut-rate estimator |
+| `analysis/motion.py` | Storyboard-level camera moves: ORB + RANSAC similarity transform between same-shot samples, with people masked out; near-pure black/white frames. The dissolve and whip detectors were disabled after manual review showed false positives |
+| `analysis/local_video.py` | Full-frame-rate analysis of a local file: hard cuts (single-frame spikes), gradual transitions (dissolve by blend fit, fade by luminance ramp, whip by global motion), shots, per-shot camera move and handheld/stabilised from optical flow |
 | `analysis/transcript.py` | Speech coverage, caption markers (`[Music]`), speech gaps, pronoun/fact/reflection/hook vocabulary, dialogue proxy, SRT/VTT parsing |
 | `analysis/style.py` | Transparent rules: shot type, visual tags, **style-mode scores** (cinematic / documentary / personal) with evidence; visual-only fallback |
 | `analysis/reference.py` | Assembles a `VideoProfile`: scenes, techniques with timestamps, hook, narrative beats, editing / sound / colour / storytelling aggregates, limitations |

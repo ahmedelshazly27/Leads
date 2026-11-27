@@ -12,6 +12,15 @@ METRICS = [
     ("editing_characteristics.est_cuts_per_min", "Estimated cuts per minute", "", "faster cutting"),
     ("editing_characteristics.median_sequence_s", "Median visual sequence length", "s", "longer sequences"),
     ("editing_characteristics.pacing_variability", "Pacing variability (std of cuts/min per minute)", "", "more tempo changes"),
+    ("editing_characteristics.full_rate.cuts_per_min", "Cuts per minute (full-rate, exact)", "", "faster cutting"),
+    ("editing_characteristics.full_rate.median_shot_s", "Median shot length (full-rate, exact)", "s", "longer shots"),
+    ("editing_characteristics.full_rate.moving_shot_share", "Shots with camera movement (full-rate)", "%", "more camera movement"),
+    ("editing_characteristics.full_rate.handheld_share", "Handheld shots (full-rate)", "%", "more handheld"),
+    ("editing_characteristics.camera_motion.same_shot_pairs", "Sample pairs still in the same shot after 10 s (per video)", "", "longer-held shots"),
+    ("editing_characteristics.moving_camera_share", "Moving camera (of measured same-shot pairs)", "%", "more camera movement"),
+    ("editing_characteristics.push_pull_share", "Push-in / pull-out moves", "%", "more zoom/dolly moves"),
+    ("editing_characteristics.pan_tilt_share", "Pan / tilt / track moves", "%", "more lateral moves"),
+    ("editing_characteristics.orbit_roll_share", "Orbit / roll moves", "%", "more orbiting moves"),
     ("sound_design.speech_coverage", "Share of runtime with speech", "%", "more talking"),
     ("sound_design.non_speech_fraction", "Share of runtime without speech (music/ambience)", "%", "more breathing room"),
     ("sound_design.words_per_minute_overall", "Words per minute (whole video)", "", "denser narration"),
@@ -80,9 +89,7 @@ def creator_profile(name: str, profiles: list[VideoProfile], description: str = 
         "weight": weight,
         "videos": [{"video_id": p.video_id, "title": p.title, "duration": p.duration, "url": p.url,
                     "transcript": p.sources.transcript} for p in profiles],
-        "data_gaps": [f"{p.title}: no transcript - speech, language and music metrics unavailable" for p in profiles
-                      if p.sources.transcript == "none"]
-                     + [f"{p.title}: {p.sources.transcript_quality_note}" for p in profiles
+        "data_gaps": [f"{p.title}: {p.sources.transcript_quality_note}" for p in profiles
                         if p.sources.transcript_quality == "suspect"],
         "metrics": metrics,
         "hook_patterns": [p.hook.get("pattern") for p in profiles],

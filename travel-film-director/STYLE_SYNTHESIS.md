@@ -58,7 +58,12 @@ All four creators are personal on-camera presenters. They differ in **what carri
 
 ## Confidence and gaps
 
-- Frames are ~10 s apart, so cut points, transitions and camera moves aren't measured. Cut-rate estimates saturate near 18 cuts/min for Joe and Omar, which means only "brisk".
+- Frames are ~10 s apart. What that supports, checked by eye against the flagged frames:
+  - **How often a shot is still running 10 s later (reliable):** Daniel ~93 and Yusufa ~75 times per video, against Omar ~20 and Joe ~14. Daniel and Yusufa hold long static setups; Joe and Omar almost never hold a shot for 10 s.
+  - **Slow camera moves between same-shot samples (indicative):** about 6 of 9 named moves checked were real. Most measured pairs are static, especially Daniel's (~94%).
+  - **Not measurable from storyboards:** individual cut points, transition types and fast moves. The dissolve and whip-pan detectors were tested by eye, produced mostly false positives, and were removed from storyboard analysis.
+  - **The fix:** `tfd ref local <video_id> <file>` measures all of this at full frame rate from a local copy you are entitled to use: every cut, dissolve, fade and whip, and each shot's length and camera move. Tested on a synthetic edit with known answers.
+- Cut-rate estimates from storyboards saturate near 18 cuts/min for Joe and Omar, which means only "brisk".
 - Audio wasn't analysed. Music is inferred from speech gaps and caption markers.
 - **Yusufa Sey:** 4 of 6 videos have no captions, so his speech numbers come from 2 videos; one of those opens on a rap track the captions treat as speech.
 - **Omar Farooq:** language metrics come from English subtitles of Arabic speech. One transcript (Tunisia) has corrupted timing and is excluded automatically, and the Qatar video has none.

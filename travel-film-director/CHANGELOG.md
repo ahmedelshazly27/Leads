@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.4.0 (2026-11-27): cuts, transitions and camera moves
+### Added
+- `analysis/motion.py`: storyboard camera moves (ORB + RANSAC, people masked out) and a held-shot measure (sample pairs still in the same shot after 10 s).
+- `analysis/local_video.py` + `tfd ref local`: full-frame-rate shot list, transition types (hard cut, cross-dissolve, dip to black, whip) and per-shot camera move. Merged into profiles and creator comparisons as exact metrics.
+- Tests: synthetic camera moves with known geometry, and a synthetic edit with a known cut, dissolve, fade, push-in and pan (32 tests).
+### Removed
+- Storyboard dissolve and whip-blur detection. Manual review of flagged frames showed mostly false positives (smooth landscapes, unrelated shots).
+### Changed
+- Missing captions are no longer reported as data gaps.
+
 ## 0.3.0 (2026-11-27): deep reference study
 ### Added
 - Reference library expanded to 24 videos: 6 each from Joe Hattab, Daniel Dalen, Yusufa Sey and Omar Farooq.

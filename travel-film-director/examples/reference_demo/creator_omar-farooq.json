@@ -47,7 +47,6 @@
     }
   ],
   "data_gaps": [
-    "كل أسرار جمال الخيل العربي 🇶🇦 #عمر_يجرب: no transcript - speech, language and music metrics unavailable",
     "ما زالوا يعيشون تحت الأرض! مدينة مطماطة في تونس 🇹🇳 #عمر_يجرب: 100 caption cues in minute 0 vs median 21/min - cue timing looks corrupted; speech/vocabulary metrics excluded from creator averages"
   ],
   "metrics": {
@@ -74,6 +73,46 @@
       "max": 5.44,
       "n": 6,
       "unit": ""
+    },
+    "editing_characteristics.camera_motion.same_shot_pairs": {
+      "label": "Sample pairs still in the same shot after 10 s (per video)",
+      "mean": 20.1667,
+      "min": 10,
+      "max": 26,
+      "n": 6,
+      "unit": ""
+    },
+    "editing_characteristics.moving_camera_share": {
+      "label": "Moving camera (of measured same-shot pairs)",
+      "mean": 0.2333,
+      "min": 0.0,
+      "max": 1.0,
+      "n": 6,
+      "unit": "%"
+    },
+    "editing_characteristics.push_pull_share": {
+      "label": "Push-in / pull-out moves",
+      "mean": 0.0333,
+      "min": 0.0,
+      "max": 0.2,
+      "n": 6,
+      "unit": "%"
+    },
+    "editing_characteristics.pan_tilt_share": {
+      "label": "Pan / tilt / track moves",
+      "mean": 0.2333,
+      "min": 0.0,
+      "max": 1.0,
+      "n": 6,
+      "unit": "%"
+    },
+    "editing_characteristics.orbit_roll_share": {
+      "label": "Orbit / roll moves",
+      "mean": 0.0,
+      "min": 0.0,
+      "max": 0.0,
+      "n": 6,
+      "unit": "%"
     },
     "sound_design.speech_coverage": {
       "label": "Share of runtime with speech",
@@ -254,7 +293,8 @@
     "on-screen text": 5,
     "talking to camera": 4,
     "speech-free fast montage": 2,
-    "breathing room: non-speech atmospheric sequence": 2
+    "breathing room: non-speech atmospheric sequence": 2,
+    "pull-out + tilt down": 1
   },
   "grading_tags": {
     "warm tones": 4,
