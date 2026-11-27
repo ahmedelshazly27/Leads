@@ -86,3 +86,51 @@ def test_hdr_tonemap_chain_runs(tmp_path):
     r = subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-i", str(src), "-vf", vf, "-frames:v", "1",
                         str(tmp_path / "o.png")], capture_output=True, text=True)
     assert r.returncode == 0, r.stderr
+
+
+def _flat_log_frame(path, seed=0):
+    """Synthetic log-looking frame: luma squeezed into 0.15-0.6, almost no saturation."""
+    rng = np.random.default_rng(seed)
+    base = rng.uniform(0, 1, (90, 160, 1))
+    rgb = 0.15 + 0.45 * np.concatenate([base, base * 0.98, base * 0.96], axis=2)
+    cv2.imwrite(str(path), cv2.cvtColor((rgb * 255).astype(np.uint8), cv2.COLOR_RGB2BGR))
+    return str(path)
+
+
+def test_detect_log_profile():
+    from tfd.editing.grade import log_profile_from_tags
+    assert log_profile_from_tags({"com.dji.camera.ColorGammaSxS": "D-Log2"}) == "D-Log2"
+    assert log_profile_from_tags({"com.apple.quicktime.model": "iPhone 15 Pro"}) is None
+    assert log_profile_from_tags({"com.dji.camera.ColorGammaSxS": "Normal"}) is None
+
+
+def test_log_clip_gets_levels_and_saturation(tmp_path):
+    frames = [_flat_log_frame(tmp_path / f"{i}.jpg", i) for i in range(3)]
+    corr = clip_correction(frames, {"hdr": False, "log_profile": "D-Log2"})
+    lg = corr["log_to_709"]
+    assert 0.12 < lg["black"] < 0.2 and 0.55 < lg["white"] < 0.65 and lg["saturation"] > 1.3
+    assert corr["exposure_stops"] == 0.0  # levels already place exposure
+    normal = clip_correction(frames, {"hdr": False})
+    assert "log_to_709" not in normal
+
+
+def test_log_stretch_is_bounded_for_dark_clips(tmp_path):
+    from tfd.editing.grade import log_to_709_params
+    p = log_to_709_params(np.array([0.05, 0.06, 0.07, 0.08] * 100))
+    assert p["white"] - p["black"] >= 0.35  # never stretch a dark clip into noise
+
+
+@pytest.mark.skipif(not shutil.which("ffmpeg"), reason="ffmpeg required")
+def test_log_chain_expands_contrast(tmp_path):
+    """Runs on a 10-bit video, like real camera log footage (a 10-bit path once produced black frames)."""
+    png = tmp_path / "log.png"
+    _flat_log_frame(png)
+    src = tmp_path / "log10.mp4"
+    subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-loop", "1", "-i", str(png), "-t", "1", "-c:v", "libx264",
+                    "-pix_fmt", "yuv420p10le", str(src)], check=True)
+    corr = clip_correction([str(png)], {"hdr": False, "log_profile": "D-Log2"})
+    out = tmp_path / "o.png"
+    subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-i", str(src), "-vf", ffmpeg_filters(corr, None),
+                    "-frames:v", "1", str(out)], check=True)
+    a, b = cv2.imread(str(png)), cv2.imread(str(out))
+    assert b.mean() > 40 and b.std() > a.std() * 1.5

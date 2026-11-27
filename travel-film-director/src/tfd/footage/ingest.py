@@ -17,6 +17,7 @@ import numpy as np
 from ..analysis.contact_sheet import build_contact_sheets
 from ..analysis.frames import analyse_frame, frame_distance, hist_signature
 from ..analysis import style
+from ..editing.grade import log_profile_from_tags
 from ..log import get_logger
 from ..util import write_json
 
@@ -97,6 +98,7 @@ def probe(path: Path) -> dict:
         "has_audio": aus is not None,
         "creation_time": tags.get("creation_time"),
         "device": device_guess(tags, vs, path.name),
+        "log_profile": log_profile_from_tags({**vs.get("tags", {}), **tags}),
         "size_bytes": int(d["format"].get("size") or 0),
     }
 

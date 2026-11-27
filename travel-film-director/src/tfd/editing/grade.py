@@ -111,6 +111,29 @@ def read_cube(path: Path) -> np.ndarray:
     return data.reshape(n, n, n, 3)  # [b][g][r]
 
 
+LOG_SATURATION = 1.6
+LOG_CONTRAST = 0.35  # filmic S-curve strength after the levels stretch
+LOG_MIN_RANGE = 0.35  # minimum black-to-white span: dark clips are not stretched into noise
+
+
+def log_profile_from_tags(tags: dict) -> str | None:
+    """Camera log gamma from container tags (DJI writes com.dji.camera.ColorGammaSxS, e.g. 'D-Log2', 'D-Log M').
+    The files themselves are tagged BT.709, so the colour tags alone don't reveal log footage."""
+    for k, v in (tags or {}).items():
+        if "gamma" in k.lower() and "log" in str(v).lower():
+            return str(v)
+    return None
+
+
+def log_to_709_params(luma: np.ndarray) -> dict:
+    """Adaptive log -> display conversion for one clip: levels from the clip's own black/white points, then a
+    filmic S-curve and a saturation boost. Pooled over the clip so every shot in it gets the same transform."""
+    black = float(min(np.percentile(luma, 0.5), 0.2))
+    white = float(max(np.percentile(luma, 99.5), black + LOG_MIN_RANGE))
+    return {"black": round(black, 3), "white": round(min(white, 1.0), 3), "contrast": LOG_CONTRAST,
+            "saturation": LOG_SATURATION}
+
+
 def clip_correction(frame_paths: list[str], meta: dict) -> dict:
     """Gentle, bounded normalisation so clips from different cameras match before the look is applied."""
     pix = []
@@ -123,6 +146,8 @@ def clip_correction(frame_paths: list[str], meta: dict) -> dict:
     corr = {"hdr_tonemap": bool(meta.get("hdr")), "gains": [1.0, 1.0, 1.0], "exposure_stops": 0.0, "notes": []}
     if not pix:
         return corr
+    if corr["hdr_tonemap"]:
+        corr["notes"].append("HDR (HLG/PQ) tone-mapped to SDR Rec.709")
     rgb = np.concatenate(pix)
     y = _luma(rgb)
     sat = rgb.max(1) - rgb.min(1)
@@ -134,14 +159,35 @@ def clip_correction(frame_paths: list[str], meta: dict) -> dict:
         corr["gains"] = [round(float(v), 3) for v in gains]
         if np.abs(gains - 1).max() > 0.03:
             corr["notes"].append("white balance neutralised (half strength, keeps golden-hour intent)")
+    if meta.get("log_profile"):
+        corr["log_to_709"] = log_to_709_params(y)
+        corr["notes"].append(f"{meta['log_profile']} log footage converted to Rec.709 (adaptive levels, S-curve, saturation)")
+        return corr
     med = float(np.median(y))
     if 0.06 < med < 0.3 or med > 0.62:
         stops = float(np.clip(np.log2(0.42 / max(med, 1e-3)) * 0.5, -0.6, 0.6))
         corr["exposure_stops"] = round(stops, 2)
         corr["notes"].append(f"exposure {stops:+.2f} stops toward mid-grey")
-    if corr["hdr_tonemap"]:
-        corr["notes"].append("HDR (HLG/PQ) tone-mapped to SDR Rec.709")
     return corr
+
+
+def _probe_log(path: str) -> str | None:
+    """For projects ingested before log detection existed: read the container tags directly."""
+    import json
+    import shutil
+    import subprocess
+    exe = shutil.which("ffprobe")
+    if not exe or not Path(path).is_file():
+        return None
+    r = subprocess.run([exe, "-v", "error", "-print_format", "json", "-show_entries", "format_tags:stream_tags", path],
+                       capture_output=True, text=True, timeout=60)
+    if r.returncode != 0:
+        return None
+    d = json.loads(r.stdout or "{}")
+    tags = dict(d.get("format", {}).get("tags", {}))
+    for st in d.get("streams", []):
+        tags.update(st.get("tags", {}))
+    return log_profile_from_tags(tags)
 
 
 def _q(path: Path | str) -> str:
@@ -154,6 +200,13 @@ def ffmpeg_filters(corr: dict, lut: Path | None) -> str:
     if corr.get("hdr_tonemap"):
         parts.append("zscale=t=linear:npl=100,format=gbrpf32le,zscale=p=bt709,tonemap=hable:desat=0,"
                      "zscale=t=bt709:m=bt709:r=tv,format=yuv420p")
+    lg = corr.get("log_to_709")
+    if lg:
+        lo, hi, c = lg["black"], lg["white"], lg["contrast"]
+        q1, q3 = 0.25 + c * (0.15625 - 0.25), 0.75 + c * (0.84375 - 0.75)  # x + c*(smoothstep(x) - x)
+        # gbrp16le: FFmpeg 8 colorlevels returns black frames when it negotiates 10-bit planar RGB (gbrp10le)
+        parts.append(f"format=gbrp16le,colorlevels=rimin={lo}:gimin={lo}:bimin={lo}:rimax={hi}:gimax={hi}:bimax={hi},"
+                     f"curves=all='0/0 0.25/{q1:.4f} 0.5/0.5 0.75/{q3:.4f} 1/1',eq=saturation={lg['saturation']}")
     g = corr.get("gains", [1, 1, 1])
     k = 2 ** corr.get("exposure_stops", 0.0)
     if any(abs(v - 1) > 1e-3 for v in g) or abs(k - 1) > 1e-3:
@@ -191,7 +244,8 @@ def build_grade(project: Path, plan: dict, clips: list[dict], notes: str = "") -
     for cid in plan["clips"]:
         c = by_id.get(cid)
         if c:
-            corrections[cid] = clip_correction([f["path"] for f in c.get("frames", [])], c["meta"])
+            meta = c["meta"] if "log_profile" in c["meta"] else {**c["meta"], "log_profile": _probe_log(c["path"])}
+            corrections[cid] = clip_correction([f["path"] for f in c.get("frames", [])], meta)
     for item in plan["timeline"]:
         item["grade_intensity"] = INTENSITY_BY_MODE.get(item.get("mode"), 0.8)
     return {"look": look_name, "look_details": asdict(look), "reason": why, "luts": luts, "corrections": corrections,
