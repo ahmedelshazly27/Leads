@@ -50,7 +50,7 @@ ul{margin:6px 0;padding-left:18px}a{color:var(--accent)}
     <div class="row"><input id="creator" list="creatorlist" placeholder="Creator (e.g. Joe Hattab)"><datalist id="creatorlist"></datalist>
       <input id="notes" placeholder="Your notes (optional)"></div>
     <button onclick="addRefs()">Analyse</button>
-    <p class="mute">Reads metadata, captions and YouTube's storyboard previews only. Videos are never downloaded.</p></div>
+    <p class="mute">Quick pass: metadata, captions and storyboard previews. For cuts, transitions, audio, graphics and stock analysis, run <code>tfd ref deep --all --download</code> on your Mac.</p></div>
   <div class="card"><h2>Library</h2><div class="legend"><span><b class="cin"></b>cinematic</span><span><b class="doc"></b>documentary</span><span><b class="per"></b>personal</span></div>
     <table id="videos"></table></div>
   <div class="card" id="detail" style="display:none"></div>

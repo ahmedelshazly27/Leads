@@ -1,6 +1,6 @@
 # AI Travel Film Director
 
-A local, Python-first system that learns *how* travel filmmakers you admire structure, pace, frame and score their films. It does this from public YouTube references, without downloading them. It then uses that knowledge to plan and assemble an **editable** cut of your own raw footage, for DaVinci Resolve or Final Cut Pro on your Mac, with an explanation for every decision.
+A local, Python-first system that learns *how* travel filmmakers you admire structure, pace, frame and score their films. It studies public YouTube references for your private use: a quick pass from metadata, captions and storyboards, then a deep pass from the downloaded video (on your Mac). It then uses that knowledge to plan and assemble an **editable** cut of your own raw footage, for DaVinci Resolve or Final Cut Pro on your Mac, with an explanation for every decision.
 
 Status: **milestone 1 (reference intelligence) works end to end on real videos.** The footage → plan → timeline export → preview render → QA path works on test clips and needs real-trip tuning. See [ROADMAP.md](ROADMAP.md).
 
@@ -72,7 +72,9 @@ tfd search "title card" --mode documentary     # timestamped examples with links
 tfd ask "How do the three creators open their films?"
 tfd annotate <video_id> notes.json             # merge qualitative notes (e.g. written by Claude Code)
 tfd ref rebuild                                # recompute profiles offline after upgrades
-tfd ref local <video_id> /path/to/file.mp4      # exact cuts, transitions, camera moves from a local copy you're entitled to use
+tfd ref deep --all --download                   # deep pass: download (on your Mac) + cuts, transitions, moves, audio, graphics, filler
+tfd ref local <video_id> /path/to/file.mp4      # cuts/transitions/moves only, from a file you already have
+tfd stock search "almaty aerial drone" --project data/projects/raw --get 0 2   # free stock (Pexels/Pixabay)
 
 tfd footage ~/Movies/Trips/Kyrgyzstan/raw --transcribe   # read-only analysis -> data/projects/raw
 tfd direct data/projects/raw --minutes 8 --direction balanced
@@ -100,7 +102,7 @@ Put licensed music files in `<project>/music/`.
 
 - **Analysed:** metadata, chapters, the most-replayed heatmap, captions, and YouTube's own storyboard previews (320×180, one frame every ~10 s). From these come timestamped scenes, a per-scene cinematic/documentary/personal mix, hook pattern, narrative beats, estimated pacing, speech/music balance, grade and palette, letterboxing, on-screen text, and signature techniques.
 - **From storyboards:** how long shots are held, and slow camera moves between same-shot samples (push/pull, pan, tilt).
-- **Needs a local file:** exact cuts, transition types (cut, dissolve, fade, whip) and every shot's camera move. Use `tfd ref local` on a copy you're entitled to use; nothing is downloaded.
+- **Deep pass from the video itself** (`tfd ref deep --all --download`, run on your Mac): exact cuts and transition types (cut, dissolve, fade, whip), each shot's camera move, measured audio (music share, tempo, whether cuts land on the beat), motion graphics (titles, lower thirds, cards, maps; position, duration, entry animation) and stock/archival/filler candidates. Videos are downloaded for your private analysis and stay in `data/`.
 - **Not analysed:** the audio. Every profile lists its own `limitations`.
 
 ## Example output
@@ -110,4 +112,4 @@ Put licensed music files in `<project>/music/`.
 - `examples/annotations/`: per-video qualitative notes (351 timestamped observations).
 - `examples/reference_demo/`: measured profiles, creator profiles and the comparison.
 
-All of these are derived observations only; transcript excerpts and images are excluded.
+Derived observations only are committed; downloaded videos, frames and transcripts stay in `data/`.

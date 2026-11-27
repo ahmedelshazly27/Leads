@@ -290,7 +290,7 @@ def build_profile(src: ReferenceSource, creator: str, out_dir: Path, notes: str 
         "words_per_minute_overall": round(lang_all["words"] / max(1e-6, duration / 60), 1),
         "caption_markers": dict(marker_counts.most_common(8)),
         "music_marked_scenes": sum(1 for s in scenes if s.audio.music_marker),
-        "note": "Music/ambience inferred from caption markers and speech gaps; audio itself is not downloaded.",
+        "note": "Music/ambience inferred from caption markers and speech gaps; measured audio is added by `tfd ref deep` (sound_design.measured_audio).",
     }
     color = {
         "mean_brightness": round(_mean(f.brightness for f in frames), 3),

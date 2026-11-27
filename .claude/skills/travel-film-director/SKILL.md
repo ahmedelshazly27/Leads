@@ -23,4 +23,9 @@ The project lives in `travel-film-director/`. Activate its venv first, then use 
 3. You may rewrite `plan.json` to improve the story (order, hook, trims). Never invent events, places or dialogue. Narration and titles come only from `trip_notes.md` or user statements.
 4. Re-export with the web UI's Approve button, or in Python: `from tfd.editing.otio_export import export_timeline`. Then run `tfd render <project>` and read `qa_report.json`.
 
-Never download reference videos or their audio. Never write into the user's footage folder.
+## Deep analysis (cuts, transitions, camera moves, audio, motion graphics, stock/filler)
+- Run `tfd ref deep --all --download` on the user's own computer; YouTube refuses video downloads from cloud servers. Downloads are for the user's private analysis and stay in data/ (never committed).
+- Results per video: full_rate.json, audio.json, graphics.json + graphics_sheets/, filler.json + filler_sheets/. Review the sheets and record graphics/stock findings with `tfd annotate`.
+- Free stock for the user's edits: `tfd stock search "<query>" --project <p> --get 0 2` (needs PEXELS_API_KEY / PIXABAY_API_KEY).
+
+Never write into the user's footage folder.

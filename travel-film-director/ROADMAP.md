@@ -12,6 +12,7 @@
 - [x] Phase 7 (v0): local web UI covering the whole flow
 
 ## Next (in order)
+0. **On your Mac:** run `tfd ref deep --all --download`, then review the graphics and filler sheets to replace the preliminary catalogue in GRAPHICS_AND_STOCK.md with measured data.
 1. **Round-trip on your Mac:** run `scripts/setup_macos.sh`, then import `director_cut.otio` into Resolve 20/21 Free and `director_cut.fcpxml` into Final Cut Pro. Confirm clip paths, ranges and markers, MLX transcription and the VideoToolbox render.
 2. **Run on a real trip folder** (hundreds of clips): profile runtime, tune quality thresholds per device (iPhone HLG/Dolby Vision/Apple Log, DJI D-Log, GoPro), parallelise ingest.
 3. **Semantic understanding of footage:** CLIP/SigLIP embeddings for scene and activity labels (market, temple, hike, food, transport), near-duplicate search, and matching your shots to reference techniques. Optional Claude pass on footage contact sheets to label people, places and activities and to propose the story.

@@ -47,6 +47,40 @@ def _ref_batch(a):
     return rc
 
 
+def _deep(a):
+    import shutil as _sh
+    from .pipeline import deep_analyse, open_library, video_dir
+    ids = a.video_ids or ([v["video_id"] for v in open_library().videos() if v["status"] == "done"] if a.all else [])
+    if not ids:
+        print("give video ids or --all"); return 2
+    rc = 0
+    for vid in ids:
+        try:
+            out = deep_analyse(vid, Path(a.file) if a.file else None, download=a.download)
+            fr, au = out["full_rate"], out.get("audio", {})
+            print(f"OK  {vid}: {fr['shots']} shots, {fr['cuts_per_min']} cuts/min, transitions {fr['transition_types']}, "
+                  f"music {au.get('music_share')}, beat sync {((au.get('beat_sync') or {}).get('beat_sync_index'))}, "
+                  f"graphics {out['graphics']['counts']}, filler {out['filler'].get('candidates')}")
+            if a.delete_media:
+                v = next(x for x in open_library().videos() if x["video_id"] == vid)
+                _sh.rmtree(Path(v["profile_path"]).parent / "media", ignore_errors=True)
+        except Exception as e:
+            rc = 1
+            print(f"ERR {vid}: {e}")
+    return rc
+
+
+def _stock(a):
+    from .stock.search import download, search
+    res = search(" ".join(a.query), min_duration=a.min_duration, per_page=a.n)
+    for i, r in enumerate(res):
+        print(f"[{i}] {r.provider}:{r.id} {r.duration:.0f}s {r.width}x{r.height} by {r.author}  {r.page_url}")
+    if a.project and a.get:
+        for i in a.get:
+            print("saved", download(res[i], Path(a.project)))
+    return 0
+
+
 def _library(a):
     from .pipeline import open_library
     lib = open_library()
@@ -151,6 +185,15 @@ def main(argv=None) -> int:
     rl.add_argument("file")
     rl.set_defaults(fn=lambda a: print(json.dumps(__import__("tfd.pipeline", fromlist=["x"]).attach_full_rate(a.video_id, Path(a.file)), indent=2)) or 0)
 
+    rd = rs.add_parser("deep", help="full analysis from the video itself: cuts, transitions, camera moves, audio/beat sync, "
+                                     "motion graphics, stock/filler (downloads for personal use with --download)")
+    rd.add_argument("video_ids", nargs="*", help="video ids (default with --all: every video in the library)")
+    rd.add_argument("--all", action="store_true")
+    rd.add_argument("--download", action="store_true", help="download the reference video (run on your own computer)")
+    rd.add_argument("--file", help="use this local file (single video id)")
+    rd.add_argument("--delete-media", action="store_true", help="delete the downloaded video after analysis")
+    rd.set_defaults(fn=_deep)
+
     sub.add_parser("library", help="list analysed videos").set_defaults(fn=_library)
     sub.add_parser("compare", help="rebuild + print creator comparison").set_defaults(fn=_compare)
     se = sub.add_parser("search", help="full-text search of scenes/techniques")
@@ -182,6 +225,14 @@ def main(argv=None) -> int:
     re_ = sub.add_parser("render", help="render a preview MP4 from the plan and run QA")
     re_.add_argument("project")
     re_.set_defaults(fn=_render)
+
+    sk = sub.add_parser("stock", help="search free stock footage (Pexels/Pixabay) and download into a project")
+    sk.add_argument("query", nargs="+")
+    sk.add_argument("--project")
+    sk.add_argument("--get", type=int, nargs="*", help="result numbers to download into <project>/stock")
+    sk.add_argument("--min-duration", type=float, default=4.0)
+    sk.add_argument("-n", type=int, default=10)
+    sk.set_defaults(fn=_stock)
 
     sv = sub.add_parser("serve", help="start the local web interface")
     sv.add_argument("--host", default="127.0.0.1")

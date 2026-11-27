@@ -215,6 +215,20 @@ def plan_project(project: Path, target_minutes: float = 8.0, direction: str = "b
         if first and not any(abs(t["at"] - first["record_in"] - 0.5) < 0.01 for t in titles):
             review.append({"at": first["record_in"], "issue": f"Sequence {b['sequence']}: {b['technique']} "
                            f"[{b['borrowed_from']}] - add the place name in trip_notes.md (- location ({b['sequence']}): ...)"})
+    locations = {}
+    for line in notes.splitlines():
+        m = re.match(r"\s*-\s*location\s*\((\d+)\)\s*:\s*(.+)", line, re.I)
+        if m:
+            locations[int(m.group(1))] = m.group(2).strip()
+    stock_suggestions = []
+    for si, seq in enumerate(seqs):
+        if not any(c["category"] in ("establishing", "landscape") for c in seq):
+            place = locations.get(si + 1)
+            stock_suggestions.append({
+                "sequence": si + 1, "need": "establishing / aerial shot to open the sequence (map-bridge grammar: Joe, Omar)",
+                "query": f"{place} aerial drone" if place else None,
+                "how": (f"tfd stock search \"{place} aerial drone\" --project <project>" if place else
+                        "add '- location (N): <place>' to trip_notes.md to get a search query")})
     music = sorted(str(p) for p in (project / "music").glob("*") if p.suffix.lower() in (".mp3", ".wav", ".m4a", ".flac")) \
         if (project / "music").is_dir() else []
     if not music:
@@ -226,6 +240,7 @@ def plan_project(project: Path, target_minutes: float = 8.0, direction: str = "b
                             "width": c["meta"]["width"], "height": c["meta"]["height"], "category": c["category"]}
                   for c in clips},
         "hook_formula": {"from": hook_from, "recipe": hook_recipe}, "bridges": bridges,
+        "stock_suggestions": stock_suggestions,
         "timeline": items, "titles": titles, "narration": narration, "music": music,
         "audio_rules": {"dialogue_lufs": -16, "music_under_speech_db": -18, "music_alone_db": -8, "ambient_db": -14},
         "decisions": decisions, "needs_review": review,

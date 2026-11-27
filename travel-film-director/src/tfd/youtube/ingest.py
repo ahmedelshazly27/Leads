@@ -1,4 +1,5 @@
-"""YouTube reference ingestion without downloading the video.
+"""Fast YouTube reference ingestion (metadata, captions, storyboards) - no video download needed for this pass.
+The deep pass (youtube/download.py + `tfd ref deep`) downloads the video for personal analysis.
 
 What we fetch (all things YouTube serves publicly to any viewer's player):
   * metadata (title, channel, duration, chapters, "most replayed" heatmap)

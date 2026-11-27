@@ -19,6 +19,8 @@ dependencies = [
   "opentimelineio>=0.17",
   "otio-fcp-adapter>=1.0",        # FCP7 XML (Premiere / Resolve fallback)
   "otio-fcpx-xml-adapter>=1.0",   # FCPXML for Final Cut Pro
+  "librosa>=0.10",                # audio: tempo, beats, music presence
+  "soundfile>=0.12",
 ]
 
 [project.optional-dependencies]

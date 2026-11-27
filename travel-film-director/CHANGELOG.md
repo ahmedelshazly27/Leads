@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.5.0 (2026-11-27): deep pass from the video itself
+### Changed
+- Reference videos may now be downloaded for private analysis (`tfd ref deep --download`). This must run on your own computer, because YouTube refuses cloud servers.
+### Added
+- `tfd ref deep`: full-rate cuts, transitions and camera moves; measured audio (music share, tempo, cut-on-beat index); motion graphics (pretrained PP-OCRv3 text detector; position, duration, entry animation, review sheets); stock/archival/filler candidates (black and white, grain, pillarbox, corner logo, off-grade; review sheets).
+- `tfd stock`: Pexels and Pixabay search and download with a licence manifest. The director suggests stock searches for sequences without an establishing shot.
+- `GRAPHICS_AND_STOCK.md`: graphics and filler catalogue per creator (preliminary, from the storyboard review) and free sources.
+- Tests: synthetic edit with a fading lower third, a title card, an archival shot, a corner logo and a 120 BPM track (36 tests).
+
 ## 0.4.0 (2026-11-27): cuts, transitions and camera moves
 ### Added
 - `analysis/motion.py`: storyboard camera moves (ORB + RANSAC, people masked out) and a held-shot measure (sample pairs still in the same shot after 10 s).

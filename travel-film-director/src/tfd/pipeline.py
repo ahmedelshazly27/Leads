@@ -83,6 +83,13 @@ def rebuild_profiles(settings: Settings | None = None) -> list[str]:
         old = VideoProfile.model_validate_json(Path(v["profile_path"]).read_text(encoding="utf-8"))
         prof = build_profile(load_cached_source(out), old.creator, out, old.user_notes)
         prof.qualitative = old.qualitative
+        for key in ("graphics", "filler"):
+            if key in old.editing_characteristics:
+                prof.editing_characteristics[key] = old.editing_characteristics[key]
+        if "measured_audio" in old.sound_design:
+            prof.sound_design["measured_audio"] = old.sound_design["measured_audio"]
+        prof.techniques = sorted(prof.techniques + [t for t in old.techniques if t.name.startswith(("[graphics]", "[filler]"))],
+                                 key=lambda t: t.start)
         if "full_rate" in old.editing_characteristics:
             prof.editing_characteristics["full_rate"] = old.editing_characteristics["full_rate"]
             prof.techniques = sorted(prof.techniques + [t for t in old.techniques if t.name.startswith("[full-rate]")],
@@ -133,6 +140,71 @@ def attach_full_rate(video_id: str, video_file: Path, settings: Settings | None 
     lib.add_profile(profile, path)
     refresh_creator_profiles(settings, lib)
     return res["summary"]
+
+
+def deep_analyse(video_id: str, video_file: Path | None = None, download: bool = False,
+                 settings: Settings | None = None) -> dict:
+    """Full analysis of a reference video from a local file (downloaded for personal use if requested):
+    full-frame-rate shots/transitions/camera moves, audio (music, tempo, beat sync), motion graphics, stock/filler."""
+    from .analysis.audio import analyse_audio
+    from .analysis.filler import find_filler
+    from .analysis.graphics import detect_graphics
+    from .schemas import Technique
+    settings = settings or get_settings()
+    lib = open_library(settings)
+    row = next((v for v in lib.videos() if v["video_id"] == video_id), None)
+    if not row:
+        raise KeyError(f"{video_id} is not in the library - add its URL with `tfd ref add` first")
+    vdir = Path(row["profile_path"]).parent
+    if video_file is None:
+        existing = sorted(p for p in (vdir / "media").glob("video.*") if p.suffix in (".mp4", ".mkv", ".webm")) \
+            if (vdir / "media").is_dir() else []
+        if existing:
+            video_file = existing[0]
+        elif download:
+            from .youtube.download import fetch_video
+            video_file = fetch_video(video_id, vdir / "media", settings)
+        else:
+            raise FileNotFoundError(f"no local video for {video_id}; pass --download (on your own computer) or --file")
+    summary = attach_full_rate(video_id, Path(video_file), settings)
+    full = read_json(vdir / "full_rate.json")
+    cuts = [t["t"] for t in full["transitions"] if t["type"] == "hard cut"]
+    tr = read_json(vdir / "transcript.json") if (vdir / "transcript.json").is_file() else []
+    speech = [(x["start"], x["end"]) for x in tr if not x["text"].strip().startswith("[")]
+    out: dict = {"full_rate": summary}
+    try:
+        audio = analyse_audio(Path(video_file), cuts, speech or None)
+        write_json(vdir / "audio.json", audio)
+        out["audio"] = {k: v for k, v in audio.items() if k not in ("windows", "beat_times")}
+    except Exception as e:
+        log.warning("audio analysis failed for %s: %s", video_id, e)
+    graphics = detect_graphics(Path(video_file), vdir / "graphics_sheets")
+    write_json(vdir / "graphics.json", graphics)
+    out["graphics"] = graphics["summary"]
+    filler = find_filler(Path(video_file), full["shots"], vdir / "filler_sheets")
+    write_json(vdir / "filler.json", filler)
+    out["filler"] = filler["summary"]
+    path = Path(row["profile_path"])
+    profile = VideoProfile.model_validate_json(path.read_text(encoding="utf-8"))
+    profile.editing_characteristics["graphics"] = graphics["summary"]
+    profile.editing_characteristics["filler"] = filler["summary"]
+    if "audio" in out:
+        profile.sound_design["measured_audio"] = out["audio"]
+    profile.techniques = [t for t in profile.techniques if not t.name.startswith(("[graphics]", "[filler]"))]
+    for g in graphics["segments"]:
+        if g["kind"] != "subtitle / caption":
+            profile.techniques.append(Technique(start=g["start"], end=g["end"], category="graphics", source="user",
+                                                name=f"[graphics] {g['kind']}", confidence=0.6,
+                                                description=f"{g['duration']}s, {g['position']}, entry: {g.get('entry', 'n/a')}"))
+    for c in filler["candidates"]:
+        profile.techniques.append(Technique(start=c["start"], end=c["end"], category="visual", source="user",
+                                            name=f"[filler] {c['kind']}", confidence=0.5, description="; ".join(c["reasons"])))
+    profile.techniques.sort(key=lambda t: t.start)
+    write_json(path, profile.model_dump())
+    lib.add_profile(profile, path)
+    refresh_creator_profiles(settings, lib)
+    write_json(vdir / "deep_summary.json", out)
+    return out
 
 
 def annotate(video_id: str, annotation_file: Path, settings: Settings | None = None) -> VideoProfile:
