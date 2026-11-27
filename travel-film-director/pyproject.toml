@@ -10,6 +10,7 @@ dependencies = [
   "youtube-transcript-api>=1.2",
   "scenedetect[opencv-headless]>=0.6.7",
   "opencv-python-headless>=4.10,<5",  # 5.x dropped Haar cascades
+  "opencv-python>=4.10,<5",           # scenedetect 0.7 pulls this in; both share cv2/, so keep it on 4.x too
   "numpy>=1.26",
   "pillow>=10.4",
   "pydantic>=2.8",
