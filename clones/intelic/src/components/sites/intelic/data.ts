@@ -23,7 +23,7 @@ export const sectors = [
     tagline: "Unmanned, sensing and command systems for modern forces",
     f01: "Defense program management",
     img: `${A}/img/mission-screen.webp`,
-    alt: "A counter-drone radar truck in the desert launches an interceptor that destroys an incoming drone",
+    alt: "A visualization of drones and radar tracking a hostile drone over desert terrain",
     nav: `${A}/img/nav-screen.webp`,
     href: links.defense,
   },
