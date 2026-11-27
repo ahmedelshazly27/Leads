@@ -282,6 +282,9 @@ def build_profile(src: ReferenceSource, creator: str, out_dir: Path, notes: str 
     ]
     if src.transcript_kind == "auto":
         limitations.append("Transcript is YouTube auto-captions (no punctuation, occasional errors, speaker changes not marked).")
+    tq, tq_note = tx.timing_health(segs, duration)
+    if tq == "suspect":
+        limitations.append("Transcript timing suspect: " + tq_note)
     if src.transcript_kind == "auto-translated":
         limitations.append(f"Transcript is YouTube's machine translation into English from {src.meta.get('language') or 'the original language'}; "
                            "vocabulary metrics are approximate and wording is not the creator's own.")
@@ -295,6 +298,7 @@ def build_profile(src: ReferenceSource, creator: str, out_dir: Path, notes: str 
         analysed_at=dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
         sources=SourceInfo(metadata=True, transcript=src.transcript_kind, transcript_language=src.transcript_language,
                            frames=src.storyboard_label, frame_interval_s=src.frame_interval_s,
+                           transcript_quality=tq, transcript_quality_note=tq_note,
                            chapters=len(src.chapters), heatmap=bool(heat)),
         chapters=src.chapters,
         replay_peaks=sorted(heat, key=lambda h: -h["value"])[:5],

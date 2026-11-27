@@ -1,0 +1,113 @@
+{
+  "source": "claude-code subagent (viewed all 5 contact sheets + profile + transcript)",
+  "summary": "A 35:40 trip film built around one warm human scene: visiting a Chinese 'auntie' near a highway toll gate, conducted in Chinese with translated subtitles. It opens with a short music lead-in, then long in-car talk about China's market, then ~10 minutes of the auntie visit (fruit, laughter, farewells). After a warehouse visit and an airport sit-down, red '香港'/'HONG KONG' cards move the story to Hong Kong for a roadside brand update. The last ten minutes are a single call-booth monologue on entrepreneurship ending 'another week showing up'.",
+  "hook_analysis": "Short visual lead-in (apartment wide, pillarboxed street shot 0:00-0:10) under music, then a casual 'good morning' and the plan to stop and see auntie by 0:20. The title carries the hook (grandma + speaking Chinese); the video withholds that scene until ~5:30.",
+  "narrative_arc": "Road trip (0:20-4:59) -> arrival and phone call to auntie (5:09-6:48) -> auntie visit and farewell (6:58-16:25) -> facility/warehouse (16:35-18:15) -> airport talk and chat with a stranger (18:25-21:24) -> HONG KONG cards (21:44, 22:04) -> roadside brand update (22:14-24:33) -> office BTS (24:43-25:13) -> call-booth reflection to the end (25:23-35:30).",
+  "camera_and_composition": "Mixed aspect ratios: many pillarboxed frames (1:10-2:39, 16:45-18:15, 21:54-22:04, 24:43-24:53) suggest vertical/phone or different-camera footage placed in 16:9. In-car side angle from the back seat; observational wide handheld at the gate; a radial/zoom-blurred frame at 8:18 hints at a stylised transition; static medium in the booth. Exact cuts not observable at storyboard resolution.",
+  "color_and_grade": "The warmest and most colourful of the set (warmth 0.143, colourfulness 48): golden low winter sun at the gate, saturated yellow shop wall (5:28-6:28), a cool grey airport, and an amber booth with tungsten light.",
+  "sound_and_music": "Lowest speech coverage (74%), many laughter (31) and music/singing markers; several 13-35 s speech-free passages during the auntie scenes (profile 5:55-16:35) let ambience and music carry the moment. Chinese dialogue is translated in captions prefixed 'Chinese:'.",
+  "what_to_borrow": [
+    "Let a warm human encounter play long with few cuts and translated subtitles",
+    "Drop narration and let music and laughter carry emotional scenes",
+    "Bold red bilingual city cards to mark a border crossing",
+    "A stranger conversation in a waiting area as a light interlude"
+  ],
+  "what_to_avoid_copying": [
+    "Ten-minute single-angle booth monologue as the ending",
+    "Unplanned mix of pillarboxed and full-frame footage",
+    "Withholding the title's promise for five minutes of car talk"
+  ],
+  "observations": [
+    {
+      "start": 0,
+      "end": 15,
+      "name": "music lead-in",
+      "description": "Apartment wide and a pillarboxed street shot under music before speech.",
+      "style_mode": "cinematic"
+    },
+    {
+      "start": 20,
+      "end": 60,
+      "name": "walk-and-talk premise",
+      "description": "Handheld under a building canopy, stating the plan to stop at auntie's.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 70,
+      "end": 299,
+      "name": "in-car talk",
+      "description": "Back-seat side angle, phone in hand, discussing China market; some pillarboxed.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 328,
+      "end": 408,
+      "name": "phone call with translation",
+      "description": "Call to auntie in front of a yellow shop wall, captions prefixed 'Chinese:'.",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 418,
+      "end": 995,
+      "name": "auntie visit",
+      "description": "Long observational scene at a toll gate with fruit, e-trike, laughter and farewells.",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 498,
+      "end": 500,
+      "name": "zoom-blur frame",
+      "description": "A radially blurred frame suggesting a stylised transition (exact effect not observable).",
+      "style_mode": "cinematic"
+    },
+    {
+      "start": 995,
+      "end": 1025,
+      "name": "window POV transit",
+      "description": "Walking to car, road through the windscreen, industrial skyline.",
+      "style_mode": "cinematic"
+    },
+    {
+      "start": 1035,
+      "end": 1095,
+      "name": "facility tour",
+      "description": "Warehouse shelves and team walking - business b-roll.",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 1105,
+      "end": 1280,
+      "name": "airport sit-down and stranger chat",
+      "description": "Static wide-angle talk in departures, then a chat with a traveller.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 1304,
+      "end": 1330,
+      "name": "red city cards",
+      "description": "Bold red '香港' then 'HONG KONG' over arrival shots.",
+      "style_mode": "cinematic"
+    },
+    {
+      "start": 1334,
+      "end": 1473,
+      "name": "roadside brand update",
+      "description": "Sunglasses, ultra-wide to-camera talk by a road in Hong Kong.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 1503,
+      "end": 1513,
+      "name": "blown-out move",
+      "description": "Over-exposed, blurred office frames - a rough transition into the booth.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 1523,
+      "end": 2140,
+      "name": "call-booth monologue",
+      "description": "Single static medium in a warm booth for ~10 min; ends 'another week showing up'.",
+      "style_mode": "personal"
+    }
+  ]
+}

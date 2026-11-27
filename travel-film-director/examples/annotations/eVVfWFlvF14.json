@@ -1,0 +1,120 @@
+{
+  "source": "claude-code subagent (viewed all 4 contact sheets + profile + transcript)",
+  "summary": "A 27:45 'business trip' diary across Berlin, a grandmother's home in Poland, and Barcelona. A music-led montage (apartment, guest, gym) gives way to gym banter and a sit-down interview with a founder friend. Yellow cards ('10:30AM', 'NEXT DAY', 'BABCIU', 'BERLIN AIRPORT') segment the days. The emotional centre is a frank four-minute couch monologue about working 16-hour days, followed by a road trip to a friend's grandma. Barcelona brings metro, beach and lunch, and the film ends in a car promising the next episode.",
+  "hook_analysis": "Visual lead-in with music (0:00-0:14: rounded-frame apartment, hallway, guest greeting), then a light spoken setup ('in Berlin with...') and gym banter. Most-replayed segment is the first ~17 s, so the montage itself is the hook; there is no stated stake.",
+  "narrative_arc": "Berlin morning and gym (0:00-1:39) -> friend interview (1:49-4:08) -> 10:30AM retail store (4:18-4:28) -> evening car (4:38-5:07) -> NEXT DAY run (5:17-6:17) -> couch confession on pressure (6:46-10:44) -> drive to Poland (10:54-12:43) -> BABCIU dinner (12:53-14:12) -> hometown drive (14:22-16:41) -> packing and farewell (16:51-18:00) -> BERLIN AIRPORT (18:10) -> Barcelona plan, metro, beach, lunch (18:30-26:46) -> car ending as a cliff-hanger (27:05-27:35).",
+  "camera_and_composition": "Two-shot interview framing in an industrial gym (1:49-4:08); locked-off medium on a couch (6:46-10:44); dashboard wide two-shots in cars (10:54-16:31); low wide selfies on the metro platform and beach (20:59-25:16). Rounded-corner inserts at 0:00, 1:39, 4:28, 12:53, 18:10. Cuts/moves not observable at storyboard resolution.",
+  "color_and_grade": "Warm beige/tan palette (palette #bea484), moderate saturation, almost no low-key footage (5%). Barcelona daylight is bright and blue-skied; Berlin interiors warm tungsten.",
+  "sound_and_music": "~91% speech at ~157 wpm; music caption markers at the open and a ~14 s speech-free beat around 24:10-24:24. Captions include censored expletives.",
+  "what_to_borrow": [
+    "Yellow day/time/place cards including personal names ('BABCIU') as chapter headings",
+    "A seated friend interview to add a second voice",
+    "Car dashboard two-shots for relaxed conversation during transit",
+    "End by setting up the next video"
+  ],
+  "what_to_avoid_copying": [
+    "Four-minute couch monologue without cutaways",
+    "Shirtless selfie coverage as the dominant Barcelona imagery",
+    "Ending on 'start a new video from here' without resolution if the film must stand alone"
+  ],
+  "observations": [
+    {
+      "start": 0,
+      "end": 14,
+      "name": "music montage open",
+      "description": "Rounded-frame apartment wide, hallway, greeting a host under music.",
+      "style_mode": "cinematic"
+    },
+    {
+      "start": 20,
+      "end": 100,
+      "name": "gym banter",
+      "description": "Handheld in a warm industrial gym with burned-in captions of jokes.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 109,
+      "end": 248,
+      "name": "friend interview",
+      "description": "Two-shot sit-down: guest introduces himself in a caption, business history.",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 268,
+      "end": 275,
+      "name": "yellow time card",
+      "description": "'10:30AM' over a rounded-corner office frame.",
+      "style_mode": "cinematic"
+    },
+    {
+      "start": 278,
+      "end": 307,
+      "name": "car selfie",
+      "description": "Sunglasses ultra-wide selfie from the passenger seat.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 317,
+      "end": 325,
+      "name": "day card",
+      "description": "'NEXT DAY' yellow title.",
+      "style_mode": "cinematic"
+    },
+    {
+      "start": 337,
+      "end": 377,
+      "name": "post-run confession",
+      "description": "Sweaty selfie after a run, admitting he can't sleep.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 406,
+      "end": 644,
+      "name": "couch monologue",
+      "description": "Locked-off medium on a couch with iced coffee: pressure, responsibility, '16 hours a day'.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 654,
+      "end": 763,
+      "name": "car two-shot",
+      "description": "Dashboard wide of two friends driving to Poland.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 773,
+      "end": 850,
+      "name": "named place card and family dinner",
+      "description": "'BABCIU' yellow card then grandma's dinner table.",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 1090,
+      "end": 1100,
+      "name": "place card",
+      "description": "'BERLIN AIRPORT' yellow on a travelator frame.",
+      "style_mode": "cinematic"
+    },
+    {
+      "start": 1239,
+      "end": 1398,
+      "name": "metro talk",
+      "description": "Ticket machine insert, then a long talk on the platform.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 1427,
+      "end": 1606,
+      "name": "beach and lunch",
+      "description": "Shirtless beach promenade selfies, lunch at a café.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 1625,
+      "end": 1665,
+      "name": "to-be-continued ending",
+      "description": "In a car, promising the event in the next video.",
+      "style_mode": "personal"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "source": "claude-code subagent (viewed all 5 contact sheets + profile + transcript)",
+  "summary": "A three-part 'ladder' film visiting islands of increasing remoteness - the Faroe Islands, Socotra (Yemen) and Saint Helena - each given its own chapter. It opens on a speech-light montage of all three islands and a spinning 3D Earth, while Joe's VO asks what the most remote inhabited island is and previews each stop. The Faroe section is the most conversational (a sit-down with a family at a kitchen table, a costume-dressing scene, a sofa interview) with Arabic subtitles burned in; Socotra is hands-on with locals (bread making, dragon's-blood resin, a cave dweller); Saint Helena is shot largely as a solo selfie vlog through Jamestown, Jacob's Ladder and Napoleon's sites. It ends on a reflective VO about isolation, the Earth globe again and a selfie boarding the plane - no sponsor read is visible.",
+  "hook_analysis": "Question hook in first person ('I've always wondered, what's the most remote inhabited island...') from 7 s over a top-down island town (0:00), red cliffs and a dragon's-blood tree (0:40). A 3D Earth (1:00) and a staged preview of all three islands with one-line taglines each (1:00-1:56) promise escalation 'from the remote to the extremely remote'. Replay peak 0:00-0:19.",
+  "narrative_arc": "Ascending-stakes triptych: intro/preview (0:00-2:02) -> Faroe Islands: globe zoom, Joe in national dress, tunnels, family interviews, costume dressing, community (2:02-12:45) -> Socotra: arrival, beach dunes, campfire drumming, local family, dragon's-blood tree, cave dweller (12:45-25:21) -> Saint Helena: flight-in, Jamestown selfie walk, Jacob's Ladder, Napoleon, locals, boat departure (25:21-33:17) -> reflective coda.",
+  "camera_and_composition": "Steep top-down drone over green Faroese valleys and cliffs (2:49-3:29, 11:06-11:26) and over surf on Socotra (16:04-16:34); 3D-rendered globe and island diorama graphics (1:00, 2:19, 2:39, 4:08). Static seated interview set-ups (8:17-8:57, 11:55-12:25). Low-angle hero framing under dragon's-blood trees (21:02, 22:41). Saint Helena relies on arm's-length wide-angle selfie (27:49-29:19). Camera moves not observable at storyboard resolution.",
+  "color_and_grade": "Each island has a distinct palette: saturated green and cool blue for the Faroes, warm golden-hour sand and red rock for Socotra (13:05, 14:44), overcast muted teal-grey for Saint Helena (26:10-26:40). Mean warmth slightly cool overall. Interiors (Faroe kitchen) skew cyan-white.",
+  "sound_and_music": "Speech-heavy (78% coverage) with [music] marked 25 times and [laughter] 14 times; longest speech-free run only ~22 s (e.g. 14:28-14:50 Socotra campfire/dunes, 22:10-22:42 dragon-tree montage). Diegetic drumming at the Socotra campfire (14:24-14:34). The coda VO is slower and reflective ('Isolation can sometimes be a comfort').",
+  "what_to_borrow": [
+    "Structure a multi-location film as an escalation ladder and preview every rung in the first two minutes",
+    "Bookend with the same graphic device (3D globe at 1:00 and 32:57) to close the loop",
+    "Give each location its own colour identity so viewers feel the jump between chapters",
+    "End on a short reflective line rather than a summary"
+  ],
+  "what_to_avoid_copying": [
+    "Cutting in news-channel footage with a visible broadcaster bug (Al Jazeera at 11:45, 12:15)",
+    "Uneven chapter lengths - Saint Helena, the titular 'most remote', gets the least screen time",
+    "Long static sofa/kitchen interviews with little visual variation"
+  ],
+  "observations": [
+    {"start": 0, "end": 56, "name": "three-island preview montage", "description": "Top-down town, red headland, Faroese lighthouse, dragon's-blood tree and sunset silhouettes under a first-person question VO.", "style_mode": "cinematic"},
+    {"start": 60, "end": 120, "name": "3D globe + taglines", "description": "Spinning Earth (1:00) then one image per island (tunnel 1:10, white dune 1:19, tree at sunset 1:29, open ocean 1:39) as each is named.", "style_mode": "cinematic"},
+    {"start": 139, "end": 160, "name": "globe-to-island diorama", "description": "Globe again (2:19), Joe in Faroese national dress welcoming viewers (2:29), rendered island diorama with tunnel network (2:39).", "style_mode": "documentary"},
+    {"start": 169, "end": 215, "name": "top-down landscape establishing", "description": "Green valleys, sea cliffs and a waterfall village from steep overhead angles (2:49-3:29).", "style_mode": "cinematic"},
+    {"start": 229, "end": 240, "name": "night tunnel drive", "description": "Dark undersea tunnel with car interior (3:49-3:58) - logistics as visual.", "style_mode": "personal"},
+    {"start": 407, "end": 480, "name": "texture close-ups of animals", "description": "Faroese pony eye and mane extreme close-ups (6:47-6:57, 7:47-7:57) between walk-and-talk shots.", "style_mode": "cinematic"},
+    {"start": 487, "end": 600, "name": "subtitled family sit-down", "description": "Kitchen-table interview with mother and daughters, Arabic subtitles burned in (8:07-9:46).", "style_mode": "documentary"},
+    {"start": 606, "end": 650, "name": "costume participation", "description": "Women dressed in Faroese costume, Joe in his, then a car selfie in costume (10:06-10:46).", "style_mode": "personal"},
+    {"start": 705, "end": 740, "name": "broadcast footage insert", "description": "Al Jazeera-bugged festival crowd clips intercut with a sofa interview (11:45-12:25).", "style_mode": "documentary"},
+    {"start": 765, "end": 800, "name": "chapter re-establish with map", "description": "Socotra aerials (12:45-13:05) and a satellite map with route line (13:15); replay peaks 12:59-13:39.", "style_mode": "cinematic"},
+    {"start": 860, "end": 880, "name": "night campfire drumming", "description": "Fire and frame drums with locals in white (14:24-14:34).", "style_mode": "documentary"},
+    {"start": 1023, "end": 1080, "name": "participatory food process", "description": "Joe kneels with a local family kneading and baking bread on a mat (17:03-17:53).", "style_mode": "documentary"},
+    {"start": 1262, "end": 1300, "name": "resin process payoff", "description": "Dragon's-blood tree hero shot (21:02), tapping the trunk (21:12-21:22), red resin on a hand (21:42).", "style_mode": "documentary"},
+    {"start": 1391, "end": 1480, "name": "cave-dweller encounter", "description": "Firelit cave with skulls and a local man; seated two-shot eating (23:11-24:40).", "style_mode": "documentary"},
+    {"start": 1520, "end": 1620, "name": "arrival by air + banknote insert", "description": "Island in clouds (25:30), wing view (26:00), plane landing with year text (26:50), St Helena £5 note insert (27:29).", "style_mode": "cinematic"},
+    {"start": 1669, "end": 1760, "name": "solo selfie vlog walk", "description": "Arm's-length wide-angle selfie through Jamestown streets into dusk (27:49-29:19).", "style_mode": "personal"},
+    {"start": 1937, "end": 1997, "name": "reflective coda + globe bookend", "description": "Boat departure (32:27-32:37), sunset sea (32:47), Earth globe (32:57), selfie boarding the plane (33:07).", "style_mode": "cinematic"}
+  ]
+}

@@ -47,7 +47,8 @@ def creator_profile(name: str, profiles: list[VideoProfile], description: str = 
     for key, label, unit, _ in METRICS:
         speech_based = key.startswith("sound_design") or (key.startswith("storytelling") and "frame_fraction" not in key) \
             or key.startswith("style_mode_mix")
-        usable = [p for p in profiles if not (speech_based and p.sources.transcript == "none")]
+        usable = [p for p in profiles if not (speech_based and (p.sources.transcript == "none"
+                                                                 or p.sources.transcript_quality == "suspect"))]
         vals = [v for v in (_get(p, key) for p in usable) if isinstance(v, (int, float))]
         if vals:
             metrics[key] = {"label": label, "mean": round(float(np.mean(vals)), 4), "min": round(min(vals), 4),
@@ -80,7 +81,9 @@ def creator_profile(name: str, profiles: list[VideoProfile], description: str = 
         "videos": [{"video_id": p.video_id, "title": p.title, "duration": p.duration, "url": p.url,
                     "transcript": p.sources.transcript} for p in profiles],
         "data_gaps": [f"{p.title}: no transcript - speech, language and music metrics unavailable" for p in profiles
-                      if p.sources.transcript == "none"],
+                      if p.sources.transcript == "none"]
+                     + [f"{p.title}: {p.sources.transcript_quality_note}" for p in profiles
+                        if p.sources.transcript_quality == "suspect"],
         "metrics": metrics,
         "hook_patterns": [p.hook.get("pattern") for p in profiles],
         "shot_type_share": {k: round(v / total, 3) for k, v in shots.most_common()},

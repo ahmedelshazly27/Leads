@@ -1,0 +1,127 @@
+{
+  "source": "claude-code subagent (viewed all 3 contact sheets + profile + transcript (auto-captions, 389 cues))",
+  "summary": "Vlog 22 of the 'Zero to £100M' series: a lifestyle-plus-business day in Dubai. It runs from a night arrival at a serviced apartment, through lunch with friends, a long kitchen conversation about fitness and nutrition, and a yacht meeting with a European businessman about deals and listing versus staying private, to a villa dinner. It is the most 'personal vlog' of the six (style mix: personal 0.43), with first-person speech from 0:12 ('welcome to downtown Dubai'). Yellow bold labels ('THE APARTMENT', '11 AM') mark place and time. It ends on the standard black 'NEXT RELEASE' and 'SEE YOU NEXT TIME' cards.",
+  "hook_analysis": "A short visual lead-in. A night skyline (0:00) leads to the creator walking down a hotel corridor and grinning into the lens (0:10-0:20), and speech starts at 0:12 as an arrival greeting. There is no cold-open claim and no series title card in the sampled opening frames. The hook is aspirational access (skyline, Burj Khalifa view) rather than stakes.",
+  "narrative_arc": "Loose, chapter-driven day-in-the-life: Arrival (0:00-1:04), Security and Lifestyle, Entrepreneurial Mentality (a lunch table with friends, 2:09-3:38), Strategic Business Focus (the 'THE APARTMENT' backlit talk, 3:57-4:37), Fitness and Nutrition (a long kitchen sit-down, 6:06-9:04), Yacht Meeting and Deals (11:03-14:11), Listing vs Private Growth, Travel and Leisure (cruise and waterside lunch, 14:20-17:38), and Culinary Experiences (villa pizza dinner, 17:48-19:07). The arc runs from leisure through business to leisure. The stakes are implicit.",
+  "camera_and_composition": "Mixed. There are backlit, near-silhouette pieces to camera against apartment windows (4:07-4:37, 9:44), a locked-off medium shot at the kitchen counter held for minutes (6:06-9:04), a phone-screen insert (9:14), and in-taxi profiles (10:03-10:33). The yacht covers both people in clean, bright medium close-ups (11:32-14:11), with drone/boat wides of the marina and wake (14:40-15:10) and macro-style wine-pour details (16:29-16:39). Exact moves are not observable at storyboard resolution.",
+  "color_and_grade": "Warm wood-and-amber interiors (palette #523015, #7f5a3f) against bright, slightly washed daylight exteriors on the yacht. Night shots are low-key. Yellow bold sans-serif text labels (3:57, 11:03) are the one graphic accent.",
+  "sound_and_music": "From auto-captions: about 82% speech coverage, 135 wpm overall, 19 [music] markers, and a longest non-speech run of 47 s. Speech-free montages are flagged around 9:31, 14:33, 15:29 and 15:55 (the yacht cruise and wake). The opening 12 s has no speech, which suggests music or ambience over the skyline. The music itself cannot be identified.",
+  "what_to_borrow": [
+    "Bold place/time labels ('THE APARTMENT', '11 AM') to orient the viewer in a loose day-in-the-life",
+    "Insert a phone or app screen when the talk references data",
+    "Use speech-free cruise/wake montages to give a long talk-heavy film room to breathe",
+    "Use a backlit window silhouette for a reflective monologue"
+  ],
+  "what_to_avoid_copying": [
+    "'NEXT RELEASE' and 'SEE YOU NEXT TIME' series cards",
+    "A three-minute locked-off kitchen talk about fitness tracking that only loosely ties to the episode thesis",
+    "Luxury-brand signage shots (Ritz-Carlton, Burj Al Arab) as filler"
+  ],
+  "observations": [
+    {
+      "start": 0,
+      "end": 10,
+      "name": "night skyline opener",
+      "description": "A dark Dubai skyline before any speech. The profile flags 12 s of non-speech.",
+      "style_mode": "cinematic"
+    },
+    {
+      "start": 10,
+      "end": 40,
+      "name": "arrival walk-in",
+      "description": "The creator walks down a hotel corridor towards the lens and into the apartment, with subtitles about the Burj Khalifa view.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 69,
+      "end": 79,
+      "name": "crew-directed aside",
+      "description": "Subtitle 'This is Dubai, you don't need to lock the door' is addressed to the camera operator.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 129,
+      "end": 218,
+      "name": "friends at lunch table",
+      "description": "Handheld observational table conversation, with friends introduced by subtitles ('My man Donny').",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 237,
+      "end": 277,
+      "name": "place label and silhouette talk",
+      "description": "'THE APARTMENT' in yellow bold type over the interior, then a backlit near-silhouette monologue by the window about focus.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 317,
+      "end": 336,
+      "name": "landmark and restaurant",
+      "description": "The Burj Al Arab against the sky, then a lavish restaurant interior.",
+      "style_mode": "cinematic"
+    },
+    {
+      "start": 366,
+      "end": 544,
+      "name": "locked-off kitchen conversation",
+      "description": "A long seated medium shot at the kitchen counter about calorie deficit, gym and recovery.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 554,
+      "end": 564,
+      "name": "app screen insert",
+      "description": "Close-up of a phone showing a fitness-tracker dashboard.",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 603,
+      "end": 633,
+      "name": "taxi ride-along",
+      "description": "In-car profiles, part silhouetted against the window, on the way to the marina.",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 663,
+      "end": 673,
+      "name": "time label",
+      "description": "'11 AM' in yellow bold type as the yacht scene begins.",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 673,
+      "end": 851,
+      "name": "yacht deal meeting",
+      "description": "Bright medium close-ups of a European businessman discussing acquisitions, debt and downside protection, with subtitles.",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 860,
+      "end": 910,
+      "name": "speech-free cruise montage",
+      "description": "Marina, boat wake, skyline from the water, group on the deck.",
+      "style_mode": "cinematic"
+    },
+    {
+      "start": 989,
+      "end": 999,
+      "name": "detail inserts",
+      "description": "Corkscrew and wine pour in close-up at the waterside lunch.",
+      "style_mode": "cinematic"
+    },
+    {
+      "start": 1068,
+      "end": 1147,
+      "name": "villa dinner observational",
+      "description": "A Danish couple's home: arrival at the door, staircase, and pizza-making chat in the kitchen.",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 1157,
+      "end": 1177,
+      "name": "end cards",
+      "description": "'NEXT RELEASE 23/03/2025' then 'SEE YOU NEXT TIME' on black.",
+      "style_mode": "personal"
+    }
+  ]
+}

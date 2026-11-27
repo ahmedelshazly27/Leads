@@ -1,0 +1,38 @@
+{
+  "source": "claude-code subagent (viewed all 4 contact sheets + profile + transcript)",
+  "summary": "A chaptered expedition film following Joe and record-holding Sherpa guides from Kathmandu through Lukla and Namche Bazaar to an Everest base-camp area, framed around the question of why Sherpas thrive at altitude. Unlike his narrated portraits, this one is dialogue-driven (dialogue score 1.0, 72% speech coverage): long walk-and-talk scenes with guides on the trail, a gear-shop scene, a seated interview at a high camp and an expert at a museum. The opening 2 minutes is a dense documentary teaser mixing sunrise summits, porters, archival black-and-white expedition footage and soundbites ('Without Sherpa, nobody can climb'). Visual grammar includes on-screen altitude and peak labels, 3D terrain maps, and licensed news/archival clips with visible source bugs. It ends on a helicopter 'surprise' flight to view Everest, a thank-you to the expedition company, and a studio sponsor read.",
+  "hook_analysis": "Sunrise alpenglow on peaks (0:00, 0:40) under a fact-led VO from 5 s ('This is the summit of Everest...'), pivoting to the reveal statistic '96%... did not reach it alone'. Then a rapid soundbite montage of Sherpas, archival 1950s footage (1:29), a museum expert (1:49) and a genetics claim, closing on 'Today we will try to discover their secret' (1:40). Replay peak at 0:00-0:15; the strongest peak overall is 22:07 at base camp.",
+  "narrative_arc": "8 chapters as a linear ascent: Unsung heroes (thesis + tease, 0:00-2:16) -> Journey to Lukla (gear shopping, flight, 2:16-4:48) -> Preparing (porters, history, statues of Tenzing/Hillary, 4:48-8:25) -> Namche Bazaar (helicopter, town, 8:25-11:57) -> Meeting experts (Kami Rita and others on trail, 11:57-16:59) -> Heading to base camp (trek, 16:59-21:05) -> Life at base camp (dome tents, interview, death-zone explainer, 21:05-24:21) -> Reaching the heights (helicopter surprise and Everest view, 24:21-25:43) -> sponsor.",
+  "camera_and_composition": "Low-angle wide-lens frames of Joe and guides against deep blue sky and snow peaks are the default (12:22-13:31, 20:46); wide-angle selfies on the trail (16:49, 19:47-19:57). Peak hero shots with on-screen name labels (AMA DABLAM 8:54, 21:06). Top-down drone over Namche's horseshoe (9:53-10:03) and over glacier camp (21:26). Seated two-shot interview at camp with Himalaya backdrop (22:45-23:05). Camera moves not observable at storyboard resolution.",
+  "color_and_grade": "Cool, very saturated: crushed deep-blue skies, cyan-white snow, punchy orange/purple jackets (mean colorfulness 62, the highest of the six). Sunrise/alpenglow orange on summits used as accent (0:40, 16:09). Archival inserts are black-and-white or degraded (1:29, 5:36, 5:56).",
+  "sound_and_music": "Auto-captions mark [music] 16 times and [laughter] 16 times - banter and laughter are part of the texture. Speech-free runs are short (max ~33 s), e.g. 1:55-2:16 closing the tease, 19:04-19:36 trekking. Ends with sponsor credit to Epidemic Sound in a studio with audio-meter graphics (25:13).",
+  "what_to_borrow": [
+    "Open with a surprising statistic that reframes a familiar subject ('96% did not reach it alone')",
+    "Label peaks and altitudes on screen to give the audience a sense of progress on an ascent",
+    "Structure a trek as a linear ascent with chapter titles that read as milestones",
+    "End on a planned surprise payoff (helicopter to Everest) that the guides reveal on camera"
+  ],
+  "what_to_avoid_copying": [
+    "Inserting broadcast clips with visible third-party bugs (60 Minutes at 7:35, a news bug at 15:50) without clearance",
+    "Showing a pixelated body (23:15) for shock value",
+    "Long unvaried walk-and-talk coverage on the trail (12:22-13:41) - many near-identical frames",
+    "Engagement bait inside the story ('if this video hits 1 million likes...')"
+  ],
+  "observations": [
+    {"start": 0, "end": 50, "name": "alpenglow fact-hook", "description": "Pink/orange summit light and a lone climber on snow under a statistic-led VO building to the 96% reveal.", "style_mode": "cinematic"},
+    {"start": 55, "end": 136, "name": "documentary teaser montage", "description": "Porter baskets (0:59), archival black-and-white expedition footage (1:29), helicopter (1:39), museum expert (1:49), prayer wheel and musician (1:59-2:09) under soundbites.", "style_mode": "documentary"},
+    {"start": 138, "end": 175, "name": "city start + gear shop", "description": "Kathmandu skyline (2:18), then Joe and guide in a down-jacket shop (2:28-2:38).", "style_mode": "personal"},
+    {"start": 178, "end": 210, "name": "3D terrain map + altitude label", "description": "Satellite relief map with route (2:58-3:08) then Lukla arrival with on-screen '2,860 M' (3:28).", "style_mode": "documentary"},
+    {"start": 307, "end": 380, "name": "archival history cutaways", "description": "Yak train in motion blur (5:07), '1950' black-and-white footage (5:36-5:56), golden Tenzing/Hillary statues (6:16).", "style_mode": "documentary"},
+    {"start": 455, "end": 460, "name": "broadcast clip insert", "description": "Summit photo with a 60 Minutes bug used to show a Sherpa's record (7:35).", "style_mode": "documentary"},
+    {"start": 485, "end": 545, "name": "helicopter relocation", "description": "Orange helicopter on pad (8:05-8:15), cockpit silhouette (8:34), labelled Ama Dablam hero shot (8:54).", "style_mode": "cinematic"},
+    {"start": 593, "end": 610, "name": "top-down town establishing", "description": "Namche Bazaar's horseshoe of coloured roofs from above (9:53-10:03).", "style_mode": "cinematic"},
+    {"start": 720, "end": 830, "name": "walk-and-talk with record holder", "description": "Joe and Kami Rita on the trail in low-angle wide frames against peaks (12:12-13:41).", "style_mode": "documentary"},
+    {"start": 950, "end": 965, "name": "licensed clip insert", "description": "Icefall ladder and crevasse footage with a third-party bug (15:50-15:59); replay peak 15:57.", "style_mode": "documentary"},
+    {"start": 1009, "end": 1030, "name": "map re-establish + selfie", "description": "3D map with Namche/Lukla labels (16:59), turquoise river from above (17:09) after a group selfie (16:49).", "style_mode": "personal"},
+    {"start": 1286, "end": 1330, "name": "drone over glacier camp", "description": "Top-down of camp on a moraine (21:26) then dome-tent interior reveal (21:46); replay peak 22:07.", "style_mode": "cinematic"},
+    {"start": 1365, "end": 1410, "name": "death-zone explainer", "description": "Seated guide interview (22:45-23:05) followed by pixelated body in snow (23:15) and '8849 M / DEATH ZONE' graphic (23:25).", "style_mode": "documentary"},
+    {"start": 1461, "end": 1494, "name": "surprise payoff", "description": "'WE'RE GOING TO EVEREST' reveal, Joe in down jacket (24:14), labelled Everest view (24:24), helmet two-shot on snow (24:44).", "style_mode": "personal"},
+    {"start": 1503, "end": 1543, "name": "thank-you + studio sponsor", "description": "Handshake and seated thanks to the expedition team (24:54-25:03), audio-meter graphic (25:13), studio sponsor read (25:23-25:33).", "style_mode": "personal"}
+  ]
+}

@@ -1,0 +1,1406 @@
+{
+  "creator": "Omar Farooq",
+  "description": "",
+  "weight": 1.0,
+  "videos": [
+    {
+      "video_id": "BA83kfPOz1w",
+      "title": "كل أسرار جمال الخيل العربي 🇶🇦 #عمر_يجرب",
+      "duration": 1677.0,
+      "url": "https://www.youtube.com/watch?v=BA83kfPOz1w",
+      "transcript": "none"
+    },
+    {
+      "video_id": "IzSzEglLAcI",
+      "title": "ما زالوا يعيشون تحت الأرض! مدينة مطماطة في تونس 🇹🇳 #عمر_يجرب",
+      "duration": 1300.0,
+      "url": "https://www.youtube.com/watch?v=IzSzEglLAcI",
+      "transcript": "manual"
+    },
+    {
+      "video_id": "zB0WvXN6TJ8",
+      "title": "عشت في حي الزبالين في مصر 🇪🇬 #عمر_يجرب",
+      "duration": 1392.0,
+      "url": "https://www.youtube.com/watch?v=zB0WvXN6TJ8",
+      "transcript": "manual"
+    },
+    {
+      "video_id": "A7IAreQ4ZsI",
+      "title": "عالم مصارعة الثيران في عمان 🇴🇲🐂 #عمر_يجرب",
+      "duration": 1626.0,
+      "url": "https://www.youtube.com/watch?v=A7IAreQ4ZsI",
+      "transcript": "manual"
+    },
+    {
+      "video_id": "4UZaeH6A12Y",
+      "title": "الرجال يرقصون والبنات يختارون أزواجهم 🇹🇩 #عمر_يجرب",
+      "duration": 1452.0,
+      "url": "https://www.youtube.com/watch?v=4UZaeH6A12Y",
+      "transcript": "manual"
+    },
+    {
+      "video_id": "cZRSEPWZa-8",
+      "title": "خشب أغلى من الذهب في غابات العود الهندية 🇮🇳 #عمر_يجرب",
+      "duration": 1384.0,
+      "url": "https://www.youtube.com/watch?v=cZRSEPWZa-8",
+      "transcript": "manual"
+    }
+  ],
+  "data_gaps": [
+    "كل أسرار جمال الخيل العربي 🇶🇦 #عمر_يجرب: no transcript - speech, language and music metrics unavailable",
+    "ما زالوا يعيشون تحت الأرض! مدينة مطماطة في تونس 🇹🇳 #عمر_يجرب: 100 caption cues in minute 0 vs median 21/min - cue timing looks corrupted; speech/vocabulary metrics excluded from creator averages"
+  ],
+  "metrics": {
+    "editing_characteristics.est_cuts_per_min": {
+      "label": "Estimated cuts per minute",
+      "mean": 17.3417,
+      "min": 14.44,
+      "max": 18.2,
+      "n": 6,
+      "unit": ""
+    },
+    "editing_characteristics.median_sequence_s": {
+      "label": "Median visual sequence length",
+      "mean": 76.6333,
+      "min": 49.2,
+      "max": 109.2,
+      "n": 6,
+      "unit": "s"
+    },
+    "editing_characteristics.pacing_variability": {
+      "label": "Pacing variability (std of cuts/min per minute)",
+      "mean": 4.285,
+      "min": 3.26,
+      "max": 5.44,
+      "n": 6,
+      "unit": ""
+    },
+    "sound_design.speech_coverage": {
+      "label": "Share of runtime with speech",
+      "mean": 0.6482,
+      "min": 0.569,
+      "max": 0.728,
+      "n": 4,
+      "unit": "%"
+    },
+    "sound_design.non_speech_fraction": {
+      "label": "Share of runtime without speech (music/ambience)",
+      "mean": 0.1735,
+      "min": 0.055,
+      "max": 0.296,
+      "n": 4,
+      "unit": "%"
+    },
+    "sound_design.words_per_minute_overall": {
+      "label": "Words per minute (whole video)",
+      "mean": 118.65,
+      "min": 99.6,
+      "max": 131.7,
+      "n": 4,
+      "unit": ""
+    },
+    "storytelling.first_person_singular": {
+      "label": "First-person singular language",
+      "mean": 0.0228,
+      "min": 0.0212,
+      "max": 0.0242,
+      "n": 4,
+      "unit": "%"
+    },
+    "storytelling.second_person": {
+      "label": "Direct address to viewer ('you')",
+      "mean": 0.0224,
+      "min": 0.0161,
+      "max": 0.034,
+      "n": 4,
+      "unit": "%"
+    },
+    "storytelling.context_facts": {
+      "label": "Contextual / factual vocabulary",
+      "mean": 0.0159,
+      "min": 0.0115,
+      "max": 0.0196,
+      "n": 4,
+      "unit": "%"
+    },
+    "storytelling.reflection": {
+      "label": "Reflective vocabulary",
+      "mean": 0.008,
+      "min": 0.0066,
+      "max": 0.0092,
+      "n": 4,
+      "unit": "%"
+    },
+    "storytelling.closeup_frame_fraction": {
+      "label": "Frames with face close-ups",
+      "mean": 0.0532,
+      "min": 0.036,
+      "max": 0.078,
+      "n": 6,
+      "unit": "%"
+    },
+    "storytelling.face_frame_fraction": {
+      "label": "Frames with any detected face",
+      "mean": 0.342,
+      "min": 0.231,
+      "max": 0.426,
+      "n": 6,
+      "unit": "%"
+    },
+    "color_characteristics.mean_saturation": {
+      "label": "Mean saturation",
+      "mean": 0.3847,
+      "min": 0.299,
+      "max": 0.43,
+      "n": 6,
+      "unit": ""
+    },
+    "color_characteristics.mean_contrast": {
+      "label": "Mean contrast",
+      "mean": 0.1973,
+      "min": 0.181,
+      "max": 0.225,
+      "n": 6,
+      "unit": ""
+    },
+    "color_characteristics.mean_warmth": {
+      "label": "Mean warmth (R-B)",
+      "mean": 0.0883,
+      "min": 0.056,
+      "max": 0.141,
+      "n": 6,
+      "unit": ""
+    },
+    "color_characteristics.mean_brightness": {
+      "label": "Mean brightness",
+      "mean": 0.3535,
+      "min": 0.297,
+      "max": 0.414,
+      "n": 6,
+      "unit": ""
+    },
+    "color_characteristics.letterboxed_frame_fraction": {
+      "label": "Letterboxed (cinematic aspect) frames",
+      "mean": 0.0205,
+      "min": 0.006,
+      "max": 0.068,
+      "n": 6,
+      "unit": "%"
+    },
+    "style_mode_mix.cinematic": {
+      "label": "Cinematic mode share",
+      "mean": 0.3377,
+      "min": 0.235,
+      "max": 0.4,
+      "n": 4,
+      "unit": "%"
+    },
+    "style_mode_mix.documentary": {
+      "label": "Documentary mode share",
+      "mean": 0.3508,
+      "min": 0.304,
+      "max": 0.417,
+      "n": 4,
+      "unit": "%"
+    },
+    "style_mode_mix.personal": {
+      "label": "Personal mode share",
+      "mean": 0.3115,
+      "min": 0.271,
+      "max": 0.348,
+      "n": 4,
+      "unit": "%"
+    },
+    "duration": {
+      "label": "Video length",
+      "mean": 1471.8333,
+      "min": 1300.0,
+      "max": 1677.0,
+      "n": 6,
+      "unit": "min"
+    }
+  },
+  "hook_patterns": [
+    "short visual lead-in followed by speech",
+    "spoken cold open: narration/claim starts immediately",
+    "spoken cold open: narration/claim starts immediately",
+    "spoken cold open: narration/claim starts immediately",
+    "short visual lead-in followed by speech",
+    "spoken cold open: narration/claim starts immediately"
+  ],
+  "shot_type_share": {
+    "wide shot with people": 0.448,
+    "medium shot with people": 0.358,
+    "busy street / detail-rich scene": 0.064,
+    "close-up on a person (talking head / selfie)": 0.06,
+    "general b-roll": 0.03,
+    "low-light / night shot": 0.026,
+    "wide establishing / landscape": 0.015
+  },
+  "narrative_function_share": {
+    "journey / progression": 0.697,
+    "resolution / outro": 0.179,
+    "atmosphere / montage": 0.058,
+    "opening hook": 0.028,
+    "interaction / conversation": 0.022,
+    "context / exposition": 0.016
+  },
+  "signature_techniques": {
+    "speech-free montage": 23,
+    "replay peak": 18,
+    "audience replay peak (most-replayed)": 15,
+    "atmospheric non-speech sequence": 11,
+    "on-screen text / title card": 6,
+    "on-screen text": 5,
+    "talking to camera": 4,
+    "speech-free fast montage": 2,
+    "breathing room: non-speech atmospheric sequence": 2
+  },
+  "grading_tags": {
+    "warm tones": 4,
+    "on-screen text or title": 3,
+    "neutral white balance": 2,
+    "low-key / dark": 2
+  },
+  "palette": [
+    "#c4c4aa",
+    "#5f632d",
+    "#47501f",
+    "#dce6cc",
+    "#beb492",
+    "#97b4ba",
+    "#beb3a5",
+    "#807768"
+  ],
+  "qualitative": [
+    {
+      "source": "claude-code subagent (viewed all 4 contact sheets + profile + transcript)",
+      "summary": "Omar tours Qatar's Arabian-horse world: a state-of-the-art stud with a domed arena, private breeders' farms, a horse passport, training and therapy facilities, show-ring culture and a breeding lab. There is no English transcript for this video, so this reading rests on the frames, the burned-in Arabic subtitles that are visible, the title and the description ('all the secrets of the Arabian horse's beauty'). It is the most interview-led of the six (documentary share 0.55): seated conversations with Qatari experts on red sofas in an open field recur through the film, cut against archive-style show footage in vintage TV frames. Omar's participation comes in the middle (grooming, hoof care, riding, lungeing, 13:54-18:51), and the emotional beat is him lying in the straw beside a resting horse (25:08-25:18) before a calm closing montage of horses.",
+      "hook_analysis": "Short visual lead-in. Omar walks across a manicured grass paddock (0:00), laughs with a host (0:10), then a run of vintage-framed clips (0:20-1:00: an endurance rider on a white horse in the desert, riders in green hills, silhouettes at sunrise, a race followed by 4x4s, a show-ring handler) shows the whole scope of the subject in under a minute. The highest replay heat is 0:00-0:17. A price reveal (a phone calculator showing 4,500,000 at 2:39) acts as an early hook, and the same shot returns at 21:30. The spoken hook cannot be assessed because there is no English transcript.",
+      "narrative_arc": "Scope montage (0:00-1:00) -> state stud: paddocks, stables, first interviews (1:09-2:49) -> price tease and satellite map (2:39-3:09) -> facility tour, domed arena, luxury interiors (3:18-5:18) -> drive to a second site and vet/anatomy explanation (5:27-6:47) -> seated expert interviews on red sofas (7:27-8:46) -> private breeder: herd, lineage names, passport (8:56-11:54) -> Omar hands-on: grooming, hooves, riding, red-light therapy (12:24-15:43) -> training in the indoor arena (16:03-18:51) -> culture and prestige: beach-sunset horse, poetry, show footage (19:01-20:30) -> breeding lab and value (20:40-21:50) -> show-world comparisons incl. footballer analogy (22:39-23:19) -> intimacy with a horse in its stall (24:09-25:18) -> show-handling and closing horse montage (26:18-27:37) -> logo.",
+      "camera_and_composition": "Symmetrical wide-lens interiors of stables and arenas with strong leading lines (1:19, 4:08, 8:06, 16:03), many shot low on the grass so horses pass close to the lens (3:48, 27:07). Interviews are composed as formal two-shots on red sofas placed in open fields (7:46, 8:36, 12:04), with medium singles of the experts (7:27, 8:26). The presenter is often shot with a wide lens close to a horse's head (6:17, 12:54, 15:53). Drones are used sparingly (4:28 domed arena). Exact moves are not observable at storyboard resolution.",
+      "color_and_grade": "Warm (warmth 0.105, the second-warmest after Matmata) with a soft, slightly green-olive cast in the shadows and pale, hazy skies. Low-key frames are rare (1.2%): this is a clean, daylight, institutional look. Archival and show clips inside the vintage frame have their own palettes (cool blue show arenas at 19:41-20:11, a black-and-white clip at 22:39).",
+      "sound_and_music": "Not measurable: transcript.json is empty and sound_design.available is false, so speech coverage, wpm and the speech-gap metrics all read 0. From the frames, burned-in Arabic subtitles appear on interviews and handler dialogue (1:09, 1:59, 7:56-8:16, 12:34, 16:22-16:42), so the film is dialogue-driven like the others. A sung or recited poetry moment is likely at 19:11, where a man is shown with an Arabic verse overlaid on screen, but this cannot be confirmed without audio.",
+      "what_to_borrow": [
+        "Show the full scope of the subject in a 40-second montage of framed clips before the first location",
+        "Use one concrete number (the price on a phone calculator) as an early tease and pay it off later",
+        "Put interviewees on a distinctive set (red sofas in a field) and return to it, so experts become a recurring reference point",
+        "Let a pop-culture analogy graphic (two famous footballers, 23:09) explain a ranking system to a general audience",
+        "Give the film a quiet emotional beat of the presenter with an animal before the outro"
+      ],
+      "what_to_avoid_copying": [
+        "Heavy reliance on archive or borrowed show footage inside frames; check rights and avoid letting it replace your own coverage",
+        "Long seated-interview stretches can feel institutional; this film has less presenter-on-the-road energy than the others",
+        "Without a transcript, do not infer narrative claims from it; the language metrics for this video are empty"
+      ],
+      "observations": [
+        {
+          "start": 0,
+          "end": 17,
+          "name": "presenter walk-in and laugh",
+          "description": "Omar walks across a manicured paddock toward camera (0:00), then covers his ears laughing beside a Qatari host (0:10). This is the highest replay-heat segment.",
+          "style_mode": "personal"
+        },
+        {
+          "start": 20,
+          "end": 65,
+          "name": "scope montage in vintage frames",
+          "description": "A run of rounded-TV-frame clips: an endurance rider in the desert (0:20), riders in hills (0:30), silhouettes at sunrise (0:40), a race followed by 4x4s (0:50), a show-ring handler (1:00).",
+          "style_mode": "cinematic"
+        },
+        {
+          "start": 69,
+          "end": 110,
+          "name": "stud establishing and first interview",
+          "description": "Subtitled conversation with a handler (1:09), a symmetrical wide of white horses in a ring paddock (1:19), stable architecture (1:29-1:49).",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 149,
+          "end": 160,
+          "name": "price reveal on phone calculator",
+          "description": "Omar holds up a phone calculator showing 4,500,000 (2:39); the same shot returns at 21:30 as a callback.",
+          "style_mode": "personal"
+        },
+        {
+          "start": 268,
+          "end": 300,
+          "name": "drone of domed arena and luxury interior",
+          "description": "Aerial of a domed arena complex (4:28), then arched marble interiors (4:38-4:48) and a piece-to-camera in a glass lounge (4:58).",
+          "style_mode": "cinematic"
+        },
+        {
+          "start": 383,
+          "end": 393,
+          "name": "anatomy sketch overlay",
+          "description": "Hand-drawn line sketch of a horse's head superimposed over footage of a vet with a horse, inside the vintage frame (6:27).",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 447,
+          "end": 530,
+          "name": "red-sofa expert interviews",
+          "description": "Seated interview on red sofas placed in an open field with horses behind (7:27-8:46); the set returns at 12:04.",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 566,
+          "end": 640,
+          "name": "lineage names graphic and passport",
+          "description": "A breeder framed with floating Arabic strain/lineage names (9:26-9:36), herd wides (9:45-9:55), then a red horse passport in hand (10:35).",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 821,
+          "end": 943,
+          "name": "Omar's hands-on care",
+          "description": "Second replay peak (13:41-13:58) is followed by Omar grooming (13:54), cleaning hooves (14:23), mounting and riding (14:33-15:03), and a red-light therapy chamber (15:13).",
+          "style_mode": "personal"
+        },
+        {
+          "start": 963,
+          "end": 1131,
+          "name": "training in indoor arena",
+          "description": "Wide symmetrical indoor-arena coverage of Omar learning to handle and lunge horses with a trainer (16:03-18:51), with subtitled instructions (16:22, 18:31).",
+          "style_mode": "personal"
+        },
+        {
+          "start": 1141,
+          "end": 1221,
+          "name": "culture and prestige montage",
+          "description": "Horse galloping on a beach at sunset (19:01), a man with an Arabic verse overlaid (19:11), show-ring footage including a European Conference of Arab Horse Organizations banner (19:41-20:11).",
+          "style_mode": "cinematic"
+        },
+        {
+          "start": 1280,
+          "end": 1300,
+          "name": "breeding lab and value callback",
+          "description": "A laboratory with storage tanks (21:20) and the repeated calculator shot (21:30).",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 1358,
+          "end": 1395,
+          "name": "footballer analogy graphic",
+          "description": "Replay-peak run (22:38-23:12): a black-and-white clip with a caption (22:39), a bay horse (22:49), a trophy (22:59), then a split-screen of two famous footballers (23:09) as an analogy for champion horses.",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 1468,
+          "end": 1520,
+          "name": "lying with the horse (emotional beat)",
+          "description": "Omar lies in the straw beside a resting horse, smiling and stroking it (24:29-25:18), cut with framed show-ring footage (24:39-24:58).",
+          "style_mode": "personal"
+        },
+        {
+          "start": 1578,
+          "end": 1677,
+          "name": "closing horse montage and logo",
+          "description": "Show-handling in a sand ring (26:18-26:38), a gallop across grass (26:48), a rider on a path (26:57), low wides of white horses (27:07, 27:37), a final nuzzle (27:27), then the black logo card at 27:47.",
+          "style_mode": "cinematic"
+        }
+      ]
+    },
+    {
+      "source": "claude-code subagent (viewed all 3 contact sheets + profile + transcript)",
+      "summary": "Omar travels to Matmata in southern Tunisia, where Amazigh families still live in troglodyte pit houses dug into the ground, and stays the night instead of at his booked hotel. The film is built around a long relationship with the host family, especially the matriarch in a white veil, who gives room tours, cooks, explains coded women's dress and harvests olives with him. It moves between bright, sunbaked courtyards and dark, warm interiors, and returns several times to a top-down drone of the circular pit that becomes its visual signature. The final act shows a man digging a new room (Omar tries the pick) and then the Star Wars hotel that put Matmata on the map, and it ends on an overhead shot of Omar lying spread-eagled on the courtyard floor.",
+      "hook_analysis": "Spoken cold open with a visual contrast: Omar in profile (0:00), cranes on high-rise construction (0:10), then a man hacking out an underground room (0:20). The juxtaposition illustrates the 'whole world builds upwards' line. Quick meetings with veiled elders (0:30-0:49) and Omar's arms-wide reaction inside a cave room (0:59) lead to a Tunisia map (1:09). Replay heat peaks at 0:00-0:13. Note that the transcript timing in the first two minutes is unreliable (see limitations), so word-level hook metrics are inflated.",
+      "narrative_arc": "Contrast cold open (0:00-1:00) -> map and 'there's the green Tunisia, the blue Tunisia, and the south' framing (1:09-1:48) -> drone reveal of the pit house and welcome (1:58-2:18) -> room tour, crawling through doorways (2:28-4:46) -> neighbours and night: dinner, gathering, sunset (4:55-6:24) -> morning and breakfast with elders (6:34-7:43) -> matriarch's courtyard: storage, water, rooms (7:53-12:48) -> women's dress codes and coded symbols (12:58-15:36) -> olive harvest and press (15:45-17:53) -> how houses are dug: Omar tries the pick (18:03-19:12) -> Star Wars hotel and museum (19:22-20:51) -> overhead ending and logo (21:01-21:40).",
+      "camera_and_composition": "The circular pit courtyard is the main composition: a high wide angle from the rim (2:38, 10:01, 11:20) and a straight-down drone (4:26, 4:46, 18:23, 21:01). Interiors are wide and low, with the curved whitewashed ceiling arching over the subjects (2:57, 4:06, 12:09). The matriarch gets low-angle singles against the sky (9:12, 9:51, 17:34), so she reads as a protagonist rather than a background local. Doorway frames-within-frames (3:47, 3:56, 6:54). Exact moves are not observable at storyboard resolution.",
+      "color_and_grade": "The warmest of the six (warmth 0.141): ochre and sand walls, beige and brown palette (#a08362, #846a4f), lifted cream highlights and a soft teal sky. Interiors stay warm and somewhat low-contrast (contrast 0.181, the lowest of the six) rather than going crushed-black. The olive-press insert (17:14) and Star Wars archival (19:22) use the vintage-frame treatment.",
+      "sound_and_music": "Speech coverage 0.63 at about 148 wpm overall, the fastest talker rate in the set. The reported 204 s speech-free stretch at the end (18:16-21:40) and the 276 words in the first 30 s are artefacts of the subtitle file, not real silence or real density: the English cues stop at 18:16, and the first two minutes are packed with 153 cues. Some of those early cues (Star Wars hotel, the 1976 film shoot) belong to the 19:22-20:51 segment. Use them for content only, not timing. The audio itself was not analysed.",
+      "what_to_borrow": [
+        "Open with a visual juxtaposition that sums up the premise (cranes building upward vs a man digging downward)",
+        "Choose one host and give them protagonist framing (low-angle singles against sky) across the whole film",
+        "Use a single repeatable signature shot (top-down drone into the circular pit) as chapter punctuation",
+        "End on a composed overhead image of the presenter inside the location, then the logo"
+      ],
+      "what_to_avoid_copying": [
+        "Do not rely on this video's transcript timing for cut decisions; the cues are compressed or misplaced in the first two minutes and missing after 18:16",
+        "The 'houses of the jinn' and 'bathroom as bad omen' lines are fun but need the community's own voice to avoid folklore-as-spectacle",
+        "The Star Wars tangent arrives in the last three minutes and pulls focus from the family story"
+      ],
+      "observations": [
+        {
+          "start": 0,
+          "end": 30,
+          "name": "build-up vs dig-down contrast hook",
+          "description": "Omar in profile (0:00), cranes on high-rise construction (0:10), a man hacking at an underground room (0:20). This is the highest replay-heat segment (0:00-0:13).",
+          "style_mode": "cinematic"
+        },
+        {
+          "start": 30,
+          "end": 65,
+          "name": "cold-open meetings and reaction",
+          "description": "Veiled elders in a field (0:30-0:39), a cave room interior (0:49), Omar arms-wide in a decorated underground room (0:59).",
+          "style_mode": "personal"
+        },
+        {
+          "start": 65,
+          "end": 80,
+          "name": "country map in vintage frame",
+          "description": "Tunisia map with the Arabic name overlaid, then a zoom south, inside the rounded vintage frame (1:09-1:19).",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 85,
+          "end": 130,
+          "name": "roadside piece-to-camera and landscape",
+          "description": "Omar beside the car on a desert road (1:29), arid hills (1:38), talking to camera (1:48); the narration contrasts green, blue and southern Tunisia.",
+          "style_mode": "personal"
+        },
+        {
+          "start": 115,
+          "end": 140,
+          "name": "drone reveal of the pit house",
+          "description": "Drone of a white entrance building leading down to a pit dwelling (1:58), Omar's reaction close-up (2:08), the hosts welcoming him in the courtyard (2:18).",
+          "style_mode": "cinematic"
+        },
+        {
+          "start": 145,
+          "end": 290,
+          "name": "room tour with subtitled host",
+          "description": "The host woman explains each room with burned-in Arabic subtitles (2:28, 3:07, 4:06); Omar ducks through tiny doorways with a blue hand symbol on the wall (3:47-3:56, 4:36).",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 266,
+          "end": 290,
+          "name": "top-down drone of the pit",
+          "description": "Overhead drone looking straight into the circular courtyard (4:26, 4:46), repeated later at 18:23 and in the final shot at 21:01.",
+          "style_mode": "cinematic"
+        },
+        {
+          "start": 335,
+          "end": 380,
+          "name": "night in the pit house",
+          "description": "Dinner spread (5:45), a gathering in the courtyard at night (5:55), sunset over the desert (6:04), a silhouetted Omar at the rim (6:14); the narration says 'we made the best memories'.",
+          "style_mode": "cinematic"
+        },
+        {
+          "start": 394,
+          "end": 463,
+          "name": "morning after and breakfast",
+          "description": "A sleepy Omar close-up in a hoodie (6:44), a tunnel doorway (6:54), breakfast and tea with an elder couple at a low table, subtitled (7:03-7:33).",
+          "style_mode": "personal"
+        },
+        {
+          "start": 540,
+          "end": 700,
+          "name": "matriarch as protagonist",
+          "description": "Long courtyard sequence with the white-veiled matriarch covering storage, water and rooms, with low-angle singles against the sky (9:02-9:51) and wide two-shots by the doorways (10:01-11:10). This is a replay peak (11:16-11:29).",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 768,
+          "end": 935,
+          "name": "coded women's dress",
+          "description": "A woman in a colourful tasselled headdress explains in subtitles (12:58-13:08); a long interior scene with the women on dress and symbols, including the line 'A language without words' near 15:16 and a jewellery detail (15:36).",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 945,
+          "end": 1075,
+          "name": "olive harvest and framed press",
+          "description": "Low-angle walk under an olive tree with the matriarch (15:45-17:53), a crate of olives (16:54), a vintage-framed archival olive press (17:14).",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 1120,
+          "end": 1155,
+          "name": "Omar tries digging a room",
+          "description": "In a dark half-dug room, Omar and a digger with a pick (18:43-19:12); a subtitle answers how long a room takes ('At least a month').",
+          "style_mode": "personal"
+        },
+        {
+          "start": 1160,
+          "end": 1255,
+          "name": "Star Wars hotel chapter",
+          "description": "Vintage-framed archival of a robot and clapperboard (19:22), Omar presenting in the blue-and-white hotel courtyard (19:32-20:11), a set-prop detail with a subtitle (20:21), the photo wall (20:31).",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 1258,
+          "end": 1300,
+          "name": "overhead final image and logo",
+          "description": "A straight-down shot of Omar lying spread-eagled on the pit floor (21:01), the logo appearing inside the dark circle (21:10), then black logo cards (21:20-21:30).",
+          "style_mode": "cinematic"
+        }
+      ]
+    },
+    {
+      "source": "claude-code subagent (viewed all 3 contact sheets + profile + transcript)",
+      "summary": "Omar spends time in Manshiyat Naser, Cairo's garbage collectors' (Zabbaleen) neighbourhood, where families collect, sort and recycle the city's waste, and he sets out to replace a prejudice with respect. The film opens on a sensory cold open ('careful, careful', trash in his face, 'We're creating the garbage, not them') and is guided by one local man in a blue cap who reappears as a recurring companion. The middle combines sorting rooms lit by single tubes, rooftop storage, pigs and the Coptic Christian context, and Omar's small participations (sorting, a haircut). The last third moves to a recycling and crafts NGO (Association for the Protection of the Environment), where women turn waste into paper, quilts and can-tab bags, then ends on an embrace with the guide and a 'Made in Egypt' line.",
+      "hook_analysis": "Spoken cold open from 0.1 s. Omar walks into an alley toward camera (0:00) with the guide and reacts to the smell and sight ('I'm not sure coming here was a good idea'). Quick frames of sorting, trucks and rooftop bags (0:10-1:49) are cut against direct questions to workers ('Are you not wearing any gloves?'). The moral reframe arrives inside the hook ('We're creating the garbage, not them', 'You're the ones keeping Cairo clean'). Replay heat is highest at 0:00-0:14 and again at 1:10-1:24 (an elder by a mural, hands sorting).",
+      "narrative_arc": "Sensory cold open (0:00-1:51) -> drone and map of the neighbourhood, with Omar naming his own prejudice (1:58-2:58) -> meeting the guide and his family business (3:08-3:57) -> dark sorting rooms and long-time workers (4:07-6:45) -> NGO first glimpse and aerials (6:55-7:44) -> street life: elders, barber, shops, children (7:54-10:52) -> Omar sorts, rooftop storage (11:01-11:41) -> recycling chain: grinding, flakes, pellets (12:01-14:00) -> religion and pigs: Coptic context, pig pens (14:09-16:17) -> NGO workshop: paper, weaving, quilts, can-tab bags (16:57-21:14) -> farewell with guide, final to-camera (21:23-22:33) -> logo.",
+      "camera_and_composition": "Tight handheld in narrow alleys with a wide lens; Omar is often framed from below against the buildings (0:00, 2:48, 8:53). Low-key interiors where a single fluorescent tube is the light source (4:27-4:56, 6:25). Close character portraits of elders and children with shallow depth (1:39, 7:54, 10:22, 10:42). Straight-down drones over the dense rooftops as punctuation (7:34, 16:57, 21:53) and oblique city aerials (1:58, 2:58, 7:14, 22:42). Some workers' faces appear blurred or turned away (0:30, 1:29). Exact moves are not observable at storyboard resolution.",
+      "color_and_grade": "Neutral white balance, dark overall (brightness 0.30, 15% low-key frames), with a muted khaki and grey-green palette. The colour comes from the blue, green and pink garbage bags rather than from a grade push. Exteriors have hard, dusty backlight (8:43, 21:33-21:43). The NGO workshop brightens up and becomes more colourful (teal and red quilts, 17:07-21:14), so the grade lifts as the story turns hopeful.",
+      "sound_and_music": "The most continuously talked-through of the six: speech coverage 0.73, non-speech only 5.5%, longest speech-free run 22 s (the outro). 132 wpm, 85 questions and a high second-person rate (0.034): Omar repeatedly addresses the viewer and the workers directly ('Like you, when I first heard...'). Talking-to-camera stretches at 2:43-4:02 and 11:26-12:35 are flagged by the profile. The audio itself was not analysed.",
+      "what_to_borrow": [
+        "Name the audience's likely prejudice yourself, early, then let the film dismantle it",
+        "Keep one local guide as a recurring companion and pay off the relationship at the end with an embrace",
+        "Use straight-down drones over dense rooftops to show scale between claustrophobic alley scenes",
+        "Follow the material chain physically (bag -> sorting -> grinding -> pellets -> crafts) so the 'respect' argument is shown, not told",
+        "Let the grade and setting brighten as the story turns from hardship to dignity"
+      ],
+      "what_to_avoid_copying": [
+        "Disgust reactions in the hook ('Oh, god!', trash in the face) risk 'poverty tourism'; this film balances them quickly with respect, so keep that balance",
+        "Some workers appear blurred or turned away: get consent and plan the coverage rather than hiding people in the edit",
+        "Talk-wall density (73% speech) leaves little room to breathe; plan more visual pauses"
+      ],
+      "observations": [
+        {
+          "start": 0,
+          "end": 60,
+          "name": "sensory cold open",
+          "description": "Omar walks into an alley toward camera with the guide (0:00-0:20), sorting women (0:30), trucks (0:39-0:49), trash flying at him (0:59). 'Careful, careful' and 'not sure coming here was a good idea'. Highest replay heat at 0:00-0:14.",
+          "style_mode": "personal"
+        },
+        {
+          "start": 45,
+          "end": 115,
+          "name": "moral reframe inside the hook",
+          "description": "'We're creating the garbage, not them' (0:49), then context on pigs and Christian workers (1:08-1:17) over an elder by a religious mural (1:19) and hands sorting (1:29); replay peak at 1:10-1:24.",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 115,
+          "end": 145,
+          "name": "aerial and map establishing",
+          "description": "Oblique drone over the dense brick neighbourhood (1:58), a loaded pickup (2:08), a satellite map with the area traced in white inside the vintage frame (2:18).",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 163,
+          "end": 242,
+          "name": "naming the viewer's prejudice",
+          "description": "Talking-to-camera run: Omar framed through a vehicle window (2:48), a second aerial (2:58), and the line 'Like you, when I first heard about this neighborhood' (2:58).",
+          "style_mode": "personal"
+        },
+        {
+          "start": 185,
+          "end": 230,
+          "name": "meeting the recurring guide",
+          "description": "Omar and the guide in a blue cap sit on bags in his sorting space (3:08-3:47), ending on a cheek-to-cheek two-shot (3:47); the guide returns at 12:20-12:50 and 22:03-22:13.",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 260,
+          "end": 400,
+          "name": "low-key sorting rooms",
+          "description": "Single-tube-lit interiors with long-time workers and subtitles (4:27-4:56, '40 years?'), bag contents (5:06), a woman sorting beside Omar (5:36-5:55), Omar reacting (6:15-6:35); replay peak at 6:30-6:44.",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 420,
+          "end": 470,
+          "name": "NGO glimpse and top-down drone",
+          "description": "The Association for the Protection of the Environment sign (7:05), a city aerial (7:14), Omar walking with the founder (7:24), a straight-down rooftop drone (7:34).",
+          "style_mode": "cinematic"
+        },
+        {
+          "start": 474,
+          "end": 650,
+          "name": "street portraits and barber",
+          "description": "An elder close-up (7:54), Omar laughing with him under the mural (8:04), the founder's portrait (8:33), a barber shop (9:03-9:13, 'How's the haircut?'), a laughing elder (10:22), a schoolboy (10:42).",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 671,
+          "end": 705,
+          "name": "Omar sorts, then the rooftop",
+          "description": "Omar sorting bags with a worker (11:11), climbing up (11:21), then on a rooftop above the city with stored garbage (11:31-11:41).",
+          "style_mode": "personal"
+        },
+        {
+          "start": 780,
+          "end": 845,
+          "name": "recycling-chain macro",
+          "description": "Plastic flakes in water (13:10), Omar at the shredder (13:20), a grinder spraying pellets (13:49), with the narration on pellets going 'straight to factories'.",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 845,
+          "end": 875,
+          "name": "Coptic context",
+          "description": "A poster of Coptic saints on a wall (14:09), with the subtitle line that most people in this work are Christians (14:29).",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 915,
+          "end": 980,
+          "name": "pigs (replay peak)",
+          "description": "Pigs in a pen (15:18), a heap of organic waste (15:28), a close-up of a pig (16:07); replay peak at 15:19-15:33.",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 1020,
+          "end": 1280,
+          "name": "NGO workshop: dignity through craft",
+          "description": "Paper making from waste (17:26-18:06), quilts and weaving (18:26-18:45), a founder interview in front of a geometric quilt (18:55, 20:44), can-tab bags (19:15), with the line 'From poverty to life' (20:19).",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 1283,
+          "end": 1340,
+          "name": "backlit return and embrace",
+          "description": "Dusty backlit alley shots (21:33-21:43), a top-down drone (21:53), the guide and Omar walking (22:03), and an arm-around embrace (22:13).",
+          "style_mode": "personal"
+        },
+        {
+          "start": 1340,
+          "end": 1392,
+          "name": "final to-camera and logo",
+          "description": "Omar's closing to-camera in a sorting yard (22:23-22:33), with 'Made in Egypt' (22:22); the logo over an oblique city aerial (22:42), then black logo cards (22:52-23:02).",
+          "style_mode": "personal"
+        }
+      ]
+    },
+    {
+      "source": "claude-code subagent (viewed all 4 contact sheets + profile + transcript)",
+      "summary": "Omar enters the world of Omani bull-butting (bull against bull, no matador) in Al Batinah, following owners who raise champion bulls, feed them 'VIP food' and train them in the sea. The film opens with a dialogue cold open that names the bulls, shows the fights and states Omar's own discomfort ('it just doesn't feel entertaining to me'). The middle half alternates farm visits, a sponsor read, and a history chapter at Barka fort and museum, plus a participation set-piece in which a shirtless Omar wades into the sea and rides a bull (12:43-14:13). The final third is the arena at dusk (crowds on a slope, megaphone announcer, referee) and the preparation of a named champion, ending on the final match with FPV-style aerials and the logo laid over the last drone shot.",
+      "hook_analysis": "Spoken cold open: speech starts at 0.35 s with Omar asking an owner what the bulls are for, followed by quick soundbites (bull names, value, 'goes back to the Pharaohs', a trampling story) cut against fight footage (1:29, 1:49). The Basmala is spoken inside the cold open (0:09) rather than before it. Ethical tension is set up at once: Omar says he finds it inhumane and an owner reassures him. Ends on a call to action ('Let's go find out for ourselves') before the map at 2:19.",
+      "narrative_arc": "Dialogue cold open (0:00-1:59) -> map of Al Batinah and arrival (2:19-2:39) -> comparison with Spanish bullfighting (2:49) -> farm tours: bull sizes, lineage, feeding, dinner with owners (2:58-9:45) -> mid-roll subscribe (9:35) and sponsor (10:54-11:14) -> history: Barka fort, museum of ancient bull games (11:24-12:14) -> sea training and Omar riding a bull (12:43-14:13) -> arena at dusk: crowd, announcer, referee, fights (14:23-20:39) -> preparing the champion bull (20:49-23:38) -> final match (23:48-26:36) -> reflection on professionalising the sport, logo.",
+      "camera_and_composition": "Mostly handheld medium two-shots of Omar with owners in pens (0:20, 5:27, 10:25), with walk-and-talk followed from behind (3:58-4:18). Close inserts of feed and tack (8:16, 21:59), low-angle bull portraits (6:37, 21:09). The arena gets long-lens crowd wides against a dusk sky (15:22, 16:31) and high or tilted aerials, including FPV-style passes over the field (24:17, 25:37-25:47, 26:46). The sea sequence is shot partly from the water at eye level (13:03-14:13). Exact camera moves are not observable at storyboard resolution.",
+      "color_and_grade": "The most desaturated of the six (mean saturation 0.30) and the brightest (0.41): warm beige and khaki earth, pale hazy dusk skies, white dishdashas. The palette (#63513c, #d9d0b7, #e5e7d4) reads as a soft, low-contrast filmic grade. Archival and graphic inserts are pushed into the vintage TV frame with stronger, more saturated colour (2:49 red matador clip, 6:17 crowd).",
+      "sound_and_music": "Highest dialogue density of the set: speech coverage 0.69, 128 wpm, 128 questions and a dialogue score of 0.21, so the film runs on conversation. Speech-free runs are short and placed at transitions and the finale (1:47-1:59, 6:18-6:35, 16:24-16:55, 25:09-25:26, 25:44-26:03, 26:38-27:06). The transcript mentions a police siren played at the arena (16:13), so real crowd and siren sound likely carry the fight scenes. The audio itself was not analysed.",
+      "what_to_borrow": [
+        "Open on a dialogue cold open that states your own discomfort or doubt, so the film becomes a test of that reaction",
+        "Introduce the animals as characters with names and records before the fight they will appear in",
+        "Insert one history chapter at a monument or museum halfway through to change texture before the climax",
+        "Give the presenter a physical participation set-piece (in the sea with the bull) between the talk-heavy farm scenes and the arena",
+        "Shoot the arena at dusk from a raised position so crowd, dust and sky read in one frame"
+      ],
+      "what_to_avoid_copying": [
+        "The sponsor segment (10:54-11:14) and the subscribe overlay (9:35) land close together in the middle and slow the build",
+        "Fast archival inserts of Spanish bullfighting (2:49) are a shortcut comparison with no context given",
+        "FPV/tilted aerials (25:37, 26:46) only work if the footage is stable; a tilted horizon on ordinary drone footage reads as an error"
+      ],
+      "observations": [
+        {
+          "start": 0,
+          "end": 110,
+          "name": "dialogue cold open with ethical tension",
+          "description": "Quick soundbites of Omar questioning owners in pens (0:00-1:19) cut against bull fights (1:29, 1:49). The Basmala comes at 0:09, inside the open, and Omar says the sport feels 'inhuman' to him at about 0:49.",
+          "style_mode": "personal"
+        },
+        {
+          "start": 139,
+          "end": 149,
+          "name": "region map in vintage frame",
+          "description": "Map of Oman with Al Batinah outlined and labelled in Arabic, set inside a rounded vintage TV frame (2:19).",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 149,
+          "end": 165,
+          "name": "arrival piece-to-camera",
+          "description": "Omar with a backpack in a car park (2:29), then greeting the host at the car (2:39).",
+          "style_mode": "personal"
+        },
+        {
+          "start": 169,
+          "end": 179,
+          "name": "archival contrast insert",
+          "description": "A matador-and-bull clip inside the vintage frame (2:49) contrasts Spanish bullfighting with the Omani bull-versus-bull form.",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 237,
+          "end": 298,
+          "name": "walk-and-talk through the pens",
+          "description": "Followed from behind with the owner through shaded pens (3:58-4:18), Omar touches a bull's dewlap (4:38) and is introduced to it (4:48).",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 377,
+          "end": 456,
+          "name": "framed archive and dinner photos",
+          "description": "Earlier fights shown in vintage-framed inserts (6:17-6:27) and a dinner with owners as a framed still-like insert (7:36); the meal is also described in narration.",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 476,
+          "end": 500,
+          "name": "feed detail and VIP-diet comedy",
+          "description": "Inserts of barley and feed (8:06-8:16) while Omar marvels at the bulls' diet.",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 575,
+          "end": 585,
+          "name": "mid-roll subscribe overlay",
+          "description": "Subscribe/like graphic placed over Omar petting a bull (9:35).",
+          "style_mode": "personal"
+        },
+        {
+          "start": 654,
+          "end": 684,
+          "name": "sponsor read in TV frame",
+          "description": "Noqta content-creation platform segment (10:54-11:14) inside the vintage frame, with a 400K graphic and price/discount screen.",
+          "style_mode": "personal"
+        },
+        {
+          "start": 684,
+          "end": 735,
+          "name": "history chapter at Barka",
+          "description": "Drone of a fort with an Omani flag and birds (11:24), silhouetted stairs in an archway (11:34-11:44), museum panels on ancient bull games (11:54-12:14).",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 763,
+          "end": 860,
+          "name": "sea training and riding a bull",
+          "description": "Top-down of a bull in the surf (12:53), Omar shirtless wading with the bull (13:03-13:23) and sitting on it in the sea (14:03), arms spread to camera (14:13).",
+          "style_mode": "personal"
+        },
+        {
+          "start": 922,
+          "end": 1000,
+          "name": "arena at dusk: crowd and announcer",
+          "description": "Wides of the crowd on a slope against a hazy dusk sky (15:22-15:42), an aerial of the slope (15:32), the megaphone announcer (16:02-16:12), the first locked horns (16:22-16:41).",
+          "style_mode": "cinematic"
+        },
+        {
+          "start": 1101,
+          "end": 1132,
+          "name": "referee and rules",
+          "description": "Omar questions the referee and an elder about how bouts are judged (18:21-18:40), with subtitles.",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 1269,
+          "end": 1418,
+          "name": "naming and preparing the champion",
+          "description": "Low bull portrait with an Arabic name caption (21:09), leading the white bull (21:29-21:39), grooming under palm-frond shade (21:49-23:38) with name subtitles (23:18-23:28).",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 1457,
+          "end": 1626,
+          "name": "final match, FPV aerials and logo",
+          "description": "Aerial of the arena (24:17), FPV-style tilted pass over the field (25:37-25:47), locked horns (25:57), replay peaks from 25:13 to 25:45, a closing reflection on professionalising the sport (26:11), the logo over a tilted aerial (26:46), then a black card.",
+          "style_mode": "cinematic"
+        }
+      ]
+    },
+    {
+      "source": "claude-code subagent (viewed all 4 contact sheets + profile + transcript)",
+      "summary": "Omar travels from N'Djamena into the Chadian savanna to stay with Wodaabe/Fulani herders during their Gerewol-style gathering, where painted, ornamented men dance and the women choose the most attractive man. The film opens on its most spectacular images (painted faces shot low and wide, Omar already in costume) and a personal childhood-memory voiceover, before resetting to a piece-to-camera in the capital at 1:19. A long, very dark night drive and camp (2:18-3:47) gives way to a drone dawn reveal and a slow village-immersion middle built on subtitled conversations and bead and make-up detail inserts. The second half escalates through Omar's own face painting (16:18-16:57) and joining the dance line (17:27-22:04) to the judging climax, then closes with a top-down drone of the dance circle that matches the 1:09 shot and a black logo card.",
+      "hook_analysis": "Short visual lead-in followed immediately by speech (first speech 4.95 s). The first frames are the payoff images: low-angle wide-lens painted Wodaabe faces (0:00, 0:59) and a flash-forward of Omar wearing the headdress (0:10). Over these he gives a personal origin line about watching documentaries on African tribes as a child, illustrated by archival-looking footage inside a vintage TV frame (0:20). The stakes ('some people here had never seen someone with fair skin', 'To prove their masculinity', 'It's not about muscles') are posed as questions the film will answer. Replay heat is highest at 0:00-0:14, so the opening images are proven to work.",
+      "narrative_arc": "Personal-memory hook -> capital arrival and briefing with guide (1:19-1:49, 'Six hours?!') -> night drive into the bush and camp (1:59-3:47) -> dawn reveal and first village contact (3:57-5:46) -> daily-life immersion: homes, cooking, teeth care, migration (5:56-10:00) -> preparation of the men: make-up ingredients, beads, dress (10:03-12:21) -> gathering and first dances (12:31-15:38) -> context map of Chad's neighbours (15:58) -> Omar is painted and dressed (16:18-17:27) -> full ceremony and judging (17:47-22:23) -> reflection and farewell (22:33-23:41) -> logo card.",
+      "camera_and_composition": "Heavy use of a wide lens close to subjects, often from below, so painted faces fill the frame against sky (0:00, 0:59, 20:05). Medium two-shots of Omar with locals for conversation (5:56, 13:20), handheld following shots of Omar walking with guides (5:06, 9:23), detail inserts of feet, beads, phone and cooking (8:04, 10:12, 11:02, 15:48), and drones for scale and as section punctuation (1:09 top-down circle, 4:07-4:17 sunrise, 9:03, 14:19, 22:33, 23:23). Presenter close-ups of Omar thinking or reacting (5:16, 10:32, 13:10, 15:38). Exact camera moves and cuts are not observable at storyboard resolution.",
+      "color_and_grade": "Warm-neutral daylight with muted, slightly lifted greens and teal-leaning skies (palette #61888b), moderate saturation (0.43) that lets the saturated costumes, pink turbans and beadwork carry the colour. The night section is genuinely underexposed (15% low-key frames), lit by fire and headlamps rather than brightened. Archival and map inserts get a distinct vintage, washed-out treatment inside a rounded TV frame.",
+      "sound_and_music": "Speech coverage 0.605 at about 115 wpm: the film is talk-led but leaves gaps. The longest speech-free runs cluster in the ceremony half (12:35-13:03, 14:06-14:31, 14:36-15:07, 16:37-16:54, 17:43-18:22, 20:25-20:47), which suggests the dances play out on music or natural sound rather than narration. 49 questions in the transcript: Omar asks locals and also asks himself questions on camera. The audio itself was not analysed.",
+      "what_to_borrow": [
+        "Open on the visual payoff (the costume/ritual faces and yourself already transformed) under a single personal 'why I came' line, then reset to the arrival",
+        "Let the night journey stay dark and long enough to feel remote; follow it with a drone dawn reveal",
+        "Build up the ritual through its ingredients (make-up powders, beads, clothing) before showing the ritual itself",
+        "Put the presenter through the transformation (painted face, costume, dancing) as the second-half climax",
+        "Bookend with a matching top-down drone of the central ritual (1:09 and 23:23)"
+      ],
+      "what_to_avoid_copying": [
+        "The fair-skin novelty line and 'beauty contest' framing can read as exoticising if the context is not given by the community itself",
+        "Mid-film subscribe animation (16:48) interrupts the build-up straight after the face painting",
+        "Several minutes of near-black night frames will not hold attention without strong audio"
+      ],
+      "observations": [
+        {
+          "start": 0,
+          "end": 15,
+          "name": "payoff-image cold open",
+          "description": "Low-angle wide-lens painted Wodaabe faces against blue sky, then Omar already wearing the headdress among them (0:10), a flash-forward to the 17:27-20:54 dance. This is the highest replay-heat segment.",
+          "style_mode": "cinematic"
+        },
+        {
+          "start": 11,
+          "end": 30,
+          "name": "childhood-memory framing over archive",
+          "description": "Personal VO about watching documentaries on African tribes as a child, illustrated by archival-looking footage inside a vintage CRT frame (0:20).",
+          "style_mode": "personal"
+        },
+        {
+          "start": 69,
+          "end": 79,
+          "name": "top-down drone of dance circle",
+          "description": "Overhead drone of the dancers' ring with long shadows at 1:09; the same view returns at 23:23 to close the film.",
+          "style_mode": "cinematic"
+        },
+        {
+          "start": 75,
+          "end": 115,
+          "name": "capital arrival piece-to-camera",
+          "description": "Omar in a car park ('Greetings from N'Djamena') at 1:19, then a subtitled exchange with the guide while the 4x4 is loaded (1:29-1:49); comic 'Six hours?!' reaction and a no-hotels reveal.",
+          "style_mode": "personal"
+        },
+        {
+          "start": 119,
+          "end": 237,
+          "name": "dark night journey and camp",
+          "description": "Driving POV through the window (1:59-2:08), then near-black frames of a night drive, campfire, chairs and tea (2:18-3:47). The darkness is kept rather than brightened.",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 237,
+          "end": 266,
+          "name": "dawn wake-up and drone reveal",
+          "description": "Omar peers out of a tent (3:57), cut to drone sunrise over savanna woodland with long shadows (4:07-4:17), then a piece-to-camera at camp (4:27-4:46).",
+          "style_mode": "cinematic"
+        },
+        {
+          "start": 356,
+          "end": 380,
+          "name": "subtitled interviews with herders",
+          "description": "Omar with a man in a pink turban and a guide in white (5:56-6:05) and a woman cooking (6:15); Arabic subtitles are burned in at the bottom for local speech.",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 421,
+          "end": 436,
+          "name": "village-life replay peak",
+          "description": "Second-highest replay segment: Omar walks through the camp among women and children (7:05-7:15) while the narration describes homes and cooking.",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 612,
+          "end": 670,
+          "name": "ornament detail inserts",
+          "description": "Close-ups of beaded leg wraps (10:12) and striped beadwork (11:02) cut between wide-lens portraits of made-up men (10:22, 10:52, 11:31) as the make-up materials are explained.",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 958,
+          "end": 968,
+          "name": "map graphic in vintage frame",
+          "description": "Satellite-style map with Chad flagged in its colours and Libya/Sudan labelled, inside the rounded vintage TV frame (15:58), as Omar asks about neighbouring countries.",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 978,
+          "end": 1017,
+          "name": "Omar is painted (participation)",
+          "description": "Make-up applied to Omar's face on a blue tarp (16:18-16:38), a subscribe-button animation at 16:48, then a frontal close-up portrait of his painted face (16:57) as a reveal.",
+          "style_mode": "personal"
+        },
+        {
+          "start": 1047,
+          "end": 1080,
+          "name": "presenter joins the dance",
+          "description": "Omar in headdress waving and clapping among dancers (17:27-17:57), shot from below with the wide lens.",
+          "style_mode": "personal"
+        },
+        {
+          "start": 1087,
+          "end": 1210,
+          "name": "ceremony climax",
+          "description": "Dense coverage of dancers' faces and lines (18:07-20:35), ending on the replay-peak close-up of a dancer with wide eyes and bared teeth (20:05), which fits the narration about eyes and teeth as beauty criteria.",
+          "style_mode": "cinematic"
+        },
+        {
+          "start": 1314,
+          "end": 1344,
+          "name": "judging and Omar's pick",
+          "description": "Families watch while the judging happens ('Everyone chooses who they think is the man'); Omar dances arm-raised with the men (21:54-22:04) and announces 'My choice goes to...'.",
+          "style_mode": "personal"
+        },
+        {
+          "start": 1353,
+          "end": 1452,
+          "name": "reflection, drone bookend and logo card",
+          "description": "Drone over the forest (22:33), portrait close-ups, the top-down dance-circle drone again (23:23), Omar walking alone (23:32), a closing greeting, then a black Omar Farooq logo card from 23:42.",
+          "style_mode": "cinematic"
+        }
+      ]
+    },
+    {
+      "source": "claude-code subagent (viewed all 3 contact sheets + profile + transcript)",
+      "summary": "Omar goes to Assam in north-east India to trace oud (agarwood), 'wood more expensive than gold', from the forest to the oil. A dawn 'mission' cold open with an armed guard and misty forest sets up the mystery. The film then settles into Assam with a market-and-dress-up sequence before an unusual staged chapter: a lit night set where Omar sits facing a storyteller, intercut with illustrated fable images, to tell the founder-family origin story. The middle alternates a recurring seated forest interview with an expert, forest walks with guards, and community and religious context. The final third is a process film (cutting, carving, grading, distilling, smelling the oil), closed by a return to the night set and a reflective piece-to-camera sitting in the forest.",
+      "hook_analysis": "Spoken cold open from 1.7 s: 'Good morning! It's 5:30 am. We have a special mission today.' Over a dawn walk (0:00), a misty aerial (0:10), an armed guard climbing into a truck (0:20) and a forest search (0:40-1:19), Omar lists the mysteries (price 'can reach hundreds of thousands', 'protected as if it were gold', 'Arabs revere it') and the questions ('Where is it found? How is it extracted?'). He closes with the participation promise 'I'm here to find out with you'. This has the clearest stated-questions structure of the six. Replay heat is high across 0:00-0:28.",
+      "narrative_arc": "Dawn mission cold open (0:00-1:19) -> Assam context and first-time-in-India piece (1:29-1:54) -> market immersion, buying a gamosa (1:59-3:47) -> night arrival (3:57-4:47) -> staged origin-story set with illustrated fable (5:16-7:05) -> museum panels (7:15-7:45) -> forest interview, elephant, tree planting (7:55-9:53) -> community: prayer, security against theft (10:03-11:02) -> into the protected forest with guards: how oud forms (11:12-15:59) -> finding and felling the tree (16:09-16:48) -> processing hall: carving and grading (16:58-19:56) -> distillation and smelling the oil (20:06-21:05) -> return to the night set (21:35-21:45) -> forest reflection and logo (21:55-23:04).",
+      "camera_and_composition": "Close, wide-lens handheld on Omar in markets and forests, often slightly low (2:18, 11:22, 12:51). Formal seated two-shot interview on the forest floor, with the expert's 4x4 in the background, returned to three times (8:14, 13:11, 15:29). A theatrical night set with practical lights and spiky lit grass sculptures, framed symmetrically (5:36, 6:55, 21:45). Macro detail of wood grain, carving tools and a magnifier (17:28-18:57). Drone top-downs of town and forest canopy as interstitials (4:47, 7:55, 15:09-15:19). Exact moves are not observable at storyboard resolution.",
+      "color_and_grade": "Dark and olive-green (brightness 0.30, palette dominated by #3e4026 and #554229), warm-leaning, with misty orange sunrises as tonal punctuation (0:30, 1:29, 11:12, 21:15). The night set is lit warm against deep shadow. The processing hall is cleaner and whiter with red floor accents (16:58-19:46). 12% of frames are low-key.",
+      "sound_and_music": "The slowest talker rate and lowest dialogue density of the set: speech coverage 0.57, 100 wpm, only 14 questions, dialogue score 0.06. The film leans on Omar's narration more than on back-and-forth. The longest speech-free stretches fall in the market and forest transitions (5:56-6:38, 6:49-7:14, 10:09-10:42 at a slow estimated cut rate, 15:30-16:00), which suggests music-led bridges. 'Just subscribe' is a joke call-to-action at 14:19. The audio itself was not analysed.",
+      "what_to_borrow": [
+        "State the mystery as explicit questions in the cold open and promise to answer them 'with you'",
+        "Use a time-stamped mission framing ('It's 5:30 am') and a visible stake (armed guard) to make a product story feel like an expedition",
+        "Dress the presenter in local clothing early (buying the gamosa) and keep it on as a visual through-line",
+        "Tell a backstory on a dedicated stylised set, then return to that set near the end as a bookend",
+        "For process stories, give each stage its own macro insert (cut, carve, grade under magnifier, distil, smell)"
+      ],
+      "what_to_avoid_copying": [
+        "The illustrated fable inserts (6:06-6:26) look generated or stock and clash with the observational footage; use them only if clearly marked as illustration",
+        "The staged night set can feel like a commercial for the producer; keep a sponsor or host relationship transparent",
+        "Very low dialogue density means the narration carries everything, which is hard to copy without a strong script"
+      ],
+      "observations": [
+        {
+          "start": 0,
+          "end": 80,
+          "name": "dawn mission cold open",
+          "description": "'It's 5:30 am' and a stated mission over a dawn walk (0:00), a misty aerial (0:10), an armed guard boarding a truck (0:20), mountains (0:30) and a forest search with a farmer and a machete (0:40-1:19); the narration lists the questions to be answered.",
+          "style_mode": "personal"
+        },
+        {
+          "start": 89,
+          "end": 118,
+          "name": "location exposition piece-to-camera",
+          "description": "Sunrise over the city (1:29), Omar beside yellow tuk-tuks (1:39-1:49): his first time in India, the north-east near Bhutan, Myanmar and Bangladesh, the state of Assam.",
+          "style_mode": "personal"
+        },
+        {
+          "start": 119,
+          "end": 230,
+          "name": "market immersion and gamosa dress-up",
+          "description": "Walk-and-talk through a busy market (1:59-3:08), buying a red-and-white Assamese gamosa in a textile shop with subtitles (3:18), wearing it on the street (3:28-3:47).",
+          "style_mode": "personal"
+        },
+        {
+          "start": 237,
+          "end": 300,
+          "name": "drone interstitials and night arrival",
+          "description": "Aerial of forested hills (3:57), night greeting with subtitles (4:07), interior welcome (4:17), aerial of the highway and a top-down town (4:27-4:57).",
+          "style_mode": "cinematic"
+        },
+        {
+          "start": 316,
+          "end": 425,
+          "name": "staged origin-story set",
+          "description": "A theatrical night set with practical lights and lit grass sculptures where Omar sits facing a woman storyteller, subtitled (5:36-5:56, 6:45-7:05); the narration tells of 'a poor, sick farmer' who built the business.",
+          "style_mode": "cinematic"
+        },
+        {
+          "start": 360,
+          "end": 390,
+          "name": "illustrated fable inserts",
+          "description": "Painted or illustrated images of kittens in a moonlit forest (6:06), a cat on a candle-lit table (6:16), an old man in a forest (6:26), with subtitles, used as a visual allegory inside the origin story.",
+          "style_mode": "cinematic"
+        },
+        {
+          "start": 494,
+          "end": 960,
+          "name": "recurring seated forest interview",
+          "description": "Omar and a bearded expert in sunglasses sit on the forest floor with a 4x4 behind (8:14-8:44), returning at 13:11-13:31 and 15:29-15:59, each time with subtitles; it acts as the explanatory spine.",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 534,
+          "end": 593,
+          "name": "elephant and tree planting",
+          "description": "An elephant in the plantation (8:54-9:04), Omar crouching with workers (9:14-9:23), his hands planting a sapling (9:43); the narration says ten trees are planted for each one cut.",
+          "style_mode": "personal"
+        },
+        {
+          "start": 603,
+          "end": 613,
+          "name": "religious and community context",
+          "description": "Interior of a crowded mosque at prayer (10:13), placing the oud trade in the local Muslim community.",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 672,
+          "end": 860,
+          "name": "protected-forest walk with guards",
+          "description": "Replay peak at 11:19-11:32 on a close, low selfie-style Omar (11:22); then walks in a gamosa headband with farmers and an armed guard (12:12-14:20), explaining that 'the tree's illness' produces oud.",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 979,
+          "end": 1010,
+          "name": "finding the oud tree",
+          "description": "Searching among the trunks (16:09-16:19), a farmer pointing out the tree with a subtitle (16:29), canopy aerial (16:38), cut logs (16:48).",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 1018,
+          "end": 1200,
+          "name": "processing hall participation",
+          "description": "Omar kneels and carves wood among workers (16:58-17:38); macro inserts of scraping and grading (17:48-18:57, magnifier at 18:47); a scale wide of rows of women in pink working (19:17-19:27).",
+          "style_mode": "personal"
+        },
+        {
+          "start": 1206,
+          "end": 1265,
+          "name": "distillation and smelling the oil",
+          "description": "Rows of stills (20:06-20:16), water and copper vessels (20:26-20:46), Omar and an expert holding up the oil and smelling it (20:55-21:05).",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 1275,
+          "end": 1310,
+          "name": "bookend return to night set",
+          "description": "A mountain sunrise (21:15), then back on the lit night set with the storyteller, subtitled (21:35-21:45).",
+          "style_mode": "cinematic"
+        },
+        {
+          "start": 1315,
+          "end": 1384,
+          "name": "forest reflection and logo",
+          "description": "Omar sits cross-legged in the forest talking to camera (21:55-22:24, a replay peak at 22:37-22:51) on how oud is 'just a type of wood' in its own land; the logo over a jump shot (22:34), then the black card.",
+          "style_mode": "personal"
+        }
+      ]
+    }
+  ],
+  "timestamped_examples": [
+    {
+      "video_id": "BA83kfPOz1w",
+      "title": "كل أسرار جمال الخيل العربي 🇶🇦 #عمر_يجرب",
+      "start": 0.0,
+      "end": 16.77,
+      "name": "replay peak",
+      "description": "most-replayed moment (heat 1.00) - audience-proven highlight",
+      "link": "https://www.youtube.com/watch?v=BA83kfPOz1w&t=0s"
+    },
+    {
+      "video_id": "BA83kfPOz1w",
+      "title": "كل أسرار جمال الخيل العربي 🇶🇦 #عمر_يجرب",
+      "start": 804.96,
+      "end": 821.73,
+      "name": "replay peak",
+      "description": "most-replayed moment (heat 0.63) - audience-proven highlight",
+      "link": "https://www.youtube.com/watch?v=BA83kfPOz1w&t=804s"
+    },
+    {
+      "video_id": "BA83kfPOz1w",
+      "title": "كل أسرار جمال الخيل العربي 🇶🇦 #عمر_يجرب",
+      "start": 821.73,
+      "end": 838.5,
+      "name": "replay peak",
+      "description": "most-replayed moment (heat 0.78) - audience-proven highlight",
+      "link": "https://www.youtube.com/watch?v=BA83kfPOz1w&t=821s"
+    },
+    {
+      "video_id": "IzSzEglLAcI",
+      "title": "ما زالوا يعيشون تحت الأرض! مدينة مطماطة في تونس 🇹🇳 #عمر_يجرب",
+      "start": 0.0,
+      "end": 13.01,
+      "name": "replay peak",
+      "description": "most-replayed moment (heat 1.00) - audience-proven highlight",
+      "link": "https://www.youtube.com/watch?v=IzSzEglLAcI&t=0s"
+    },
+    {
+      "video_id": "IzSzEglLAcI",
+      "title": "ما زالوا يعيشون تحت الأرض! مدينة مطماطة في تونس 🇹🇳 #عمر_يجرب",
+      "start": 247.328,
+      "end": 372.29,
+      "name": "speech-free montage",
+      "description": "125s without dialogue/narration, est. 18.3 cuts/min",
+      "link": "https://www.youtube.com/watch?v=IzSzEglLAcI&t=247s"
+    },
+    {
+      "video_id": "IzSzEglLAcI",
+      "title": "ما زالوا يعيشون تحت الأرض! مدينة مطماطة في تونس 🇹🇳 #عمر_يجرب",
+      "start": 364.28,
+      "end": 377.29,
+      "name": "replay peak",
+      "description": "most-replayed moment (heat 0.72) - audience-proven highlight",
+      "link": "https://www.youtube.com/watch?v=IzSzEglLAcI&t=364s"
+    },
+    {
+      "video_id": "IzSzEglLAcI",
+      "title": "ما زالوا يعيشون تحت الأرض! مدينة مطماطة في تونس 🇹🇳 #عمر_يجرب",
+      "start": 676.52,
+      "end": 689.53,
+      "name": "replay peak",
+      "description": "most-replayed moment (heat 0.93) - audience-proven highlight",
+      "link": "https://www.youtube.com/watch?v=IzSzEglLAcI&t=676s"
+    },
+    {
+      "video_id": "IzSzEglLAcI",
+      "title": "ما زالوا يعيشون تحت الأرض! مدينة مطماطة في تونس 🇹🇳 #عمر_يجرب",
+      "start": 1096.399,
+      "end": 1300.0,
+      "name": "speech-free montage",
+      "description": "204s without dialogue/narration, est. 14.0 cuts/min",
+      "link": "https://www.youtube.com/watch?v=IzSzEglLAcI&t=1096s"
+    },
+    {
+      "video_id": "zB0WvXN6TJ8",
+      "title": "عشت في حي الزبالين في مصر 🇪🇬 #عمر_يجرب",
+      "start": 0.0,
+      "end": 13.92,
+      "name": "replay peak",
+      "description": "most-replayed moment (heat 1.00) - audience-proven highlight",
+      "link": "https://www.youtube.com/watch?v=zB0WvXN6TJ8&t=0s"
+    },
+    {
+      "video_id": "zB0WvXN6TJ8",
+      "title": "عشت في حي الزبالين في مصر 🇪🇬 #عمر_يجرب",
+      "start": 69.6,
+      "end": 83.52,
+      "name": "replay peak",
+      "description": "most-replayed moment (heat 0.93) - audience-proven highlight",
+      "link": "https://www.youtube.com/watch?v=zB0WvXN6TJ8&t=69s"
+    },
+    {
+      "video_id": "zB0WvXN6TJ8",
+      "title": "عشت في حي الزبالين في مصر 🇪🇬 #عمر_يجرب",
+      "start": 113.389,
+      "end": 132.16,
+      "name": "speech-free montage",
+      "description": "19s without dialogue/narration, est. 18.2 cuts/min",
+      "link": "https://www.youtube.com/watch?v=zB0WvXN6TJ8&t=113s"
+    },
+    {
+      "video_id": "zB0WvXN6TJ8",
+      "title": "عشت في حي الزبالين في مصر 🇪🇬 #عمر_يجرب",
+      "start": 162.9,
+      "end": 241.88,
+      "name": "talking to camera",
+      "description": "presenter speaks directly to camera / selfie framing",
+      "link": "https://www.youtube.com/watch?v=zB0WvXN6TJ8&t=162s"
+    },
+    {
+      "video_id": "zB0WvXN6TJ8",
+      "title": "عشت في حي الزبالين في مصر 🇪🇬 #عمر_يجرب",
+      "start": 686.12,
+      "end": 755.23,
+      "name": "talking to camera",
+      "description": "presenter speaks directly to camera / selfie framing",
+      "link": "https://www.youtube.com/watch?v=zB0WvXN6TJ8&t=686s"
+    },
+    {
+      "video_id": "zB0WvXN6TJ8",
+      "title": "عشت في حي الزبالين في مصر 🇪🇬 #عمر_يجرب",
+      "start": 918.72,
+      "end": 932.64,
+      "name": "replay peak",
+      "description": "most-replayed moment (heat 0.86) - audience-proven highlight",
+      "link": "https://www.youtube.com/watch?v=zB0WvXN6TJ8&t=918s"
+    },
+    {
+      "video_id": "zB0WvXN6TJ8",
+      "title": "عشت في حي الزبالين في مصر 🇪🇬 #عمر_يجرب",
+      "start": 1370.014,
+      "end": 1392.0,
+      "name": "atmospheric non-speech sequence",
+      "description": "22s without dialogue/narration, est. 4.2 cuts/min",
+      "link": "https://www.youtube.com/watch?v=zB0WvXN6TJ8&t=1370s"
+    },
+    {
+      "video_id": "A7IAreQ4ZsI",
+      "title": "عالم مصارعة الثيران في عمان 🇴🇲🐂 #عمر_يجرب",
+      "start": 106.979,
+      "end": 119.369,
+      "name": "speech-free montage",
+      "description": "12s without dialogue/narration, est. 18.1 cuts/min",
+      "link": "https://www.youtube.com/watch?v=A7IAreQ4ZsI&t=106s"
+    },
+    {
+      "video_id": "A7IAreQ4ZsI",
+      "title": "عالم مصارعة الثيران في عمان 🇴🇲🐂 #عمر_يجرب",
+      "start": 377.629,
+      "end": 394.8,
+      "name": "atmospheric non-speech sequence",
+      "description": "17s without dialogue/narration, est. 0.0 cuts/min",
+      "link": "https://www.youtube.com/watch?v=A7IAreQ4ZsI&t=377s"
+    },
+    {
+      "video_id": "A7IAreQ4ZsI",
+      "title": "عالم مصارعة الثيران في عمان 🇴🇲🐂 #عمر_يجرب",
+      "start": 591.629,
+      "end": 605.031,
+      "name": "speech-free montage",
+      "description": "13s without dialogue/narration, est. 18.1 cuts/min",
+      "link": "https://www.youtube.com/watch?v=A7IAreQ4ZsI&t=591s"
+    },
+    {
+      "video_id": "A7IAreQ4ZsI",
+      "title": "عالم مصارعة الثيران في عمان 🇴🇲🐂 #عمر_يجرب",
+      "start": 984.269,
+      "end": 1014.59,
+      "name": "speech-free montage",
+      "description": "30s without dialogue/narration, est. 18.1 cuts/min",
+      "link": "https://www.youtube.com/watch?v=A7IAreQ4ZsI&t=984s"
+    },
+    {
+      "video_id": "A7IAreQ4ZsI",
+      "title": "عالم مصارعة الثيران في عمان 🇴🇲🐂 #عمر_يجرب",
+      "start": 1194.72,
+      "end": 1244.28,
+      "name": "talking to camera",
+      "description": "presenter speaks directly to camera / selfie framing",
+      "link": "https://www.youtube.com/watch?v=A7IAreQ4ZsI&t=1194s"
+    },
+    {
+      "video_id": "A7IAreQ4ZsI",
+      "title": "عالم مصارعة الثيران في عمان 🇴🇲🐂 #عمر_يجرب",
+      "start": 1244.28,
+      "end": 1274.03,
+      "name": "talking to camera",
+      "description": "presenter speaks directly to camera / selfie framing",
+      "link": "https://www.youtube.com/watch?v=A7IAreQ4ZsI&t=1244s"
+    },
+    {
+      "video_id": "A7IAreQ4ZsI",
+      "title": "عالم مصارعة الثيران في عمان 🇴🇲🐂 #عمر_يجرب",
+      "start": 1366.68,
+      "end": 1382.95,
+      "name": "replay peak",
+      "description": "most-replayed moment (heat 0.71) - audience-proven highlight",
+      "link": "https://www.youtube.com/watch?v=A7IAreQ4ZsI&t=1366s"
+    },
+    {
+      "video_id": "A7IAreQ4ZsI",
+      "title": "عالم مصارعة الثيران في عمان 🇴🇲🐂 #عمر_يجرب",
+      "start": 1431.76,
+      "end": 1448.03,
+      "name": "replay peak",
+      "description": "most-replayed moment (heat 0.90) - audience-proven highlight",
+      "link": "https://www.youtube.com/watch?v=A7IAreQ4ZsI&t=1431s"
+    },
+    {
+      "video_id": "A7IAreQ4ZsI",
+      "title": "عالم مصارعة الثيران في عمان 🇴🇲🐂 #عمر_يجرب",
+      "start": 1509.3190000000002,
+      "end": 1525.565,
+      "name": "atmospheric non-speech sequence",
+      "description": "16s without dialogue/narration, est. 0.0 cuts/min",
+      "link": "https://www.youtube.com/watch?v=A7IAreQ4ZsI&t=1509s"
+    },
+    {
+      "video_id": "A7IAreQ4ZsI",
+      "title": "عالم مصارعة الثيران في عمان 🇴🇲🐂 #عمر_يجرب",
+      "start": 1513.11,
+      "end": 1529.38,
+      "name": "replay peak",
+      "description": "most-replayed moment (heat 1.00) - audience-proven highlight",
+      "link": "https://www.youtube.com/watch?v=A7IAreQ4ZsI&t=1513s"
+    },
+    {
+      "video_id": "A7IAreQ4ZsI",
+      "title": "عالم مصارعة الثيران في عمان 🇴🇲🐂 #عمر_يجرب",
+      "start": 1544.379,
+      "end": 1563.19,
+      "name": "speech-free montage",
+      "description": "19s without dialogue/narration, est. 18.1 cuts/min",
+      "link": "https://www.youtube.com/watch?v=A7IAreQ4ZsI&t=1544s"
+    },
+    {
+      "video_id": "A7IAreQ4ZsI",
+      "title": "عالم مصارعة الثيران في عمان 🇴🇲🐂 #عمر_يجرب",
+      "start": 1597.829,
+      "end": 1626.0,
+      "name": "speech-free montage",
+      "description": "28s without dialogue/narration, est. 18.1 cuts/min",
+      "link": "https://www.youtube.com/watch?v=A7IAreQ4ZsI&t=1597s"
+    },
+    {
+      "video_id": "4UZaeH6A12Y",
+      "title": "الرجال يرقصون والبنات يختارون أزواجهم 🇹🇩 #عمر_يجرب",
+      "start": 0.0,
+      "end": 14.52,
+      "name": "replay peak",
+      "description": "most-replayed moment (heat 1.00) - audience-proven highlight",
+      "link": "https://www.youtube.com/watch?v=4UZaeH6A12Y&t=0s"
+    },
+    {
+      "video_id": "4UZaeH6A12Y",
+      "title": "الرجال يرقصون والبنات يختارون أزواجهم 🇹🇩 #عمر_يجرب",
+      "start": 62.32,
+      "end": 75.77,
+      "name": "atmospheric non-speech sequence",
+      "description": "13s without dialogue/narration, est. 0.0 cuts/min",
+      "link": "https://www.youtube.com/watch?v=4UZaeH6A12Y&t=62s"
+    },
+    {
+      "video_id": "4UZaeH6A12Y",
+      "title": "الرجال يرقصون والبنات يختارون أزواجهم 🇹🇩 #عمر_يجرب",
+      "start": 421.08,
+      "end": 435.6,
+      "name": "replay peak",
+      "description": "most-replayed moment (heat 1.00) - audience-proven highlight",
+      "link": "https://www.youtube.com/watch?v=4UZaeH6A12Y&t=421s"
+    },
+    {
+      "video_id": "4UZaeH6A12Y",
+      "title": "الرجال يرقصون والبنات يختارون أزواجهم 🇹🇩 #عمر_يجرب",
+      "start": 755.5089999999999,
+      "end": 783.87,
+      "name": "speech-free montage",
+      "description": "28s without dialogue/narration, est. 18.2 cuts/min",
+      "link": "https://www.youtube.com/watch?v=4UZaeH6A12Y&t=755s"
+    },
+    {
+      "video_id": "4UZaeH6A12Y",
+      "title": "الرجال يرقصون والبنات يختارون أزواجهم 🇹🇩 #عمر_يجرب",
+      "start": 813.12,
+      "end": 827.64,
+      "name": "replay peak",
+      "description": "most-replayed moment (heat 0.71) - audience-proven highlight",
+      "link": "https://www.youtube.com/watch?v=4UZaeH6A12Y&t=813s"
+    },
+    {
+      "video_id": "4UZaeH6A12Y",
+      "title": "الرجال يرقصون والبنات يختارون أزواجهم 🇹🇩 #عمر_يجرب",
+      "start": 846.6089999999999,
+      "end": 871.66,
+      "name": "speech-free montage",
+      "description": "25s without dialogue/narration, est. 18.2 cuts/min",
+      "link": "https://www.youtube.com/watch?v=4UZaeH6A12Y&t=846s"
+    },
+    {
+      "video_id": "4UZaeH6A12Y",
+      "title": "الرجال يرقصون والبنات يختارون أزواجهم 🇹🇩 #عمر_يجرب",
+      "start": 876.14,
+      "end": 907.27,
+      "name": "speech-free montage",
+      "description": "31s without dialogue/narration, est. 18.2 cuts/min",
+      "link": "https://www.youtube.com/watch?v=4UZaeH6A12Y&t=876s"
+    },
+    {
+      "video_id": "4UZaeH6A12Y",
+      "title": "الرجال يرقصون والبنات يختارون أزواجهم 🇹🇩 #عمر_يجرب",
+      "start": 997.4290000000001,
+      "end": 1014.82,
+      "name": "speech-free montage",
+      "description": "17s without dialogue/narration, est. 18.2 cuts/min",
+      "link": "https://www.youtube.com/watch?v=4UZaeH6A12Y&t=997s"
+    },
+    {
+      "video_id": "4UZaeH6A12Y",
+      "title": "الرجال يرقصون والبنات يختارون أزواجهم 🇹🇩 #عمر_يجرب",
+      "start": 1063.504,
+      "end": 1102.59,
+      "name": "speech-free montage",
+      "description": "39s without dialogue/narration, est. 18.2 cuts/min",
+      "link": "https://www.youtube.com/watch?v=4UZaeH6A12Y&t=1063s"
+    },
+    {
+      "video_id": "4UZaeH6A12Y",
+      "title": "الرجال يرقصون والبنات يختارون أزواجهم 🇹🇩 #عمر_يجرب",
+      "start": 1166.4289999999999,
+      "end": 1183.97,
+      "name": "atmospheric non-speech sequence",
+      "description": "18s without dialogue/narration, est. 0.0 cuts/min",
+      "link": "https://www.youtube.com/watch?v=4UZaeH6A12Y&t=1166s"
+    },
+    {
+      "video_id": "4UZaeH6A12Y",
+      "title": "الرجال يرقصون والبنات يختارون أزواجهم 🇹🇩 #عمر_يجرب",
+      "start": 1225.8359999999998,
+      "end": 1247.36,
+      "name": "speech-free montage",
+      "description": "22s without dialogue/narration, est. 18.2 cuts/min",
+      "link": "https://www.youtube.com/watch?v=4UZaeH6A12Y&t=1225s"
+    },
+    {
+      "video_id": "4UZaeH6A12Y",
+      "title": "الرجال يرقصون والبنات يختارون أزواجهم 🇹🇩 #عمر_يجرب",
+      "start": 1257.229,
+      "end": 1274.87,
+      "name": "speech-free montage",
+      "description": "18s without dialogue/narration, est. 18.2 cuts/min",
+      "link": "https://www.youtube.com/watch?v=4UZaeH6A12Y&t=1257s"
+    },
+    {
+      "video_id": "4UZaeH6A12Y",
+      "title": "الرجال يرقصون والبنات يختارون أزواجهم 🇹🇩 #عمر_يجرب",
+      "start": 1328.4389999999999,
+      "end": 1351.28,
+      "name": "speech-free montage",
+      "description": "23s without dialogue/narration, est. 18.2 cuts/min",
+      "link": "https://www.youtube.com/watch?v=4UZaeH6A12Y&t=1328s"
+    }
+  ]
+}

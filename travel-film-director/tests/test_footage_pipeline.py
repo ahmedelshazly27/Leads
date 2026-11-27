@@ -46,3 +46,26 @@ def test_full_footage_pipeline(footage_dir, tmp_path):
     assert _hashes(footage_dir) == before  # originals untouched
     out2 = render_preview(proj)
     assert out2 != out  # never overwrites
+
+
+def test_playbook_rules():
+    from tfd.director import playbook
+    assert playbook.choose_hook(["landscape", "establishing", "landscape"], False, "balanced") == "joe"
+    assert playbook.choose_hook(["first-person / to-camera"] * 3, True, "balanced") == "daniel"
+    assert playbook.choose_hook(["conversation", "action"], True, "balanced") == "omar"
+    assert playbook.choose_hook(["interview", "transport / journey"], True, "balanced") == "yusufa"
+    assert playbook.choose_hook(["landscape"], False, "personal") == "daniel"
+    assert playbook.bridge_for(None, [], False)[0].startswith("map")
+    assert "card" in playbook.bridge_for(["landscape"], ["conversation"], False)[0]
+
+
+def test_plan_carries_playbook(footage_dir, tmp_path):
+    proj = tmp_path / "proj"
+    ingest_folder(footage_dir, proj)
+    plan = plan_project(proj, target_minutes=1)
+    assert plan["hook_formula"]["from"] in ("Joe Hattab", "Omar Farooq", "Yusufa Sey", "Daniel Dalen")
+    body = [i for i in plan["timeline"] if i["section"] != "hook"]
+    assert all(i.get("technique") for i in body)
+    assert all(b["borrowed_from"] for b in plan["bridges"])
+    if body:  # the tiny fixture can be consumed entirely by the hook
+        assert plan["bridges"]

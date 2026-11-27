@@ -1,0 +1,1440 @@
+{
+ "schema_version": "1.0",
+ "video_id": "XEYCEV_EdnY",
+ "url": "https://www.youtube.com/watch?v=XEYCEV_EdnY",
+ "creator": "Daniel Dalen",
+ "title": "28 Year Old Entrepreneur Visiting Chinese Grandma (Speaking Chinese)",
+ "channel": "Daniel Dalen",
+ "upload_date": "20260101",
+ "duration": 2140.0,
+ "view_count": 44078,
+ "user_notes": "visiting Chinese grandma",
+ "analysed_at": "2026-11-27T19:25:54+00:00",
+ "sources": {
+  "metadata": true,
+  "transcript": "auto",
+  "transcript_language": "en-orig",
+  "transcript_quality": "ok",
+  "transcript_quality_note": "",
+  "frames": "YouTube storyboard 320x180, one frame every 10.0s",
+  "frame_interval_s": 9.953488372093023,
+  "chapters": 7,
+  "heatmap": false
+ },
+ "chapters": [
+  {
+   "start": 0.0,
+   "end": 180.0,
+   "title": "Road trip and bridge"
+  },
+  {
+   "start": 180.0,
+   "end": 351.0,
+   "title": "China market size"
+  },
+  {
+   "start": 351.0,
+   "end": 570.0,
+   "title": "Wholesome aunt visit"
+  },
+  {
+   "start": 570.0,
+   "end": 999.0,
+   "title": "Auntie chat and farewell"
+  },
+  {
+   "start": 999.0,
+   "end": 1315.0,
+   "title": "Content challenges"
+  },
+  {
+   "start": 1315.0,
+   "end": 1525.0,
+   "title": "Brand shoot check-in"
+  },
+  {
+   "start": 1525.0,
+   "end": 2140.0,
+   "title": "Entrepreneurship insights"
+  }
+ ],
+ "replay_peaks": [],
+ "scenes": [
+  {
+   "index": 0,
+   "start": 0.0,
+   "end": 14.93,
+   "duration": 14.93,
+   "representative_frame": null,
+   "shot_type": "general b-roll",
+   "shot_type_confidence": 0.3,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "unknown",
+   "audio": {
+    "words_per_minute": 12.1,
+    "speech_coverage": 0.057,
+    "music_marker": true,
+    "other_markers": [],
+    "description": "mostly non-speech, music present (caption marker)"
+   },
+   "narrative_function": "opening hook",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.97,
+    "documentary": 0.015,
+    "personal": 0.015
+   },
+   "visual_characteristics": [
+    "neutral white balance",
+    "low-key / dark"
+   ],
+   "editing_techniques": [
+    "breathing room: non-speech atmospheric sequence"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "sky 5%, edges 0.10, no faces detected",
+    "music marker in captions",
+    "little speech (6% caption coverage)",
+    "est. 0.0 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 1,
+   "start": 14.93,
+   "end": 64.69,
+   "duration": 49.76,
+   "representative_frame": null,
+   "shot_type": "medium shot with people",
+   "shot_type_confidence": 0.5,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 164.0,
+    "speech_coverage": 0.961,
+    "music_marker": false,
+    "other_markers": [
+     "laughter"
+    ],
+    "description": "continuous speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "personal",
+   "style_scores": {
+    "cinematic": 0.058,
+    "documentary": 0.392,
+    "personal": 0.55
+   },
+   "visual_characteristics": [
+    "neutral white balance",
+    "low-key / dark"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 40% of frames, max face 31%",
+    "first-person language 9% of words",
+    "est. 18.1 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 2,
+   "start": 64.69,
+   "end": 214.0,
+   "duration": 149.31,
+   "representative_frame": null,
+   "shot_type": "medium shot with people",
+   "shot_type_confidence": 0.5,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 127.8,
+    "speech_coverage": 0.912,
+    "music_marker": true,
+    "other_markers": [
+     "__",
+     "laughter"
+    ],
+    "description": "continuous speech, music present (caption marker)"
+   },
+   "narrative_function": "interaction / conversation",
+   "style_mode": "personal",
+   "style_scores": {
+    "cinematic": 0.232,
+    "documentary": 0.336,
+    "personal": 0.432
+   },
+   "visual_characteristics": [
+    "neutral white balance",
+    "high contrast",
+    "low-key / dark"
+   ],
+   "editing_techniques": [
+    "music bed under speech"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 40% of frames, max face 42%",
+    "music marker in captions",
+    "first-person language 10% of words",
+    "est. 18.1 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 3,
+   "start": 214.0,
+   "end": 313.53,
+   "duration": 99.53,
+   "representative_frame": null,
+   "shot_type": "general b-roll",
+   "shot_type_confidence": 0.3,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 133.2,
+    "speech_coverage": 0.917,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "interaction / conversation",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.138,
+    "documentary": 0.488,
+    "personal": 0.374
+   },
+   "visual_characteristics": [
+    "neutral white balance",
+    "low-key / dark"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "sky 8%, edges 0.07, no faces detected",
+    "est. 13.9 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 4,
+   "start": 313.53,
+   "end": 353.35,
+   "duration": 39.82,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 28.6,
+    "speech_coverage": 0.565,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "interaction / conversation",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.538,
+    "documentary": 0.306,
+    "personal": 0.155
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "highly saturated"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 25% of frames",
+    "est. 18.1 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 5,
+   "start": 353.35,
+   "end": 413.07,
+   "duration": 59.72,
+   "representative_frame": null,
+   "shot_type": "general b-roll",
+   "shot_type_confidence": 0.3,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "slow",
+   "audio": {
+    "words_per_minute": 53.2,
+    "speech_coverage": 0.561,
+    "music_marker": false,
+    "other_markers": [
+     "laughter"
+    ],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "interaction / conversation",
+   "style_mode": "personal",
+   "style_scores": {
+    "cinematic": 0.388,
+    "documentary": 0.108,
+    "personal": 0.505
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "highly saturated"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "sky 6%, edges 0.08, no faces detected",
+    "first-person language 10% of words",
+    "est. 2.4 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 6,
+   "start": 413.07,
+   "end": 572.33,
+   "duration": 159.26,
+   "representative_frame": null,
+   "shot_type": "close-up on a person (talking head / selfie)",
+   "shot_type_confidence": 0.6,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 14.3,
+    "speech_coverage": 0.307,
+    "music_marker": false,
+    "other_markers": [
+     "laughter"
+    ],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "atmosphere / montage",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.601,
+    "documentary": 0.091,
+    "personal": 0.308
+   },
+   "visual_characteristics": [
+    "warm tones"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 50% of frames, max face 38% of frame height",
+    "face close-up (to-camera)",
+    "est. 12.5 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 7,
+   "start": 572.33,
+   "end": 691.76,
+   "duration": 119.44,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 36.7,
+    "speech_coverage": 0.358,
+    "music_marker": false,
+    "other_markers": [
+     "__",
+     "clears throat",
+     "laughter"
+    ],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "chapter opener / establishing",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.587,
+    "documentary": 0.057,
+    "personal": 0.355
+   },
+   "visual_characteristics": [
+    "neutral white balance",
+    "high contrast"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 25% of frames",
+    "first-person language 9% of words",
+    "est. 15.0 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 8,
+   "start": 691.76,
+   "end": 841.07,
+   "duration": 149.3,
+   "representative_frame": null,
+   "shot_type": "medium shot with people",
+   "shot_type_confidence": 0.5,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 47.4,
+    "speech_coverage": 0.435,
+    "music_marker": false,
+    "other_markers": [
+     "laughter"
+    ],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "interaction / conversation",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.403,
+    "documentary": 0.286,
+    "personal": 0.311
+   },
+   "visual_characteristics": [
+    "warm tones"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 60% of frames, max face 21%",
+    "first-person language 8% of words",
+    "est. 12.1 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 9,
+   "start": 841.07,
+   "end": 910.75,
+   "duration": 69.68,
+   "representative_frame": null,
+   "shot_type": "close-up on a person (talking head / selfie)",
+   "shot_type_confidence": 0.6,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 73.2,
+    "speech_coverage": 0.432,
+    "music_marker": false,
+    "other_markers": [
+     "laughter",
+     "__"
+    ],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "interaction / conversation",
+   "style_mode": "personal",
+   "style_scores": {
+    "cinematic": 0.35,
+    "documentary": 0.116,
+    "personal": 0.535
+   },
+   "visual_characteristics": [
+    "warm tones"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 71% of frames, max face 73% of frame height",
+    "face close-up (to-camera)",
+    "first-person language 8% of words",
+    "est. 18.1 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 10,
+   "start": 910.75,
+   "end": 1040.14,
+   "duration": 129.39,
+   "representative_frame": null,
+   "shot_type": "medium shot with people",
+   "shot_type_confidence": 0.5,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 58.0,
+    "speech_coverage": 0.483,
+    "music_marker": true,
+    "other_markers": [
+     "laughter",
+     "snorts"
+    ],
+    "description": "intermittent speech, music present (caption marker)"
+   },
+   "narrative_function": "atmosphere / montage",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.591,
+    "documentary": 0.218,
+    "personal": 0.19
+   },
+   "visual_characteristics": [
+    "neutral white balance"
+   ],
+   "editing_techniques": [
+    "music bed under speech"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 46% of frames, max face 21%",
+    "music marker in captions",
+    "est. 15.5 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 11,
+   "start": 1040.14,
+   "end": 1099.86,
+   "duration": 59.72,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 153.7,
+    "speech_coverage": 0.926,
+    "music_marker": true,
+    "other_markers": [
+     "laughter",
+     "singing",
+     "__"
+    ],
+    "description": "continuous speech, music present (caption marker)"
+   },
+   "narrative_function": "interaction / conversation",
+   "style_mode": "personal",
+   "style_scores": {
+    "cinematic": 0.315,
+    "documentary": 0.222,
+    "personal": 0.463
+   },
+   "visual_characteristics": [
+    "neutral white balance",
+    "low-key / dark"
+   ],
+   "editing_techniques": [
+    "music bed under speech"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 33% of frames",
+    "music marker in captions",
+    "first-person language 10% of words",
+    "est. 18.1 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 12,
+   "start": 1099.86,
+   "end": 1288.97,
+   "duration": 189.11,
+   "representative_frame": null,
+   "shot_type": "medium shot with people",
+   "shot_type_confidence": 0.5,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "slow",
+   "audio": {
+    "words_per_minute": 93.9,
+    "speech_coverage": 0.696,
+    "music_marker": true,
+    "other_markers": [
+     "singing",
+     "laughter",
+     "snorts"
+    ],
+    "description": "continuous speech, music present (caption marker)"
+   },
+   "narrative_function": "interaction / conversation",
+   "style_mode": "personal",
+   "style_scores": {
+    "cinematic": 0.332,
+    "documentary": 0.326,
+    "personal": 0.342
+   },
+   "visual_characteristics": [
+    "neutral white balance"
+   ],
+   "editing_techniques": [
+    "music bed under speech"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 53% of frames, max face 28%",
+    "music marker in captions",
+    "first-person language 6% of words",
+    "est. 2.3 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 13,
+   "start": 1288.97,
+   "end": 1358.65,
+   "duration": 69.68,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 78.4,
+    "speech_coverage": 0.537,
+    "music_marker": true,
+    "other_markers": [
+     "laughter",
+     "singing"
+    ],
+    "description": "intermittent speech, music present (caption marker)"
+   },
+   "narrative_function": "atmosphere / montage",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.6,
+    "documentary": 0.13,
+    "personal": 0.27
+   },
+   "visual_characteristics": [
+    "neutral white balance"
+   ],
+   "editing_techniques": [
+    "music bed under speech"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 14% of frames",
+    "music marker in captions",
+    "first-person language 7% of words",
+    "est. 18.1 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 14,
+   "start": 1358.65,
+   "end": 1527.86,
+   "duration": 169.21,
+   "representative_frame": null,
+   "shot_type": "wide establishing / landscape",
+   "shot_type_confidence": 0.55,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "slow",
+   "audio": {
+    "words_per_minute": 142.9,
+    "speech_coverage": 0.957,
+    "music_marker": true,
+    "other_markers": [
+     "music and singing",
+     "singing"
+    ],
+    "description": "continuous speech, music present (caption marker)"
+   },
+   "narrative_function": "atmosphere / montage",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.588,
+    "documentary": 0.121,
+    "personal": 0.291
+   },
+   "visual_characteristics": [
+    "warm tones"
+   ],
+   "editing_techniques": [
+    "music bed under speech"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "sky in top third 52%, edge density 0.09",
+    "music marker in captions",
+    "shot: wide establishing / landscape",
+    "first-person language 7% of words",
+    "est. 3.8 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 15,
+   "start": 1527.86,
+   "end": 2140.0,
+   "duration": 612.14,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "slow",
+   "audio": {
+    "words_per_minute": 168.7,
+    "speech_coverage": 0.999,
+    "music_marker": false,
+    "other_markers": [
+     "clears throat"
+    ],
+    "description": "continuous speech"
+   },
+   "narrative_function": "resolution / outro",
+   "style_mode": "personal",
+   "style_scores": {
+    "cinematic": 0.093,
+    "documentary": 0.321,
+    "personal": 0.586
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "highly saturated"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 13% of frames",
+    "first-person language 6% of words",
+    "est. 0.2 cuts/min in this sequence"
+   ]
+  }
+ ],
+ "narrative_structure": [
+  {
+   "start": 0.0,
+   "end": 60.0,
+   "label": "hook",
+   "description": "short visual lead-in followed by speech",
+   "evidence": []
+  },
+  {
+   "start": 60.0,
+   "end": 180.0,
+   "label": "Road trip and bridge",
+   "description": "3:00 chapter, leans personal",
+   "evidence": [
+    "362 words"
+   ]
+  },
+  {
+   "start": 180.0,
+   "end": 351.0,
+   "label": "China market size",
+   "description": "2:51 chapter, leans personal",
+   "evidence": [
+    "321 words"
+   ]
+  },
+  {
+   "start": 351.0,
+   "end": 570.0,
+   "label": "Wholesome aunt visit",
+   "description": "3:39 chapter, leans personal",
+   "evidence": [
+    "83 words"
+   ]
+  },
+  {
+   "start": 570.0,
+   "end": 999.0,
+   "label": "Auntie chat and farewell",
+   "description": "7:09 chapter, leans personal",
+   "evidence": [
+    "312 words"
+   ]
+  },
+  {
+   "start": 999.0,
+   "end": 1315.0,
+   "label": "Content challenges",
+   "description": "5:16 chapter, leans personal",
+   "evidence": [
+    "516 words"
+   ]
+  },
+  {
+   "start": 1315.0,
+   "end": 1525.0,
+   "label": "Brand shoot check-in",
+   "description": "3:30 chapter, leans personal",
+   "evidence": [
+    "482 words"
+   ]
+  },
+  {
+   "start": 1525.0,
+   "end": 2140.0,
+   "label": "Entrepreneurship insights",
+   "description": "10:15 chapter, leans personal",
+   "evidence": [
+    "1723 words"
+   ]
+  }
+ ],
+ "hook": {
+  "first_speech_at_s": 14.08,
+  "words_first_30s": 43,
+  "hook_vocabulary_first_30s": 0.0233,
+  "title_uses_superlative_or_intrigue": false,
+  "cold_open": false,
+  "est_cuts_per_min_first_60s": 18.06,
+  "pattern": "short visual lead-in followed by speech"
+ },
+ "editing_characteristics": {
+  "est_cuts_per_min": 5.09,
+  "est_avg_shot_length_s": 11.79,
+  "estimator_saturated": false,
+  "changed_sample_fraction": 0.57,
+  "sample_interval_s": 9.95,
+  "visual_sequences": 16,
+  "median_sequence_s": 109.5,
+  "pacing_curve": [
+   {
+    "start": 0.0,
+    "end": 60.0,
+    "est_cuts_per_min": 18.06,
+    "speech_coverage": 0.75
+   },
+   {
+    "start": 60.0,
+    "end": 120.0,
+    "est_cuts_per_min": 18.06,
+    "speech_coverage": 0.91
+   },
+   {
+    "start": 120.0,
+    "end": 180.0,
+    "est_cuts_per_min": 18.06,
+    "speech_coverage": 0.85
+   },
+   {
+    "start": 180.0,
+    "end": 240.0,
+    "est_cuts_per_min": 18.06,
+    "speech_coverage": 1.0
+   },
+   {
+    "start": 240.0,
+    "end": 300.0,
+    "est_cuts_per_min": 10.8,
+    "speech_coverage": 1.0
+   },
+   {
+    "start": 300.0,
+    "end": 360.0,
+    "est_cuts_per_min": 10.8,
+    "speech_coverage": 0.49
+   },
+   {
+    "start": 360.0,
+    "end": 420.0,
+    "est_cuts_per_min": 4.18,
+    "speech_coverage": 0.64
+   },
+   {
+    "start": 420.0,
+    "end": 480.0,
+    "est_cuts_per_min": 10.8,
+    "speech_coverage": 0.32
+   },
+   {
+    "start": 480.0,
+    "end": 540.0,
+    "est_cuts_per_min": 10.8,
+    "speech_coverage": 0.25
+   },
+   {
+    "start": 540.0,
+    "end": 600.0,
+    "est_cuts_per_min": 18.06,
+    "speech_coverage": 0.26
+   },
+   {
+    "start": 600.0,
+    "end": 660.0,
+    "est_cuts_per_min": 18.06,
+    "speech_coverage": 0.38
+   },
+   {
+    "start": 660.0,
+    "end": 720.0,
+    "est_cuts_per_min": 10.8,
+    "speech_coverage": 0.53
+   },
+   {
+    "start": 720.0,
+    "end": 780.0,
+    "est_cuts_per_min": 18.06,
+    "speech_coverage": 0.42
+   },
+   {
+    "start": 780.0,
+    "end": 840.0,
+    "est_cuts_per_min": 6.62,
+    "speech_coverage": 0.33
+   },
+   {
+    "start": 840.0,
+    "end": 900.0,
+    "est_cuts_per_min": 18.06,
+    "speech_coverage": 0.35
+   },
+   {
+    "start": 900.0,
+    "end": 960.0,
+    "est_cuts_per_min": 18.06,
+    "speech_coverage": 0.56
+   },
+   {
+    "start": 960.0,
+    "end": 1020.0,
+    "est_cuts_per_min": 10.8,
+    "speech_coverage": 0.46
+   },
+   {
+    "start": 1020.0,
+    "end": 1080.0,
+    "est_cuts_per_min": 18.06,
+    "speech_coverage": 0.77
+   },
+   {
+    "start": 1080.0,
+    "end": 1140.0,
+    "est_cuts_per_min": 4.18,
+    "speech_coverage": 0.99
+   },
+   {
+    "start": 1140.0,
+    "end": 1200.0,
+    "est_cuts_per_min": -0.0,
+    "speech_coverage": 0.97
+   },
+   {
+    "start": 1200.0,
+    "end": 1260.0,
+    "est_cuts_per_min": 4.18,
+    "speech_coverage": 0.47
+   },
+   {
+    "start": 1260.0,
+    "end": 1320.0,
+    "est_cuts_per_min": 10.8,
+    "speech_coverage": 0.16
+   },
+   {
+    "start": 1320.0,
+    "end": 1380.0,
+    "est_cuts_per_min": 10.8,
+    "speech_coverage": 0.91
+   },
+   {
+    "start": 1380.0,
+    "end": 1440.0,
+    "est_cuts_per_min": 2.44,
+    "speech_coverage": 0.98
+   },
+   {
+    "start": 1440.0,
+    "end": 1500.0,
+    "est_cuts_per_min": 2.44,
+    "speech_coverage": 0.98
+   },
+   {
+    "start": 1500.0,
+    "end": 1560.0,
+    "est_cuts_per_min": 10.8,
+    "speech_coverage": 0.9
+   },
+   {
+    "start": 1560.0,
+    "end": 1620.0,
+    "est_cuts_per_min": -0.0,
+    "speech_coverage": 1.0
+   },
+   {
+    "start": 1620.0,
+    "end": 1680.0,
+    "est_cuts_per_min": -0.0,
+    "speech_coverage": 1.0
+   },
+   {
+    "start": 1680.0,
+    "end": 1740.0,
+    "est_cuts_per_min": -0.0,
+    "speech_coverage": 1.0
+   },
+   {
+    "start": 1740.0,
+    "end": 1800.0,
+    "est_cuts_per_min": -0.0,
+    "speech_coverage": 1.0
+   },
+   {
+    "start": 1800.0,
+    "end": 1860.0,
+    "est_cuts_per_min": -0.0,
+    "speech_coverage": 1.0
+   },
+   {
+    "start": 1860.0,
+    "end": 1920.0,
+    "est_cuts_per_min": -0.0,
+    "speech_coverage": 1.0
+   },
+   {
+    "start": 1920.0,
+    "end": 1980.0,
+    "est_cuts_per_min": -0.0,
+    "speech_coverage": 1.0
+   },
+   {
+    "start": 1980.0,
+    "end": 2040.0,
+    "est_cuts_per_min": -0.0,
+    "speech_coverage": 1.0
+   },
+   {
+    "start": 2040.0,
+    "end": 2100.0,
+    "est_cuts_per_min": -0.0,
+    "speech_coverage": 1.0
+   },
+   {
+    "start": 2100.0,
+    "end": 2140.0,
+    "est_cuts_per_min": -0.0,
+    "speech_coverage": 1.0
+   }
+  ],
+  "pacing_variability": 7.24,
+  "on_screen_text_frames": 0,
+  "chapters": 7,
+  "measurement_note": "Cut rate is a Poisson estimate from storyboard samples; individual cuts, transitions and camera moves are not observable at this sampling rate."
+ },
+ "sound_design": {
+  "available": true,
+  "speech_coverage": 0.738,
+  "non_speech_fraction": 0.226,
+  "longest_non_speech_s": 35.0,
+  "words_per_minute_overall": 106.3,
+  "caption_markers": {
+   "laughter": 31,
+   "music": 20,
+   "singing": 7,
+   "__": 5,
+   "snorts": 3,
+   "clears throat": 2,
+   "music and singing": 1
+  },
+  "music_marked_scenes": 7,
+  "note": "Music/ambience inferred from caption markers and speech gaps; audio itself is not downloaded."
+ },
+ "color_characteristics": {
+  "mean_brightness": 0.376,
+  "mean_contrast": 0.206,
+  "mean_saturation": 0.405,
+  "mean_colorfulness": 48.0,
+  "mean_warmth": 0.143,
+  "saturation_spread": 0.141,
+  "brightness_spread": 0.087,
+  "letterboxed_frame_fraction": 0.0,
+  "night_or_lowkey_fraction": 0.023,
+  "dominant_palette": [
+   "#ac7c33",
+   "#bdbdb5",
+   "#ab7b34",
+   "#bcbcb4",
+   "#bdbcb4",
+   "#a97a32",
+   "#aa7c35",
+   "#282821"
+  ],
+  "grading_tags": [
+   "warm tones"
+  ]
+ },
+ "storytelling": {
+  "first_person_singular": 0.0443,
+  "first_person_plural": 0.0164,
+  "second_person": 0.034,
+  "reflection": 0.0098,
+  "context_facts": 0.0079,
+  "hook_words": 0.0161,
+  "questions": 23,
+  "total_words": 3791,
+  "dialogue_score": 0.331,
+  "face_frame_fraction": 0.307,
+  "closeup_frame_fraction": 0.042,
+  "shot_type_distribution": {
+   "medium shot with people": 5,
+   "wide shot with people": 5,
+   "general b-roll": 3,
+   "close-up on a person (talking head / selfie)": 2,
+   "wide establishing / landscape": 1
+  },
+  "narrative_functions": {
+   "interaction / conversation": 8,
+   "atmosphere / montage": 4,
+   "opening hook": 1,
+   "journey / progression": 1,
+   "chapter opener / establishing": 1,
+   "resolution / outro": 1
+  }
+ },
+ "style_mode_mix": {
+  "cinematic": 0.335,
+  "documentary": 0.252,
+  "personal": 0.413
+ },
+ "style_mode_basis": "transcript+visual",
+ "techniques": [
+  {
+   "start": 0.0,
+   "end": 14.08,
+   "name": "atmospheric non-speech sequence",
+   "description": "14s without dialogue/narration, est. 0.0 cuts/min - music-driven montage",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 0.0,
+   "end": 180.0,
+   "name": "chapter",
+   "description": "chapter: Road trip and bridge",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 180.0,
+   "end": 351.0,
+   "name": "chapter",
+   "description": "chapter: China market size",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 351.0,
+   "end": 570.0,
+   "name": "chapter",
+   "description": "chapter: Wholesome aunt visit",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 354.919,
+   "end": 369.199,
+   "name": "atmospheric non-speech sequence",
+   "description": "14s without dialogue/narration, est. -0.0 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 448.919,
+   "end": 464.88,
+   "name": "atmospheric non-speech sequence",
+   "description": "16s without dialogue/narration, est. 0.0 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 492.12,
+   "end": 527.12,
+   "name": "atmospheric non-speech sequence",
+   "description": "35s without dialogue/narration, est. 6.6 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 570.0,
+   "end": 999.0,
+   "name": "chapter",
+   "description": "chapter: Auntie chat and farewell",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 582.12,
+   "end": 603.04,
+   "name": "speech-free montage",
+   "description": "21s without dialogue/narration, est. 18.1 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 609.24,
+   "end": 624.24,
+   "name": "atmospheric non-speech sequence",
+   "description": "15s without dialogue/narration, est. 0.0 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 634.279,
+   "end": 650.079,
+   "name": "speech-free montage",
+   "description": "16s without dialogue/narration, est. 18.1 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 656.36,
+   "end": 672.079,
+   "name": "speech-free montage",
+   "description": "16s without dialogue/narration, est. 18.1 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 731.0,
+   "end": 755.44,
+   "name": "speech-free montage",
+   "description": "24s without dialogue/narration, est. 18.1 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 792.559,
+   "end": 820.0,
+   "name": "atmospheric non-speech sequence",
+   "description": "27s without dialogue/narration, est. 6.6 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 868.279,
+   "end": 894.88,
+   "name": "speech-free montage",
+   "description": "27s without dialogue/narration, est. 18.1 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 963.079,
+   "end": 978.72,
+   "name": "speech-free montage",
+   "description": "16s without dialogue/narration, est. 18.1 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 981.72,
+   "end": 994.88,
+   "name": "atmospheric non-speech sequence",
+   "description": "13s without dialogue/narration, est. 0.0 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 999.0,
+   "end": 1315.0,
+   "name": "chapter",
+   "description": "chapter: Content challenges",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 1016.759,
+   "end": 1029.12,
+   "name": "atmospheric non-speech sequence",
+   "description": "12s without dialogue/narration, est. 0.0 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 1237.799,
+   "end": 1256.08,
+   "name": "speech-free montage",
+   "description": "18s without dialogue/narration, est. 18.1 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 1261.48,
+   "end": 1282.4,
+   "name": "atmospheric non-speech sequence",
+   "description": "21s without dialogue/narration, est. 4.2 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 1286.3600000000001,
+   "end": 1315.6,
+   "name": "speech-free montage",
+   "description": "29s without dialogue/narration, est. 18.1 cuts/min - music-driven montage",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 1315.0,
+   "end": 1525.0,
+   "name": "chapter",
+   "description": "chapter: Brand shoot check-in",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 1525.0,
+   "end": 2140.0,
+   "name": "chapter",
+   "description": "chapter: Entrepreneurship insights",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  }
+ ],
+ "qualitative": {
+  "source": "claude-code subagent (viewed all 5 contact sheets + profile + transcript)",
+  "summary": "A 35:40 trip film built around one warm human scene: visiting a Chinese 'auntie' near a highway toll gate, conducted in Chinese with translated subtitles. It opens with a short music lead-in, then long in-car talk about China's market, then ~10 minutes of the auntie visit (fruit, laughter, farewells). After a warehouse visit and an airport sit-down, red '香港'/'HONG KONG' cards move the story to Hong Kong for a roadside brand update. The last ten minutes are a single call-booth monologue on entrepreneurship ending 'another week showing up'.",
+  "hook_analysis": "Short visual lead-in (apartment wide, pillarboxed street shot 0:00-0:10) under music, then a casual 'good morning' and the plan to stop and see auntie by 0:20. The title carries the hook (grandma + speaking Chinese); the video withholds that scene until ~5:30.",
+  "narrative_arc": "Road trip (0:20-4:59) -> arrival and phone call to auntie (5:09-6:48) -> auntie visit and farewell (6:58-16:25) -> facility/warehouse (16:35-18:15) -> airport talk and chat with a stranger (18:25-21:24) -> HONG KONG cards (21:44, 22:04) -> roadside brand update (22:14-24:33) -> office BTS (24:43-25:13) -> call-booth reflection to the end (25:23-35:30).",
+  "camera_and_composition": "Mixed aspect ratios: many pillarboxed frames (1:10-2:39, 16:45-18:15, 21:54-22:04, 24:43-24:53) suggest vertical/phone or different-camera footage placed in 16:9. In-car side angle from the back seat; observational wide handheld at the gate; a radial/zoom-blurred frame at 8:18 hints at a stylised transition; static medium in the booth. Exact cuts not observable at storyboard resolution.",
+  "color_and_grade": "The warmest and most colourful of the set (warmth 0.143, colourfulness 48): golden low winter sun at the gate, saturated yellow shop wall (5:28-6:28), a cool grey airport, and an amber booth with tungsten light.",
+  "sound_and_music": "Lowest speech coverage (74%), many laughter (31) and music/singing markers; several 13-35 s speech-free passages during the auntie scenes (profile 5:55-16:35) let ambience and music carry the moment. Chinese dialogue is translated in captions prefixed 'Chinese:'.",
+  "what_to_borrow": [
+   "Let a warm human encounter play long with few cuts and translated subtitles",
+   "Drop narration and let music and laughter carry emotional scenes",
+   "Bold red bilingual city cards to mark a border crossing",
+   "A stranger conversation in a waiting area as a light interlude"
+  ],
+  "what_to_avoid_copying": [
+   "Ten-minute single-angle booth monologue as the ending",
+   "Unplanned mix of pillarboxed and full-frame footage",
+   "Withholding the title's promise for five minutes of car talk"
+  ],
+  "observations": [
+   {
+    "start": 0,
+    "end": 15,
+    "name": "music lead-in",
+    "description": "Apartment wide and a pillarboxed street shot under music before speech.",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 20,
+    "end": 60,
+    "name": "walk-and-talk premise",
+    "description": "Handheld under a building canopy, stating the plan to stop at auntie's.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 70,
+    "end": 299,
+    "name": "in-car talk",
+    "description": "Back-seat side angle, phone in hand, discussing China market; some pillarboxed.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 328,
+    "end": 408,
+    "name": "phone call with translation",
+    "description": "Call to auntie in front of a yellow shop wall, captions prefixed 'Chinese:'.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 418,
+    "end": 995,
+    "name": "auntie visit",
+    "description": "Long observational scene at a toll gate with fruit, e-trike, laughter and farewells.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 498,
+    "end": 500,
+    "name": "zoom-blur frame",
+    "description": "A radially blurred frame suggesting a stylised transition (exact effect not observable).",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 995,
+    "end": 1025,
+    "name": "window POV transit",
+    "description": "Walking to car, road through the windscreen, industrial skyline.",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 1035,
+    "end": 1095,
+    "name": "facility tour",
+    "description": "Warehouse shelves and team walking - business b-roll.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 1105,
+    "end": 1280,
+    "name": "airport sit-down and stranger chat",
+    "description": "Static wide-angle talk in departures, then a chat with a traveller.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 1304,
+    "end": 1330,
+    "name": "red city cards",
+    "description": "Bold red '香港' then 'HONG KONG' over arrival shots.",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 1334,
+    "end": 1473,
+    "name": "roadside brand update",
+    "description": "Sunglasses, ultra-wide to-camera talk by a road in Hong Kong.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 1503,
+    "end": 1513,
+    "name": "blown-out move",
+    "description": "Over-exposed, blurred office frames - a rough transition into the booth.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 1523,
+    "end": 2140,
+    "name": "call-booth monologue",
+    "description": "Single static medium in a warm booth for ~10 min; ends 'another week showing up'.",
+    "style_mode": "personal"
+   }
+  ]
+ },
+ "contact_sheets": [],
+ "limitations": [
+  "Frames are YouTube storyboard previews (YouTube storyboard 320x180, one frame every 10.0s); fine detail, exact cuts, transitions and camera movement are not measured.",
+  "Shot types use face/sky/edge heuristics on low-resolution frames - treat as approximate.",
+  "Transcript is YouTube auto-captions (no punctuation, occasional errors, speaker changes not marked)."
+ ]
+}

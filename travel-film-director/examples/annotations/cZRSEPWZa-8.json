@@ -1,0 +1,128 @@
+{
+  "source": "claude-code subagent (viewed all 3 contact sheets + profile + transcript)",
+  "summary": "Omar goes to Assam in north-east India to trace oud (agarwood), 'wood more expensive than gold', from the forest to the oil. A dawn 'mission' cold open with an armed guard and misty forest sets up the mystery. The film then settles into Assam with a market-and-dress-up sequence before an unusual staged chapter: a lit night set where Omar sits facing a storyteller, intercut with illustrated fable images, to tell the founder-family origin story. The middle alternates a recurring seated forest interview with an expert, forest walks with guards, and community and religious context. The final third is a process film (cutting, carving, grading, distilling, smelling the oil), closed by a return to the night set and a reflective piece-to-camera sitting in the forest.",
+  "hook_analysis": "Spoken cold open from 1.7 s: 'Good morning! It's 5:30 am. We have a special mission today.' Over a dawn walk (0:00), a misty aerial (0:10), an armed guard climbing into a truck (0:20) and a forest search (0:40-1:19), Omar lists the mysteries (price 'can reach hundreds of thousands', 'protected as if it were gold', 'Arabs revere it') and the questions ('Where is it found? How is it extracted?'). He closes with the participation promise 'I'm here to find out with you'. This has the clearest stated-questions structure of the six. Replay heat is high across 0:00-0:28.",
+  "narrative_arc": "Dawn mission cold open (0:00-1:19) -> Assam context and first-time-in-India piece (1:29-1:54) -> market immersion, buying a gamosa (1:59-3:47) -> night arrival (3:57-4:47) -> staged origin-story set with illustrated fable (5:16-7:05) -> museum panels (7:15-7:45) -> forest interview, elephant, tree planting (7:55-9:53) -> community: prayer, security against theft (10:03-11:02) -> into the protected forest with guards: how oud forms (11:12-15:59) -> finding and felling the tree (16:09-16:48) -> processing hall: carving and grading (16:58-19:56) -> distillation and smelling the oil (20:06-21:05) -> return to the night set (21:35-21:45) -> forest reflection and logo (21:55-23:04).",
+  "camera_and_composition": "Close, wide-lens handheld on Omar in markets and forests, often slightly low (2:18, 11:22, 12:51). Formal seated two-shot interview on the forest floor, with the expert's 4x4 in the background, returned to three times (8:14, 13:11, 15:29). A theatrical night set with practical lights and spiky lit grass sculptures, framed symmetrically (5:36, 6:55, 21:45). Macro detail of wood grain, carving tools and a magnifier (17:28-18:57). Drone top-downs of town and forest canopy as interstitials (4:47, 7:55, 15:09-15:19). Exact moves are not observable at storyboard resolution.",
+  "color_and_grade": "Dark and olive-green (brightness 0.30, palette dominated by #3e4026 and #554229), warm-leaning, with misty orange sunrises as tonal punctuation (0:30, 1:29, 11:12, 21:15). The night set is lit warm against deep shadow. The processing hall is cleaner and whiter with red floor accents (16:58-19:46). 12% of frames are low-key.",
+  "sound_and_music": "The slowest talker rate and lowest dialogue density of the set: speech coverage 0.57, 100 wpm, only 14 questions, dialogue score 0.06. The film leans on Omar's narration more than on back-and-forth. The longest speech-free stretches fall in the market and forest transitions (5:56-6:38, 6:49-7:14, 10:09-10:42 at a slow estimated cut rate, 15:30-16:00), which suggests music-led bridges. 'Just subscribe' is a joke call-to-action at 14:19. The audio itself was not analysed.",
+  "what_to_borrow": [
+    "State the mystery as explicit questions in the cold open and promise to answer them 'with you'",
+    "Use a time-stamped mission framing ('It's 5:30 am') and a visible stake (armed guard) to make a product story feel like an expedition",
+    "Dress the presenter in local clothing early (buying the gamosa) and keep it on as a visual through-line",
+    "Tell a backstory on a dedicated stylised set, then return to that set near the end as a bookend",
+    "For process stories, give each stage its own macro insert (cut, carve, grade under magnifier, distil, smell)"
+  ],
+  "what_to_avoid_copying": [
+    "The illustrated fable inserts (6:06-6:26) look generated or stock and clash with the observational footage; use them only if clearly marked as illustration",
+    "The staged night set can feel like a commercial for the producer; keep a sponsor or host relationship transparent",
+    "Very low dialogue density means the narration carries everything, which is hard to copy without a strong script"
+  ],
+  "observations": [
+    {
+      "start": 0,
+      "end": 80,
+      "name": "dawn mission cold open",
+      "description": "'It's 5:30 am' and a stated mission over a dawn walk (0:00), a misty aerial (0:10), an armed guard boarding a truck (0:20), mountains (0:30) and a forest search with a farmer and a machete (0:40-1:19); the narration lists the questions to be answered.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 89,
+      "end": 118,
+      "name": "location exposition piece-to-camera",
+      "description": "Sunrise over the city (1:29), Omar beside yellow tuk-tuks (1:39-1:49): his first time in India, the north-east near Bhutan, Myanmar and Bangladesh, the state of Assam.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 119,
+      "end": 230,
+      "name": "market immersion and gamosa dress-up",
+      "description": "Walk-and-talk through a busy market (1:59-3:08), buying a red-and-white Assamese gamosa in a textile shop with subtitles (3:18), wearing it on the street (3:28-3:47).",
+      "style_mode": "personal"
+    },
+    {
+      "start": 237,
+      "end": 300,
+      "name": "drone interstitials and night arrival",
+      "description": "Aerial of forested hills (3:57), night greeting with subtitles (4:07), interior welcome (4:17), aerial of the highway and a top-down town (4:27-4:57).",
+      "style_mode": "cinematic"
+    },
+    {
+      "start": 316,
+      "end": 425,
+      "name": "staged origin-story set",
+      "description": "A theatrical night set with practical lights and lit grass sculptures where Omar sits facing a woman storyteller, subtitled (5:36-5:56, 6:45-7:05); the narration tells of 'a poor, sick farmer' who built the business.",
+      "style_mode": "cinematic"
+    },
+    {
+      "start": 360,
+      "end": 390,
+      "name": "illustrated fable inserts",
+      "description": "Painted or illustrated images of kittens in a moonlit forest (6:06), a cat on a candle-lit table (6:16), an old man in a forest (6:26), with subtitles, used as a visual allegory inside the origin story.",
+      "style_mode": "cinematic"
+    },
+    {
+      "start": 494,
+      "end": 960,
+      "name": "recurring seated forest interview",
+      "description": "Omar and a bearded expert in sunglasses sit on the forest floor with a 4x4 behind (8:14-8:44), returning at 13:11-13:31 and 15:29-15:59, each time with subtitles; it acts as the explanatory spine.",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 534,
+      "end": 593,
+      "name": "elephant and tree planting",
+      "description": "An elephant in the plantation (8:54-9:04), Omar crouching with workers (9:14-9:23), his hands planting a sapling (9:43); the narration says ten trees are planted for each one cut.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 603,
+      "end": 613,
+      "name": "religious and community context",
+      "description": "Interior of a crowded mosque at prayer (10:13), placing the oud trade in the local Muslim community.",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 672,
+      "end": 860,
+      "name": "protected-forest walk with guards",
+      "description": "Replay peak at 11:19-11:32 on a close, low selfie-style Omar (11:22); then walks in a gamosa headband with farmers and an armed guard (12:12-14:20), explaining that 'the tree's illness' produces oud.",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 979,
+      "end": 1010,
+      "name": "finding the oud tree",
+      "description": "Searching among the trunks (16:09-16:19), a farmer pointing out the tree with a subtitle (16:29), canopy aerial (16:38), cut logs (16:48).",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 1018,
+      "end": 1200,
+      "name": "processing hall participation",
+      "description": "Omar kneels and carves wood among workers (16:58-17:38); macro inserts of scraping and grading (17:48-18:57, magnifier at 18:47); a scale wide of rows of women in pink working (19:17-19:27).",
+      "style_mode": "personal"
+    },
+    {
+      "start": 1206,
+      "end": 1265,
+      "name": "distillation and smelling the oil",
+      "description": "Rows of stills (20:06-20:16), water and copper vessels (20:26-20:46), Omar and an expert holding up the oil and smelling it (20:55-21:05).",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 1275,
+      "end": 1310,
+      "name": "bookend return to night set",
+      "description": "A mountain sunrise (21:15), then back on the lit night set with the storyteller, subtitled (21:35-21:45).",
+      "style_mode": "cinematic"
+    },
+    {
+      "start": 1315,
+      "end": 1384,
+      "name": "forest reflection and logo",
+      "description": "Omar sits cross-legged in the forest talking to camera (21:55-22:24, a replay peak at 22:37-22:51) on how oud is 'just a type of wood' in its own land; the logo over a jump shot (22:34), then the black card.",
+      "style_mode": "personal"
+    }
+  ]
+}

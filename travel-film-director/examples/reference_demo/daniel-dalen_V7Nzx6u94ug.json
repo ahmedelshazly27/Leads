@@ -7,13 +7,15 @@
  "channel": "Daniel Dalen",
  "upload_date": "20250126",
  "duration": 1855.0,
- "view_count": 140739,
- "user_notes": "cinematic personal vlog, music-led",
- "analysed_at": "2026-11-24T19:01:32+00:00",
+ "view_count": 140767,
+ "user_notes": "Australia pov vlog",
+ "analysed_at": "2026-11-27T19:25:39+00:00",
  "sources": {
   "metadata": true,
   "transcript": "auto",
   "transcript_language": "en-orig",
+  "transcript_quality": "ok",
+  "transcript_quality_note": "",
   "frames": "YouTube storyboard 320x180, one frame every 9.9s",
   "frame_interval_s": 9.919786096256685,
   "chapters": 17,
@@ -1745,6 +1747,7 @@
   "documentary": 0.296,
   "personal": 0.593
  },
+ "style_mode_basis": "transcript+visual",
  "techniques": [
   {
    "start": 0.0,
@@ -2008,63 +2011,122 @@
   }
  ],
  "qualitative": {
-  "source": "claude-code (viewed contact sheet 1 of 4 + computed metrics)",
-  "summary": "A diary-style 'pov' vlog where the creator's voice carries almost the entire runtime (98% speech coverage). A 20-second teaser of upcoming moments is followed by a bold yellow location title, then a long static sit-down to camera in a garden (~0:30-4:18). The rest is wide-angle selfie footage (low angles, ceiling lights), friends hanging out at home, and phone-in-hand updates. Captions are burned in. The tone is warm, natural light, slightly lifted blacks.",
-  "hook_analysis": "Spoken cold open plus a visual teaser: brief glimpses (walking in a rainforest, a 'MELBOURNE' title card, cooking) followed immediately by direct-address talk; the hook is the creator's personality and stated premise rather than spectacle.",
-  "narrative_arc": "Chronological diary: reflection/sit-down -> daily life with friends -> travel to the next city ('we'll be flying to Melbourne tomorrow'). Progression is marked by stated plans, not chapters.",
-  "camera_and_composition": "Locked-off medium sit-down; ultra-wide handheld selfie (GoPro/Osmo-style) at low angles; candid over-the-shoulder group moments. Composition is casual and functional.",
-  "color_and_grade": "Warm, natural daylight greens; interiors are dim and moody with practical lights; mild contrast.",
-  "sound_and_music": "Dense talk (~175 wpm); music is mostly a bed under speech rather than standalone montage (only ~1% of runtime has no speech).",
+  "source": "claude-code subagent (viewed all 4 contact sheets + profile + transcript)",
+  "summary": "A 31-minute 'pov' diary of a working trip through Australia (hinterland, Melbourne, Sydney). A ~25 s teaser with a song (forest walk, a yellow 'MELBOURNE' card, cooking) leads into a four-minute garden sit-down with a notebook, where he reviews his year and plans. The middle is talk-heavy home and apartment footage (night desk monologues lit by screens and lamps, low-angle laptop talks) broken by 'FLIGHT DAY' and '9AM' cards. The set piece is a Melbourne fan meetup announced by an Instagram story. It ends with a walking-then-standing monologue in a Sydney car park, ending 'thank you for watching'.",
+  "hook_analysis": "Music teaser rather than a spoken claim: forest walk (0:00), a rounded-frame street shot with bold yellow 'MELBOURNE' (0:10) and kitchen prep (0:20) under captioned song lyrics; speech begins ~0:03 under the music and the premise ('currently down in Australia') arrives by ~0:30. The hook is the place card and the personality, not jeopardy.",
+  "narrative_arc": "Chronological: hinterland reflection on the year (0:30-4:18) -> friends at a brick loft (5:08-6:07) -> notebook 'golden rule' (6:17) -> plan to fly to Melbourne (7:46) -> night work talks (8:36-12:54) -> FLIGHT DAY (13:04) -> apartment desk talk on business systems (14:13-17:41) -> story announcing a meetup (17:51) -> street meetup and group photo (18:11-23:29) -> 9AM rental car (25:08-26:07) -> Sydney walk and car-park monologue on a 'North star' (26:37-30:45).",
+  "camera_and_composition": "Locked-off wide-angle medium on a low stool in a garden (0:30-4:18); ultra-wide upward selfies with ceiling lights (4:28-4:48, 14:03); close desk framing with screen reflection in glasses (9:55-12:54); low-angle laptop-cam framing against bright windows (14:13-17:41); eye-level handheld two-shots at the meetup (18:11-23:39). Rounded-corner inserts at 0:10, 13:24, 19:21, 25:57. Exact cuts/moves not observable at storyboard resolution.",
+  "color_and_grade": "Warm, natural greens by day; nights are dark amber with practical lamps (27% low-key frames). Street scenes in Melbourne are bright, punchy daylight. Modest contrast, warm bias (warmth 0.087).",
+  "sound_and_music": "Densest talk of the set: ~98% speech coverage at ~176 wpm. Music is a bed under the teaser (song lyrics captioned) and a short speech-free passage around 26:05-26:18. Captions occasionally carry speaker handles ('@brunocasanovas', '@matthardybrown').",
   "what_to_borrow": [
-   "A 10-20 second teaser of later moments before the talk starts",
-   "Bold typographic location cards to mark arrivals",
-   "Burned-in captions for talk-heavy personal sections",
-   "Unpolished wide-angle selfie for authenticity in transitional moments"
+   "10-20 s teaser with a bold yellow place card before the talk",
+   "Day/time cards ('FLIGHT DAY', '9AM') as chapter markers",
+   "Name the people on screen in caption form with their handle",
+   "Use the fan meetup as the film's social set piece, set up earlier by a story screenshot",
+   "End with a standing to-camera wrap in a neutral location"
   ],
   "what_to_avoid_copying": [
-   "Four-minute static talking-head blocks - for a travel film keep reflections short and cover them with b-roll"
+   "Four-minute static garden sit-down at the top - for travel films cover it with b-roll",
+   "Long night monologues lit by a laptop screen (9:55-12:54)",
+   "Calls to action (email list) inside the story"
   ],
   "observations": [
    {
     "start": 0,
-    "end": 20,
+    "end": 25,
     "name": "teaser cold open",
-    "description": "Rapid preview of later moments before the talk begins.",
-    "style_mode": "personal"
+    "description": "Forest walk, cooking and a street shot under a song before talk begins.",
+    "style_mode": "cinematic"
    },
    {
     "start": 10,
-    "end": 20,
-    "name": "bold typographic location title",
-    "description": "Large yellow 'MELBOURNE' text over a street shot - a graphic location card.",
+    "end": 18,
+    "name": "yellow place card",
+    "description": "'MELBOURNE' in bold yellow condensed type in a rounded-corner frame.",
     "style_mode": "cinematic"
    },
    {
     "start": 30,
     "end": 258,
-    "name": "static sit-down reflection",
-    "description": "Locked-off to-camera talk in a garden; the narrative engine of the opening.",
+    "name": "garden sit-down",
+    "description": "Static wide-angle to-camera talk with notebook; burned-in captions throughout.",
     "style_mode": "personal"
    },
    {
     "start": 268,
-    "end": 300,
-    "name": "wide-angle low-angle selfie",
-    "description": "Ultra-wide handheld selfie with ceiling practicals in frame - candid vlog texture.",
+    "end": 290,
+    "name": "low-angle ceiling selfie",
+    "description": "Ultra-wide from below with ceiling lights in frame.",
     "style_mode": "personal"
    },
    {
     "start": 308,
-    "end": 368,
-    "name": "behind-the-scenes with friends",
-    "description": "Candid hanging-out footage at home, overheard banter.",
+    "end": 367,
+    "name": "friends at the loft",
+    "description": "Candid banter on a couch in a brick apartment.",
     "style_mode": "personal"
    },
    {
     "start": 377,
     "end": 466,
-    "name": "plan-forward ending of a segment",
-    "description": "Phone-in-hand update announcing tomorrow's move to Melbourne - progression by stated plan.",
+    "name": "notebook and plan",
+    "description": "Phone/notebook inserts, 'golden rule of 2025' and the plan to fly to Melbourne.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 516,
+    "end": 585,
+    "name": "warm practical-lit work scene",
+    "description": "Couple working on laptops in a dark room lit by orange lamps; speaker handle caption.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 595,
+    "end": 774,
+    "name": "night desk monologue",
+    "description": "Close framing, glasses reflecting the screen, low-key amber.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 784,
+    "end": 792,
+    "name": "day card",
+    "description": "'FLIGHT DAY' yellow title over a shirtless bed selfie.",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 853,
+    "end": 1061,
+    "name": "laptop-cam explainer",
+    "description": "Low-angle framing against bright windows explaining business processes.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 1071,
+    "end": 1081,
+    "name": "story screenshot",
+    "description": "Instagram story 'dm me melb' inserted on black to announce a meetup.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 1091,
+    "end": 1419,
+    "name": "fan meetup",
+    "description": "Street meetup in Melbourne, handheld two-shots, mural backdrop, group photo at 23:29.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 1508,
+    "end": 1560,
+    "name": "time card into transit",
+    "description": "'9AM' card then rental car pickup and drive.",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 1726,
+    "end": 1845,
+    "name": "car-park closing monologue",
+    "description": "Standing wide talk in a parking garage, ends 'thank you for watching'.",
     "style_mode": "personal"
    }
   ]

@@ -1,0 +1,1269 @@
+{
+ "schema_version": "1.0",
+ "video_id": "7YobC1Q40M0",
+ "url": "https://www.youtube.com/watch?v=7YobC1Q40M0",
+ "creator": "Joe Hattab",
+ "title": "وصلت عند قبائل الباجاو - يعيشون تحت الماء بلا أكسجين",
+ "channel": "Joe HaTTab",
+ "upload_date": "20250323",
+ "duration": 1204.0,
+ "view_count": 32499887,
+ "user_notes": "Bajau sea nomads",
+ "analysed_at": "2026-11-27T19:26:39+00:00",
+ "sources": {
+  "metadata": true,
+  "transcript": "manual",
+  "transcript_language": "en",
+  "transcript_quality": "ok",
+  "transcript_quality_note": "",
+  "frames": "YouTube storyboard 320x180, one frame every 9.9s",
+  "frame_interval_s": 9.868852459016393,
+  "chapters": 0,
+  "heatmap": true
+ },
+ "chapters": [],
+ "replay_peaks": [
+  {
+   "start": 0.0,
+   "end": 12.04,
+   "value": 1.0
+  },
+  {
+   "start": 553.84,
+   "end": 565.88,
+   "value": 0.7716023381576054
+  },
+  {
+   "start": 915.04,
+   "end": 927.08,
+   "value": 0.5931337750422644
+  },
+  {
+   "start": 927.08,
+   "end": 939.12,
+   "value": 0.5525915910381698
+  },
+  {
+   "start": 1035.44,
+   "end": 1047.48,
+   "value": 0.4914863089259303
+  }
+ ],
+ "scenes": [
+  {
+   "index": 0,
+   "start": 0.0,
+   "end": 44.41,
+   "duration": 44.41,
+   "representative_frame": null,
+   "shot_type": "general b-roll",
+   "shot_type_confidence": 0.3,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 63.5,
+    "speech_coverage": 0.319,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "opening hook",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.559,
+    "documentary": 0.298,
+    "personal": 0.143
+   },
+   "visual_characteristics": [
+    "cool tones",
+    "highly saturated",
+    "low-key / dark",
+    "on-screen text or title"
+   ],
+   "editing_techniques": [
+    "audience replay peak (most-replayed)",
+    "on-screen text / title card"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "sky 40%, edges 0.12, no faces detected",
+    "contextual/factual vocabulary 6%",
+    "est. 18.2 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 1,
+   "start": 44.41,
+   "end": 74.02,
+   "duration": 29.61,
+   "representative_frame": null,
+   "shot_type": "general b-roll",
+   "shot_type_confidence": 0.3,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 34.5,
+    "speech_coverage": 0.114,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "mostly non-speech"
+   },
+   "narrative_function": "context / exposition",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.771,
+    "documentary": 0.214,
+    "personal": 0.015
+   },
+   "visual_characteristics": [
+    "cool tones",
+    "highly saturated"
+   ],
+   "editing_techniques": [
+    "speech-free fast montage"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "sky 32%, edges 0.12, no faces detected",
+    "contextual/factual vocabulary 6%",
+    "little speech (11% caption coverage)",
+    "est. 18.2 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 2,
+   "start": 74.02,
+   "end": 113.5,
+   "duration": 39.48,
+   "representative_frame": null,
+   "shot_type": "medium shot with people",
+   "shot_type_confidence": 0.5,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 196.0,
+    "speech_coverage": 0.869,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.283,
+    "documentary": 0.63,
+    "personal": 0.087
+   },
+   "visual_characteristics": [
+    "cool tones",
+    "highly saturated",
+    "low-key / dark"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 50% of frames, max face 22%",
+    "dense narration 196 wpm",
+    "est. 18.2 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 3,
+   "start": 113.5,
+   "end": 152.97,
+   "duration": 39.47,
+   "representative_frame": null,
+   "shot_type": "low-light / night shot",
+   "shot_type_confidence": 0.45,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 123.1,
+    "speech_coverage": 0.584,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "atmosphere / montage",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.704,
+    "documentary": 0.18,
+    "personal": 0.117
+   },
+   "visual_characteristics": [
+    "cool tones",
+    "highly saturated",
+    "low-key / dark"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "mean brightness 0.19",
+    "shot: low-light / night shot",
+    "est. 18.2 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 4,
+   "start": 152.97,
+   "end": 172.7,
+   "duration": 19.74,
+   "representative_frame": null,
+   "shot_type": "close-up on a person (talking head / selfie)",
+   "shot_type_confidence": 0.6,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 76.0,
+    "speech_coverage": 0.435,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "context / exposition",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.454,
+    "documentary": 0.357,
+    "personal": 0.189
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "highly saturated"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 50% of frames, max face 44% of frame height",
+    "face close-up (to-camera)",
+    "contextual/factual vocabulary 8%",
+    "est. 18.2 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 5,
+   "start": 172.7,
+   "end": 222.05,
+   "duration": 49.34,
+   "representative_frame": null,
+   "shot_type": "medium shot with people",
+   "shot_type_confidence": 0.5,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 88.8,
+    "speech_coverage": 0.394,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "context / exposition",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.409,
+    "documentary": 0.483,
+    "personal": 0.108
+   },
+   "visual_characteristics": [
+    "neutral white balance"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 40% of frames, max face 25%",
+    "contextual/factual vocabulary 8%",
+    "est. 18.2 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 6,
+   "start": 222.05,
+   "end": 241.78,
+   "duration": 19.74,
+   "representative_frame": null,
+   "shot_type": "title / graphic card",
+   "shot_type_confidence": 0.5,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 118.5,
+    "speech_coverage": 0.619,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "atmosphere / montage",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.691,
+    "documentary": 0.176,
+    "personal": 0.133
+   },
+   "visual_characteristics": [
+    "cool tones",
+    "on-screen text or title"
+   ],
+   "editing_techniques": [
+    "on-screen text / title card"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "text-like overlay score 0.48",
+    "est. 18.2 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 7,
+   "start": 241.78,
+   "end": 370.08,
+   "duration": 128.3,
+   "representative_frame": null,
+   "shot_type": "close-up on a person (talking head / selfie)",
+   "shot_type_confidence": 0.6,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 92.1,
+    "speech_coverage": 0.449,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.422,
+    "documentary": 0.254,
+    "personal": 0.324
+   },
+   "visual_characteristics": [
+    "cool tones"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 54% of frames, max face 56% of frame height",
+    "face close-up (to-camera)",
+    "contextual/factual vocabulary 4%",
+    "est. 18.2 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 8,
+   "start": 370.08,
+   "end": 439.17,
+   "duration": 69.08,
+   "representative_frame": null,
+   "shot_type": "close-up on a person (talking head / selfie)",
+   "shot_type_confidence": 0.6,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 132.9,
+    "speech_coverage": 0.659,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "personal",
+   "style_scores": {
+    "cinematic": 0.295,
+    "documentary": 0.241,
+    "personal": 0.463
+   },
+   "visual_characteristics": [
+    "neutral white balance"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 57% of frames, max face 33% of frame height",
+    "face close-up (to-camera)",
+    "est. 18.2 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 9,
+   "start": 439.17,
+   "end": 518.12,
+   "duration": 78.95,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 79.8,
+    "speech_coverage": 0.44,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "context / exposition",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.462,
+    "documentary": 0.394,
+    "personal": 0.144
+   },
+   "visual_characteristics": [
+    "cool tones",
+    "highly saturated"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 12% of frames",
+    "contextual/factual vocabulary 7%",
+    "est. 18.2 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 10,
+   "start": 518.12,
+   "end": 557.59,
+   "duration": 39.47,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 50.2,
+    "speech_coverage": 0.272,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "atmosphere / montage",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.751,
+    "documentary": 0.026,
+    "personal": 0.223
+   },
+   "visual_characteristics": [
+    "cool tones",
+    "highly saturated"
+   ],
+   "editing_techniques": [
+    "audience replay peak (most-replayed)"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 25% of frames",
+    "first-person language 5% of words",
+    "est. 18.2 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 11,
+   "start": 557.59,
+   "end": 774.7,
+   "duration": 217.12,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 49.2,
+    "speech_coverage": 0.228,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "atmosphere / montage",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.783,
+    "documentary": 0.053,
+    "personal": 0.164
+   },
+   "visual_characteristics": [
+    "cool tones",
+    "on-screen text or title"
+   ],
+   "editing_techniques": [
+    "audience replay peak (most-replayed)",
+    "on-screen text / title card"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 36% of frames",
+    "est. 18.2 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 12,
+   "start": 774.7,
+   "end": 1041.16,
+   "duration": 266.46,
+   "representative_frame": null,
+   "shot_type": "wide establishing / landscape",
+   "shot_type_confidence": 0.55,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 31.5,
+    "speech_coverage": 0.189,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "mostly non-speech"
+   },
+   "narrative_function": "atmosphere / montage",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.782,
+    "documentary": 0.147,
+    "personal": 0.071
+   },
+   "visual_characteristics": [
+    "cool tones",
+    "highly saturated"
+   ],
+   "editing_techniques": [
+    "audience replay peak (most-replayed)"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "sky in top third 42%, edge density 0.09",
+    "shot: wide establishing / landscape",
+    "contextual/factual vocabulary 5%",
+    "little speech (19% caption coverage)",
+    "est. 13.4 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 13,
+   "start": 1041.16,
+   "end": 1179.33,
+   "duration": 138.16,
+   "representative_frame": null,
+   "shot_type": "close-up on a person (talking head / selfie)",
+   "shot_type_confidence": 0.6,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 67.7,
+    "speech_coverage": 0.285,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "resolution / outro",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.537,
+    "documentary": 0.187,
+    "personal": 0.276
+   },
+   "visual_characteristics": [
+    "cool tones",
+    "highly saturated",
+    "low-key / dark",
+    "on-screen text or title"
+   ],
+   "editing_techniques": [
+    "on-screen text / title card"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 64% of frames, max face 66% of frame height",
+    "face close-up (to-camera)",
+    "est. 16.0 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 14,
+   "start": 1179.33,
+   "end": 1204.0,
+   "duration": 24.67,
+   "representative_frame": null,
+   "shot_type": "title / graphic card",
+   "shot_type_confidence": 0.5,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 182.4,
+    "speech_coverage": 0.88,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "resolution / outro",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.194,
+    "documentary": 0.666,
+    "personal": 0.14
+   },
+   "visual_characteristics": [
+    "cool tones",
+    "on-screen text or title"
+   ],
+   "editing_techniques": [
+    "on-screen text / title card"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "text-like overlay score 0.55",
+    "dense narration 182 wpm",
+    "est. 18.2 cuts/min in this sequence"
+   ]
+  }
+ ],
+ "narrative_structure": [
+  {
+   "start": 0.0,
+   "end": 60.0,
+   "label": "hook",
+   "description": "short visual lead-in followed by speech",
+   "evidence": []
+  },
+  {
+   "start": 0.0,
+   "end": 12.04,
+   "label": "audience peak",
+   "description": "highest replay density - likely emotional or visual climax",
+   "evidence": [
+    "heat 1.00"
+   ]
+  },
+  {
+   "start": 60.0,
+   "end": 301.0,
+   "label": "setup / arrival",
+   "description": "position-based (no chapters available)",
+   "evidence": []
+  },
+  {
+   "start": 301.0,
+   "end": 903.0,
+   "label": "exploration / development",
+   "description": "position-based (no chapters available)",
+   "evidence": []
+  },
+  {
+   "start": 903.0,
+   "end": 1119.72,
+   "label": "climax / key experience",
+   "description": "position-based (no chapters available)",
+   "evidence": []
+  },
+  {
+   "start": 1119.72,
+   "end": 1204.0,
+   "label": "resolution / outro",
+   "description": "position-based (no chapters available)",
+   "evidence": []
+  }
+ ],
+ "hook": {
+  "first_speech_at_s": 11.386,
+  "words_first_30s": 47,
+  "hook_vocabulary_first_30s": 0.0213,
+  "title_uses_superlative_or_intrigue": false,
+  "cold_open": false,
+  "est_cuts_per_min_first_60s": 18.21,
+  "pattern": "short visual lead-in followed by speech"
+ },
+ "editing_characteristics": {
+  "est_cuts_per_min": 18.21,
+  "est_avg_shot_length_s": 3.29,
+  "estimator_saturated": true,
+  "changed_sample_fraction": 0.967,
+  "sample_interval_s": 9.87,
+  "visual_sequences": 15,
+  "median_sequence_s": 44.4,
+  "pacing_curve": [
+   {
+    "start": 0.0,
+    "end": 60.0,
+    "est_cuts_per_min": 18.21,
+    "speech_coverage": 0.24
+   },
+   {
+    "start": 60.0,
+    "end": 120.0,
+    "est_cuts_per_min": 18.21,
+    "speech_coverage": 0.72
+   },
+   {
+    "start": 120.0,
+    "end": 180.0,
+    "est_cuts_per_min": 18.21,
+    "speech_coverage": 0.48
+   },
+   {
+    "start": 180.0,
+    "end": 240.0,
+    "est_cuts_per_min": 18.21,
+    "speech_coverage": 0.47
+   },
+   {
+    "start": 240.0,
+    "end": 300.0,
+    "est_cuts_per_min": 18.21,
+    "speech_coverage": 0.65
+   },
+   {
+    "start": 300.0,
+    "end": 360.0,
+    "est_cuts_per_min": 18.21,
+    "speech_coverage": 0.33
+   },
+   {
+    "start": 360.0,
+    "end": 420.0,
+    "est_cuts_per_min": 18.21,
+    "speech_coverage": 0.56
+   },
+   {
+    "start": 420.0,
+    "end": 480.0,
+    "est_cuts_per_min": 18.21,
+    "speech_coverage": 0.45
+   },
+   {
+    "start": 480.0,
+    "end": 540.0,
+    "est_cuts_per_min": 18.21,
+    "speech_coverage": 0.49
+   },
+   {
+    "start": 540.0,
+    "end": 600.0,
+    "est_cuts_per_min": 18.21,
+    "speech_coverage": 0.06
+   },
+   {
+    "start": 600.0,
+    "end": 660.0,
+    "est_cuts_per_min": 18.21,
+    "speech_coverage": 0.45
+   },
+   {
+    "start": 660.0,
+    "end": 720.0,
+    "est_cuts_per_min": 18.21,
+    "speech_coverage": 0.09
+   },
+   {
+    "start": 720.0,
+    "end": 780.0,
+    "est_cuts_per_min": 18.21,
+    "speech_coverage": 0.25
+   },
+   {
+    "start": 780.0,
+    "end": 840.0,
+    "est_cuts_per_min": 18.21,
+    "speech_coverage": 0.16
+   },
+   {
+    "start": 840.0,
+    "end": 900.0,
+    "est_cuts_per_min": 18.21,
+    "speech_coverage": 0.29
+   },
+   {
+    "start": 900.0,
+    "end": 960.0,
+    "est_cuts_per_min": 4.21,
+    "speech_coverage": 0.3
+   },
+   {
+    "start": 960.0,
+    "end": 1020.0,
+    "est_cuts_per_min": 18.21,
+    "speech_coverage": 0.08
+   },
+   {
+    "start": 1020.0,
+    "end": 1080.0,
+    "est_cuts_per_min": 18.21,
+    "speech_coverage": 0.17
+   },
+   {
+    "start": 1080.0,
+    "end": 1140.0,
+    "est_cuts_per_min": 18.21,
+    "speech_coverage": 0.08
+   },
+   {
+    "start": 1140.0,
+    "end": 1200.0,
+    "est_cuts_per_min": 10.89,
+    "speech_coverage": 0.74
+   },
+   {
+    "start": 1200.0,
+    "end": 1204.0,
+    "est_cuts_per_min": 0.0,
+    "speech_coverage": 0.47
+   }
+  ],
+  "pacing_variability": 4.91,
+  "on_screen_text_frames": 5,
+  "chapters": 0,
+  "measurement_note": "Cut rate is a Poisson estimate from storyboard samples; individual cuts, transitions and camera moves are not observable at this sampling rate."
+ },
+ "sound_design": {
+  "available": true,
+  "speech_coverage": 0.353,
+  "non_speech_fraction": 0.516,
+  "longest_non_speech_s": 81.7,
+  "words_per_minute_overall": 70.5,
+  "caption_markers": {},
+  "music_marked_scenes": 0,
+  "note": "Music/ambience inferred from caption markers and speech gaps; audio itself is not downloaded."
+ },
+ "color_characteristics": {
+  "mean_brightness": 0.354,
+  "mean_contrast": 0.191,
+  "mean_saturation": 0.486,
+  "mean_colorfulness": 42.2,
+  "mean_warmth": -0.099,
+  "saturation_spread": 0.164,
+  "brightness_spread": 0.108,
+  "letterboxed_frame_fraction": 0.025,
+  "night_or_lowkey_fraction": 0.115,
+  "dominant_palette": [
+   "#132614",
+   "#267a85",
+   "#2a808a",
+   "#185c6f",
+   "#1a6d77",
+   "#0d4555",
+   "#11323a",
+   "#295151"
+  ],
+  "grading_tags": [
+   "cool tones",
+   "highly saturated",
+   "on-screen text or title"
+  ]
+ },
+ "storytelling": {
+  "first_person_singular": 0.0064,
+  "first_person_plural": 0.0283,
+  "second_person": 0.0064,
+  "reflection": 0.0021,
+  "context_facts": 0.0347,
+  "hook_words": 0.0212,
+  "questions": 11,
+  "total_words": 1414,
+  "dialogue_score": 0.054,
+  "face_frame_fraction": 0.361,
+  "closeup_frame_fraction": 0.107,
+  "shot_type_distribution": {
+   "close-up on a person (talking head / selfie)": 4,
+   "wide shot with people": 3,
+   "general b-roll": 2,
+   "medium shot with people": 2,
+   "title / graphic card": 2,
+   "low-light / night shot": 1,
+   "wide establishing / landscape": 1
+  },
+  "narrative_functions": {
+   "atmosphere / montage": 5,
+   "context / exposition": 4,
+   "journey / progression": 3,
+   "resolution / outro": 2,
+   "opening hook": 1
+  }
+ },
+ "style_mode_mix": {
+  "cinematic": 0.604,
+  "documentary": 0.216,
+  "personal": 0.18
+ },
+ "style_mode_basis": "transcript+visual",
+ "techniques": [
+  {
+   "start": 0.0,
+   "end": 12.04,
+   "name": "replay peak",
+   "description": "most-replayed moment (heat 1.00) - audience-proven highlight",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 0.9,
+   "source": "heuristic"
+  },
+  {
+   "start": 19.74,
+   "end": 29.60885245901639,
+   "name": "on-screen text",
+   "description": "title, location label or caption overlay detected",
+   "category": "graphics",
+   "style_mode": null,
+   "confidence": 0.4,
+   "source": "heuristic"
+  },
+  {
+   "start": 30.779999999999998,
+   "end": 69.527,
+   "name": "speech-free montage",
+   "description": "39s without dialogue/narration, est. 18.2 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 350.099,
+   "end": 371.162,
+   "name": "speech-free montage",
+   "description": "21s without dialogue/narration, est. 18.2 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 370.08,
+   "end": 439.17,
+   "name": "talking to camera",
+   "description": "presenter speaks directly to camera / selfie framing",
+   "category": "narration",
+   "style_mode": "personal",
+   "confidence": 0.5,
+   "source": "heuristic"
+  },
+  {
+   "start": 448.448,
+   "end": 464.547,
+   "name": "speech-free montage",
+   "description": "16s without dialogue/narration, est. 18.2 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 540.9979999999999,
+   "end": 581.455,
+   "name": "speech-free montage",
+   "description": "40s without dialogue/narration, est. 18.2 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 553.84,
+   "end": 565.88,
+   "name": "replay peak",
+   "description": "most-replayed moment (heat 0.77) - audience-proven highlight",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 0.9,
+   "source": "heuristic"
+  },
+  {
+   "start": 582.26,
+   "end": 592.1288524590163,
+   "name": "on-screen text",
+   "description": "title, location label or caption overlay detected",
+   "category": "graphics",
+   "style_mode": null,
+   "confidence": 0.4,
+   "source": "heuristic"
+  },
+  {
+   "start": 583.874,
+   "end": 603.561,
+   "name": "speech-free montage",
+   "description": "20s without dialogue/narration, est. 18.2 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 624.749,
+   "end": 645.144,
+   "name": "speech-free montage",
+   "description": "20s without dialogue/narration, est. 18.2 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 669.835,
+   "end": 722.972,
+   "name": "speech-free montage",
+   "description": "53s without dialogue/narration, est. 18.2 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 749.874,
+   "end": 828.16,
+   "name": "speech-free montage",
+   "description": "78s without dialogue/narration, est. 18.2 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 852.518,
+   "end": 866.699,
+   "name": "atmospheric non-speech sequence",
+   "description": "14s without dialogue/narration, est. 0.0 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 877.8770000000001,
+   "end": 906.739,
+   "name": "speech-free montage",
+   "description": "29s without dialogue/narration, est. 18.2 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 915.04,
+   "end": 927.08,
+   "name": "replay peak",
+   "description": "most-replayed moment (heat 0.59) - audience-proven highlight",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 0.9,
+   "source": "heuristic"
+  },
+  {
+   "start": 920.1270000000001,
+   "end": 943.108,
+   "name": "atmospheric non-speech sequence",
+   "description": "23s without dialogue/narration, est. 4.2 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 949.281,
+   "end": 968.717,
+   "name": "speech-free montage",
+   "description": "19s without dialogue/narration, est. 18.2 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 979.5609999999999,
+   "end": 1061.268,
+   "name": "speech-free montage",
+   "description": "82s without dialogue/narration, est. 18.2 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 1076.492,
+   "end": 1089.004,
+   "name": "atmospheric non-speech sequence",
+   "description": "13s without dialogue/narration, est. 0.0 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 1101.7669999999998,
+   "end": 1120.828,
+   "name": "speech-free montage",
+   "description": "19s without dialogue/narration, est. 18.2 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 1122.329,
+   "end": 1141.098,
+   "name": "speech-free montage",
+   "description": "19s without dialogue/narration, est. 18.2 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 1174.39,
+   "end": 1184.2588524590165,
+   "name": "on-screen text",
+   "description": "title, location label or caption overlay detected",
+   "category": "graphics",
+   "style_mode": null,
+   "confidence": 0.4,
+   "source": "heuristic"
+  },
+  {
+   "start": 1184.26,
+   "end": 1194.1288524590163,
+   "name": "on-screen text",
+   "description": "title, location label or caption overlay detected",
+   "category": "graphics",
+   "style_mode": null,
+   "confidence": 0.4,
+   "source": "heuristic"
+  },
+  {
+   "start": 1194.13,
+   "end": 1203.9988524590165,
+   "name": "on-screen text",
+   "description": "title, location label or caption overlay detected",
+   "category": "graphics",
+   "style_mode": null,
+   "confidence": 0.4,
+   "source": "heuristic"
+  }
+ ],
+ "qualitative": {
+  "source": "claude-code subagent (viewed all 3 contact sheets + profile + transcript)",
+  "summary": "A one-subject cultural portrait of the Bajau 'Sea Gypsies', stitched from two trips (Philippines, then Indonesia) into a single story, as the creator admits at the end. It opens on underwater free-diving and aerials of stilt villages, then uses animated 3D globe maps with route lines to explain geography before Joe appears on a runway at 2:38. The middle is presenter-led immersion (iftar at a mosque, Starlink kiosk, staying with a family) punctuated by long speech-free underwater and drone passages. A second act re-starts with a Jakarta skyline and another map flight to Sulawesi, culminating in diving with the Bajau and a subtitled elder interview. It ends with a selfie sign-off, then a hotel-room sponsor read for Epidemic Sound.",
+  "hook_analysis": "Short visual lead-in (underwater seagrass, a man crouched on coral at 0:10) with narration from 0:11 posing the central question ('How long can you hold your breath underwater?'). After a second speech-free block of aerials/maps (0:30-1:09) a rapid tease cluster at ~1:55-2:11 stacks lines from later ('the number of tourists here is zero', 'Scorpions') over night/fishing shots before the journey proper starts. The replay-peak at 0:00-0:12 confirms the underwater opening is the strongest image.",
+  "narrative_arc": "No chapters. Thesis + map context (0:00-2:18) -> Philippines leg: travel logistics, Ramadan iftar, Sitangkai floating town, homestay, fishing (2:18-7:54) -> bridge 'we couldn't dive deep here, so we went to Indonesia' (7:53) -> Jakarta/Sulawesi travel montage with map (8:04-9:42) -> Bajau village in Indonesia, children, diving set-piece (9:52-15:38) -> elder interview and emotional beat (16:56-18:06) -> lake swim and sign-off (18:15-19:01) -> sponsor (19:05-20:04).",
+  "camera_and_composition": "Heavy use of top-down and high-oblique drone over stilt villages (0:30, 0:49, 4:26, 10:12, 16:17, 16:27); underwater wides with divers small in frame against reef (1:29, 13:19, 14:48, 15:28); close presenter shots, often low wide-angle or over-shoulder with locals (4:17, 4:56, 10:41); subtitled medium close-up interviews under conical hats (9:23, 16:56). Camera moves and lens changes are not observable at storyboard resolution.",
+  "color_and_grade": "Dominant cyan/teal throughout - water, sky and even interiors lean teal (palette #7cc4be, #267c87), with warm skin kept. One deliberately orange-tinted aerial at 2:48 and the golden village/mosque aerial at 3:08 contrast against it. Indoor elder interview at 17:26-18:06 is darker and low-key.",
+  "sound_and_music": "Speech covers only ~35% of runtime; longest non-speech run ~82 s and many 20-80 s speech-free montages (e.g. 12:29-13:48 underwater, 16:19-17:41), consistent with music-led diving sequences. The creator credits Epidemic Sound for water sound effects at the end. Actual music cannot be heard from the data.",
+  "what_to_borrow": [
+   "Pose one concrete question in the first 15 seconds and pay it off in a late set-piece (breath-hold dive)",
+   "Use animated globe/map flights with a route line to bridge legs of a multi-country story",
+   "Let the most visual sequence (underwater) play long and speech-free once the context is set",
+   "Re-establish each new village with a drone wide before going in at eye level"
+  ],
+  "what_to_avoid_copying": [
+   "Merging trips filmed months apart into one 'journey' without signalling it until the outro can feel misleading",
+   "The near-uniform teal grade flattens variety between very different locations",
+   "Sponsor read placed after the emotional climax deflates the ending"
+  ],
+  "observations": [
+   {
+    "start": 0,
+    "end": 30,
+    "name": "underwater thesis open",
+    "description": "Seagrass and a figure crouched on coral underwater, narration from 0:11 introduces the Bajau and asks how long you can hold your breath.",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 30,
+    "end": 69,
+    "name": "speech-free aerial block",
+    "description": "Drone over island clusters, a blue hole and a dense stilt village (0:30-0:59) with no narration.",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 79,
+    "end": 120,
+    "name": "3D globe map context",
+    "description": "Animated satellite map labelling Philippines/Malaysia/Indonesia while VO explains where the Bajau live (1:19, 1:49).",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 115,
+    "end": 131,
+    "name": "tease cluster",
+    "description": "Quick lines from later in the trip ('Scorpions', zero tourists) over night-fishing and boat shots before the travel leg begins.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 138,
+    "end": 160,
+    "name": "map route + logistics inserts",
+    "description": "Map with blue route line (2:18) then luggage on a carousel (2:28) and Joe talking on a runway (2:38): the journey made visible.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 177,
+    "end": 230,
+    "name": "cultural set-piece with community",
+    "description": "Ramadan iftar: golden aerial of mosque (3:08), greeting under a tent (3:17), worshippers inside (3:27), boat ticket insert (3:37).",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 266,
+    "end": 290,
+    "name": "aerial re-establish of floating town",
+    "description": "Top-down of Sitangkai's packed rooftops (4:26) cut against close presenter reaction (4:17).",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 310,
+    "end": 320,
+    "name": "phone screen insert",
+    "description": "Close insert of a Starlink 'Connected' phone screen to illustrate a spoken fact.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 360,
+    "end": 370,
+    "name": "archival news cutaway",
+    "description": "Framed TV-news style image with Arabic captions to support the 'bad reputation' context.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 473,
+    "end": 540,
+    "name": "second-act travel bridge",
+    "description": "Fish held aloft (7:54), Jakarta skyline aerials (8:04-8:13), map flight to Sulawesi (8:33), airport arrival (8:43) - a compressed relocation montage.",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 553,
+    "end": 572,
+    "name": "bilingual subtitled interview",
+    "description": "Village elder in conical hat with Arabic and English subtitles over aerials; also a replay peak (9:13).",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 769,
+    "end": 950,
+    "name": "underwater free-dive set-piece",
+    "description": "Long run of reef, schools of fish and divers walking the seabed (13:10-15:38), intercut with Joe explaining from a boat (13:59, 14:58).",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 1016,
+    "end": 1090,
+    "name": "elder emotional beat",
+    "description": "Low-key interior close-ups of an old diver holding his head (17:26), two-shot with Joe (17:56), on-screen text 'I lost my mind' (18:06).",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 1115,
+    "end": 1141,
+    "name": "selfie sign-off",
+    "description": "Lake swim, then a wide-angle selfie in the village with 'These are the Bajau people' and a subscribe call.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 1145,
+    "end": 1204,
+    "name": "hotel-room sponsor read",
+    "description": "Seated in a hotel room with laptop, Epidemic Sound UI screen-capture (19:34), discount code graphic (19:44).",
+    "style_mode": "personal"
+   }
+  ]
+ },
+ "contact_sheets": [],
+ "limitations": [
+  "Frames are YouTube storyboard previews (YouTube storyboard 320x180, one frame every 9.9s); fine detail, exact cuts, transitions and camera movement are not measured.",
+  "Shot types use face/sky/edge heuristics on low-resolution frames - treat as approximate."
+ ]
+}

@@ -1,0 +1,1025 @@
+{
+ "schema_version": "1.0",
+ "video_id": "EBv2H0WjtsI",
+ "url": "https://www.youtube.com/watch?v=EBv2H0WjtsI",
+ "creator": "Joe Hattab",
+ "title": "دخلت أخطر مدينة في إثيوبيا... (الضباع تدخل المنازل ليلاً) 🇪🇹",
+ "channel": "Joe HaTTab",
+ "upload_date": "20260916",
+ "duration": 1297.0,
+ "view_count": 13559794,
+ "user_notes": "Ethiopia - hyena city",
+ "analysed_at": "2026-11-27T19:26:34+00:00",
+ "sources": {
+  "metadata": true,
+  "transcript": "manual",
+  "transcript_language": "en",
+  "transcript_quality": "ok",
+  "transcript_quality_note": "",
+  "frames": "YouTube storyboard 320x180, one frame every 9.9s",
+  "frame_interval_s": 9.900763358778626,
+  "chapters": 0,
+  "heatmap": true
+ },
+ "chapters": [],
+ "replay_peaks": [
+  {
+   "start": 0.0,
+   "end": 12.98,
+   "value": 1.0
+  },
+  {
+   "start": 623.04,
+   "end": 636.02,
+   "value": 0.8651230330531857
+  },
+  {
+   "start": 817.74,
+   "end": 830.72,
+   "value": 0.7855042460225747
+  },
+  {
+   "start": 376.42,
+   "end": 389.4,
+   "value": 0.7503715446288594
+  },
+  {
+   "start": 752.84,
+   "end": 765.82,
+   "value": 0.7271096624200072
+  }
+ ],
+ "scenes": [
+  {
+   "index": 0,
+   "start": 0.0,
+   "end": 24.75,
+   "duration": 24.75,
+   "representative_frame": null,
+   "shot_type": "busy street / detail-rich scene",
+   "shot_type_confidence": 0.4,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 104.2,
+    "speech_coverage": 0.539,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "opening hook",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.412,
+    "documentary": 0.365,
+    "personal": 0.223
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "highly saturated",
+    "on-screen text or title"
+   ],
+   "editing_techniques": [
+    "audience replay peak (most-replayed)",
+    "on-screen text / title card"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "edge density 0.17",
+    "est. 18.2 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 1,
+   "start": 24.75,
+   "end": 74.26,
+   "duration": 49.51,
+   "representative_frame": null,
+   "shot_type": "wide establishing / landscape",
+   "shot_type_confidence": 0.55,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 64.2,
+    "speech_coverage": 0.388,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "context / exposition",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.73,
+    "documentary": 0.259,
+    "personal": 0.011
+   },
+   "visual_characteristics": [
+    "cool tones"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "sky in top third 36%, edge density 0.11",
+    "shot: wide establishing / landscape",
+    "contextual/factual vocabulary 6%",
+    "est. 18.2 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 2,
+   "start": 74.26,
+   "end": 153.46,
+   "duration": 79.2,
+   "representative_frame": null,
+   "shot_type": "wide establishing / landscape",
+   "shot_type_confidence": 0.55,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 92.4,
+    "speech_coverage": 0.516,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "atmosphere / montage",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.742,
+    "documentary": 0.223,
+    "personal": 0.035
+   },
+   "visual_characteristics": [
+    "neutral white balance",
+    "highly saturated"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "sky in top third 38%, edge density 0.10",
+    "shot: wide establishing / landscape",
+    "est. 18.2 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 3,
+   "start": 153.46,
+   "end": 301.97,
+   "duration": 148.51,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 124.8,
+    "speech_coverage": 0.585,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "atmosphere / montage",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.619,
+    "documentary": 0.222,
+    "personal": 0.158
+   },
+   "visual_characteristics": [
+    "cool tones",
+    "highly saturated"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 20% of frames",
+    "est. 18.2 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 4,
+   "start": 301.97,
+   "end": 321.77,
+   "duration": 19.8,
+   "representative_frame": null,
+   "shot_type": "title / graphic card",
+   "shot_type_confidence": 0.5,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 136.3,
+    "speech_coverage": 0.682,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.403,
+    "documentary": 0.294,
+    "personal": 0.303
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "highly saturated",
+    "flat / low contrast",
+    "bright / airy",
+    "on-screen text or title"
+   ],
+   "editing_techniques": [
+    "on-screen text / title card"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "text-like overlay score 0.56",
+    "est. 18.2 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 5,
+   "start": 321.77,
+   "end": 341.58,
+   "duration": 19.81,
+   "representative_frame": null,
+   "shot_type": "wide establishing / landscape",
+   "shot_type_confidence": 0.55,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 21.2,
+    "speech_coverage": 0.079,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "mostly non-speech"
+   },
+   "narrative_function": "atmosphere / montage",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.975,
+    "documentary": 0.013,
+    "personal": 0.013
+   },
+   "visual_characteristics": [
+    "cool tones",
+    "muted / desaturated",
+    "flat / low contrast",
+    "bright / airy"
+   ],
+   "editing_techniques": [
+    "speech-free fast montage"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "sky in top third 52%, edge density 0.05",
+    "shot: wide establishing / landscape",
+    "little speech (8% caption coverage)",
+    "est. 18.2 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 6,
+   "start": 341.58,
+   "end": 707.9,
+   "duration": 366.32,
+   "representative_frame": null,
+   "shot_type": "busy street / detail-rich scene",
+   "shot_type_confidence": 0.4,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 138.7,
+    "speech_coverage": 0.632,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.377,
+    "documentary": 0.489,
+    "personal": 0.134
+   },
+   "visual_characteristics": [
+    "cool tones"
+   ],
+   "editing_techniques": [
+    "audience replay peak (most-replayed)"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "edge density 0.16",
+    "est. 18.2 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 7,
+   "start": 707.9,
+   "end": 826.71,
+   "duration": 118.81,
+   "representative_frame": null,
+   "shot_type": "busy street / detail-rich scene",
+   "shot_type_confidence": 0.4,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "medium",
+   "audio": {
+    "words_per_minute": 183.8,
+    "speech_coverage": 0.888,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.206,
+    "documentary": 0.62,
+    "personal": 0.174
+   },
+   "visual_characteristics": [
+    "cool tones",
+    "highly saturated"
+   ],
+   "editing_techniques": [
+    "audience replay peak (most-replayed)"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "edge density 0.21",
+    "dense narration 184 wpm",
+    "est. 5.3 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 8,
+   "start": 826.71,
+   "end": 905.92,
+   "duration": 79.21,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 68.2,
+    "speech_coverage": 0.331,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "atmosphere / montage",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.658,
+    "documentary": 0.174,
+    "personal": 0.168
+   },
+   "visual_characteristics": [
+    "cool tones",
+    "highly saturated"
+   ],
+   "editing_techniques": [
+    "audience replay peak (most-replayed)"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 25% of frames",
+    "est. 12.6 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 9,
+   "start": 905.92,
+   "end": 1222.74,
+   "duration": 316.82,
+   "representative_frame": null,
+   "shot_type": "low-light / night shot",
+   "shot_type_confidence": 0.45,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 129.3,
+    "speech_coverage": 0.583,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "resolution / outro",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.61,
+    "documentary": 0.233,
+    "personal": 0.157
+   },
+   "visual_characteristics": [
+    "cool tones",
+    "low-key / dark"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "mean brightness 0.20",
+    "shot: low-light / night shot",
+    "est. 18.2 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 10,
+   "start": 1222.74,
+   "end": 1272.25,
+   "duration": 49.51,
+   "representative_frame": null,
+   "shot_type": "low-light / night shot",
+   "shot_type_confidence": 0.45,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 195.1,
+    "speech_coverage": 0.731,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "resolution / outro",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.538,
+    "documentary": 0.219,
+    "personal": 0.244
+   },
+   "visual_characteristics": [
+    "cool tones",
+    "highly saturated",
+    "flat / low contrast",
+    "low-key / dark"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "mean brightness 0.15",
+    "shot: low-light / night shot",
+    "dense narration 195 wpm",
+    "est. 18.2 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 11,
+   "start": 1272.25,
+   "end": 1297.0,
+   "duration": 24.75,
+   "representative_frame": null,
+   "shot_type": "medium shot with people",
+   "shot_type_confidence": 0.5,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 179.4,
+    "speech_coverage": 0.779,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "resolution / outro",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.295,
+    "documentary": 0.558,
+    "personal": 0.148
+   },
+   "visual_characteristics": [
+    "warm tones"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 50% of frames, max face 21%",
+    "dense narration 179 wpm",
+    "est. 18.2 cuts/min in this sequence"
+   ]
+  }
+ ],
+ "narrative_structure": [
+  {
+   "start": 0.0,
+   "end": 60.0,
+   "label": "hook",
+   "description": "short visual lead-in followed by speech",
+   "evidence": []
+  },
+  {
+   "start": 0.0,
+   "end": 12.98,
+   "label": "audience peak",
+   "description": "highest replay density - likely emotional or visual climax",
+   "evidence": [
+    "heat 1.00"
+   ]
+  },
+  {
+   "start": 60.0,
+   "end": 324.25,
+   "label": "setup / arrival",
+   "description": "position-based (no chapters available)",
+   "evidence": []
+  },
+  {
+   "start": 324.25,
+   "end": 972.75,
+   "label": "exploration / development",
+   "description": "position-based (no chapters available)",
+   "evidence": []
+  },
+  {
+   "start": 972.75,
+   "end": 1206.21,
+   "label": "climax / key experience",
+   "description": "position-based (no chapters available)",
+   "evidence": []
+  },
+  {
+   "start": 1206.21,
+   "end": 1297.0,
+   "label": "resolution / outro",
+   "description": "position-based (no chapters available)",
+   "evidence": []
+  }
+ ],
+ "hook": {
+  "first_speech_at_s": 3.211,
+  "words_first_30s": 46,
+  "hook_vocabulary_first_30s": 0.0,
+  "title_uses_superlative_or_intrigue": false,
+  "cold_open": false,
+  "est_cuts_per_min_first_60s": 18.15,
+  "pattern": "short visual lead-in followed by speech"
+ },
+ "editing_characteristics": {
+  "est_cuts_per_min": 18.15,
+  "est_avg_shot_length_s": 3.3,
+  "estimator_saturated": true,
+  "changed_sample_fraction": 0.954,
+  "sample_interval_s": 9.9,
+  "visual_sequences": 12,
+  "median_sequence_s": 64.4,
+  "pacing_curve": [
+   {
+    "start": 0.0,
+    "end": 60.0,
+    "est_cuts_per_min": 18.15,
+    "speech_coverage": 0.45
+   },
+   {
+    "start": 60.0,
+    "end": 120.0,
+    "est_cuts_per_min": 18.15,
+    "speech_coverage": 0.66
+   },
+   {
+    "start": 120.0,
+    "end": 180.0,
+    "est_cuts_per_min": 18.15,
+    "speech_coverage": 0.43
+   },
+   {
+    "start": 180.0,
+    "end": 240.0,
+    "est_cuts_per_min": 18.15,
+    "speech_coverage": 0.53
+   },
+   {
+    "start": 240.0,
+    "end": 300.0,
+    "est_cuts_per_min": 18.15,
+    "speech_coverage": 0.57
+   },
+   {
+    "start": 300.0,
+    "end": 360.0,
+    "est_cuts_per_min": 18.15,
+    "speech_coverage": 0.33
+   },
+   {
+    "start": 360.0,
+    "end": 420.0,
+    "est_cuts_per_min": 18.15,
+    "speech_coverage": 0.46
+   },
+   {
+    "start": 420.0,
+    "end": 480.0,
+    "est_cuts_per_min": 18.15,
+    "speech_coverage": 0.83
+   },
+   {
+    "start": 480.0,
+    "end": 540.0,
+    "est_cuts_per_min": 18.15,
+    "speech_coverage": 0.81
+   },
+   {
+    "start": 540.0,
+    "end": 600.0,
+    "est_cuts_per_min": 18.15,
+    "speech_coverage": 0.5
+   },
+   {
+    "start": 600.0,
+    "end": 660.0,
+    "est_cuts_per_min": 18.15,
+    "speech_coverage": 0.54
+   },
+   {
+    "start": 660.0,
+    "end": 720.0,
+    "est_cuts_per_min": 18.15,
+    "speech_coverage": 0.83
+   },
+   {
+    "start": 720.0,
+    "end": 780.0,
+    "est_cuts_per_min": 18.15,
+    "speech_coverage": 0.85
+   },
+   {
+    "start": 780.0,
+    "end": 840.0,
+    "est_cuts_per_min": 1.1,
+    "speech_coverage": 0.76
+   },
+   {
+    "start": 840.0,
+    "end": 900.0,
+    "est_cuts_per_min": 10.86,
+    "speech_coverage": 0.4
+   },
+   {
+    "start": 900.0,
+    "end": 960.0,
+    "est_cuts_per_min": 18.15,
+    "speech_coverage": 0.53
+   },
+   {
+    "start": 960.0,
+    "end": 1020.0,
+    "est_cuts_per_min": 18.15,
+    "speech_coverage": 0.66
+   },
+   {
+    "start": 1020.0,
+    "end": 1080.0,
+    "est_cuts_per_min": 18.15,
+    "speech_coverage": 0.71
+   },
+   {
+    "start": 1080.0,
+    "end": 1140.0,
+    "est_cuts_per_min": 18.15,
+    "speech_coverage": 0.38
+   },
+   {
+    "start": 1140.0,
+    "end": 1200.0,
+    "est_cuts_per_min": 18.15,
+    "speech_coverage": 0.54
+   },
+   {
+    "start": 1200.0,
+    "end": 1260.0,
+    "est_cuts_per_min": 18.15,
+    "speech_coverage": 0.66
+   },
+   {
+    "start": 1260.0,
+    "end": 1297.0,
+    "est_cuts_per_min": 18.15,
+    "speech_coverage": 0.84
+   }
+  ],
+  "pacing_variability": 3.8,
+  "on_screen_text_frames": 1,
+  "chapters": 0,
+  "measurement_note": "Cut rate is a Poisson estimate from storyboard samples; individual cuts, transitions and camera moves are not observable at this sampling rate."
+ },
+ "sound_design": {
+  "available": true,
+  "speech_coverage": 0.6,
+  "non_speech_fraction": 0.177,
+  "longest_non_speech_s": 26.5,
+  "words_per_minute_overall": 127.2,
+  "caption_markers": {},
+  "music_marked_scenes": 0,
+  "note": "Music/ambience inferred from caption markers and speech gaps; audio itself is not downloaded."
+ },
+ "color_characteristics": {
+  "mean_brightness": 0.397,
+  "mean_contrast": 0.183,
+  "mean_saturation": 0.455,
+  "mean_colorfulness": 57.7,
+  "mean_warmth": -0.089,
+  "saturation_spread": 0.122,
+  "brightness_spread": 0.163,
+  "letterboxed_frame_fraction": 0.0,
+  "night_or_lowkey_fraction": 0.183,
+  "dominant_palette": [
+   "#8a4638",
+   "#5a2430",
+   "#79b5cb",
+   "#a78434",
+   "#34383a",
+   "#7c493f",
+   "#6abec4",
+   "#93bab2"
+  ],
+  "grading_tags": [
+   "cool tones",
+   "highly saturated",
+   "on-screen text or title"
+  ]
+ },
+ "storytelling": {
+  "first_person_singular": 0.008,
+  "first_person_plural": 0.0226,
+  "second_person": 0.0142,
+  "reflection": 0.0022,
+  "context_facts": 0.0269,
+  "hook_words": 0.0131,
+  "questions": 53,
+  "total_words": 2749,
+  "dialogue_score": 0.148,
+  "face_frame_fraction": 0.252,
+  "closeup_frame_fraction": 0.015,
+  "shot_type_distribution": {
+   "busy street / detail-rich scene": 3,
+   "wide establishing / landscape": 3,
+   "wide shot with people": 2,
+   "low-light / night shot": 2,
+   "title / graphic card": 1,
+   "medium shot with people": 1
+  },
+  "narrative_functions": {
+   "atmosphere / montage": 4,
+   "journey / progression": 3,
+   "resolution / outro": 3,
+   "opening hook": 1,
+   "context / exposition": 1
+  }
+ },
+ "style_mode_mix": {
+  "cinematic": 0.514,
+  "documentary": 0.342,
+  "personal": 0.144
+ },
+ "style_mode_basis": "transcript+visual",
+ "techniques": [
+  {
+   "start": 0.0,
+   "end": 12.98,
+   "name": "replay peak",
+   "description": "most-replayed moment (heat 1.00) - audience-proven highlight",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 0.9,
+   "source": "heuristic"
+  },
+  {
+   "start": 53.928000000000004,
+   "end": 67.65,
+   "name": "atmospheric non-speech sequence",
+   "description": "14s without dialogue/narration, est. 0.0 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 120.41099999999999,
+   "end": 146.938,
+   "name": "speech-free montage",
+   "description": "27s without dialogue/narration, est. 18.2 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 242.45000000000002,
+   "end": 254.712,
+   "name": "atmospheric non-speech sequence",
+   "description": "12s without dialogue/narration, est. 0.0 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 306.92,
+   "end": 316.82076335877866,
+   "name": "on-screen text",
+   "description": "title, location label or caption overlay detected",
+   "category": "graphics",
+   "style_mode": null,
+   "confidence": 0.4,
+   "source": "heuristic"
+  },
+  {
+   "start": 346.21999999999997,
+   "end": 360.86,
+   "name": "speech-free montage",
+   "description": "15s without dialogue/narration, est. 18.2 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 371.245,
+   "end": 384.801,
+   "name": "atmospheric non-speech sequence",
+   "description": "14s without dialogue/narration, est. 0.0 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 623.04,
+   "end": 636.02,
+   "name": "replay peak",
+   "description": "most-replayed moment (heat 0.87) - audience-proven highlight",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 0.9,
+   "source": "heuristic"
+  },
+  {
+   "start": 817.74,
+   "end": 830.72,
+   "name": "replay peak",
+   "description": "most-replayed moment (heat 0.79) - audience-proven highlight",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 0.9,
+   "source": "heuristic"
+  },
+  {
+   "start": 828.994,
+   "end": 846.637,
+   "name": "speech-free montage",
+   "description": "18s without dialogue/narration, est. 18.2 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 896.103,
+   "end": 910.034,
+   "name": "atmospheric non-speech sequence",
+   "description": "14s without dialogue/narration, est. 0.0 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  }
+ ],
+ "qualitative": {
+  "source": "claude-code subagent (viewed all 3 contact sheets + profile + transcript)",
+  "summary": "A two-part Ethiopia film that front-loads the most extreme imagery (Dallol's sulphur fields, Danakil salt miners and camel caravans) and then moves to its real subject, the walled city of Harar and its hand-fed hyenas. The opening 0:00-0:50 is a fast tease of both halves - acid-coloured terrain, Joe seated beside a hyena, a heat-struck presenter beside a 4x4 - over clipped narration. The Danakil section is shot in bright cyan-and-ochre daylight with strong process shots of salt extraction; Harar is a guided walk with a local, sit-down interviews and domestic interiors. The climax is a long night sequence of feeding hyenas under hard, warm practical light, ending with a walk into the dark toward the hyenas' 'home'. It closes on an Epidemic Sound sponsor read in an edit suite and a final camel-caravan sunset.",
+  "hook_analysis": "Speech starts at 3 s ('The toxic gases... The smell...') over Dallol's colour fields (0:00-0:10). Within 30 s it cuts the night hyena-feeding image (0:20) and the presenter overwhelmed by heat (0:30), so both set-pieces are promised before any context. A second mini-hook at 0:40-0:50 states the hyena premise directly. The 0:00-0:12 replay peak confirms the colour-field opening as the strongest grab.",
+  "narrative_arc": "No chapters. Tease (0:00-1:07) -> Danakil salt-miners history with archival-style rock art and maps (1:07-2:29) -> on-the-ground salt mining and Dallol volcano (2:29-5:37) -> travel to Harar via airport, markets and map (5:47-7:26) -> guided walk through old city, kite-feeding, traditional house (7:26-12:32) -> expert interview framing the hyena question (12:42-13:42) -> dusk then night hyena feeding with the Hyena Man (13:52-19:08) -> walk into darkness (19:18-20:38) -> sponsor and caravan sunset (20:47-21:37).",
+  "camera_and_composition": "Low-angle hero framing of workers against flat cyan sky (2:58, 3:48); top-down drone showing a single figure in a salt hole (5:27-5:37) for scale; locked two-shot seated interviews repeated across many tiles (12:52-13:42, 16:30-17:00) - a static, studio-like setup in a garden and at night; wide-angle selfie in heat (2:38). Night feeding is lit with a warm practical/red-orange source low in frame. Camera moves are not observable at storyboard resolution.",
+  "color_and_grade": "Highly saturated with cyan skies and teal-pushed whites (Harar's walls read mint/teal, 7:55-9:05) against ochre/red sulphur and earth. Night section shifts to deep blue ambient with warm orange key on faces; the hotel interior at 20:28 is lurid green. Archival hyena close-up at 17:20 has a different, warmer natural-history look.",
+  "sound_and_music": "Speech-heavy (60% coverage, ~127 wpm) with short speech-free runs (max ~27 s) e.g. 2:00-2:26 caravan, 5:46-6:00 travel, 13:48-14:06 hyena reveal. 53 questions in the transcript - Joe drives scenes by asking locals questions. The sponsor read says most music and ambience came from Epidemic Sound and admits ambient sound sometimes isn't recorded on location.",
+  "what_to_borrow": [
+   "Tease both halves of a two-location film in the first 30 s, ending on the most unusual image",
+   "Use a top-down drone with one tiny human figure to sell the scale of a harsh landscape",
+   "Before the spectacle, insert an expert sit-down that frames the question so the set-piece answers it",
+   "Let the night set-piece play as a continuous escalating sequence rather than intercutting it"
+  ],
+  "what_to_avoid_copying": [
+   "Cutting third-party broadcast footage (a BBC-badged hyena close-up at 17:20) into your own film without rights",
+   "Repeating the same static two-shot for 50+ seconds of interview - it is visibly unvaried across tiles",
+   "Placing a long sponsor read right after the climax"
+  ],
+  "observations": [
+   {
+    "start": 0,
+    "end": 12,
+    "name": "abstract colour-field open",
+    "description": "Dallol's yellow/green/red mineral terrain fills frame as first narration lands at 3 s; replay peak.",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 18,
+    "end": 52,
+    "name": "two-subject tease",
+    "description": "Night hyena-feeding (0:20), heat-struck presenter at a 4x4 (0:30), Harar elder two-shot (0:50) promise both halves.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 67,
+    "end": 120,
+    "name": "history montage with artifacts",
+    "description": "Salt-cutting, camel caravan on salt flat (1:29) and rock-art/manuscript texture (1:39) under VO about salt as currency.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 139,
+    "end": 160,
+    "name": "map + travel logistics",
+    "description": "Joe at a small plane (2:19), parchment-style relief map of the region (2:29), then selfie complaining of heat (2:38).",
+    "style_mode": "personal"
+   },
+   {
+    "start": 178,
+    "end": 240,
+    "name": "process sequence",
+    "description": "Low-angle workers prising and binding salt blocks (2:58-3:28), Joe with the miners (3:38), 'collect your salary' payoff.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 257,
+    "end": 320,
+    "name": "landscape set-piece",
+    "description": "Dallol sulphur formations in extreme colour (4:17-5:17) with Joe small in frame on a ridge (4:27-4:37).",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 327,
+    "end": 340,
+    "name": "scale reveal drone",
+    "description": "Top-down over white salt crust with a single person in a hole (5:27-5:37).",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 356,
+    "end": 446,
+    "name": "new-city establishing chain",
+    "description": "Airport arrival (5:47), crowded market streets (5:56-6:16), aerial of walled city (6:26-6:56), parchment map (7:06-7:16), city aerial (7:26).",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 455,
+    "end": 545,
+    "name": "guided walk with local",
+    "description": "Walk-and-talk through teal-and-white alleys with guide Omar, pointing at inscriptions and gates (7:35-8:35).",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 554,
+    "end": 630,
+    "name": "street spectacle cutaways",
+    "description": "Kites swooping for meat (9:14, 10:24) intercut with crowd wides; replay peak at 10:23.",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 683,
+    "end": 750,
+    "name": "domestic interior tour",
+    "description": "Traditional Harari house with basket-covered walls, host explaining customs (11:23-12:23).",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 762,
+    "end": 830,
+    "name": "expert sit-down interview",
+    "description": "Static garden two-shot with resident Ma'ruf framing the hyena question (12:52-13:42); replay peak 13:37.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 832,
+    "end": 900,
+    "name": "dusk approach",
+    "description": "Joe standing at road edge as hyenas emerge in blue-hour light (13:52-14:51), meat basket insert (15:01).",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 950,
+    "end": 1148,
+    "name": "night feeding set-piece",
+    "description": "Hyena Man and Joe seated with basket under warm low light, hyenas climbing onto them (15:50-19:08); archival BBC close-up insert at 17:20.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 1158,
+    "end": 1238,
+    "name": "walk into darkness",
+    "description": "Joe and guide walk away from camera toward city lights and hyenas (19:18-20:38) - a closing beat of threat.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 1247,
+    "end": 1297,
+    "name": "sponsor read + caravan button",
+    "description": "Epidemic Sound UI screen-captures (20:47-21:07), Joe at an edit desk (21:17), then camel caravan at sunset (21:27).",
+    "style_mode": "personal"
+   }
+  ]
+ },
+ "contact_sheets": [],
+ "limitations": [
+  "Frames are YouTube storyboard previews (YouTube storyboard 320x180, one frame every 9.9s); fine detail, exact cuts, transitions and camera movement are not measured.",
+  "Shot types use face/sky/edge heuristics on low-resolution frames - treat as approximate."
+ ]
+}

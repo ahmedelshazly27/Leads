@@ -96,6 +96,8 @@ class SourceInfo(BaseModel):
     metadata: bool = False
     transcript: Literal["manual", "auto", "auto-translated", "whisper", "none"] = "none"
     transcript_language: str | None = None
+    transcript_quality: Literal["ok", "suspect", "none"] = "ok"
+    transcript_quality_note: str = ""
     frames: str = "none"
     frame_interval_s: float | None = None
     chapters: int = 0

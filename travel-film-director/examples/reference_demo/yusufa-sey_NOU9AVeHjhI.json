@@ -1,0 +1,863 @@
+{
+ "schema_version": "1.0",
+ "video_id": "NOU9AVeHjhI",
+ "url": "https://www.youtube.com/watch?v=NOU9AVeHjhI",
+ "creator": "Yusufa Sey",
+ "title": "Zero to £100M | M&A entrepreneur buying businesses from Copenhagen",
+ "channel": "Yusufa Sey",
+ "upload_date": "20250309",
+ "duration": 786.0,
+ "view_count": 7028,
+ "user_notes": "Copenhagen",
+ "analysed_at": "2026-11-27T19:27:27+00:00",
+ "sources": {
+  "metadata": true,
+  "transcript": "none",
+  "transcript_language": null,
+  "transcript_quality": "none",
+  "transcript_quality_note": "no transcript",
+  "frames": "YouTube storyboard 320x180, one frame every 4.9s",
+  "frame_interval_s": 4.943396226415095,
+  "chapters": 8,
+  "heatmap": false
+ },
+ "chapters": [
+  {
+   "start": 0.0,
+   "end": 12.0,
+   "title": "Intro"
+  },
+  {
+   "start": 12.0,
+   "end": 124.0,
+   "title": "UK - CPH - UAE"
+  },
+  {
+   "start": 124.0,
+   "end": 241.0,
+   "title": "Going Public"
+  },
+  {
+   "start": 241.0,
+   "end": 360.0,
+   "title": "The UK Trip"
+  },
+  {
+   "start": 360.0,
+   "end": 573.0,
+   "title": "The Vision"
+  },
+  {
+   "start": 573.0,
+   "end": 643.0,
+   "title": "Why England"
+  },
+  {
+   "start": 643.0,
+   "end": 767.0,
+   "title": "Jim Ratcliffe"
+  },
+  {
+   "start": 767.0,
+   "end": 786.0,
+   "title": "Outro"
+  }
+ ],
+ "replay_peaks": [],
+ "scenes": [
+  {
+   "index": 0,
+   "start": 0.0,
+   "end": 27.19,
+   "duration": 27.19,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "opening hook",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.254,
+    "documentary": 0.554,
+    "personal": 0.193
+   },
+   "visual_characteristics": [
+    "neutral white balance",
+    "high contrast"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 17% of frames",
+    "visual-only scoring (no transcript)",
+    "shot: wide shot with people",
+    "est. 36.4 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 1,
+   "start": 27.19,
+   "end": 126.06,
+   "duration": 98.87,
+   "representative_frame": null,
+   "shot_type": "medium shot with people",
+   "shot_type_confidence": 0.5,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "slow",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.287,
+    "documentary": 0.545,
+    "personal": 0.168
+   },
+   "visual_characteristics": [
+    "neutral white balance",
+    "muted / desaturated",
+    "high contrast"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 65% of frames, max face 31%",
+    "visual-only scoring (no transcript)",
+    "shot: medium shot with people",
+    "est. 2.7 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 2,
+   "start": 126.06,
+   "end": 239.75,
+   "duration": 113.7,
+   "representative_frame": null,
+   "shot_type": "medium shot with people",
+   "shot_type_confidence": 0.5,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "slow",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.274,
+    "documentary": 0.564,
+    "personal": 0.163
+   },
+   "visual_characteristics": [
+    "neutral white balance",
+    "high contrast"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 96% of frames, max face 22%",
+    "visual-only scoring (no transcript)",
+    "shot: medium shot with people",
+    "est. 1.1 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 3,
+   "start": 239.75,
+   "end": 397.95,
+   "duration": 158.19,
+   "representative_frame": null,
+   "shot_type": "medium shot with people",
+   "shot_type_confidence": 0.5,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "medium",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.244,
+    "documentary": 0.578,
+    "personal": 0.177
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "high contrast"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 69% of frames, max face 28%",
+    "visual-only scoring (no transcript)",
+    "shot: medium shot with people",
+    "est. 4.5 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 4,
+   "start": 397.95,
+   "end": 481.98,
+   "duration": 84.03,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.25,
+    "documentary": 0.552,
+    "personal": 0.198
+   },
+   "visual_characteristics": [
+    "neutral white balance",
+    "high contrast"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 6% of frames",
+    "visual-only scoring (no transcript)",
+    "shot: wide shot with people",
+    "est. 26.0 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 5,
+   "start": 481.98,
+   "end": 570.96,
+   "duration": 88.98,
+   "representative_frame": null,
+   "shot_type": "close-up on a person (talking head / selfie)",
+   "shot_type_confidence": 0.6,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "medium",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "personal",
+   "style_scores": {
+    "cinematic": 0.174,
+    "documentary": 0.253,
+    "personal": 0.573
+   },
+   "visual_characteristics": [
+    "neutral white balance",
+    "highly saturated",
+    "flat / low contrast",
+    "low-key / dark"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 72% of frames, max face 41% of frame height",
+    "visual-only scoring (no transcript)",
+    "shot: close-up on a person (talking head / selfie)",
+    "est. 7.1 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 6,
+   "start": 570.96,
+   "end": 645.11,
+   "duration": 74.15,
+   "representative_frame": null,
+   "shot_type": "close-up on a person (talking head / selfie)",
+   "shot_type_confidence": 0.6,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "slow",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "personal",
+   "style_scores": {
+    "cinematic": 0.174,
+    "documentary": 0.253,
+    "personal": 0.572
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "highly saturated",
+    "flat / low contrast",
+    "low-key / dark"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 73% of frames, max face 38% of frame height",
+    "visual-only scoring (no transcript)",
+    "shot: close-up on a person (talking head / selfie)",
+    "est. 3.8 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 7,
+   "start": 645.11,
+   "end": 768.7,
+   "duration": 123.59,
+   "representative_frame": null,
+   "shot_type": "medium shot with people",
+   "shot_type_confidence": 0.5,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "slow",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "resolution / outro",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.189,
+    "documentary": 0.625,
+    "personal": 0.187
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "high contrast"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 80% of frames, max face 19%",
+    "visual-only scoring (no transcript)",
+    "shot: medium shot with people",
+    "est. 1.6 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 8,
+   "start": 768.7,
+   "end": 786.0,
+   "duration": 17.3,
+   "representative_frame": null,
+   "shot_type": "low-light / night shot",
+   "shot_type_confidence": 0.45,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "unknown",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "resolution / outro",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.636,
+    "documentary": 0.182,
+    "personal": 0.182
+   },
+   "visual_characteristics": [
+    "neutral white balance",
+    "muted / desaturated",
+    "flat / low contrast",
+    "low-key / dark",
+    "letterboxed (cinematic aspect)"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "mean brightness 0.02",
+    "visual-only scoring (no transcript)",
+    "shot: low-light / night shot",
+    "est. -0.0 cuts/min in this sequence"
+   ]
+  }
+ ],
+ "narrative_structure": [
+  {
+   "start": 0.0,
+   "end": 60.0,
+   "label": "hook",
+   "description": "short visual lead-in followed by speech",
+   "evidence": []
+  },
+  {
+   "start": 60.0,
+   "end": 124.0,
+   "label": "UK - CPH - UAE",
+   "description": "1:52 chapter, leans context",
+   "evidence": [
+    "0 words"
+   ]
+  },
+  {
+   "start": 124.0,
+   "end": 241.0,
+   "label": "Going Public",
+   "description": "1:57 chapter, leans context",
+   "evidence": [
+    "0 words"
+   ]
+  },
+  {
+   "start": 241.0,
+   "end": 360.0,
+   "label": "The UK Trip",
+   "description": "1:59 chapter, leans context",
+   "evidence": [
+    "0 words"
+   ]
+  },
+  {
+   "start": 360.0,
+   "end": 573.0,
+   "label": "The Vision",
+   "description": "3:33 chapter, leans context",
+   "evidence": [
+    "0 words"
+   ]
+  },
+  {
+   "start": 573.0,
+   "end": 643.0,
+   "label": "Why England",
+   "description": "1:10 chapter, leans context",
+   "evidence": [
+    "0 words"
+   ]
+  },
+  {
+   "start": 643.0,
+   "end": 767.0,
+   "label": "Jim Ratcliffe",
+   "description": "2:04 chapter, leans context",
+   "evidence": [
+    "0 words"
+   ]
+  },
+  {
+   "start": 767.0,
+   "end": 786.0,
+   "label": "Outro",
+   "description": "0:19 chapter, leans context",
+   "evidence": [
+    "0 words"
+   ]
+  }
+ ],
+ "hook": {
+  "first_speech_at_s": null,
+  "words_first_30s": 0,
+  "hook_vocabulary_first_30s": 0.0,
+  "title_uses_superlative_or_intrigue": false,
+  "cold_open": false,
+  "est_cuts_per_min_first_60s": 10.63,
+  "pattern": "short visual lead-in followed by speech"
+ },
+ "editing_characteristics": {
+  "est_cuts_per_min": 4.73,
+  "est_avg_shot_length_s": 12.68,
+  "estimator_saturated": false,
+  "changed_sample_fraction": 0.323,
+  "sample_interval_s": 4.94,
+  "visual_sequences": 9,
+  "median_sequence_s": 89.0,
+  "pacing_curve": [
+   {
+    "start": 0.0,
+    "end": 60.0,
+    "est_cuts_per_min": 10.63,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 60.0,
+    "end": 120.0,
+    "est_cuts_per_min": 1.06,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 120.0,
+    "end": 180.0,
+    "est_cuts_per_min": 3.49,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 180.0,
+    "end": 240.0,
+    "est_cuts_per_min": -0.0,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 240.0,
+    "end": 300.0,
+    "est_cuts_per_min": 1.06,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 300.0,
+    "end": 360.0,
+    "est_cuts_per_min": 1.06,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 360.0,
+    "end": 420.0,
+    "est_cuts_per_min": 30.16,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 420.0,
+    "end": 480.0,
+    "est_cuts_per_min": 31.13,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 480.0,
+    "end": 540.0,
+    "est_cuts_per_min": 8.41,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 540.0,
+    "end": 600.0,
+    "est_cuts_per_min": 4.92,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 600.0,
+    "end": 660.0,
+    "est_cuts_per_min": 3.49,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 660.0,
+    "end": 720.0,
+    "est_cuts_per_min": -0.0,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 720.0,
+    "end": 780.0,
+    "est_cuts_per_min": 2.21,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 780.0,
+    "end": 786.0,
+    "est_cuts_per_min": 0.0,
+    "speech_coverage": 0.0
+   }
+  ],
+  "pacing_variability": 10.14,
+  "on_screen_text_frames": 0,
+  "chapters": 8,
+  "measurement_note": "Cut rate is a Poisson estimate from storyboard samples; individual cuts, transitions and camera moves are not observable at this sampling rate."
+ },
+ "sound_design": {
+  "available": false,
+  "speech_coverage": 0.0,
+  "non_speech_fraction": 0.0,
+  "longest_non_speech_s": 0,
+  "words_per_minute_overall": 0.0,
+  "caption_markers": {},
+  "music_marked_scenes": 0,
+  "note": "Music/ambience inferred from caption markers and speech gaps; audio itself is not downloaded."
+ },
+ "color_characteristics": {
+  "mean_brightness": 0.344,
+  "mean_contrast": 0.27,
+  "mean_saturation": 0.36,
+  "mean_colorfulness": 25.8,
+  "mean_warmth": 0.061,
+  "saturation_spread": 0.141,
+  "brightness_spread": 0.113,
+  "letterboxed_frame_fraction": 0.031,
+  "night_or_lowkey_fraction": 0.189,
+  "dominant_palette": [
+   "#e8e5e4",
+   "#3b371b",
+   "#e7e4e3",
+   "#41321d",
+   "#261d14",
+   "#3f311c",
+   "#1e191a",
+   "#39351a"
+  ],
+  "grading_tags": [
+   "warm tones",
+   "high contrast"
+  ]
+ },
+ "storytelling": {
+  "first_person_singular": 0.0,
+  "first_person_plural": 0.0,
+  "second_person": 0.0,
+  "reflection": 0.0,
+  "context_facts": 0.0,
+  "hook_words": 0.0,
+  "questions": 0,
+  "total_words": 0,
+  "dialogue_score": 0.0,
+  "face_frame_fraction": 0.648,
+  "closeup_frame_fraction": 0.025,
+  "shot_type_distribution": {
+   "medium shot with people": 4,
+   "wide shot with people": 2,
+   "close-up on a person (talking head / selfie)": 2,
+   "low-light / night shot": 1
+  },
+  "narrative_functions": {
+   "journey / progression": 6,
+   "resolution / outro": 2,
+   "opening hook": 1
+  }
+ },
+ "style_mode_mix": {
+  "cinematic": 0.24,
+  "documentary": 0.499,
+  "personal": 0.26
+ },
+ "style_mode_basis": "visual-only (low confidence)",
+ "techniques": [
+  {
+   "start": 0.0,
+   "end": 12.0,
+   "name": "chapter",
+   "description": "chapter: Intro",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 12.0,
+   "end": 124.0,
+   "name": "chapter",
+   "description": "chapter: UK - CPH - UAE",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 124.0,
+   "end": 241.0,
+   "name": "chapter",
+   "description": "chapter: Going Public",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 241.0,
+   "end": 360.0,
+   "name": "chapter",
+   "description": "chapter: The UK Trip",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 360.0,
+   "end": 573.0,
+   "name": "chapter",
+   "description": "chapter: The Vision",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 573.0,
+   "end": 643.0,
+   "name": "chapter",
+   "description": "chapter: Why England",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 643.0,
+   "end": 767.0,
+   "name": "chapter",
+   "description": "chapter: Jim Ratcliffe",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 767.0,
+   "end": 786.0,
+   "name": "chapter",
+   "description": "chapter: Outro",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  }
+ ],
+ "qualitative": {
+  "source": "claude-code subagent (viewed all 4 contact sheets + profile + transcript; YouTube offers no transcript for this video, so story is read from burned-in subtitles)",
+  "summary": "A Copenhagen episode that is almost entirely one man talking. It is structured as a sit-down interview with an off-camera questioner, in a few interior setups: a green meeting room with a screen, olive velvet curtains, and a teal wall. Topics include taking the group public ('We are no longer a small business'; 31 shareholders), a whiteboard session mapping his holdings, why he wants to build in England, and the Jim Ratcliffe/INEOS conglomerate model. Coverage of the same talk changes from wide to close to over-the-shoulder. Big white time labels ('11AM', '12PM') structure the day. There are very few exteriors, and it ends on black 'NEXT RELEASE' and 'SEE YOU NEXT TIME' cards with subtitles still running.",
+  "hook_analysis": "Three atmospheric interior details come first: a teacup on a tray (0:00), a staircase (0:05) and a chandelier (0:10). Then '11AM' in large white type with an off-camera prompt in the subtitles ('Meetings. How you feel?') at 0:15, and the creator is talking by 0:30. It is a mood-setting lead-in followed by an immediate interview. The profile counts no speech in the first 30 s because there is no transcript, but subtitles appear from 0:15.",
+  "narrative_arc": "Interview chapters: UK-CPH-UAE plans (0:20-2:00) lead to Going Public (2:04-3:57), The UK Trip and inspiration from an energy CEO's speech (3:57-5:51), the whiteboard 'Vision' (5:56-7:55), Why England, with colonial/historical ties and childhood summers (8:04-10:33), and the Jim Ratcliffe model (10:48-12:36). The film closes with an outro over the end cards. The argument escalates from the company's status to personal ambition ('by the time I'm 40'), then to a national-scale vision.",
+  "camera_and_composition": "Seated interview framing, slightly off-centre, eye-level or slightly low, with a wide lens in the first setup (0:30-1:59). Later setups are tighter medium close-ups against olive curtains (8:04-10:33). The final setup is a wide over-the-shoulder with a blurred white foreground figure (10:48-12:36). The whiteboard section uses low-key side light, silhouettes, and close inserts of the pen (6:01-7:50). Storyboard sampling here is every ~4.9 s, but exact cuts and camera moves are still not observable at this resolution.",
+  "color_and_grade": "Muted, moody interior palette: olive green curtains, teal walls and warm skin tones, with a high-contrast tag. The whiteboard scene is dark with a pink/red cast on the walls (6:26-7:55). There are almost no daylight exteriors (one building facade at 9:28).",
+  "sound_and_music": "Not measurable: YouTube offers no transcript and no audio was downloaded. Subtitles run continuously, consistent with almost wall-to-wall speech. Off-camera questions appear in the subtitles (e.g. 'but why England?' at 9:28). Subtitles continue over the black end cards (12:41-12:51).",
+  "what_to_borrow": [
+   "Cover a long sit-down in several distinct setups (wide, tight, over-the-shoulder) so a 12-minute talk does not feel static",
+   "Use a whiteboard drawing session as visual exposition for abstract business structure",
+   "Use large time-of-day labels to give an interview-heavy film a day structure",
+   "Put the off-camera interviewer's questions in the subtitles to signal chapter turns"
+  ],
+  "what_to_avoid_copying": [
+   "'NEXT RELEASE' and 'SEE YOU NEXT TIME' series cards",
+   "Nearly no exteriors or b-roll for 12 minutes: this only works with an established audience",
+   "Wealth/billionaire framing as the hook"
+  ],
+  "observations": [
+   {
+    "start": 0,
+    "end": 15,
+    "name": "atmospheric detail opener",
+    "description": "A teacup, a staircase and a chandelier: three interior details before any person appears.",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 15,
+    "end": 20,
+    "name": "time-of-day label",
+    "description": "'11AM' in large white type in the lower-left, with an off-camera prompt in the subtitles.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 30,
+    "end": 119,
+    "name": "wide seated interview, setup 1",
+    "description": "A wide-angle seated medium shot in a green meeting room with a screen behind. He recaps meetings (stock exchange) and the week's travel.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 124,
+    "end": 138,
+    "name": "crew/camera self-reference",
+    "description": "Subtitles mention the camera operator's new camera, an on-camera nod to the crew.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 124,
+    "end": 237,
+    "name": "olive-curtain interview, setup 2",
+    "description": "Re-framed wider shot against olive curtains: 'no longer a small business', revenue and shareholder figures.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 237,
+    "end": 351,
+    "name": "inspiration anecdote",
+    "description": "Same setup. He recounts a speech by an energy company's CEO and 'dare to dream' ambition.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 356,
+    "end": 361,
+    "name": "second time label",
+    "description": "'12PM' in large white type over a phone call by the window.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 361,
+    "end": 475,
+    "name": "whiteboard explainer",
+    "description": "Low-key, side-lit session drawing the group structure, with pen inserts and silhouettes.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 484,
+    "end": 568,
+    "name": "tight interview, setup 3",
+    "description": "A closer medium close-up against olive curtain and teal wall: what he will not do, plus personal motives.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 568,
+    "end": 573,
+    "name": "question-led cutaway",
+    "description": "Subtitle 'but why England?' over an exterior building shot. The off-camera question marks the chapter.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 573,
+    "end": 633,
+    "name": "historical context answer",
+    "description": "Gambia as a former British colony and childhood summers in England, delivered to the off-camera interviewer.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 638,
+    "end": 648,
+    "name": "wide room reveal",
+    "description": "Wide of the room with globe lamps, showing the interview set.",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 648,
+    "end": 756,
+    "name": "over-shoulder interview, setup 4",
+    "description": "Wide with a blurred white foreground figure. The talk is on a billionaire's conglomerate model and national-scale ambition.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 761,
+    "end": 786,
+    "name": "end cards with audio under",
+    "description": "'NEXT RELEASE 16/03/2025' with subtitles still running, then 'SEE YOU NEXT TIME'.",
+    "style_mode": "personal"
+   }
+  ]
+ },
+ "contact_sheets": [],
+ "limitations": [
+  "Frames are YouTube storyboard previews (YouTube storyboard 320x180, one frame every 4.9s); fine detail, exact cuts, transitions and camera movement are not measured.",
+  "Shot types use face/sky/edge heuristics on low-resolution frames - treat as approximate.",
+  "No transcript available - speech/story metrics are empty."
+ ]
+}

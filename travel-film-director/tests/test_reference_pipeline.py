@@ -121,3 +121,12 @@ def test_safe_output_path(tmp_path):
     p = tmp_path / "a.mp4"
     p.write_text("x")
     assert safe_output_path(p).name == "a_2.mp4"
+
+
+def test_transcript_timing_health():
+    from tfd.analysis.transcript import timing_health
+    good = [TranscriptSegment(start=i * 3, end=i * 3 + 2, text="hi") for i in range(400)]
+    assert timing_health(good, 1200)[0] == "ok"
+    piled = [TranscriptSegment(start=i * 0.5, end=i * 0.5 + 0.4, text="x") for i in range(150)] + good[50:]
+    assert timing_health(piled, 1200)[0] == "suspect"
+    assert timing_health([], 100)[0] == "none"

@@ -1,0 +1,128 @@
+{
+  "source": "claude-code subagent (viewed all 4 contact sheets + profile + transcript)",
+  "summary": "Omar tours Qatar's Arabian-horse world: a state-of-the-art stud with a domed arena, private breeders' farms, a horse passport, training and therapy facilities, show-ring culture and a breeding lab. There is no English transcript for this video, so this reading rests on the frames, the burned-in Arabic subtitles that are visible, the title and the description ('all the secrets of the Arabian horse's beauty'). It is the most interview-led of the six (documentary share 0.55): seated conversations with Qatari experts on red sofas in an open field recur through the film, cut against archive-style show footage in vintage TV frames. Omar's participation comes in the middle (grooming, hoof care, riding, lungeing, 13:54-18:51), and the emotional beat is him lying in the straw beside a resting horse (25:08-25:18) before a calm closing montage of horses.",
+  "hook_analysis": "Short visual lead-in. Omar walks across a manicured grass paddock (0:00), laughs with a host (0:10), then a run of vintage-framed clips (0:20-1:00: an endurance rider on a white horse in the desert, riders in green hills, silhouettes at sunrise, a race followed by 4x4s, a show-ring handler) shows the whole scope of the subject in under a minute. The highest replay heat is 0:00-0:17. A price reveal (a phone calculator showing 4,500,000 at 2:39) acts as an early hook, and the same shot returns at 21:30. The spoken hook cannot be assessed because there is no English transcript.",
+  "narrative_arc": "Scope montage (0:00-1:00) -> state stud: paddocks, stables, first interviews (1:09-2:49) -> price tease and satellite map (2:39-3:09) -> facility tour, domed arena, luxury interiors (3:18-5:18) -> drive to a second site and vet/anatomy explanation (5:27-6:47) -> seated expert interviews on red sofas (7:27-8:46) -> private breeder: herd, lineage names, passport (8:56-11:54) -> Omar hands-on: grooming, hooves, riding, red-light therapy (12:24-15:43) -> training in the indoor arena (16:03-18:51) -> culture and prestige: beach-sunset horse, poetry, show footage (19:01-20:30) -> breeding lab and value (20:40-21:50) -> show-world comparisons incl. footballer analogy (22:39-23:19) -> intimacy with a horse in its stall (24:09-25:18) -> show-handling and closing horse montage (26:18-27:37) -> logo.",
+  "camera_and_composition": "Symmetrical wide-lens interiors of stables and arenas with strong leading lines (1:19, 4:08, 8:06, 16:03), many shot low on the grass so horses pass close to the lens (3:48, 27:07). Interviews are composed as formal two-shots on red sofas placed in open fields (7:46, 8:36, 12:04), with medium singles of the experts (7:27, 8:26). The presenter is often shot with a wide lens close to a horse's head (6:17, 12:54, 15:53). Drones are used sparingly (4:28 domed arena). Exact moves are not observable at storyboard resolution.",
+  "color_and_grade": "Warm (warmth 0.105, the second-warmest after Matmata) with a soft, slightly green-olive cast in the shadows and pale, hazy skies. Low-key frames are rare (1.2%): this is a clean, daylight, institutional look. Archival and show clips inside the vintage frame have their own palettes (cool blue show arenas at 19:41-20:11, a black-and-white clip at 22:39).",
+  "sound_and_music": "Not measurable: transcript.json is empty and sound_design.available is false, so speech coverage, wpm and the speech-gap metrics all read 0. From the frames, burned-in Arabic subtitles appear on interviews and handler dialogue (1:09, 1:59, 7:56-8:16, 12:34, 16:22-16:42), so the film is dialogue-driven like the others. A sung or recited poetry moment is likely at 19:11, where a man is shown with an Arabic verse overlaid on screen, but this cannot be confirmed without audio.",
+  "what_to_borrow": [
+    "Show the full scope of the subject in a 40-second montage of framed clips before the first location",
+    "Use one concrete number (the price on a phone calculator) as an early tease and pay it off later",
+    "Put interviewees on a distinctive set (red sofas in a field) and return to it, so experts become a recurring reference point",
+    "Let a pop-culture analogy graphic (two famous footballers, 23:09) explain a ranking system to a general audience",
+    "Give the film a quiet emotional beat of the presenter with an animal before the outro"
+  ],
+  "what_to_avoid_copying": [
+    "Heavy reliance on archive or borrowed show footage inside frames; check rights and avoid letting it replace your own coverage",
+    "Long seated-interview stretches can feel institutional; this film has less presenter-on-the-road energy than the others",
+    "Without a transcript, do not infer narrative claims from it; the language metrics for this video are empty"
+  ],
+  "observations": [
+    {
+      "start": 0,
+      "end": 17,
+      "name": "presenter walk-in and laugh",
+      "description": "Omar walks across a manicured paddock toward camera (0:00), then covers his ears laughing beside a Qatari host (0:10). This is the highest replay-heat segment.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 20,
+      "end": 65,
+      "name": "scope montage in vintage frames",
+      "description": "A run of rounded-TV-frame clips: an endurance rider in the desert (0:20), riders in hills (0:30), silhouettes at sunrise (0:40), a race followed by 4x4s (0:50), a show-ring handler (1:00).",
+      "style_mode": "cinematic"
+    },
+    {
+      "start": 69,
+      "end": 110,
+      "name": "stud establishing and first interview",
+      "description": "Subtitled conversation with a handler (1:09), a symmetrical wide of white horses in a ring paddock (1:19), stable architecture (1:29-1:49).",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 149,
+      "end": 160,
+      "name": "price reveal on phone calculator",
+      "description": "Omar holds up a phone calculator showing 4,500,000 (2:39); the same shot returns at 21:30 as a callback.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 268,
+      "end": 300,
+      "name": "drone of domed arena and luxury interior",
+      "description": "Aerial of a domed arena complex (4:28), then arched marble interiors (4:38-4:48) and a piece-to-camera in a glass lounge (4:58).",
+      "style_mode": "cinematic"
+    },
+    {
+      "start": 383,
+      "end": 393,
+      "name": "anatomy sketch overlay",
+      "description": "Hand-drawn line sketch of a horse's head superimposed over footage of a vet with a horse, inside the vintage frame (6:27).",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 447,
+      "end": 530,
+      "name": "red-sofa expert interviews",
+      "description": "Seated interview on red sofas placed in an open field with horses behind (7:27-8:46); the set returns at 12:04.",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 566,
+      "end": 640,
+      "name": "lineage names graphic and passport",
+      "description": "A breeder framed with floating Arabic strain/lineage names (9:26-9:36), herd wides (9:45-9:55), then a red horse passport in hand (10:35).",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 821,
+      "end": 943,
+      "name": "Omar's hands-on care",
+      "description": "Second replay peak (13:41-13:58) is followed by Omar grooming (13:54), cleaning hooves (14:23), mounting and riding (14:33-15:03), and a red-light therapy chamber (15:13).",
+      "style_mode": "personal"
+    },
+    {
+      "start": 963,
+      "end": 1131,
+      "name": "training in indoor arena",
+      "description": "Wide symmetrical indoor-arena coverage of Omar learning to handle and lunge horses with a trainer (16:03-18:51), with subtitled instructions (16:22, 18:31).",
+      "style_mode": "personal"
+    },
+    {
+      "start": 1141,
+      "end": 1221,
+      "name": "culture and prestige montage",
+      "description": "Horse galloping on a beach at sunset (19:01), a man with an Arabic verse overlaid (19:11), show-ring footage including a European Conference of Arab Horse Organizations banner (19:41-20:11).",
+      "style_mode": "cinematic"
+    },
+    {
+      "start": 1280,
+      "end": 1300,
+      "name": "breeding lab and value callback",
+      "description": "A laboratory with storage tanks (21:20) and the repeated calculator shot (21:30).",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 1358,
+      "end": 1395,
+      "name": "footballer analogy graphic",
+      "description": "Replay-peak run (22:38-23:12): a black-and-white clip with a caption (22:39), a bay horse (22:49), a trophy (22:59), then a split-screen of two famous footballers (23:09) as an analogy for champion horses.",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 1468,
+      "end": 1520,
+      "name": "lying with the horse (emotional beat)",
+      "description": "Omar lies in the straw beside a resting horse, smiling and stroking it (24:29-25:18), cut with framed show-ring footage (24:39-24:58).",
+      "style_mode": "personal"
+    },
+    {
+      "start": 1578,
+      "end": 1677,
+      "name": "closing horse montage and logo",
+      "description": "Show-handling in a sand ring (26:18-26:38), a gallop across grass (26:48), a rider on a path (26:57), low wides of white horses (27:07, 27:37), a final nuzzle (27:27), then the black logo card at 27:47.",
+      "style_mode": "cinematic"
+    }
+  ]
+}

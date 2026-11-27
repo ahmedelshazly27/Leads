@@ -1,0 +1,128 @@
+{
+  "source": "claude-code subagent (viewed all 4 contact sheets + profile + transcript)",
+  "summary": "Omar enters the world of Omani bull-butting (bull against bull, no matador) in Al Batinah, following owners who raise champion bulls, feed them 'VIP food' and train them in the sea. The film opens with a dialogue cold open that names the bulls, shows the fights and states Omar's own discomfort ('it just doesn't feel entertaining to me'). The middle half alternates farm visits, a sponsor read, and a history chapter at Barka fort and museum, plus a participation set-piece in which a shirtless Omar wades into the sea and rides a bull (12:43-14:13). The final third is the arena at dusk (crowds on a slope, megaphone announcer, referee) and the preparation of a named champion, ending on the final match with FPV-style aerials and the logo laid over the last drone shot.",
+  "hook_analysis": "Spoken cold open: speech starts at 0.35 s with Omar asking an owner what the bulls are for, followed by quick soundbites (bull names, value, 'goes back to the Pharaohs', a trampling story) cut against fight footage (1:29, 1:49). The Basmala is spoken inside the cold open (0:09) rather than before it. Ethical tension is set up at once: Omar says he finds it inhumane and an owner reassures him. Ends on a call to action ('Let's go find out for ourselves') before the map at 2:19.",
+  "narrative_arc": "Dialogue cold open (0:00-1:59) -> map of Al Batinah and arrival (2:19-2:39) -> comparison with Spanish bullfighting (2:49) -> farm tours: bull sizes, lineage, feeding, dinner with owners (2:58-9:45) -> mid-roll subscribe (9:35) and sponsor (10:54-11:14) -> history: Barka fort, museum of ancient bull games (11:24-12:14) -> sea training and Omar riding a bull (12:43-14:13) -> arena at dusk: crowd, announcer, referee, fights (14:23-20:39) -> preparing the champion bull (20:49-23:38) -> final match (23:48-26:36) -> reflection on professionalising the sport, logo.",
+  "camera_and_composition": "Mostly handheld medium two-shots of Omar with owners in pens (0:20, 5:27, 10:25), with walk-and-talk followed from behind (3:58-4:18). Close inserts of feed and tack (8:16, 21:59), low-angle bull portraits (6:37, 21:09). The arena gets long-lens crowd wides against a dusk sky (15:22, 16:31) and high or tilted aerials, including FPV-style passes over the field (24:17, 25:37-25:47, 26:46). The sea sequence is shot partly from the water at eye level (13:03-14:13). Exact camera moves are not observable at storyboard resolution.",
+  "color_and_grade": "The most desaturated of the six (mean saturation 0.30) and the brightest (0.41): warm beige and khaki earth, pale hazy dusk skies, white dishdashas. The palette (#63513c, #d9d0b7, #e5e7d4) reads as a soft, low-contrast filmic grade. Archival and graphic inserts are pushed into the vintage TV frame with stronger, more saturated colour (2:49 red matador clip, 6:17 crowd).",
+  "sound_and_music": "Highest dialogue density of the set: speech coverage 0.69, 128 wpm, 128 questions and a dialogue score of 0.21, so the film runs on conversation. Speech-free runs are short and placed at transitions and the finale (1:47-1:59, 6:18-6:35, 16:24-16:55, 25:09-25:26, 25:44-26:03, 26:38-27:06). The transcript mentions a police siren played at the arena (16:13), so real crowd and siren sound likely carry the fight scenes. The audio itself was not analysed.",
+  "what_to_borrow": [
+    "Open on a dialogue cold open that states your own discomfort or doubt, so the film becomes a test of that reaction",
+    "Introduce the animals as characters with names and records before the fight they will appear in",
+    "Insert one history chapter at a monument or museum halfway through to change texture before the climax",
+    "Give the presenter a physical participation set-piece (in the sea with the bull) between the talk-heavy farm scenes and the arena",
+    "Shoot the arena at dusk from a raised position so crowd, dust and sky read in one frame"
+  ],
+  "what_to_avoid_copying": [
+    "The sponsor segment (10:54-11:14) and the subscribe overlay (9:35) land close together in the middle and slow the build",
+    "Fast archival inserts of Spanish bullfighting (2:49) are a shortcut comparison with no context given",
+    "FPV/tilted aerials (25:37, 26:46) only work if the footage is stable; a tilted horizon on ordinary drone footage reads as an error"
+  ],
+  "observations": [
+    {
+      "start": 0,
+      "end": 110,
+      "name": "dialogue cold open with ethical tension",
+      "description": "Quick soundbites of Omar questioning owners in pens (0:00-1:19) cut against bull fights (1:29, 1:49). The Basmala comes at 0:09, inside the open, and Omar says the sport feels 'inhuman' to him at about 0:49.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 139,
+      "end": 149,
+      "name": "region map in vintage frame",
+      "description": "Map of Oman with Al Batinah outlined and labelled in Arabic, set inside a rounded vintage TV frame (2:19).",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 149,
+      "end": 165,
+      "name": "arrival piece-to-camera",
+      "description": "Omar with a backpack in a car park (2:29), then greeting the host at the car (2:39).",
+      "style_mode": "personal"
+    },
+    {
+      "start": 169,
+      "end": 179,
+      "name": "archival contrast insert",
+      "description": "A matador-and-bull clip inside the vintage frame (2:49) contrasts Spanish bullfighting with the Omani bull-versus-bull form.",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 237,
+      "end": 298,
+      "name": "walk-and-talk through the pens",
+      "description": "Followed from behind with the owner through shaded pens (3:58-4:18), Omar touches a bull's dewlap (4:38) and is introduced to it (4:48).",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 377,
+      "end": 456,
+      "name": "framed archive and dinner photos",
+      "description": "Earlier fights shown in vintage-framed inserts (6:17-6:27) and a dinner with owners as a framed still-like insert (7:36); the meal is also described in narration.",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 476,
+      "end": 500,
+      "name": "feed detail and VIP-diet comedy",
+      "description": "Inserts of barley and feed (8:06-8:16) while Omar marvels at the bulls' diet.",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 575,
+      "end": 585,
+      "name": "mid-roll subscribe overlay",
+      "description": "Subscribe/like graphic placed over Omar petting a bull (9:35).",
+      "style_mode": "personal"
+    },
+    {
+      "start": 654,
+      "end": 684,
+      "name": "sponsor read in TV frame",
+      "description": "Noqta content-creation platform segment (10:54-11:14) inside the vintage frame, with a 400K graphic and price/discount screen.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 684,
+      "end": 735,
+      "name": "history chapter at Barka",
+      "description": "Drone of a fort with an Omani flag and birds (11:24), silhouetted stairs in an archway (11:34-11:44), museum panels on ancient bull games (11:54-12:14).",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 763,
+      "end": 860,
+      "name": "sea training and riding a bull",
+      "description": "Top-down of a bull in the surf (12:53), Omar shirtless wading with the bull (13:03-13:23) and sitting on it in the sea (14:03), arms spread to camera (14:13).",
+      "style_mode": "personal"
+    },
+    {
+      "start": 922,
+      "end": 1000,
+      "name": "arena at dusk: crowd and announcer",
+      "description": "Wides of the crowd on a slope against a hazy dusk sky (15:22-15:42), an aerial of the slope (15:32), the megaphone announcer (16:02-16:12), the first locked horns (16:22-16:41).",
+      "style_mode": "cinematic"
+    },
+    {
+      "start": 1101,
+      "end": 1132,
+      "name": "referee and rules",
+      "description": "Omar questions the referee and an elder about how bouts are judged (18:21-18:40), with subtitles.",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 1269,
+      "end": 1418,
+      "name": "naming and preparing the champion",
+      "description": "Low bull portrait with an Arabic name caption (21:09), leading the white bull (21:29-21:39), grooming under palm-frond shade (21:49-23:38) with name subtitles (23:18-23:28).",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 1457,
+      "end": 1626,
+      "name": "final match, FPV aerials and logo",
+      "description": "Aerial of the arena (24:17), FPV-style tilted pass over the field (25:37-25:47), locked horns (25:57), replay peaks from 25:13 to 25:45, a closing reflection on professionalising the sport (26:11), the logo over a tilted aerial (26:46), then a black card.",
+      "style_mode": "cinematic"
+    }
+  ]
+}

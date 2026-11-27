@@ -1,0 +1,38 @@
+{
+  "source": "claude-code subagent (viewed all 3 contact sheets + profile + transcript)",
+  "summary": "A two-part Ethiopia film that front-loads the most extreme imagery (Dallol's sulphur fields, Danakil salt miners and camel caravans) and then moves to its real subject, the walled city of Harar and its hand-fed hyenas. The opening 0:00-0:50 is a fast tease of both halves - acid-coloured terrain, Joe seated beside a hyena, a heat-struck presenter beside a 4x4 - over clipped narration. The Danakil section is shot in bright cyan-and-ochre daylight with strong process shots of salt extraction; Harar is a guided walk with a local, sit-down interviews and domestic interiors. The climax is a long night sequence of feeding hyenas under hard, warm practical light, ending with a walk into the dark toward the hyenas' 'home'. It closes on an Epidemic Sound sponsor read in an edit suite and a final camel-caravan sunset.",
+  "hook_analysis": "Speech starts at 3 s ('The toxic gases... The smell...') over Dallol's colour fields (0:00-0:10). Within 30 s it cuts the night hyena-feeding image (0:20) and the presenter overwhelmed by heat (0:30), so both set-pieces are promised before any context. A second mini-hook at 0:40-0:50 states the hyena premise directly. The 0:00-0:12 replay peak confirms the colour-field opening as the strongest grab.",
+  "narrative_arc": "No chapters. Tease (0:00-1:07) -> Danakil salt-miners history with archival-style rock art and maps (1:07-2:29) -> on-the-ground salt mining and Dallol volcano (2:29-5:37) -> travel to Harar via airport, markets and map (5:47-7:26) -> guided walk through old city, kite-feeding, traditional house (7:26-12:32) -> expert interview framing the hyena question (12:42-13:42) -> dusk then night hyena feeding with the Hyena Man (13:52-19:08) -> walk into darkness (19:18-20:38) -> sponsor and caravan sunset (20:47-21:37).",
+  "camera_and_composition": "Low-angle hero framing of workers against flat cyan sky (2:58, 3:48); top-down drone showing a single figure in a salt hole (5:27-5:37) for scale; locked two-shot seated interviews repeated across many tiles (12:52-13:42, 16:30-17:00) - a static, studio-like setup in a garden and at night; wide-angle selfie in heat (2:38). Night feeding is lit with a warm practical/red-orange source low in frame. Camera moves are not observable at storyboard resolution.",
+  "color_and_grade": "Highly saturated with cyan skies and teal-pushed whites (Harar's walls read mint/teal, 7:55-9:05) against ochre/red sulphur and earth. Night section shifts to deep blue ambient with warm orange key on faces; the hotel interior at 20:28 is lurid green. Archival hyena close-up at 17:20 has a different, warmer natural-history look.",
+  "sound_and_music": "Speech-heavy (60% coverage, ~127 wpm) with short speech-free runs (max ~27 s) e.g. 2:00-2:26 caravan, 5:46-6:00 travel, 13:48-14:06 hyena reveal. 53 questions in the transcript - Joe drives scenes by asking locals questions. The sponsor read says most music and ambience came from Epidemic Sound and admits ambient sound sometimes isn't recorded on location.",
+  "what_to_borrow": [
+    "Tease both halves of a two-location film in the first 30 s, ending on the most unusual image",
+    "Use a top-down drone with one tiny human figure to sell the scale of a harsh landscape",
+    "Before the spectacle, insert an expert sit-down that frames the question so the set-piece answers it",
+    "Let the night set-piece play as a continuous escalating sequence rather than intercutting it"
+  ],
+  "what_to_avoid_copying": [
+    "Cutting third-party broadcast footage (a BBC-badged hyena close-up at 17:20) into your own film without rights",
+    "Repeating the same static two-shot for 50+ seconds of interview - it is visibly unvaried across tiles",
+    "Placing a long sponsor read right after the climax"
+  ],
+  "observations": [
+    {"start": 0, "end": 12, "name": "abstract colour-field open", "description": "Dallol's yellow/green/red mineral terrain fills frame as first narration lands at 3 s; replay peak.", "style_mode": "cinematic"},
+    {"start": 18, "end": 52, "name": "two-subject tease", "description": "Night hyena-feeding (0:20), heat-struck presenter at a 4x4 (0:30), Harar elder two-shot (0:50) promise both halves.", "style_mode": "documentary"},
+    {"start": 67, "end": 120, "name": "history montage with artifacts", "description": "Salt-cutting, camel caravan on salt flat (1:29) and rock-art/manuscript texture (1:39) under VO about salt as currency.", "style_mode": "documentary"},
+    {"start": 139, "end": 160, "name": "map + travel logistics", "description": "Joe at a small plane (2:19), parchment-style relief map of the region (2:29), then selfie complaining of heat (2:38).", "style_mode": "personal"},
+    {"start": 178, "end": 240, "name": "process sequence", "description": "Low-angle workers prising and binding salt blocks (2:58-3:28), Joe with the miners (3:38), 'collect your salary' payoff.", "style_mode": "documentary"},
+    {"start": 257, "end": 320, "name": "landscape set-piece", "description": "Dallol sulphur formations in extreme colour (4:17-5:17) with Joe small in frame on a ridge (4:27-4:37).", "style_mode": "cinematic"},
+    {"start": 327, "end": 340, "name": "scale reveal drone", "description": "Top-down over white salt crust with a single person in a hole (5:27-5:37).", "style_mode": "cinematic"},
+    {"start": 356, "end": 446, "name": "new-city establishing chain", "description": "Airport arrival (5:47), crowded market streets (5:56-6:16), aerial of walled city (6:26-6:56), parchment map (7:06-7:16), city aerial (7:26).", "style_mode": "cinematic"},
+    {"start": 455, "end": 545, "name": "guided walk with local", "description": "Walk-and-talk through teal-and-white alleys with guide Omar, pointing at inscriptions and gates (7:35-8:35).", "style_mode": "documentary"},
+    {"start": 554, "end": 630, "name": "street spectacle cutaways", "description": "Kites swooping for meat (9:14, 10:24) intercut with crowd wides; replay peak at 10:23.", "style_mode": "cinematic"},
+    {"start": 683, "end": 750, "name": "domestic interior tour", "description": "Traditional Harari house with basket-covered walls, host explaining customs (11:23-12:23).", "style_mode": "documentary"},
+    {"start": 762, "end": 830, "name": "expert sit-down interview", "description": "Static garden two-shot with resident Ma'ruf framing the hyena question (12:52-13:42); replay peak 13:37.", "style_mode": "documentary"},
+    {"start": 832, "end": 900, "name": "dusk approach", "description": "Joe standing at road edge as hyenas emerge in blue-hour light (13:52-14:51), meat basket insert (15:01).", "style_mode": "cinematic"},
+    {"start": 950, "end": 1148, "name": "night feeding set-piece", "description": "Hyena Man and Joe seated with basket under warm low light, hyenas climbing onto them (15:50-19:08); archival BBC close-up insert at 17:20.", "style_mode": "documentary"},
+    {"start": 1158, "end": 1238, "name": "walk into darkness", "description": "Joe and guide walk away from camera toward city lights and hyenas (19:18-20:38) - a closing beat of threat.", "style_mode": "personal"},
+    {"start": 1247, "end": 1297, "name": "sponsor read + caravan button", "description": "Epidemic Sound UI screen-captures (20:47-21:07), Joe at an edit desk (21:17), then camel caravan at sunset (21:27).", "style_mode": "personal"}
+  ]
+}

@@ -4,6 +4,7 @@ A local, Python-first system that learns *how* travel filmmakers you admire stru
 
 Status: **milestone 1 (reference intelligence) works end to end on real videos.** The footage → plan → timeline export → preview render → QA path works on test clips and needs real-trip tuning. See [ROADMAP.md](ROADMAP.md).
 
+- [STYLE_SYNTHESIS.md](STYLE_SYNTHESIS.md): what 24 reference videos teach (6 each from Joe Hattab, Omar Farooq, Yusufa Sey, Daniel Dalen) and which approach the director uses for which scene
 - [RESEARCH.md](RESEARCH.md): tool research, comparison matrix, final choices
 - [ARCHITECTURE.md](ARCHITECTURE.md): modules, data layout, algorithms
 - [CHANGELOG.md](CHANGELOG.md) · [ROADMAP.md](ROADMAP.md)
@@ -101,4 +102,9 @@ Put licensed music files in `<project>/music/`.
 
 ## Example output
 
-`examples/reference_demo/` contains the three demo profiles and comparison (Joe Hattab, Daniel Dalen, Yusufa Sey). These are derived metrics and annotations only; transcript excerpts and images are excluded.
+- `examples/references.txt`: the 24 reference videos (6 each from Joe Hattab, Daniel Dalen, Yusufa Sey, Omar Farooq). Recreate the library with `tfd ref batch examples/references.txt`, then re-attach the notes with `tfd annotate <id> examples/annotations/<id>.json`.
+- `examples/style_notes/`: one style guide per creator, every claim backed by timestamps from at least 2 videos.
+- `examples/annotations/`: per-video qualitative notes (351 timestamped observations).
+- `examples/reference_demo/`: measured profiles, creator profiles and the comparison.
+
+All of these are derived observations only; transcript excerpts and images are excluded.

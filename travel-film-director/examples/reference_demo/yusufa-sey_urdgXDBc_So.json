@@ -7,13 +7,15 @@
  "channel": "Yusufa Sey",
  "upload_date": "20260125",
  "duration": 1076.0,
- "view_count": 5069,
- "user_notes": "personal documentary, access to people",
- "analysed_at": "2026-11-24T19:01:43+00:00",
+ "view_count": 5073,
+ "user_notes": "Gambia - week with a candidate",
+ "analysed_at": "2026-11-27T19:27:15+00:00",
  "sources": {
   "metadata": true,
   "transcript": "none",
   "transcript_language": null,
+  "transcript_quality": "none",
+  "transcript_quality_note": "no transcript",
   "frames": "YouTube storyboard 320x180, one frame every 9.9s",
   "frame_interval_s": 9.871559633027523,
   "chapters": 8,
@@ -847,14 +849,14 @@
   "letterboxed_frame_fraction": 0.037,
   "night_or_lowkey_fraction": 0.064,
   "dominant_palette": [
+   "#d6cebf",
+   "#1e1913",
+   "#281c17",
    "#953836",
-   "#d5cdbe",
-   "#633729",
+   "#1f1c17",
+   "#603427",
    "#633628",
-   "#322522",
-   "#5e4b44",
-   "#73584e",
-   "#39251e"
+   "#d8cfc1"
   ],
   "grading_tags": [
    "warm tones"
@@ -891,6 +893,7 @@
   "documentary": 0.508,
   "personal": 0.239
  },
+ "style_mode_basis": "visual-only (low confidence)",
  "techniques": [
   {
    "start": 0.0,
@@ -974,63 +977,130 @@
   }
  ],
  "qualitative": {
-  "source": "claude-code (viewed contact sheet 1 of 3 + computed metrics; YouTube offers no captions for this video, so speech metrics are missing)",
-  "summary": "Observational, access-driven documentary-vlog: the camera rides along in cars, waits at doors, and sits at tables with a politician's circle. It is punctuated by black interstitial title cards ('ZERO TO £100M' series branding at 0:30, 'THE NEXT DAY' at 3:27) and pieces to camera that explain stakes. Burned-in subtitles carry the dialogue. The grade is warm with magenta/orange highlights, shallow depth of field on people, and handheld fly-on-the-wall framing.",
-  "hook_analysis": "In medias res: the film opens inside a moving car and on campaign activity before the series title card; context is given only after the viewer is already 'in the room'.",
-  "narrative_arc": "Day-by-day chronology signposted by text cards ('THE NEXT DAY'); stakes are set by a piece to camera ('He's running for president and I'm here to support him'); scenes alternate private moments (car, dinner) with public ones (community events).",
-  "camera_and_composition": "Observational handheld; car-interior profiles against windows; shallow-focus medium close-ups for pieces to camera; dashboard POV of the street.",
-  "color_and_grade": "Warm, slightly magenta-shifted highlights; lifted shadows; skin tones prioritised.",
-  "sound_and_music": "Not measurable here (no captions available, and audio is not downloaded).",
+  "source": "claude-code subagent (viewed all 3 contact sheets + profile + transcript; YouTube offers no transcript for this video, so story is read from burned-in subtitles)",
+  "summary": "An access-driven Gambia episode in which the creator spends a week alongside a presidential candidate (a 'Talib' campaign T-shirt is visible at 0:10). Most of it is observational: car ride-alongs, security staff opening SUV doors, community clean-up activity and a long sit-down in a mayor's office. Black interstitial cards ('ZERO TO £100M', 'THE NEXT DAY') reset the chronology. Pieces to camera in a hotel corridor and an office state the stakes ('He's running for president and I'm here to support him'). The film ends on an extended in-car conversation with the candidate and closes on 'NEXT RELEASE' and 'SEE YOU NEXT TIME' black cards.",
+  "hook_analysis": "In medias res. The film opens in a dark car interior with a magenta-lit window at 0:00, cuts to campaign supporters at 0:10 and an SUV at a restaurant entrance at 0:20, and only then shows the series card at 0:30. Context comes after it, from in-car subtitles ('we just wrapped up a couple of activities'). The viewer is placed inside the entourage before being told why. A radio line in the subtitles at 1:19 ('...the presidential election is here') supplies the stakes without a presenter.",
+  "narrative_arc": "Day-by-day chronology. Day 1 (0:39-3:17) covers the car, the candidate's home and a community clean-up ('Set-settal', 2:18). 'THE NEXT DAY' (3:27) leads to a stakes-setting piece to camera at 4:07-4:46, then a hotel, a car, and a restaurant meeting (7:14-8:23). After a short wrap piece to camera (9:23-10:02), a second 'THE NEXT DAY' (10:12) leads to the mayor's office: a piece to camera with facts (10:52-11:51), then a long observational interview with the mayor (12:01-14:58). The climax is a reflective in-car conversation about leadership and risk (15:28-17:26), followed by end cards.",
+  "camera_and_composition": "Handheld observational framing. Car interiors are shot in profile against bright windows, sometimes as near-silhouettes (5:55-6:15, 15:48-17:26). There is a dashboard POV of the street (6:25), and a rear-view-mirror detail with a campaign air-freshener reading 'A NEW GAMBIA IS POSSIBLE' (15:18). Pieces to camera are eye-level medium close-ups with shallow depth of field (4:07-4:46). The mayor scene holds a static wide two-shot in which the presenter sits frame right and partly cut off (12:10-14:58). Exact cuts and camera moves are not observable at storyboard resolution.",
+  "color_and_grade": "Warm overall (mean warmth 0.09), with red/terracotta walls dominating the restaurant and office scenes (palette #633729, #953836). Car windows clip to magenta/pink (0:00, 0:39-0:59, 6:35), which looks like a deliberate or tolerated stylisation. Exteriors are saturated greens and oranges. Shadows are kept fairly dark (low-key tag on the opening scene).",
+  "sound_and_music": "Not measurable: YouTube offers no transcript and no audio was downloaded. Burned-in subtitles show continuous dialogue through most scenes, plus one on-screen caption describing radio audio at 1:19. Subtitles continue over the black 'NEXT RELEASE' card at 17:36, so dialogue audio probably runs under the end card.",
   "what_to_borrow": [
-   "Black text interstitials to mark time jumps",
-   "One crisp piece to camera to state the stakes early",
-   "Ride-along car scenes as connective tissue between locations"
+   "Open inside the moving car or the action, and hold the title card until about 30 s in",
+   "Use plain black text interstitials ('THE NEXT DAY') to mark time jumps in a multi-day trip",
+   "Use one direct piece to camera to state the stakes, placed after the viewer has already seen the world",
+   "Let a long in-car conversation be the emotional climax instead of a montage",
+   "Use found text in the environment (campaign air-freshener, T-shirts) as story exposition"
   ],
   "what_to_avoid_copying": [
-   "Series branding cards - use your own title system"
+   "'ZERO TO £100M' series card and 'NEXT RELEASE dd/mm/yyyy' cards (creator branding)",
+   "Clipped magenta car windows, unless you want that look on purpose",
+   "Static, unvaried two-shot held for almost 3 minutes (12:10-14:58); this only works when the speaker carries it"
   ],
   "observations": [
    {
     "start": 0,
     "end": 30,
-    "name": "in medias res opening",
-    "description": "Starts inside the action (car, campaign) before any title.",
+    "name": "in medias res cold open",
+    "description": "A dark car interior with a magenta-clipped window, campaign supporters in a candidate T-shirt, and an SUV at a restaurant. All of this comes before any title.",
     "style_mode": "documentary"
    },
    {
     "start": 30,
     "end": 39,
-    "name": "black title card",
-    "description": "Series title on black - a hard visual reset after the cold open.",
+    "name": "series title card",
+    "description": "'ZERO TO £100M' in small white type on black: a hard reset after the cold open.",
     "style_mode": "documentary"
    },
    {
-    "start": 197,
-    "end": 207,
+    "start": 39,
+    "end": 79,
+    "name": "car ride-along with subtitles",
+    "description": "Profile of a passenger in the back seat with burned-in subtitles explaining the day's plan.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 79,
+    "end": 90,
+    "name": "subtitled radio cue",
+    "description": "Dashboard POV with an on-screen caption describing radio audio about the presidential election. It gives exposition without narration.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 89,
+    "end": 118,
+    "name": "home-visit detail and host",
+    "description": "Framed family portraits as a cutaway, then the host in a purple kaftan laughing on a sofa.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 138,
+    "end": 158,
+    "name": "piece to camera outdoors",
+    "description": "Presenter in a black tee against palms explains the community clean-up and the donation.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 207,
+    "end": 217,
     "name": "time-jump interstitial",
-    "description": "'THE NEXT DAY' text on black to mark chronology.",
+    "description": "'THE NEXT DAY' in bold white on black.",
     "style_mode": "documentary"
    },
    {
     "start": 247,
     "end": 290,
     "name": "stakes-setting piece to camera",
-    "description": "Presenter explains why he is there and what is at stake.",
+    "description": "Hotel-corridor medium close-up: he has been here a week, the candidate is running for president, it's a poor country.",
     "style_mode": "personal"
    },
    {
-    "start": 335,
-    "end": 400,
-    "name": "car ride-along",
-    "description": "Profile shots in a moving car and dashboard street POV as connective sequences.",
+    "start": 316,
+    "end": 346,
+    "name": "walk-and-follow with security",
+    "description": "A wide shot walking through hotel grounds, then security staff in khaki uniforms opening SUV doors.",
     "style_mode": "documentary"
    },
    {
-    "start": 414,
-    "end": 470,
-    "name": "observational dinner scene",
-    "description": "Two-person table conversation filmed fly-on-the-wall with burned-in subtitles.",
+    "start": 434,
+    "end": 503,
+    "name": "observational restaurant meeting",
+    "description": "Two men at a white-clothed table against red walls, filmed fly-on-the-wall from a fixed angle with subtitles.",
     "style_mode": "documentary"
+   },
+   {
+    "start": 612,
+    "end": 622,
+    "name": "interstitial over action",
+    "description": "'THE NEXT DAY' laid over an exterior shot of an official in uniform, a variation on the black card.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 652,
+    "end": 711,
+    "name": "fact-led piece to camera",
+    "description": "In an office, the presenter delivers figures and history (GDP, independence) straight to the lens.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 721,
+    "end": 898,
+    "name": "long observational interview",
+    "description": "Static wide two-shot of the mayor in white talking about responsibility and the presidency for nearly 3 minutes.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 918,
+    "end": 1046,
+    "name": "in-car conversation climax",
+    "description": "Close profile of the candidate in a turtleneck, gesturing as he explains why he is taking the risk. The window is blown out.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 1056,
+    "end": 1076,
+    "name": "end cards with audio under",
+    "description": "'NEXT RELEASE' then 'SEE YOU NEXT TIME' on black. Subtitles continue under the first card.",
+    "style_mode": "personal"
    }
   ]
  },

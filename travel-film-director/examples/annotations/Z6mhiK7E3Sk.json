@@ -1,0 +1,128 @@
+{
+  "source": "claude-code subagent (viewed all 3 contact sheets + profile + transcript; YouTube offers no transcript for this video, so story is read from burned-in subtitles)",
+  "summary": "A three-day Gambia trip hosting former Manchester United striker Louis Saha, built around a charity football match. It mixes a long warm-lit dinner conversation, seated pieces to camera from the creator, a monkey-park and craft-market leisure section, and a golden-hour match with a trophy presentation. This is the most saturated and warm-graded of the six videos (mean warmth 0.19, saturation 0.47). It closes with an airport farewell, seated reflections, and the 'ZERO TO £100M' card used as an end bookend rather than an opener.",
+  "hook_analysis": "A visual teaser montage comes before any talk: a group photo (0:00), a crowd with a flag and an overlaid countdown, '242 DAYS LEFT' (0:10), security in a crowd (0:20), and sun through leaves (0:30). Then a seated piece to camera at 0:40 explains the event and the guest. It is a short visual lead-in followed by speech, with the countdown text supplying urgency.",
+  "narrative_arc": "Arrival and setup by piece to camera (0:40-1:59). Dinner conversation on entrepreneurship versus football (2:08-7:35). Hotel-lobby reflection piece to camera (7:45-8:54). Leisure: monkey park and market (9:04-11:52). Fans and convoy (12:02-13:30). Charity match at golden hour (13:40-15:39). Trophy and speeches (15:49-16:38). Night farewell talk (16:58-17:47). Seated debrief (17:57-18:47). Louis leaving the airport (18:57-19:46). Final reflection and end cards (19:56-21:05).",
+  "camera_and_composition": "Eye-level medium close-ups for pieces to camera, with a shallow-focus canopy or hotel atrium behind (0:40-1:59, 7:54-8:54). The dinner is covered handheld from several angles with soft foreground bottles framing faces (2:18-7:35). The monkey park uses very shallow depth of field for nature details (9:53-10:23). The match is covered from low angles behind players' backs and from the stands (14:50-15:29). Exact moves and cuts are not observable at storyboard resolution.",
+  "color_and_grade": "Strongly warm: orange/amber interiors (palette #c08447, #e3ab6b), golden-hour pinks at the match and trophy lift (15:49-16:38), and saturated greens and blues in daytime pieces to camera. The night scenes (16:48-17:47) stay warm with practical lamp highlights. This is the most 'cinematic travel' palette in the set.",
+  "sound_and_music": "Not measurable: no transcript is available and no audio was downloaded. Burned-in subtitles show dialogue-driven scenes; the 0:00-0:30 montage and the match section (13:40-15:39) have no subtitles in the sampled frames, which suggests music or ambience there, but this is unverified.",
+  "what_to_borrow": [
+    "An overlaid countdown or stake number in the first 10 s ('242 DAYS LEFT') to create urgency",
+    "Bookend a guest visit with arrival and airport farewell scenes",
+    "Do the seated reflection piece to camera after the event, not only before it",
+    "Use golden hour for the set-piece event and shoot from behind players and among the crowd",
+    "Use shallow-depth nature cutaways as a breather between talk-heavy sections"
+  ],
+  "what_to_avoid_copying": [
+    "The 'ZERO TO £100M' and 'SEE YOU NEXT TIME' series cards",
+    "Five-minute dinner table chatter with little visual change (2:18-7:35); trim it for your own pacing",
+    "Name-dropping a famous guest in the title as the main hook if you cannot deliver access"
+  ],
+  "observations": [
+    {
+      "start": 0,
+      "end": 30,
+      "name": "visual teaser montage",
+      "description": "A group photo, a crowd with a waving flag, and security in a crowd, cut together before any talk.",
+      "style_mode": "cinematic"
+    },
+    {
+      "start": 10,
+      "end": 20,
+      "name": "countdown text overlay",
+      "description": "'242 DAYS LEFT' in large white type over the crowd shot.",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 40,
+      "end": 119,
+      "name": "seated piece to camera setup",
+      "description": "Creator in a blue polo under trees explains the event, the guest and the plan in a shallow-focus medium close-up.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 109,
+      "end": 119,
+      "name": "crew acknowledgement",
+      "description": "Subtitle names the camera operator ('We got Oscar in the building'), a recurring device that makes the crew part of the story.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 138,
+      "end": 455,
+      "name": "observational dinner conversation",
+      "description": "Warm amber room. Saha and others are covered handheld from several angles with burned-in subtitles. The talk is about how few people play in the Premier League and entrepreneurship.",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 465,
+      "end": 534,
+      "name": "lobby reflection piece to camera",
+      "description": "Black turtleneck, centred medium close-up in a symmetrical hotel atrium.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 544,
+      "end": 573,
+      "name": "location piece to camera",
+      "description": "Standing in a palm grove: 'Welcome to Africa', then on to the monkey park.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 583,
+      "end": 623,
+      "name": "nature detail montage",
+      "description": "Very shallow-focus leaves, a monkey on a branch, a tourist filming, a monkey on the ground.",
+      "style_mode": "cinematic"
+    },
+    {
+      "start": 642,
+      "end": 712,
+      "name": "market observational",
+      "description": "Craft-market stalls, guests browsing jewellery and masks, handheld close.",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 722,
+      "end": 741,
+      "name": "fan mob scene",
+      "description": "Fans in red jerseys crowd around the guest. The subtitle calls him over.",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 820,
+      "end": 939,
+      "name": "golden-hour match coverage",
+      "description": "Players warming up, low angles from behind jerseys, spectators in the stand, the ball against a pink sky.",
+      "style_mode": "cinematic"
+    },
+    {
+      "start": 949,
+      "end": 998,
+      "name": "trophy presentation and lift",
+      "description": "A speech with a microphone, then the trophy raised against the sky and players celebrating.",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 1137,
+      "end": 1186,
+      "name": "airport farewell",
+      "description": "A hug at the airport entrance, then a wide of the terminal and a piece to camera ('He's heading back now').",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 1196,
+      "end": 1255,
+      "name": "seated closing reflection",
+      "description": "Warm-lit room, presenter seated and gesturing, recapping the trip.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 1255,
+      "end": 1275,
+      "name": "end series card",
+      "description": "'ZERO TO £100M' then 'SEE YOU NEXT TIME' on black: the series card used as an outro here.",
+      "style_mode": "personal"
+    }
+  ]
+}

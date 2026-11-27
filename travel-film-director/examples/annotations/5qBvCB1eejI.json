@@ -1,0 +1,121 @@
+{
+  "source": "claude-code subagent (viewed all 5 contact sheets + profile + transcript)",
+  "summary": "A 34-minute 'pov' diary of a working holiday in Bali/Lombok with business partners and friends. It opens on a ~30 s music-led lead-in (snorkelling, a dark villa, a sunset silhouette) whose shots recur near the end, then settles into captioned conversation in a co-working space. The body alternates business talk (a new venture reveal, a standing revenue/'building in public' update in front of a hillside window, a team video call) with leisure: boat trips, gym, villa inspections, tennis, cliff-jumping. Yellow condensed time cards ('3PM', 'NEXT MORNING') mark days, and burned-in captions run throughout. It closes on a boat in a straw hat with a toast and 'see you in the next one'.",
+  "hook_analysis": "Short visual lead-in rather than a spoken claim: 0:00-0:30 shows snorkel gear on a boat, a silhouetted villa interior and a sunset silhouette, under a song (captions transcribe 'Fly Me to the Moon' lyrics). Several images (snorkel 0:10 ~ 31:04, sunset silhouette 0:30 ~ 27:26) reappear later, so it works as a teaser of the payoff. Speech arrives at ~0:04 but the first chapter is conversational, so the hook is mood plus title premise, not a stated stake.",
+  "narrative_arc": "Chronological multi-day diary with chapters: intro chat -> venture reveal (2:09) -> Lombok boat day -> standing business update (7:56-10:35) -> gym -> villa/property inspection (12:34-17:41) -> team call (18:21-21:49) -> leisure/tennis -> 'NEXT MORNING' travel day with flight, forest swim -> sunset reflection on starting a business (27:16-28:46) -> boat/snorkel finale and toast. Business beats and fun beats alternate every few minutes; the resolution is a spoken reflection on work-life balance.",
+  "camera_and_composition": "Mostly handheld wide-angle: low-angle selfies under a boat canopy (4:28-6:47), over-the-shoulder group shots, a locked-off medium of the creator standing against a bright window with hills (7:56-10:35) that leaves the face partly silhouetted. Laptop screens of a video call shot straight-on (18:21-20:50). Occasional rounded-corner 'film frame' inserts (0:10, 14:43, 16:12). Exact camera moves and cuts are not observable at storyboard resolution; motion-blurred frames at 14:53 and 17:51 suggest whip moves between scenes.",
+  "color_and_grade": "Warm, slightly muted naturalistic grade (profile warmth 0.064, saturation 0.34); overcast Lombok greens and creams, warm wood interiors, deep orange sunset silhouettes (27:16-28:46). Window shots are allowed to blow out rather than be relit.",
+  "sound_and_music": "Speech covers ~88% of runtime at ~131 wpm. Music is a bed under the opening (song lyrics captioned) and short speech-free passages (0:40-1:27 per profile, 14:47-15:01, 17:41-17:55, 23:21-23:35). Caption markers include applause and laughter. Audio itself not available.",
+  "what_to_borrow": [
+    "Open on 20-30 s of music and strong images pulled from later in the film, then drop into casual talk",
+    "Bold yellow condensed time/day cards ('3PM', 'NEXT MORNING') to orient a multi-day edit",
+    "Alternate a work beat with a leisure beat every few minutes so talk-heavy sections breathe",
+    "Burned-in captions for overlapping group chatter",
+    "Bookend with matching imagery (sunset, snorkel) so the ending feels like a payoff of the opening"
+  ],
+  "what_to_avoid_copying": [
+    "Three-minute standing talking head against a blown-out window (7:56-10:35) - expose for the face or cover with b-roll",
+    "Revenue and business-performance monologues that only make sense for an entrepreneur audience",
+    "Screen-recorded video calls as long scenes - visually static"
+  ],
+  "observations": [
+    {
+      "start": 0,
+      "end": 30,
+      "name": "teaser cold open",
+      "description": "Music-led montage of snorkel, dark villa and sunset silhouette, imagery that returns later in the film.",
+      "style_mode": "cinematic"
+    },
+    {
+      "start": 40,
+      "end": 110,
+      "name": "captioned conversation",
+      "description": "Seated table chat in a co-working room with burned-in subtitles; guests introduced through dialogue rather than titles.",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 129,
+      "end": 238,
+      "name": "venture reveal at desk",
+      "description": "Creator at a desk in a red cap announcing a new business with a partner; friends laughing in frame.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 268,
+      "end": 410,
+      "name": "wide-angle boat selfie",
+      "description": "Low-angle ultra-wide selfies under a boat canopy, friends crowding the frame, jump into the sea at 5:37.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 476,
+      "end": 635,
+      "name": "standing business update",
+      "description": "Locked-off medium against a bright hillside window, revenue and 'building in public' talk with captions.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 684,
+      "end": 744,
+      "name": "gym behind-the-scenes",
+      "description": "Shirtless friends in a bamboo gym, candid banter.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 754,
+      "end": 951,
+      "name": "property inspection walk",
+      "description": "Villa tour with architect/owner, moto arrival in a rounded-corner frame (14:43), blurred move at 14:53.",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 1101,
+      "end": 1300,
+      "name": "team video call",
+      "description": "Laptop screen of a grid video call shot straight-on, intercut with the creator reacting.",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 1200,
+      "end": 1205,
+      "name": "yellow time card",
+      "description": "'3PM' in bold yellow condensed type over a villa interior.",
+      "style_mode": "cinematic"
+    },
+    {
+      "start": 1408,
+      "end": 1428,
+      "name": "tennis moment",
+      "description": "Shirtless friend on a clay court - lines up with the strongest replay peak (23:09-23:50).",
+      "style_mode": "personal"
+    },
+    {
+      "start": 1438,
+      "end": 1445,
+      "name": "day card",
+      "description": "'NEXT MORNING' yellow title over a dark frame.",
+      "style_mode": "cinematic"
+    },
+    {
+      "start": 1448,
+      "end": 1567,
+      "name": "travel-day montage",
+      "description": "Airport, plane aisle, forest, swim in a clear pool - quick sequence of transit.",
+      "style_mode": "cinematic"
+    },
+    {
+      "start": 1636,
+      "end": 1736,
+      "name": "sunset silhouette reflection",
+      "description": "Silhouettes against an orange sunset sea while talking about how to start a business.",
+      "style_mode": "cinematic"
+    },
+    {
+      "start": 1736,
+      "end": 2043,
+      "name": "boat finale and toast",
+      "description": "Straw-hat selfies, snorkelling, a toast with friends and 'see you in the next one'.",
+      "style_mode": "personal"
+    }
+  ]
+}

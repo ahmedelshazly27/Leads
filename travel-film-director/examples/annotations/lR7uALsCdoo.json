@@ -1,0 +1,121 @@
+{
+  "source": "claude-code subagent (viewed all 4 contact sheets + profile + transcript)",
+  "summary": "A 26:12 'pov' episode: a day trip from Hong Kong into Shenzhen for a tech conference, then a fan run in Bali/Indonesia, and a sober closing reflection. It opens with a palm-payment moment at a convenience store (repeated later in context) after a brief office lead-in. The middle crosses the border, rides in a chauffeured car with translated Chinese dialogue, shows him on a conference stage screen, and announces a 6 a.m. meetup run via an Instagram story. A desk explainer with a screen recording leads to the dawn run with a crowd. The final four minutes are a bookshelf sit-down admitting low energy and struggles.",
+  "hook_analysis": "Lead-in then a novelty: office wides (0:00-0:10) then paying by palm at a 7-Eleven (0:20-0:49) with surprised reactions and 'Chinese:' subtitles; the same scene is replayed in place at 11:02-11:22, so the opening is a flash-forward teaser of a curious moment. Most-replayed segment is the first ~16 s.",
+  "narrative_arc": "Office/new CFO (0:59-1:09) -> drive and border crossing (1:19-5:06) -> back-seat ride with a driver (5:26-7:45) -> passport insert (8:14-8:34) -> SHENZHEN card (8:54) -> conference (9:04-10:53) -> palm pay in context (11:02) -> night hotel/car (11:42-12:51) -> story announcing run (13:11) -> desk explainer with screen recording (13:41-18:08) -> '29TH OF JULY' dawn run (18:17-21:15) -> plane/contract inserts (21:25-21:55) -> bookshelf reflection and sign-off (22:05-26:02).",
+  "camera_and_composition": "Driver-side profile shots in a car (1:19-3:28); rear-seat wide with sunroof (5:26-7:45); hand inserts of passport stamps; stage shot with his name on screen (10:03-10:23); static desk medium with picture-in-picture screen recording (16:19-17:18); wide locked-off street shot of the crowd at dawn (18:27-20:06); final static medium ending with him reaching to the camera (26:02). Rounded-corner inserts at 0:00, 21:25, 21:45. Cut detail not observable at storyboard resolution.",
+  "color_and_grade": "Mostly neutral to cool and darker (brightness 0.29, 21% low-key) - car interiors, conference halls, night hotels - with a sodium-orange dawn street at the meetup and a pink-lit bookshelf at the end.",
+  "sound_and_music": "~82% speech at ~128 wpm; speech-free music passages at the open (0:08-0:34), entering the conference (8:59-9:52) and at the run (~21:30). Translated 'Chinese:' captions for dialogue.",
+  "what_to_borrow": [
+    "Open on a novel local moment and replay it in context later",
+    "Passport/border inserts to mark a crossing",
+    "Bold yellow date card ('29TH OF JULY') over a dark establishing shot",
+    "Wide locked-off shot of a gathered crowd while you speak to them",
+    "End on an honest low-energy reflection rather than a hype outro"
+  ],
+  "what_to_avoid_copying": [
+    "Screen-recording explainers inside a travel story",
+    "Long talk from the back seat of a car (2+ min) with one angle",
+    "Pivoting countries mid-film without a clear bridge"
+  ],
+  "observations": [
+    {
+      "start": 0,
+      "end": 10,
+      "name": "office lead-in",
+      "description": "Rounded-frame office wides under music.",
+      "style_mode": "cinematic"
+    },
+    {
+      "start": 20,
+      "end": 49,
+      "name": "flash-forward novelty",
+      "description": "Palm-pay at a convenience store with reactions and 'Chinese:' subtitles; replayed later at 11:02.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 79,
+      "end": 208,
+      "name": "driving talk",
+      "description": "Profile of him driving, hand gestures, captions.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 237,
+      "end": 297,
+      "name": "border crossing",
+      "description": "Station signage '出口', careful filming remark, street exteriors.",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 326,
+      "end": 475,
+      "name": "back-seat conversation",
+      "description": "Wide from rear seat with sunroof; translated exchanges with the driver.",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 494,
+      "end": 514,
+      "name": "passport insert",
+      "description": "Hands flipping passport stamps.",
+      "style_mode": "cinematic"
+    },
+    {
+      "start": 534,
+      "end": 540,
+      "name": "yellow place card",
+      "description": "'SHENZHEN' over a dark car frame.",
+      "style_mode": "cinematic"
+    },
+    {
+      "start": 544,
+      "end": 653,
+      "name": "conference montage",
+      "description": "Booths, a speaker, then his own name on the stage screen; speed-blurred frame at 10:33.",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 791,
+      "end": 811,
+      "name": "story screenshot",
+      "description": "Vertical Instagram story 'DM me run' on black announcing a 6 a.m. run.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 821,
+      "end": 1088,
+      "name": "desk explainer with PiP",
+      "description": "Static desk talk with picture-in-picture screen recording of his tools.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 1097,
+      "end": 1206,
+      "name": "dawn meetup speech",
+      "description": "'29TH OF JULY' card, then a wide locked-off shot of the crowd under orange street light.",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 1216,
+      "end": 1275,
+      "name": "group run",
+      "description": "Pack of runners on a rural road, coconuts afterwards.",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 1285,
+      "end": 1315,
+      "name": "rounded-frame inserts",
+      "description": "Plane cabin and signing papers - near the strongest replay peak.",
+      "style_mode": "cinematic"
+    },
+    {
+      "start": 1325,
+      "end": 1572,
+      "name": "bookshelf reflection",
+      "description": "Static sit-down admitting low energy and struggles; ends reaching to switch off the camera.",
+      "style_mode": "personal"
+    }
+  ]
+}

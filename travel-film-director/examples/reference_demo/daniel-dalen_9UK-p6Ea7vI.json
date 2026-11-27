@@ -1,0 +1,742 @@
+{
+ "schema_version": "1.0",
+ "video_id": "9UK-p6Ea7vI",
+ "url": "https://www.youtube.com/watch?v=9UK-p6Ea7vI",
+ "creator": "Daniel Dalen",
+ "title": "pov: a 27 year old entrepreneur with a message from the Himalayas",
+ "channel": "",
+ "upload_date": "20250706",
+ "duration": 945.0,
+ "view_count": 64467,
+ "user_notes": "Himalayas",
+ "analysed_at": "2026-11-27T19:25:47+00:00",
+ "sources": {
+  "metadata": true,
+  "transcript": "auto",
+  "transcript_language": "en-orig",
+  "transcript_quality": "ok",
+  "transcript_quality_note": "",
+  "frames": "YouTube storyboard 159x90, one frame every 9.8s",
+  "frame_interval_s": 9.84375,
+  "chapters": 0,
+  "heatmap": false
+ },
+ "chapters": [],
+ "replay_peaks": [],
+ "scenes": [
+  {
+   "index": 0,
+   "start": 0.0,
+   "end": 93.52,
+   "duration": 93.52,
+   "representative_frame": null,
+   "shot_type": "busy street / detail-rich scene",
+   "shot_type_confidence": 0.4,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 139.9,
+    "speech_coverage": 0.937,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "opening hook",
+   "style_mode": "personal",
+   "style_scores": {
+    "cinematic": 0.095,
+    "documentary": 0.42,
+    "personal": 0.485
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "highly saturated",
+    "letterboxed (cinematic aspect)",
+    "on-screen text or title"
+   ],
+   "editing_techniques": [
+    "on-screen text / title card"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "edge density 0.16",
+    "est. 18.3 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 1,
+   "start": 93.52,
+   "end": 280.55,
+   "duration": 187.03,
+   "representative_frame": null,
+   "shot_type": "close-up on a person (talking head / selfie)",
+   "shot_type_confidence": 0.6,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "slow",
+   "audio": {
+    "words_per_minute": 194.4,
+    "speech_coverage": 0.988,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "personal",
+   "style_scores": {
+    "cinematic": 0.134,
+    "documentary": 0.265,
+    "personal": 0.601
+   },
+   "visual_characteristics": [
+    "cool tones",
+    "flat / low contrast",
+    "on-screen text or title"
+   ],
+   "editing_techniques": [
+    "on-screen text / title card"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 58% of frames, max face 36% of frame height",
+    "face close-up (to-camera)",
+    "first-person language 8% of words",
+    "dense narration 194 wpm",
+    "est. 1.0 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 2,
+   "start": 280.55,
+   "end": 447.89,
+   "duration": 167.34,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 94.7,
+    "speech_coverage": 0.81,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "personal",
+   "style_scores": {
+    "cinematic": 0.202,
+    "documentary": 0.19,
+    "personal": 0.609
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "low-key / dark"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 18% of frames",
+    "first-person language 10% of words",
+    "est. 17.3 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 3,
+   "start": 447.89,
+   "end": 556.17,
+   "duration": 108.28,
+   "representative_frame": null,
+   "shot_type": "busy street / detail-rich scene",
+   "shot_type_confidence": 0.4,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "medium",
+   "audio": {
+    "words_per_minute": 139.6,
+    "speech_coverage": 0.908,
+    "music_marker": true,
+    "other_markers": [],
+    "description": "continuous speech, music present (caption marker)"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "personal",
+   "style_scores": {
+    "cinematic": 0.263,
+    "documentary": 0.298,
+    "personal": 0.439
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "highly saturated",
+    "low-key / dark"
+   ],
+   "editing_techniques": [
+    "music bed under speech"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "edge density 0.16",
+    "music marker in captions",
+    "first-person language 10% of words",
+    "est. 4.8 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 4,
+   "start": 556.17,
+   "end": 595.55,
+   "duration": 39.38,
+   "representative_frame": null,
+   "shot_type": "low-light / night shot",
+   "shot_type_confidence": 0.45,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 44.2,
+    "speech_coverage": 0.469,
+    "music_marker": true,
+    "other_markers": [],
+    "description": "intermittent speech, music present (caption marker)"
+   },
+   "narrative_function": "atmosphere / montage",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.696,
+    "documentary": 0.01,
+    "personal": 0.294
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "highly saturated",
+    "flat / low contrast",
+    "low-key / dark"
+   ],
+   "editing_techniques": [
+    "music bed under speech"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "mean brightness 0.17",
+    "music marker in captions",
+    "shot: low-light / night shot",
+    "first-person language 18% of words",
+    "est. 18.3 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 5,
+   "start": 595.55,
+   "end": 634.92,
+   "duration": 39.38,
+   "representative_frame": null,
+   "shot_type": "low-light / night shot",
+   "shot_type_confidence": 0.45,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 140.2,
+    "speech_coverage": 0.854,
+    "music_marker": true,
+    "other_markers": [
+     "applause"
+    ],
+    "description": "continuous speech, music present (caption marker)"
+   },
+   "narrative_function": "atmosphere / montage",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.53,
+    "documentary": 0.082,
+    "personal": 0.387
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "highly saturated",
+    "flat / low contrast",
+    "low-key / dark"
+   ],
+   "editing_techniques": [
+    "music bed under speech"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "mean brightness 0.19",
+    "music marker in captions",
+    "shot: low-light / night shot",
+    "first-person language 7% of words",
+    "est. 18.3 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 6,
+   "start": 634.92,
+   "end": 674.3,
+   "duration": 39.38,
+   "representative_frame": null,
+   "shot_type": "low-light / night shot",
+   "shot_type_confidence": 0.45,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 24.4,
+    "speech_coverage": 0.387,
+    "music_marker": false,
+    "other_markers": [
+     "applause"
+    ],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "atmosphere / montage",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.651,
+    "documentary": 0.015,
+    "personal": 0.334
+   },
+   "visual_characteristics": [
+    "neutral white balance",
+    "flat / low contrast",
+    "low-key / dark"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "mean brightness 0.16",
+    "shot: low-light / night shot",
+    "first-person language 12% of words",
+    "est. 18.3 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 7,
+   "start": 674.3,
+   "end": 945.0,
+   "duration": 270.7,
+   "representative_frame": null,
+   "shot_type": "low-light / night shot",
+   "shot_type_confidence": 0.45,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "slow",
+   "audio": {
+    "words_per_minute": 153.6,
+    "speech_coverage": 0.94,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "resolution / outro",
+   "style_mode": "personal",
+   "style_scores": {
+    "cinematic": 0.328,
+    "documentary": 0.234,
+    "personal": 0.438
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "highly saturated",
+    "flat / low contrast",
+    "low-key / dark"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "mean brightness 0.10",
+    "shot: low-light / night shot",
+    "first-person language 9% of words",
+    "est. 0.2 cuts/min in this sequence"
+   ]
+  }
+ ],
+ "narrative_structure": [
+  {
+   "start": 0.0,
+   "end": 60.0,
+   "label": "hook",
+   "description": "spoken cold open: narration/claim starts immediately",
+   "evidence": []
+  },
+  {
+   "start": 60.0,
+   "end": 236.25,
+   "label": "setup / arrival",
+   "description": "position-based (no chapters available)",
+   "evidence": []
+  },
+  {
+   "start": 236.25,
+   "end": 708.75,
+   "label": "exploration / development",
+   "description": "position-based (no chapters available)",
+   "evidence": []
+  },
+  {
+   "start": 708.75,
+   "end": 878.85,
+   "label": "climax / key experience",
+   "description": "position-based (no chapters available)",
+   "evidence": []
+  },
+  {
+   "start": 878.85,
+   "end": 945.0,
+   "label": "resolution / outro",
+   "description": "position-based (no chapters available)",
+   "evidence": []
+  }
+ ],
+ "hook": {
+  "first_speech_at_s": 1.6,
+  "words_first_30s": 56,
+  "hook_vocabulary_first_30s": 0.0536,
+  "title_uses_superlative_or_intrigue": false,
+  "cold_open": true,
+  "est_cuts_per_min_first_60s": 18.26,
+  "pattern": "spoken cold open: narration/claim starts immediately"
+ },
+ "editing_characteristics": {
+  "est_cuts_per_min": 4.16,
+  "est_avg_shot_length_s": 14.42,
+  "estimator_saturated": false,
+  "changed_sample_fraction": 0.495,
+  "sample_interval_s": 9.84,
+  "visual_sequences": 8,
+  "median_sequence_s": 100.9,
+  "pacing_curve": [
+   {
+    "start": 0.0,
+    "end": 60.0,
+    "est_cuts_per_min": 18.26,
+    "speech_coverage": 0.9
+   },
+   {
+    "start": 60.0,
+    "end": 120.0,
+    "est_cuts_per_min": 6.7,
+    "speech_coverage": 1.0
+   },
+   {
+    "start": 120.0,
+    "end": 180.0,
+    "est_cuts_per_min": 1.11,
+    "speech_coverage": 1.0
+   },
+   {
+    "start": 180.0,
+    "end": 240.0,
+    "est_cuts_per_min": -0.0,
+    "speech_coverage": 1.0
+   },
+   {
+    "start": 240.0,
+    "end": 300.0,
+    "est_cuts_per_min": 2.47,
+    "speech_coverage": 0.96
+   },
+   {
+    "start": 300.0,
+    "end": 360.0,
+    "est_cuts_per_min": 18.26,
+    "speech_coverage": 0.86
+   },
+   {
+    "start": 360.0,
+    "end": 420.0,
+    "est_cuts_per_min": 18.26,
+    "speech_coverage": 0.72
+   },
+   {
+    "start": 420.0,
+    "end": 480.0,
+    "est_cuts_per_min": 10.92,
+    "speech_coverage": 0.84
+   },
+   {
+    "start": 480.0,
+    "end": 540.0,
+    "est_cuts_per_min": 2.47,
+    "speech_coverage": 0.93
+   },
+   {
+    "start": 540.0,
+    "end": 600.0,
+    "est_cuts_per_min": 18.26,
+    "speech_coverage": 0.61
+   },
+   {
+    "start": 600.0,
+    "end": 660.0,
+    "est_cuts_per_min": 18.26,
+    "speech_coverage": 0.69
+   },
+   {
+    "start": 660.0,
+    "end": 720.0,
+    "est_cuts_per_min": 2.47,
+    "speech_coverage": 0.57
+   },
+   {
+    "start": 720.0,
+    "end": 780.0,
+    "est_cuts_per_min": -0.0,
+    "speech_coverage": 1.0
+   },
+   {
+    "start": 780.0,
+    "end": 840.0,
+    "est_cuts_per_min": -0.0,
+    "speech_coverage": 0.96
+   },
+   {
+    "start": 840.0,
+    "end": 900.0,
+    "est_cuts_per_min": -0.0,
+    "speech_coverage": 1.0
+   },
+   {
+    "start": 900.0,
+    "end": 945.0,
+    "est_cuts_per_min": -0.0,
+    "speech_coverage": 1.0
+   }
+  ],
+  "pacing_variability": 7.86,
+  "on_screen_text_frames": 1,
+  "chapters": 0,
+  "measurement_note": "Cut rate is a Poisson estimate from storyboard samples; individual cuts, transitions and camera moves are not observable at this sampling rate."
+ },
+ "sound_design": {
+  "available": true,
+  "speech_coverage": 0.876,
+  "non_speech_fraction": 0.086,
+  "longest_non_speech_s": 25.7,
+  "words_per_minute_overall": 134.2,
+  "caption_markers": {
+   "music": 4,
+   "applause": 1
+  },
+  "music_marked_scenes": 3,
+  "note": "Music/ambience inferred from caption markers and speech gaps; audio itself is not downloaded."
+ },
+ "color_characteristics": {
+  "mean_brightness": 0.239,
+  "mean_contrast": 0.142,
+  "mean_saturation": 0.502,
+  "mean_colorfulness": 36.3,
+  "mean_warmth": 0.08,
+  "saturation_spread": 0.143,
+  "brightness_spread": 0.127,
+  "letterboxed_frame_fraction": 0.073,
+  "night_or_lowkey_fraction": 0.479,
+  "dominant_palette": [
+   "#260d0e",
+   "#3b040b",
+   "#260c0d",
+   "#3e030b",
+   "#250d0e",
+   "#3f030b",
+   "#260c0e",
+   "#3e030c"
+  ],
+  "grading_tags": [
+   "warm tones",
+   "highly saturated",
+   "flat / low contrast",
+   "low-key / dark",
+   "on-screen text or title"
+  ]
+ },
+ "storytelling": {
+  "first_person_singular": 0.0577,
+  "first_person_plural": 0.0095,
+  "second_person": 0.0492,
+  "reflection": 0.0128,
+  "context_facts": 0.0185,
+  "hook_words": 0.0166,
+  "questions": 17,
+  "total_words": 2113,
+  "dialogue_score": 0.102,
+  "face_frame_fraction": 0.281,
+  "closeup_frame_fraction": 0.135,
+  "shot_type_distribution": {
+   "low-light / night shot": 4,
+   "busy street / detail-rich scene": 2,
+   "close-up on a person (talking head / selfie)": 1,
+   "wide shot with people": 1
+  },
+  "narrative_functions": {
+   "journey / progression": 3,
+   "atmosphere / montage": 3,
+   "opening hook": 1,
+   "resolution / outro": 1
+  }
+ },
+ "style_mode_mix": {
+  "cinematic": 0.274,
+  "documentary": 0.233,
+  "personal": 0.493
+ },
+ "style_mode_basis": "transcript+visual",
+ "techniques": [
+  {
+   "start": 0.0,
+   "end": 9.84375,
+   "name": "on-screen text",
+   "description": "title, location label or caption overlay detected",
+   "category": "graphics",
+   "style_mode": null,
+   "confidence": 0.4,
+   "source": "heuristic"
+  },
+  {
+   "start": 93.52,
+   "end": 280.55,
+   "name": "talking to camera",
+   "description": "presenter speaks directly to camera / selfie framing",
+   "category": "narration",
+   "style_mode": "personal",
+   "confidence": 0.5,
+   "source": "heuristic"
+  },
+  {
+   "start": 573.5,
+   "end": 594.399,
+   "name": "speech-free montage",
+   "description": "21s without dialogue/narration, est. 18.3 cuts/min - music-driven montage",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 647.16,
+   "end": 659.76,
+   "name": "speech-free montage",
+   "description": "13s without dialogue/narration, est. 18.3 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 662.76,
+   "end": 688.48,
+   "name": "speech-free montage",
+   "description": "26s without dialogue/narration, est. 18.3 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  }
+ ],
+ "qualitative": {
+  "source": "claude-code subagent (viewed all 2 contact sheets + profile + transcript)",
+  "summary": "A 15:45 reflective piece in three movements: a Himalayan trek, a fan meetup in Kathmandu, and a late-night sit-down in Hong Kong. It opens on wide mountain landscapes with the creator in awe, then a philosophical voiceover (a quote about thinking versus listening) runs over monastery and village b-roll. The middle is a long ultra-wide low-angle selfie monologue against blue sky, an Instagram-story announcement and a warm, crowded night meetup. The final five minutes are a locked-off talk at a red booth with his sign-off giving name, date and city.",
+  "hook_analysis": "Spoken cold open over spectacle: wide Himalayan valley shots (0:00-0:10) with a gasped 'most beautiful thing' line, then straight into a borrowed philosophical voiceover across monastery, monks playing football, a waterfall shower and a couple portrait (0:20-1:29). The hook is awe plus an idea, not a plan; it is the most cinematic opening of the six.",
+  "narrative_arc": "Retreat -> reflection -> community -> solitude. Trek montage (0:00-1:29) -> selfie reflection on connection (1:38-4:55) -> story announcement of a meetup (5:05) -> Kathmandu errands and meetup (5:15-10:30) -> night garden music beat (10:40-10:50) -> Hong Kong skyline transition (11:00-11:09) -> red-booth sit-down with plans (coffee-table book, events) and the sign-off.",
+  "camera_and_composition": "Wide static landscapes with a figure from behind; ultra-wide low-angle selfie with sky filling the top of frame (1:38-4:55); handheld crowd coverage in tungsten interiors (7:52-10:30); window silhouette over the Hong Kong skyline (11:00); a locked-off medium at table height in a red booth (11:19-15:35). Cuts and moves are not observable at storyboard resolution.",
+  "color_and_grade": "Two worlds: daylight Himalayan earth tones with blue sky, then low-key warm/red nights (profile: 48% low-key frames, high saturation 0.50, flat contrast, red-heavy palette). The booth section is deep red with practical light; a red light spills on his face at 13:17-13:27.",
+  "sound_and_music": "Opening uses a voiceover quote rather than his own talk; music caption markers around the night montage (~9:05-11:00, song lyric captions). Overall speech coverage ~88% at ~134 wpm; longest non-speech gap ~26 s.",
+  "what_to_borrow": [
+   "Lead with your single most spectacular landscape and an unscripted reaction",
+   "Lay a reflective voiceover over b-roll of local life to set a theme",
+   "Hard contrast between a daylight journey and a low-key night reflection for the ending",
+   "Sign off with name, date and city as a diary signature"
+  ],
+  "what_to_avoid_copying": [
+   "Borrowed voiceover of someone else's speech - rights and authenticity issues; write your own",
+   "Three-plus minutes of a single selfie angle (1:38-4:55) without cutaways",
+   "Mood-heavy red low-key grade where faces get muddy at small sizes"
+  ],
+  "observations": [
+   {
+    "start": 0,
+    "end": 15,
+    "name": "landscape cold open",
+    "description": "Himalayan valley wide with hiker from behind; spoken awe line over it.",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 20,
+    "end": 89,
+    "name": "voiceover over local-life b-roll",
+    "description": "Philosophical quote laid over monastery interior, prayer flags, monks with a football, waterfall shower, couple portrait.",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 98,
+    "end": 295,
+    "name": "low-angle sky selfie monologue",
+    "description": "Ultra-wide selfie from below, blue sky and monastery building behind, burned-in captions.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 305,
+    "end": 310,
+    "name": "story screenshot announcement",
+    "description": "Vertical Instagram story inserted on black to announce a Kathmandu meetup.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 315,
+    "end": 400,
+    "name": "errand vlog",
+    "description": "Handheld Kathmandu interiors, gift exchange, loading a van.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 403,
+    "end": 460,
+    "name": "friends reunion",
+    "description": "Arriving at a venue, greeting friends, a printed portrait gift (7:03).",
+    "style_mode": "personal"
+   },
+   {
+    "start": 472,
+    "end": 512,
+    "name": "meetup speech",
+    "description": "Creator addressing a crowd under warm tungsten light.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 521,
+    "end": 630,
+    "name": "crowd interactions",
+    "description": "Close handheld shots with fans in a dark bar, string lights.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 640,
+    "end": 660,
+    "name": "night music beat",
+    "description": "Garden with string lights, couple walking away - speech-free montage.",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 660,
+    "end": 669,
+    "name": "city transition",
+    "description": "Silhouette at a high-rise window over Hong Kong, day then night.",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 679,
+    "end": 935,
+    "name": "red-booth sit-down",
+    "description": "Locked-off table-height talk in a red booth, low-key; sets up upcoming projects.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 915,
+    "end": 945,
+    "name": "name-date-city sign-off",
+    "description": "Ends with gratitude and a sign-off giving his name, the date and 'from Hong Kong'.",
+    "style_mode": "personal"
+   }
+  ]
+ },
+ "contact_sheets": [],
+ "limitations": [
+  "Frames are YouTube storyboard previews (YouTube storyboard 159x90, one frame every 9.8s); fine detail, exact cuts, transitions and camera movement are not measured.",
+  "Shot types use face/sky/edge heuristics on low-resolution frames - treat as approximate.",
+  "Transcript is YouTube auto-captions (no punctuation, occasional errors, speaker changes not marked)."
+ ]
+}

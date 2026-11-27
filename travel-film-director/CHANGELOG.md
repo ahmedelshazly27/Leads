@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.0 (2026-11-27): deep reference study
+### Added
+- Reference library expanded to 24 videos: 6 each from Joe Hattab, Daniel Dalen, Yusufa Sey and Omar Farooq.
+- Every contact sheet (91) reviewed. 351 timestamped observations, one style guide per creator, and `STYLE_SYNTHESIS.md` comparing all four.
+- Scene playbook (`director/playbook.py`): the director picks a hook formula (Joe / Omar / Yusufa / Daniel), a bridge for each sequence (map or place card), and a technique for each shot, recording which creator it borrows from.
+- Transcript timing health check: corrupted caption timing is flagged and kept out of creator averages.
+- Caption picker prefers English (machine-translated tracks are flagged); re-analysis keeps annotations; the comparison shows per-video ranges.
+
 ## 0.2.0 (2026-11-24): retarget to macOS
 ### Added
 - `scripts/setup_macos.sh` (Homebrew Python 3.12 + FFmpeg, venv, install, tests) and a double-clickable `scripts/Travel Film Director.command`.

@@ -1,0 +1,931 @@
+{
+ "schema_version": "1.0",
+ "video_id": "XC-Nls8KhCI",
+ "url": "https://www.youtube.com/watch?v=XC-Nls8KhCI",
+ "creator": "Yusufa Sey",
+ "title": "Zero to £100M | buying businesses in the UK | vlog 11",
+ "channel": "Yusufa Sey",
+ "upload_date": "20241229",
+ "duration": 1031.0,
+ "view_count": 8658,
+ "user_notes": "Zero to 100M vlog 11",
+ "analysed_at": "2026-11-27T19:27:35+00:00",
+ "sources": {
+  "metadata": true,
+  "transcript": "none",
+  "transcript_language": null,
+  "transcript_quality": "none",
+  "transcript_quality_note": "no transcript",
+  "frames": "YouTube storyboard 320x180, one frame every 9.8s",
+  "frame_interval_s": 9.81904761904762,
+  "chapters": 6,
+  "heatmap": false
+ },
+ "chapters": [
+  {
+   "start": 0.0,
+   "end": 41.0,
+   "title": "Intro"
+  },
+  {
+   "start": 41.0,
+   "end": 247.0,
+   "title": "Gambia Trip"
+  },
+  {
+   "start": 247.0,
+   "end": 505.0,
+   "title": "Scaling Through M&A"
+  },
+  {
+   "start": 505.0,
+   "end": 923.0,
+   "title": "Coaching Call"
+  },
+  {
+   "start": 923.0,
+   "end": 1019.0,
+   "title": "Christmas Shopping"
+  },
+  {
+   "start": 1019.0,
+   "end": 1031.0,
+   "title": "Outro"
+  }
+ ],
+ "replay_peaks": [],
+ "scenes": [
+  {
+   "index": 0,
+   "start": 0.0,
+   "end": 44.19,
+   "duration": 44.19,
+   "representative_frame": null,
+   "shot_type": "general b-roll",
+   "shot_type_confidence": 0.3,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "medium",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "opening hook",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.425,
+    "documentary": 0.288,
+    "personal": 0.288
+   },
+   "visual_characteristics": [
+    "neutral white balance"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "sky 24%, edges 0.10, no faces detected",
+    "visual-only scoring (no transcript)",
+    "shot: general b-roll",
+    "est. 8.5 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 1,
+   "start": 44.19,
+   "end": 112.92,
+   "duration": 68.73,
+   "representative_frame": null,
+   "shot_type": "general b-roll",
+   "shot_type_confidence": 0.3,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "chapter opener / establishing",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.5,
+    "documentary": 0.25,
+    "personal": 0.25
+   },
+   "visual_characteristics": [
+    "cool tones",
+    "high contrast",
+    "bright / airy"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "sky 52%, edges 0.15, no faces detected",
+    "visual-only scoring (no transcript)",
+    "shot: general b-roll",
+    "est. 18.3 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 2,
+   "start": 112.92,
+   "end": 191.47,
+   "duration": 78.55,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.261,
+    "documentary": 0.552,
+    "personal": 0.188
+   },
+   "visual_characteristics": [
+    "cool tones",
+    "highly saturated",
+    "on-screen text or title"
+   ],
+   "editing_techniques": [
+    "on-screen text / title card"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 25% of frames",
+    "visual-only scoring (no transcript)",
+    "shot: wide shot with people",
+    "est. 18.3 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 3,
+   "start": 191.47,
+   "end": 270.02,
+   "duration": 78.55,
+   "representative_frame": null,
+   "shot_type": "busy street / detail-rich scene",
+   "shot_type_confidence": 0.4,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.242,
+    "documentary": 0.57,
+    "personal": 0.188
+   },
+   "visual_characteristics": [
+    "cool tones",
+    "on-screen text or title"
+   ],
+   "editing_techniques": [
+    "on-screen text / title card"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "edge density 0.19",
+    "visual-only scoring (no transcript)",
+    "shot: busy street / detail-rich scene",
+    "est. 12.7 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 4,
+   "start": 270.02,
+   "end": 328.94,
+   "duration": 58.92,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.265,
+    "documentary": 0.545,
+    "personal": 0.19
+   },
+   "visual_characteristics": [
+    "cool tones",
+    "highly saturated"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 17% of frames",
+    "visual-only scoring (no transcript)",
+    "shot: wide shot with people",
+    "est. 18.3 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 5,
+   "start": 328.94,
+   "end": 505.68,
+   "duration": 176.74,
+   "representative_frame": null,
+   "shot_type": "medium shot with people",
+   "shot_type_confidence": 0.5,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.213,
+    "documentary": 0.594,
+    "personal": 0.193
+   },
+   "visual_characteristics": [
+    "cool tones",
+    "highly saturated",
+    "low-key / dark",
+    "on-screen text or title"
+   ],
+   "editing_techniques": [
+    "on-screen text / title card"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 44% of frames, max face 38%",
+    "visual-only scoring (no transcript)",
+    "shot: medium shot with people",
+    "est. 13.4 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 6,
+   "start": 505.68,
+   "end": 544.96,
+   "duration": 39.28,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.206,
+    "documentary": 0.592,
+    "personal": 0.202
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "high contrast"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 25% of frames",
+    "visual-only scoring (no transcript)",
+    "shot: wide shot with people",
+    "est. 18.3 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 7,
+   "start": 544.96,
+   "end": 672.61,
+   "duration": 127.64,
+   "representative_frame": null,
+   "shot_type": "general b-roll",
+   "shot_type_confidence": 0.3,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "slow",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.336,
+    "documentary": 0.332,
+    "personal": 0.332
+   },
+   "visual_characteristics": [
+    "warm tones"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "sky 1%, edges 0.09, no faces detected",
+    "visual-only scoring (no transcript)",
+    "shot: general b-roll",
+    "est. 3.8 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 8,
+   "start": 672.61,
+   "end": 927.9,
+   "duration": 255.29,
+   "representative_frame": null,
+   "shot_type": "general b-roll",
+   "shot_type_confidence": 0.3,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "medium",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.349,
+    "documentary": 0.326,
+    "personal": 0.326
+   },
+   "visual_characteristics": [
+    "warm tones"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "sky 4%, edges 0.05, no faces detected",
+    "visual-only scoring (no transcript)",
+    "shot: general b-roll",
+    "est. 5.3 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 9,
+   "start": 927.9,
+   "end": 977.0,
+   "duration": 49.1,
+   "representative_frame": null,
+   "shot_type": "general b-roll",
+   "shot_type_confidence": 0.3,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "medium",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "resolution / outro",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.337,
+    "documentary": 0.332,
+    "personal": 0.332
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "high contrast"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "sky 1%, edges 0.09, no faces detected",
+    "visual-only scoring (no transcript)",
+    "shot: general b-roll",
+    "est. 9.8 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 10,
+   "start": 977.0,
+   "end": 1031.0,
+   "duration": 54.0,
+   "representative_frame": null,
+   "shot_type": "general b-roll",
+   "shot_type_confidence": 0.3,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "medium",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "resolution / outro",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.348,
+    "documentary": 0.326,
+    "personal": 0.326
+   },
+   "visual_characteristics": [
+    "neutral white balance",
+    "muted / desaturated",
+    "low-key / dark",
+    "letterboxed (cinematic aspect)"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "sky 3%, edges 0.09, no faces detected",
+    "visual-only scoring (no transcript)",
+    "shot: general b-roll",
+    "est. 5.6 cuts/min in this sequence"
+   ]
+  }
+ ],
+ "narrative_structure": [
+  {
+   "start": 0.0,
+   "end": 60.0,
+   "label": "hook",
+   "description": "short visual lead-in followed by speech",
+   "evidence": []
+  },
+  {
+   "start": 60.0,
+   "end": 247.0,
+   "label": "Gambia Trip",
+   "description": "3:26 chapter, leans context",
+   "evidence": [
+    "0 words"
+   ]
+  },
+  {
+   "start": 247.0,
+   "end": 505.0,
+   "label": "Scaling Through M&A",
+   "description": "4:18 chapter, leans context",
+   "evidence": [
+    "0 words"
+   ]
+  },
+  {
+   "start": 505.0,
+   "end": 923.0,
+   "label": "Coaching Call",
+   "description": "6:58 chapter, leans context",
+   "evidence": [
+    "0 words"
+   ]
+  },
+  {
+   "start": 923.0,
+   "end": 1019.0,
+   "label": "Christmas Shopping",
+   "description": "1:36 chapter, leans context",
+   "evidence": [
+    "0 words"
+   ]
+  },
+  {
+   "start": 1019.0,
+   "end": 1031.0,
+   "label": "Outro",
+   "description": "0:12 chapter, leans context",
+   "evidence": [
+    "0 words"
+   ]
+  }
+ ],
+ "hook": {
+  "first_speech_at_s": null,
+  "words_first_30s": 0,
+  "hook_vocabulary_first_30s": 0.0,
+  "title_uses_superlative_or_intrigue": false,
+  "cold_open": false,
+  "est_cuts_per_min_first_60s": 10.95,
+  "pattern": "short visual lead-in followed by speech"
+ },
+ "editing_characteristics": {
+  "est_cuts_per_min": 8.71,
+  "est_avg_shot_length_s": 6.89,
+  "estimator_saturated": false,
+  "changed_sample_fraction": 0.76,
+  "sample_interval_s": 9.82,
+  "visual_sequences": 11,
+  "median_sequence_s": 68.7,
+  "pacing_curve": [
+   {
+    "start": 0.0,
+    "end": 60.0,
+    "est_cuts_per_min": 10.95,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 60.0,
+    "end": 120.0,
+    "est_cuts_per_min": 18.31,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 120.0,
+    "end": 180.0,
+    "est_cuts_per_min": 18.31,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 180.0,
+    "end": 240.0,
+    "est_cuts_per_min": 10.95,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 240.0,
+    "end": 300.0,
+    "est_cuts_per_min": 18.31,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 300.0,
+    "end": 360.0,
+    "est_cuts_per_min": 18.31,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 360.0,
+    "end": 420.0,
+    "est_cuts_per_min": 6.71,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 420.0,
+    "end": 480.0,
+    "est_cuts_per_min": 18.31,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 480.0,
+    "end": 540.0,
+    "est_cuts_per_min": 18.31,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 540.0,
+    "end": 600.0,
+    "est_cuts_per_min": 5.18,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 600.0,
+    "end": 660.0,
+    "est_cuts_per_min": 4.24,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 660.0,
+    "end": 720.0,
+    "est_cuts_per_min": 6.71,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 720.0,
+    "end": 780.0,
+    "est_cuts_per_min": 2.48,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 780.0,
+    "end": 840.0,
+    "est_cuts_per_min": 6.71,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 840.0,
+    "end": 900.0,
+    "est_cuts_per_min": 4.24,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 900.0,
+    "end": 960.0,
+    "est_cuts_per_min": 6.71,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 960.0,
+    "end": 1020.0,
+    "est_cuts_per_min": 10.95,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 1020.0,
+    "end": 1031.0,
+    "est_cuts_per_min": 0.0,
+    "speech_coverage": 0.0
+   }
+  ],
+  "pacing_variability": 6.26,
+  "on_screen_text_frames": 3,
+  "chapters": 6,
+  "measurement_note": "Cut rate is a Poisson estimate from storyboard samples; individual cuts, transitions and camera moves are not observable at this sampling rate."
+ },
+ "sound_design": {
+  "available": false,
+  "speech_coverage": 0.0,
+  "non_speech_fraction": 0.0,
+  "longest_non_speech_s": 0,
+  "words_per_minute_overall": 0.0,
+  "caption_markers": {},
+  "music_marked_scenes": 0,
+  "note": "Music/ambience inferred from caption markers and speech gaps; audio itself is not downloaded."
+ },
+ "color_characteristics": {
+  "mean_brightness": 0.376,
+  "mean_contrast": 0.227,
+  "mean_saturation": 0.379,
+  "mean_colorfulness": 33.4,
+  "mean_warmth": -0.015,
+  "saturation_spread": 0.146,
+  "brightness_spread": 0.127,
+  "letterboxed_frame_fraction": 0.029,
+  "night_or_lowkey_fraction": 0.076,
+  "dominant_palette": [
+   "#f5f0dd",
+   "#ccbda7",
+   "#232323",
+   "#8d8d8d",
+   "#101d1f",
+   "#6d6e68",
+   "#0c1a1d",
+   "#80867e"
+  ],
+  "grading_tags": [
+   "neutral white balance",
+   "on-screen text or title"
+  ]
+ },
+ "storytelling": {
+  "first_person_singular": 0.0,
+  "first_person_plural": 0.0,
+  "second_person": 0.0,
+  "reflection": 0.0,
+  "context_facts": 0.0,
+  "hook_words": 0.0,
+  "questions": 0,
+  "total_words": 0,
+  "dialogue_score": 0.0,
+  "face_frame_fraction": 0.143,
+  "closeup_frame_fraction": 0.019,
+  "shot_type_distribution": {
+   "general b-roll": 6,
+   "wide shot with people": 3,
+   "busy street / detail-rich scene": 1,
+   "medium shot with people": 1
+  },
+  "narrative_functions": {
+   "journey / progression": 7,
+   "resolution / outro": 2,
+   "opening hook": 1,
+   "chapter opener / establishing": 1
+  }
+ },
+ "style_mode_mix": {
+  "cinematic": 0.312,
+  "documentary": 0.425,
+  "personal": 0.264
+ },
+ "style_mode_basis": "visual-only (low confidence)",
+ "techniques": [
+  {
+   "start": 0.0,
+   "end": 41.0,
+   "name": "chapter",
+   "description": "chapter: Intro",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 41.0,
+   "end": 247.0,
+   "name": "chapter",
+   "description": "chapter: Gambia Trip",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 166.92,
+   "end": 176.7390476190476,
+   "name": "on-screen text",
+   "description": "title, location label or caption overlay detected",
+   "category": "graphics",
+   "style_mode": null,
+   "confidence": 0.4,
+   "source": "heuristic"
+  },
+  {
+   "start": 247.0,
+   "end": 505.0,
+   "name": "chapter",
+   "description": "chapter: Scaling Through M&A",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 265.11,
+   "end": 274.92904761904765,
+   "name": "on-screen text",
+   "description": "title, location label or caption overlay detected",
+   "category": "graphics",
+   "style_mode": null,
+   "confidence": 0.4,
+   "source": "heuristic"
+  },
+  {
+   "start": 461.5,
+   "end": 471.31904761904764,
+   "name": "on-screen text",
+   "description": "title, location label or caption overlay detected",
+   "category": "graphics",
+   "style_mode": null,
+   "confidence": 0.4,
+   "source": "heuristic"
+  },
+  {
+   "start": 505.0,
+   "end": 923.0,
+   "name": "chapter",
+   "description": "chapter: Coaching Call",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 923.0,
+   "end": 1019.0,
+   "name": "chapter",
+   "description": "chapter: Christmas Shopping",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 1019.0,
+   "end": 1031.0,
+   "name": "chapter",
+   "description": "chapter: Outro",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  }
+ ],
+ "qualitative": {
+  "source": "claude-code subagent (viewed all 3 contact sheets + profile + transcript; YouTube offers no transcript for this video, so story is read from burned-in subtitles)",
+  "summary": "Vlog 11 of 'Zero to £100M'. Despite the 'UK' title, the frames show Copenhagen: Danish signage ('PRESSEN', 'Book dit næste...') and a rainy grey city. The creator does a long wide-angle walk-and-talk through the streets explaining how M&A works and recapping a Gambia trip. He then sits at a table in what looks like a members' club for a long coaching-call segment ('let's talk deals'). The film ends with Christmas shopping in a luxury store. It is the coolest, most desaturated grade of the six (warmth -0.015), with a teal/cyan cast.",
+  "hook_analysis": "A direct greeting piece to camera. At 0:00 he is in a café, framed tight with a wide lens and wearing a cap, and the subtitle opens 'Hi guys, welcome to vlog 11 on the journey from zero to 100 million pounds'. A low-angle traffic-light cutaway (0:29) follows, then the series card 'ZERO TO £100M' with a quoted tagline ('I just wanna hear YES') at 0:39. This is the most YouTube-vlog-style opening of the set.",
+  "narrative_arc": "Intro (0:00-0:49). Gambia recap and M&A explainer told while walking (0:59-7:41): chapter 'Gambia Trip' covers footage of Copenhagen, so the talk and the visuals are about different places. Arrival indoors (8:21-9:00). Coaching call at the table (9:10-15:03). Members' club and Christmas shopping (15:13-16:42). End card. Low dramatic stakes; the film is driven by explanation.",
+  "camera_and_composition": "Ultra-wide handheld, often selfie-style or walking alongside. The camera is low and close, with the subject off-centre and distorted architecture behind (0:59-7:41). There are low-angle cutaways of signs and traffic lights (0:29, 7:22-7:32). The table scene is a low wide-angle shot across a table with tea props in the foreground (9:10-15:03). The shop scene is handheld among mannequins (16:12-16:42). Exact moves are not observable at storyboard resolution.",
+  "color_and_grade": "Cool, desaturated, teal-shifted grade on exteriors, with lifted blacks and a slightly filmic look (dominant #0c1b1d, #f5f0dd). Interiors are warmer with tungsten lamps but stay muted. The look is distinct from his warm Africa/Dubai episodes.",
+  "sound_and_music": "Not measurable: YouTube offers no transcript and no audio was downloaded. Subtitles appear in almost every frame, suggesting continuous walk-and-talk monologue and call dialogue.",
+  "what_to_borrow": [
+   "Use walk-and-talk exposition to explain an abstract topic while moving through a city",
+   "Low-angle sign and traffic-light cutaways as punctuation in long monologues",
+   "Let a strong location-specific grade (cool, rainy northern city) define the episode's mood",
+   "A tagline under the title card that quotes the episode's key line"
+  ],
+  "what_to_avoid_copying": [
+   "'ZERO TO £100M' card and 'SEE YOU NEXT TIME' series branding",
+   "A title that names a different country from the one on screen",
+   "An ultra-wide lens close to the face for minutes on end, which distorts the face"
+  ],
+  "observations": [
+   {
+    "start": 0,
+    "end": 29,
+    "name": "greeting piece to camera",
+    "description": "Café selfie framing with a wide lens: 'welcome to vlog 11', just back from Gambia.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 29,
+    "end": 39,
+    "name": "low-angle cutaway",
+    "description": "A red traffic light against the sky with an ornate building.",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 39,
+    "end": 49,
+    "name": "series title card with tagline",
+    "description": "'ZERO TO £100M' on black with a small quoted line beneath.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 59,
+    "end": 247,
+    "name": "walk-and-talk exposition",
+    "description": "Rainy Copenhagen streets in a wide-angle side profile while recapping the Gambia trip. The visuals don't match the topic.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 247,
+    "end": 463,
+    "name": "M&A explainer on the move",
+    "description": "Continued walking monologue past construction hoardings and brick facades about growing through acquisitions.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 383,
+    "end": 413,
+    "name": "stopped piece to camera",
+    "description": "He stops under a festive shopfront and faces the camera to explain how M&A works ('it's a ladder').",
+    "style_mode": "personal"
+   },
+   {
+    "start": 442,
+    "end": 452,
+    "name": "environmental signage",
+    "description": "A 'PRESSEN' newspaper sign and a 'BOMBSHELL, BOOM BOOM!' poster as graphic punctuation.",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 501,
+    "end": 550,
+    "name": "arrival indoors",
+    "description": "An office/club interior with a lamp and window, then checking his phone under globe pendants.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 550,
+    "end": 903,
+    "name": "coaching call at the table",
+    "description": "A low wide-angle across a table with teapot and cups. A long animated call about deals and buyers, with subtitles.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 913,
+    "end": 952,
+    "name": "members' club moment",
+    "description": "A dim wood-panelled room with a Christmas tree. He shows a welcome card signed by the CEO.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 962,
+    "end": 1002,
+    "name": "luxury shopping",
+    "description": "A sneaker-wall boutique, handheld among mannequins, picking up shoes.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 1011,
+    "end": 1031,
+    "name": "end card",
+    "description": "'SEE YOU NEXT TIME' on black.",
+    "style_mode": "personal"
+   }
+  ]
+ },
+ "contact_sheets": [],
+ "limitations": [
+  "Frames are YouTube storyboard previews (YouTube storyboard 320x180, one frame every 9.8s); fine detail, exact cuts, transitions and camera movement are not measured.",
+  "Shot types use face/sky/edge heuristics on low-resolution frames - treat as approximate.",
+  "No transcript available - speech/story metrics are empty."
+ ]
+}

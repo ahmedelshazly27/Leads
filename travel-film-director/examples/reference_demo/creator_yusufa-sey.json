@@ -1,0 +1,1107 @@
+{
+  "creator": "Yusufa Sey",
+  "description": "",
+  "weight": 1.0,
+  "videos": [
+    {
+      "video_id": "urdgXDBc_So",
+      "title": "I spend a week with Gambia’s next President…",
+      "duration": 1076.0,
+      "url": "https://www.youtube.com/watch?v=urdgXDBc_So",
+      "transcript": "none"
+    },
+    {
+      "video_id": "Z6mhiK7E3Sk",
+      "title": "3 Days in Africa with Manchester United Football Legend Louis Saha",
+      "duration": 1275.0,
+      "url": "https://www.youtube.com/watch?v=Z6mhiK7E3Sk",
+      "transcript": "none"
+    },
+    {
+      "video_id": "IfAA5Hy-8Zw",
+      "title": "Zero to £100M | life as an entrepreneur doing business in Dubai | vlog 22",
+      "duration": 1177.0,
+      "url": "https://www.youtube.com/watch?v=IfAA5Hy-8Zw",
+      "transcript": "auto"
+    },
+    {
+      "video_id": "NOU9AVeHjhI",
+      "title": "Zero to £100M | M&A entrepreneur buying businesses from Copenhagen",
+      "duration": 786.0,
+      "url": "https://www.youtube.com/watch?v=NOU9AVeHjhI",
+      "transcript": "none"
+    },
+    {
+      "video_id": "dUL-YXeWDQY",
+      "title": "The Reality of Buying a $10M Business in London.",
+      "duration": 1793.0,
+      "url": "https://www.youtube.com/watch?v=dUL-YXeWDQY",
+      "transcript": "auto"
+    },
+    {
+      "video_id": "XC-Nls8KhCI",
+      "title": "Zero to £100M | buying businesses in the UK | vlog 11",
+      "duration": 1031.0,
+      "url": "https://www.youtube.com/watch?v=XC-Nls8KhCI",
+      "transcript": "none"
+    }
+  ],
+  "data_gaps": [
+    "I spend a week with Gambia’s next President…: no transcript - speech, language and music metrics unavailable",
+    "3 Days in Africa with Manchester United Football Legend Louis Saha: no transcript - speech, language and music metrics unavailable",
+    "Zero to £100M | M&A entrepreneur buying businesses from Copenhagen: no transcript - speech, language and music metrics unavailable",
+    "Zero to £100M | buying businesses in the UK | vlog 11: no transcript - speech, language and music metrics unavailable"
+  ],
+  "metrics": {
+    "editing_characteristics.est_cuts_per_min": {
+      "label": "Estimated cuts per minute",
+      "mean": 6.8533,
+      "min": 4.27,
+      "max": 9.18,
+      "n": 6,
+      "unit": ""
+    },
+    "editing_characteristics.median_sequence_s": {
+      "label": "Median visual sequence length",
+      "mean": 72.4333,
+      "min": 49.4,
+      "max": 89.0,
+      "n": 6,
+      "unit": "s"
+    },
+    "editing_characteristics.pacing_variability": {
+      "label": "Pacing variability (std of cuts/min per minute)",
+      "mean": 7.05,
+      "min": 5.84,
+      "max": 10.14,
+      "n": 6,
+      "unit": ""
+    },
+    "sound_design.speech_coverage": {
+      "label": "Share of runtime with speech",
+      "mean": 0.9,
+      "min": 0.816,
+      "max": 0.984,
+      "n": 2,
+      "unit": "%"
+    },
+    "sound_design.non_speech_fraction": {
+      "label": "Share of runtime without speech (music/ambience)",
+      "mean": 0.083,
+      "min": 0.007,
+      "max": 0.159,
+      "n": 2,
+      "unit": "%"
+    },
+    "sound_design.words_per_minute_overall": {
+      "label": "Words per minute (whole video)",
+      "mean": 156.25,
+      "min": 134.8,
+      "max": 177.7,
+      "n": 2,
+      "unit": ""
+    },
+    "storytelling.first_person_singular": {
+      "label": "First-person singular language",
+      "mean": 0.0483,
+      "min": 0.0403,
+      "max": 0.0563,
+      "n": 2,
+      "unit": "%"
+    },
+    "storytelling.second_person": {
+      "label": "Direct address to viewer ('you')",
+      "mean": 0.0393,
+      "min": 0.0377,
+      "max": 0.0408,
+      "n": 2,
+      "unit": "%"
+    },
+    "storytelling.context_facts": {
+      "label": "Contextual / factual vocabulary",
+      "mean": 0.0217,
+      "min": 0.0181,
+      "max": 0.0254,
+      "n": 2,
+      "unit": "%"
+    },
+    "storytelling.reflection": {
+      "label": "Reflective vocabulary",
+      "mean": 0.008,
+      "min": 0.0047,
+      "max": 0.0113,
+      "n": 2,
+      "unit": "%"
+    },
+    "storytelling.closeup_frame_fraction": {
+      "label": "Frames with face close-ups",
+      "mean": 0.0665,
+      "min": 0.019,
+      "max": 0.147,
+      "n": 6,
+      "unit": "%"
+    },
+    "storytelling.face_frame_fraction": {
+      "label": "Frames with any detected face",
+      "mean": 0.3292,
+      "min": 0.143,
+      "max": 0.648,
+      "n": 6,
+      "unit": "%"
+    },
+    "color_characteristics.mean_saturation": {
+      "label": "Mean saturation",
+      "mean": 0.3815,
+      "min": 0.293,
+      "max": 0.468,
+      "n": 6,
+      "unit": ""
+    },
+    "color_characteristics.mean_contrast": {
+      "label": "Mean contrast",
+      "mean": 0.2342,
+      "min": 0.166,
+      "max": 0.27,
+      "n": 6,
+      "unit": ""
+    },
+    "color_characteristics.mean_warmth": {
+      "label": "Mean warmth (R-B)",
+      "mean": 0.0863,
+      "min": -0.015,
+      "max": 0.192,
+      "n": 6,
+      "unit": ""
+    },
+    "color_characteristics.mean_brightness": {
+      "label": "Mean brightness",
+      "mean": 0.3555,
+      "min": 0.189,
+      "max": 0.449,
+      "n": 6,
+      "unit": ""
+    },
+    "color_characteristics.letterboxed_frame_fraction": {
+      "label": "Letterboxed (cinematic aspect) frames",
+      "mean": 0.042,
+      "min": 0.016,
+      "max": 0.105,
+      "n": 6,
+      "unit": "%"
+    },
+    "style_mode_mix.cinematic": {
+      "label": "Cinematic mode share",
+      "mean": 0.274,
+      "min": 0.206,
+      "max": 0.342,
+      "n": 2,
+      "unit": "%"
+    },
+    "style_mode_mix.documentary": {
+      "label": "Documentary mode share",
+      "mean": 0.308,
+      "min": 0.225,
+      "max": 0.391,
+      "n": 2,
+      "unit": "%"
+    },
+    "style_mode_mix.personal": {
+      "label": "Personal mode share",
+      "mean": 0.4175,
+      "min": 0.403,
+      "max": 0.432,
+      "n": 2,
+      "unit": "%"
+    },
+    "duration": {
+      "label": "Video length",
+      "mean": 1189.6667,
+      "min": 786.0,
+      "max": 1793.0,
+      "n": 6,
+      "unit": "min"
+    }
+  },
+  "hook_patterns": [
+    "short visual lead-in followed by speech",
+    "short visual lead-in followed by speech",
+    "short visual lead-in followed by speech",
+    "short visual lead-in followed by speech",
+    "spoken cold open: narration/claim starts immediately",
+    "short visual lead-in followed by speech"
+  ],
+  "shot_type_share": {
+    "wide shot with people": 0.329,
+    "medium shot with people": 0.192,
+    "general b-roll": 0.172,
+    "close-up on a person (talking head / selfie)": 0.125,
+    "low-light / night shot": 0.11,
+    "wide establishing / landscape": 0.056,
+    "busy street / detail-rich scene": 0.015
+  },
+  "narrative_function_share": {
+    "journey / progression": 0.674,
+    "resolution / outro": 0.112,
+    "interaction / conversation": 0.105,
+    "chapter opener / establishing": 0.047,
+    "opening hook": 0.028,
+    "atmosphere / montage": 0.026,
+    "personal reflection": 0.007
+  },
+  "signature_techniques": {
+    "on-screen text": 11,
+    "on-screen text / title card": 11,
+    "music bed under speech": 10,
+    "speech-free montage": 4,
+    "talking to camera": 3,
+    "atmospheric non-speech sequence": 2
+  },
+  "grading_tags": {
+    "warm tones": 5,
+    "on-screen text or title": 4,
+    "highly saturated": 2,
+    "high contrast": 1,
+    "low-key / dark": 1,
+    "neutral white balance": 1
+  },
+  "palette": [
+    "#d6cebf",
+    "#1e1913",
+    "#281c17",
+    "#953836",
+    "#1f1c17",
+    "#603427",
+    "#633628",
+    "#d8cfc1"
+  ],
+  "qualitative": [
+    {
+      "source": "claude-code subagent (viewed all 3 contact sheets + profile + transcript; YouTube offers no transcript for this video, so story is read from burned-in subtitles)",
+      "summary": "An access-driven Gambia episode in which the creator spends a week alongside a presidential candidate (a 'Talib' campaign T-shirt is visible at 0:10). Most of it is observational: car ride-alongs, security staff opening SUV doors, community clean-up activity and a long sit-down in a mayor's office. Black interstitial cards ('ZERO TO £100M', 'THE NEXT DAY') reset the chronology. Pieces to camera in a hotel corridor and an office state the stakes ('He's running for president and I'm here to support him'). The film ends on an extended in-car conversation with the candidate and closes on 'NEXT RELEASE' and 'SEE YOU NEXT TIME' black cards.",
+      "hook_analysis": "In medias res. The film opens in a dark car interior with a magenta-lit window at 0:00, cuts to campaign supporters at 0:10 and an SUV at a restaurant entrance at 0:20, and only then shows the series card at 0:30. Context comes after it, from in-car subtitles ('we just wrapped up a couple of activities'). The viewer is placed inside the entourage before being told why. A radio line in the subtitles at 1:19 ('...the presidential election is here') supplies the stakes without a presenter.",
+      "narrative_arc": "Day-by-day chronology. Day 1 (0:39-3:17) covers the car, the candidate's home and a community clean-up ('Set-settal', 2:18). 'THE NEXT DAY' (3:27) leads to a stakes-setting piece to camera at 4:07-4:46, then a hotel, a car, and a restaurant meeting (7:14-8:23). After a short wrap piece to camera (9:23-10:02), a second 'THE NEXT DAY' (10:12) leads to the mayor's office: a piece to camera with facts (10:52-11:51), then a long observational interview with the mayor (12:01-14:58). The climax is a reflective in-car conversation about leadership and risk (15:28-17:26), followed by end cards.",
+      "camera_and_composition": "Handheld observational framing. Car interiors are shot in profile against bright windows, sometimes as near-silhouettes (5:55-6:15, 15:48-17:26). There is a dashboard POV of the street (6:25), and a rear-view-mirror detail with a campaign air-freshener reading 'A NEW GAMBIA IS POSSIBLE' (15:18). Pieces to camera are eye-level medium close-ups with shallow depth of field (4:07-4:46). The mayor scene holds a static wide two-shot in which the presenter sits frame right and partly cut off (12:10-14:58). Exact cuts and camera moves are not observable at storyboard resolution.",
+      "color_and_grade": "Warm overall (mean warmth 0.09), with red/terracotta walls dominating the restaurant and office scenes (palette #633729, #953836). Car windows clip to magenta/pink (0:00, 0:39-0:59, 6:35), which looks like a deliberate or tolerated stylisation. Exteriors are saturated greens and oranges. Shadows are kept fairly dark (low-key tag on the opening scene).",
+      "sound_and_music": "Not measurable: YouTube offers no transcript and no audio was downloaded. Burned-in subtitles show continuous dialogue through most scenes, plus one on-screen caption describing radio audio at 1:19. Subtitles continue over the black 'NEXT RELEASE' card at 17:36, so dialogue audio probably runs under the end card.",
+      "what_to_borrow": [
+        "Open inside the moving car or the action, and hold the title card until about 30 s in",
+        "Use plain black text interstitials ('THE NEXT DAY') to mark time jumps in a multi-day trip",
+        "Use one direct piece to camera to state the stakes, placed after the viewer has already seen the world",
+        "Let a long in-car conversation be the emotional climax instead of a montage",
+        "Use found text in the environment (campaign air-freshener, T-shirts) as story exposition"
+      ],
+      "what_to_avoid_copying": [
+        "'ZERO TO £100M' series card and 'NEXT RELEASE dd/mm/yyyy' cards (creator branding)",
+        "Clipped magenta car windows, unless you want that look on purpose",
+        "Static, unvaried two-shot held for almost 3 minutes (12:10-14:58); this only works when the speaker carries it"
+      ],
+      "observations": [
+        {
+          "start": 0,
+          "end": 30,
+          "name": "in medias res cold open",
+          "description": "A dark car interior with a magenta-clipped window, campaign supporters in a candidate T-shirt, and an SUV at a restaurant. All of this comes before any title.",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 30,
+          "end": 39,
+          "name": "series title card",
+          "description": "'ZERO TO £100M' in small white type on black: a hard reset after the cold open.",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 39,
+          "end": 79,
+          "name": "car ride-along with subtitles",
+          "description": "Profile of a passenger in the back seat with burned-in subtitles explaining the day's plan.",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 79,
+          "end": 90,
+          "name": "subtitled radio cue",
+          "description": "Dashboard POV with an on-screen caption describing radio audio about the presidential election. It gives exposition without narration.",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 89,
+          "end": 118,
+          "name": "home-visit detail and host",
+          "description": "Framed family portraits as a cutaway, then the host in a purple kaftan laughing on a sofa.",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 138,
+          "end": 158,
+          "name": "piece to camera outdoors",
+          "description": "Presenter in a black tee against palms explains the community clean-up and the donation.",
+          "style_mode": "personal"
+        },
+        {
+          "start": 207,
+          "end": 217,
+          "name": "time-jump interstitial",
+          "description": "'THE NEXT DAY' in bold white on black.",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 247,
+          "end": 290,
+          "name": "stakes-setting piece to camera",
+          "description": "Hotel-corridor medium close-up: he has been here a week, the candidate is running for president, it's a poor country.",
+          "style_mode": "personal"
+        },
+        {
+          "start": 316,
+          "end": 346,
+          "name": "walk-and-follow with security",
+          "description": "A wide shot walking through hotel grounds, then security staff in khaki uniforms opening SUV doors.",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 434,
+          "end": 503,
+          "name": "observational restaurant meeting",
+          "description": "Two men at a white-clothed table against red walls, filmed fly-on-the-wall from a fixed angle with subtitles.",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 612,
+          "end": 622,
+          "name": "interstitial over action",
+          "description": "'THE NEXT DAY' laid over an exterior shot of an official in uniform, a variation on the black card.",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 652,
+          "end": 711,
+          "name": "fact-led piece to camera",
+          "description": "In an office, the presenter delivers figures and history (GDP, independence) straight to the lens.",
+          "style_mode": "personal"
+        },
+        {
+          "start": 721,
+          "end": 898,
+          "name": "long observational interview",
+          "description": "Static wide two-shot of the mayor in white talking about responsibility and the presidency for nearly 3 minutes.",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 918,
+          "end": 1046,
+          "name": "in-car conversation climax",
+          "description": "Close profile of the candidate in a turtleneck, gesturing as he explains why he is taking the risk. The window is blown out.",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 1056,
+          "end": 1076,
+          "name": "end cards with audio under",
+          "description": "'NEXT RELEASE' then 'SEE YOU NEXT TIME' on black. Subtitles continue under the first card.",
+          "style_mode": "personal"
+        }
+      ]
+    },
+    {
+      "source": "claude-code subagent (viewed all 3 contact sheets + profile + transcript; YouTube offers no transcript for this video, so story is read from burned-in subtitles)",
+      "summary": "A three-day Gambia trip hosting former Manchester United striker Louis Saha, built around a charity football match. It mixes a long warm-lit dinner conversation, seated pieces to camera from the creator, a monkey-park and craft-market leisure section, and a golden-hour match with a trophy presentation. This is the most saturated and warm-graded of the six videos (mean warmth 0.19, saturation 0.47). It closes with an airport farewell, seated reflections, and the 'ZERO TO £100M' card used as an end bookend rather than an opener.",
+      "hook_analysis": "A visual teaser montage comes before any talk: a group photo (0:00), a crowd with a flag and an overlaid countdown, '242 DAYS LEFT' (0:10), security in a crowd (0:20), and sun through leaves (0:30). Then a seated piece to camera at 0:40 explains the event and the guest. It is a short visual lead-in followed by speech, with the countdown text supplying urgency.",
+      "narrative_arc": "Arrival and setup by piece to camera (0:40-1:59). Dinner conversation on entrepreneurship versus football (2:08-7:35). Hotel-lobby reflection piece to camera (7:45-8:54). Leisure: monkey park and market (9:04-11:52). Fans and convoy (12:02-13:30). Charity match at golden hour (13:40-15:39). Trophy and speeches (15:49-16:38). Night farewell talk (16:58-17:47). Seated debrief (17:57-18:47). Louis leaving the airport (18:57-19:46). Final reflection and end cards (19:56-21:05).",
+      "camera_and_composition": "Eye-level medium close-ups for pieces to camera, with a shallow-focus canopy or hotel atrium behind (0:40-1:59, 7:54-8:54). The dinner is covered handheld from several angles with soft foreground bottles framing faces (2:18-7:35). The monkey park uses very shallow depth of field for nature details (9:53-10:23). The match is covered from low angles behind players' backs and from the stands (14:50-15:29). Exact moves and cuts are not observable at storyboard resolution.",
+      "color_and_grade": "Strongly warm: orange/amber interiors (palette #c08447, #e3ab6b), golden-hour pinks at the match and trophy lift (15:49-16:38), and saturated greens and blues in daytime pieces to camera. The night scenes (16:48-17:47) stay warm with practical lamp highlights. This is the most 'cinematic travel' palette in the set.",
+      "sound_and_music": "Not measurable: no transcript is available and no audio was downloaded. Burned-in subtitles show dialogue-driven scenes; the 0:00-0:30 montage and the match section (13:40-15:39) have no subtitles in the sampled frames, which suggests music or ambience there, but this is unverified.",
+      "what_to_borrow": [
+        "An overlaid countdown or stake number in the first 10 s ('242 DAYS LEFT') to create urgency",
+        "Bookend a guest visit with arrival and airport farewell scenes",
+        "Do the seated reflection piece to camera after the event, not only before it",
+        "Use golden hour for the set-piece event and shoot from behind players and among the crowd",
+        "Use shallow-depth nature cutaways as a breather between talk-heavy sections"
+      ],
+      "what_to_avoid_copying": [
+        "The 'ZERO TO £100M' and 'SEE YOU NEXT TIME' series cards",
+        "Five-minute dinner table chatter with little visual change (2:18-7:35); trim it for your own pacing",
+        "Name-dropping a famous guest in the title as the main hook if you cannot deliver access"
+      ],
+      "observations": [
+        {
+          "start": 0,
+          "end": 30,
+          "name": "visual teaser montage",
+          "description": "A group photo, a crowd with a waving flag, and security in a crowd, cut together before any talk.",
+          "style_mode": "cinematic"
+        },
+        {
+          "start": 10,
+          "end": 20,
+          "name": "countdown text overlay",
+          "description": "'242 DAYS LEFT' in large white type over the crowd shot.",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 40,
+          "end": 119,
+          "name": "seated piece to camera setup",
+          "description": "Creator in a blue polo under trees explains the event, the guest and the plan in a shallow-focus medium close-up.",
+          "style_mode": "personal"
+        },
+        {
+          "start": 109,
+          "end": 119,
+          "name": "crew acknowledgement",
+          "description": "Subtitle names the camera operator ('We got Oscar in the building'), a recurring device that makes the crew part of the story.",
+          "style_mode": "personal"
+        },
+        {
+          "start": 138,
+          "end": 455,
+          "name": "observational dinner conversation",
+          "description": "Warm amber room. Saha and others are covered handheld from several angles with burned-in subtitles. The talk is about how few people play in the Premier League and entrepreneurship.",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 465,
+          "end": 534,
+          "name": "lobby reflection piece to camera",
+          "description": "Black turtleneck, centred medium close-up in a symmetrical hotel atrium.",
+          "style_mode": "personal"
+        },
+        {
+          "start": 544,
+          "end": 573,
+          "name": "location piece to camera",
+          "description": "Standing in a palm grove: 'Welcome to Africa', then on to the monkey park.",
+          "style_mode": "personal"
+        },
+        {
+          "start": 583,
+          "end": 623,
+          "name": "nature detail montage",
+          "description": "Very shallow-focus leaves, a monkey on a branch, a tourist filming, a monkey on the ground.",
+          "style_mode": "cinematic"
+        },
+        {
+          "start": 642,
+          "end": 712,
+          "name": "market observational",
+          "description": "Craft-market stalls, guests browsing jewellery and masks, handheld close.",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 722,
+          "end": 741,
+          "name": "fan mob scene",
+          "description": "Fans in red jerseys crowd around the guest. The subtitle calls him over.",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 820,
+          "end": 939,
+          "name": "golden-hour match coverage",
+          "description": "Players warming up, low angles from behind jerseys, spectators in the stand, the ball against a pink sky.",
+          "style_mode": "cinematic"
+        },
+        {
+          "start": 949,
+          "end": 998,
+          "name": "trophy presentation and lift",
+          "description": "A speech with a microphone, then the trophy raised against the sky and players celebrating.",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 1137,
+          "end": 1186,
+          "name": "airport farewell",
+          "description": "A hug at the airport entrance, then a wide of the terminal and a piece to camera ('He's heading back now').",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 1196,
+          "end": 1255,
+          "name": "seated closing reflection",
+          "description": "Warm-lit room, presenter seated and gesturing, recapping the trip.",
+          "style_mode": "personal"
+        },
+        {
+          "start": 1255,
+          "end": 1275,
+          "name": "end series card",
+          "description": "'ZERO TO £100M' then 'SEE YOU NEXT TIME' on black: the series card used as an outro here.",
+          "style_mode": "personal"
+        }
+      ]
+    },
+    {
+      "source": "claude-code subagent (viewed all 3 contact sheets + profile + transcript (auto-captions, 389 cues))",
+      "summary": "Vlog 22 of the 'Zero to £100M' series: a lifestyle-plus-business day in Dubai. It runs from a night arrival at a serviced apartment, through lunch with friends, a long kitchen conversation about fitness and nutrition, and a yacht meeting with a European businessman about deals and listing versus staying private, to a villa dinner. It is the most 'personal vlog' of the six (style mix: personal 0.43), with first-person speech from 0:12 ('welcome to downtown Dubai'). Yellow bold labels ('THE APARTMENT', '11 AM') mark place and time. It ends on the standard black 'NEXT RELEASE' and 'SEE YOU NEXT TIME' cards.",
+      "hook_analysis": "A short visual lead-in. A night skyline (0:00) leads to the creator walking down a hotel corridor and grinning into the lens (0:10-0:20), and speech starts at 0:12 as an arrival greeting. There is no cold-open claim and no series title card in the sampled opening frames. The hook is aspirational access (skyline, Burj Khalifa view) rather than stakes.",
+      "narrative_arc": "Loose, chapter-driven day-in-the-life: Arrival (0:00-1:04), Security and Lifestyle, Entrepreneurial Mentality (a lunch table with friends, 2:09-3:38), Strategic Business Focus (the 'THE APARTMENT' backlit talk, 3:57-4:37), Fitness and Nutrition (a long kitchen sit-down, 6:06-9:04), Yacht Meeting and Deals (11:03-14:11), Listing vs Private Growth, Travel and Leisure (cruise and waterside lunch, 14:20-17:38), and Culinary Experiences (villa pizza dinner, 17:48-19:07). The arc runs from leisure through business to leisure. The stakes are implicit.",
+      "camera_and_composition": "Mixed. There are backlit, near-silhouette pieces to camera against apartment windows (4:07-4:37, 9:44), a locked-off medium shot at the kitchen counter held for minutes (6:06-9:04), a phone-screen insert (9:14), and in-taxi profiles (10:03-10:33). The yacht covers both people in clean, bright medium close-ups (11:32-14:11), with drone/boat wides of the marina and wake (14:40-15:10) and macro-style wine-pour details (16:29-16:39). Exact moves are not observable at storyboard resolution.",
+      "color_and_grade": "Warm wood-and-amber interiors (palette #523015, #7f5a3f) against bright, slightly washed daylight exteriors on the yacht. Night shots are low-key. Yellow bold sans-serif text labels (3:57, 11:03) are the one graphic accent.",
+      "sound_and_music": "From auto-captions: about 82% speech coverage, 135 wpm overall, 19 [music] markers, and a longest non-speech run of 47 s. Speech-free montages are flagged around 9:31, 14:33, 15:29 and 15:55 (the yacht cruise and wake). The opening 12 s has no speech, which suggests music or ambience over the skyline. The music itself cannot be identified.",
+      "what_to_borrow": [
+        "Bold place/time labels ('THE APARTMENT', '11 AM') to orient the viewer in a loose day-in-the-life",
+        "Insert a phone or app screen when the talk references data",
+        "Use speech-free cruise/wake montages to give a long talk-heavy film room to breathe",
+        "Use a backlit window silhouette for a reflective monologue"
+      ],
+      "what_to_avoid_copying": [
+        "'NEXT RELEASE' and 'SEE YOU NEXT TIME' series cards",
+        "A three-minute locked-off kitchen talk about fitness tracking that only loosely ties to the episode thesis",
+        "Luxury-brand signage shots (Ritz-Carlton, Burj Al Arab) as filler"
+      ],
+      "observations": [
+        {
+          "start": 0,
+          "end": 10,
+          "name": "night skyline opener",
+          "description": "A dark Dubai skyline before any speech. The profile flags 12 s of non-speech.",
+          "style_mode": "cinematic"
+        },
+        {
+          "start": 10,
+          "end": 40,
+          "name": "arrival walk-in",
+          "description": "The creator walks down a hotel corridor towards the lens and into the apartment, with subtitles about the Burj Khalifa view.",
+          "style_mode": "personal"
+        },
+        {
+          "start": 69,
+          "end": 79,
+          "name": "crew-directed aside",
+          "description": "Subtitle 'This is Dubai, you don't need to lock the door' is addressed to the camera operator.",
+          "style_mode": "personal"
+        },
+        {
+          "start": 129,
+          "end": 218,
+          "name": "friends at lunch table",
+          "description": "Handheld observational table conversation, with friends introduced by subtitles ('My man Donny').",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 237,
+          "end": 277,
+          "name": "place label and silhouette talk",
+          "description": "'THE APARTMENT' in yellow bold type over the interior, then a backlit near-silhouette monologue by the window about focus.",
+          "style_mode": "personal"
+        },
+        {
+          "start": 317,
+          "end": 336,
+          "name": "landmark and restaurant",
+          "description": "The Burj Al Arab against the sky, then a lavish restaurant interior.",
+          "style_mode": "cinematic"
+        },
+        {
+          "start": 366,
+          "end": 544,
+          "name": "locked-off kitchen conversation",
+          "description": "A long seated medium shot at the kitchen counter about calorie deficit, gym and recovery.",
+          "style_mode": "personal"
+        },
+        {
+          "start": 554,
+          "end": 564,
+          "name": "app screen insert",
+          "description": "Close-up of a phone showing a fitness-tracker dashboard.",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 603,
+          "end": 633,
+          "name": "taxi ride-along",
+          "description": "In-car profiles, part silhouetted against the window, on the way to the marina.",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 663,
+          "end": 673,
+          "name": "time label",
+          "description": "'11 AM' in yellow bold type as the yacht scene begins.",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 673,
+          "end": 851,
+          "name": "yacht deal meeting",
+          "description": "Bright medium close-ups of a European businessman discussing acquisitions, debt and downside protection, with subtitles.",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 860,
+          "end": 910,
+          "name": "speech-free cruise montage",
+          "description": "Marina, boat wake, skyline from the water, group on the deck.",
+          "style_mode": "cinematic"
+        },
+        {
+          "start": 989,
+          "end": 999,
+          "name": "detail inserts",
+          "description": "Corkscrew and wine pour in close-up at the waterside lunch.",
+          "style_mode": "cinematic"
+        },
+        {
+          "start": 1068,
+          "end": 1147,
+          "name": "villa dinner observational",
+          "description": "A Danish couple's home: arrival at the door, staircase, and pizza-making chat in the kitchen.",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 1157,
+          "end": 1177,
+          "name": "end cards",
+          "description": "'NEXT RELEASE 23/03/2025' then 'SEE YOU NEXT TIME' on black.",
+          "style_mode": "personal"
+        }
+      ]
+    },
+    {
+      "source": "claude-code subagent (viewed all 4 contact sheets + profile + transcript; YouTube offers no transcript for this video, so story is read from burned-in subtitles)",
+      "summary": "A Copenhagen episode that is almost entirely one man talking. It is structured as a sit-down interview with an off-camera questioner, in a few interior setups: a green meeting room with a screen, olive velvet curtains, and a teal wall. Topics include taking the group public ('We are no longer a small business'; 31 shareholders), a whiteboard session mapping his holdings, why he wants to build in England, and the Jim Ratcliffe/INEOS conglomerate model. Coverage of the same talk changes from wide to close to over-the-shoulder. Big white time labels ('11AM', '12PM') structure the day. There are very few exteriors, and it ends on black 'NEXT RELEASE' and 'SEE YOU NEXT TIME' cards with subtitles still running.",
+      "hook_analysis": "Three atmospheric interior details come first: a teacup on a tray (0:00), a staircase (0:05) and a chandelier (0:10). Then '11AM' in large white type with an off-camera prompt in the subtitles ('Meetings. How you feel?') at 0:15, and the creator is talking by 0:30. It is a mood-setting lead-in followed by an immediate interview. The profile counts no speech in the first 30 s because there is no transcript, but subtitles appear from 0:15.",
+      "narrative_arc": "Interview chapters: UK-CPH-UAE plans (0:20-2:00) lead to Going Public (2:04-3:57), The UK Trip and inspiration from an energy CEO's speech (3:57-5:51), the whiteboard 'Vision' (5:56-7:55), Why England, with colonial/historical ties and childhood summers (8:04-10:33), and the Jim Ratcliffe model (10:48-12:36). The film closes with an outro over the end cards. The argument escalates from the company's status to personal ambition ('by the time I'm 40'), then to a national-scale vision.",
+      "camera_and_composition": "Seated interview framing, slightly off-centre, eye-level or slightly low, with a wide lens in the first setup (0:30-1:59). Later setups are tighter medium close-ups against olive curtains (8:04-10:33). The final setup is a wide over-the-shoulder with a blurred white foreground figure (10:48-12:36). The whiteboard section uses low-key side light, silhouettes, and close inserts of the pen (6:01-7:50). Storyboard sampling here is every ~4.9 s, but exact cuts and camera moves are still not observable at this resolution.",
+      "color_and_grade": "Muted, moody interior palette: olive green curtains, teal walls and warm skin tones, with a high-contrast tag. The whiteboard scene is dark with a pink/red cast on the walls (6:26-7:55). There are almost no daylight exteriors (one building facade at 9:28).",
+      "sound_and_music": "Not measurable: YouTube offers no transcript and no audio was downloaded. Subtitles run continuously, consistent with almost wall-to-wall speech. Off-camera questions appear in the subtitles (e.g. 'but why England?' at 9:28). Subtitles continue over the black end cards (12:41-12:51).",
+      "what_to_borrow": [
+        "Cover a long sit-down in several distinct setups (wide, tight, over-the-shoulder) so a 12-minute talk does not feel static",
+        "Use a whiteboard drawing session as visual exposition for abstract business structure",
+        "Use large time-of-day labels to give an interview-heavy film a day structure",
+        "Put the off-camera interviewer's questions in the subtitles to signal chapter turns"
+      ],
+      "what_to_avoid_copying": [
+        "'NEXT RELEASE' and 'SEE YOU NEXT TIME' series cards",
+        "Nearly no exteriors or b-roll for 12 minutes: this only works with an established audience",
+        "Wealth/billionaire framing as the hook"
+      ],
+      "observations": [
+        {
+          "start": 0,
+          "end": 15,
+          "name": "atmospheric detail opener",
+          "description": "A teacup, a staircase and a chandelier: three interior details before any person appears.",
+          "style_mode": "cinematic"
+        },
+        {
+          "start": 15,
+          "end": 20,
+          "name": "time-of-day label",
+          "description": "'11AM' in large white type in the lower-left, with an off-camera prompt in the subtitles.",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 30,
+          "end": 119,
+          "name": "wide seated interview, setup 1",
+          "description": "A wide-angle seated medium shot in a green meeting room with a screen behind. He recaps meetings (stock exchange) and the week's travel.",
+          "style_mode": "personal"
+        },
+        {
+          "start": 124,
+          "end": 138,
+          "name": "crew/camera self-reference",
+          "description": "Subtitles mention the camera operator's new camera, an on-camera nod to the crew.",
+          "style_mode": "personal"
+        },
+        {
+          "start": 124,
+          "end": 237,
+          "name": "olive-curtain interview, setup 2",
+          "description": "Re-framed wider shot against olive curtains: 'no longer a small business', revenue and shareholder figures.",
+          "style_mode": "personal"
+        },
+        {
+          "start": 237,
+          "end": 351,
+          "name": "inspiration anecdote",
+          "description": "Same setup. He recounts a speech by an energy company's CEO and 'dare to dream' ambition.",
+          "style_mode": "personal"
+        },
+        {
+          "start": 356,
+          "end": 361,
+          "name": "second time label",
+          "description": "'12PM' in large white type over a phone call by the window.",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 361,
+          "end": 475,
+          "name": "whiteboard explainer",
+          "description": "Low-key, side-lit session drawing the group structure, with pen inserts and silhouettes.",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 484,
+          "end": 568,
+          "name": "tight interview, setup 3",
+          "description": "A closer medium close-up against olive curtain and teal wall: what he will not do, plus personal motives.",
+          "style_mode": "personal"
+        },
+        {
+          "start": 568,
+          "end": 573,
+          "name": "question-led cutaway",
+          "description": "Subtitle 'but why England?' over an exterior building shot. The off-camera question marks the chapter.",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 573,
+          "end": 633,
+          "name": "historical context answer",
+          "description": "Gambia as a former British colony and childhood summers in England, delivered to the off-camera interviewer.",
+          "style_mode": "personal"
+        },
+        {
+          "start": 638,
+          "end": 648,
+          "name": "wide room reveal",
+          "description": "Wide of the room with globe lamps, showing the interview set.",
+          "style_mode": "cinematic"
+        },
+        {
+          "start": 648,
+          "end": 756,
+          "name": "over-shoulder interview, setup 4",
+          "description": "Wide with a blurred white foreground figure. The talk is on a billionaire's conglomerate model and national-scale ambition.",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 761,
+          "end": 786,
+          "name": "end cards with audio under",
+          "description": "'NEXT RELEASE 16/03/2025' with subtitles still running, then 'SEE YOU NEXT TIME'.",
+          "style_mode": "personal"
+        }
+      ]
+    },
+    {
+      "source": "claude-code subagent (viewed all 4 contact sheets + profile + transcript (auto-captions, 811 cues))",
+      "summary": "Vlog 60 of the 'Zero to £100M' series, titled as 'The Reality of Buying a $10M Business in London'. Over two nights in London it moves through an airport arrival, a back-seat car conversation, a meeting with a young co-founder of an M&A simulator game, a UK investor-visa event in Parliament, an Airbnb, a kitchen piece to camera pitching his coaching community, and a live deal completion on a video call ('Fuck, we just bought a new company'). After the 'NEXT RELEASE' card, about 10 minutes of bonus screen-recorded demo of the simulator follow. It is the darkest, most low-key grade (53% low-key frames) and has the densest speech (178 wpm, 98% coverage).",
+      "hook_analysis": "A music-led cold open. A rap track (its lyrics appear in the auto-captions) plays over a dark car interior with a white stat overlay, 'VLOG 60 / CURRENT REVENUE: £9M' (0:00). City b-roll with a Rolls-Royce and a cyclist (0:10) follows, then the 'ZERO TO £100M' card (0:20). At 0:26 speech starts ('Just landed in London') with the setup: a board meeting and a deal due to close. The revenue counter frames the series' progress metric before anything else.",
+      "narrative_arc": "Setup (close the deal today) comes at 1:29. Then: a car ride and the video-game launch (1:59-4:27); meeting the co-founder (5:17-7:55); the Parliament/investor-visa event (8:05-10:04); the Airbnb and a friend (10:14-11:33); the coaching pitch in the kitchen (11:43-14:22); the simulator explained to an older guest (14:32-16:01); and the climax, a video-call completion and reaction (16:11-18:59). Outro card at 19:19, then the bonus demo (19:29-29:43). It is a clear setup-to-payoff arc, with the payoff saved for the end.",
+      "camera_and_composition": "Handheld, often low-light. Airport selfie medium close-ups (0:30-1:29). A back-seat car shot from the opposite seat with a wide lens (1:59-4:27). Over-the-table restaurant shots against a window, with a dark foreground (5:17-7:46). Landmark cutaways (Big Ben 8:05, London Eye 8:45). Chandelier/light-fixture details (10:14-10:24). A kitchen piece to camera at counter height (11:53-14:22). Silhouette against net curtains for the deal call (16:11-16:41). Screen recording fills the frame in the bonus section. Exact moves are not observable at storyboard resolution.",
+      "color_and_grade": "Very warm, dim amber tungsten interiors (palette #241710, #60390c) with deep shadows. Daytime London exteriors are cool and grey for contrast. The bonus section is a blue/purple UI screen. A small amount of letterboxing is detected (10.5%). Overall it is the most 'night-time intimate' look in the set.",
+      "sound_and_music": "From auto-captions: near-continuous speech (98% coverage, 178 wpm). Thirteen [music] markers, including a rap track with captioned lyrics over the 0:00-0:22 cold open and music under the Parliament event intro (~4:36-4:57). Laughter markers (9) and one [applause] at the deal completion (~16:41). There is strong profanity in speech. The music cannot be identified beyond the caption markers.",
+      "what_to_borrow": [
+        "A running metric overlay ('CURRENT REVENUE') in the first frame to anchor a series' progress",
+        "State the episode's goal early ('we're supposed to close today') and pay it off on camera at the end",
+        "Name lower-thirds for notable people at events",
+        "Contrast cool, grey exteriors with warm tungsten interiors to separate public and private moments",
+        "Film the real reaction live after a milestone call instead of re-staging it"
+      ],
+      "what_to_avoid_copying": [
+        "'ZERO TO £100M' card, 'VLOG 60 / CURRENT REVENUE' counter format and 'NEXT RELEASE' card (series branding)",
+        "The 10-minute bonus product demo appended after the outro, which is advertising",
+        "Licensed rap track and heavy profanity in the cold open",
+        "Underexposed interiors where faces fall into black (19:09)"
+      ],
+      "observations": [
+        {
+          "start": 0,
+          "end": 10,
+          "name": "stat-overlay cold open",
+          "description": "Dark car interior with the white overlay 'VLOG 60  CURRENT REVENUE: £9M' over a rap track.",
+          "style_mode": "personal"
+        },
+        {
+          "start": 10,
+          "end": 20,
+          "name": "city b-roll under music",
+          "description": "A wet London street with a Rolls-Royce and a cyclist.",
+          "style_mode": "cinematic"
+        },
+        {
+          "start": 20,
+          "end": 26,
+          "name": "series title card",
+          "description": "'ZERO TO £100M' in small white type on black.",
+          "style_mode": "personal"
+        },
+        {
+          "start": 26,
+          "end": 99,
+          "name": "airport arrival selfie",
+          "description": "Handheld medium close-ups in an airport hall, on the phone to his CEO. The deal is due to close today.",
+          "style_mode": "personal"
+        },
+        {
+          "start": 119,
+          "end": 267,
+          "name": "back-seat car conversation",
+          "description": "A wide shot from the opposite seat in a moving car, about launching a video game and raising capital.",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 277,
+          "end": 297,
+          "name": "London establishing",
+          "description": "A grand facade against blue sky and a striped awning with a black cab.",
+          "style_mode": "cinematic"
+        },
+        {
+          "start": 317,
+          "end": 475,
+          "name": "co-founder meeting",
+          "description": "Restaurant-window shots of a young co-founder and the creator, alternating, warm and dark.",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 485,
+          "end": 535,
+          "name": "landmarks and event access",
+          "description": "Big Ben, a Parliament corridor with lanyards, and the London Eye.",
+          "style_mode": "cinematic"
+        },
+        {
+          "start": 545,
+          "end": 555,
+          "name": "name lower-third",
+          "description": "On-screen name caption for a Baroness at the investor-visa event.",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 614,
+          "end": 624,
+          "name": "light-fixture details",
+          "description": "Chandelier and wall-sconce inserts marking the Airbnb arrival.",
+          "style_mode": "cinematic"
+        },
+        {
+          "start": 703,
+          "end": 862,
+          "name": "kitchen pitch piece to camera",
+          "description": "Counter-height medium shot. He invites viewers to join his M&A coaching community and explains group revenue.",
+          "style_mode": "personal"
+        },
+        {
+          "start": 872,
+          "end": 961,
+          "name": "explaining to a guest",
+          "description": "Over-shoulder on the sofa. He explains the simulator to an older man in low tungsten light.",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 971,
+          "end": 1001,
+          "name": "deal-completion call",
+          "description": "Silhouette against net curtains, leaning over a laptop as the subtitle reads 'you are officially completed'.",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 1010,
+          "end": 1139,
+          "name": "live reaction payoff",
+          "description": "Seated, amber-lit, swearing with joy and thanking his CEO. The deal is named.",
+          "style_mode": "personal"
+        },
+        {
+          "start": 1159,
+          "end": 1169,
+          "name": "next-release card",
+          "description": "'NEXT RELEASE 14/12/2025' on black with subtitles continuing.",
+          "style_mode": "personal"
+        },
+        {
+          "start": 1169,
+          "end": 1793,
+          "name": "bonus screen-recorded demo",
+          "description": "Full-frame screen capture of the M&A simulator website and gameplay with subtitles (outside the main film).",
+          "style_mode": "documentary"
+        }
+      ]
+    },
+    {
+      "source": "claude-code subagent (viewed all 3 contact sheets + profile + transcript; YouTube offers no transcript for this video, so story is read from burned-in subtitles)",
+      "summary": "Vlog 11 of 'Zero to £100M'. Despite the 'UK' title, the frames show Copenhagen: Danish signage ('PRESSEN', 'Book dit næste...') and a rainy grey city. The creator does a long wide-angle walk-and-talk through the streets explaining how M&A works and recapping a Gambia trip. He then sits at a table in what looks like a members' club for a long coaching-call segment ('let's talk deals'). The film ends with Christmas shopping in a luxury store. It is the coolest, most desaturated grade of the six (warmth -0.015), with a teal/cyan cast.",
+      "hook_analysis": "A direct greeting piece to camera. At 0:00 he is in a café, framed tight with a wide lens and wearing a cap, and the subtitle opens 'Hi guys, welcome to vlog 11 on the journey from zero to 100 million pounds'. A low-angle traffic-light cutaway (0:29) follows, then the series card 'ZERO TO £100M' with a quoted tagline ('I just wanna hear YES') at 0:39. This is the most YouTube-vlog-style opening of the set.",
+      "narrative_arc": "Intro (0:00-0:49). Gambia recap and M&A explainer told while walking (0:59-7:41): chapter 'Gambia Trip' covers footage of Copenhagen, so the talk and the visuals are about different places. Arrival indoors (8:21-9:00). Coaching call at the table (9:10-15:03). Members' club and Christmas shopping (15:13-16:42). End card. Low dramatic stakes; the film is driven by explanation.",
+      "camera_and_composition": "Ultra-wide handheld, often selfie-style or walking alongside. The camera is low and close, with the subject off-centre and distorted architecture behind (0:59-7:41). There are low-angle cutaways of signs and traffic lights (0:29, 7:22-7:32). The table scene is a low wide-angle shot across a table with tea props in the foreground (9:10-15:03). The shop scene is handheld among mannequins (16:12-16:42). Exact moves are not observable at storyboard resolution.",
+      "color_and_grade": "Cool, desaturated, teal-shifted grade on exteriors, with lifted blacks and a slightly filmic look (dominant #0c1b1d, #f5f0dd). Interiors are warmer with tungsten lamps but stay muted. The look is distinct from his warm Africa/Dubai episodes.",
+      "sound_and_music": "Not measurable: YouTube offers no transcript and no audio was downloaded. Subtitles appear in almost every frame, suggesting continuous walk-and-talk monologue and call dialogue.",
+      "what_to_borrow": [
+        "Use walk-and-talk exposition to explain an abstract topic while moving through a city",
+        "Low-angle sign and traffic-light cutaways as punctuation in long monologues",
+        "Let a strong location-specific grade (cool, rainy northern city) define the episode's mood",
+        "A tagline under the title card that quotes the episode's key line"
+      ],
+      "what_to_avoid_copying": [
+        "'ZERO TO £100M' card and 'SEE YOU NEXT TIME' series branding",
+        "A title that names a different country from the one on screen",
+        "An ultra-wide lens close to the face for minutes on end, which distorts the face"
+      ],
+      "observations": [
+        {
+          "start": 0,
+          "end": 29,
+          "name": "greeting piece to camera",
+          "description": "Café selfie framing with a wide lens: 'welcome to vlog 11', just back from Gambia.",
+          "style_mode": "personal"
+        },
+        {
+          "start": 29,
+          "end": 39,
+          "name": "low-angle cutaway",
+          "description": "A red traffic light against the sky with an ornate building.",
+          "style_mode": "cinematic"
+        },
+        {
+          "start": 39,
+          "end": 49,
+          "name": "series title card with tagline",
+          "description": "'ZERO TO £100M' on black with a small quoted line beneath.",
+          "style_mode": "personal"
+        },
+        {
+          "start": 59,
+          "end": 247,
+          "name": "walk-and-talk exposition",
+          "description": "Rainy Copenhagen streets in a wide-angle side profile while recapping the Gambia trip. The visuals don't match the topic.",
+          "style_mode": "personal"
+        },
+        {
+          "start": 247,
+          "end": 463,
+          "name": "M&A explainer on the move",
+          "description": "Continued walking monologue past construction hoardings and brick facades about growing through acquisitions.",
+          "style_mode": "personal"
+        },
+        {
+          "start": 383,
+          "end": 413,
+          "name": "stopped piece to camera",
+          "description": "He stops under a festive shopfront and faces the camera to explain how M&A works ('it's a ladder').",
+          "style_mode": "personal"
+        },
+        {
+          "start": 442,
+          "end": 452,
+          "name": "environmental signage",
+          "description": "A 'PRESSEN' newspaper sign and a 'BOMBSHELL, BOOM BOOM!' poster as graphic punctuation.",
+          "style_mode": "cinematic"
+        },
+        {
+          "start": 501,
+          "end": 550,
+          "name": "arrival indoors",
+          "description": "An office/club interior with a lamp and window, then checking his phone under globe pendants.",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 550,
+          "end": 903,
+          "name": "coaching call at the table",
+          "description": "A low wide-angle across a table with teapot and cups. A long animated call about deals and buyers, with subtitles.",
+          "style_mode": "personal"
+        },
+        {
+          "start": 913,
+          "end": 952,
+          "name": "members' club moment",
+          "description": "A dim wood-panelled room with a Christmas tree. He shows a welcome card signed by the CEO.",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 962,
+          "end": 1002,
+          "name": "luxury shopping",
+          "description": "A sneaker-wall boutique, handheld among mannequins, picking up shoes.",
+          "style_mode": "documentary"
+        },
+        {
+          "start": 1011,
+          "end": 1031,
+          "name": "end card",
+          "description": "'SEE YOU NEXT TIME' on black.",
+          "style_mode": "personal"
+        }
+      ]
+    }
+  ],
+  "timestamped_examples": [
+    {
+      "video_id": "IfAA5Hy-8Zw",
+      "title": "Zero to £100M | life as an entrepreneur doing business in Dubai | vlog 22",
+      "start": 0.0,
+      "end": 12.0,
+      "name": "atmospheric non-speech sequence",
+      "description": "12s without dialogue/narration, est. 0.0 cuts/min",
+      "link": "https://www.youtube.com/watch?v=IfAA5Hy-8Zw&t=0s"
+    },
+    {
+      "video_id": "IfAA5Hy-8Zw",
+      "title": "Zero to £100M | life as an entrepreneur doing business in Dubai | vlog 22",
+      "start": 571.36,
+      "end": 584.16,
+      "name": "speech-free montage",
+      "description": "13s without dialogue/narration, est. 18.2 cuts/min",
+      "link": "https://www.youtube.com/watch?v=IfAA5Hy-8Zw&t=571s"
+    },
+    {
+      "video_id": "IfAA5Hy-8Zw",
+      "title": "Zero to £100M | life as an entrepreneur doing business in Dubai | vlog 22",
+      "start": 873.04,
+      "end": 920.36,
+      "name": "speech-free montage",
+      "description": "47s without dialogue/narration, est. 18.2 cuts/min - music-driven montage",
+      "link": "https://www.youtube.com/watch?v=IfAA5Hy-8Zw&t=873s"
+    },
+    {
+      "video_id": "IfAA5Hy-8Zw",
+      "title": "Zero to £100M | life as an entrepreneur doing business in Dubai | vlog 22",
+      "start": 929.24,
+      "end": 953.959,
+      "name": "speech-free montage",
+      "description": "25s without dialogue/narration, est. 18.2 cuts/min - music-driven montage",
+      "link": "https://www.youtube.com/watch?v=IfAA5Hy-8Zw&t=929s"
+    },
+    {
+      "video_id": "IfAA5Hy-8Zw",
+      "title": "Zero to £100M | life as an entrepreneur doing business in Dubai | vlog 22",
+      "start": 955.31,
+      "end": 974.04,
+      "name": "speech-free montage",
+      "description": "19s without dialogue/narration, est. 18.2 cuts/min - music-driven montage",
+      "link": "https://www.youtube.com/watch?v=IfAA5Hy-8Zw&t=955s"
+    },
+    {
+      "video_id": "IfAA5Hy-8Zw",
+      "title": "Zero to £100M | life as an entrepreneur doing business in Dubai | vlog 22",
+      "start": 1018.99,
+      "end": 1032.64,
+      "name": "atmospheric non-speech sequence",
+      "description": "14s without dialogue/narration, est. 0.0 cuts/min - music-driven montage",
+      "link": "https://www.youtube.com/watch?v=IfAA5Hy-8Zw&t=1018s"
+    },
+    {
+      "video_id": "dUL-YXeWDQY",
+      "title": "The Reality of Buying a $10M Business in London.",
+      "start": 113.92,
+      "end": 193.17,
+      "name": "talking to camera",
+      "description": "presenter speaks directly to camera / selfie framing",
+      "link": "https://www.youtube.com/watch?v=dUL-YXeWDQY&t=113s"
+    },
+    {
+      "video_id": "dUL-YXeWDQY",
+      "title": "The Reality of Buying a $10M Business in London.",
+      "start": 341.76,
+      "end": 381.38,
+      "name": "talking to camera",
+      "description": "presenter speaks directly to camera / selfie framing",
+      "link": "https://www.youtube.com/watch?v=dUL-YXeWDQY&t=341s"
+    },
+    {
+      "video_id": "dUL-YXeWDQY",
+      "title": "The Reality of Buying a $10M Business in London.",
+      "start": 1005.46,
+      "end": 1154.05,
+      "name": "talking to camera",
+      "description": "presenter speaks directly to camera / selfie framing",
+      "link": "https://www.youtube.com/watch?v=dUL-YXeWDQY&t=1005s"
+    }
+  ]
+}

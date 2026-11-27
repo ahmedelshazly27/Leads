@@ -1,0 +1,1373 @@
+{
+ "schema_version": "1.0",
+ "video_id": "eVVfWFlvF14",
+ "url": "https://www.youtube.com/watch?v=eVVfWFlvF14",
+ "creator": "Daniel Dalen",
+ "title": "pov: you're a 26 y/o entrepreneur on a business trip to Berlin & Barcelona",
+ "channel": "Daniel Dalen",
+ "upload_date": "20240804",
+ "duration": 1665.0,
+ "view_count": 146721,
+ "user_notes": "Berlin & Barcelona",
+ "analysed_at": "2026-11-27T19:25:46+00:00",
+ "sources": {
+  "metadata": true,
+  "transcript": "auto",
+  "transcript_language": "en-orig",
+  "transcript_quality": "ok",
+  "transcript_quality_note": "",
+  "frames": "YouTube storyboard 320x180, one frame every 9.9s",
+  "frame_interval_s": 9.910714285714286,
+  "chapters": 7,
+  "heatmap": true
+ },
+ "chapters": [
+  {
+   "start": 0.0,
+   "end": 107.0,
+   "title": "Morning routine in Berlin"
+  },
+  {
+   "start": 107.0,
+   "end": 320.0,
+   "title": "Alvaro's background and work"
+  },
+  {
+   "start": 320.0,
+   "end": 655.0,
+   "title": "Overcoming business challenges"
+  },
+  {
+   "start": 655.0,
+   "end": 978.0,
+   "title": "Visiting family in Poland"
+  },
+  {
+   "start": 978.0,
+   "end": 1133.0,
+   "title": "Traveling to Barcelona"
+  },
+  {
+   "start": 1133.0,
+   "end": 1429.0,
+   "title": "Barcelona work and logistics"
+  },
+  {
+   "start": 1429.0,
+   "end": 1665.0,
+   "title": "Reflections and closing"
+  }
+ ],
+ "replay_peaks": [
+  {
+   "start": 0.0,
+   "end": 16.66,
+   "value": 1.0
+  },
+  {
+   "start": 1099.56,
+   "end": 1116.22,
+   "value": 0.5890760664736575
+  },
+  {
+   "start": 766.36,
+   "end": 783.02,
+   "value": 0.4754312278196201
+  },
+  {
+   "start": 749.7,
+   "end": 766.36,
+   "value": 0.4272629885986971
+  },
+  {
+   "start": 266.56,
+   "end": 283.22,
+   "value": 0.39247858440587435
+  }
+ ],
+ "scenes": [
+  {
+   "index": 0,
+   "start": 0.0,
+   "end": 24.77,
+   "duration": 24.77,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 75.1,
+    "speech_coverage": 0.453,
+    "music_marker": true,
+    "other_markers": [],
+    "description": "intermittent speech, music present (caption marker)"
+   },
+   "narrative_function": "opening hook",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.735,
+    "documentary": 0.049,
+    "personal": 0.217
+   },
+   "visual_characteristics": [
+    "warm tones"
+   ],
+   "editing_techniques": [
+    "audience replay peak (most-replayed)",
+    "music bed under speech"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 33% of frames",
+    "music marker in captions",
+    "first-person language 5% of words",
+    "est. 18.1 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 1,
+   "start": 24.77,
+   "end": 104.06,
+   "duration": 79.29,
+   "representative_frame": null,
+   "shot_type": "close-up on a person (talking head / selfie)",
+   "shot_type_confidence": 0.6,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 151.3,
+    "speech_coverage": 0.89,
+    "music_marker": true,
+    "other_markers": [
+     "__"
+    ],
+    "description": "continuous speech, music present (caption marker)"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "personal",
+   "style_scores": {
+    "cinematic": 0.307,
+    "documentary": 0.087,
+    "personal": 0.606
+   },
+   "visual_characteristics": [
+    "warm tones"
+   ],
+   "editing_techniques": [
+    "music bed under speech"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 50% of frames, max face 63% of frame height",
+    "music marker in captions",
+    "face close-up (to-camera)",
+    "first-person language 7% of words",
+    "est. 12.6 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 2,
+   "start": 104.06,
+   "end": 272.54,
+   "duration": 168.48,
+   "representative_frame": null,
+   "shot_type": "medium shot with people",
+   "shot_type_confidence": 0.5,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "slow",
+   "audio": {
+    "words_per_minute": 178.8,
+    "speech_coverage": 0.983,
+    "music_marker": true,
+    "other_markers": [
+     "__"
+    ],
+    "description": "continuous speech, music present (caption marker)"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.254,
+    "documentary": 0.402,
+    "personal": 0.344
+   },
+   "visual_characteristics": [
+    "warm tones"
+   ],
+   "editing_techniques": [
+    "music bed under speech"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 76% of frames, max face 28%",
+    "music marker in captions",
+    "first-person language 7% of words",
+    "dense narration 179 wpm",
+    "est. 3.9 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 3,
+   "start": 272.54,
+   "end": 332.0,
+   "duration": 59.46,
+   "representative_frame": null,
+   "shot_type": "general b-roll",
+   "shot_type_confidence": 0.3,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 131.2,
+    "speech_coverage": 0.892,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.277,
+    "documentary": 0.373,
+    "personal": 0.35
+   },
+   "visual_characteristics": [
+    "neutral white balance",
+    "high contrast"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "sky 31%, edges 0.10, no faces detected",
+    "est. 10.8 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 4,
+   "start": 332.0,
+   "end": 659.07,
+   "duration": 327.06,
+   "representative_frame": null,
+   "shot_type": "close-up on a person (talking head / selfie)",
+   "shot_type_confidence": 0.6,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "slow",
+   "audio": {
+    "words_per_minute": 181.8,
+    "speech_coverage": 0.969,
+    "music_marker": false,
+    "other_markers": [
+     "__"
+    ],
+    "description": "continuous speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "personal",
+   "style_scores": {
+    "cinematic": 0.055,
+    "documentary": 0.234,
+    "personal": 0.711
+   },
+   "visual_characteristics": [
+    "warm tones"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 82% of frames, max face 45% of frame height",
+    "face close-up (to-camera)",
+    "first-person language 8% of words",
+    "dense narration 182 wpm",
+    "est. 1.7 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 5,
+   "start": 659.07,
+   "end": 768.09,
+   "duration": 109.02,
+   "representative_frame": null,
+   "shot_type": "close-up on a person (talking head / selfie)",
+   "shot_type_confidence": 0.6,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "slow",
+   "audio": {
+    "words_per_minute": 171.7,
+    "speech_coverage": 0.884,
+    "music_marker": true,
+    "other_markers": [],
+    "description": "continuous speech, music present (caption marker)"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "personal",
+   "style_scores": {
+    "cinematic": 0.276,
+    "documentary": 0.132,
+    "personal": 0.592
+   },
+   "visual_characteristics": [
+    "neutral white balance",
+    "high contrast"
+   ],
+   "editing_techniques": [
+    "audience replay peak (most-replayed)",
+    "music bed under speech"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 64% of frames, max face 40% of frame height",
+    "music marker in captions",
+    "face close-up (to-camera)",
+    "first-person language 9% of words",
+    "dense narration 172 wpm",
+    "est. 1.9 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 6,
+   "start": 768.09,
+   "end": 857.28,
+   "duration": 89.19,
+   "representative_frame": null,
+   "shot_type": "medium shot with people",
+   "shot_type_confidence": 0.5,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "slow",
+   "audio": {
+    "words_per_minute": 120.4,
+    "speech_coverage": 0.687,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "personal",
+   "style_scores": {
+    "cinematic": 0.25,
+    "documentary": 0.336,
+    "personal": 0.414
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "highly saturated",
+    "flat / low contrast",
+    "on-screen text or title"
+   ],
+   "editing_techniques": [
+    "audience replay peak (most-replayed)",
+    "on-screen text / title card"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 44% of frames, max face 19%",
+    "first-person language 10% of words",
+    "est. 3.6 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 7,
+   "start": 857.28,
+   "end": 1005.93,
+   "duration": 148.66,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 137.6,
+    "speech_coverage": 0.963,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "personal",
+   "style_scores": {
+    "cinematic": 0.1,
+    "documentary": 0.311,
+    "personal": 0.589
+   },
+   "visual_characteristics": [
+    "neutral white balance",
+    "high contrast",
+    "on-screen text or title"
+   ],
+   "editing_techniques": [
+    "on-screen text / title card"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 33% of frames",
+    "first-person language 8% of words",
+    "est. 12.2 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 8,
+   "start": 1005.93,
+   "end": 1134.78,
+   "duration": 128.84,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "medium",
+   "audio": {
+    "words_per_minute": 137.8,
+    "speech_coverage": 0.796,
+    "music_marker": false,
+    "other_markers": [
+     "__"
+    ],
+    "description": "continuous speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "personal",
+   "style_scores": {
+    "cinematic": 0.257,
+    "documentary": 0.223,
+    "personal": 0.519
+   },
+   "visual_characteristics": [
+    "warm tones"
+   ],
+   "editing_techniques": [
+    "audience replay peak (most-replayed)"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 15% of frames",
+    "first-person language 8% of words",
+    "est. 5.8 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 9,
+   "start": 1134.78,
+   "end": 1174.42,
+   "duration": 39.64,
+   "representative_frame": null,
+   "shot_type": "medium shot with people",
+   "shot_type_confidence": 0.5,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "medium",
+   "audio": {
+    "words_per_minute": 204.3,
+    "speech_coverage": 1.0,
+    "music_marker": false,
+    "other_markers": [
+     "__"
+    ],
+    "description": "continuous speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "personal",
+   "style_scores": {
+    "cinematic": 0.053,
+    "documentary": 0.298,
+    "personal": 0.649
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "highly saturated"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 100% of frames, max face 26%",
+    "first-person language 12% of words",
+    "dense narration 204 wpm",
+    "est. 8.4 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 10,
+   "start": 1174.42,
+   "end": 1214.07,
+   "duration": 39.64,
+   "representative_frame": null,
+   "shot_type": "busy street / detail-rich scene",
+   "shot_type_confidence": 0.4,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "medium",
+   "audio": {
+    "words_per_minute": 187.7,
+    "speech_coverage": 1.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.063,
+    "documentary": 0.555,
+    "personal": 0.383
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "on-screen text or title"
+   ],
+   "editing_techniques": [
+    "on-screen text / title card"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "edge density 0.20",
+    "first-person language 5% of words",
+    "dense narration 188 wpm",
+    "est. 4.2 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 11,
+   "start": 1214.07,
+   "end": 1253.7,
+   "duration": 39.64,
+   "representative_frame": null,
+   "shot_type": "close-up on a person (talking head / selfie)",
+   "shot_type_confidence": 0.6,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 162.0,
+    "speech_coverage": 0.954,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "personal",
+   "style_scores": {
+    "cinematic": 0.085,
+    "documentary": 0.224,
+    "personal": 0.691
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "highly saturated"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 50% of frames, max face 40% of frame height",
+    "face close-up (to-camera)",
+    "first-person language 9% of words",
+    "est. 18.1 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 12,
+   "start": 1253.7,
+   "end": 1293.35,
+   "duration": 39.64,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 124.1,
+    "speech_coverage": 0.846,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "personal",
+   "style_scores": {
+    "cinematic": 0.216,
+    "documentary": 0.244,
+    "personal": 0.54
+   },
+   "visual_characteristics": [
+    "warm tones"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 25% of frames",
+    "first-person language 9% of words",
+    "est. 18.1 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 13,
+   "start": 1293.35,
+   "end": 1432.1,
+   "duration": 138.75,
+   "representative_frame": null,
+   "shot_type": "close-up on a person (talking head / selfie)",
+   "shot_type_confidence": 0.6,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "medium",
+   "audio": {
+    "words_per_minute": 198.9,
+    "speech_coverage": 0.978,
+    "music_marker": false,
+    "other_markers": [
+     "__"
+    ],
+    "description": "continuous speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "personal",
+   "style_scores": {
+    "cinematic": 0.065,
+    "documentary": 0.174,
+    "personal": 0.762
+   },
+   "visual_characteristics": [
+    "warm tones"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 64% of frames, max face 36% of frame height",
+    "face close-up (to-camera)",
+    "first-person language 8% of words",
+    "dense narration 199 wpm",
+    "est. 6.2 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 14,
+   "start": 1432.1,
+   "end": 1620.4,
+   "duration": 188.31,
+   "representative_frame": null,
+   "shot_type": "wide establishing / landscape",
+   "shot_type_confidence": 0.55,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 128.4,
+    "speech_coverage": 0.861,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "resolution / outro",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.42,
+    "documentary": 0.206,
+    "personal": 0.374
+   },
+   "visual_characteristics": [
+    "neutral white balance",
+    "on-screen text or title"
+   ],
+   "editing_techniques": [
+    "on-screen text / title card"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "sky in top third 37%, edge density 0.12",
+    "shot: wide establishing / landscape",
+    "first-person language 10% of words",
+    "est. 11.2 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 15,
+   "start": 1620.4,
+   "end": 1665.0,
+   "duration": 44.6,
+   "representative_frame": null,
+   "shot_type": "general b-roll",
+   "shot_type_confidence": 0.3,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "medium",
+   "audio": {
+    "words_per_minute": 195.1,
+    "speech_coverage": 1.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "resolution / outro",
+   "style_mode": "personal",
+   "style_scores": {
+    "cinematic": 0.038,
+    "documentary": 0.202,
+    "personal": 0.76
+   },
+   "visual_characteristics": [
+    "neutral white balance",
+    "high contrast",
+    "low-key / dark"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "sky 1%, edges 0.05, no faces detected",
+    "first-person language 8% of words",
+    "dense narration 195 wpm",
+    "est. 8.4 cuts/min in this sequence"
+   ]
+  }
+ ],
+ "narrative_structure": [
+  {
+   "start": 0.0,
+   "end": 60.0,
+   "label": "hook",
+   "description": "short visual lead-in followed by speech",
+   "evidence": []
+  },
+  {
+   "start": 0.0,
+   "end": 16.66,
+   "label": "audience peak",
+   "description": "highest replay density - likely emotional or visual climax",
+   "evidence": [
+    "heat 1.00"
+   ]
+  },
+  {
+   "start": 60.0,
+   "end": 107.0,
+   "label": "Morning routine in Berlin",
+   "description": "1:47 chapter, leans personal",
+   "evidence": [
+    "232 words"
+   ]
+  },
+  {
+   "start": 107.0,
+   "end": 320.0,
+   "label": "Alvaro's background and work",
+   "description": "3:33 chapter, leans personal",
+   "evidence": [
+    "599 words"
+   ]
+  },
+  {
+   "start": 320.0,
+   "end": 655.0,
+   "label": "Overcoming business challenges",
+   "description": "5:35 chapter, leans personal",
+   "evidence": [
+    "1010 words"
+   ]
+  },
+  {
+   "start": 655.0,
+   "end": 978.0,
+   "label": "Visiting family in Poland",
+   "description": "5:23 chapter, leans personal",
+   "evidence": [
+    "787 words"
+   ]
+  },
+  {
+   "start": 978.0,
+   "end": 1133.0,
+   "label": "Traveling to Barcelona",
+   "description": "2:35 chapter, leans personal",
+   "evidence": [
+    "335 words"
+   ]
+  },
+  {
+   "start": 1133.0,
+   "end": 1429.0,
+   "label": "Barcelona work and logistics",
+   "description": "4:56 chapter, leans personal",
+   "evidence": [
+    "866 words"
+   ]
+  },
+  {
+   "start": 1429.0,
+   "end": 1665.0,
+   "label": "Reflections and closing",
+   "description": "3:56 chapter, leans personal",
+   "evidence": [
+    "553 words"
+   ]
+  }
+ ],
+ "hook": {
+  "first_speech_at_s": 13.559,
+  "words_first_30s": 45,
+  "hook_vocabulary_first_30s": 0.0222,
+  "title_uses_superlative_or_intrigue": false,
+  "cold_open": false,
+  "est_cuts_per_min_first_60s": 18.14,
+  "pattern": "short visual lead-in followed by speech"
+ },
+ "editing_characteristics": {
+  "est_cuts_per_min": 5.44,
+  "est_avg_shot_length_s": 11.03,
+  "estimator_saturated": false,
+  "changed_sample_fraction": 0.593,
+  "sample_interval_s": 9.91,
+  "visual_sequences": 16,
+  "median_sequence_s": 84.2,
+  "pacing_curve": [
+   {
+    "start": 0.0,
+    "end": 60.0,
+    "est_cuts_per_min": 18.14,
+    "speech_coverage": 0.73
+   },
+   {
+    "start": 60.0,
+    "end": 120.0,
+    "est_cuts_per_min": 10.85,
+    "speech_coverage": 0.86
+   },
+   {
+    "start": 120.0,
+    "end": 180.0,
+    "est_cuts_per_min": 2.45,
+    "speech_coverage": 1.0
+   },
+   {
+    "start": 180.0,
+    "end": 240.0,
+    "est_cuts_per_min": 2.45,
+    "speech_coverage": 1.0
+   },
+   {
+    "start": 240.0,
+    "end": 300.0,
+    "est_cuts_per_min": 6.65,
+    "speech_coverage": 0.92
+   },
+   {
+    "start": 300.0,
+    "end": 360.0,
+    "est_cuts_per_min": 18.14,
+    "speech_coverage": 0.92
+   },
+   {
+    "start": 360.0,
+    "end": 420.0,
+    "est_cuts_per_min": 6.65,
+    "speech_coverage": 0.91
+   },
+   {
+    "start": 420.0,
+    "end": 480.0,
+    "est_cuts_per_min": -0.0,
+    "speech_coverage": 0.99
+   },
+   {
+    "start": 480.0,
+    "end": 540.0,
+    "est_cuts_per_min": -0.0,
+    "speech_coverage": 0.97
+   },
+   {
+    "start": 540.0,
+    "end": 600.0,
+    "est_cuts_per_min": -0.0,
+    "speech_coverage": 1.0
+   },
+   {
+    "start": 600.0,
+    "end": 660.0,
+    "est_cuts_per_min": 1.1,
+    "speech_coverage": 1.0
+   },
+   {
+    "start": 660.0,
+    "end": 720.0,
+    "est_cuts_per_min": 1.1,
+    "speech_coverage": 1.0
+   },
+   {
+    "start": 720.0,
+    "end": 780.0,
+    "est_cuts_per_min": 4.2,
+    "speech_coverage": 0.75
+   },
+   {
+    "start": 780.0,
+    "end": 840.0,
+    "est_cuts_per_min": 1.1,
+    "speech_coverage": 0.57
+   },
+   {
+    "start": 840.0,
+    "end": 900.0,
+    "est_cuts_per_min": 18.14,
+    "speech_coverage": 1.0
+   },
+   {
+    "start": 900.0,
+    "end": 960.0,
+    "est_cuts_per_min": 18.14,
+    "speech_coverage": 0.98
+   },
+   {
+    "start": 960.0,
+    "end": 1020.0,
+    "est_cuts_per_min": 6.65,
+    "speech_coverage": 0.82
+   },
+   {
+    "start": 1020.0,
+    "end": 1080.0,
+    "est_cuts_per_min": 1.1,
+    "speech_coverage": 0.97
+   },
+   {
+    "start": 1080.0,
+    "end": 1140.0,
+    "est_cuts_per_min": 18.14,
+    "speech_coverage": 0.7
+   },
+   {
+    "start": 1140.0,
+    "end": 1200.0,
+    "est_cuts_per_min": 6.65,
+    "speech_coverage": 1.0
+   },
+   {
+    "start": 1200.0,
+    "end": 1260.0,
+    "est_cuts_per_min": 10.85,
+    "speech_coverage": 0.95
+   },
+   {
+    "start": 1260.0,
+    "end": 1320.0,
+    "est_cuts_per_min": 18.14,
+    "speech_coverage": 0.92
+   },
+   {
+    "start": 1320.0,
+    "end": 1380.0,
+    "est_cuts_per_min": 2.45,
+    "speech_coverage": 0.95
+   },
+   {
+    "start": 1380.0,
+    "end": 1440.0,
+    "est_cuts_per_min": 10.85,
+    "speech_coverage": 1.0
+   },
+   {
+    "start": 1440.0,
+    "end": 1500.0,
+    "est_cuts_per_min": 18.14,
+    "speech_coverage": 0.74
+   },
+   {
+    "start": 1500.0,
+    "end": 1560.0,
+    "est_cuts_per_min": 6.65,
+    "speech_coverage": 0.82
+   },
+   {
+    "start": 1560.0,
+    "end": 1620.0,
+    "est_cuts_per_min": 10.85,
+    "speech_coverage": 1.0
+   },
+   {
+    "start": 1620.0,
+    "end": 1665.0,
+    "est_cuts_per_min": 8.39,
+    "speech_coverage": 1.0
+   }
+  ],
+  "pacing_variability": 6.68,
+  "on_screen_text_frames": 2,
+  "chapters": 7,
+  "measurement_note": "Cut rate is a Poisson estimate from storyboard samples; individual cuts, transitions and camera moves are not observable at this sampling rate."
+ },
+ "sound_design": {
+  "available": true,
+  "speech_coverage": 0.909,
+  "non_speech_fraction": 0.052,
+  "longest_non_speech_s": 13.6,
+  "words_per_minute_overall": 156.7,
+  "caption_markers": {
+   "__": 14,
+   "music": 4
+  },
+  "music_marked_scenes": 4,
+  "note": "Music/ambience inferred from caption markers and speech gaps; audio itself is not downloaded."
+ },
+ "color_characteristics": {
+  "mean_brightness": 0.367,
+  "mean_contrast": 0.226,
+  "mean_saturation": 0.351,
+  "mean_colorfulness": 38.6,
+  "mean_warmth": 0.096,
+  "saturation_spread": 0.084,
+  "brightness_spread": 0.091,
+  "letterboxed_frame_fraction": 0.0,
+  "night_or_lowkey_fraction": 0.048,
+  "dominant_palette": [
+   "#2e2b26",
+   "#212621",
+   "#bea484",
+   "#2d2b26",
+   "#1a201c",
+   "#1e231e",
+   "#202520",
+   "#2c2a25"
+  ],
+  "grading_tags": [
+   "warm tones",
+   "on-screen text or title"
+  ]
+ },
+ "storytelling": {
+  "first_person_singular": 0.0563,
+  "first_person_plural": 0.0186,
+  "second_person": 0.0324,
+  "reflection": 0.0067,
+  "context_facts": 0.0149,
+  "hook_words": 0.0177,
+  "questions": 0,
+  "total_words": 4348,
+  "dialogue_score": 0.025,
+  "face_frame_fraction": 0.5,
+  "closeup_frame_fraction": 0.101,
+  "shot_type_distribution": {
+   "close-up on a person (talking head / selfie)": 5,
+   "wide shot with people": 4,
+   "medium shot with people": 3,
+   "general b-roll": 2,
+   "busy street / detail-rich scene": 1,
+   "wide establishing / landscape": 1
+  },
+  "narrative_functions": {
+   "journey / progression": 13,
+   "resolution / outro": 2,
+   "opening hook": 1
+  }
+ },
+ "style_mode_mix": {
+  "cinematic": 0.196,
+  "documentary": 0.251,
+  "personal": 0.553
+ },
+ "style_mode_basis": "transcript+visual",
+ "techniques": [
+  {
+   "start": 0.0,
+   "end": 13.559,
+   "name": "atmospheric non-speech sequence",
+   "description": "14s without dialogue/narration, est. 0.0 cuts/min - music-driven montage",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 0.0,
+   "end": 107.0,
+   "name": "chapter",
+   "description": "chapter: Morning routine in Berlin",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 0.0,
+   "end": 16.66,
+   "name": "replay peak",
+   "description": "most-replayed moment (heat 1.00) - audience-proven highlight",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 0.9,
+   "source": "heuristic"
+  },
+  {
+   "start": 24.77,
+   "end": 104.06,
+   "name": "talking to camera",
+   "description": "presenter speaks directly to camera / selfie framing",
+   "category": "narration",
+   "style_mode": "personal",
+   "confidence": 0.5,
+   "source": "heuristic"
+  },
+  {
+   "start": 107.0,
+   "end": 320.0,
+   "name": "chapter",
+   "description": "chapter: Alvaro's background and work",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 320.0,
+   "end": 655.0,
+   "name": "chapter",
+   "description": "chapter: Overcoming business challenges",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 332.0,
+   "end": 659.07,
+   "name": "talking to camera",
+   "description": "presenter speaks directly to camera / selfie framing",
+   "category": "narration",
+   "style_mode": "personal",
+   "confidence": 0.5,
+   "source": "heuristic"
+  },
+  {
+   "start": 655.0,
+   "end": 978.0,
+   "name": "chapter",
+   "description": "chapter: Visiting family in Poland",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 659.07,
+   "end": 768.09,
+   "name": "talking to camera",
+   "description": "presenter speaks directly to camera / selfie framing",
+   "category": "narration",
+   "style_mode": "personal",
+   "confidence": 0.5,
+   "source": "heuristic"
+  },
+  {
+   "start": 766.36,
+   "end": 783.02,
+   "name": "replay peak",
+   "description": "most-replayed moment (heat 0.48) - audience-proven highlight",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 0.9,
+   "source": "heuristic"
+  },
+  {
+   "start": 901.88,
+   "end": 911.7907142857143,
+   "name": "on-screen text",
+   "description": "title, location label or caption overlay detected",
+   "category": "graphics",
+   "style_mode": null,
+   "confidence": 0.4,
+   "source": "heuristic"
+  },
+  {
+   "start": 978.0,
+   "end": 1133.0,
+   "name": "chapter",
+   "description": "chapter: Traveling to Barcelona",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 1099.56,
+   "end": 1116.22,
+   "name": "replay peak",
+   "description": "most-replayed moment (heat 0.59) - audience-proven highlight",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 0.9,
+   "source": "heuristic"
+  },
+  {
+   "start": 1133.0,
+   "end": 1429.0,
+   "name": "chapter",
+   "description": "chapter: Barcelona work and logistics",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 1214.07,
+   "end": 1253.7,
+   "name": "talking to camera",
+   "description": "presenter speaks directly to camera / selfie framing",
+   "category": "narration",
+   "style_mode": "personal",
+   "confidence": 0.5,
+   "source": "heuristic"
+  },
+  {
+   "start": 1293.35,
+   "end": 1432.1,
+   "name": "talking to camera",
+   "description": "presenter speaks directly to camera / selfie framing",
+   "category": "narration",
+   "style_mode": "personal",
+   "confidence": 0.5,
+   "source": "heuristic"
+  },
+  {
+   "start": 1429.0,
+   "end": 1665.0,
+   "name": "chapter",
+   "description": "chapter: Reflections and closing",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 1450.4,
+   "end": 1463.96,
+   "name": "atmospheric non-speech sequence",
+   "description": "14s without dialogue/narration, est. 0.0 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 1476.7,
+   "end": 1486.6107142857143,
+   "name": "on-screen text",
+   "description": "title, location label or caption overlay detected",
+   "category": "graphics",
+   "style_mode": null,
+   "confidence": 0.4,
+   "source": "heuristic"
+  }
+ ],
+ "qualitative": {
+  "source": "claude-code subagent (viewed all 4 contact sheets + profile + transcript)",
+  "summary": "A 27:45 'business trip' diary across Berlin, a grandmother's home in Poland, and Barcelona. A music-led montage (apartment, guest, gym) gives way to gym banter and a sit-down interview with a founder friend. Yellow cards ('10:30AM', 'NEXT DAY', 'BABCIU', 'BERLIN AIRPORT') segment the days. The emotional centre is a frank four-minute couch monologue about working 16-hour days, followed by a road trip to a friend's grandma. Barcelona brings metro, beach and lunch, and the film ends in a car promising the next episode.",
+  "hook_analysis": "Visual lead-in with music (0:00-0:14: rounded-frame apartment, hallway, guest greeting), then a light spoken setup ('in Berlin with...') and gym banter. Most-replayed segment is the first ~17 s, so the montage itself is the hook; there is no stated stake.",
+  "narrative_arc": "Berlin morning and gym (0:00-1:39) -> friend interview (1:49-4:08) -> 10:30AM retail store (4:18-4:28) -> evening car (4:38-5:07) -> NEXT DAY run (5:17-6:17) -> couch confession on pressure (6:46-10:44) -> drive to Poland (10:54-12:43) -> BABCIU dinner (12:53-14:12) -> hometown drive (14:22-16:41) -> packing and farewell (16:51-18:00) -> BERLIN AIRPORT (18:10) -> Barcelona plan, metro, beach, lunch (18:30-26:46) -> car ending as a cliff-hanger (27:05-27:35).",
+  "camera_and_composition": "Two-shot interview framing in an industrial gym (1:49-4:08); locked-off medium on a couch (6:46-10:44); dashboard wide two-shots in cars (10:54-16:31); low wide selfies on the metro platform and beach (20:59-25:16). Rounded-corner inserts at 0:00, 1:39, 4:28, 12:53, 18:10. Cuts/moves not observable at storyboard resolution.",
+  "color_and_grade": "Warm beige/tan palette (palette #bea484), moderate saturation, almost no low-key footage (5%). Barcelona daylight is bright and blue-skied; Berlin interiors warm tungsten.",
+  "sound_and_music": "~91% speech at ~157 wpm; music caption markers at the open and a ~14 s speech-free beat around 24:10-24:24. Captions include censored expletives.",
+  "what_to_borrow": [
+   "Yellow day/time/place cards including personal names ('BABCIU') as chapter headings",
+   "A seated friend interview to add a second voice",
+   "Car dashboard two-shots for relaxed conversation during transit",
+   "End by setting up the next video"
+  ],
+  "what_to_avoid_copying": [
+   "Four-minute couch monologue without cutaways",
+   "Shirtless selfie coverage as the dominant Barcelona imagery",
+   "Ending on 'start a new video from here' without resolution if the film must stand alone"
+  ],
+  "observations": [
+   {
+    "start": 0,
+    "end": 14,
+    "name": "music montage open",
+    "description": "Rounded-frame apartment wide, hallway, greeting a host under music.",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 20,
+    "end": 100,
+    "name": "gym banter",
+    "description": "Handheld in a warm industrial gym with burned-in captions of jokes.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 109,
+    "end": 248,
+    "name": "friend interview",
+    "description": "Two-shot sit-down: guest introduces himself in a caption, business history.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 268,
+    "end": 275,
+    "name": "yellow time card",
+    "description": "'10:30AM' over a rounded-corner office frame.",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 278,
+    "end": 307,
+    "name": "car selfie",
+    "description": "Sunglasses ultra-wide selfie from the passenger seat.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 317,
+    "end": 325,
+    "name": "day card",
+    "description": "'NEXT DAY' yellow title.",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 337,
+    "end": 377,
+    "name": "post-run confession",
+    "description": "Sweaty selfie after a run, admitting he can't sleep.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 406,
+    "end": 644,
+    "name": "couch monologue",
+    "description": "Locked-off medium on a couch with iced coffee: pressure, responsibility, '16 hours a day'.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 654,
+    "end": 763,
+    "name": "car two-shot",
+    "description": "Dashboard wide of two friends driving to Poland.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 773,
+    "end": 850,
+    "name": "named place card and family dinner",
+    "description": "'BABCIU' yellow card then grandma's dinner table.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 1090,
+    "end": 1100,
+    "name": "place card",
+    "description": "'BERLIN AIRPORT' yellow on a travelator frame.",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 1239,
+    "end": 1398,
+    "name": "metro talk",
+    "description": "Ticket machine insert, then a long talk on the platform.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 1427,
+    "end": 1606,
+    "name": "beach and lunch",
+    "description": "Shirtless beach promenade selfies, lunch at a café.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 1625,
+    "end": 1665,
+    "name": "to-be-continued ending",
+    "description": "In a car, promising the event in the next video.",
+    "style_mode": "personal"
+   }
+  ]
+ },
+ "contact_sheets": [],
+ "limitations": [
+  "Frames are YouTube storyboard previews (YouTube storyboard 320x180, one frame every 9.9s); fine detail, exact cuts, transitions and camera movement are not measured.",
+  "Shot types use face/sky/edge heuristics on low-resolution frames - treat as approximate.",
+  "Transcript is YouTube auto-captions (no punctuation, occasional errors, speaker changes not marked)."
+ ]
+}

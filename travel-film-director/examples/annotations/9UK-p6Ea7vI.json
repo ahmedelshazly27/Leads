@@ -1,0 +1,106 @@
+{
+  "source": "claude-code subagent (viewed all 2 contact sheets + profile + transcript)",
+  "summary": "A 15:45 reflective piece in three movements: a Himalayan trek, a fan meetup in Kathmandu, and a late-night sit-down in Hong Kong. It opens on wide mountain landscapes with the creator in awe, then a philosophical voiceover (a quote about thinking versus listening) runs over monastery and village b-roll. The middle is a long ultra-wide low-angle selfie monologue against blue sky, an Instagram-story announcement and a warm, crowded night meetup. The final five minutes are a locked-off talk at a red booth with his sign-off giving name, date and city.",
+  "hook_analysis": "Spoken cold open over spectacle: wide Himalayan valley shots (0:00-0:10) with a gasped 'most beautiful thing' line, then straight into a borrowed philosophical voiceover across monastery, monks playing football, a waterfall shower and a couple portrait (0:20-1:29). The hook is awe plus an idea, not a plan; it is the most cinematic opening of the six.",
+  "narrative_arc": "Retreat -> reflection -> community -> solitude. Trek montage (0:00-1:29) -> selfie reflection on connection (1:38-4:55) -> story announcement of a meetup (5:05) -> Kathmandu errands and meetup (5:15-10:30) -> night garden music beat (10:40-10:50) -> Hong Kong skyline transition (11:00-11:09) -> red-booth sit-down with plans (coffee-table book, events) and the sign-off.",
+  "camera_and_composition": "Wide static landscapes with a figure from behind; ultra-wide low-angle selfie with sky filling the top of frame (1:38-4:55); handheld crowd coverage in tungsten interiors (7:52-10:30); window silhouette over the Hong Kong skyline (11:00); a locked-off medium at table height in a red booth (11:19-15:35). Cuts and moves are not observable at storyboard resolution.",
+  "color_and_grade": "Two worlds: daylight Himalayan earth tones with blue sky, then low-key warm/red nights (profile: 48% low-key frames, high saturation 0.50, flat contrast, red-heavy palette). The booth section is deep red with practical light; a red light spills on his face at 13:17-13:27.",
+  "sound_and_music": "Opening uses a voiceover quote rather than his own talk; music caption markers around the night montage (~9:05-11:00, song lyric captions). Overall speech coverage ~88% at ~134 wpm; longest non-speech gap ~26 s.",
+  "what_to_borrow": [
+    "Lead with your single most spectacular landscape and an unscripted reaction",
+    "Lay a reflective voiceover over b-roll of local life to set a theme",
+    "Hard contrast between a daylight journey and a low-key night reflection for the ending",
+    "Sign off with name, date and city as a diary signature"
+  ],
+  "what_to_avoid_copying": [
+    "Borrowed voiceover of someone else's speech - rights and authenticity issues; write your own",
+    "Three-plus minutes of a single selfie angle (1:38-4:55) without cutaways",
+    "Mood-heavy red low-key grade where faces get muddy at small sizes"
+  ],
+  "observations": [
+    {
+      "start": 0,
+      "end": 15,
+      "name": "landscape cold open",
+      "description": "Himalayan valley wide with hiker from behind; spoken awe line over it.",
+      "style_mode": "cinematic"
+    },
+    {
+      "start": 20,
+      "end": 89,
+      "name": "voiceover over local-life b-roll",
+      "description": "Philosophical quote laid over monastery interior, prayer flags, monks with a football, waterfall shower, couple portrait.",
+      "style_mode": "cinematic"
+    },
+    {
+      "start": 98,
+      "end": 295,
+      "name": "low-angle sky selfie monologue",
+      "description": "Ultra-wide selfie from below, blue sky and monastery building behind, burned-in captions.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 305,
+      "end": 310,
+      "name": "story screenshot announcement",
+      "description": "Vertical Instagram story inserted on black to announce a Kathmandu meetup.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 315,
+      "end": 400,
+      "name": "errand vlog",
+      "description": "Handheld Kathmandu interiors, gift exchange, loading a van.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 403,
+      "end": 460,
+      "name": "friends reunion",
+      "description": "Arriving at a venue, greeting friends, a printed portrait gift (7:03).",
+      "style_mode": "personal"
+    },
+    {
+      "start": 472,
+      "end": 512,
+      "name": "meetup speech",
+      "description": "Creator addressing a crowd under warm tungsten light.",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 521,
+      "end": 630,
+      "name": "crowd interactions",
+      "description": "Close handheld shots with fans in a dark bar, string lights.",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 640,
+      "end": 660,
+      "name": "night music beat",
+      "description": "Garden with string lights, couple walking away - speech-free montage.",
+      "style_mode": "cinematic"
+    },
+    {
+      "start": 660,
+      "end": 669,
+      "name": "city transition",
+      "description": "Silhouette at a high-rise window over Hong Kong, day then night.",
+      "style_mode": "cinematic"
+    },
+    {
+      "start": 679,
+      "end": 935,
+      "name": "red-booth sit-down",
+      "description": "Locked-off table-height talk in a red booth, low-key; sets up upcoming projects.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 915,
+      "end": 945,
+      "name": "name-date-city sign-off",
+      "description": "Ends with gratitude and a sign-off giving his name, the date and 'from Hong Kong'.",
+      "style_mode": "personal"
+    }
+  ]
+}

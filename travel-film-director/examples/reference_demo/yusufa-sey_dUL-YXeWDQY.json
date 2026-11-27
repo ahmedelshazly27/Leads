@@ -1,0 +1,1742 @@
+{
+ "schema_version": "1.0",
+ "video_id": "dUL-YXeWDQY",
+ "url": "https://www.youtube.com/watch?v=dUL-YXeWDQY",
+ "creator": "Yusufa Sey",
+ "title": "The Reality of Buying a $10M Business in London.",
+ "channel": "Yusufa Sey",
+ "upload_date": "20251207",
+ "duration": 1793.0,
+ "view_count": 30598,
+ "user_notes": "London $10M business",
+ "analysed_at": "2026-11-27T19:27:32+00:00",
+ "sources": {
+  "metadata": true,
+  "transcript": "auto",
+  "transcript_language": "en-orig",
+  "transcript_quality": "ok",
+  "transcript_quality_note": "",
+  "frames": "YouTube storyboard 320x180, one frame every 9.9s",
+  "frame_interval_s": 9.9060773480663,
+  "chapters": 10,
+  "heatmap": false
+ },
+ "chapters": [
+  {
+   "start": 0.0,
+   "end": 24.0,
+   "title": "Intro"
+  },
+  {
+   "start": 24.0,
+   "end": 275.0,
+   "title": "Going to London"
+  },
+  {
+   "start": 275.0,
+   "end": 486.0,
+   "title": "Meeting New Business Partner"
+  },
+  {
+   "start": 486.0,
+   "end": 615.0,
+   "title": "UK Investor Visa Event"
+  },
+  {
+   "start": 615.0,
+   "end": 702.0,
+   "title": "AirBnB"
+  },
+  {
+   "start": 702.0,
+   "end": 880.0,
+   "title": "M&A Coaching"
+  },
+  {
+   "start": 880.0,
+   "end": 974.0,
+   "title": "M&A Simulator"
+  },
+  {
+   "start": 974.0,
+   "end": 1146.0,
+   "title": "Closing Call"
+  },
+  {
+   "start": 1146.0,
+   "end": 1177.0,
+   "title": "Outro"
+  },
+  {
+   "start": 1177.0,
+   "end": 1793.0,
+   "title": "Bonus: Simulator Demo"
+  }
+ ],
+ "replay_peaks": [],
+ "scenes": [
+  {
+   "index": 0,
+   "start": 0.0,
+   "end": 24.77,
+   "duration": 24.77,
+   "representative_frame": null,
+   "shot_type": "low-light / night shot",
+   "shot_type_confidence": 0.45,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 142.9,
+    "speech_coverage": 0.987,
+    "music_marker": true,
+    "other_markers": [],
+    "description": "continuous speech, music present (caption marker)"
+   },
+   "narrative_function": "opening hook",
+   "style_mode": "personal",
+   "style_scores": {
+    "cinematic": 0.443,
+    "documentary": 0.089,
+    "personal": 0.469
+   },
+   "visual_characteristics": [
+    "neutral white balance",
+    "muted / desaturated",
+    "flat / low contrast",
+    "low-key / dark",
+    "letterboxed (cinematic aspect)"
+   ],
+   "editing_techniques": [
+    "music bed under speech"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "mean brightness 0.08",
+    "music marker in captions",
+    "shot: low-light / night shot",
+    "first-person language 9% of words",
+    "est. 18.1 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 1,
+   "start": 24.77,
+   "end": 113.92,
+   "duration": 89.16,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "medium",
+   "audio": {
+    "words_per_minute": 170.9,
+    "speech_coverage": 0.983,
+    "music_marker": false,
+    "other_markers": [
+     "laughter"
+    ],
+    "description": "continuous speech"
+   },
+   "narrative_function": "interaction / conversation",
+   "style_mode": "personal",
+   "style_scores": {
+    "cinematic": 0.057,
+    "documentary": 0.231,
+    "personal": 0.713
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "on-screen text or title"
+   ],
+   "editing_techniques": [
+    "on-screen text / title card"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 11% of frames",
+    "first-person language 12% of words",
+    "dense narration 171 wpm",
+    "est. 9.1 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 2,
+   "start": 113.92,
+   "end": 193.17,
+   "duration": 79.25,
+   "representative_frame": null,
+   "shot_type": "close-up on a person (talking head / selfie)",
+   "shot_type_confidence": 0.6,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "medium",
+   "audio": {
+    "words_per_minute": 184.7,
+    "speech_coverage": 1.0,
+    "music_marker": false,
+    "other_markers": [
+     "snorts"
+    ],
+    "description": "continuous speech"
+   },
+   "narrative_function": "interaction / conversation",
+   "style_mode": "personal",
+   "style_scores": {
+    "cinematic": 0.036,
+    "documentary": 0.347,
+    "personal": 0.617
+   },
+   "visual_characteristics": [
+    "neutral white balance",
+    "muted / desaturated",
+    "high contrast",
+    "low-key / dark"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 88% of frames, max face 42% of frame height",
+    "face close-up (to-camera)",
+    "first-person language 8% of words",
+    "dense narration 185 wpm",
+    "est. 5.9 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 3,
+   "start": 193.17,
+   "end": 321.94,
+   "duration": 128.77,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 169.1,
+    "speech_coverage": 0.992,
+    "music_marker": true,
+    "other_markers": [
+     "laughter",
+     "music and singing"
+    ],
+    "description": "continuous speech, music present (caption marker)"
+   },
+   "narrative_function": "interaction / conversation",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.255,
+    "documentary": 0.424,
+    "personal": 0.321
+   },
+   "visual_characteristics": [
+    "neutral white balance",
+    "muted / desaturated",
+    "low-key / dark"
+   ],
+   "editing_techniques": [
+    "music bed under speech"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 31% of frames",
+    "music marker in captions",
+    "est. 18.1 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 4,
+   "start": 321.94,
+   "end": 341.76,
+   "duration": 19.81,
+   "representative_frame": null,
+   "shot_type": "close-up on a person (talking head / selfie)",
+   "shot_type_confidence": 0.6,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "medium",
+   "audio": {
+    "words_per_minute": 145.3,
+    "speech_coverage": 1.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "personal",
+   "style_scores": {
+    "cinematic": 0.075,
+    "documentary": 0.295,
+    "personal": 0.629
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "highly saturated",
+    "low-key / dark"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 100% of frames, max face 54% of frame height",
+    "face close-up (to-camera)",
+    "est. 4.2 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 5,
+   "start": 341.76,
+   "end": 381.38,
+   "duration": 39.62,
+   "representative_frame": null,
+   "shot_type": "close-up on a person (talking head / selfie)",
+   "shot_type_confidence": 0.6,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "slow",
+   "audio": {
+    "words_per_minute": 228.6,
+    "speech_coverage": 1.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "personal",
+   "style_scores": {
+    "cinematic": 0.041,
+    "documentary": 0.391,
+    "personal": 0.568
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "low-key / dark"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 100% of frames, max face 59% of frame height",
+    "face close-up (to-camera)",
+    "dense narration 229 wpm",
+    "est. 1.7 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 6,
+   "start": 381.38,
+   "end": 490.35,
+   "duration": 108.97,
+   "representative_frame": null,
+   "shot_type": "medium shot with people",
+   "shot_type_confidence": 0.5,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "slow",
+   "audio": {
+    "words_per_minute": 178.4,
+    "speech_coverage": 0.98,
+    "music_marker": true,
+    "other_markers": [
+     "clears throat"
+    ],
+    "description": "continuous speech, music present (caption marker)"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.258,
+    "documentary": 0.537,
+    "personal": 0.205
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "highly saturated",
+    "low-key / dark"
+   ],
+   "editing_techniques": [
+    "music bed under speech"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 45% of frames, max face 60%",
+    "music marker in captions",
+    "dense narration 178 wpm",
+    "est. 1.9 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 7,
+   "start": 490.35,
+   "end": 539.88,
+   "duration": 49.53,
+   "representative_frame": null,
+   "shot_type": "medium shot with people",
+   "shot_type_confidence": 0.5,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 144.2,
+    "speech_coverage": 0.933,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "interaction / conversation",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.104,
+    "documentary": 0.54,
+    "personal": 0.356
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "highly saturated"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 40% of frames, max face 21%",
+    "first-person language 5% of words",
+    "est. 18.1 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 8,
+   "start": 539.88,
+   "end": 589.41,
+   "duration": 49.53,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "medium",
+   "audio": {
+    "words_per_minute": 173.2,
+    "speech_coverage": 0.985,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.154,
+    "documentary": 0.561,
+    "personal": 0.285
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "highly saturated",
+    "low-key / dark"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 20% of frames",
+    "dense narration 173 wpm",
+    "est. 9.7 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 9,
+   "start": 589.41,
+   "end": 619.13,
+   "duration": 29.72,
+   "representative_frame": null,
+   "shot_type": "low-light / night shot",
+   "shot_type_confidence": 0.45,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 135.3,
+    "speech_coverage": 0.856,
+    "music_marker": true,
+    "other_markers": [
+     "laughter"
+    ],
+    "description": "continuous speech, music present (caption marker)"
+   },
+   "narrative_function": "interaction / conversation",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.535,
+    "documentary": 0.234,
+    "personal": 0.231
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "highly saturated",
+    "flat / low contrast",
+    "low-key / dark"
+   ],
+   "editing_techniques": [
+    "music bed under speech"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "mean brightness 0.12",
+    "music marker in captions",
+    "shot: low-light / night shot",
+    "est. 18.1 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 10,
+   "start": 619.13,
+   "end": 698.38,
+   "duration": 79.25,
+   "representative_frame": null,
+   "shot_type": "medium shot with people",
+   "shot_type_confidence": 0.5,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "slow",
+   "audio": {
+    "words_per_minute": 147.6,
+    "speech_coverage": 0.83,
+    "music_marker": true,
+    "other_markers": [],
+    "description": "continuous speech, music present (caption marker)"
+   },
+   "narrative_function": "interaction / conversation",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.259,
+    "documentary": 0.433,
+    "personal": 0.309
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "highly saturated",
+    "flat / low contrast",
+    "low-key / dark"
+   ],
+   "editing_techniques": [
+    "music bed under speech"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 62% of frames, max face 31%",
+    "music marker in captions",
+    "first-person language 8% of words",
+    "est. 1.7 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 11,
+   "start": 698.38,
+   "end": 757.82,
+   "duration": 59.44,
+   "representative_frame": null,
+   "shot_type": "general b-roll",
+   "shot_type_confidence": 0.3,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "slow",
+   "audio": {
+    "words_per_minute": 189.8,
+    "speech_coverage": 1.0,
+    "music_marker": false,
+    "other_markers": [
+     "snorts"
+    ],
+    "description": "continuous speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "personal",
+   "style_scores": {
+    "cinematic": 0.076,
+    "documentary": 0.253,
+    "personal": 0.67
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "highly saturated"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "sky 0%, edges 0.05, no faces detected",
+    "first-person language 9% of words",
+    "dense narration 190 wpm",
+    "est. 2.5 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 12,
+   "start": 757.82,
+   "end": 886.6,
+   "duration": 128.78,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "slow",
+   "audio": {
+    "words_per_minute": 171.5,
+    "speech_coverage": 0.985,
+    "music_marker": false,
+    "other_markers": [
+     "clears throat"
+    ],
+    "description": "continuous speech"
+   },
+   "narrative_function": "interaction / conversation",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.054,
+    "documentary": 0.63,
+    "personal": 0.315
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "highly saturated"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 38% of frames",
+    "first-person language 6% of words",
+    "contextual/factual vocabulary 7%",
+    "dense narration 171 wpm",
+    "est. 1.6 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 13,
+   "start": 886.6,
+   "end": 1005.46,
+   "duration": 118.87,
+   "representative_frame": null,
+   "shot_type": "general b-roll",
+   "shot_type_confidence": 0.3,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "medium",
+   "audio": {
+    "words_per_minute": 188.3,
+    "speech_coverage": 1.0,
+    "music_marker": false,
+    "other_markers": [
+     "applause"
+    ],
+    "description": "continuous speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.138,
+    "documentary": 0.569,
+    "personal": 0.293
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "highly saturated",
+    "high contrast",
+    "on-screen text or title"
+   ],
+   "editing_techniques": [
+    "on-screen text / title card"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "sky 9%, edges 0.05, no faces detected",
+    "dense narration 188 wpm",
+    "est. 4.2 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 14,
+   "start": 1005.46,
+   "end": 1154.05,
+   "duration": 148.59,
+   "representative_frame": null,
+   "shot_type": "close-up on a person (talking head / selfie)",
+   "shot_type_confidence": 0.6,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "slow",
+   "audio": {
+    "words_per_minute": 179.7,
+    "speech_coverage": 0.996,
+    "music_marker": false,
+    "other_markers": [
+     "laughter",
+     "snorts",
+     "sighs"
+    ],
+    "description": "continuous speech"
+   },
+   "narrative_function": "interaction / conversation",
+   "style_mode": "personal",
+   "style_scores": {
+    "cinematic": 0.031,
+    "documentary": 0.363,
+    "personal": 0.606
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "highly saturated",
+    "flat / low contrast",
+    "low-key / dark"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 67% of frames, max face 39% of frame height",
+    "face close-up (to-camera)",
+    "first-person language 6% of words",
+    "dense narration 180 wpm",
+    "est. 2.5 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 15,
+   "start": 1154.05,
+   "end": 1173.87,
+   "duration": 19.82,
+   "representative_frame": null,
+   "shot_type": "low-light / night shot",
+   "shot_type_confidence": 0.45,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 139.3,
+    "speech_coverage": 1.0,
+    "music_marker": false,
+    "other_markers": [
+     "sighs"
+    ],
+    "description": "continuous speech"
+   },
+   "narrative_function": "interaction / conversation",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.292,
+    "documentary": 0.435,
+    "personal": 0.274
+   },
+   "visual_characteristics": [
+    "neutral white balance",
+    "muted / desaturated",
+    "flat / low contrast",
+    "low-key / dark",
+    "letterboxed (cinematic aspect)"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "mean brightness 0.03",
+    "shot: low-light / night shot",
+    "est. 18.1 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 16,
+   "start": 1173.87,
+   "end": 1352.18,
+   "duration": 178.31,
+   "representative_frame": null,
+   "shot_type": "low-light / night shot",
+   "shot_type_confidence": 0.45,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "slow",
+   "audio": {
+    "words_per_minute": 192.1,
+    "speech_coverage": 1.0,
+    "music_marker": false,
+    "other_markers": [
+     "clears throat",
+     "laughter"
+    ],
+    "description": "continuous speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.29,
+    "documentary": 0.409,
+    "personal": 0.301
+   },
+   "visual_characteristics": [
+    "neutral white balance",
+    "flat / low contrast",
+    "low-key / dark",
+    "on-screen text or title"
+   ],
+   "editing_techniques": [
+    "on-screen text / title card"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "mean brightness 0.04",
+    "shot: low-light / night shot",
+    "first-person language 6% of words",
+    "dense narration 192 wpm",
+    "est. 1.1 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 17,
+   "start": 1352.18,
+   "end": 1510.68,
+   "duration": 158.5,
+   "representative_frame": null,
+   "shot_type": "low-light / night shot",
+   "shot_type_confidence": 0.45,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "medium",
+   "audio": {
+    "words_per_minute": 198.7,
+    "speech_coverage": 1.0,
+    "music_marker": false,
+    "other_markers": [
+     "laughter",
+     "gasps"
+    ],
+    "description": "continuous speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "personal",
+   "style_scores": {
+    "cinematic": 0.388,
+    "documentary": 0.206,
+    "personal": 0.405
+   },
+   "visual_characteristics": [
+    "cool tones",
+    "highly saturated",
+    "flat / low contrast",
+    "low-key / dark",
+    "on-screen text or title"
+   ],
+   "editing_techniques": [
+    "on-screen text / title card"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "mean brightness 0.07",
+    "shot: low-light / night shot",
+    "first-person language 5% of words",
+    "dense narration 199 wpm",
+    "est. 5.9 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 18,
+   "start": 1510.68,
+   "end": 1659.26,
+   "duration": 148.59,
+   "representative_frame": null,
+   "shot_type": "low-light / night shot",
+   "shot_type_confidence": 0.45,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "slow",
+   "audio": {
+    "words_per_minute": 198.3,
+    "speech_coverage": 1.0,
+    "music_marker": false,
+    "other_markers": [
+     "clears throat"
+    ],
+    "description": "continuous speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "personal",
+   "style_scores": {
+    "cinematic": 0.307,
+    "documentary": 0.336,
+    "personal": 0.357
+   },
+   "visual_characteristics": [
+    "cool tones",
+    "flat / low contrast",
+    "low-key / dark",
+    "on-screen text or title"
+   ],
+   "editing_techniques": [
+    "on-screen text / title card"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "mean brightness 0.07",
+    "shot: low-light / night shot",
+    "first-person language 7% of words",
+    "dense narration 198 wpm",
+    "est. 3.8 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 19,
+   "start": 1659.26,
+   "end": 1688.99,
+   "duration": 29.72,
+   "representative_frame": null,
+   "shot_type": "low-light / night shot",
+   "shot_type_confidence": 0.45,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "medium",
+   "audio": {
+    "words_per_minute": 222.1,
+    "speech_coverage": 1.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "resolution / outro",
+   "style_mode": "personal",
+   "style_scores": {
+    "cinematic": 0.286,
+    "documentary": 0.262,
+    "personal": 0.451
+   },
+   "visual_characteristics": [
+    "cool tones",
+    "highly saturated",
+    "flat / low contrast",
+    "low-key / dark"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "mean brightness 0.11",
+    "shot: low-light / night shot",
+    "first-person language 11% of words",
+    "dense narration 222 wpm",
+    "est. 6.7 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 20,
+   "start": 1688.99,
+   "end": 1718.7,
+   "duration": 29.72,
+   "representative_frame": null,
+   "shot_type": "low-light / night shot",
+   "shot_type_confidence": 0.45,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "slow",
+   "audio": {
+    "words_per_minute": 232.2,
+    "speech_coverage": 1.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "resolution / outro",
+   "style_mode": "personal",
+   "style_scores": {
+    "cinematic": 0.221,
+    "documentary": 0.359,
+    "personal": 0.42
+   },
+   "visual_characteristics": [
+    "cool tones",
+    "low-key / dark",
+    "letterboxed (cinematic aspect)"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "mean brightness 0.10",
+    "shot: low-light / night shot",
+    "first-person language 13% of words",
+    "contextual/factual vocabulary 6%",
+    "dense narration 232 wpm",
+    "est. 2.5 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 21,
+   "start": 1718.7,
+   "end": 1768.24,
+   "duration": 49.53,
+   "representative_frame": null,
+   "shot_type": "low-light / night shot",
+   "shot_type_confidence": 0.45,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "medium",
+   "audio": {
+    "words_per_minute": 209.6,
+    "speech_coverage": 1.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "resolution / outro",
+   "style_mode": "personal",
+   "style_scores": {
+    "cinematic": 0.292,
+    "documentary": 0.287,
+    "personal": 0.422
+   },
+   "visual_characteristics": [
+    "cool tones",
+    "highly saturated",
+    "flat / low contrast",
+    "low-key / dark",
+    "on-screen text or title"
+   ],
+   "editing_techniques": [
+    "on-screen text / title card"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "mean brightness 0.10",
+    "shot: low-light / night shot",
+    "first-person language 13% of words",
+    "contextual/factual vocabulary 4%",
+    "dense narration 210 wpm",
+    "est. 5.5 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 22,
+   "start": 1768.24,
+   "end": 1793.0,
+   "duration": 24.76,
+   "representative_frame": null,
+   "shot_type": "low-light / night shot",
+   "shot_type_confidence": 0.45,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "medium",
+   "audio": {
+    "words_per_minute": 191.4,
+    "speech_coverage": 1.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "resolution / outro",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.401,
+    "documentary": 0.234,
+    "personal": 0.365
+   },
+   "visual_characteristics": [
+    "cool tones",
+    "highly saturated",
+    "flat / low contrast",
+    "low-key / dark",
+    "letterboxed (cinematic aspect)"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "mean brightness 0.08",
+    "shot: low-light / night shot",
+    "first-person language 6% of words",
+    "dense narration 191 wpm",
+    "est. 4.2 cuts/min in this sequence"
+   ]
+  }
+ ],
+ "narrative_structure": [
+  {
+   "start": 0.0,
+   "end": 60.0,
+   "label": "hook",
+   "description": "spoken cold open: narration/claim starts immediately",
+   "evidence": []
+  },
+  {
+   "start": 60.0,
+   "end": 275.0,
+   "label": "Going to London",
+   "description": "4:11 chapter, leans personal",
+   "evidence": [
+    "698 words"
+   ]
+  },
+  {
+   "start": 275.0,
+   "end": 486.0,
+   "label": "Meeting New Business Partner",
+   "description": "3:31 chapter, leans personal",
+   "evidence": [
+    "652 words"
+   ]
+  },
+  {
+   "start": 486.0,
+   "end": 615.0,
+   "label": "UK Investor Visa Event",
+   "description": "2:09 chapter, leans personal",
+   "evidence": [
+    "315 words"
+   ]
+  },
+  {
+   "start": 615.0,
+   "end": 702.0,
+   "label": "AirBnB",
+   "description": "1:27 chapter, leans personal",
+   "evidence": [
+    "211 words"
+   ]
+  },
+  {
+   "start": 702.0,
+   "end": 880.0,
+   "label": "M&A Coaching",
+   "description": "2:58 chapter, leans context",
+   "evidence": [
+    "517 words"
+   ]
+  },
+  {
+   "start": 880.0,
+   "end": 974.0,
+   "label": "M&A Simulator",
+   "description": "1:34 chapter, leans context",
+   "evidence": [
+    "309 words"
+   ]
+  },
+  {
+   "start": 974.0,
+   "end": 1146.0,
+   "label": "Closing Call",
+   "description": "2:52 chapter, leans personal",
+   "evidence": [
+    "503 words"
+   ]
+  },
+  {
+   "start": 1146.0,
+   "end": 1177.0,
+   "label": "Outro",
+   "description": "0:31 chapter, leans personal",
+   "evidence": [
+    "79 words"
+   ]
+  },
+  {
+   "start": 1177.0,
+   "end": 1793.0,
+   "label": "Bonus: Simulator Demo",
+   "description": "10:16 chapter, leans personal",
+   "evidence": [
+    "2006 words"
+   ]
+  }
+ ],
+ "hook": {
+  "first_speech_at_s": 0.32,
+  "words_first_30s": 76,
+  "hook_vocabulary_first_30s": 0.0263,
+  "title_uses_superlative_or_intrigue": false,
+  "cold_open": true,
+  "est_cuts_per_min_first_60s": 10.85,
+  "pattern": "spoken cold open: narration/claim starts immediately"
+ },
+ "editing_characteristics": {
+  "est_cuts_per_min": 4.27,
+  "est_avg_shot_length_s": 14.06,
+  "estimator_saturated": false,
+  "changed_sample_fraction": 0.506,
+  "sample_interval_s": 9.91,
+  "visual_sequences": 23,
+  "median_sequence_s": 59.4,
+  "pacing_curve": [
+   {
+    "start": 0.0,
+    "end": 60.0,
+    "est_cuts_per_min": 10.85,
+    "speech_coverage": 0.99
+   },
+   {
+    "start": 60.0,
+    "end": 120.0,
+    "est_cuts_per_min": 10.85,
+    "speech_coverage": 0.97
+   },
+   {
+    "start": 120.0,
+    "end": 180.0,
+    "est_cuts_per_min": 4.2,
+    "speech_coverage": 1.0
+   },
+   {
+    "start": 180.0,
+    "end": 240.0,
+    "est_cuts_per_min": 18.14,
+    "speech_coverage": 1.0
+   },
+   {
+    "start": 240.0,
+    "end": 300.0,
+    "est_cuts_per_min": 18.14,
+    "speech_coverage": 0.99
+   },
+   {
+    "start": 300.0,
+    "end": 360.0,
+    "est_cuts_per_min": 6.65,
+    "speech_coverage": 0.99
+   },
+   {
+    "start": 360.0,
+    "end": 420.0,
+    "est_cuts_per_min": 2.46,
+    "speech_coverage": 1.0
+   },
+   {
+    "start": 420.0,
+    "end": 480.0,
+    "est_cuts_per_min": -0.0,
+    "speech_coverage": 1.0
+   },
+   {
+    "start": 480.0,
+    "end": 540.0,
+    "est_cuts_per_min": 18.14,
+    "speech_coverage": 0.91
+   },
+   {
+    "start": 540.0,
+    "end": 600.0,
+    "est_cuts_per_min": 10.85,
+    "speech_coverage": 0.99
+   },
+   {
+    "start": 600.0,
+    "end": 660.0,
+    "est_cuts_per_min": 6.65,
+    "speech_coverage": 0.7
+   },
+   {
+    "start": 660.0,
+    "end": 720.0,
+    "est_cuts_per_min": 1.1,
+    "speech_coverage": 1.0
+   },
+   {
+    "start": 720.0,
+    "end": 780.0,
+    "est_cuts_per_min": 2.46,
+    "speech_coverage": 1.0
+   },
+   {
+    "start": 780.0,
+    "end": 840.0,
+    "est_cuts_per_min": -0.0,
+    "speech_coverage": 0.97
+   },
+   {
+    "start": 840.0,
+    "end": 900.0,
+    "est_cuts_per_min": 4.2,
+    "speech_coverage": 1.0
+   },
+   {
+    "start": 900.0,
+    "end": 960.0,
+    "est_cuts_per_min": 1.1,
+    "speech_coverage": 1.0
+   },
+   {
+    "start": 960.0,
+    "end": 1020.0,
+    "est_cuts_per_min": 10.85,
+    "speech_coverage": 1.0
+   },
+   {
+    "start": 1020.0,
+    "end": 1080.0,
+    "est_cuts_per_min": 2.04,
+    "speech_coverage": 0.99
+   },
+   {
+    "start": 1080.0,
+    "end": 1140.0,
+    "est_cuts_per_min": 1.1,
+    "speech_coverage": 1.0
+   },
+   {
+    "start": 1140.0,
+    "end": 1200.0,
+    "est_cuts_per_min": 6.65,
+    "speech_coverage": 1.0
+   },
+   {
+    "start": 1200.0,
+    "end": 1260.0,
+    "est_cuts_per_min": -0.0,
+    "speech_coverage": 1.0
+   },
+   {
+    "start": 1260.0,
+    "end": 1320.0,
+    "est_cuts_per_min": 1.1,
+    "speech_coverage": 1.0
+   },
+   {
+    "start": 1320.0,
+    "end": 1380.0,
+    "est_cuts_per_min": 4.2,
+    "speech_coverage": 1.0
+   },
+   {
+    "start": 1380.0,
+    "end": 1440.0,
+    "est_cuts_per_min": 1.1,
+    "speech_coverage": 1.0
+   },
+   {
+    "start": 1440.0,
+    "end": 1500.0,
+    "est_cuts_per_min": 18.14,
+    "speech_coverage": 1.0
+   },
+   {
+    "start": 1500.0,
+    "end": 1560.0,
+    "est_cuts_per_min": 6.65,
+    "speech_coverage": 1.0
+   },
+   {
+    "start": 1560.0,
+    "end": 1620.0,
+    "est_cuts_per_min": 1.1,
+    "speech_coverage": 1.0
+   },
+   {
+    "start": 1620.0,
+    "end": 1680.0,
+    "est_cuts_per_min": 10.85,
+    "speech_coverage": 1.0
+   },
+   {
+    "start": 1680.0,
+    "end": 1740.0,
+    "est_cuts_per_min": 2.46,
+    "speech_coverage": 1.0
+   },
+   {
+    "start": 1740.0,
+    "end": 1793.0,
+    "est_cuts_per_min": 5.55,
+    "speech_coverage": 1.0
+   }
+  ],
+  "pacing_variability": 5.84,
+  "on_screen_text_frames": 7,
+  "chapters": 10,
+  "measurement_note": "Cut rate is a Poisson estimate from storyboard samples; individual cuts, transitions and camera moves are not observable at this sampling rate."
+ },
+ "sound_design": {
+  "available": true,
+  "speech_coverage": 0.984,
+  "non_speech_fraction": 0.007,
+  "longest_non_speech_s": 12.0,
+  "words_per_minute_overall": 177.7,
+  "caption_markers": {
+   "music": 13,
+   "laughter": 9,
+   "clears throat": 4,
+   "snorts": 3,
+   "music and singing": 1,
+   "applause": 1,
+   "sighs": 1,
+   "gasps": 1
+  },
+  "music_marked_scenes": 5,
+  "note": "Music/ambience inferred from caption markers and speech gaps; audio itself is not downloaded."
+ },
+ "color_characteristics": {
+  "mean_brightness": 0.189,
+  "mean_contrast": 0.166,
+  "mean_saturation": 0.453,
+  "mean_colorfulness": 32.8,
+  "mean_warmth": 0.091,
+  "saturation_spread": 0.195,
+  "brightness_spread": 0.122,
+  "letterboxed_frame_fraction": 0.105,
+  "night_or_lowkey_fraction": 0.53,
+  "dominant_palette": [
+   "#373127",
+   "#60390c",
+   "#492e13",
+   "#5f3b17",
+   "#603c18",
+   "#0b0d1d",
+   "#2e2b19",
+   "#55513e"
+  ],
+  "grading_tags": [
+   "warm tones",
+   "highly saturated",
+   "low-key / dark",
+   "on-screen text or title"
+  ]
+ },
+ "storytelling": {
+  "first_person_singular": 0.0403,
+  "first_person_plural": 0.0154,
+  "second_person": 0.0377,
+  "reflection": 0.0047,
+  "context_facts": 0.0254,
+  "hook_words": 0.0085,
+  "questions": 73,
+  "total_words": 5311,
+  "dialogue_score": 0.373,
+  "face_frame_fraction": 0.304,
+  "closeup_frame_fraction": 0.11,
+  "shot_type_distribution": {
+   "low-light / night shot": 10,
+   "wide shot with people": 4,
+   "close-up on a person (talking head / selfie)": 4,
+   "medium shot with people": 3,
+   "general b-roll": 2
+  },
+  "narrative_functions": {
+   "interaction / conversation": 9,
+   "journey / progression": 9,
+   "resolution / outro": 4,
+   "opening hook": 1
+  }
+ },
+ "style_mode_mix": {
+  "cinematic": 0.206,
+  "documentary": 0.391,
+  "personal": 0.403
+ },
+ "style_mode_basis": "transcript+visual",
+ "techniques": [
+  {
+   "start": 0.0,
+   "end": 24.0,
+   "name": "chapter",
+   "description": "chapter: Intro",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 24.0,
+   "end": 275.0,
+   "name": "chapter",
+   "description": "chapter: Going to London",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 99.06,
+   "end": 108.9660773480663,
+   "name": "on-screen text",
+   "description": "title, location label or caption overlay detected",
+   "category": "graphics",
+   "style_mode": null,
+   "confidence": 0.4,
+   "source": "heuristic"
+  },
+  {
+   "start": 113.92,
+   "end": 193.17,
+   "name": "talking to camera",
+   "description": "presenter speaks directly to camera / selfie framing",
+   "category": "narration",
+   "style_mode": "personal",
+   "confidence": 0.5,
+   "source": "heuristic"
+  },
+  {
+   "start": 275.0,
+   "end": 486.0,
+   "name": "chapter",
+   "description": "chapter: Meeting New Business Partner",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 341.76,
+   "end": 381.38,
+   "name": "talking to camera",
+   "description": "presenter speaks directly to camera / selfie framing",
+   "category": "narration",
+   "style_mode": "personal",
+   "confidence": 0.5,
+   "source": "heuristic"
+  },
+  {
+   "start": 486.0,
+   "end": 615.0,
+   "name": "chapter",
+   "description": "chapter: UK Investor Visa Event",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 615.0,
+   "end": 702.0,
+   "name": "chapter",
+   "description": "chapter: AirBnB",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 702.0,
+   "end": 880.0,
+   "name": "chapter",
+   "description": "chapter: M&A Coaching",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 880.0,
+   "end": 974.0,
+   "name": "chapter",
+   "description": "chapter: M&A Simulator",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 974.0,
+   "end": 1146.0,
+   "name": "chapter",
+   "description": "chapter: Closing Call",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 1005.46,
+   "end": 1154.05,
+   "name": "talking to camera",
+   "description": "presenter speaks directly to camera / selfie framing",
+   "category": "narration",
+   "style_mode": "personal",
+   "confidence": 0.5,
+   "source": "heuristic"
+  },
+  {
+   "start": 1146.0,
+   "end": 1177.0,
+   "name": "chapter",
+   "description": "chapter: Outro",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 1177.0,
+   "end": 1793.0,
+   "name": "chapter",
+   "description": "chapter: Bonus: Simulator Demo",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 1178.82,
+   "end": 1188.7260773480662,
+   "name": "on-screen text",
+   "description": "title, location label or caption overlay detected",
+   "category": "graphics",
+   "style_mode": null,
+   "confidence": 0.4,
+   "source": "heuristic"
+  },
+  {
+   "start": 1188.73,
+   "end": 1198.6360773480662,
+   "name": "on-screen text",
+   "description": "title, location label or caption overlay detected",
+   "category": "graphics",
+   "style_mode": null,
+   "confidence": 0.4,
+   "source": "heuristic"
+  },
+  {
+   "start": 1277.88,
+   "end": 1287.7860773480663,
+   "name": "on-screen text",
+   "description": "title, location label or caption overlay detected",
+   "category": "graphics",
+   "style_mode": null,
+   "confidence": 0.4,
+   "source": "heuristic"
+  },
+  {
+   "start": 1367.04,
+   "end": 1376.9460773480662,
+   "name": "on-screen text",
+   "description": "title, location label or caption overlay detected",
+   "category": "graphics",
+   "style_mode": null,
+   "confidence": 0.4,
+   "source": "heuristic"
+  },
+  {
+   "start": 1446.29,
+   "end": 1456.1960773480662,
+   "name": "on-screen text",
+   "description": "title, location label or caption overlay detected",
+   "category": "graphics",
+   "style_mode": null,
+   "confidence": 0.4,
+   "source": "heuristic"
+  },
+  {
+   "start": 1505.72,
+   "end": 1515.6260773480662,
+   "name": "on-screen text",
+   "description": "title, location label or caption overlay detected",
+   "category": "graphics",
+   "style_mode": null,
+   "confidence": 0.4,
+   "source": "heuristic"
+  }
+ ],
+ "qualitative": {
+  "source": "claude-code subagent (viewed all 4 contact sheets + profile + transcript (auto-captions, 811 cues))",
+  "summary": "Vlog 60 of the 'Zero to £100M' series, titled as 'The Reality of Buying a $10M Business in London'. Over two nights in London it moves through an airport arrival, a back-seat car conversation, a meeting with a young co-founder of an M&A simulator game, a UK investor-visa event in Parliament, an Airbnb, a kitchen piece to camera pitching his coaching community, and a live deal completion on a video call ('Fuck, we just bought a new company'). After the 'NEXT RELEASE' card, about 10 minutes of bonus screen-recorded demo of the simulator follow. It is the darkest, most low-key grade (53% low-key frames) and has the densest speech (178 wpm, 98% coverage).",
+  "hook_analysis": "A music-led cold open. A rap track (its lyrics appear in the auto-captions) plays over a dark car interior with a white stat overlay, 'VLOG 60 / CURRENT REVENUE: £9M' (0:00). City b-roll with a Rolls-Royce and a cyclist (0:10) follows, then the 'ZERO TO £100M' card (0:20). At 0:26 speech starts ('Just landed in London') with the setup: a board meeting and a deal due to close. The revenue counter frames the series' progress metric before anything else.",
+  "narrative_arc": "Setup (close the deal today) comes at 1:29. Then: a car ride and the video-game launch (1:59-4:27); meeting the co-founder (5:17-7:55); the Parliament/investor-visa event (8:05-10:04); the Airbnb and a friend (10:14-11:33); the coaching pitch in the kitchen (11:43-14:22); the simulator explained to an older guest (14:32-16:01); and the climax, a video-call completion and reaction (16:11-18:59). Outro card at 19:19, then the bonus demo (19:29-29:43). It is a clear setup-to-payoff arc, with the payoff saved for the end.",
+  "camera_and_composition": "Handheld, often low-light. Airport selfie medium close-ups (0:30-1:29). A back-seat car shot from the opposite seat with a wide lens (1:59-4:27). Over-the-table restaurant shots against a window, with a dark foreground (5:17-7:46). Landmark cutaways (Big Ben 8:05, London Eye 8:45). Chandelier/light-fixture details (10:14-10:24). A kitchen piece to camera at counter height (11:53-14:22). Silhouette against net curtains for the deal call (16:11-16:41). Screen recording fills the frame in the bonus section. Exact moves are not observable at storyboard resolution.",
+  "color_and_grade": "Very warm, dim amber tungsten interiors (palette #241710, #60390c) with deep shadows. Daytime London exteriors are cool and grey for contrast. The bonus section is a blue/purple UI screen. A small amount of letterboxing is detected (10.5%). Overall it is the most 'night-time intimate' look in the set.",
+  "sound_and_music": "From auto-captions: near-continuous speech (98% coverage, 178 wpm). Thirteen [music] markers, including a rap track with captioned lyrics over the 0:00-0:22 cold open and music under the Parliament event intro (~4:36-4:57). Laughter markers (9) and one [applause] at the deal completion (~16:41). There is strong profanity in speech. The music cannot be identified beyond the caption markers.",
+  "what_to_borrow": [
+   "A running metric overlay ('CURRENT REVENUE') in the first frame to anchor a series' progress",
+   "State the episode's goal early ('we're supposed to close today') and pay it off on camera at the end",
+   "Name lower-thirds for notable people at events",
+   "Contrast cool, grey exteriors with warm tungsten interiors to separate public and private moments",
+   "Film the real reaction live after a milestone call instead of re-staging it"
+  ],
+  "what_to_avoid_copying": [
+   "'ZERO TO £100M' card, 'VLOG 60 / CURRENT REVENUE' counter format and 'NEXT RELEASE' card (series branding)",
+   "The 10-minute bonus product demo appended after the outro, which is advertising",
+   "Licensed rap track and heavy profanity in the cold open",
+   "Underexposed interiors where faces fall into black (19:09)"
+  ],
+  "observations": [
+   {
+    "start": 0,
+    "end": 10,
+    "name": "stat-overlay cold open",
+    "description": "Dark car interior with the white overlay 'VLOG 60  CURRENT REVENUE: £9M' over a rap track.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 10,
+    "end": 20,
+    "name": "city b-roll under music",
+    "description": "A wet London street with a Rolls-Royce and a cyclist.",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 20,
+    "end": 26,
+    "name": "series title card",
+    "description": "'ZERO TO £100M' in small white type on black.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 26,
+    "end": 99,
+    "name": "airport arrival selfie",
+    "description": "Handheld medium close-ups in an airport hall, on the phone to his CEO. The deal is due to close today.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 119,
+    "end": 267,
+    "name": "back-seat car conversation",
+    "description": "A wide shot from the opposite seat in a moving car, about launching a video game and raising capital.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 277,
+    "end": 297,
+    "name": "London establishing",
+    "description": "A grand facade against blue sky and a striped awning with a black cab.",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 317,
+    "end": 475,
+    "name": "co-founder meeting",
+    "description": "Restaurant-window shots of a young co-founder and the creator, alternating, warm and dark.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 485,
+    "end": 535,
+    "name": "landmarks and event access",
+    "description": "Big Ben, a Parliament corridor with lanyards, and the London Eye.",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 545,
+    "end": 555,
+    "name": "name lower-third",
+    "description": "On-screen name caption for a Baroness at the investor-visa event.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 614,
+    "end": 624,
+    "name": "light-fixture details",
+    "description": "Chandelier and wall-sconce inserts marking the Airbnb arrival.",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 703,
+    "end": 862,
+    "name": "kitchen pitch piece to camera",
+    "description": "Counter-height medium shot. He invites viewers to join his M&A coaching community and explains group revenue.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 872,
+    "end": 961,
+    "name": "explaining to a guest",
+    "description": "Over-shoulder on the sofa. He explains the simulator to an older man in low tungsten light.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 971,
+    "end": 1001,
+    "name": "deal-completion call",
+    "description": "Silhouette against net curtains, leaning over a laptop as the subtitle reads 'you are officially completed'.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 1010,
+    "end": 1139,
+    "name": "live reaction payoff",
+    "description": "Seated, amber-lit, swearing with joy and thanking his CEO. The deal is named.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 1159,
+    "end": 1169,
+    "name": "next-release card",
+    "description": "'NEXT RELEASE 14/12/2025' on black with subtitles continuing.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 1169,
+    "end": 1793,
+    "name": "bonus screen-recorded demo",
+    "description": "Full-frame screen capture of the M&A simulator website and gameplay with subtitles (outside the main film).",
+    "style_mode": "documentary"
+   }
+  ]
+ },
+ "contact_sheets": [],
+ "limitations": [
+  "Frames are YouTube storyboard previews (YouTube storyboard 320x180, one frame every 9.9s); fine detail, exact cuts, transitions and camera movement are not measured.",
+  "Shot types use face/sky/edge heuristics on low-resolution frames - treat as approximate.",
+  "Transcript is YouTube auto-captions (no punctuation, occasional errors, speaker changes not marked)."
+ ]
+}

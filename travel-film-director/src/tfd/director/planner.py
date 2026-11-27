@@ -12,6 +12,7 @@ import re
 from pathlib import Path
 
 from ..analysis import transcript as tx
+from . import playbook
 from ..config import get_settings
 from ..log import get_logger
 from ..util import fmt_ts, read_json, write_json
@@ -126,6 +127,9 @@ def plan_project(project: Path, target_minutes: float = 8.0, direction: str = "b
 
     target = target_minutes * 60
     items, decisions = [], []
+    hook_key = playbook.choose_hook([c["category"] for c in clips], any(c.get("transcript") for c in clips), direction)
+    hook_from, hook_recipe = playbook.HOOK_FORMULAS[hook_key]
+    decisions.append(f"Hook formula: {hook_from} - {hook_recipe}.")
     # 1. hook: the strongest cinematic shot(s) + the strongest spoken moment, if any
     cine = sorted([c for c in clips if c["mode"] == "cinematic"], key=lambda c: -c["quality"])[:3]
     voice = sorted([c for c in clips if c.get("transcript")], key=lambda c: -c["quality"])[:1]
@@ -148,7 +152,14 @@ def plan_project(project: Path, target_minutes: float = 8.0, direction: str = "b
 
     # 2. body: chronological sequences, each opened by an establishing/landscape shot when one exists
     seqs = _sequences([c for c in clips if c["id"] not in used])
+    bridges = []
+    prev_cats = None
     for si, seq in enumerate(seqs):
+        cats = [c["category"] for c in seq]
+        new_loc = any(c in ("establishing",) for c in cats) and si > 0
+        b_tech, b_from = playbook.bridge_for(prev_cats, cats, new_loc)
+        bridges.append({"sequence": si + 1, "technique": b_tech, "borrowed_from": b_from})
+        prev_cats = cats
         modes = [c["mode"] for c in seq]
         mode = max(set(modes), key=modes.count)
         ref, params = _creator_for_mode(mode, creators)
@@ -162,9 +173,12 @@ def plan_project(project: Path, target_minutes: float = 8.0, direction: str = "b
             if e - s < 1.0:
                 continue
             section = "establishing" if c["category"] in ("establishing", "landscape") and c is seq_sorted[0] else "body"
+            tech, tech_from, tip = playbook.SCENE_RULES.get(c["category"], ("", "", ""))
             items.append({"clip": c["id"], "src_in": s, "src_out": e, "section": section, "sequence": si + 1,
                           "mode": c["mode"], "reference": ref, "audio": "sync" if spoken else "ambient+music",
-                          "reason": f"{c['category']} ({', '.join(c['category_evidence'][:2])}); q={c['quality']}"})
+                          "technique": tech, "technique_from": tech_from, "technique_tip": tip,
+                          "reason": f"{c['category']} ({', '.join(c['category_evidence'][:2])}); q={c['quality']}; "
+                                    f"approach: {tech} [{tech_from}]"})
     # 3. trim to target duration: drop lowest-quality non-speech body shots first
     qual = {c["id"]: c["quality"] for c in clips}
     total = sum(i["src_out"] - i["src_in"] for i in items)
@@ -196,6 +210,11 @@ def plan_project(project: Path, target_minutes: float = 8.0, direction: str = "b
             first = next((i for i in items if i.get("sequence") == seq_no), None)
             if first:
                 titles.append({"at": first["record_in"] + 0.5, "duration": 3.0, "text": m.group(2).strip()})
+    for b in bridges:
+        first = next((i for i in items if i.get("sequence") == b["sequence"]), None)
+        if first and not any(abs(t["at"] - first["record_in"] - 0.5) < 0.01 for t in titles):
+            review.append({"at": first["record_in"], "issue": f"Sequence {b['sequence']}: {b['technique']} "
+                           f"[{b['borrowed_from']}] - add the place name in trip_notes.md (- location ({b['sequence']}): ...)"})
     music = sorted(str(p) for p in (project / "music").glob("*") if p.suffix.lower() in (".mp3", ".wav", ".m4a", ".flac")) \
         if (project / "music").is_dir() else []
     if not music:
@@ -206,6 +225,7 @@ def plan_project(project: Path, target_minutes: float = 8.0, direction: str = "b
         "clips": {c["id"]: {"path": c["path"], "fps": c["meta"]["fps"], "duration": c["meta"]["duration"],
                             "width": c["meta"]["width"], "height": c["meta"]["height"], "category": c["category"]}
                   for c in clips},
+        "hook_formula": {"from": hook_from, "recipe": hook_recipe}, "bridges": bridges,
         "timeline": items, "titles": titles, "narration": narration, "music": music,
         "audio_rules": {"dialogue_lufs": -16, "music_under_speech_db": -18, "music_alone_db": -8, "ambient_db": -14},
         "decisions": decisions, "needs_review": review,

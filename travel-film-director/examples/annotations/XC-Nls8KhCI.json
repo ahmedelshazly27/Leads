@@ -1,0 +1,106 @@
+{
+  "source": "claude-code subagent (viewed all 3 contact sheets + profile + transcript; YouTube offers no transcript for this video, so story is read from burned-in subtitles)",
+  "summary": "Vlog 11 of 'Zero to £100M'. Despite the 'UK' title, the frames show Copenhagen: Danish signage ('PRESSEN', 'Book dit næste...') and a rainy grey city. The creator does a long wide-angle walk-and-talk through the streets explaining how M&A works and recapping a Gambia trip. He then sits at a table in what looks like a members' club for a long coaching-call segment ('let's talk deals'). The film ends with Christmas shopping in a luxury store. It is the coolest, most desaturated grade of the six (warmth -0.015), with a teal/cyan cast.",
+  "hook_analysis": "A direct greeting piece to camera. At 0:00 he is in a café, framed tight with a wide lens and wearing a cap, and the subtitle opens 'Hi guys, welcome to vlog 11 on the journey from zero to 100 million pounds'. A low-angle traffic-light cutaway (0:29) follows, then the series card 'ZERO TO £100M' with a quoted tagline ('I just wanna hear YES') at 0:39. This is the most YouTube-vlog-style opening of the set.",
+  "narrative_arc": "Intro (0:00-0:49). Gambia recap and M&A explainer told while walking (0:59-7:41): chapter 'Gambia Trip' covers footage of Copenhagen, so the talk and the visuals are about different places. Arrival indoors (8:21-9:00). Coaching call at the table (9:10-15:03). Members' club and Christmas shopping (15:13-16:42). End card. Low dramatic stakes; the film is driven by explanation.",
+  "camera_and_composition": "Ultra-wide handheld, often selfie-style or walking alongside. The camera is low and close, with the subject off-centre and distorted architecture behind (0:59-7:41). There are low-angle cutaways of signs and traffic lights (0:29, 7:22-7:32). The table scene is a low wide-angle shot across a table with tea props in the foreground (9:10-15:03). The shop scene is handheld among mannequins (16:12-16:42). Exact moves are not observable at storyboard resolution.",
+  "color_and_grade": "Cool, desaturated, teal-shifted grade on exteriors, with lifted blacks and a slightly filmic look (dominant #0c1b1d, #f5f0dd). Interiors are warmer with tungsten lamps but stay muted. The look is distinct from his warm Africa/Dubai episodes.",
+  "sound_and_music": "Not measurable: YouTube offers no transcript and no audio was downloaded. Subtitles appear in almost every frame, suggesting continuous walk-and-talk monologue and call dialogue.",
+  "what_to_borrow": [
+    "Use walk-and-talk exposition to explain an abstract topic while moving through a city",
+    "Low-angle sign and traffic-light cutaways as punctuation in long monologues",
+    "Let a strong location-specific grade (cool, rainy northern city) define the episode's mood",
+    "A tagline under the title card that quotes the episode's key line"
+  ],
+  "what_to_avoid_copying": [
+    "'ZERO TO £100M' card and 'SEE YOU NEXT TIME' series branding",
+    "A title that names a different country from the one on screen",
+    "An ultra-wide lens close to the face for minutes on end, which distorts the face"
+  ],
+  "observations": [
+    {
+      "start": 0,
+      "end": 29,
+      "name": "greeting piece to camera",
+      "description": "Café selfie framing with a wide lens: 'welcome to vlog 11', just back from Gambia.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 29,
+      "end": 39,
+      "name": "low-angle cutaway",
+      "description": "A red traffic light against the sky with an ornate building.",
+      "style_mode": "cinematic"
+    },
+    {
+      "start": 39,
+      "end": 49,
+      "name": "series title card with tagline",
+      "description": "'ZERO TO £100M' on black with a small quoted line beneath.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 59,
+      "end": 247,
+      "name": "walk-and-talk exposition",
+      "description": "Rainy Copenhagen streets in a wide-angle side profile while recapping the Gambia trip. The visuals don't match the topic.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 247,
+      "end": 463,
+      "name": "M&A explainer on the move",
+      "description": "Continued walking monologue past construction hoardings and brick facades about growing through acquisitions.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 383,
+      "end": 413,
+      "name": "stopped piece to camera",
+      "description": "He stops under a festive shopfront and faces the camera to explain how M&A works ('it's a ladder').",
+      "style_mode": "personal"
+    },
+    {
+      "start": 442,
+      "end": 452,
+      "name": "environmental signage",
+      "description": "A 'PRESSEN' newspaper sign and a 'BOMBSHELL, BOOM BOOM!' poster as graphic punctuation.",
+      "style_mode": "cinematic"
+    },
+    {
+      "start": 501,
+      "end": 550,
+      "name": "arrival indoors",
+      "description": "An office/club interior with a lamp and window, then checking his phone under globe pendants.",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 550,
+      "end": 903,
+      "name": "coaching call at the table",
+      "description": "A low wide-angle across a table with teapot and cups. A long animated call about deals and buyers, with subtitles.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 913,
+      "end": 952,
+      "name": "members' club moment",
+      "description": "A dim wood-panelled room with a Christmas tree. He shows a welcome card signed by the CEO.",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 962,
+      "end": 1002,
+      "name": "luxury shopping",
+      "description": "A sneaker-wall boutique, handheld among mannequins, picking up shoes.",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 1011,
+      "end": 1031,
+      "name": "end card",
+      "description": "'SEE YOU NEXT TIME' on black.",
+      "style_mode": "personal"
+    }
+  ]
+}

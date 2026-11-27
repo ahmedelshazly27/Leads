@@ -1,0 +1,37 @@
+{
+  "source": "claude-code subagent (viewed all 3 contact sheets + profile + transcript)",
+  "summary": "A one-subject cultural portrait of the Bajau 'Sea Gypsies', stitched from two trips (Philippines, then Indonesia) into a single story, as the creator admits at the end. It opens on underwater free-diving and aerials of stilt villages, then uses animated 3D globe maps with route lines to explain geography before Joe appears on a runway at 2:38. The middle is presenter-led immersion (iftar at a mosque, Starlink kiosk, staying with a family) punctuated by long speech-free underwater and drone passages. A second act re-starts with a Jakarta skyline and another map flight to Sulawesi, culminating in diving with the Bajau and a subtitled elder interview. It ends with a selfie sign-off, then a hotel-room sponsor read for Epidemic Sound.",
+  "hook_analysis": "Short visual lead-in (underwater seagrass, a man crouched on coral at 0:10) with narration from 0:11 posing the central question ('How long can you hold your breath underwater?'). After a second speech-free block of aerials/maps (0:30-1:09) a rapid tease cluster at ~1:55-2:11 stacks lines from later ('the number of tourists here is zero', 'Scorpions') over night/fishing shots before the journey proper starts. The replay-peak at 0:00-0:12 confirms the underwater opening is the strongest image.",
+  "narrative_arc": "No chapters. Thesis + map context (0:00-2:18) -> Philippines leg: travel logistics, Ramadan iftar, Sitangkai floating town, homestay, fishing (2:18-7:54) -> bridge 'we couldn't dive deep here, so we went to Indonesia' (7:53) -> Jakarta/Sulawesi travel montage with map (8:04-9:42) -> Bajau village in Indonesia, children, diving set-piece (9:52-15:38) -> elder interview and emotional beat (16:56-18:06) -> lake swim and sign-off (18:15-19:01) -> sponsor (19:05-20:04).",
+  "camera_and_composition": "Heavy use of top-down and high-oblique drone over stilt villages (0:30, 0:49, 4:26, 10:12, 16:17, 16:27); underwater wides with divers small in frame against reef (1:29, 13:19, 14:48, 15:28); close presenter shots, often low wide-angle or over-shoulder with locals (4:17, 4:56, 10:41); subtitled medium close-up interviews under conical hats (9:23, 16:56). Camera moves and lens changes are not observable at storyboard resolution.",
+  "color_and_grade": "Dominant cyan/teal throughout - water, sky and even interiors lean teal (palette #7cc4be, #267c87), with warm skin kept. One deliberately orange-tinted aerial at 2:48 and the golden village/mosque aerial at 3:08 contrast against it. Indoor elder interview at 17:26-18:06 is darker and low-key.",
+  "sound_and_music": "Speech covers only ~35% of runtime; longest non-speech run ~82 s and many 20-80 s speech-free montages (e.g. 12:29-13:48 underwater, 16:19-17:41), consistent with music-led diving sequences. The creator credits Epidemic Sound for water sound effects at the end. Actual music cannot be heard from the data.",
+  "what_to_borrow": [
+    "Pose one concrete question in the first 15 seconds and pay it off in a late set-piece (breath-hold dive)",
+    "Use animated globe/map flights with a route line to bridge legs of a multi-country story",
+    "Let the most visual sequence (underwater) play long and speech-free once the context is set",
+    "Re-establish each new village with a drone wide before going in at eye level"
+  ],
+  "what_to_avoid_copying": [
+    "Merging trips filmed months apart into one 'journey' without signalling it until the outro can feel misleading",
+    "The near-uniform teal grade flattens variety between very different locations",
+    "Sponsor read placed after the emotional climax deflates the ending"
+  ],
+  "observations": [
+    {"start": 0, "end": 30, "name": "underwater thesis open", "description": "Seagrass and a figure crouched on coral underwater, narration from 0:11 introduces the Bajau and asks how long you can hold your breath.", "style_mode": "cinematic"},
+    {"start": 30, "end": 69, "name": "speech-free aerial block", "description": "Drone over island clusters, a blue hole and a dense stilt village (0:30-0:59) with no narration.", "style_mode": "cinematic"},
+    {"start": 79, "end": 120, "name": "3D globe map context", "description": "Animated satellite map labelling Philippines/Malaysia/Indonesia while VO explains where the Bajau live (1:19, 1:49).", "style_mode": "documentary"},
+    {"start": 115, "end": 131, "name": "tease cluster", "description": "Quick lines from later in the trip ('Scorpions', zero tourists) over night-fishing and boat shots before the travel leg begins.", "style_mode": "documentary"},
+    {"start": 138, "end": 160, "name": "map route + logistics inserts", "description": "Map with blue route line (2:18) then luggage on a carousel (2:28) and Joe talking on a runway (2:38): the journey made visible.", "style_mode": "personal"},
+    {"start": 177, "end": 230, "name": "cultural set-piece with community", "description": "Ramadan iftar: golden aerial of mosque (3:08), greeting under a tent (3:17), worshippers inside (3:27), boat ticket insert (3:37).", "style_mode": "documentary"},
+    {"start": 266, "end": 290, "name": "aerial re-establish of floating town", "description": "Top-down of Sitangkai's packed rooftops (4:26) cut against close presenter reaction (4:17).", "style_mode": "cinematic"},
+    {"start": 310, "end": 320, "name": "phone screen insert", "description": "Close insert of a Starlink 'Connected' phone screen to illustrate a spoken fact.", "style_mode": "personal"},
+    {"start": 360, "end": 370, "name": "archival news cutaway", "description": "Framed TV-news style image with Arabic captions to support the 'bad reputation' context.", "style_mode": "documentary"},
+    {"start": 473, "end": 540, "name": "second-act travel bridge", "description": "Fish held aloft (7:54), Jakarta skyline aerials (8:04-8:13), map flight to Sulawesi (8:33), airport arrival (8:43) - a compressed relocation montage.", "style_mode": "cinematic"},
+    {"start": 553, "end": 572, "name": "bilingual subtitled interview", "description": "Village elder in conical hat with Arabic and English subtitles over aerials; also a replay peak (9:13).", "style_mode": "documentary"},
+    {"start": 769, "end": 950, "name": "underwater free-dive set-piece", "description": "Long run of reef, schools of fish and divers walking the seabed (13:10-15:38), intercut with Joe explaining from a boat (13:59, 14:58).", "style_mode": "cinematic"},
+    {"start": 1016, "end": 1090, "name": "elder emotional beat", "description": "Low-key interior close-ups of an old diver holding his head (17:26), two-shot with Joe (17:56), on-screen text 'I lost my mind' (18:06).", "style_mode": "documentary"},
+    {"start": 1115, "end": 1141, "name": "selfie sign-off", "description": "Lake swim, then a wide-angle selfie in the village with 'These are the Bajau people' and a subscribe call.", "style_mode": "personal"},
+    {"start": 1145, "end": 1204, "name": "hotel-room sponsor read", "description": "Seated in a hotel room with laptop, Epidemic Sound UI screen-capture (19:34), discount code graphic (19:44).", "style_mode": "personal"}
+  ]
+}

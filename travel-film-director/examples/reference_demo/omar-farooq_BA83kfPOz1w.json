@@ -1,0 +1,963 @@
+{
+ "schema_version": "1.0",
+ "video_id": "BA83kfPOz1w",
+ "url": "https://www.youtube.com/watch?v=BA83kfPOz1w",
+ "creator": "Omar Farooq",
+ "title": "كل أسرار جمال الخيل العربي 🇶🇦 #عمر_يجرب",
+ "channel": "عمر فاروق Omar Farooq",
+ "upload_date": "20260417",
+ "duration": 1677.0,
+ "view_count": 1517620,
+ "user_notes": "Arabian horses, Qatar",
+ "analysed_at": "2026-11-27T19:26:44+00:00",
+ "sources": {
+  "metadata": true,
+  "transcript": "none",
+  "transcript_language": null,
+  "transcript_quality": "none",
+  "transcript_quality_note": "no transcript",
+  "frames": "YouTube storyboard 320x180, one frame every 9.9s",
+  "frame_interval_s": 9.923076923076923,
+  "chapters": 0,
+  "heatmap": true
+ },
+ "chapters": [],
+ "replay_peaks": [
+  {
+   "start": 0.0,
+   "end": 16.77,
+   "value": 1.0
+  },
+  {
+   "start": 821.73,
+   "end": 838.5,
+   "value": 0.7807445157209957
+  },
+  {
+   "start": 804.96,
+   "end": 821.73,
+   "value": 0.6307616434042922
+  },
+  {
+   "start": 1358.37,
+   "end": 1375.14,
+   "value": 0.6214907782517132
+  },
+  {
+   "start": 1375.14,
+   "end": 1391.91,
+   "value": 0.5568440996962795
+  }
+ ],
+ "scenes": [
+  {
+   "index": 0,
+   "start": 0.0,
+   "end": 4.96,
+   "duration": 4.96,
+   "representative_frame": null,
+   "shot_type": "general b-roll",
+   "shot_type_confidence": 0.3,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "unknown",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "opening hook",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.333,
+    "documentary": 0.333,
+    "personal": 0.333
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "highly saturated",
+    "flat / low contrast"
+   ],
+   "editing_techniques": [
+    "audience replay peak (most-replayed)"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "sky 0%, edges 0.15, no faces detected",
+    "visual-only scoring (no transcript)",
+    "shot: general b-roll",
+    "est. 0.0 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 1,
+   "start": 4.96,
+   "end": 64.5,
+   "duration": 59.54,
+   "representative_frame": null,
+   "shot_type": "general b-roll",
+   "shot_type_confidence": 0.3,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.443,
+    "documentary": 0.279,
+    "personal": 0.279
+   },
+   "visual_characteristics": [
+    "warm tones"
+   ],
+   "editing_techniques": [
+    "audience replay peak (most-replayed)"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "sky 29%, edges 0.10, no faces detected",
+    "visual-only scoring (no transcript)",
+    "shot: general b-roll",
+    "est. 18.1 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 2,
+   "start": 64.5,
+   "end": 193.5,
+   "duration": 129.0,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.213,
+    "documentary": 0.589,
+    "personal": 0.198
+   },
+   "visual_characteristics": [
+    "warm tones"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 31% of frames",
+    "visual-only scoring (no transcript)",
+    "shot: wide shot with people",
+    "est. 18.1 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 3,
+   "start": 193.5,
+   "end": 431.65,
+   "duration": 238.15,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.218,
+    "documentary": 0.585,
+    "personal": 0.197
+   },
+   "visual_characteristics": [
+    "warm tones"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 29% of frames",
+    "visual-only scoring (no transcript)",
+    "shot: wide shot with people",
+    "est. 18.1 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 4,
+   "start": 431.65,
+   "end": 987.35,
+   "duration": 555.69,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.235,
+    "documentary": 0.572,
+    "personal": 0.193
+   },
+   "visual_characteristics": [
+    "warm tones"
+   ],
+   "editing_techniques": [
+    "audience replay peak (most-replayed)"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 29% of frames",
+    "visual-only scoring (no transcript)",
+    "shot: wide shot with people",
+    "est. 18.1 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 5,
+   "start": 987.35,
+   "end": 1066.73,
+   "duration": 79.38,
+   "representative_frame": null,
+   "shot_type": "wide establishing / landscape",
+   "shot_type_confidence": 0.55,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "atmosphere / montage",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.678,
+    "documentary": 0.161,
+    "personal": 0.161
+   },
+   "visual_characteristics": [
+    "warm tones"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "sky in top third 35%, edge density 0.08",
+    "visual-only scoring (no transcript)",
+    "shot: wide establishing / landscape",
+    "est. 12.6 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 6,
+   "start": 1066.73,
+   "end": 1195.73,
+   "duration": 129.0,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.228,
+    "documentary": 0.57,
+    "personal": 0.203
+   },
+   "visual_characteristics": [
+    "warm tones"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 8% of frames",
+    "visual-only scoring (no transcript)",
+    "shot: wide shot with people",
+    "est. 15.5 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 7,
+   "start": 1195.73,
+   "end": 1235.42,
+   "duration": 39.69,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.225,
+    "documentary": 0.578,
+    "personal": 0.197
+   },
+   "visual_characteristics": [
+    "warm tones"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 25% of frames",
+    "visual-only scoring (no transcript)",
+    "shot: wide shot with people",
+    "est. 18.1 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 8,
+   "start": 1235.42,
+   "end": 1255.27,
+   "duration": 19.85,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.195,
+    "documentary": 0.61,
+    "personal": 0.195
+   },
+   "visual_characteristics": [
+    "warm tones"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 50% of frames",
+    "visual-only scoring (no transcript)",
+    "shot: wide shot with people",
+    "est. 18.1 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 9,
+   "start": 1255.27,
+   "end": 1354.5,
+   "duration": 99.23,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "medium",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.215,
+    "documentary": 0.58,
+    "personal": 0.205
+   },
+   "visual_characteristics": [
+    "warm tones"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 10% of frames",
+    "visual-only scoring (no transcript)",
+    "shot: wide shot with people",
+    "est. 7.3 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 10,
+   "start": 1354.5,
+   "end": 1473.58,
+   "duration": 119.08,
+   "representative_frame": null,
+   "shot_type": "medium shot with people",
+   "shot_type_confidence": 0.5,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.196,
+    "documentary": 0.612,
+    "personal": 0.192
+   },
+   "visual_characteristics": [
+    "warm tones"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 58% of frames, max face 32%",
+    "visual-only scoring (no transcript)",
+    "shot: medium shot with people",
+    "est. 18.1 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 11,
+   "start": 1473.58,
+   "end": 1677.0,
+   "duration": 203.42,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "resolution / outro",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.236,
+    "documentary": 0.563,
+    "personal": 0.202
+   },
+   "visual_characteristics": [
+    "warm tones"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 5% of frames",
+    "visual-only scoring (no transcript)",
+    "shot: wide shot with people",
+    "est. 18.1 cuts/min in this sequence"
+   ]
+  }
+ ],
+ "narrative_structure": [
+  {
+   "start": 0.0,
+   "end": 60.0,
+   "label": "hook",
+   "description": "short visual lead-in followed by speech",
+   "evidence": []
+  },
+  {
+   "start": 0.0,
+   "end": 16.77,
+   "label": "audience peak",
+   "description": "highest replay density - likely emotional or visual climax",
+   "evidence": [
+    "heat 1.00"
+   ]
+  },
+  {
+   "start": 60.0,
+   "end": 419.25,
+   "label": "setup / arrival",
+   "description": "position-based (no chapters available)",
+   "evidence": []
+  },
+  {
+   "start": 419.25,
+   "end": 1257.75,
+   "label": "exploration / development",
+   "description": "position-based (no chapters available)",
+   "evidence": []
+  },
+  {
+   "start": 1257.75,
+   "end": 1559.6100000000001,
+   "label": "climax / key experience",
+   "description": "position-based (no chapters available)",
+   "evidence": []
+  },
+  {
+   "start": 1559.6100000000001,
+   "end": 1677.0,
+   "label": "resolution / outro",
+   "description": "position-based (no chapters available)",
+   "evidence": []
+  }
+ ],
+ "hook": {
+  "first_speech_at_s": null,
+  "words_first_30s": 0,
+  "hook_vocabulary_first_30s": 0.0,
+  "title_uses_superlative_or_intrigue": false,
+  "cold_open": false,
+  "est_cuts_per_min_first_60s": 18.11,
+  "pattern": "short visual lead-in followed by speech"
+ },
+ "editing_characteristics": {
+  "est_cuts_per_min": 18.11,
+  "est_avg_shot_length_s": 3.31,
+  "estimator_saturated": true,
+  "changed_sample_fraction": 0.958,
+  "sample_interval_s": 9.92,
+  "visual_sequences": 12,
+  "median_sequence_s": 109.2,
+  "pacing_curve": [
+   {
+    "start": 0.0,
+    "end": 60.0,
+    "est_cuts_per_min": 18.11,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 60.0,
+    "end": 120.0,
+    "est_cuts_per_min": 18.11,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 120.0,
+    "end": 180.0,
+    "est_cuts_per_min": 18.11,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 180.0,
+    "end": 240.0,
+    "est_cuts_per_min": 18.11,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 240.0,
+    "end": 300.0,
+    "est_cuts_per_min": 18.11,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 300.0,
+    "end": 360.0,
+    "est_cuts_per_min": 18.11,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 360.0,
+    "end": 420.0,
+    "est_cuts_per_min": 18.11,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 420.0,
+    "end": 480.0,
+    "est_cuts_per_min": 10.83,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 480.0,
+    "end": 540.0,
+    "est_cuts_per_min": 10.83,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 540.0,
+    "end": 600.0,
+    "est_cuts_per_min": 18.11,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 600.0,
+    "end": 660.0,
+    "est_cuts_per_min": 18.11,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 660.0,
+    "end": 720.0,
+    "est_cuts_per_min": 18.11,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 720.0,
+    "end": 780.0,
+    "est_cuts_per_min": 18.11,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 780.0,
+    "end": 840.0,
+    "est_cuts_per_min": 18.11,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 840.0,
+    "end": 900.0,
+    "est_cuts_per_min": 18.11,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 900.0,
+    "end": 960.0,
+    "est_cuts_per_min": 18.11,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 960.0,
+    "end": 1020.0,
+    "est_cuts_per_min": 18.11,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 1020.0,
+    "end": 1080.0,
+    "est_cuts_per_min": 10.83,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 1080.0,
+    "end": 1140.0,
+    "est_cuts_per_min": 10.83,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 1140.0,
+    "end": 1200.0,
+    "est_cuts_per_min": 18.11,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 1200.0,
+    "end": 1260.0,
+    "est_cuts_per_min": 18.11,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 1260.0,
+    "end": 1320.0,
+    "est_cuts_per_min": 7.57,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 1320.0,
+    "end": 1380.0,
+    "est_cuts_per_min": 10.83,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 1380.0,
+    "end": 1440.0,
+    "est_cuts_per_min": 18.11,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 1440.0,
+    "end": 1500.0,
+    "est_cuts_per_min": 18.11,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 1500.0,
+    "end": 1560.0,
+    "est_cuts_per_min": 18.11,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 1560.0,
+    "end": 1620.0,
+    "est_cuts_per_min": 18.11,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 1620.0,
+    "end": 1677.0,
+    "est_cuts_per_min": 18.11,
+    "speech_coverage": 0.0
+   }
+  ],
+  "pacing_variability": 3.26,
+  "on_screen_text_frames": 0,
+  "chapters": 0,
+  "measurement_note": "Cut rate is a Poisson estimate from storyboard samples; individual cuts, transitions and camera moves are not observable at this sampling rate."
+ },
+ "sound_design": {
+  "available": false,
+  "speech_coverage": 0.0,
+  "non_speech_fraction": 0.0,
+  "longest_non_speech_s": 0,
+  "words_per_minute_overall": 0.0,
+  "caption_markers": {},
+  "music_marked_scenes": 0,
+  "note": "Music/ambience inferred from caption markers and speech gaps; audio itself is not downloaded."
+ },
+ "color_characteristics": {
+  "mean_brightness": 0.401,
+  "mean_contrast": 0.203,
+  "mean_saturation": 0.354,
+  "mean_colorfulness": 26.5,
+  "mean_warmth": 0.105,
+  "saturation_spread": 0.103,
+  "brightness_spread": 0.103,
+  "letterboxed_frame_fraction": 0.006,
+  "night_or_lowkey_fraction": 0.012,
+  "dominant_palette": [
+   "#c4c4aa",
+   "#5f632d",
+   "#47501f",
+   "#dce6cc",
+   "#beb492",
+   "#97b4ba",
+   "#beb3a5",
+   "#807768"
+  ],
+  "grading_tags": [
+   "warm tones"
+  ]
+ },
+ "storytelling": {
+  "first_person_singular": 0.0,
+  "first_person_plural": 0.0,
+  "second_person": 0.0,
+  "reflection": 0.0,
+  "context_facts": 0.0,
+  "hook_words": 0.0,
+  "questions": 0,
+  "total_words": 0,
+  "dialogue_score": 0.0,
+  "face_frame_fraction": 0.231,
+  "closeup_frame_fraction": 0.036,
+  "shot_type_distribution": {
+   "wide shot with people": 8,
+   "general b-roll": 2,
+   "wide establishing / landscape": 1,
+   "medium shot with people": 1
+  },
+  "narrative_functions": {
+   "journey / progression": 9,
+   "opening hook": 1,
+   "atmosphere / montage": 1,
+   "resolution / outro": 1
+  }
+ },
+ "style_mode_mix": {
+  "cinematic": 0.254,
+  "documentary": 0.547,
+  "personal": 0.199
+ },
+ "style_mode_basis": "visual-only (low confidence)",
+ "techniques": [
+  {
+   "start": 0.0,
+   "end": 16.77,
+   "name": "replay peak",
+   "description": "most-replayed moment (heat 1.00) - audience-proven highlight",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 0.9,
+   "source": "heuristic"
+  },
+  {
+   "start": 804.96,
+   "end": 821.73,
+   "name": "replay peak",
+   "description": "most-replayed moment (heat 0.63) - audience-proven highlight",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 0.9,
+   "source": "heuristic"
+  },
+  {
+   "start": 821.73,
+   "end": 838.5,
+   "name": "replay peak",
+   "description": "most-replayed moment (heat 0.78) - audience-proven highlight",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 0.9,
+   "source": "heuristic"
+  }
+ ],
+ "qualitative": {
+  "source": "claude-code subagent (viewed all 4 contact sheets + profile + transcript)",
+  "summary": "Omar tours Qatar's Arabian-horse world: a state-of-the-art stud with a domed arena, private breeders' farms, a horse passport, training and therapy facilities, show-ring culture and a breeding lab. There is no English transcript for this video, so this reading rests on the frames, the burned-in Arabic subtitles that are visible, the title and the description ('all the secrets of the Arabian horse's beauty'). It is the most interview-led of the six (documentary share 0.55): seated conversations with Qatari experts on red sofas in an open field recur through the film, cut against archive-style show footage in vintage TV frames. Omar's participation comes in the middle (grooming, hoof care, riding, lungeing, 13:54-18:51), and the emotional beat is him lying in the straw beside a resting horse (25:08-25:18) before a calm closing montage of horses.",
+  "hook_analysis": "Short visual lead-in. Omar walks across a manicured grass paddock (0:00), laughs with a host (0:10), then a run of vintage-framed clips (0:20-1:00: an endurance rider on a white horse in the desert, riders in green hills, silhouettes at sunrise, a race followed by 4x4s, a show-ring handler) shows the whole scope of the subject in under a minute. The highest replay heat is 0:00-0:17. A price reveal (a phone calculator showing 4,500,000 at 2:39) acts as an early hook, and the same shot returns at 21:30. The spoken hook cannot be assessed because there is no English transcript.",
+  "narrative_arc": "Scope montage (0:00-1:00) -> state stud: paddocks, stables, first interviews (1:09-2:49) -> price tease and satellite map (2:39-3:09) -> facility tour, domed arena, luxury interiors (3:18-5:18) -> drive to a second site and vet/anatomy explanation (5:27-6:47) -> seated expert interviews on red sofas (7:27-8:46) -> private breeder: herd, lineage names, passport (8:56-11:54) -> Omar hands-on: grooming, hooves, riding, red-light therapy (12:24-15:43) -> training in the indoor arena (16:03-18:51) -> culture and prestige: beach-sunset horse, poetry, show footage (19:01-20:30) -> breeding lab and value (20:40-21:50) -> show-world comparisons incl. footballer analogy (22:39-23:19) -> intimacy with a horse in its stall (24:09-25:18) -> show-handling and closing horse montage (26:18-27:37) -> logo.",
+  "camera_and_composition": "Symmetrical wide-lens interiors of stables and arenas with strong leading lines (1:19, 4:08, 8:06, 16:03), many shot low on the grass so horses pass close to the lens (3:48, 27:07). Interviews are composed as formal two-shots on red sofas placed in open fields (7:46, 8:36, 12:04), with medium singles of the experts (7:27, 8:26). The presenter is often shot with a wide lens close to a horse's head (6:17, 12:54, 15:53). Drones are used sparingly (4:28 domed arena). Exact moves are not observable at storyboard resolution.",
+  "color_and_grade": "Warm (warmth 0.105, the second-warmest after Matmata) with a soft, slightly green-olive cast in the shadows and pale, hazy skies. Low-key frames are rare (1.2%): this is a clean, daylight, institutional look. Archival and show clips inside the vintage frame have their own palettes (cool blue show arenas at 19:41-20:11, a black-and-white clip at 22:39).",
+  "sound_and_music": "Not measurable: transcript.json is empty and sound_design.available is false, so speech coverage, wpm and the speech-gap metrics all read 0. From the frames, burned-in Arabic subtitles appear on interviews and handler dialogue (1:09, 1:59, 7:56-8:16, 12:34, 16:22-16:42), so the film is dialogue-driven like the others. A sung or recited poetry moment is likely at 19:11, where a man is shown with an Arabic verse overlaid on screen, but this cannot be confirmed without audio.",
+  "what_to_borrow": [
+   "Show the full scope of the subject in a 40-second montage of framed clips before the first location",
+   "Use one concrete number (the price on a phone calculator) as an early tease and pay it off later",
+   "Put interviewees on a distinctive set (red sofas in a field) and return to it, so experts become a recurring reference point",
+   "Let a pop-culture analogy graphic (two famous footballers, 23:09) explain a ranking system to a general audience",
+   "Give the film a quiet emotional beat of the presenter with an animal before the outro"
+  ],
+  "what_to_avoid_copying": [
+   "Heavy reliance on archive or borrowed show footage inside frames; check rights and avoid letting it replace your own coverage",
+   "Long seated-interview stretches can feel institutional; this film has less presenter-on-the-road energy than the others",
+   "Without a transcript, do not infer narrative claims from it; the language metrics for this video are empty"
+  ],
+  "observations": [
+   {
+    "start": 0,
+    "end": 17,
+    "name": "presenter walk-in and laugh",
+    "description": "Omar walks across a manicured paddock toward camera (0:00), then covers his ears laughing beside a Qatari host (0:10). This is the highest replay-heat segment.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 20,
+    "end": 65,
+    "name": "scope montage in vintage frames",
+    "description": "A run of rounded-TV-frame clips: an endurance rider in the desert (0:20), riders in hills (0:30), silhouettes at sunrise (0:40), a race followed by 4x4s (0:50), a show-ring handler (1:00).",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 69,
+    "end": 110,
+    "name": "stud establishing and first interview",
+    "description": "Subtitled conversation with a handler (1:09), a symmetrical wide of white horses in a ring paddock (1:19), stable architecture (1:29-1:49).",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 149,
+    "end": 160,
+    "name": "price reveal on phone calculator",
+    "description": "Omar holds up a phone calculator showing 4,500,000 (2:39); the same shot returns at 21:30 as a callback.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 268,
+    "end": 300,
+    "name": "drone of domed arena and luxury interior",
+    "description": "Aerial of a domed arena complex (4:28), then arched marble interiors (4:38-4:48) and a piece-to-camera in a glass lounge (4:58).",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 383,
+    "end": 393,
+    "name": "anatomy sketch overlay",
+    "description": "Hand-drawn line sketch of a horse's head superimposed over footage of a vet with a horse, inside the vintage frame (6:27).",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 447,
+    "end": 530,
+    "name": "red-sofa expert interviews",
+    "description": "Seated interview on red sofas placed in an open field with horses behind (7:27-8:46); the set returns at 12:04.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 566,
+    "end": 640,
+    "name": "lineage names graphic and passport",
+    "description": "A breeder framed with floating Arabic strain/lineage names (9:26-9:36), herd wides (9:45-9:55), then a red horse passport in hand (10:35).",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 821,
+    "end": 943,
+    "name": "Omar's hands-on care",
+    "description": "Second replay peak (13:41-13:58) is followed by Omar grooming (13:54), cleaning hooves (14:23), mounting and riding (14:33-15:03), and a red-light therapy chamber (15:13).",
+    "style_mode": "personal"
+   },
+   {
+    "start": 963,
+    "end": 1131,
+    "name": "training in indoor arena",
+    "description": "Wide symmetrical indoor-arena coverage of Omar learning to handle and lunge horses with a trainer (16:03-18:51), with subtitled instructions (16:22, 18:31).",
+    "style_mode": "personal"
+   },
+   {
+    "start": 1141,
+    "end": 1221,
+    "name": "culture and prestige montage",
+    "description": "Horse galloping on a beach at sunset (19:01), a man with an Arabic verse overlaid (19:11), show-ring footage including a European Conference of Arab Horse Organizations banner (19:41-20:11).",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 1280,
+    "end": 1300,
+    "name": "breeding lab and value callback",
+    "description": "A laboratory with storage tanks (21:20) and the repeated calculator shot (21:30).",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 1358,
+    "end": 1395,
+    "name": "footballer analogy graphic",
+    "description": "Replay-peak run (22:38-23:12): a black-and-white clip with a caption (22:39), a bay horse (22:49), a trophy (22:59), then a split-screen of two famous footballers (23:09) as an analogy for champion horses.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 1468,
+    "end": 1520,
+    "name": "lying with the horse (emotional beat)",
+    "description": "Omar lies in the straw beside a resting horse, smiling and stroking it (24:29-25:18), cut with framed show-ring footage (24:39-24:58).",
+    "style_mode": "personal"
+   },
+   {
+    "start": 1578,
+    "end": 1677,
+    "name": "closing horse montage and logo",
+    "description": "Show-handling in a sand ring (26:18-26:38), a gallop across grass (26:48), a rider on a path (26:57), low wides of white horses (27:07, 27:37), a final nuzzle (27:27), then the black logo card at 27:47.",
+    "style_mode": "cinematic"
+   }
+  ]
+ },
+ "contact_sheets": [],
+ "limitations": [
+  "Frames are YouTube storyboard previews (YouTube storyboard 320x180, one frame every 9.9s); fine detail, exact cuts, transitions and camera movement are not measured.",
+  "Shot types use face/sky/edge heuristics on low-resolution frames - treat as approximate.",
+  "No transcript available - speech/story metrics are empty."
+ ]
+}

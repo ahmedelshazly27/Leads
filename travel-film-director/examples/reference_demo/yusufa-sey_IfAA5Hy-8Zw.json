@@ -1,0 +1,1200 @@
+{
+ "schema_version": "1.0",
+ "video_id": "IfAA5Hy-8Zw",
+ "url": "https://www.youtube.com/watch?v=IfAA5Hy-8Zw",
+ "creator": "Yusufa Sey",
+ "title": "Zero to £100M | life as an entrepreneur doing business in Dubai | vlog 22",
+ "channel": "Yusufa Sey",
+ "upload_date": "20250316",
+ "duration": 1177.0,
+ "view_count": 7924,
+ "user_notes": "Dubai vlog 22",
+ "analysed_at": "2026-11-27T19:27:22+00:00",
+ "sources": {
+  "metadata": true,
+  "transcript": "auto",
+  "transcript_language": "en-orig",
+  "transcript_quality": "ok",
+  "transcript_quality_note": "",
+  "frames": "YouTube storyboard 320x180, one frame every 9.9s",
+  "frame_interval_s": 9.890756302521007,
+  "chapters": 10,
+  "heatmap": false
+ },
+ "chapters": [
+  {
+   "start": 0.0,
+   "end": 64.0,
+   "title": "Arrival in Dubai"
+  },
+  {
+   "start": 64.0,
+   "end": 129.0,
+   "title": "Security and Lifestyle"
+  },
+  {
+   "start": 129.0,
+   "end": 230.0,
+   "title": "Entrepreneurial Mentality"
+  },
+  {
+   "start": 230.0,
+   "end": 303.0,
+   "title": "Strategic Business Focus"
+  },
+  {
+   "start": 303.0,
+   "end": 366.0,
+   "title": "Fitness and Wellness"
+  },
+  {
+   "start": 366.0,
+   "end": 582.0,
+   "title": "Nutrition and Recovery"
+  },
+  {
+   "start": 582.0,
+   "end": 758.0,
+   "title": "Yacht Meeting and Deals"
+  },
+  {
+   "start": 758.0,
+   "end": 856.0,
+   "title": "Listing vs. Private Growth"
+  },
+  {
+   "start": 856.0,
+   "end": 1032.0,
+   "title": "Travel and Leisure"
+  },
+  {
+   "start": 1032.0,
+   "end": 1177.0,
+   "title": "Culinary Experiences"
+  }
+ ],
+ "replay_peaks": [],
+ "scenes": [
+  {
+   "index": 0,
+   "start": 0.0,
+   "end": 44.51,
+   "duration": 44.51,
+   "representative_frame": null,
+   "shot_type": "general b-roll",
+   "shot_type_confidence": 0.3,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 89.0,
+    "speech_coverage": 0.73,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "opening hook",
+   "style_mode": "personal",
+   "style_scores": {
+    "cinematic": 0.328,
+    "documentary": 0.141,
+    "personal": 0.531
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "flat / low contrast",
+    "low-key / dark"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "sky 0%, edges 0.06, no faces detected",
+    "first-person language 7% of words",
+    "est. 18.2 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 1,
+   "start": 44.51,
+   "end": 64.29,
+   "duration": 19.78,
+   "representative_frame": null,
+   "shot_type": "general b-roll",
+   "shot_type_confidence": 0.3,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 130.4,
+    "speech_coverage": 0.88,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "personal",
+   "style_scores": {
+    "cinematic": 0.161,
+    "documentary": 0.113,
+    "personal": 0.726
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "highly saturated"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "sky 0%, edges 0.03, no faces detected",
+    "first-person language 10% of words",
+    "est. 18.2 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 2,
+   "start": 64.29,
+   "end": 133.53,
+   "duration": 69.24,
+   "representative_frame": null,
+   "shot_type": "general b-roll",
+   "shot_type_confidence": 0.3,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 157.7,
+    "speech_coverage": 0.853,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "personal",
+   "style_scores": {
+    "cinematic": 0.231,
+    "documentary": 0.222,
+    "personal": 0.547
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "highly saturated",
+    "low-key / dark"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "sky 7%, edges 0.10, no faces detected",
+    "first-person language 7% of words",
+    "est. 18.2 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 3,
+   "start": 133.53,
+   "end": 232.44,
+   "duration": 98.91,
+   "representative_frame": null,
+   "shot_type": "medium shot with people",
+   "shot_type_confidence": 0.5,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 180.8,
+    "speech_coverage": 0.977,
+    "music_marker": true,
+    "other_markers": [],
+    "description": "continuous speech, music present (caption marker)"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.277,
+    "documentary": 0.373,
+    "personal": 0.35
+   },
+   "visual_characteristics": [
+    "warm tones"
+   ],
+   "editing_techniques": [
+    "music bed under speech"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 50% of frames, max face 30%",
+    "music marker in captions",
+    "first-person language 7% of words",
+    "dense narration 181 wpm",
+    "est. 14.0 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 4,
+   "start": 232.44,
+   "end": 321.44,
+   "duration": 89.01,
+   "representative_frame": null,
+   "shot_type": "wide establishing / landscape",
+   "shot_type_confidence": 0.55,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "medium",
+   "audio": {
+    "words_per_minute": 157.1,
+    "speech_coverage": 0.912,
+    "music_marker": true,
+    "other_markers": [
+     "applause"
+    ],
+    "description": "continuous speech, music present (caption marker)"
+   },
+   "narrative_function": "chapter opener / establishing",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.508,
+    "documentary": 0.172,
+    "personal": 0.32
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "high contrast"
+   ],
+   "editing_techniques": [
+    "music bed under speech"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "sky in top third 36%, edge density 0.08",
+    "music marker in captions",
+    "shot: wide establishing / landscape",
+    "first-person language 10% of words",
+    "est. 6.7 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 5,
+   "start": 321.44,
+   "end": 370.9,
+   "duration": 49.46,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 92.2,
+    "speech_coverage": 0.933,
+    "music_marker": true,
+    "other_markers": [],
+    "description": "continuous speech, music present (caption marker)"
+   },
+   "narrative_function": "personal reflection",
+   "style_mode": "personal",
+   "style_scores": {
+    "cinematic": 0.241,
+    "documentary": 0.165,
+    "personal": 0.594
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "highly saturated",
+    "low-key / dark"
+   ],
+   "editing_techniques": [
+    "music bed under speech"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 20% of frames",
+    "music marker in captions",
+    "first-person language 18% of words",
+    "est. 18.2 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 6,
+   "start": 370.9,
+   "end": 578.61,
+   "duration": 207.7,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "slow",
+   "audio": {
+    "words_per_minute": 190.7,
+    "speech_coverage": 0.965,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "personal",
+   "style_scores": {
+    "cinematic": 0.073,
+    "documentary": 0.325,
+    "personal": 0.602
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "highly saturated"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 33% of frames",
+    "first-person language 10% of words",
+    "dense narration 191 wpm",
+    "est. 1.3 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 7,
+   "start": 578.61,
+   "end": 667.62,
+   "duration": 89.02,
+   "representative_frame": null,
+   "shot_type": "general b-roll",
+   "shot_type_confidence": 0.3,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 125.4,
+    "speech_coverage": 0.884,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "personal",
+   "style_scores": {
+    "cinematic": 0.256,
+    "documentary": 0.306,
+    "personal": 0.438
+   },
+   "visual_characteristics": [
+    "neutral white balance",
+    "high contrast"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "sky 15%, edges 0.05, no faces detected",
+    "est. 18.2 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 8,
+   "start": 667.62,
+   "end": 756.64,
+   "duration": 89.02,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "medium",
+   "audio": {
+    "words_per_minute": 172.5,
+    "speech_coverage": 0.911,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "personal",
+   "style_scores": {
+    "cinematic": 0.207,
+    "documentary": 0.187,
+    "personal": 0.606
+   },
+   "visual_characteristics": [
+    "neutral white balance",
+    "high contrast"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 22% of frames",
+    "first-person language 9% of words",
+    "dense narration 173 wpm",
+    "est. 9.1 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 9,
+   "start": 756.64,
+   "end": 855.56,
+   "duration": 98.91,
+   "representative_frame": null,
+   "shot_type": "wide establishing / landscape",
+   "shot_type_confidence": 0.55,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "medium",
+   "audio": {
+    "words_per_minute": 188.7,
+    "speech_coverage": 1.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.441,
+    "documentary": 0.252,
+    "personal": 0.307
+   },
+   "visual_characteristics": [
+    "neutral white balance",
+    "high contrast",
+    "bright / airy"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "sky in top third 42%, edge density 0.09",
+    "shot: wide establishing / landscape",
+    "dense narration 189 wpm",
+    "est. 9.8 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 10,
+   "start": 855.56,
+   "end": 1033.59,
+   "duration": 178.03,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 58.3,
+    "speech_coverage": 0.351,
+    "music_marker": true,
+    "other_markers": [
+     "applause"
+    ],
+    "description": "intermittent speech, music present (caption marker)"
+   },
+   "narrative_function": "chapter opener / establishing",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.647,
+    "documentary": 0.054,
+    "personal": 0.299
+   },
+   "visual_characteristics": [
+    "neutral white balance",
+    "muted / desaturated",
+    "bright / airy",
+    "on-screen text or title"
+   ],
+   "editing_techniques": [
+    "on-screen text / title card"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 22% of frames",
+    "music marker in captions",
+    "first-person language 12% of words",
+    "est. 18.2 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 11,
+   "start": 1033.59,
+   "end": 1152.28,
+   "duration": 118.69,
+   "representative_frame": null,
+   "shot_type": "general b-roll",
+   "shot_type_confidence": 0.3,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 103.6,
+    "speech_coverage": 0.797,
+    "music_marker": true,
+    "other_markers": [],
+    "description": "continuous speech, music present (caption marker)"
+   },
+   "narrative_function": "resolution / outro",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.4,
+    "documentary": 0.275,
+    "personal": 0.325
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "high contrast"
+   ],
+   "editing_techniques": [
+    "music bed under speech"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "sky 16%, edges 0.10, no faces detected",
+    "music marker in captions",
+    "first-person language 7% of words",
+    "est. 18.2 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 12,
+   "start": 1152.28,
+   "end": 1177.0,
+   "duration": 24.72,
+   "representative_frame": null,
+   "shot_type": "low-light / night shot",
+   "shot_type_confidence": 0.45,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "medium",
+   "audio": {
+    "words_per_minute": 38.8,
+    "speech_coverage": 0.473,
+    "music_marker": true,
+    "other_markers": [],
+    "description": "intermittent speech, music present (caption marker)"
+   },
+   "narrative_function": "resolution / outro",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.894,
+    "documentary": 0.084,
+    "personal": 0.022
+   },
+   "visual_characteristics": [
+    "neutral white balance",
+    "muted / desaturated",
+    "flat / low contrast",
+    "low-key / dark",
+    "letterboxed (cinematic aspect)"
+   ],
+   "editing_techniques": [
+    "music bed under speech"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "mean brightness 0.02",
+    "music marker in captions",
+    "shot: low-light / night shot",
+    "est. 4.2 cuts/min in this sequence"
+   ]
+  }
+ ],
+ "narrative_structure": [
+  {
+   "start": 0.0,
+   "end": 60.0,
+   "label": "hook",
+   "description": "short visual lead-in followed by speech",
+   "evidence": []
+  },
+  {
+   "start": 60.0,
+   "end": 64.0,
+   "label": "Arrival in Dubai",
+   "description": "1:04 chapter, leans personal",
+   "evidence": [
+    "101 words"
+   ]
+  },
+  {
+   "start": 64.0,
+   "end": 129.0,
+   "label": "Security and Lifestyle",
+   "description": "1:05 chapter, leans personal",
+   "evidence": [
+    "169 words"
+   ]
+  },
+  {
+   "start": 129.0,
+   "end": 230.0,
+   "label": "Entrepreneurial Mentality",
+   "description": "1:41 chapter, leans personal",
+   "evidence": [
+    "314 words"
+   ]
+  },
+  {
+   "start": 230.0,
+   "end": 303.0,
+   "label": "Strategic Business Focus",
+   "description": "1:13 chapter, leans personal",
+   "evidence": [
+    "194 words"
+   ]
+  },
+  {
+   "start": 303.0,
+   "end": 366.0,
+   "label": "Fitness and Wellness",
+   "description": "1:03 chapter, leans personal",
+   "evidence": [
+    "104 words"
+   ]
+  },
+  {
+   "start": 366.0,
+   "end": 582.0,
+   "label": "Nutrition and Recovery",
+   "description": "3:36 chapter, leans personal",
+   "evidence": [
+    "666 words"
+   ]
+  },
+  {
+   "start": 582.0,
+   "end": 758.0,
+   "label": "Yacht Meeting and Deals",
+   "description": "2:56 chapter, leans personal",
+   "evidence": [
+    "443 words"
+   ]
+  },
+  {
+   "start": 758.0,
+   "end": 856.0,
+   "label": "Listing vs. Private Growth",
+   "description": "1:38 chapter, leans personal",
+   "evidence": [
+    "303 words"
+   ]
+  },
+  {
+   "start": 856.0,
+   "end": 1032.0,
+   "label": "Travel and Leisure",
+   "description": "2:56 chapter, leans personal",
+   "evidence": [
+    "170 words"
+   ]
+  },
+  {
+   "start": 1032.0,
+   "end": 1177.0,
+   "label": "Culinary Experiences",
+   "description": "2:25 chapter, leans personal",
+   "evidence": [
+    "213 words"
+   ]
+  }
+ ],
+ "hook": {
+  "first_speech_at_s": 12.0,
+  "words_first_30s": 33,
+  "hook_vocabulary_first_30s": 0.0,
+  "title_uses_superlative_or_intrigue": false,
+  "cold_open": false,
+  "est_cuts_per_min_first_60s": 18.17,
+  "pattern": "short visual lead-in followed by speech"
+ },
+ "editing_characteristics": {
+  "est_cuts_per_min": 9.18,
+  "est_avg_shot_length_s": 6.54,
+  "estimator_saturated": false,
+  "changed_sample_fraction": 0.78,
+  "sample_interval_s": 9.89,
+  "visual_sequences": 13,
+  "median_sequence_s": 89.0,
+  "pacing_curve": [
+   {
+    "start": 0.0,
+    "end": 60.0,
+    "est_cuts_per_min": 18.17,
+    "speech_coverage": 0.8
+   },
+   {
+    "start": 60.0,
+    "end": 120.0,
+    "est_cuts_per_min": 18.17,
+    "speech_coverage": 0.79
+   },
+   {
+    "start": 120.0,
+    "end": 180.0,
+    "est_cuts_per_min": 10.87,
+    "speech_coverage": 1.0
+   },
+   {
+    "start": 180.0,
+    "end": 240.0,
+    "est_cuts_per_min": 18.17,
+    "speech_coverage": 0.86
+   },
+   {
+    "start": 240.0,
+    "end": 300.0,
+    "est_cuts_per_min": 4.2,
+    "speech_coverage": 1.0
+   },
+   {
+    "start": 300.0,
+    "end": 360.0,
+    "est_cuts_per_min": 18.17,
+    "speech_coverage": 0.91
+   },
+   {
+    "start": 360.0,
+    "end": 420.0,
+    "est_cuts_per_min": 1.11,
+    "speech_coverage": 1.0
+   },
+   {
+    "start": 420.0,
+    "end": 480.0,
+    "est_cuts_per_min": -0.0,
+    "speech_coverage": 1.0
+   },
+   {
+    "start": 480.0,
+    "end": 540.0,
+    "est_cuts_per_min": 1.11,
+    "speech_coverage": 1.0
+   },
+   {
+    "start": 540.0,
+    "end": 600.0,
+    "est_cuts_per_min": 10.87,
+    "speech_coverage": 0.75
+   },
+   {
+    "start": 600.0,
+    "end": 660.0,
+    "est_cuts_per_min": 18.17,
+    "speech_coverage": 0.98
+   },
+   {
+    "start": 660.0,
+    "end": 720.0,
+    "est_cuts_per_min": 10.87,
+    "speech_coverage": 0.84
+   },
+   {
+    "start": 720.0,
+    "end": 780.0,
+    "est_cuts_per_min": 10.87,
+    "speech_coverage": 1.0
+   },
+   {
+    "start": 780.0,
+    "end": 840.0,
+    "est_cuts_per_min": 6.66,
+    "speech_coverage": 1.0
+   },
+   {
+    "start": 840.0,
+    "end": 900.0,
+    "est_cuts_per_min": 18.17,
+    "speech_coverage": 0.5
+   },
+   {
+    "start": 900.0,
+    "end": 960.0,
+    "est_cuts_per_min": 18.17,
+    "speech_coverage": 0.17
+   },
+   {
+    "start": 960.0,
+    "end": 1020.0,
+    "est_cuts_per_min": 18.17,
+    "speech_coverage": 0.61
+   },
+   {
+    "start": 1020.0,
+    "end": 1080.0,
+    "est_cuts_per_min": 18.17,
+    "speech_coverage": 0.56
+   },
+   {
+    "start": 1080.0,
+    "end": 1140.0,
+    "est_cuts_per_min": 18.17,
+    "speech_coverage": 0.83
+   },
+   {
+    "start": 1140.0,
+    "end": 1177.0,
+    "est_cuts_per_min": 6.66,
+    "speech_coverage": 0.65
+   }
+  ],
+  "pacing_variability": 6.65,
+  "on_screen_text_frames": 1,
+  "chapters": 10,
+  "measurement_note": "Cut rate is a Poisson estimate from storyboard samples; individual cuts, transitions and camera moves are not observable at this sampling rate."
+ },
+ "sound_design": {
+  "available": true,
+  "speech_coverage": 0.816,
+  "non_speech_fraction": 0.159,
+  "longest_non_speech_s": 47.3,
+  "words_per_minute_overall": 134.8,
+  "caption_markers": {
+   "music": 19,
+   "applause": 2
+  },
+  "music_marked_scenes": 6,
+  "note": "Music/ambience inferred from caption markers and speech gaps; audio itself is not downloaded."
+ },
+ "color_characteristics": {
+  "mean_brightness": 0.449,
+  "mean_contrast": 0.25,
+  "mean_saturation": 0.336,
+  "mean_colorfulness": 34.5,
+  "mean_warmth": 0.099,
+  "saturation_spread": 0.176,
+  "brightness_spread": 0.171,
+  "letterboxed_frame_fraction": 0.034,
+  "night_or_lowkey_fraction": 0.092,
+  "dominant_palette": [
+   "#8f572b",
+   "#513016",
+   "#523017",
+   "#1b1f20",
+   "#2b2f2e",
+   "#453021",
+   "#2f1b10",
+   "#7f5a3f"
+  ],
+  "grading_tags": [
+   "warm tones",
+   "on-screen text or title"
+  ]
+ },
+ "storytelling": {
+  "first_person_singular": 0.0563,
+  "first_person_plural": 0.0193,
+  "second_person": 0.0408,
+  "reflection": 0.0113,
+  "context_facts": 0.0181,
+  "hook_words": 0.0083,
+  "questions": 0,
+  "total_words": 2645,
+  "dialogue_score": 0.043,
+  "face_frame_fraction": 0.193,
+  "closeup_frame_fraction": 0.025,
+  "shot_type_distribution": {
+   "general b-roll": 5,
+   "wide shot with people": 4,
+   "wide establishing / landscape": 2,
+   "medium shot with people": 1,
+   "low-light / night shot": 1
+  },
+  "narrative_functions": {
+   "journey / progression": 7,
+   "chapter opener / establishing": 2,
+   "resolution / outro": 2,
+   "opening hook": 1,
+   "personal reflection": 1
+  }
+ },
+ "style_mode_mix": {
+  "cinematic": 0.342,
+  "documentary": 0.225,
+  "personal": 0.432
+ },
+ "style_mode_basis": "transcript+visual",
+ "techniques": [
+  {
+   "start": 0.0,
+   "end": 12.0,
+   "name": "atmospheric non-speech sequence",
+   "description": "12s without dialogue/narration, est. 0.0 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 0.0,
+   "end": 64.0,
+   "name": "chapter",
+   "description": "chapter: Arrival in Dubai",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 64.0,
+   "end": 129.0,
+   "name": "chapter",
+   "description": "chapter: Security and Lifestyle",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 129.0,
+   "end": 230.0,
+   "name": "chapter",
+   "description": "chapter: Entrepreneurial Mentality",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 230.0,
+   "end": 303.0,
+   "name": "chapter",
+   "description": "chapter: Strategic Business Focus",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 303.0,
+   "end": 366.0,
+   "name": "chapter",
+   "description": "chapter: Fitness and Wellness",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 366.0,
+   "end": 582.0,
+   "name": "chapter",
+   "description": "chapter: Nutrition and Recovery",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 571.36,
+   "end": 584.16,
+   "name": "speech-free montage",
+   "description": "13s without dialogue/narration, est. 18.2 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 582.0,
+   "end": 758.0,
+   "name": "chapter",
+   "description": "chapter: Yacht Meeting and Deals",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 758.0,
+   "end": 856.0,
+   "name": "chapter",
+   "description": "chapter: Listing vs. Private Growth",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 856.0,
+   "end": 1032.0,
+   "name": "chapter",
+   "description": "chapter: Travel and Leisure",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 873.04,
+   "end": 920.36,
+   "name": "speech-free montage",
+   "description": "47s without dialogue/narration, est. 18.2 cuts/min - music-driven montage",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 929.24,
+   "end": 953.959,
+   "name": "speech-free montage",
+   "description": "25s without dialogue/narration, est. 18.2 cuts/min - music-driven montage",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 955.31,
+   "end": 974.04,
+   "name": "speech-free montage",
+   "description": "19s without dialogue/narration, est. 18.2 cuts/min - music-driven montage",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 1018.75,
+   "end": 1028.640756302521,
+   "name": "on-screen text",
+   "description": "title, location label or caption overlay detected",
+   "category": "graphics",
+   "style_mode": null,
+   "confidence": 0.4,
+   "source": "heuristic"
+  },
+  {
+   "start": 1018.99,
+   "end": 1032.64,
+   "name": "atmospheric non-speech sequence",
+   "description": "14s without dialogue/narration, est. 0.0 cuts/min - music-driven montage",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 1032.0,
+   "end": 1177.0,
+   "name": "chapter",
+   "description": "chapter: Culinary Experiences",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  }
+ ],
+ "qualitative": {
+  "source": "claude-code subagent (viewed all 3 contact sheets + profile + transcript (auto-captions, 389 cues))",
+  "summary": "Vlog 22 of the 'Zero to £100M' series: a lifestyle-plus-business day in Dubai. It runs from a night arrival at a serviced apartment, through lunch with friends, a long kitchen conversation about fitness and nutrition, and a yacht meeting with a European businessman about deals and listing versus staying private, to a villa dinner. It is the most 'personal vlog' of the six (style mix: personal 0.43), with first-person speech from 0:12 ('welcome to downtown Dubai'). Yellow bold labels ('THE APARTMENT', '11 AM') mark place and time. It ends on the standard black 'NEXT RELEASE' and 'SEE YOU NEXT TIME' cards.",
+  "hook_analysis": "A short visual lead-in. A night skyline (0:00) leads to the creator walking down a hotel corridor and grinning into the lens (0:10-0:20), and speech starts at 0:12 as an arrival greeting. There is no cold-open claim and no series title card in the sampled opening frames. The hook is aspirational access (skyline, Burj Khalifa view) rather than stakes.",
+  "narrative_arc": "Loose, chapter-driven day-in-the-life: Arrival (0:00-1:04), Security and Lifestyle, Entrepreneurial Mentality (a lunch table with friends, 2:09-3:38), Strategic Business Focus (the 'THE APARTMENT' backlit talk, 3:57-4:37), Fitness and Nutrition (a long kitchen sit-down, 6:06-9:04), Yacht Meeting and Deals (11:03-14:11), Listing vs Private Growth, Travel and Leisure (cruise and waterside lunch, 14:20-17:38), and Culinary Experiences (villa pizza dinner, 17:48-19:07). The arc runs from leisure through business to leisure. The stakes are implicit.",
+  "camera_and_composition": "Mixed. There are backlit, near-silhouette pieces to camera against apartment windows (4:07-4:37, 9:44), a locked-off medium shot at the kitchen counter held for minutes (6:06-9:04), a phone-screen insert (9:14), and in-taxi profiles (10:03-10:33). The yacht covers both people in clean, bright medium close-ups (11:32-14:11), with drone/boat wides of the marina and wake (14:40-15:10) and macro-style wine-pour details (16:29-16:39). Exact moves are not observable at storyboard resolution.",
+  "color_and_grade": "Warm wood-and-amber interiors (palette #523015, #7f5a3f) against bright, slightly washed daylight exteriors on the yacht. Night shots are low-key. Yellow bold sans-serif text labels (3:57, 11:03) are the one graphic accent.",
+  "sound_and_music": "From auto-captions: about 82% speech coverage, 135 wpm overall, 19 [music] markers, and a longest non-speech run of 47 s. Speech-free montages are flagged around 9:31, 14:33, 15:29 and 15:55 (the yacht cruise and wake). The opening 12 s has no speech, which suggests music or ambience over the skyline. The music itself cannot be identified.",
+  "what_to_borrow": [
+   "Bold place/time labels ('THE APARTMENT', '11 AM') to orient the viewer in a loose day-in-the-life",
+   "Insert a phone or app screen when the talk references data",
+   "Use speech-free cruise/wake montages to give a long talk-heavy film room to breathe",
+   "Use a backlit window silhouette for a reflective monologue"
+  ],
+  "what_to_avoid_copying": [
+   "'NEXT RELEASE' and 'SEE YOU NEXT TIME' series cards",
+   "A three-minute locked-off kitchen talk about fitness tracking that only loosely ties to the episode thesis",
+   "Luxury-brand signage shots (Ritz-Carlton, Burj Al Arab) as filler"
+  ],
+  "observations": [
+   {
+    "start": 0,
+    "end": 10,
+    "name": "night skyline opener",
+    "description": "A dark Dubai skyline before any speech. The profile flags 12 s of non-speech.",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 10,
+    "end": 40,
+    "name": "arrival walk-in",
+    "description": "The creator walks down a hotel corridor towards the lens and into the apartment, with subtitles about the Burj Khalifa view.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 69,
+    "end": 79,
+    "name": "crew-directed aside",
+    "description": "Subtitle 'This is Dubai, you don't need to lock the door' is addressed to the camera operator.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 129,
+    "end": 218,
+    "name": "friends at lunch table",
+    "description": "Handheld observational table conversation, with friends introduced by subtitles ('My man Donny').",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 237,
+    "end": 277,
+    "name": "place label and silhouette talk",
+    "description": "'THE APARTMENT' in yellow bold type over the interior, then a backlit near-silhouette monologue by the window about focus.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 317,
+    "end": 336,
+    "name": "landmark and restaurant",
+    "description": "The Burj Al Arab against the sky, then a lavish restaurant interior.",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 366,
+    "end": 544,
+    "name": "locked-off kitchen conversation",
+    "description": "A long seated medium shot at the kitchen counter about calorie deficit, gym and recovery.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 554,
+    "end": 564,
+    "name": "app screen insert",
+    "description": "Close-up of a phone showing a fitness-tracker dashboard.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 603,
+    "end": 633,
+    "name": "taxi ride-along",
+    "description": "In-car profiles, part silhouetted against the window, on the way to the marina.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 663,
+    "end": 673,
+    "name": "time label",
+    "description": "'11 AM' in yellow bold type as the yacht scene begins.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 673,
+    "end": 851,
+    "name": "yacht deal meeting",
+    "description": "Bright medium close-ups of a European businessman discussing acquisitions, debt and downside protection, with subtitles.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 860,
+    "end": 910,
+    "name": "speech-free cruise montage",
+    "description": "Marina, boat wake, skyline from the water, group on the deck.",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 989,
+    "end": 999,
+    "name": "detail inserts",
+    "description": "Corkscrew and wine pour in close-up at the waterside lunch.",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 1068,
+    "end": 1147,
+    "name": "villa dinner observational",
+    "description": "A Danish couple's home: arrival at the door, staircase, and pizza-making chat in the kitchen.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 1157,
+    "end": 1177,
+    "name": "end cards",
+    "description": "'NEXT RELEASE 23/03/2025' then 'SEE YOU NEXT TIME' on black.",
+    "style_mode": "personal"
+   }
+  ]
+ },
+ "contact_sheets": [],
+ "limitations": [
+  "Frames are YouTube storyboard previews (YouTube storyboard 320x180, one frame every 9.9s); fine detail, exact cuts, transitions and camera movement are not measured.",
+  "Shot types use face/sky/edge heuristics on low-resolution frames - treat as approximate.",
+  "Transcript is YouTube auto-captions (no punctuation, occasional errors, speaker changes not marked)."
+ ]
+}

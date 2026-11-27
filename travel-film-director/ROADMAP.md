@@ -5,6 +5,7 @@
 - [x] Phase 2: YouTube ingestion (metadata, captions, storyboards), frames, sequence detection, contact sheets
 - [x] Phase 3: video profiles, creator profiles, comparison, SQLite/FTS search, weights, ask (offline, Claude API or Claude Code)
 - [x] Milestone 1 demo on real videos from Joe Hattab, Daniel Dalen and Yusufa Sey
+- [x] Deep study: 24 videos (6 each, incl. Omar Farooq), every contact sheet reviewed, per-creator style guides, cross-creator synthesis, scene playbook wired into the director
 - [x] Phase 4 (v0): footage ingest: metadata, orientation, device hints, blur/shake/exposure, duplicates, cuts, contact sheets, optional transcription, ranking
 - [x] Phase 5 (v0): rule-based director with per-sequence mode choice and explainable plan
 - [x] Phase 6 (v0): OTIO export, FFmpeg preview render with ducking and loudnorm, QA report

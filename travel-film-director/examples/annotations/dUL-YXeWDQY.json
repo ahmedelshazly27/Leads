@@ -1,0 +1,136 @@
+{
+  "source": "claude-code subagent (viewed all 4 contact sheets + profile + transcript (auto-captions, 811 cues))",
+  "summary": "Vlog 60 of the 'Zero to £100M' series, titled as 'The Reality of Buying a $10M Business in London'. Over two nights in London it moves through an airport arrival, a back-seat car conversation, a meeting with a young co-founder of an M&A simulator game, a UK investor-visa event in Parliament, an Airbnb, a kitchen piece to camera pitching his coaching community, and a live deal completion on a video call ('Fuck, we just bought a new company'). After the 'NEXT RELEASE' card, about 10 minutes of bonus screen-recorded demo of the simulator follow. It is the darkest, most low-key grade (53% low-key frames) and has the densest speech (178 wpm, 98% coverage).",
+  "hook_analysis": "A music-led cold open. A rap track (its lyrics appear in the auto-captions) plays over a dark car interior with a white stat overlay, 'VLOG 60 / CURRENT REVENUE: £9M' (0:00). City b-roll with a Rolls-Royce and a cyclist (0:10) follows, then the 'ZERO TO £100M' card (0:20). At 0:26 speech starts ('Just landed in London') with the setup: a board meeting and a deal due to close. The revenue counter frames the series' progress metric before anything else.",
+  "narrative_arc": "Setup (close the deal today) comes at 1:29. Then: a car ride and the video-game launch (1:59-4:27); meeting the co-founder (5:17-7:55); the Parliament/investor-visa event (8:05-10:04); the Airbnb and a friend (10:14-11:33); the coaching pitch in the kitchen (11:43-14:22); the simulator explained to an older guest (14:32-16:01); and the climax, a video-call completion and reaction (16:11-18:59). Outro card at 19:19, then the bonus demo (19:29-29:43). It is a clear setup-to-payoff arc, with the payoff saved for the end.",
+  "camera_and_composition": "Handheld, often low-light. Airport selfie medium close-ups (0:30-1:29). A back-seat car shot from the opposite seat with a wide lens (1:59-4:27). Over-the-table restaurant shots against a window, with a dark foreground (5:17-7:46). Landmark cutaways (Big Ben 8:05, London Eye 8:45). Chandelier/light-fixture details (10:14-10:24). A kitchen piece to camera at counter height (11:53-14:22). Silhouette against net curtains for the deal call (16:11-16:41). Screen recording fills the frame in the bonus section. Exact moves are not observable at storyboard resolution.",
+  "color_and_grade": "Very warm, dim amber tungsten interiors (palette #241710, #60390c) with deep shadows. Daytime London exteriors are cool and grey for contrast. The bonus section is a blue/purple UI screen. A small amount of letterboxing is detected (10.5%). Overall it is the most 'night-time intimate' look in the set.",
+  "sound_and_music": "From auto-captions: near-continuous speech (98% coverage, 178 wpm). Thirteen [music] markers, including a rap track with captioned lyrics over the 0:00-0:22 cold open and music under the Parliament event intro (~4:36-4:57). Laughter markers (9) and one [applause] at the deal completion (~16:41). There is strong profanity in speech. The music cannot be identified beyond the caption markers.",
+  "what_to_borrow": [
+    "A running metric overlay ('CURRENT REVENUE') in the first frame to anchor a series' progress",
+    "State the episode's goal early ('we're supposed to close today') and pay it off on camera at the end",
+    "Name lower-thirds for notable people at events",
+    "Contrast cool, grey exteriors with warm tungsten interiors to separate public and private moments",
+    "Film the real reaction live after a milestone call instead of re-staging it"
+  ],
+  "what_to_avoid_copying": [
+    "'ZERO TO £100M' card, 'VLOG 60 / CURRENT REVENUE' counter format and 'NEXT RELEASE' card (series branding)",
+    "The 10-minute bonus product demo appended after the outro, which is advertising",
+    "Licensed rap track and heavy profanity in the cold open",
+    "Underexposed interiors where faces fall into black (19:09)"
+  ],
+  "observations": [
+    {
+      "start": 0,
+      "end": 10,
+      "name": "stat-overlay cold open",
+      "description": "Dark car interior with the white overlay 'VLOG 60  CURRENT REVENUE: £9M' over a rap track.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 10,
+      "end": 20,
+      "name": "city b-roll under music",
+      "description": "A wet London street with a Rolls-Royce and a cyclist.",
+      "style_mode": "cinematic"
+    },
+    {
+      "start": 20,
+      "end": 26,
+      "name": "series title card",
+      "description": "'ZERO TO £100M' in small white type on black.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 26,
+      "end": 99,
+      "name": "airport arrival selfie",
+      "description": "Handheld medium close-ups in an airport hall, on the phone to his CEO. The deal is due to close today.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 119,
+      "end": 267,
+      "name": "back-seat car conversation",
+      "description": "A wide shot from the opposite seat in a moving car, about launching a video game and raising capital.",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 277,
+      "end": 297,
+      "name": "London establishing",
+      "description": "A grand facade against blue sky and a striped awning with a black cab.",
+      "style_mode": "cinematic"
+    },
+    {
+      "start": 317,
+      "end": 475,
+      "name": "co-founder meeting",
+      "description": "Restaurant-window shots of a young co-founder and the creator, alternating, warm and dark.",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 485,
+      "end": 535,
+      "name": "landmarks and event access",
+      "description": "Big Ben, a Parliament corridor with lanyards, and the London Eye.",
+      "style_mode": "cinematic"
+    },
+    {
+      "start": 545,
+      "end": 555,
+      "name": "name lower-third",
+      "description": "On-screen name caption for a Baroness at the investor-visa event.",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 614,
+      "end": 624,
+      "name": "light-fixture details",
+      "description": "Chandelier and wall-sconce inserts marking the Airbnb arrival.",
+      "style_mode": "cinematic"
+    },
+    {
+      "start": 703,
+      "end": 862,
+      "name": "kitchen pitch piece to camera",
+      "description": "Counter-height medium shot. He invites viewers to join his M&A coaching community and explains group revenue.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 872,
+      "end": 961,
+      "name": "explaining to a guest",
+      "description": "Over-shoulder on the sofa. He explains the simulator to an older man in low tungsten light.",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 971,
+      "end": 1001,
+      "name": "deal-completion call",
+      "description": "Silhouette against net curtains, leaning over a laptop as the subtitle reads 'you are officially completed'.",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 1010,
+      "end": 1139,
+      "name": "live reaction payoff",
+      "description": "Seated, amber-lit, swearing with joy and thanking his CEO. The deal is named.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 1159,
+      "end": 1169,
+      "name": "next-release card",
+      "description": "'NEXT RELEASE 14/12/2025' on black with subtitles continuing.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 1169,
+      "end": 1793,
+      "name": "bonus screen-recorded demo",
+      "description": "Full-frame screen capture of the M&A simulator website and gameplay with subtitles (outside the main film).",
+      "style_mode": "documentary"
+    }
+  ]
+}

@@ -126,3 +126,22 @@ def parse_subtitle_text(text: str) -> list[TranscriptSegment]:
                         segs.append(TranscriptSegment(start=_ts(ma), end=_ts(mc), text=body))
                 break
     return segs
+
+
+def timing_health(segs: list[TranscriptSegment], duration: float) -> tuple[str, str]:
+    """Detect captions whose timing is broken (e.g. cues piled into the first minutes).
+    Healthy tracks observed: 8-38 cues/min peak. Returns (quality, note)."""
+    if not segs:
+        return "none", "no transcript"
+    from collections import Counter
+    per_min = Counter(int(s.start // 60) for s in segs)
+    counts = sorted(per_min.values())
+    median = counts[len(counts) // 2]
+    peak_min, peak = max(per_min.items(), key=lambda kv: kv[1])
+    coverage_end = segs[-1].end / duration if duration else 1.0
+    if peak > max(50, 3 * median):
+        return "suspect", (f"{peak} caption cues in minute {peak_min} vs median {median}/min - cue timing looks corrupted; "
+                           "speech/vocabulary metrics excluded from creator averages")
+    if coverage_end < 0.6:
+        return "suspect", f"captions stop at {coverage_end:.0%} of the runtime"
+    return "ok", ""

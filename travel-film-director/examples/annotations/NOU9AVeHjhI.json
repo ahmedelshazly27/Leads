@@ -1,0 +1,120 @@
+{
+  "source": "claude-code subagent (viewed all 4 contact sheets + profile + transcript; YouTube offers no transcript for this video, so story is read from burned-in subtitles)",
+  "summary": "A Copenhagen episode that is almost entirely one man talking. It is structured as a sit-down interview with an off-camera questioner, in a few interior setups: a green meeting room with a screen, olive velvet curtains, and a teal wall. Topics include taking the group public ('We are no longer a small business'; 31 shareholders), a whiteboard session mapping his holdings, why he wants to build in England, and the Jim Ratcliffe/INEOS conglomerate model. Coverage of the same talk changes from wide to close to over-the-shoulder. Big white time labels ('11AM', '12PM') structure the day. There are very few exteriors, and it ends on black 'NEXT RELEASE' and 'SEE YOU NEXT TIME' cards with subtitles still running.",
+  "hook_analysis": "Three atmospheric interior details come first: a teacup on a tray (0:00), a staircase (0:05) and a chandelier (0:10). Then '11AM' in large white type with an off-camera prompt in the subtitles ('Meetings. How you feel?') at 0:15, and the creator is talking by 0:30. It is a mood-setting lead-in followed by an immediate interview. The profile counts no speech in the first 30 s because there is no transcript, but subtitles appear from 0:15.",
+  "narrative_arc": "Interview chapters: UK-CPH-UAE plans (0:20-2:00) lead to Going Public (2:04-3:57), The UK Trip and inspiration from an energy CEO's speech (3:57-5:51), the whiteboard 'Vision' (5:56-7:55), Why England, with colonial/historical ties and childhood summers (8:04-10:33), and the Jim Ratcliffe model (10:48-12:36). The film closes with an outro over the end cards. The argument escalates from the company's status to personal ambition ('by the time I'm 40'), then to a national-scale vision.",
+  "camera_and_composition": "Seated interview framing, slightly off-centre, eye-level or slightly low, with a wide lens in the first setup (0:30-1:59). Later setups are tighter medium close-ups against olive curtains (8:04-10:33). The final setup is a wide over-the-shoulder with a blurred white foreground figure (10:48-12:36). The whiteboard section uses low-key side light, silhouettes, and close inserts of the pen (6:01-7:50). Storyboard sampling here is every ~4.9 s, but exact cuts and camera moves are still not observable at this resolution.",
+  "color_and_grade": "Muted, moody interior palette: olive green curtains, teal walls and warm skin tones, with a high-contrast tag. The whiteboard scene is dark with a pink/red cast on the walls (6:26-7:55). There are almost no daylight exteriors (one building facade at 9:28).",
+  "sound_and_music": "Not measurable: YouTube offers no transcript and no audio was downloaded. Subtitles run continuously, consistent with almost wall-to-wall speech. Off-camera questions appear in the subtitles (e.g. 'but why England?' at 9:28). Subtitles continue over the black end cards (12:41-12:51).",
+  "what_to_borrow": [
+    "Cover a long sit-down in several distinct setups (wide, tight, over-the-shoulder) so a 12-minute talk does not feel static",
+    "Use a whiteboard drawing session as visual exposition for abstract business structure",
+    "Use large time-of-day labels to give an interview-heavy film a day structure",
+    "Put the off-camera interviewer's questions in the subtitles to signal chapter turns"
+  ],
+  "what_to_avoid_copying": [
+    "'NEXT RELEASE' and 'SEE YOU NEXT TIME' series cards",
+    "Nearly no exteriors or b-roll for 12 minutes: this only works with an established audience",
+    "Wealth/billionaire framing as the hook"
+  ],
+  "observations": [
+    {
+      "start": 0,
+      "end": 15,
+      "name": "atmospheric detail opener",
+      "description": "A teacup, a staircase and a chandelier: three interior details before any person appears.",
+      "style_mode": "cinematic"
+    },
+    {
+      "start": 15,
+      "end": 20,
+      "name": "time-of-day label",
+      "description": "'11AM' in large white type in the lower-left, with an off-camera prompt in the subtitles.",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 30,
+      "end": 119,
+      "name": "wide seated interview, setup 1",
+      "description": "A wide-angle seated medium shot in a green meeting room with a screen behind. He recaps meetings (stock exchange) and the week's travel.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 124,
+      "end": 138,
+      "name": "crew/camera self-reference",
+      "description": "Subtitles mention the camera operator's new camera, an on-camera nod to the crew.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 124,
+      "end": 237,
+      "name": "olive-curtain interview, setup 2",
+      "description": "Re-framed wider shot against olive curtains: 'no longer a small business', revenue and shareholder figures.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 237,
+      "end": 351,
+      "name": "inspiration anecdote",
+      "description": "Same setup. He recounts a speech by an energy company's CEO and 'dare to dream' ambition.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 356,
+      "end": 361,
+      "name": "second time label",
+      "description": "'12PM' in large white type over a phone call by the window.",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 361,
+      "end": 475,
+      "name": "whiteboard explainer",
+      "description": "Low-key, side-lit session drawing the group structure, with pen inserts and silhouettes.",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 484,
+      "end": 568,
+      "name": "tight interview, setup 3",
+      "description": "A closer medium close-up against olive curtain and teal wall: what he will not do, plus personal motives.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 568,
+      "end": 573,
+      "name": "question-led cutaway",
+      "description": "Subtitle 'but why England?' over an exterior building shot. The off-camera question marks the chapter.",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 573,
+      "end": 633,
+      "name": "historical context answer",
+      "description": "Gambia as a former British colony and childhood summers in England, delivered to the off-camera interviewer.",
+      "style_mode": "personal"
+    },
+    {
+      "start": 638,
+      "end": 648,
+      "name": "wide room reveal",
+      "description": "Wide of the room with globe lamps, showing the interview set.",
+      "style_mode": "cinematic"
+    },
+    {
+      "start": 648,
+      "end": 756,
+      "name": "over-shoulder interview, setup 4",
+      "description": "Wide with a blurred white foreground figure. The talk is on a billionaire's conglomerate model and national-scale ambition.",
+      "style_mode": "documentary"
+    },
+    {
+      "start": 761,
+      "end": 786,
+      "name": "end cards with audio under",
+      "description": "'NEXT RELEASE 16/03/2025' with subtitles still running, then 'SEE YOU NEXT TIME'.",
+      "style_mode": "personal"
+    }
+  ]
+}

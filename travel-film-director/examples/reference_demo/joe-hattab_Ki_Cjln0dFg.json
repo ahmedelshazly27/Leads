@@ -1,0 +1,2537 @@
+{
+ "schema_version": "1.0",
+ "video_id": "Ki_Cjln0dFg",
+ "url": "https://www.youtube.com/watch?v=Ki_Cjln0dFg",
+ "creator": "Joe Hattab",
+ "title": "The Most Underrated Country in the World 🇴🇲 | OMAN",
+ "channel": "Joe HaTTab",
+ "upload_date": "20260209",
+ "duration": 2630.0,
+ "view_count": 17247594,
+ "user_notes": "Oman - underrated country",
+ "analysed_at": "2026-11-27T19:26:17+00:00",
+ "sources": {
+  "metadata": true,
+  "transcript": "manual",
+  "transcript_language": "en",
+  "transcript_quality": "ok",
+  "transcript_quality_note": "",
+  "frames": "YouTube storyboard 320x180, one frame every 10.0s",
+  "frame_interval_s": 9.962121212121211,
+  "chapters": 17,
+  "heatmap": true
+ },
+ "chapters": [
+  {
+   "start": 0.0,
+   "end": 74.0,
+   "title": "Introduction to Oman"
+  },
+  {
+   "start": 74.0,
+   "end": 192.0,
+   "title": "Touring Muscat"
+  },
+  {
+   "start": 192.0,
+   "end": 334.0,
+   "title": "Capital landmark and market"
+  },
+  {
+   "start": 334.0,
+   "end": 381.0,
+   "title": "Demaniat Islands reserve"
+  },
+  {
+   "start": 381.0,
+   "end": 560.0,
+   "title": "Maritime city of Sur"
+  },
+  {
+   "start": 560.0,
+   "end": 678.0,
+   "title": "Traditional wedding welcome"
+  },
+  {
+   "start": 678.0,
+   "end": 926.0,
+   "title": "Bedouin desert culture"
+  },
+  {
+   "start": 926.0,
+   "end": 1136.0,
+   "title": "Underground cooking method"
+  },
+  {
+   "start": 1136.0,
+   "end": 1346.0,
+   "title": "Jebel Akhdar mountains"
+  },
+  {
+   "start": 1346.0,
+   "end": 1558.0,
+   "title": "Historic city of Nizwa"
+  },
+  {
+   "start": 1558.0,
+   "end": 1718.0,
+   "title": "Cultural museum and cuisine"
+  },
+  {
+   "start": 1718.0,
+   "end": 1845.0,
+   "title": "Salalah's tropical nature"
+  },
+  {
+   "start": 1845.0,
+   "end": 2067.0,
+   "title": "Dhofar mountain traditions"
+  },
+  {
+   "start": 2067.0,
+   "end": 2182.0,
+   "title": "Traditional wedding rituals"
+  },
+  {
+   "start": 2182.0,
+   "end": 2296.0,
+   "title": "Frankincense trade history"
+  },
+  {
+   "start": 2296.0,
+   "end": 2539.0,
+   "title": "Ancient funeral art"
+  },
+  {
+   "start": 2539.0,
+   "end": 2630.0,
+   "title": "Omani people and hospitality"
+  }
+ ],
+ "replay_peaks": [
+  {
+   "start": 0.0,
+   "end": 26.3,
+   "value": 1.0
+  },
+  {
+   "start": 1709.5,
+   "end": 1735.8,
+   "value": 0.6064637111278163
+  },
+  {
+   "start": 789.0,
+   "end": 815.3,
+   "value": 0.4670044078613197
+  },
+  {
+   "start": 394.5,
+   "end": 420.8,
+   "value": 0.4622222543114847
+  },
+  {
+   "start": 2340.7,
+   "end": 2367.0,
+   "value": 0.4270716206991822
+  }
+ ],
+ "scenes": [
+  {
+   "index": 0,
+   "start": 0.0,
+   "end": 54.79,
+   "duration": 54.79,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 90.9,
+    "speech_coverage": 0.466,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "opening hook",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.643,
+    "documentary": 0.269,
+    "personal": 0.088
+   },
+   "visual_characteristics": [
+    "cool tones",
+    "highly saturated"
+   ],
+   "editing_techniques": [
+    "audience replay peak (most-replayed)"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 17% of frames",
+    "est. 18.0 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 1,
+   "start": 54.79,
+   "end": 94.64,
+   "duration": 39.85,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 96.4,
+    "speech_coverage": 0.475,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "context / exposition",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.445,
+    "documentary": 0.48,
+    "personal": 0.076
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "highly saturated"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 25% of frames",
+    "contextual/factual vocabulary 8%",
+    "est. 18.0 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 2,
+   "start": 94.64,
+   "end": 164.38,
+   "duration": 69.73,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 122.2,
+    "speech_coverage": 0.58,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "context / exposition",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.408,
+    "documentary": 0.418,
+    "personal": 0.174
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "highly saturated",
+    "flat / low contrast"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 29% of frames",
+    "contextual/factual vocabulary 6%",
+    "est. 18.0 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 3,
+   "start": 164.38,
+   "end": 194.26,
+   "duration": 29.88,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 142.5,
+    "speech_coverage": 0.683,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "atmosphere / montage",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.544,
+    "documentary": 0.311,
+    "personal": 0.145
+   },
+   "visual_characteristics": [
+    "neutral white balance"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 33% of frames",
+    "est. 18.0 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 4,
+   "start": 194.26,
+   "end": 303.85,
+   "duration": 109.59,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 83.8,
+    "speech_coverage": 0.456,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "chapter opener / establishing",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.541,
+    "documentary": 0.379,
+    "personal": 0.08
+   },
+   "visual_characteristics": [
+    "warm tones"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 18% of frames",
+    "contextual/factual vocabulary 5%",
+    "est. 18.0 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 5,
+   "start": 303.85,
+   "end": 333.73,
+   "duration": 29.88,
+   "representative_frame": null,
+   "shot_type": "general b-roll",
+   "shot_type_confidence": 0.3,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 126.5,
+    "speech_coverage": 0.68,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.437,
+    "documentary": 0.356,
+    "personal": 0.207
+   },
+   "visual_characteristics": [
+    "neutral white balance",
+    "highly saturated"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "sky 34%, edges 0.10, no faces detected",
+    "est. 18.0 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 6,
+   "start": 333.73,
+   "end": 393.5,
+   "duration": 59.77,
+   "representative_frame": null,
+   "shot_type": "wide establishing / landscape",
+   "shot_type_confidence": 0.55,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 102.4,
+    "speech_coverage": 0.547,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "chapter opener / establishing",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.655,
+    "documentary": 0.271,
+    "personal": 0.074
+   },
+   "visual_characteristics": [
+    "cool tones",
+    "highly saturated"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "sky in top third 56%, edge density 0.11",
+    "shot: wide establishing / landscape",
+    "contextual/factual vocabulary 5%",
+    "est. 18.0 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 7,
+   "start": 393.5,
+   "end": 473.2,
+   "duration": 79.7,
+   "representative_frame": null,
+   "shot_type": "wide establishing / landscape",
+   "shot_type_confidence": 0.55,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 128.7,
+    "speech_coverage": 0.675,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "chapter opener / establishing",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.611,
+    "documentary": 0.229,
+    "personal": 0.16
+   },
+   "visual_characteristics": [
+    "cool tones"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "sky in top third 61%, edge density 0.08",
+    "shot: wide establishing / landscape",
+    "est. 12.5 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 8,
+   "start": 473.2,
+   "end": 562.86,
+   "duration": 89.66,
+   "representative_frame": null,
+   "shot_type": "general b-roll",
+   "shot_type_confidence": 0.3,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "medium",
+   "audio": {
+    "words_per_minute": 118.4,
+    "speech_coverage": 0.61,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "context / exposition",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.366,
+    "documentary": 0.516,
+    "personal": 0.119
+   },
+   "visual_characteristics": [
+    "neutral white balance"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "sky 21%, edges 0.15, no faces detected",
+    "contextual/factual vocabulary 6%",
+    "est. 9.1 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 9,
+   "start": 562.86,
+   "end": 692.37,
+   "duration": 129.51,
+   "representative_frame": null,
+   "shot_type": "wide establishing / landscape",
+   "shot_type_confidence": 0.55,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 24.1,
+    "speech_coverage": 0.129,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "mostly non-speech"
+   },
+   "narrative_function": "chapter opener / establishing",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.845,
+    "documentary": 0.061,
+    "personal": 0.094
+   },
+   "visual_characteristics": [
+    "cool tones"
+   ],
+   "editing_techniques": [
+    "speech-free fast montage"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "sky in top third 60%, edge density 0.12",
+    "shot: wide establishing / landscape",
+    "little speech (13% caption coverage)",
+    "est. 18.0 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 10,
+   "start": 692.37,
+   "end": 722.25,
+   "duration": 29.88,
+   "representative_frame": null,
+   "shot_type": "wide establishing / landscape",
+   "shot_type_confidence": 0.55,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 62.2,
+    "speech_coverage": 0.252,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "chapter opener / establishing",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.7,
+    "documentary": 0.031,
+    "personal": 0.269
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "highly saturated"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "sky in top third 36%, edge density 0.05",
+    "shot: wide establishing / landscape",
+    "first-person language 14% of words",
+    "est. 18.0 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 11,
+   "start": 722.25,
+   "end": 791.99,
+   "duration": 69.74,
+   "representative_frame": null,
+   "shot_type": "medium shot with people",
+   "shot_type_confidence": 0.5,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 125.6,
+    "speech_coverage": 0.681,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "interaction / conversation",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.196,
+    "documentary": 0.412,
+    "personal": 0.392
+   },
+   "visual_characteristics": [
+    "neutral white balance",
+    "low-key / dark"
+   ],
+   "editing_techniques": [
+    "audience replay peak (most-replayed)"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 43% of frames, max face 27%",
+    "first-person language 5% of words",
+    "est. 11.7 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 12,
+   "start": 791.99,
+   "end": 921.5,
+   "duration": 129.51,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 85.2,
+    "speech_coverage": 0.363,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.499,
+    "documentary": 0.153,
+    "personal": 0.348
+   },
+   "visual_characteristics": [
+    "neutral white balance",
+    "on-screen text or title"
+   ],
+   "editing_techniques": [
+    "audience replay peak (most-replayed)",
+    "on-screen text / title card"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 38% of frames",
+    "first-person language 10% of words",
+    "est. 18.0 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 13,
+   "start": 921.5,
+   "end": 1090.85,
+   "duration": 169.35,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 110.9,
+    "speech_coverage": 0.47,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "chapter opener / establishing",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.575,
+    "documentary": 0.145,
+    "personal": 0.28
+   },
+   "visual_characteristics": [
+    "warm tones"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 29% of frames",
+    "est. 18.0 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 14,
+   "start": 1090.85,
+   "end": 1140.66,
+   "duration": 49.81,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "medium",
+   "audio": {
+    "words_per_minute": 100.0,
+    "speech_coverage": 0.425,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "atmosphere / montage",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.741,
+    "documentary": 0.099,
+    "personal": 0.16
+   },
+   "visual_characteristics": [
+    "warm tones"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 20% of frames",
+    "est. 9.7 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 15,
+   "start": 1140.66,
+   "end": 1160.59,
+   "duration": 19.93,
+   "representative_frame": null,
+   "shot_type": "close-up on a person (talking head / selfie)",
+   "shot_type_confidence": 0.6,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 105.4,
+    "speech_coverage": 0.328,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "chapter opener / establishing",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.595,
+    "documentary": 0.093,
+    "personal": 0.312
+   },
+   "visual_characteristics": [
+    "neutral white balance"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 50% of frames, max face 34% of frame height",
+    "face close-up (to-camera)",
+    "est. 18.0 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 16,
+   "start": 1160.59,
+   "end": 1210.4,
+   "duration": 49.81,
+   "representative_frame": null,
+   "shot_type": "medium shot with people",
+   "shot_type_confidence": 0.5,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 125.3,
+    "speech_coverage": 0.629,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.473,
+    "documentary": 0.349,
+    "personal": 0.178
+   },
+   "visual_characteristics": [
+    "cool tones",
+    "on-screen text or title"
+   ],
+   "editing_techniques": [
+    "on-screen text / title card"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 40% of frames, max face 15%",
+    "est. 18.0 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 17,
+   "start": 1210.4,
+   "end": 1310.02,
+   "duration": 99.62,
+   "representative_frame": null,
+   "shot_type": "medium shot with people",
+   "shot_type_confidence": 0.5,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 147.0,
+    "speech_coverage": 0.693,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.256,
+    "documentary": 0.477,
+    "personal": 0.267
+   },
+   "visual_characteristics": [
+    "warm tones"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 40% of frames, max face 22%",
+    "est. 18.0 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 18,
+   "start": 1310.02,
+   "end": 1349.87,
+   "duration": 39.85,
+   "representative_frame": null,
+   "shot_type": "busy street / detail-rich scene",
+   "shot_type_confidence": 0.4,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 25.6,
+    "speech_coverage": 0.129,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "mostly non-speech"
+   },
+   "narrative_function": "atmosphere / montage",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.707,
+    "documentary": 0.111,
+    "personal": 0.182
+   },
+   "visual_characteristics": [
+    "neutral white balance"
+   ],
+   "editing_techniques": [
+    "speech-free fast montage"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "edge density 0.24",
+    "first-person language 6% of words",
+    "little speech (13% caption coverage)",
+    "est. 18.0 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 19,
+   "start": 1349.87,
+   "end": 1559.07,
+   "duration": 209.2,
+   "representative_frame": null,
+   "shot_type": "medium shot with people",
+   "shot_type_confidence": 0.5,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 69.4,
+    "speech_coverage": 0.403,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "context / exposition",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.433,
+    "documentary": 0.465,
+    "personal": 0.101
+   },
+   "visual_characteristics": [
+    "warm tones"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 43% of frames, max face 38%",
+    "contextual/factual vocabulary 7%",
+    "est. 18.0 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 20,
+   "start": 1559.07,
+   "end": 1728.43,
+   "duration": 169.36,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 59.2,
+    "speech_coverage": 0.345,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "chapter opener / establishing",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.549,
+    "documentary": 0.366,
+    "personal": 0.085
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "on-screen text or title"
+   ],
+   "editing_techniques": [
+    "audience replay peak (most-replayed)",
+    "on-screen text / title card"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 18% of frames",
+    "contextual/factual vocabulary 7%",
+    "est. 18.0 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 21,
+   "start": 1728.43,
+   "end": 1758.32,
+   "duration": 29.88,
+   "representative_frame": null,
+   "shot_type": "medium shot with people",
+   "shot_type_confidence": 0.5,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 106.4,
+    "speech_coverage": 0.495,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.425,
+    "documentary": 0.303,
+    "personal": 0.272
+   },
+   "visual_characteristics": [
+    "neutral white balance"
+   ],
+   "editing_techniques": [
+    "audience replay peak (most-replayed)"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 100% of frames, max face 26%",
+    "first-person language 7% of words",
+    "est. 18.0 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 22,
+   "start": 1758.32,
+   "end": 1788.2,
+   "duration": 29.88,
+   "representative_frame": null,
+   "shot_type": "medium shot with people",
+   "shot_type_confidence": 0.5,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 126.5,
+    "speech_coverage": 0.676,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.477,
+    "documentary": 0.506,
+    "personal": 0.017
+   },
+   "visual_characteristics": [
+    "cool tones",
+    "highly saturated",
+    "flat / low contrast"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 67% of frames, max face 19%",
+    "est. 18.0 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 23,
+   "start": 1788.2,
+   "end": 1847.97,
+   "duration": 59.77,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 103.4,
+    "speech_coverage": 0.523,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.488,
+    "documentary": 0.21,
+    "personal": 0.302
+   },
+   "visual_characteristics": [
+    "warm tones"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 33% of frames",
+    "est. 18.0 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 24,
+   "start": 1847.97,
+   "end": 2037.25,
+   "duration": 189.28,
+   "representative_frame": null,
+   "shot_type": "medium shot with people",
+   "shot_type_confidence": 0.5,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 140.1,
+    "speech_coverage": 0.743,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.261,
+    "documentary": 0.516,
+    "personal": 0.223
+   },
+   "visual_characteristics": [
+    "neutral white balance",
+    "on-screen text or title"
+   ],
+   "editing_techniques": [
+    "on-screen text / title card"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 47% of frames, max face 68%",
+    "est. 17.7 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 25,
+   "start": 2037.25,
+   "end": 2067.14,
+   "duration": 29.89,
+   "representative_frame": null,
+   "shot_type": "medium shot with people",
+   "shot_type_confidence": 0.5,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "mostly non-speech"
+   },
+   "narrative_function": "atmosphere / montage",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.911,
+    "documentary": 0.073,
+    "personal": 0.016
+   },
+   "visual_characteristics": [
+    "neutral white balance"
+   ],
+   "editing_techniques": [
+    "speech-free fast montage"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 67% of frames, max face 26%",
+    "little speech (0% caption coverage)",
+    "est. 18.0 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 26,
+   "start": 2067.14,
+   "end": 2186.68,
+   "duration": 119.55,
+   "representative_frame": null,
+   "shot_type": "medium shot with people",
+   "shot_type_confidence": 0.5,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 38.1,
+    "speech_coverage": 0.213,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "chapter opener / establishing",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.546,
+    "documentary": 0.322,
+    "personal": 0.132
+   },
+   "visual_characteristics": [
+    "cool tones"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 50% of frames, max face 32%",
+    "contextual/factual vocabulary 5%",
+    "est. 15.0 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 27,
+   "start": 2186.68,
+   "end": 2226.53,
+   "duration": 39.85,
+   "representative_frame": null,
+   "shot_type": "busy street / detail-rich scene",
+   "shot_type_confidence": 0.4,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 183.7,
+    "speech_coverage": 0.897,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.17,
+    "documentary": 0.698,
+    "personal": 0.132
+   },
+   "visual_characteristics": [
+    "warm tones"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "edge density 0.18",
+    "dense narration 184 wpm",
+    "est. 18.0 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 28,
+   "start": 2226.53,
+   "end": 2296.27,
+   "duration": 69.74,
+   "representative_frame": null,
+   "shot_type": "busy street / detail-rich scene",
+   "shot_type_confidence": 0.4,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 155.7,
+    "speech_coverage": 0.673,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.295,
+    "documentary": 0.562,
+    "personal": 0.143
+   },
+   "visual_characteristics": [
+    "warm tones"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "edge density 0.16",
+    "est. 18.0 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 29,
+   "start": 2296.27,
+   "end": 2515.43,
+   "duration": 219.16,
+   "representative_frame": null,
+   "shot_type": "medium shot with people",
+   "shot_type_confidence": 0.5,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 48.2,
+    "speech_coverage": 0.261,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "resolution / outro",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.655,
+    "documentary": 0.268,
+    "personal": 0.077
+   },
+   "visual_characteristics": [
+    "warm tones"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 73% of frames, max face 31%",
+    "est. 18.0 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 30,
+   "start": 2515.43,
+   "end": 2535.36,
+   "duration": 19.93,
+   "representative_frame": null,
+   "shot_type": "general b-roll",
+   "shot_type_confidence": 0.3,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 90.3,
+    "speech_coverage": 0.268,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "resolution / outro",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.853,
+    "documentary": 0.041,
+    "personal": 0.106
+   },
+   "visual_characteristics": [
+    "neutral white balance"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "sky 2%, edges 0.05, no faces detected",
+    "est. 18.0 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 31,
+   "start": 2535.36,
+   "end": 2575.21,
+   "duration": 39.85,
+   "representative_frame": null,
+   "shot_type": "medium shot with people",
+   "shot_type_confidence": 0.5,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 37.6,
+    "speech_coverage": 0.224,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "resolution / outro",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.604,
+    "documentary": 0.124,
+    "personal": 0.272
+   },
+   "visual_characteristics": [
+    "neutral white balance"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 50% of frames, max face 19%",
+    "first-person language 8% of words",
+    "est. 18.0 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 32,
+   "start": 2575.21,
+   "end": 2630.0,
+   "duration": 54.79,
+   "representative_frame": null,
+   "shot_type": "close-up on a person (talking head / selfie)",
+   "shot_type_confidence": 0.6,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 61.3,
+    "speech_coverage": 0.346,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "resolution / outro",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.468,
+    "documentary": 0.338,
+    "personal": 0.194
+   },
+   "visual_characteristics": [
+    "cool tones"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 60% of frames, max face 33% of frame height",
+    "face close-up (to-camera)",
+    "contextual/factual vocabulary 7%",
+    "est. 18.0 cuts/min in this sequence"
+   ]
+  }
+ ],
+ "narrative_structure": [
+  {
+   "start": 0.0,
+   "end": 60.0,
+   "label": "hook",
+   "description": "short visual lead-in followed by speech",
+   "evidence": []
+  },
+  {
+   "start": 0.0,
+   "end": 26.3,
+   "label": "audience peak",
+   "description": "highest replay density - likely emotional or visual climax",
+   "evidence": [
+    "heat 1.00"
+   ]
+  },
+  {
+   "start": 60.0,
+   "end": 74.0,
+   "label": "Introduction to Oman",
+   "description": "1:14 chapter, leans context",
+   "evidence": [
+    "114 words"
+   ]
+  },
+  {
+   "start": 74.0,
+   "end": 192.0,
+   "label": "Touring Muscat",
+   "description": "1:58 chapter, leans context",
+   "evidence": [
+    "222 words"
+   ]
+  },
+  {
+   "start": 192.0,
+   "end": 334.0,
+   "label": "Capital landmark and market",
+   "description": "2:22 chapter, leans context",
+   "evidence": [
+    "208 words"
+   ]
+  },
+  {
+   "start": 334.0,
+   "end": 381.0,
+   "label": "Demaniat Islands reserve",
+   "description": "0:47 chapter, leans context",
+   "evidence": [
+    "77 words"
+   ]
+  },
+  {
+   "start": 381.0,
+   "end": 560.0,
+   "label": "Maritime city of Sur",
+   "description": "2:59 chapter, leans context",
+   "evidence": [
+    "378 words"
+   ]
+  },
+  {
+   "start": 560.0,
+   "end": 678.0,
+   "label": "Traditional wedding welcome",
+   "description": "1:58 chapter, leans context",
+   "evidence": [
+    "46 words"
+   ]
+  },
+  {
+   "start": 678.0,
+   "end": 926.0,
+   "label": "Bedouin desert culture",
+   "description": "4:08 chapter, leans personal",
+   "evidence": [
+    "364 words"
+   ]
+  },
+  {
+   "start": 926.0,
+   "end": 1136.0,
+   "label": "Underground cooking method",
+   "description": "3:30 chapter, leans personal",
+   "evidence": [
+    "376 words"
+   ]
+  },
+  {
+   "start": 1136.0,
+   "end": 1346.0,
+   "label": "Jebel Akhdar mountains",
+   "description": "3:30 chapter, leans context",
+   "evidence": [
+    "395 words"
+   ]
+  },
+  {
+   "start": 1346.0,
+   "end": 1558.0,
+   "label": "Historic city of Nizwa",
+   "description": "3:32 chapter, leans context",
+   "evidence": [
+    "247 words"
+   ]
+  },
+  {
+   "start": 1558.0,
+   "end": 1718.0,
+   "label": "Cultural museum and cuisine",
+   "description": "2:40 chapter, leans context",
+   "evidence": [
+    "159 words"
+   ]
+  },
+  {
+   "start": 1718.0,
+   "end": 1845.0,
+   "label": "Salalah's tropical nature",
+   "description": "2:07 chapter, leans personal",
+   "evidence": [
+    "204 words"
+   ]
+  },
+  {
+   "start": 1845.0,
+   "end": 2067.0,
+   "label": "Dhofar mountain traditions",
+   "description": "3:42 chapter, leans context",
+   "evidence": [
+    "443 words"
+   ]
+  },
+  {
+   "start": 2067.0,
+   "end": 2182.0,
+   "label": "Traditional wedding rituals",
+   "description": "1:55 chapter, leans context",
+   "evidence": [
+    "65 words"
+   ]
+  },
+  {
+   "start": 2182.0,
+   "end": 2296.0,
+   "label": "Frankincense trade history",
+   "description": "1:54 chapter, leans context",
+   "evidence": [
+    "295 words"
+   ]
+  },
+  {
+   "start": 2296.0,
+   "end": 2539.0,
+   "label": "Ancient funeral art",
+   "description": "4:03 chapter, leans context",
+   "evidence": [
+    "198 words"
+   ]
+  },
+  {
+   "start": 2539.0,
+   "end": 2630.0,
+   "label": "Omani people and hospitality",
+   "description": "1:31 chapter, leans context",
+   "evidence": [
+    "81 words"
+   ]
+  }
+ ],
+ "hook": {
+  "first_speech_at_s": 5.505,
+  "words_first_30s": 37,
+  "hook_vocabulary_first_30s": 0.0,
+  "title_uses_superlative_or_intrigue": true,
+  "cold_open": false,
+  "est_cuts_per_min_first_60s": 18.04,
+  "pattern": "short visual lead-in followed by speech"
+ },
+ "editing_characteristics": {
+  "est_cuts_per_min": 18.04,
+  "est_avg_shot_length_s": 3.33,
+  "estimator_saturated": true,
+  "changed_sample_fraction": 0.97,
+  "sample_interval_s": 9.96,
+  "visual_sequences": 33,
+  "median_sequence_s": 59.8,
+  "pacing_curve": [
+   {
+    "start": 0.0,
+    "end": 60.0,
+    "est_cuts_per_min": 18.04,
+    "speech_coverage": 0.51
+   },
+   {
+    "start": 60.0,
+    "end": 120.0,
+    "est_cuts_per_min": 18.04,
+    "speech_coverage": 0.37
+   },
+   {
+    "start": 120.0,
+    "end": 180.0,
+    "est_cuts_per_min": 18.04,
+    "speech_coverage": 0.76
+   },
+   {
+    "start": 180.0,
+    "end": 240.0,
+    "est_cuts_per_min": 18.04,
+    "speech_coverage": 0.53
+   },
+   {
+    "start": 240.0,
+    "end": 300.0,
+    "est_cuts_per_min": 18.04,
+    "speech_coverage": 0.41
+   },
+   {
+    "start": 300.0,
+    "end": 360.0,
+    "est_cuts_per_min": 18.04,
+    "speech_coverage": 0.63
+   },
+   {
+    "start": 360.0,
+    "end": 420.0,
+    "est_cuts_per_min": 18.04,
+    "speech_coverage": 0.51
+   },
+   {
+    "start": 420.0,
+    "end": 480.0,
+    "est_cuts_per_min": 10.79,
+    "speech_coverage": 0.64
+   },
+   {
+    "start": 480.0,
+    "end": 540.0,
+    "est_cuts_per_min": 6.62,
+    "speech_coverage": 0.67
+   },
+   {
+    "start": 540.0,
+    "end": 600.0,
+    "est_cuts_per_min": 18.04,
+    "speech_coverage": 0.3
+   },
+   {
+    "start": 600.0,
+    "end": 660.0,
+    "est_cuts_per_min": 18.04,
+    "speech_coverage": 0.03
+   },
+   {
+    "start": 660.0,
+    "end": 720.0,
+    "est_cuts_per_min": 18.04,
+    "speech_coverage": 0.29
+   },
+   {
+    "start": 720.0,
+    "end": 780.0,
+    "est_cuts_per_min": 10.79,
+    "speech_coverage": 0.7
+   },
+   {
+    "start": 780.0,
+    "end": 840.0,
+    "est_cuts_per_min": 18.04,
+    "speech_coverage": 0.55
+   },
+   {
+    "start": 840.0,
+    "end": 900.0,
+    "est_cuts_per_min": 18.04,
+    "speech_coverage": 0.32
+   },
+   {
+    "start": 900.0,
+    "end": 960.0,
+    "est_cuts_per_min": 18.04,
+    "speech_coverage": 0.17
+   },
+   {
+    "start": 960.0,
+    "end": 1020.0,
+    "est_cuts_per_min": 18.04,
+    "speech_coverage": 0.66
+   },
+   {
+    "start": 1020.0,
+    "end": 1080.0,
+    "est_cuts_per_min": 18.04,
+    "speech_coverage": 0.46
+   },
+   {
+    "start": 1080.0,
+    "end": 1140.0,
+    "est_cuts_per_min": 10.79,
+    "speech_coverage": 0.42
+   },
+   {
+    "start": 1140.0,
+    "end": 1200.0,
+    "est_cuts_per_min": 18.04,
+    "speech_coverage": 0.57
+   },
+   {
+    "start": 1200.0,
+    "end": 1260.0,
+    "est_cuts_per_min": 18.04,
+    "speech_coverage": 0.63
+   },
+   {
+    "start": 1260.0,
+    "end": 1320.0,
+    "est_cuts_per_min": 18.04,
+    "speech_coverage": 0.64
+   },
+   {
+    "start": 1320.0,
+    "end": 1380.0,
+    "est_cuts_per_min": 18.04,
+    "speech_coverage": 0.44
+   },
+   {
+    "start": 1380.0,
+    "end": 1440.0,
+    "est_cuts_per_min": 18.04,
+    "speech_coverage": 0.52
+   },
+   {
+    "start": 1440.0,
+    "end": 1500.0,
+    "est_cuts_per_min": 18.04,
+    "speech_coverage": 0.05
+   },
+   {
+    "start": 1500.0,
+    "end": 1560.0,
+    "est_cuts_per_min": 18.04,
+    "speech_coverage": 0.42
+   },
+   {
+    "start": 1560.0,
+    "end": 1620.0,
+    "est_cuts_per_min": 18.04,
+    "speech_coverage": 0.33
+   },
+   {
+    "start": 1620.0,
+    "end": 1680.0,
+    "est_cuts_per_min": 18.04,
+    "speech_coverage": 0.5
+   },
+   {
+    "start": 1680.0,
+    "end": 1740.0,
+    "est_cuts_per_min": 18.04,
+    "speech_coverage": 0.23
+   },
+   {
+    "start": 1740.0,
+    "end": 1800.0,
+    "est_cuts_per_min": 18.04,
+    "speech_coverage": 0.55
+   },
+   {
+    "start": 1800.0,
+    "end": 1860.0,
+    "est_cuts_per_min": 18.04,
+    "speech_coverage": 0.58
+   },
+   {
+    "start": 1860.0,
+    "end": 1920.0,
+    "est_cuts_per_min": 18.04,
+    "speech_coverage": 0.78
+   },
+   {
+    "start": 1920.0,
+    "end": 1980.0,
+    "est_cuts_per_min": 10.79,
+    "speech_coverage": 0.78
+   },
+   {
+    "start": 1980.0,
+    "end": 2040.0,
+    "est_cuts_per_min": 18.04,
+    "speech_coverage": 0.67
+   },
+   {
+    "start": 2040.0,
+    "end": 2100.0,
+    "est_cuts_per_min": 10.79,
+    "speech_coverage": 0.16
+   },
+   {
+    "start": 2100.0,
+    "end": 2160.0,
+    "est_cuts_per_min": 18.04,
+    "speech_coverage": 0.19
+   },
+   {
+    "start": 2160.0,
+    "end": 2220.0,
+    "est_cuts_per_min": 18.04,
+    "speech_coverage": 0.57
+   },
+   {
+    "start": 2220.0,
+    "end": 2280.0,
+    "est_cuts_per_min": 18.04,
+    "speech_coverage": 0.72
+   },
+   {
+    "start": 2280.0,
+    "end": 2340.0,
+    "est_cuts_per_min": 18.04,
+    "speech_coverage": 0.49
+   },
+   {
+    "start": 2340.0,
+    "end": 2400.0,
+    "est_cuts_per_min": 18.04,
+    "speech_coverage": 0.48
+   },
+   {
+    "start": 2400.0,
+    "end": 2460.0,
+    "est_cuts_per_min": 10.79,
+    "speech_coverage": 0.02
+   },
+   {
+    "start": 2460.0,
+    "end": 2520.0,
+    "est_cuts_per_min": 18.04,
+    "speech_coverage": 0.15
+   },
+   {
+    "start": 2520.0,
+    "end": 2580.0,
+    "est_cuts_per_min": 18.04,
+    "speech_coverage": 0.21
+   },
+   {
+    "start": 2580.0,
+    "end": 2630.0,
+    "est_cuts_per_min": 18.04,
+    "speech_coverage": 0.38
+   }
+  ],
+  "pacing_variability": 2.93,
+  "on_screen_text_frames": 6,
+  "chapters": 17,
+  "measurement_note": "Cut rate is a Poisson estimate from storyboard samples; individual cuts, transitions and camera moves are not observable at this sampling rate."
+ },
+ "sound_design": {
+  "available": true,
+  "speech_coverage": 0.455,
+  "non_speech_fraction": 0.386,
+  "longest_non_speech_s": 104.2,
+  "words_per_minute_overall": 87.9,
+  "caption_markers": {},
+  "music_marked_scenes": 0,
+  "note": "Music/ambience inferred from caption markers and speech gaps; audio itself is not downloaded."
+ },
+ "color_characteristics": {
+  "mean_brightness": 0.431,
+  "mean_contrast": 0.204,
+  "mean_saturation": 0.382,
+  "mean_colorfulness": 46.9,
+  "mean_warmth": 0.042,
+  "saturation_spread": 0.123,
+  "brightness_spread": 0.109,
+  "letterboxed_frame_fraction": 0.0,
+  "night_or_lowkey_fraction": 0.034,
+  "dominant_palette": [
+   "#21191a",
+   "#94836f",
+   "#241d1d",
+   "#324e24",
+   "#5f9844",
+   "#111c18",
+   "#303e2e",
+   "#184818"
+  ],
+  "grading_tags": [
+   "neutral white balance",
+   "on-screen text or title"
+  ]
+ },
+ "storytelling": {
+  "first_person_singular": 0.0125,
+  "first_person_plural": 0.0195,
+  "second_person": 0.0226,
+  "reflection": 0.0047,
+  "context_facts": 0.0314,
+  "hook_words": 0.0114,
+  "questions": 84,
+  "total_words": 3852,
+  "dialogue_score": 0.151,
+  "face_frame_fraction": 0.345,
+  "closeup_frame_fraction": 0.038,
+  "shot_type_distribution": {
+   "medium shot with people": 11,
+   "wide shot with people": 10,
+   "wide establishing / landscape": 4,
+   "general b-roll": 3,
+   "busy street / detail-rich scene": 3,
+   "close-up on a person (talking head / selfie)": 2
+  },
+  "narrative_functions": {
+   "journey / progression": 10,
+   "chapter opener / establishing": 9,
+   "context / exposition": 4,
+   "atmosphere / montage": 4,
+   "resolution / outro": 4,
+   "opening hook": 1,
+   "interaction / conversation": 1
+  }
+ },
+ "style_mode_mix": {
+  "cinematic": 0.51,
+  "documentary": 0.322,
+  "personal": 0.167
+ },
+ "style_mode_basis": "transcript+visual",
+ "techniques": [
+  {
+   "start": 0.0,
+   "end": 74.0,
+   "name": "chapter",
+   "description": "chapter: Introduction to Oman",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 0.0,
+   "end": 26.3,
+   "name": "replay peak",
+   "description": "most-replayed moment (heat 1.00) - audience-proven highlight",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 0.9,
+   "source": "heuristic"
+  },
+  {
+   "start": 74.0,
+   "end": 192.0,
+   "name": "chapter",
+   "description": "chapter: Touring Muscat",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 97.263,
+   "end": 114.072,
+   "name": "speech-free montage",
+   "description": "17s without dialogue/narration, est. 18.0 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 192.0,
+   "end": 334.0,
+   "name": "chapter",
+   "description": "chapter: Capital landmark and market",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 265.89,
+   "end": 278.653,
+   "name": "atmospheric non-speech sequence",
+   "description": "13s without dialogue/narration, est. 0.0 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 334.0,
+   "end": 381.0,
+   "name": "chapter",
+   "description": "chapter: Demaniat Islands reserve",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 366.699,
+   "end": 380.963,
+   "name": "speech-free montage",
+   "description": "14s without dialogue/narration, est. 18.0 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 381.0,
+   "end": 560.0,
+   "name": "chapter",
+   "description": "chapter: Maritime city of Sur",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 465.882,
+   "end": 488.446,
+   "name": "speech-free montage",
+   "description": "23s without dialogue/narration, est. 18.0 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 559.725,
+   "end": 585.459,
+   "name": "speech-free montage",
+   "description": "26s without dialogue/narration, est. 18.0 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 560.0,
+   "end": 678.0,
+   "name": "chapter",
+   "description": "chapter: Traditional wedding welcome",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 596.971,
+   "end": 655.738,
+   "name": "speech-free montage",
+   "description": "59s without dialogue/narration, est. 18.0 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 678.0,
+   "end": 926.0,
+   "name": "chapter",
+   "description": "chapter: Bedouin desert culture",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 681.639,
+   "end": 702.576,
+   "name": "speech-free montage",
+   "description": "21s without dialogue/narration, est. 18.0 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 789.0,
+   "end": 815.3,
+   "name": "replay peak",
+   "description": "most-replayed moment (heat 0.47) - audience-proven highlight",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 0.9,
+   "source": "heuristic"
+  },
+  {
+   "start": 799.673,
+   "end": 812.269,
+   "name": "atmospheric non-speech sequence",
+   "description": "13s without dialogue/narration, est. 0.0 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 866.24,
+   "end": 896.312,
+   "name": "speech-free montage",
+   "description": "30s without dialogue/narration, est. 18.0 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 902.026,
+   "end": 938.312,
+   "name": "speech-free montage",
+   "description": "36s without dialogue/narration, est. 18.0 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 906.55,
+   "end": 916.5121212121212,
+   "name": "on-screen text",
+   "description": "title, location label or caption overlay detected",
+   "category": "graphics",
+   "style_mode": null,
+   "confidence": 0.4,
+   "source": "heuristic"
+  },
+  {
+   "start": 926.0,
+   "end": 1136.0,
+   "name": "chapter",
+   "description": "chapter: Underground cooking method",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 948.322,
+   "end": 961.043,
+   "name": "atmospheric non-speech sequence",
+   "description": "13s without dialogue/narration, est. 0.0 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 1123.205,
+   "end": 1136.051,
+   "name": "speech-free montage",
+   "description": "13s without dialogue/narration, est. 18.0 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 1136.0,
+   "end": 1346.0,
+   "name": "chapter",
+   "description": "chapter: Jebel Akhdar mountains",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 1195.45,
+   "end": 1205.4121212121213,
+   "name": "on-screen text",
+   "description": "title, location label or caption overlay detected",
+   "category": "graphics",
+   "style_mode": null,
+   "confidence": 0.4,
+   "source": "heuristic"
+  },
+  {
+   "start": 1313.1029999999998,
+   "end": 1346.928,
+   "name": "speech-free montage",
+   "description": "34s without dialogue/narration, est. 18.0 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 1346.0,
+   "end": 1558.0,
+   "name": "chapter",
+   "description": "chapter: Historic city of Nizwa",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 1380.587,
+   "end": 1401.024,
+   "name": "speech-free montage",
+   "description": "20s without dialogue/narration, est. 18.0 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 1440.188,
+   "end": 1459.04,
+   "name": "speech-free montage",
+   "description": "19s without dialogue/narration, est. 18.0 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 1460.625,
+   "end": 1473.597,
+   "name": "atmospheric non-speech sequence",
+   "description": "13s without dialogue/narration, est. 0.0 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 1474.848,
+   "end": 1500.29,
+   "name": "speech-free montage",
+   "description": "25s without dialogue/narration, est. 18.0 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 1509.716,
+   "end": 1533.156,
+   "name": "speech-free montage",
+   "description": "23s without dialogue/narration, est. 18.0 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 1558.0,
+   "end": 1718.0,
+   "name": "chapter",
+   "description": "chapter: Cultural museum and cuisine",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 1564.896,
+   "end": 1588.044,
+   "name": "speech-free montage",
+   "description": "23s without dialogue/narration, est. 18.0 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 1633.79,
+   "end": 1643.7521212121212,
+   "name": "on-screen text",
+   "description": "title, location label or caption overlay detected",
+   "category": "graphics",
+   "style_mode": null,
+   "confidence": 0.4,
+   "source": "heuristic"
+  },
+  {
+   "start": 1651.608,
+   "end": 1667.499,
+   "name": "speech-free montage",
+   "description": "16s without dialogue/narration, est. 18.0 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 1699.4470000000001,
+   "end": 1718.049,
+   "name": "speech-free montage",
+   "description": "19s without dialogue/narration, est. 18.0 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 1709.5,
+   "end": 1735.8,
+   "name": "replay peak",
+   "description": "most-replayed moment (heat 0.61) - audience-proven highlight",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 0.9,
+   "source": "heuristic"
+  },
+  {
+   "start": 1718.0,
+   "end": 1845.0,
+   "name": "chapter",
+   "description": "chapter: Salalah's tropical nature",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 1845.0,
+   "end": 2067.0,
+   "name": "chapter",
+   "description": "chapter: Dhofar mountain traditions",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 1952.58,
+   "end": 1962.5421212121212,
+   "name": "on-screen text",
+   "description": "title, location label or caption overlay detected",
+   "category": "graphics",
+   "style_mode": null,
+   "confidence": 0.4,
+   "source": "heuristic"
+  },
+  {
+   "start": 1972.5,
+   "end": 1982.4621212121212,
+   "name": "on-screen text",
+   "description": "title, location label or caption overlay detected",
+   "category": "graphics",
+   "style_mode": null,
+   "confidence": 0.4,
+   "source": "heuristic"
+  },
+  {
+   "start": 1992.42,
+   "end": 2002.3821212121213,
+   "name": "on-screen text",
+   "description": "title, location label or caption overlay detected",
+   "category": "graphics",
+   "style_mode": null,
+   "confidence": 0.4,
+   "source": "heuristic"
+  },
+  {
+   "start": 2024.022,
+   "end": 2067.398,
+   "name": "speech-free montage",
+   "description": "43s without dialogue/narration, est. 18.0 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 2067.0,
+   "end": 2182.0,
+   "name": "chapter",
+   "description": "chapter: Traditional wedding rituals",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 2077.366,
+   "end": 2113.236,
+   "name": "speech-free montage",
+   "description": "36s without dialogue/narration, est. 8.3 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 2126.7490000000003,
+   "end": 2182.013,
+   "name": "speech-free montage",
+   "description": "55s without dialogue/narration, est. 18.0 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 2182.0,
+   "end": 2296.0,
+   "name": "chapter",
+   "description": "chapter: Frankincense trade history",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 2296.0,
+   "end": 2539.0,
+   "name": "chapter",
+   "description": "chapter: Ancient funeral art",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 2303.342,
+   "end": 2321.319,
+   "name": "speech-free montage",
+   "description": "18s without dialogue/narration, est. 18.0 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 2334.081,
+   "end": 2357.813,
+   "name": "speech-free montage",
+   "description": "24s without dialogue/narration, est. 18.0 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 2401.482,
+   "end": 2505.711,
+   "name": "speech-free montage",
+   "description": "104s without dialogue/narration, est. 13.9 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 2524.98,
+   "end": 2538.953,
+   "name": "atmospheric non-speech sequence",
+   "description": "14s without dialogue/narration, est. 0.0 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 2539.0,
+   "end": 2630.0,
+   "name": "chapter",
+   "description": "chapter: Omani people and hospitality",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 2553.676,
+   "end": 2596.76,
+   "name": "speech-free montage",
+   "description": "43s without dialogue/narration, est. 18.0 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  }
+ ],
+ "qualitative": {
+  "source": "claude-code subagent (viewed all 6 contact sheets + profile + transcript)",
+  "summary": "A 44-minute chaptered country portrait of Oman built as a region-by-region tour (Muscat, Sur, the Sharqiya desert, Jebel Akhdar, Nizwa, Salalah/Dhofar) with 17 YouTube chapters. It opens with a ~70 s essay-style montage - doorway silhouette, cloud-wrapped green mountains, dancers, coastline aerials, a smiling child - under a thesis VO about a country that 'chose not to compete' with skyscrapers. Each region is introduced by a parchment-style relief map and a drone establishing shot, then becomes presenter-led participation: Joe in local dress, at a silversmith, on a dhow frame, in a Bedouin tent, digging up an underground oven, at a livestock auction. Long speech-free folk-performance montages (dances, drumming, weddings) carry much of the runtime. It ends without a sponsor, on a lyrical montage and a VO tribute to Omani hospitality.",
+  "hook_analysis": "Visual lead-in (0:00-0:05) then a slow, written-sounding thesis VO ('In a world racing to build the tallest skyscrapers...') over the most varied images the film has: green Dhofar highlands, sword-carrying men, Sur from the air, a child's face, a sunset, Joe in the Grand Mosque under a chandelier (1:20). The title's superlative ('Most Underrated') is paid off by the line 'a country that doesn't get much attention'. Replay peak 0:00-0:26.",
+  "narrative_arc": "Chaptered geographic tour. Introduction montage (0:00-1:14) -> Muscat landmarks and souq (1:14-5:34) -> Daymaniyat islands by boat (5:34-6:21) -> Sur: crafts, dhow yard, wedding welcome dance (6:21-11:18) -> Bedouin desert, camel racing, underground cooking (11:18-18:56) -> Jebel Akhdar (18:56-22:26) -> Nizwa souq, fort and museum (22:26-28:38) -> Salalah/Dhofar, mountain tribes, weddings, frankincense, funeral art (28:38-42:19) -> people and hospitality outro (42:19-43:50). Each chapter is a self-contained mini-episode.",
+  "camera_and_composition": "Drone establishing shots open nearly every chapter (Sur peninsula 0:50/10:57, Sultan Qaboos mosque 3:39, Nizwa fort 22:25/26:34). Low-angle wide-lens hero frames of presenter and hosts against sky (14:37, 14:57, 15:17). Extreme close-up craft inserts: khanjar dagger (5:09), silver bangles (7:58), engraving tool (7:48), spices (5:19), banana leaves (27:24). Symmetrical framing inside a dhow hull (8:38-8:58). A clear selfie/vlog frame in a Nizwa crowd (23:25-23:45). Camera moves are not observable at storyboard resolution.",
+  "color_and_grade": "Neutral overall white balance by metric, but the frames show strong per-region palettes: orange sand and warm skin in the desert (1:40, 11:37), cyan sea and sky in Sur, misty desaturated green-teal in monsoon Dhofar (29:23, 33:02, 42:50), warm brown stone in Nizwa interiors (39:51-41:40). The night tent cooking (16:46-18:36) is dominated by a hot orange patterned backdrop.",
+  "sound_and_music": "Speech coverage ~46%, with the longest speech-free stretch 104 s (40:01-41:45, a drumming/dance performance) and many 20-60 s speech-free runs at weddings and dances (9:56-10:55, 34:37-35:13). Diegetic music (drums, singers at a microphone 35:42) likely carries these sections; audio itself is not available. The ending VO is reflective and written, matching the opening.",
+  "what_to_borrow": [
+   "Bookend a long tour with a written thesis VO at the start and a matching reflective VO at the end",
+   "Open each region with the same two-shot grammar: map, then drone establishing",
+   "Use extreme close-up craft inserts (hands, tools, jewellery) to break up presenter-and-host coverage",
+   "Let diegetic performances (dances, drumming) play long without narration"
+  ],
+  "what_to_avoid_copying": [
+   "At 44 minutes with 17 chapters, mid-film chapters feel interchangeable - a single-subject edit would need a through-line",
+   "Presenter wearing local dress in almost every scene can read as costume rather than context",
+   "Heavy reliance on staged/arranged welcome performances risks a tourism-board tone"
+  ],
+  "observations": [
+   {
+    "start": 0,
+    "end": 74,
+    "name": "essay-montage cold open",
+    "description": "Doorway silhouette, cloud-wrapped mountains, sword dancers, Sur aerial, child's smile, sunset, Joe under the mosque chandelier, under a thesis VO.",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 90,
+    "end": 175,
+    "name": "map then country sizzle",
+    "description": "Parchment relief map (1:30) followed by a highlights reel: top-down dune walker (1:40), majlis from above (1:50), beach dancers (2:00), canyon, waterfall, child bride (2:49).",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 189,
+    "end": 240,
+    "name": "landmark establishing chain",
+    "description": "Grand Mosque corridors, arch framing a minaret (3:29), aerial of complex (3:39), lamp detail (3:49).",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 300,
+    "end": 330,
+    "name": "market detail inserts",
+    "description": "Khanjar at a belt (5:09) and spice cones (5:19) as close-up cutaways.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 379,
+    "end": 400,
+    "name": "map + arrival re-establish",
+    "description": "Map pushes to Sur (6:19-6:29), then welcome party of women in costume (6:38) and Joe alone on a beach (6:48).",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 418,
+    "end": 490,
+    "name": "craft workshop sequence",
+    "description": "Joe squatting with a silversmith (6:58-7:18), dagger and engraving close-ups (7:28, 7:48), bangles (7:58), turban tying (8:08).",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 518,
+    "end": 548,
+    "name": "symmetrical dhow hull frame",
+    "description": "Repeated centred frame of Joe and host walking inside a dhow skeleton (8:38-8:58).",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 596,
+    "end": 655,
+    "name": "speech-free wedding dance",
+    "description": "Beach group dance with drums at Sur (9:58-10:38) with no narration.",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 697,
+    "end": 840,
+    "name": "Bedouin homestay conversation",
+    "description": "Seated coverage with a masked Bedouin woman and child in a tent (12:07-14:07), intercut with dune aerial (13:17); replay peak 13:09.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 1006,
+    "end": 1116,
+    "name": "night process set-piece",
+    "description": "Underground oven dig-up and cooking in front of a bright orange tent backdrop (16:46-18:36).",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 1366,
+    "end": 1430,
+    "name": "selfie in a crowd",
+    "description": "Nizwa livestock market: Joe talks to a wide selfie lens with the crowd behind (23:25-23:45).",
+    "style_mode": "personal"
+   },
+   {
+    "start": 1709,
+    "end": 1735,
+    "name": "regional palette shift",
+    "description": "Green Dhofar mountains aerial (28:33) and map labelled OMAN (28:43) open the Salalah section; replay peak 28:29.",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 1913,
+    "end": 2030,
+    "name": "tribal community gathering",
+    "description": "Seated line of armed mountain men, food spread, stick dance in misty green field (31:53-33:42).",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 2401,
+    "end": 2505,
+    "name": "longest speech-free performance",
+    "description": "Drumming and dance in a stone courtyard plays ~104 s without narration (40:01-41:45).",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 2556,
+    "end": 2630,
+    "name": "lyrical outro montage",
+    "description": "Pink vintage car in mist (42:40), road through green valley (42:50), camels on beach (43:10), Joe embracing a host (43:40) under a tribute VO to Omani hospitality; no sponsor.",
+    "style_mode": "cinematic"
+   }
+  ]
+ },
+ "contact_sheets": [],
+ "limitations": [
+  "Frames are YouTube storyboard previews (YouTube storyboard 320x180, one frame every 10.0s); fine detail, exact cuts, transitions and camera movement are not measured.",
+  "Shot types use face/sky/edge heuristics on low-resolution frames - treat as approximate."
+ ]
+}

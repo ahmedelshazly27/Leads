@@ -1,0 +1,970 @@
+{
+ "schema_version": "1.0",
+ "video_id": "IzSzEglLAcI",
+ "url": "https://www.youtube.com/watch?v=IzSzEglLAcI",
+ "creator": "Omar Farooq",
+ "title": "ما زالوا يعيشون تحت الأرض! مدينة مطماطة في تونس 🇹🇳 #عمر_يجرب",
+ "channel": "عمر فاروق Omar Farooq",
+ "upload_date": "20260821",
+ "duration": 1300.0,
+ "view_count": 1945621,
+ "user_notes": "Matmata underground city, Tunisia",
+ "analysed_at": "2026-11-27T19:26:49+00:00",
+ "sources": {
+  "metadata": true,
+  "transcript": "manual",
+  "transcript_language": "en",
+  "transcript_quality": "suspect",
+  "transcript_quality_note": "100 caption cues in minute 0 vs median 21/min - cue timing looks corrupted; speech/vocabulary metrics excluded from creator averages",
+  "frames": "YouTube storyboard 320x180, one frame every 9.8s",
+  "frame_interval_s": 9.84848484848485,
+  "chapters": 0,
+  "heatmap": true
+ },
+ "chapters": [],
+ "replay_peaks": [
+  {
+   "start": 0.0,
+   "end": 13.01,
+   "value": 1.0
+  },
+  {
+   "start": 676.52,
+   "end": 689.53,
+   "value": 0.9306457467843406
+  },
+  {
+   "start": 364.28,
+   "end": 377.29,
+   "value": 0.7179313076909065
+  },
+  {
+   "start": 1170.9,
+   "end": 1183.91,
+   "value": 0.7083747672505416
+  },
+  {
+   "start": 351.27,
+   "end": 364.28,
+   "value": 0.6819399079395172
+  }
+ ],
+ "scenes": [
+  {
+   "index": 0,
+   "start": 0.0,
+   "end": 14.77,
+   "duration": 14.77,
+   "representative_frame": null,
+   "shot_type": "general b-roll",
+   "shot_type_confidence": 0.3,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "unknown",
+   "audio": {
+    "words_per_minute": 438.6,
+    "speech_coverage": 0.917,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "opening hook",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.1,
+    "documentary": 0.515,
+    "personal": 0.385
+   },
+   "visual_characteristics": [
+    "warm tones"
+   ],
+   "editing_techniques": [
+    "audience replay peak (most-replayed)"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "sky 0%, edges 0.06, no faces detected",
+    "dense narration 439 wpm",
+    "est. 0.0 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 1,
+   "start": 14.77,
+   "end": 64.02,
+   "duration": 49.24,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 759.1,
+    "speech_coverage": 0.983,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "personal",
+   "style_scores": {
+    "cinematic": 0.08,
+    "documentary": 0.443,
+    "personal": 0.477
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "highly saturated"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 20% of frames",
+    "dense narration 759 wpm",
+    "est. 18.3 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 2,
+   "start": 64.02,
+   "end": 83.72,
+   "duration": 19.7,
+   "representative_frame": null,
+   "shot_type": "general b-roll",
+   "shot_type_confidence": 0.3,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 505.6,
+    "speech_coverage": 0.978,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.172,
+    "documentary": 0.496,
+    "personal": 0.332
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "high contrast"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "sky 0%, edges 0.07, no faces detected",
+    "dense narration 506 wpm",
+    "est. 18.3 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 3,
+   "start": 83.72,
+   "end": 359.47,
+   "duration": 275.75,
+   "representative_frame": null,
+   "shot_type": "medium shot with people",
+   "shot_type_confidence": 0.5,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 103.8,
+    "speech_coverage": 0.518,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.373,
+    "documentary": 0.292,
+    "personal": 0.335
+   },
+   "visual_characteristics": [
+    "warm tones"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 43% of frames, max face 53%",
+    "first-person language 6% of words",
+    "est. 18.3 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 4,
+   "start": 359.47,
+   "end": 408.72,
+   "duration": 49.25,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 92.6,
+    "speech_coverage": 0.572,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "intermittent speech"
+   },
+   "narrative_function": "interaction / conversation",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.49,
+    "documentary": 0.263,
+    "personal": 0.247
+   },
+   "visual_characteristics": [
+    "warm tones"
+   ],
+   "editing_techniques": [
+    "audience replay peak (most-replayed)"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 20% of frames",
+    "est. 18.3 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 5,
+   "start": 408.72,
+   "end": 635.22,
+   "duration": 226.51,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 148.3,
+    "speech_coverage": 0.788,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "personal",
+   "style_scores": {
+    "cinematic": 0.282,
+    "documentary": 0.292,
+    "personal": 0.426
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "on-screen text or title"
+   ],
+   "editing_techniques": [
+    "on-screen text / title card"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 26% of frames",
+    "est. 18.3 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 6,
+   "start": 635.22,
+   "end": 1029.16,
+   "duration": 393.94,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 157.0,
+    "speech_coverage": 0.836,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "personal",
+   "style_scores": {
+    "cinematic": 0.205,
+    "documentary": 0.374,
+    "personal": 0.421
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "highly saturated",
+    "on-screen text or title"
+   ],
+   "editing_techniques": [
+    "audience replay peak (most-replayed)",
+    "on-screen text / title card"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 30% of frames",
+    "est. 14.0 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 7,
+   "start": 1029.16,
+   "end": 1048.87,
+   "duration": 19.7,
+   "representative_frame": null,
+   "shot_type": "medium shot with people",
+   "shot_type_confidence": 0.5,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 158.4,
+    "speech_coverage": 0.793,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.272,
+    "documentary": 0.619,
+    "personal": 0.108
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "highly saturated"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 50% of frames, max face 19%",
+    "est. 18.3 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 8,
+   "start": 1048.87,
+   "end": 1117.81,
+   "duration": 68.94,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 121.0,
+    "speech_coverage": 0.64,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "continuous speech"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.405,
+    "documentary": 0.32,
+    "personal": 0.275
+   },
+   "visual_characteristics": [
+    "warm tones"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 14% of frames",
+    "est. 11.9 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 9,
+   "start": 1117.81,
+   "end": 1226.13,
+   "duration": 108.33,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "mostly non-speech"
+   },
+   "narrative_function": "resolution / outro",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.96,
+    "documentary": 0.02,
+    "personal": 0.02
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "highly saturated"
+   ],
+   "editing_techniques": [
+    "speech-free fast montage"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 18% of frames",
+    "little speech (0% caption coverage)",
+    "est. 14.6 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 10,
+   "start": 1226.13,
+   "end": 1265.53,
+   "duration": 39.39,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "mostly non-speech"
+   },
+   "narrative_function": "resolution / outro",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.96,
+    "documentary": 0.02,
+    "personal": 0.02
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "highly saturated"
+   ],
+   "editing_techniques": [
+    "speech-free fast montage"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 50% of frames",
+    "little speech (0% caption coverage)",
+    "est. 18.3 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 11,
+   "start": 1265.53,
+   "end": 1300.0,
+   "duration": 34.47,
+   "representative_frame": null,
+   "shot_type": "low-light / night shot",
+   "shot_type_confidence": 0.45,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "medium",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "mostly non-speech"
+   },
+   "narrative_function": "resolution / outro",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.972,
+    "documentary": 0.014,
+    "personal": 0.014
+   },
+   "visual_characteristics": [
+    "neutral white balance",
+    "muted / desaturated",
+    "flat / low contrast",
+    "low-key / dark",
+    "letterboxed (cinematic aspect)"
+   ],
+   "editing_techniques": [
+    "breathing room: non-speech atmospheric sequence"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "mean brightness 0.05",
+    "shot: low-light / night shot",
+    "little speech (0% caption coverage)",
+    "est. 6.7 cuts/min in this sequence"
+   ]
+  }
+ ],
+ "narrative_structure": [
+  {
+   "start": 0.0,
+   "end": 60.0,
+   "label": "hook",
+   "description": "spoken cold open: narration/claim starts immediately",
+   "evidence": []
+  },
+  {
+   "start": 0.0,
+   "end": 13.01,
+   "label": "audience peak",
+   "description": "highest replay density - likely emotional or visual climax",
+   "evidence": [
+    "heat 1.00"
+   ]
+  },
+  {
+   "start": 60.0,
+   "end": 325.0,
+   "label": "setup / arrival",
+   "description": "position-based (no chapters available)",
+   "evidence": []
+  },
+  {
+   "start": 325.0,
+   "end": 975.0,
+   "label": "exploration / development",
+   "description": "position-based (no chapters available)",
+   "evidence": []
+  },
+  {
+   "start": 975.0,
+   "end": 1209.0,
+   "label": "climax / key experience",
+   "description": "position-based (no chapters available)",
+   "evidence": []
+  },
+  {
+   "start": 1209.0,
+   "end": 1300.0,
+   "label": "resolution / outro",
+   "description": "position-based (no chapters available)",
+   "evidence": []
+  }
+ ],
+ "hook": {
+  "first_speech_at_s": 1.01,
+  "words_first_30s": 276,
+  "hook_vocabulary_first_30s": 0.0181,
+  "title_uses_superlative_or_intrigue": false,
+  "cold_open": true,
+  "est_cuts_per_min_first_60s": 18.25,
+  "pattern": "spoken cold open: narration/claim starts immediately"
+ },
+ "editing_characteristics": {
+  "est_cuts_per_min": 17.03,
+  "est_avg_shot_length_s": 3.52,
+  "estimator_saturated": false,
+  "changed_sample_fraction": 0.939,
+  "sample_interval_s": 9.85,
+  "visual_sequences": 12,
+  "median_sequence_s": 49.2,
+  "pacing_curve": [
+   {
+    "start": 0.0,
+    "end": 60.0,
+    "est_cuts_per_min": 18.25,
+    "speech_coverage": 0.97
+   },
+   {
+    "start": 60.0,
+    "end": 120.0,
+    "est_cuts_per_min": 18.25,
+    "speech_coverage": 0.95
+   },
+   {
+    "start": 120.0,
+    "end": 180.0,
+    "est_cuts_per_min": 18.25,
+    "speech_coverage": 0.78
+   },
+   {
+    "start": 180.0,
+    "end": 240.0,
+    "est_cuts_per_min": 18.25,
+    "speech_coverage": 0.92
+   },
+   {
+    "start": 240.0,
+    "end": 300.0,
+    "est_cuts_per_min": 18.25,
+    "speech_coverage": 0.12
+   },
+   {
+    "start": 300.0,
+    "end": 360.0,
+    "est_cuts_per_min": 18.25,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 360.0,
+    "end": 420.0,
+    "est_cuts_per_min": 18.25,
+    "speech_coverage": 0.59
+   },
+   {
+    "start": 420.0,
+    "end": 480.0,
+    "est_cuts_per_min": 10.92,
+    "speech_coverage": 0.56
+   },
+   {
+    "start": 480.0,
+    "end": 540.0,
+    "est_cuts_per_min": 18.25,
+    "speech_coverage": 0.83
+   },
+   {
+    "start": 540.0,
+    "end": 600.0,
+    "est_cuts_per_min": 18.25,
+    "speech_coverage": 0.98
+   },
+   {
+    "start": 600.0,
+    "end": 660.0,
+    "est_cuts_per_min": 18.25,
+    "speech_coverage": 0.84
+   },
+   {
+    "start": 660.0,
+    "end": 720.0,
+    "est_cuts_per_min": 10.92,
+    "speech_coverage": 0.69
+   },
+   {
+    "start": 720.0,
+    "end": 780.0,
+    "est_cuts_per_min": 18.25,
+    "speech_coverage": 0.91
+   },
+   {
+    "start": 780.0,
+    "end": 840.0,
+    "est_cuts_per_min": 18.25,
+    "speech_coverage": 0.82
+   },
+   {
+    "start": 840.0,
+    "end": 900.0,
+    "est_cuts_per_min": 18.25,
+    "speech_coverage": 0.92
+   },
+   {
+    "start": 900.0,
+    "end": 960.0,
+    "est_cuts_per_min": 10.92,
+    "speech_coverage": 0.84
+   },
+   {
+    "start": 960.0,
+    "end": 1020.0,
+    "est_cuts_per_min": 6.69,
+    "speech_coverage": 0.81
+   },
+   {
+    "start": 1020.0,
+    "end": 1080.0,
+    "est_cuts_per_min": 10.92,
+    "speech_coverage": 0.89
+   },
+   {
+    "start": 1080.0,
+    "end": 1140.0,
+    "est_cuts_per_min": 18.25,
+    "speech_coverage": 0.26
+   },
+   {
+    "start": 1140.0,
+    "end": 1200.0,
+    "est_cuts_per_min": 10.92,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 1200.0,
+    "end": 1260.0,
+    "est_cuts_per_min": 18.25,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 1260.0,
+    "end": 1300.0,
+    "est_cuts_per_min": 8.45,
+    "speech_coverage": 0.0
+   }
+  ],
+  "pacing_variability": 3.96,
+  "on_screen_text_frames": 2,
+  "chapters": 0,
+  "measurement_note": "Cut rate is a Poisson estimate from storyboard samples; individual cuts, transitions and camera moves are not observable at this sampling rate."
+ },
+ "sound_design": {
+  "available": true,
+  "speech_coverage": 0.631,
+  "non_speech_fraction": 0.258,
+  "longest_non_speech_s": 203.6,
+  "words_per_minute_overall": 147.8,
+  "caption_markers": {},
+  "music_marked_scenes": 0,
+  "note": "Music/ambience inferred from caption markers and speech gaps; audio itself is not downloaded."
+ },
+ "color_characteristics": {
+  "mean_brightness": 0.392,
+  "mean_contrast": 0.181,
+  "mean_saturation": 0.421,
+  "mean_colorfulness": 31.2,
+  "mean_warmth": 0.141,
+  "saturation_spread": 0.136,
+  "brightness_spread": 0.128,
+  "letterboxed_frame_fraction": 0.015,
+  "night_or_lowkey_fraction": 0.068,
+  "dominant_palette": [
+   "#858585",
+   "#b4b4b4",
+   "#9f8261",
+   "#b2b5a2",
+   "#e6ebc7",
+   "#dbe0b5",
+   "#331d0d",
+   "#927558"
+  ],
+  "grading_tags": [
+   "warm tones",
+   "on-screen text or title"
+  ]
+ },
+ "storytelling": {
+  "first_person_singular": 0.0178,
+  "first_person_plural": 0.0212,
+  "second_person": 0.0256,
+  "reflection": 0.0072,
+  "context_facts": 0.0106,
+  "hook_words": 0.0116,
+  "questions": 97,
+  "total_words": 3202,
+  "dialogue_score": 0.201,
+  "face_frame_fraction": 0.288,
+  "closeup_frame_fraction": 0.045,
+  "shot_type_distribution": {
+   "wide shot with people": 7,
+   "general b-roll": 2,
+   "medium shot with people": 2,
+   "low-light / night shot": 1
+  },
+  "narrative_functions": {
+   "journey / progression": 7,
+   "resolution / outro": 3,
+   "opening hook": 1,
+   "interaction / conversation": 1
+  }
+ },
+ "style_mode_mix": {
+  "cinematic": 0.376,
+  "documentary": 0.295,
+  "personal": 0.329
+ },
+ "style_mode_basis": "transcript+visual",
+ "techniques": [
+  {
+   "start": 0.0,
+   "end": 13.01,
+   "name": "replay peak",
+   "description": "most-replayed moment (heat 1.00) - audience-proven highlight",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 0.9,
+   "source": "heuristic"
+  },
+  {
+   "start": 247.328,
+   "end": 372.29,
+   "name": "speech-free montage",
+   "description": "125s without dialogue/narration, est. 18.3 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  },
+  {
+   "start": 364.28,
+   "end": 377.29,
+   "name": "replay peak",
+   "description": "most-replayed moment (heat 0.72) - audience-proven highlight",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 0.9,
+   "source": "heuristic"
+  },
+  {
+   "start": 482.58,
+   "end": 492.42848484848486,
+   "name": "on-screen text",
+   "description": "title, location label or caption overlay detected",
+   "category": "graphics",
+   "style_mode": null,
+   "confidence": 0.4,
+   "source": "heuristic"
+  },
+  {
+   "start": 676.52,
+   "end": 689.53,
+   "name": "replay peak",
+   "description": "most-replayed moment (heat 0.93) - audience-proven highlight",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 0.9,
+   "source": "heuristic"
+  },
+  {
+   "start": 728.79,
+   "end": 738.6384848484848,
+   "name": "on-screen text",
+   "description": "title, location label or caption overlay detected",
+   "category": "graphics",
+   "style_mode": null,
+   "confidence": 0.4,
+   "source": "heuristic"
+  },
+  {
+   "start": 1096.399,
+   "end": 1300.0,
+   "name": "speech-free montage",
+   "description": "204s without dialogue/narration, est. 14.0 cuts/min",
+   "category": "pacing",
+   "style_mode": "cinematic",
+   "confidence": 0.6,
+   "source": "heuristic"
+  }
+ ],
+ "qualitative": {
+  "source": "claude-code subagent (viewed all 3 contact sheets + profile + transcript)",
+  "summary": "Omar travels to Matmata in southern Tunisia, where Amazigh families still live in troglodyte pit houses dug into the ground, and stays the night instead of at his booked hotel. The film is built around a long relationship with the host family, especially the matriarch in a white veil, who gives room tours, cooks, explains coded women's dress and harvests olives with him. It moves between bright, sunbaked courtyards and dark, warm interiors, and returns several times to a top-down drone of the circular pit that becomes its visual signature. The final act shows a man digging a new room (Omar tries the pick) and then the Star Wars hotel that put Matmata on the map, and it ends on an overhead shot of Omar lying spread-eagled on the courtyard floor.",
+  "hook_analysis": "Spoken cold open with a visual contrast: Omar in profile (0:00), cranes on high-rise construction (0:10), then a man hacking out an underground room (0:20). The juxtaposition illustrates the 'whole world builds upwards' line. Quick meetings with veiled elders (0:30-0:49) and Omar's arms-wide reaction inside a cave room (0:59) lead to a Tunisia map (1:09). Replay heat peaks at 0:00-0:13. Note that the transcript timing in the first two minutes is unreliable (see limitations), so word-level hook metrics are inflated.",
+  "narrative_arc": "Contrast cold open (0:00-1:00) -> map and 'there's the green Tunisia, the blue Tunisia, and the south' framing (1:09-1:48) -> drone reveal of the pit house and welcome (1:58-2:18) -> room tour, crawling through doorways (2:28-4:46) -> neighbours and night: dinner, gathering, sunset (4:55-6:24) -> morning and breakfast with elders (6:34-7:43) -> matriarch's courtyard: storage, water, rooms (7:53-12:48) -> women's dress codes and coded symbols (12:58-15:36) -> olive harvest and press (15:45-17:53) -> how houses are dug: Omar tries the pick (18:03-19:12) -> Star Wars hotel and museum (19:22-20:51) -> overhead ending and logo (21:01-21:40).",
+  "camera_and_composition": "The circular pit courtyard is the main composition: a high wide angle from the rim (2:38, 10:01, 11:20) and a straight-down drone (4:26, 4:46, 18:23, 21:01). Interiors are wide and low, with the curved whitewashed ceiling arching over the subjects (2:57, 4:06, 12:09). The matriarch gets low-angle singles against the sky (9:12, 9:51, 17:34), so she reads as a protagonist rather than a background local. Doorway frames-within-frames (3:47, 3:56, 6:54). Exact moves are not observable at storyboard resolution.",
+  "color_and_grade": "The warmest of the six (warmth 0.141): ochre and sand walls, beige and brown palette (#a08362, #846a4f), lifted cream highlights and a soft teal sky. Interiors stay warm and somewhat low-contrast (contrast 0.181, the lowest of the six) rather than going crushed-black. The olive-press insert (17:14) and Star Wars archival (19:22) use the vintage-frame treatment.",
+  "sound_and_music": "Speech coverage 0.63 at about 148 wpm overall, the fastest talker rate in the set. The reported 204 s speech-free stretch at the end (18:16-21:40) and the 276 words in the first 30 s are artefacts of the subtitle file, not real silence or real density: the English cues stop at 18:16, and the first two minutes are packed with 153 cues. Some of those early cues (Star Wars hotel, the 1976 film shoot) belong to the 19:22-20:51 segment. Use them for content only, not timing. The audio itself was not analysed.",
+  "what_to_borrow": [
+   "Open with a visual juxtaposition that sums up the premise (cranes building upward vs a man digging downward)",
+   "Choose one host and give them protagonist framing (low-angle singles against sky) across the whole film",
+   "Use a single repeatable signature shot (top-down drone into the circular pit) as chapter punctuation",
+   "End on a composed overhead image of the presenter inside the location, then the logo"
+  ],
+  "what_to_avoid_copying": [
+   "Do not rely on this video's transcript timing for cut decisions; the cues are compressed or misplaced in the first two minutes and missing after 18:16",
+   "The 'houses of the jinn' and 'bathroom as bad omen' lines are fun but need the community's own voice to avoid folklore-as-spectacle",
+   "The Star Wars tangent arrives in the last three minutes and pulls focus from the family story"
+  ],
+  "observations": [
+   {
+    "start": 0,
+    "end": 30,
+    "name": "build-up vs dig-down contrast hook",
+    "description": "Omar in profile (0:00), cranes on high-rise construction (0:10), a man hacking at an underground room (0:20). This is the highest replay-heat segment (0:00-0:13).",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 30,
+    "end": 65,
+    "name": "cold-open meetings and reaction",
+    "description": "Veiled elders in a field (0:30-0:39), a cave room interior (0:49), Omar arms-wide in a decorated underground room (0:59).",
+    "style_mode": "personal"
+   },
+   {
+    "start": 65,
+    "end": 80,
+    "name": "country map in vintage frame",
+    "description": "Tunisia map with the Arabic name overlaid, then a zoom south, inside the rounded vintage frame (1:09-1:19).",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 85,
+    "end": 130,
+    "name": "roadside piece-to-camera and landscape",
+    "description": "Omar beside the car on a desert road (1:29), arid hills (1:38), talking to camera (1:48); the narration contrasts green, blue and southern Tunisia.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 115,
+    "end": 140,
+    "name": "drone reveal of the pit house",
+    "description": "Drone of a white entrance building leading down to a pit dwelling (1:58), Omar's reaction close-up (2:08), the hosts welcoming him in the courtyard (2:18).",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 145,
+    "end": 290,
+    "name": "room tour with subtitled host",
+    "description": "The host woman explains each room with burned-in Arabic subtitles (2:28, 3:07, 4:06); Omar ducks through tiny doorways with a blue hand symbol on the wall (3:47-3:56, 4:36).",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 266,
+    "end": 290,
+    "name": "top-down drone of the pit",
+    "description": "Overhead drone looking straight into the circular courtyard (4:26, 4:46), repeated later at 18:23 and in the final shot at 21:01.",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 335,
+    "end": 380,
+    "name": "night in the pit house",
+    "description": "Dinner spread (5:45), a gathering in the courtyard at night (5:55), sunset over the desert (6:04), a silhouetted Omar at the rim (6:14); the narration says 'we made the best memories'.",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 394,
+    "end": 463,
+    "name": "morning after and breakfast",
+    "description": "A sleepy Omar close-up in a hoodie (6:44), a tunnel doorway (6:54), breakfast and tea with an elder couple at a low table, subtitled (7:03-7:33).",
+    "style_mode": "personal"
+   },
+   {
+    "start": 540,
+    "end": 700,
+    "name": "matriarch as protagonist",
+    "description": "Long courtyard sequence with the white-veiled matriarch covering storage, water and rooms, with low-angle singles against the sky (9:02-9:51) and wide two-shots by the doorways (10:01-11:10). This is a replay peak (11:16-11:29).",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 768,
+    "end": 935,
+    "name": "coded women's dress",
+    "description": "A woman in a colourful tasselled headdress explains in subtitles (12:58-13:08); a long interior scene with the women on dress and symbols, including the line 'A language without words' near 15:16 and a jewellery detail (15:36).",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 945,
+    "end": 1075,
+    "name": "olive harvest and framed press",
+    "description": "Low-angle walk under an olive tree with the matriarch (15:45-17:53), a crate of olives (16:54), a vintage-framed archival olive press (17:14).",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 1120,
+    "end": 1155,
+    "name": "Omar tries digging a room",
+    "description": "In a dark half-dug room, Omar and a digger with a pick (18:43-19:12); a subtitle answers how long a room takes ('At least a month').",
+    "style_mode": "personal"
+   },
+   {
+    "start": 1160,
+    "end": 1255,
+    "name": "Star Wars hotel chapter",
+    "description": "Vintage-framed archival of a robot and clapperboard (19:22), Omar presenting in the blue-and-white hotel courtyard (19:32-20:11), a set-prop detail with a subtitle (20:21), the photo wall (20:31).",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 1258,
+    "end": 1300,
+    "name": "overhead final image and logo",
+    "description": "A straight-down shot of Omar lying spread-eagled on the pit floor (21:01), the logo appearing inside the dark circle (21:10), then black logo cards (21:20-21:30).",
+    "style_mode": "cinematic"
+   }
+  ]
+ },
+ "contact_sheets": [],
+ "limitations": [
+  "Frames are YouTube storyboard previews (YouTube storyboard 320x180, one frame every 9.8s); fine detail, exact cuts, transitions and camera movement are not measured.",
+  "Shot types use face/sky/edge heuristics on low-resolution frames - treat as approximate.",
+  "Transcript timing suspect: 100 caption cues in minute 0 vs median 21/min - cue timing looks corrupted; speech/vocabulary metrics excluded from creator averages"
+ ]
+}

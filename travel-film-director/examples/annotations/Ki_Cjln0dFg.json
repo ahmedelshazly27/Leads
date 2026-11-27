@@ -1,0 +1,37 @@
+{
+  "source": "claude-code subagent (viewed all 6 contact sheets + profile + transcript)",
+  "summary": "A 44-minute chaptered country portrait of Oman built as a region-by-region tour (Muscat, Sur, the Sharqiya desert, Jebel Akhdar, Nizwa, Salalah/Dhofar) with 17 YouTube chapters. It opens with a ~70 s essay-style montage - doorway silhouette, cloud-wrapped green mountains, dancers, coastline aerials, a smiling child - under a thesis VO about a country that 'chose not to compete' with skyscrapers. Each region is introduced by a parchment-style relief map and a drone establishing shot, then becomes presenter-led participation: Joe in local dress, at a silversmith, on a dhow frame, in a Bedouin tent, digging up an underground oven, at a livestock auction. Long speech-free folk-performance montages (dances, drumming, weddings) carry much of the runtime. It ends without a sponsor, on a lyrical montage and a VO tribute to Omani hospitality.",
+  "hook_analysis": "Visual lead-in (0:00-0:05) then a slow, written-sounding thesis VO ('In a world racing to build the tallest skyscrapers...') over the most varied images the film has: green Dhofar highlands, sword-carrying men, Sur from the air, a child's face, a sunset, Joe in the Grand Mosque under a chandelier (1:20). The title's superlative ('Most Underrated') is paid off by the line 'a country that doesn't get much attention'. Replay peak 0:00-0:26.",
+  "narrative_arc": "Chaptered geographic tour. Introduction montage (0:00-1:14) -> Muscat landmarks and souq (1:14-5:34) -> Daymaniyat islands by boat (5:34-6:21) -> Sur: crafts, dhow yard, wedding welcome dance (6:21-11:18) -> Bedouin desert, camel racing, underground cooking (11:18-18:56) -> Jebel Akhdar (18:56-22:26) -> Nizwa souq, fort and museum (22:26-28:38) -> Salalah/Dhofar, mountain tribes, weddings, frankincense, funeral art (28:38-42:19) -> people and hospitality outro (42:19-43:50). Each chapter is a self-contained mini-episode.",
+  "camera_and_composition": "Drone establishing shots open nearly every chapter (Sur peninsula 0:50/10:57, Sultan Qaboos mosque 3:39, Nizwa fort 22:25/26:34). Low-angle wide-lens hero frames of presenter and hosts against sky (14:37, 14:57, 15:17). Extreme close-up craft inserts: khanjar dagger (5:09), silver bangles (7:58), engraving tool (7:48), spices (5:19), banana leaves (27:24). Symmetrical framing inside a dhow hull (8:38-8:58). A clear selfie/vlog frame in a Nizwa crowd (23:25-23:45). Camera moves are not observable at storyboard resolution.",
+  "color_and_grade": "Neutral overall white balance by metric, but the frames show strong per-region palettes: orange sand and warm skin in the desert (1:40, 11:37), cyan sea and sky in Sur, misty desaturated green-teal in monsoon Dhofar (29:23, 33:02, 42:50), warm brown stone in Nizwa interiors (39:51-41:40). The night tent cooking (16:46-18:36) is dominated by a hot orange patterned backdrop.",
+  "sound_and_music": "Speech coverage ~46%, with the longest speech-free stretch 104 s (40:01-41:45, a drumming/dance performance) and many 20-60 s speech-free runs at weddings and dances (9:56-10:55, 34:37-35:13). Diegetic music (drums, singers at a microphone 35:42) likely carries these sections; audio itself is not available. The ending VO is reflective and written, matching the opening.",
+  "what_to_borrow": [
+    "Bookend a long tour with a written thesis VO at the start and a matching reflective VO at the end",
+    "Open each region with the same two-shot grammar: map, then drone establishing",
+    "Use extreme close-up craft inserts (hands, tools, jewellery) to break up presenter-and-host coverage",
+    "Let diegetic performances (dances, drumming) play long without narration"
+  ],
+  "what_to_avoid_copying": [
+    "At 44 minutes with 17 chapters, mid-film chapters feel interchangeable - a single-subject edit would need a through-line",
+    "Presenter wearing local dress in almost every scene can read as costume rather than context",
+    "Heavy reliance on staged/arranged welcome performances risks a tourism-board tone"
+  ],
+  "observations": [
+    {"start": 0, "end": 74, "name": "essay-montage cold open", "description": "Doorway silhouette, cloud-wrapped mountains, sword dancers, Sur aerial, child's smile, sunset, Joe under the mosque chandelier, under a thesis VO.", "style_mode": "cinematic"},
+    {"start": 90, "end": 175, "name": "map then country sizzle", "description": "Parchment relief map (1:30) followed by a highlights reel: top-down dune walker (1:40), majlis from above (1:50), beach dancers (2:00), canyon, waterfall, child bride (2:49).", "style_mode": "cinematic"},
+    {"start": 189, "end": 240, "name": "landmark establishing chain", "description": "Grand Mosque corridors, arch framing a minaret (3:29), aerial of complex (3:39), lamp detail (3:49).", "style_mode": "cinematic"},
+    {"start": 300, "end": 330, "name": "market detail inserts", "description": "Khanjar at a belt (5:09) and spice cones (5:19) as close-up cutaways.", "style_mode": "documentary"},
+    {"start": 379, "end": 400, "name": "map + arrival re-establish", "description": "Map pushes to Sur (6:19-6:29), then welcome party of women in costume (6:38) and Joe alone on a beach (6:48).", "style_mode": "cinematic"},
+    {"start": 418, "end": 490, "name": "craft workshop sequence", "description": "Joe squatting with a silversmith (6:58-7:18), dagger and engraving close-ups (7:28, 7:48), bangles (7:58), turban tying (8:08).", "style_mode": "documentary"},
+    {"start": 518, "end": 548, "name": "symmetrical dhow hull frame", "description": "Repeated centred frame of Joe and host walking inside a dhow skeleton (8:38-8:58).", "style_mode": "cinematic"},
+    {"start": 596, "end": 655, "name": "speech-free wedding dance", "description": "Beach group dance with drums at Sur (9:58-10:38) with no narration.", "style_mode": "cinematic"},
+    {"start": 697, "end": 840, "name": "Bedouin homestay conversation", "description": "Seated coverage with a masked Bedouin woman and child in a tent (12:07-14:07), intercut with dune aerial (13:17); replay peak 13:09.", "style_mode": "documentary"},
+    {"start": 1006, "end": 1116, "name": "night process set-piece", "description": "Underground oven dig-up and cooking in front of a bright orange tent backdrop (16:46-18:36).", "style_mode": "documentary"},
+    {"start": 1366, "end": 1430, "name": "selfie in a crowd", "description": "Nizwa livestock market: Joe talks to a wide selfie lens with the crowd behind (23:25-23:45).", "style_mode": "personal"},
+    {"start": 1709, "end": 1735, "name": "regional palette shift", "description": "Green Dhofar mountains aerial (28:33) and map labelled OMAN (28:43) open the Salalah section; replay peak 28:29.", "style_mode": "cinematic"},
+    {"start": 1913, "end": 2030, "name": "tribal community gathering", "description": "Seated line of armed mountain men, food spread, stick dance in misty green field (31:53-33:42).", "style_mode": "documentary"},
+    {"start": 2401, "end": 2505, "name": "longest speech-free performance", "description": "Drumming and dance in a stone courtyard plays ~104 s without narration (40:01-41:45).", "style_mode": "documentary"},
+    {"start": 2556, "end": 2630, "name": "lyrical outro montage", "description": "Pink vintage car in mist (42:40), road through green valley (42:50), camels on beach (43:10), Joe embracing a host (43:40) under a tribute VO to Omani hospitality; no sponsor.", "style_mode": "cinematic"}
+  ]
+}

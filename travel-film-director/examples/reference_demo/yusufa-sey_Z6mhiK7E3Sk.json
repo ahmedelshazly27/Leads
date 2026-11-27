@@ -1,0 +1,1063 @@
+{
+ "schema_version": "1.0",
+ "video_id": "Z6mhiK7E3Sk",
+ "url": "https://www.youtube.com/watch?v=Z6mhiK7E3Sk",
+ "creator": "Yusufa Sey",
+ "title": "3 Days in Africa with Manchester United Football Legend Louis Saha",
+ "channel": "Yusufa Sey",
+ "upload_date": "20260503",
+ "duration": 1275.0,
+ "view_count": 5235,
+ "user_notes": "3 days in Africa with Louis Saha",
+ "analysed_at": "2026-11-27T19:27:19+00:00",
+ "sources": {
+  "metadata": true,
+  "transcript": "none",
+  "transcript_language": null,
+  "transcript_quality": "none",
+  "transcript_quality_note": "no transcript",
+  "frames": "YouTube storyboard 320x180, one frame every 9.9s",
+  "frame_interval_s": 9.883720930232558,
+  "chapters": 6,
+  "heatmap": false
+ },
+ "chapters": [
+  {
+   "start": 0.0,
+   "end": 134.0,
+   "title": "Arrival in Gambia"
+  },
+  {
+   "start": 134.0,
+   "end": 469.0,
+   "title": "Entrepreneurship and sports"
+  },
+  {
+   "start": 469.0,
+   "end": 545.0,
+   "title": "Reflections on growth"
+  },
+  {
+   "start": 545.0,
+   "end": 757.0,
+   "title": "Monkey park and leisure"
+  },
+  {
+   "start": 757.0,
+   "end": 1080.0,
+   "title": "The charity match event"
+  },
+  {
+   "start": 1080.0,
+   "end": 1275.0,
+   "title": "Trip wrap-up and departure"
+  }
+ ],
+ "replay_peaks": [],
+ "scenes": [
+  {
+   "index": 0,
+   "start": 0.0,
+   "end": 24.71,
+   "duration": 24.71,
+   "representative_frame": null,
+   "shot_type": "wide establishing / landscape",
+   "shot_type_confidence": 0.55,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "opening hook",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.69,
+    "documentary": 0.155,
+    "personal": 0.155
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "high contrast"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "sky in top third 48%, edge density 0.07",
+    "visual-only scoring (no transcript)",
+    "shot: wide establishing / landscape",
+    "est. 18.2 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 1,
+   "start": 24.71,
+   "end": 133.43,
+   "duration": 108.72,
+   "representative_frame": null,
+   "shot_type": "close-up on a person (talking head / selfie)",
+   "shot_type_confidence": 0.6,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "slow",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "personal",
+   "style_scores": {
+    "cinematic": 0.172,
+    "documentary": 0.261,
+    "personal": 0.567
+   },
+   "visual_characteristics": [
+    "warm tones"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 82% of frames, max face 49% of frame height",
+    "visual-only scoring (no transcript)",
+    "shot: close-up on a person (talking head / selfie)",
+    "est. 2.7 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 2,
+   "start": 133.43,
+   "end": 469.48,
+   "duration": 336.05,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "medium",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.207,
+    "documentary": 0.587,
+    "personal": 0.207
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "highly saturated"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 12% of frames",
+    "visual-only scoring (no transcript)",
+    "shot: wide shot with people",
+    "est. 6.3 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 3,
+   "start": 469.48,
+   "end": 548.55,
+   "duration": 79.07,
+   "representative_frame": null,
+   "shot_type": "close-up on a person (talking head / selfie)",
+   "shot_type_confidence": 0.6,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "slow",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "personal",
+   "style_scores": {
+    "cinematic": 0.163,
+    "documentary": 0.279,
+    "personal": 0.558
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "highly saturated",
+    "high contrast"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 100% of frames, max face 34% of frame height",
+    "visual-only scoring (no transcript)",
+    "shot: close-up on a person (talking head / selfie)",
+    "est. 1.7 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 4,
+   "start": 548.55,
+   "end": 637.5,
+   "duration": 88.95,
+   "representative_frame": null,
+   "shot_type": "medium shot with people",
+   "shot_type_confidence": 0.5,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "medium",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.222,
+    "documentary": 0.591,
+    "personal": 0.187
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "highly saturated"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 56% of frames, max face 30%",
+    "visual-only scoring (no transcript)",
+    "shot: medium shot with people",
+    "est. 9.1 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 5,
+   "start": 637.5,
+   "end": 756.11,
+   "duration": 118.61,
+   "representative_frame": null,
+   "shot_type": "close-up on a person (talking head / selfie)",
+   "shot_type_confidence": 0.6,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "personal",
+   "style_scores": {
+    "cinematic": 0.206,
+    "documentary": 0.231,
+    "personal": 0.563
+   },
+   "visual_characteristics": [
+    "warm tones"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 58% of frames, max face 38% of frame height",
+    "visual-only scoring (no transcript)",
+    "shot: close-up on a person (talking head / selfie)",
+    "est. 18.2 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 6,
+   "start": 756.11,
+   "end": 805.53,
+   "duration": 49.42,
+   "representative_frame": null,
+   "shot_type": "medium shot with people",
+   "shot_type_confidence": 0.5,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "medium",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.262,
+    "documentary": 0.562,
+    "personal": 0.176
+   },
+   "visual_characteristics": [
+    "neutral white balance"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 60% of frames, max face 32%",
+    "visual-only scoring (no transcript)",
+    "shot: medium shot with people",
+    "est. 5.6 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 7,
+   "start": 805.53,
+   "end": 884.59,
+   "duration": 79.06,
+   "representative_frame": null,
+   "shot_type": "wide establishing / landscape",
+   "shot_type_confidence": 0.55,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "atmosphere / montage",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.666,
+    "documentary": 0.181,
+    "personal": 0.153
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "on-screen text or title"
+   ],
+   "editing_techniques": [
+    "on-screen text / title card"
+   ],
+   "speech_excerpt": "",
+   "evidence": [
+    "sky in top third 43%, edge density 0.08",
+    "visual-only scoring (no transcript)",
+    "shot: wide establishing / landscape",
+    "est. 18.2 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 8,
+   "start": 884.59,
+   "end": 993.32,
+   "duration": 108.73,
+   "representative_frame": null,
+   "shot_type": "wide establishing / landscape",
+   "shot_type_confidence": 0.55,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "atmosphere / montage",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.666,
+    "documentary": 0.177,
+    "personal": 0.156
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "high contrast"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "sky in top third 38%, edge density 0.08",
+    "visual-only scoring (no transcript)",
+    "shot: wide establishing / landscape",
+    "est. 14.6 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 9,
+   "start": 993.32,
+   "end": 1102.03,
+   "duration": 108.72,
+   "representative_frame": null,
+   "shot_type": "wide shot with people",
+   "shot_type_confidence": 0.35,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.204,
+    "documentary": 0.598,
+    "personal": 0.198
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "highly saturated",
+    "low-key / dark"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "small faces in 36% of frames",
+    "visual-only scoring (no transcript)",
+    "shot: wide shot with people",
+    "est. 14.6 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 10,
+   "start": 1102.03,
+   "end": 1141.57,
+   "duration": 39.54,
+   "representative_frame": null,
+   "shot_type": "close-up on a person (talking head / selfie)",
+   "shot_type_confidence": 0.6,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "medium",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "journey / progression",
+   "style_mode": "personal",
+   "style_scores": {
+    "cinematic": 0.172,
+    "documentary": 0.234,
+    "personal": 0.594
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "highly saturated"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 50% of frames, max face 36% of frame height",
+    "visual-only scoring (no transcript)",
+    "shot: close-up on a person (talking head / selfie)",
+    "est. 4.2 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 11,
+   "start": 1141.57,
+   "end": 1190.99,
+   "duration": 49.42,
+   "representative_frame": null,
+   "shot_type": "medium shot with people",
+   "shot_type_confidence": 0.5,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "fast",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "resolution / outro",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.218,
+    "documentary": 0.589,
+    "personal": 0.193
+   },
+   "visual_characteristics": [
+    "neutral white balance"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 40% of frames, max face 51%",
+    "visual-only scoring (no transcript)",
+    "shot: medium shot with people",
+    "est. 18.2 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 12,
+   "start": 1190.99,
+   "end": 1250.29,
+   "duration": 59.3,
+   "representative_frame": null,
+   "shot_type": "medium shot with people",
+   "shot_type_confidence": 0.5,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "slow",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "resolution / outro",
+   "style_mode": "documentary",
+   "style_scores": {
+    "cinematic": 0.195,
+    "documentary": 0.615,
+    "personal": 0.189
+   },
+   "visual_characteristics": [
+    "warm tones",
+    "high contrast"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "faces in 67% of frames, max face 33%",
+    "visual-only scoring (no transcript)",
+    "shot: medium shot with people",
+    "est. 1.1 cuts/min in this sequence"
+   ]
+  },
+  {
+   "index": 13,
+   "start": 1250.29,
+   "end": 1275.0,
+   "duration": 24.71,
+   "representative_frame": null,
+   "shot_type": "low-light / night shot",
+   "shot_type_confidence": 0.45,
+   "camera_movement": "not measurable from storyboard sampling",
+   "pacing": "medium",
+   "audio": {
+    "words_per_minute": 0.0,
+    "speech_coverage": 0.0,
+    "music_marker": false,
+    "other_markers": [],
+    "description": "unknown (no transcript)"
+   },
+   "narrative_function": "resolution / outro",
+   "style_mode": "cinematic",
+   "style_scores": {
+    "cinematic": 0.636,
+    "documentary": 0.182,
+    "personal": 0.182
+   },
+   "visual_characteristics": [
+    "neutral white balance",
+    "muted / desaturated",
+    "flat / low contrast",
+    "low-key / dark",
+    "letterboxed (cinematic aspect)"
+   ],
+   "editing_techniques": [],
+   "speech_excerpt": "",
+   "evidence": [
+    "mean brightness 0.02",
+    "visual-only scoring (no transcript)",
+    "shot: low-light / night shot",
+    "est. 4.2 cuts/min in this sequence"
+   ]
+  }
+ ],
+ "narrative_structure": [
+  {
+   "start": 0.0,
+   "end": 60.0,
+   "label": "hook",
+   "description": "short visual lead-in followed by speech",
+   "evidence": []
+  },
+  {
+   "start": 60.0,
+   "end": 134.0,
+   "label": "Arrival in Gambia",
+   "description": "2:14 chapter, leans context",
+   "evidence": [
+    "0 words"
+   ]
+  },
+  {
+   "start": 134.0,
+   "end": 469.0,
+   "label": "Entrepreneurship and sports",
+   "description": "5:35 chapter, leans context",
+   "evidence": [
+    "0 words"
+   ]
+  },
+  {
+   "start": 469.0,
+   "end": 545.0,
+   "label": "Reflections on growth",
+   "description": "1:16 chapter, leans context",
+   "evidence": [
+    "0 words"
+   ]
+  },
+  {
+   "start": 545.0,
+   "end": 757.0,
+   "label": "Monkey park and leisure",
+   "description": "3:32 chapter, leans context",
+   "evidence": [
+    "0 words"
+   ]
+  },
+  {
+   "start": 757.0,
+   "end": 1080.0,
+   "label": "The charity match event",
+   "description": "5:23 chapter, leans context",
+   "evidence": [
+    "0 words"
+   ]
+  },
+  {
+   "start": 1080.0,
+   "end": 1275.0,
+   "label": "Trip wrap-up and departure",
+   "description": "3:15 chapter, leans context",
+   "evidence": [
+    "0 words"
+   ]
+  }
+ ],
+ "hook": {
+  "first_speech_at_s": null,
+  "words_first_30s": 0,
+  "hook_vocabulary_first_30s": 0.0,
+  "title_uses_superlative_or_intrigue": false,
+  "cold_open": false,
+  "est_cuts_per_min_first_60s": 10.88,
+  "pattern": "short visual lead-in followed by speech"
+ },
+ "editing_characteristics": {
+  "est_cuts_per_min": 7.21,
+  "est_avg_shot_length_s": 8.32,
+  "estimator_saturated": false,
+  "changed_sample_fraction": 0.695,
+  "sample_interval_s": 9.88,
+  "visual_sequences": 14,
+  "median_sequence_s": 79.1,
+  "pacing_curve": [
+   {
+    "start": 0.0,
+    "end": 60.0,
+    "est_cuts_per_min": 10.88,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 60.0,
+    "end": 120.0,
+    "est_cuts_per_min": -0.0,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 120.0,
+    "end": 180.0,
+    "est_cuts_per_min": 10.88,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 180.0,
+    "end": 240.0,
+    "est_cuts_per_min": 10.88,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 240.0,
+    "end": 300.0,
+    "est_cuts_per_min": 10.88,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 300.0,
+    "end": 360.0,
+    "est_cuts_per_min": 6.67,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 360.0,
+    "end": 420.0,
+    "est_cuts_per_min": 1.11,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 420.0,
+    "end": 480.0,
+    "est_cuts_per_min": 6.67,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 480.0,
+    "end": 540.0,
+    "est_cuts_per_min": -0.0,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 540.0,
+    "end": 600.0,
+    "est_cuts_per_min": 6.67,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 600.0,
+    "end": 660.0,
+    "est_cuts_per_min": 18.19,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 660.0,
+    "end": 720.0,
+    "est_cuts_per_min": 18.19,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 720.0,
+    "end": 780.0,
+    "est_cuts_per_min": 18.19,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 780.0,
+    "end": 840.0,
+    "est_cuts_per_min": 6.67,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 840.0,
+    "end": 900.0,
+    "est_cuts_per_min": 18.19,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 900.0,
+    "end": 960.0,
+    "est_cuts_per_min": 18.19,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 960.0,
+    "end": 1020.0,
+    "est_cuts_per_min": 10.88,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 1020.0,
+    "end": 1080.0,
+    "est_cuts_per_min": 18.19,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 1080.0,
+    "end": 1140.0,
+    "est_cuts_per_min": 4.21,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 1140.0,
+    "end": 1200.0,
+    "est_cuts_per_min": 18.19,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 1200.0,
+    "end": 1260.0,
+    "est_cuts_per_min": 1.11,
+    "speech_coverage": 0.0
+   },
+   {
+    "start": 1260.0,
+    "end": 1275.0,
+    "est_cuts_per_min": 0.0,
+    "speech_coverage": 0.0
+   }
+  ],
+  "pacing_variability": 6.77,
+  "on_screen_text_frames": 0,
+  "chapters": 6,
+  "measurement_note": "Cut rate is a Poisson estimate from storyboard samples; individual cuts, transitions and camera moves are not observable at this sampling rate."
+ },
+ "sound_design": {
+  "available": false,
+  "speech_coverage": 0.0,
+  "non_speech_fraction": 0.0,
+  "longest_non_speech_s": 0,
+  "words_per_minute_overall": 0.0,
+  "caption_markers": {},
+  "music_marked_scenes": 0,
+  "note": "Music/ambience inferred from caption markers and speech gaps; audio itself is not downloaded."
+ },
+ "color_characteristics": {
+  "mean_brightness": 0.412,
+  "mean_contrast": 0.236,
+  "mean_saturation": 0.468,
+  "mean_colorfulness": 46.8,
+  "mean_warmth": 0.192,
+  "saturation_spread": 0.145,
+  "brightness_spread": 0.133,
+  "letterboxed_frame_fraction": 0.016,
+  "night_or_lowkey_fraction": 0.101,
+  "dominant_palette": [
+   "#2e2d20",
+   "#c08447",
+   "#e2ab6a",
+   "#f1be98",
+   "#efbf99",
+   "#c0b093",
+   "#8d6c4b",
+   "#ebe1cb"
+  ],
+  "grading_tags": [
+   "warm tones",
+   "highly saturated",
+   "on-screen text or title"
+  ]
+ },
+ "storytelling": {
+  "first_person_singular": 0.0,
+  "first_person_plural": 0.0,
+  "second_person": 0.0,
+  "reflection": 0.0,
+  "context_facts": 0.0,
+  "hook_words": 0.0,
+  "questions": 0,
+  "total_words": 0,
+  "dialogue_score": 0.0,
+  "face_frame_fraction": 0.403,
+  "closeup_frame_fraction": 0.147,
+  "shot_type_distribution": {
+   "close-up on a person (talking head / selfie)": 4,
+   "medium shot with people": 4,
+   "wide establishing / landscape": 3,
+   "wide shot with people": 2,
+   "low-light / night shot": 1
+  },
+  "narrative_functions": {
+   "journey / progression": 8,
+   "resolution / outro": 3,
+   "atmosphere / montage": 2,
+   "opening hook": 1
+  }
+ },
+ "style_mode_mix": {
+  "cinematic": 0.288,
+  "documentary": 0.421,
+  "personal": 0.291
+ },
+ "style_mode_basis": "visual-only (low confidence)",
+ "techniques": [
+  {
+   "start": 0.0,
+   "end": 134.0,
+   "name": "chapter",
+   "description": "chapter: Arrival in Gambia",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 134.0,
+   "end": 469.0,
+   "name": "chapter",
+   "description": "chapter: Entrepreneurship and sports",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 469.0,
+   "end": 545.0,
+   "name": "chapter",
+   "description": "chapter: Reflections on growth",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 545.0,
+   "end": 757.0,
+   "name": "chapter",
+   "description": "chapter: Monkey park and leisure",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 757.0,
+   "end": 1080.0,
+   "name": "chapter",
+   "description": "chapter: The charity match event",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  },
+  {
+   "start": 1080.0,
+   "end": 1275.0,
+   "name": "chapter",
+   "description": "chapter: Trip wrap-up and departure",
+   "category": "structure",
+   "style_mode": null,
+   "confidence": 1.0,
+   "source": "heuristic"
+  }
+ ],
+ "qualitative": {
+  "source": "claude-code subagent (viewed all 3 contact sheets + profile + transcript; YouTube offers no transcript for this video, so story is read from burned-in subtitles)",
+  "summary": "A three-day Gambia trip hosting former Manchester United striker Louis Saha, built around a charity football match. It mixes a long warm-lit dinner conversation, seated pieces to camera from the creator, a monkey-park and craft-market leisure section, and a golden-hour match with a trophy presentation. This is the most saturated and warm-graded of the six videos (mean warmth 0.19, saturation 0.47). It closes with an airport farewell, seated reflections, and the 'ZERO TO £100M' card used as an end bookend rather than an opener.",
+  "hook_analysis": "A visual teaser montage comes before any talk: a group photo (0:00), a crowd with a flag and an overlaid countdown, '242 DAYS LEFT' (0:10), security in a crowd (0:20), and sun through leaves (0:30). Then a seated piece to camera at 0:40 explains the event and the guest. It is a short visual lead-in followed by speech, with the countdown text supplying urgency.",
+  "narrative_arc": "Arrival and setup by piece to camera (0:40-1:59). Dinner conversation on entrepreneurship versus football (2:08-7:35). Hotel-lobby reflection piece to camera (7:45-8:54). Leisure: monkey park and market (9:04-11:52). Fans and convoy (12:02-13:30). Charity match at golden hour (13:40-15:39). Trophy and speeches (15:49-16:38). Night farewell talk (16:58-17:47). Seated debrief (17:57-18:47). Louis leaving the airport (18:57-19:46). Final reflection and end cards (19:56-21:05).",
+  "camera_and_composition": "Eye-level medium close-ups for pieces to camera, with a shallow-focus canopy or hotel atrium behind (0:40-1:59, 7:54-8:54). The dinner is covered handheld from several angles with soft foreground bottles framing faces (2:18-7:35). The monkey park uses very shallow depth of field for nature details (9:53-10:23). The match is covered from low angles behind players' backs and from the stands (14:50-15:29). Exact moves and cuts are not observable at storyboard resolution.",
+  "color_and_grade": "Strongly warm: orange/amber interiors (palette #c08447, #e3ab6b), golden-hour pinks at the match and trophy lift (15:49-16:38), and saturated greens and blues in daytime pieces to camera. The night scenes (16:48-17:47) stay warm with practical lamp highlights. This is the most 'cinematic travel' palette in the set.",
+  "sound_and_music": "Not measurable: no transcript is available and no audio was downloaded. Burned-in subtitles show dialogue-driven scenes; the 0:00-0:30 montage and the match section (13:40-15:39) have no subtitles in the sampled frames, which suggests music or ambience there, but this is unverified.",
+  "what_to_borrow": [
+   "An overlaid countdown or stake number in the first 10 s ('242 DAYS LEFT') to create urgency",
+   "Bookend a guest visit with arrival and airport farewell scenes",
+   "Do the seated reflection piece to camera after the event, not only before it",
+   "Use golden hour for the set-piece event and shoot from behind players and among the crowd",
+   "Use shallow-depth nature cutaways as a breather between talk-heavy sections"
+  ],
+  "what_to_avoid_copying": [
+   "The 'ZERO TO £100M' and 'SEE YOU NEXT TIME' series cards",
+   "Five-minute dinner table chatter with little visual change (2:18-7:35); trim it for your own pacing",
+   "Name-dropping a famous guest in the title as the main hook if you cannot deliver access"
+  ],
+  "observations": [
+   {
+    "start": 0,
+    "end": 30,
+    "name": "visual teaser montage",
+    "description": "A group photo, a crowd with a waving flag, and security in a crowd, cut together before any talk.",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 10,
+    "end": 20,
+    "name": "countdown text overlay",
+    "description": "'242 DAYS LEFT' in large white type over the crowd shot.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 40,
+    "end": 119,
+    "name": "seated piece to camera setup",
+    "description": "Creator in a blue polo under trees explains the event, the guest and the plan in a shallow-focus medium close-up.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 109,
+    "end": 119,
+    "name": "crew acknowledgement",
+    "description": "Subtitle names the camera operator ('We got Oscar in the building'), a recurring device that makes the crew part of the story.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 138,
+    "end": 455,
+    "name": "observational dinner conversation",
+    "description": "Warm amber room. Saha and others are covered handheld from several angles with burned-in subtitles. The talk is about how few people play in the Premier League and entrepreneurship.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 465,
+    "end": 534,
+    "name": "lobby reflection piece to camera",
+    "description": "Black turtleneck, centred medium close-up in a symmetrical hotel atrium.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 544,
+    "end": 573,
+    "name": "location piece to camera",
+    "description": "Standing in a palm grove: 'Welcome to Africa', then on to the monkey park.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 583,
+    "end": 623,
+    "name": "nature detail montage",
+    "description": "Very shallow-focus leaves, a monkey on a branch, a tourist filming, a monkey on the ground.",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 642,
+    "end": 712,
+    "name": "market observational",
+    "description": "Craft-market stalls, guests browsing jewellery and masks, handheld close.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 722,
+    "end": 741,
+    "name": "fan mob scene",
+    "description": "Fans in red jerseys crowd around the guest. The subtitle calls him over.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 820,
+    "end": 939,
+    "name": "golden-hour match coverage",
+    "description": "Players warming up, low angles from behind jerseys, spectators in the stand, the ball against a pink sky.",
+    "style_mode": "cinematic"
+   },
+   {
+    "start": 949,
+    "end": 998,
+    "name": "trophy presentation and lift",
+    "description": "A speech with a microphone, then the trophy raised against the sky and players celebrating.",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 1137,
+    "end": 1186,
+    "name": "airport farewell",
+    "description": "A hug at the airport entrance, then a wide of the terminal and a piece to camera ('He's heading back now').",
+    "style_mode": "documentary"
+   },
+   {
+    "start": 1196,
+    "end": 1255,
+    "name": "seated closing reflection",
+    "description": "Warm-lit room, presenter seated and gesturing, recapping the trip.",
+    "style_mode": "personal"
+   },
+   {
+    "start": 1255,
+    "end": 1275,
+    "name": "end series card",
+    "description": "'ZERO TO £100M' then 'SEE YOU NEXT TIME' on black: the series card used as an outro here.",
+    "style_mode": "personal"
+   }
+  ]
+ },
+ "contact_sheets": [],
+ "limitations": [
+  "Frames are YouTube storyboard previews (YouTube storyboard 320x180, one frame every 9.9s); fine detail, exact cuts, transitions and camera movement are not measured.",
+  "Shot types use face/sky/edge heuristics on low-resolution frames - treat as approximate.",
+  "No transcript available - speech/story metrics are empty."
+ ]
+}
