@@ -86,6 +86,22 @@ tfd render data/projects/raw                   # preview MP4 + qa_report.json
 - **In Claude Code** (no API key needed), ask in this repo: *"Using the travel film director library, how do Joe Hattab and Daniel Dalen differ in their hooks?"* Claude Code runs `tfd context`, reads the profiles and contact sheets, and answers. A project skill (`.claude/skills/travel-film-director`) tells it how.
 - **With `ANTHROPIC_API_KEY`:** `tfd ask` and the web UI answer in prose, citing videos and timestamps. Analysis also gets an automatic qualitative pass. Costs are bounded: about 6 downscaled contact sheets plus a sampled transcript per video.
 
+### Colour grade
+
+`tfd direct` adds a grade to every plan:
+- **Per-clip correction:** white balance and exposure normalised so iPhone, Osmo, drone and GoPro clips match. Corrections are capped and applied at half strength, so golden hour stays golden. iPhone HDR (HLG/Dolby Vision) is tone-mapped to SDR.
+- **A look inspired by the references**, exported as `.cube` LUTs in `<project>/grade/` at 100/80/60% strength. Cinematic sequences get the full look, documentary 80%, personal 60%.
+
+| Look | Inspired by | Character |
+|---|---|---|
+| `joe-teal` | Joe Hattab | saturated, teal shadows and skies, warm protected skin, punchy |
+| `omar-warm-film` | Omar Farooq | restrained, low contrast, lifted creamy blacks, olive greens |
+| `daniel-natural-warm` | Daniel Dalen | natural daylight, mildly warm |
+| `yusufa-amber` | Yusufa Sey | warm amber, deeper shadows |
+| `neutral` | — | clean Rec.709 |
+
+The preview render applies it. To keep it editable, apply the 100% LUT on a timeline node in Resolve or with the Custom LUT effect in Final Cut, then adjust. To choose a look yourself, add `- grade: omar-warm-film` to `trip_notes.md`.
+
 ### Facts, titles and narration
 
 The director **never invents** places, events or dialogue. To get location titles and narration, add `trip_notes.md` to the project folder:

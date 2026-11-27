@@ -245,6 +245,10 @@ def plan_project(project: Path, target_minutes: float = 8.0, direction: str = "b
         "audio_rules": {"dialogue_lufs": -16, "music_under_speech_db": -18, "music_alone_db": -8, "ambient_db": -14},
         "decisions": decisions, "needs_review": review,
     }
+    from ..editing.grade import build_grade
+    plan["grade"] = build_grade(project, plan, clips, notes)
+    decisions.append(f"Grade: look '{plan['grade']['look']}' ({plan['grade']['reason']}); per-clip white balance/exposure "
+                     "normalisation and HDR tone-mapping; look strength 100% cinematic, 80% documentary, 60% personal.")
     write_json(project / "plan.json", plan)
     log.info("plan: %d items, %s planned vs %s target", len(items), fmt_ts(rec), fmt_ts(target))
     return plan

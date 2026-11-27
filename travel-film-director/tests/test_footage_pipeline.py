@@ -32,6 +32,8 @@ def test_full_footage_pipeline(footage_dir, tmp_path):
     used = {plan["clips"][i["clip"]]["path"].split("/")[-1] for i in plan["timeline"]}
     assert "GX010003.MP4" not in used and plan["timeline"]
     assert all(i["reason"] for i in plan["timeline"])
+    assert plan["grade"]["look"] in ("joe-teal", "omar-warm-film", "daniel-natural-warm", "yusufa-amber", "neutral")
+    assert all(__import__("pathlib").Path(p).is_file() for p in plan["grade"]["luts"].values())
     paths = export_timeline(proj, plan)
     tl = otio.adapters.read_from_file(str(paths["otio"]))
     assert len(tl.video_tracks()[0]) == len(plan["timeline"])

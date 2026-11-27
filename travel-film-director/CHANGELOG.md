@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.6.0 (2026-11-27): colour grading
+### Added
+- `editing/grade.py`: per-clip white balance and exposure normalisation, HDR to SDR tone-mapping, and five looks (four inspired by the reference creators, plus neutral) exported as `.cube` LUTs. The director picks the look and its strength per mode; `trip_notes.md` can override it. The preview render applies it, and the timeline export carries the LUT and per-clip corrections.
+- The handoff note (`CLAUDE.md`) now prioritises the user's footage and the grade.
+- Tests: 43 (looks, LUT format, skin protection, correction, FFmpeg with spaces in paths, HDR chain).
+
 ## 0.5.0 (2026-11-27): deep pass from the video itself
 ### Changed
 - Reference videos may now be downloaded for private analysis (`tfd ref deep --download`). This must run on your own computer, because YouTube refuses cloud servers.

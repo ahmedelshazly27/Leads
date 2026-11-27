@@ -28,7 +28,11 @@ def build_timeline(plan: dict, rate: float = 25.0) -> otio.schema.Timeline:
             target_url=Path(c["path"]).resolve().as_uri(),
             available_range=otio.opentime.TimeRange(_rt(0, crate), _rt(c["duration"], crate)))
         rng = otio.opentime.TimeRange(_rt(item["src_in"], crate), _rt(item["src_out"] - item["src_in"], crate))
-        meta = {"tfd": {k: item.get(k) for k in ("section", "mode", "reference", "audio", "reason", "sequence")}}
+        meta = {"tfd": {k: item.get(k) for k in ("section", "mode", "reference", "audio", "reason", "sequence",
+                                                    "technique", "grade_intensity")}}
+        corr = ((plan.get("grade") or {}).get("corrections") or {}).get(item["clip"])
+        if corr:
+            meta["tfd"]["colour_correction"] = corr
         clip = otio.schema.Clip(name=f"{i:03d} {Path(c['path']).name}", media_reference=ref, source_range=rng, metadata=meta)
         clip.markers.append(otio.schema.Marker(name=item["reason"][:200], marked_range=otio.opentime.TimeRange(rng.start_time, _rt(0, crate)),
                                                color=otio.schema.MarkerColor.BLUE))
@@ -49,7 +53,13 @@ def build_timeline(plan: dict, rate: float = 25.0) -> otio.schema.Timeline:
     for r in plan.get("needs_review", []):
         tl.tracks.markers.append(otio.schema.Marker(name=f"REVIEW: {r['issue']}"[:250], marked_range=otio.opentime.TimeRange(
             _rt(r["at"], rate), _rt(0, rate)), color=otio.schema.MarkerColor.RED))
-    tl.metadata["tfd"] = {"decisions": plan.get("decisions", []), "audio_rules": plan.get("audio_rules", {})}
+    g = plan.get("grade")
+    if g:
+        tl.tracks.markers.append(otio.schema.Marker(
+            name=f"GRADE: apply LUT {Path(g['luts']['1.0']).name} ({g['look']}) - see plan.json grade.how_to_use",
+            marked_range=otio.opentime.TimeRange(_rt(0, rate), _rt(0, rate)), color=otio.schema.MarkerColor.GREEN))
+    tl.metadata["tfd"] = {"decisions": plan.get("decisions", []), "audio_rules": plan.get("audio_rules", {}),
+                          "grade": {k: g[k] for k in ("look", "reason", "luts", "how_to_use")} if g else None}
     return tl
 
 

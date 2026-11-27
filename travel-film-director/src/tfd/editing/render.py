@@ -47,15 +47,20 @@ def render_preview(project: Path, width: int = 1920, height: int = 1080, fps: in
     log.info("video encoder: %s", venc[1])
     with tempfile.TemporaryDirectory(dir=out_dir) as tmp:
         parts = []
+        from .grade import ffmpeg_filters
+        grade = plan.get("grade") or {}
         for i, item in enumerate(plan["timeline"]):
             c = plan["clips"][item["clip"]]
             dur = item["src_out"] - item["src_in"]
+            lut = (grade.get("luts") or {}).get(f"{item.get('grade_intensity', 0.8):.1f}")
+            gf = ffmpeg_filters((grade.get("corrections") or {}).get(item["clip"], {}), Path(lut) if lut else None)
+            vf_item = (gf + "," + vf) if gf else vf
             part = Path(tmp) / f"p{i:04d}.mp4"
             gain = "0" if item["audio"] == "sync" else str(plan["audio_rules"].get("ambient_db", -14))
             args = ["-ss", f"{item['src_in']:.3f}", "-t", f"{dur:.3f}", "-i", c["path"],
                     "-f", "lavfi", "-t", f"{dur:.3f}", "-i", "anullsrc=r=48000:cl=stereo",
                     "-filter_complex",
-                    f"[0:v]{vf}[v];[0:a]aresample=48000,aformat=channel_layouts=stereo,volume={gain}dB[a0];"
+                    f"[0:v]{vf_item}[v];[0:a]aresample=48000,aformat=channel_layouts=stereo,volume={gain}dB[a0];"
                     f"[a0][1:a]amix=inputs=2:duration=longest:normalize=0,atrim=0:{dur:.3f}[a]",
                     "-map", "[v]", "-map", "[a]", *venc,
                     "-c:a", "aac", "-b:a", "192k", str(part)]
@@ -64,7 +69,7 @@ def render_preview(project: Path, width: int = 1920, height: int = 1080, fps: in
             except RuntimeError:  # clip without audio stream
                 _ff(["-ss", f"{item['src_in']:.3f}", "-t", f"{dur:.3f}", "-i", c["path"],
                      "-f", "lavfi", "-t", f"{dur:.3f}", "-i", "anullsrc=r=48000:cl=stereo",
-                     "-filter_complex", f"[0:v]{vf}[v]", "-map", "[v]", "-map", "1:a",
+                     "-filter_complex", f"[0:v]{vf_item}[v]", "-map", "[v]", "-map", "1:a",
                      *venc, "-c:a", "aac", "-shortest", str(part)])
             parts.append(part)
         lst = Path(tmp) / "list.txt"
