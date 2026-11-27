@@ -33,18 +33,36 @@ export function Missions() {
       aria-label="Sectors"
       style={{ "--ic-tab-ms": `${TAB_MS}ms` } as React.CSSProperties}
     >
-      {missions.map((x, i) => (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          key={x.key}
-          className="ic-missions__bg"
-          src={x.img}
-          alt={i === active ? x.alt : ""}
-          data-active={i === active}
-          loading="lazy"
-        />
-      ))}
-      <MissionHud key={m.key} kind={m.key} />
+      {missions.map((x, i) =>
+        x.video ? (
+          <video
+            key={`${x.key}-${i === active}`}
+            className="ic-missions__bg"
+            data-active={i === active}
+            poster={x.img}
+            muted
+            loop
+            playsInline
+            autoPlay={i === active}
+            preload={i === active ? "auto" : "none"}
+            aria-label={x.alt}
+          >
+            <source src={`${x.video}.mp4`} type="video/mp4" />
+            <source src={`${x.video}.webm`} type="video/webm" />
+          </video>
+        ) : (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            key={x.key}
+            className="ic-missions__bg"
+            src={x.img}
+            alt={i === active ? x.alt : ""}
+            data-active={i === active}
+            loading="lazy"
+          />
+        ),
+      )}
+      {!m.video && <MissionHud key={m.key} kind={m.key} />}
       <div className="ic-missions__inner">
         <div className="ic-tabs" role="tablist">
           {missions.map((x, i) => (
