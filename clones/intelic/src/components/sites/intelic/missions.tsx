@@ -2,22 +2,23 @@
 
 import { useEffect, useState } from "react";
 import { featureDesc, features, sectors as missions } from "./data";
-import { MissionHud } from "./mission-hud";
 import { Chevron, SplitText, useInView } from "./motion";
+import { OpsConsole } from "./ops-console";
 
-// Measured on the source: the active bar fills over ~10.5s, then the next tab takes over.
-const TAB_MS = 10500;
+// One tab cycle; the console's scenario loops on the same clock.
+const TAB_MS = 14000;
 
 export function Missions() {
   const [active, setActive] = useState(0);
-  const [ref, inView] = useInView<HTMLElement>(0.25, false);
+  const [ref, inView] = useInView<HTMLElement>(0.2, false);
   const [cycle, setCycle] = useState(0);
+  const [hold, setHold] = useState(false);
 
   useEffect(() => {
-    if (!inView) return;
+    if (!inView || hold) return;
     const t = window.setTimeout(() => setActive((a) => (a + 1) % missions.length), TAB_MS);
     return () => window.clearTimeout(t);
-  }, [active, inView, cycle]);
+  }, [active, inView, cycle, hold]);
 
   const select = (i: number) => {
     setActive(i);
@@ -28,41 +29,12 @@ export function Missions() {
   return (
     <section
       ref={ref}
-      className="ic-missions"
+      className="ic-missions ic-missions--ops"
       id="sectors"
       aria-label="Sectors"
+      data-hold={hold}
       style={{ "--ic-tab-ms": `${TAB_MS}ms` } as React.CSSProperties}
     >
-      {missions.map((x, i) =>
-        x.video ? (
-          <video
-            key={`${x.key}-${i === active}`}
-            className="ic-missions__bg"
-            data-active={i === active}
-            poster={x.img}
-            muted
-            loop
-            playsInline
-            autoPlay={i === active}
-            preload={i === active ? "auto" : "none"}
-            aria-label={x.alt}
-          >
-            <source src={`${x.video}.mp4`} type="video/mp4" />
-            <source src={`${x.video}.webm`} type="video/webm" />
-          </video>
-        ) : (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            key={x.key}
-            className="ic-missions__bg"
-            src={x.img}
-            alt={i === active ? x.alt : ""}
-            data-active={i === active}
-            loading="lazy"
-          />
-        ),
-      )}
-      {!m.video && <MissionHud key={m.key} kind={m.key} />}
       <div className="ic-missions__inner">
         <div className="ic-tabs" role="tablist">
           {missions.map((x, i) => (
@@ -83,28 +55,26 @@ export function Missions() {
           ))}
         </div>
 
-        <div className="ic-mission__copy" role="tabpanel" key={m.key}>
-          <h3 className="ic-display">{m.title}</h3>
-          <SplitText text={m.tagline} as="p" className="ic-h-card" />
-          <a href="#contact" className="ic-link ic-mono">
-            Discuss a program <Chevron />
-          </a>
+        <div className="ic-mission__head">
+          <div className="ic-mission__copy" role="tabpanel" key={m.key}>
+            <h3 className="ic-display">{m.title}</h3>
+            <SplitText text={m.tagline} as="p" className="ic-h-card" />
+            <a href="#contact" className="ic-link ic-mono">
+              Discuss a program <Chevron />
+            </a>
+          </div>
+          <ul className="ic-mission__features">
+            {[m.f01, ...features].map((title, i) => (
+              <li key={i} title={i === 0 ? featureDesc : undefined}>
+                <span className="ic-feature__num">F.0{i + 1}</span>
+                <span className="ic-body">{title}</span>
+              </li>
+            ))}
+          </ul>
         </div>
 
-        <div className="ic-features">
-          {[m.f01, ...features].map(
-            (title, i) => (
-              <div key={i} className="ic-feature">
-                <span className="ic-feature__num">F.0{i + 1}</span>
-                {i > 0 && <span className="ic-feature__sq" />}
-                <div>
-                  <p className="ic-feature__title ic-body">{title}</p>
-                  {i === 0 && <p className="ic-feature__desc ic-body">{featureDesc}</p>}
-                </div>
-              </div>
-            ),
-          )}
-        </div>
+        <OpsConsole key={m.key} scenario={m.key} cycleMs={TAB_MS} running={inView} onInteract={setHold} />
+        <p className="ic-ops__note ic-mono">Illustrative simulation · fictional data</p>
       </div>
     </section>
   );
