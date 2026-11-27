@@ -119,7 +119,19 @@ def _context(a):
 
 def _annotate(a):
     from .pipeline import annotate
-    p = annotate(a.video_id, Path(a.file))
+    target = Path(a.file) if a.file else None
+    if a.video_id == "--all" or (target is None and Path(a.video_id).is_dir()):
+        folder = target or Path(a.video_id)
+        rc = 0
+        for f in sorted(folder.glob("*.json")):
+            try:
+                p = annotate(f.stem, f)
+                print(f"annotated {p.video_id}: {len(p.qualitative.get('observations', []))} observations")
+            except KeyError:
+                rc = 1
+                print(f"skip {f.stem}: not in the library yet (run tfd ref batch first)")
+        return rc
+    p = annotate(a.video_id, target)
     print(f"annotated {p.video_id}: {len(p.qualitative.get('observations', []))} observations")
     return 0
 
@@ -207,9 +219,10 @@ def main(argv=None) -> int:
     cx = sub.add_parser("context", help="print the library context (for Claude Code)")
     cx.add_argument("question", nargs="*")
     cx.set_defaults(fn=_context)
-    an = sub.add_parser("annotate", help="merge a qualitative annotation JSON into a video profile")
-    an.add_argument("video_id")
-    an.add_argument("file")
+    an = sub.add_parser("annotate", help="merge a qualitative annotation JSON into a video profile "
+                                         "(or pass a folder, e.g. examples/annotations, to import all)")
+    an.add_argument("video_id", help="video id, or a folder of <video_id>.json files")
+    an.add_argument("file", nargs="?")
     an.set_defaults(fn=_annotate)
 
     fo = sub.add_parser("footage", help="ingest a folder of your own clips (read-only)")
