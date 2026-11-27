@@ -185,9 +185,23 @@
   align-items: center;
   justify-content: space-between;
 }
-.ic-topbar__logo img {
-  width: 107px;
-  height: 28px;
+.ic-topbar__logo {
+  display: flex;
+  align-items: center;
+}
+.ic-topbar__mark {
+  display: none;
+}
+.ic-wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+}
+.ic-wordmark__text {
+  font-weight: 400;
+  font-size: 26px;
+  line-height: 28px;
+  letter-spacing: -0.2px;
 }
 .ic-nav {
   display: flex;
@@ -948,10 +962,20 @@
 .ic-marquee__track:hover {
   animation-play-state: paused;
 }
-.ic-marquee__track img {
-  height: var(--h);
-  width: auto;
-  opacity: 0.95;
+.ic-marquee__item {
+  font-size: 18px;
+  line-height: 22px;
+  white-space: nowrap;
+  color: rgba(255, 255, 255, 0.85);
+  display: inline-flex;
+  align-items: center;
+  gap: 72px;
+}
+.ic-marquee__item::after {
+  content: "";
+  width: 6px;
+  height: 6px;
+  background: var(--ic-accent);
 }
 @keyframes ic-marquee {
   to {
@@ -988,10 +1012,8 @@
   flex-direction: column;
   align-items: center;
 }
-.ic-footer__brand img {
-  width: 238px;
-  height: 233px;
-  opacity: 0.95;
+.ic-footer__star {
+  color: rgba(255, 255, 255, 0.9);
 }
 .ic-footer__brand h2 {
   font-weight: 400;
@@ -1160,10 +1182,11 @@
   .ic-topbar__inner {
     padding: 0 20px;
   }
-  .ic-topbar__logo img {
-    content: url("/sites/intelic/img/logo-mark.svg");
-    width: 29px;
-    height: 28px;
+  .ic-topbar__full {
+    display: none;
+  }
+  .ic-topbar__mark {
+    display: flex;
   }
   .ic-dropdown {
     display: none;

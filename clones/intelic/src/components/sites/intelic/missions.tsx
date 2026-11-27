@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { featureDesc, missions } from "./data";
+import { featureDesc, features, sectors as missions } from "./data";
 import { Chevron, SplitText, useInView } from "./motion";
 
 // Measured on the source: the active bar fills over ~10.5s, then the next tab takes over.
@@ -28,7 +28,8 @@ export function Missions() {
     <section
       ref={ref}
       className="ic-missions"
-      aria-label="Mission profiles"
+      id="sectors"
+      aria-label="Sectors"
       style={{ "--ic-tab-ms": `${TAB_MS}ms` } as React.CSSProperties}
     >
       {missions.map((x, i) => (
@@ -65,13 +66,13 @@ export function Missions() {
         <div className="ic-mission__copy" role="tabpanel" key={m.key}>
           <h3 className="ic-display">{m.title}</h3>
           <SplitText text={m.tagline} as="p" className="ic-h-card" />
-          <a href={m.href} className="ic-link ic-mono">
-            Discover mission type <Chevron />
+          <a href="#contact" className="ic-link ic-mono">
+            Discuss a program <Chevron />
           </a>
         </div>
 
         <div className="ic-features">
-          {[m.f01, "Battlefield integrations", "Powerful onboard AI", "Military user interface"].map(
+          {[m.f01, ...features].map(
             (title, i) => (
               <div key={i} className="ic-feature">
                 <span className="ic-feature__num">F.0{i + 1}</span>

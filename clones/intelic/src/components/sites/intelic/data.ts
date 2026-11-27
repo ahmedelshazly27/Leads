@@ -1,82 +1,75 @@
-const SRC = "https://intelic.ai";
 export const A = "/sites/intelic";
 
+export const BRAND = "Suhail Industries";
+
+// In-page anchors until real pages exist.
 export const links = {
-  nexus: `${SRC}/nexus`,
-  newsroom: `${SRC}/newsroom`,
-  careers: `${SRC}/careers`,
-  about: `${SRC}/about-us`,
-  contact: `${SRC}/contact-us`,
-  base: "https://base.intelic.ai/",
-  screen: `${SRC}/screen`,
-  supply: `${SRC}/supply`,
-  attack: `${SRC}/attack`,
-  privacy: `${SRC}/privacy-policy`,
-  linkedin: "https://www.linkedin.com/company/intelic-ai",
+  capabilities: "#capabilities",
+  sectors: "#sectors",
+  about: "#about",
+  partners: "#partners",
+  contact: "#contact",
+  careers: "#contact",
+  defense: "#sectors",
+  energy: "#sectors",
+  security: "#sectors",
 };
 
-export const missions = [
+export const sectors = [
   {
-    key: "screen",
-    label: "SCREEN",
-    title: "Screen",
-    tagline: "From fast planning to a common picture with a wide range of systems",
-    f01: "Many-to-many mission control",
+    key: "defense",
+    label: "DEFENSE",
+    title: "Defense",
+    tagline: "Unmanned, sensing and command systems for modern forces",
+    f01: "Defense program management",
     img: `${A}/img/mission-screen.webp`,
-    alt: "A digital rendering illustrates drone surveillance zones over mountainous terrain",
+    alt: "A digital rendering of unmanned systems coordinating over mountainous terrain",
     nav: `${A}/img/nav-screen.webp`,
-    href: links.screen,
+    href: links.defense,
   },
   {
-    key: "supply",
-    label: "SUPPLY",
-    title: "Supply",
-    tagline: "Plan and execute autonomous resupply",
-    f01: "Flexible mission control",
+    key: "energy",
+    label: "ENERGY",
+    title: "Energy",
+    tagline: "Resilient power and storage for critical and remote sites",
+    f01: "Energy systems integration",
     img: `${A}/img/mission-supply.webp`,
-    alt: "A futuristic, digital rendering shows autonomous resupply routes across terrain",
+    alt: "A digital rendering of autonomous logistics routes across terrain",
     nav: `${A}/img/nav-supply.webp`,
-    href: links.supply,
+    href: links.energy,
   },
   {
-    key: "attack",
-    label: "ATTACK",
-    title: "Attack",
-    tagline: "Synchronize target detection with fire support and strike systems",
-    f01: "Flexible mission control",
+    key: "security",
+    label: "SECURITY",
+    title: "Security",
+    tagline: "Protection for borders, ports and critical infrastructure",
+    f01: "Site security integration",
     img: `${A}/img/mission-attack.webp`,
-    alt: "A dark, futuristic landscape with grid overlays marking targets",
+    alt: "A dark landscape with grid overlays marking monitored zones",
     nav: `${A}/img/nav-attack.webp`,
-    href: links.attack,
+    href: links.security,
   },
 ] as const;
 
+export const features = ["Global supplier network", "Localization & offset", "Lifecycle support"] as const;
+
 export const featureDesc =
-  "Supports flexible control setups where one user can operate multiple, different unmanned systems, and multiple users with specific roles can access a single system.";
+  "One accountable team from requirement to delivery: sourcing, contracting, compliance, integration and operator training.";
 
-type Logo = { file: string; alt: string; h: number };
-const L = (file: string, alt: string, h: number): Logo => ({ file: `${A}/logos/${file}`, alt, h });
-
-// Rendered heights measured on the source at 1440px.
-export const logosRow1: Logo[] = [
-  L("3qDoboZxb0mGdCeH8peS20gyPx0.png", "Roboneers", 48),
-  L("J6FW6R0i7ddhbjR3Bf1rLZwc4.png", "Ministerie van Defensie", 47),
-  L("QEcRudZRYekOJvfo5yE4mhuMo.png", "Destinus", 30),
-  L("ZynAgTcEG5H97sejUHpKoJTsoc.png", "TNO", 31),
-  L("mkHb3qGXdWkHPhSjkAmnAQDd1tc.webp", "Auterion", 27),
-  L("KKVoteuxNWbUBIkpqS2kIjco.png", "NLR", 53),
-  L("cPakTMdQGIQiJrkQYiY8SQNRS8.png", "Partner", 24),
-  L("iRkgvHY3980c5C7jiDywEAvdBk.png", "Partner", 26),
-  L("x4M5hXkxgUjhHuD7Pt7Njx72Sw.png", "Partner", 42),
+// Capability areas shown in the scrolling rows (no third-party logos are implied as partners).
+export const capabilityRow1 = [
+  "Unmanned systems",
+  "Command & control",
+  "Counter-UAS",
+  "ISR & sensing",
+  "Secure communications",
+  "Training & simulation",
 ];
-export const logosRow2: Logo[] = [
-  L("v7ZnquYDZKRM0IqmC1Pu6XyFY.png", "ARX Robotics", 39),
-  L("f6uKRK9oD6s5P5dn2SQHuUM3y7w.png", "Milrem Robotics", 36),
-  L("zlz2jqfjfdBk1ruOAcCbDqWhc.png", "Skyeton", 30),
-  L("CpxM9hCcp0TtRbkGVaJQ9HB2kI.webp", "DeltaQuad", 29),
-  L("rZsONIThIQbTnfkfOpn7pP0o.png", "Gurzuf Defence", 41),
-  L("WjUUjla1X7ELFpIhiOdoAENu4e4.png", "Gurzuf Defence", 28),
-  L("FEXCGmPakY3wxSmoptC4zxAkw4.png", "EFRO Oost", 36),
-  L("aBX7I0rbzydj0YS9HIdceiIy0.png", "Airvolute", 34),
-  L("m2obxf8xTpsp1G4jFnEF7Kfgv5Q.png", "Partner", 22),
+export const capabilityRow2 = [
+  "Energy storage",
+  "Solar & hybrid power",
+  "Microgrids",
+  "Hydrogen",
+  "Grid resilience",
+  "Critical site protection",
 ];

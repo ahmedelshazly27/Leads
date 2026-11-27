@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { A, links, logosRow1, logosRow2 } from "./data";
+import { A, capabilityRow1, capabilityRow2, links } from "./data";
 import { LightRays } from "./light-rays";
 import { Chevron, Chevrons, Reveal, SplitText } from "./motion";
 
@@ -23,41 +23,35 @@ export function Hero() {
           <div className="ic-hero__line" />
           <div className="ic-hero__grid">
             <div className="ic-hero__left">
-              <p className="ic-body">We deliver for today’s battlefield, and build for tomorrow’s resilience.</p>
+              <p className="ic-body">We source tomorrow’s capabilities, and deliver them today.</p>
               <h1 className="ic-hero__headline">
-                A solution built for military operators, strengthened by Purposeful Intelligence in every mission.
+                Next-generation defense and energy technology, contracted and delivered across the Arab world.
               </h1>
             </div>
             <div className="ic-hero__panel">
               <div className="ic-hero__card">
-                <img
-                  src={`${A}/img/card-nexus.webp`}
-                  alt="A soldier in camouflage gear holds a military drone overhead"
-                />
+                <img src={`${A}/img/card-nexus.webp`} alt="An operator holds an unmanned aircraft overhead" />
                 <div className="ic-hero__card-text">
-                  <h2 className="ic-h-card">Unified through Nexus</h2>
+                  <h2 className="ic-h-card">Defense programs</h2>
                   <p className="ic-body">
-                    With Nexus - our platform-agnostic C2 software - we unify the fragmented landscape of unmanned
-                    defense systems, so that industry leaders unlock new capabilities.
+                    We partner with leading manufacturers to bring advanced unmanned, sensing and command systems to
+                    armed forces across the region.
                   </p>
-                  <a href={links.nexus} className="ic-link ic-mono">
-                    Discover Nexus <Chevron />
+                  <a href={links.defense} className="ic-link ic-mono">
+                    Explore defense <Chevron />
                   </a>
                 </div>
               </div>
               <div className="ic-hero__card ic-hero__card--rev">
-                <img
-                  src={`${A}/img/card-base.webp`}
-                  alt="Soldiers in camouflage uniforms are preparing unmanned systems"
-                />
+                <img src={`${A}/img/card-base.webp`} alt="A team preparing equipment in the field" />
                 <div className="ic-hero__card-text">
-                  <h2 className="ic-h-card">Join Intelic BASE</h2>
+                  <h2 className="ic-h-card">Energy &amp; infrastructure</h2>
                   <p className="ic-body">
-                    We power the European procurement hub for interoperable defense systems. Source, compare and
-                    procure mission-ready unmanned systems, ready to deploy.
+                    From grid-scale storage to resilient power for remote sites, we contract and integrate the energy
+                    technology that keeps critical infrastructure running.
                   </p>
-                  <a href={links.base} className="ic-link ic-mono">
-                    Gain access now <Chevron />
+                  <a href={links.energy} className="ic-link ic-mono">
+                    Explore energy <Chevron />
                   </a>
                 </div>
               </div>
@@ -75,7 +69,7 @@ export function Challenge() {
       <img
         className="ic-challenge__bg"
         src={`${A}/img/challenge-silhouettes.webp`}
-        alt="Two silhouetted soldiers stand against a dusk sky"
+        alt="Two silhouetted figures stand against a dusk sky"
         loading="lazy"
       />
       <div className="ic-wrap">
@@ -83,16 +77,16 @@ export function Challenge() {
         <SplitText
           as="h2"
           className="ic-h2"
-          text="A fragmented landscape of unmanned systems undermines operational speed, coordination and control, leaving military forces vulnerable in contested environments"
+          text="Critical technology reaches the region slowly, through fragmented supply chains, long procurement cycles and partners who don’t stay for the long run"
           suffix={<span className="dot">.</span>}
         />
         <div className="ic-solution">
           <Reveal>
-            <span className="ic-mono ic-label">The solution</span>
+            <span className="ic-mono ic-label">Our answer</span>
             <p className="ic-lead">
-              Nexus is the advanced military Command-and-Control software for unmanned systems. Platform-agnostic by
-              design, Nexus ensures interoperability between multiple unmanned systems, operators and commanders, and
-              Battlefield Management Systems.
+              Suhail Industries is a single accountable contractor for next-generation defense and energy technology.
+              We source the right systems, handle compliance and localization, and support every program from contract
+              to lifecycle.
             </p>
           </Reveal>
         </div>
@@ -103,42 +97,41 @@ export function Challenge() {
 
 export function MeetNexus() {
   return (
-    <section className="ic-nexus" aria-label="Meet Nexus">
+    <section className="ic-nexus" id="capabilities" aria-label="What we do">
       <LightRays />
       <div className="ic-nexus__blur" />
       <div className="ic-wrap">
         <div className="ic-rule" />
         <div className="ic-nexus__row">
           <div className="ic-nexus__intro">
-            <span className="ic-mono ic-label">Product</span>
-            <h3 className="ic-display">Meet Nexus</h3>
-            <p className="ic-lead">Turn your unmanned system into the most capable asset on the battlefield</p>
-            <a href={links.nexus} className="ic-btn ic-btn--outline ic-mono">
-              Discover nexus <Chevrons />
+            <span className="ic-mono ic-label">What we do</span>
+            <h3 className="ic-display">End to end</h3>
+            <p className="ic-lead">Turn complex procurement into mission-ready capability</p>
+            <a href={links.sectors} className="ic-btn ic-btn--outline ic-mono">
+              Our sectors <Chevrons />
             </a>
           </div>
           <div className="ic-bento">
-            <a href={links.nexus} className="ic-bento__card ic-bento__card--features ic-bento__a">
-              <img src={`${A}/img/bento-features.webp`} alt="Nexus software UI on three stacked screens" loading="lazy" />
-              <h4>Explore features</h4>
+            <a href={links.sectors} className="ic-bento__card ic-bento__card--features ic-bento__a">
+              <img src={`${A}/img/bento-features.webp`} alt="Command software on three stacked screens" loading="lazy" />
+              <h4>Explore capabilities</h4>
             </a>
             <div className="ic-bento__card ic-bento__b">
-              <h4>Our product in short</h4>
+              <h4>What we do in short</h4>
               <p className="ic-body">
-                Nexus bridges the gap between ground control stations and Battle Management Systems, providing full
-                control up to the command of multiple unmanned systems. With built-in onboard intelligent functions,
-                the software is designed for military use in contested environments.
+                Suhail Industries identifies, contracts and delivers advanced defense and energy systems from trusted
+                global manufacturers, then integrates and supports them on the ground with local teams.
               </p>
             </div>
             <div className="ic-bento__card ic-bento__c">
-              <h4>Used by industry leaders in Europe</h4>
+              <h4>Built for the Arab world</h4>
               <p className="ic-body">
-                Across Europe, defense systems often struggle to work together. Nexus changes that by bridging gaps
-                between manufacturers and nations, transforming fragmentation into collaboration.
+                We work across the Gulf, the Levant and North Africa, aligning every program with national industrial
+                strategies, offset requirements and local partners.
               </p>
             </div>
             <a href={links.contact} className="ic-bento__card ic-bento__d">
-              <img src={`${A}/img/bento-partner.webp`} alt="Soldier holding a drone" loading="lazy" />
+              <img src={`${A}/img/bento-partner.webp`} alt="Technician assembling an unmanned aircraft" loading="lazy" />
               <h4>Partner with us</h4>
             </a>
           </div>
@@ -150,22 +143,22 @@ export function MeetNexus() {
 
 export function Platform() {
   return (
-    <section className="ic-platform" aria-label="One platform">
+    <section className="ic-platform" aria-label="One partner">
       <Reveal>
-        <h2>One Platform to command all unmanned systems</h2>
+        <h2>One partner for defense and energy technology</h2>
       </Reveal>
-      <SplitText as="p" className="ic-body" text="Explore how Nexus enables different high-stakes missions" />
+      <SplitText as="p" className="ic-body" text="Explore the sectors we serve across the region" />
     </section>
   );
 }
 
 export function About() {
   return (
-    <section className="ic-about" aria-label="Our commitment">
+    <section className="ic-about" id="about" aria-label="Our commitment">
       <img
         className="ic-about__bg"
         src={`${A}/img/about-europe.webp`}
-        alt="A military vehicle drives along a rocky plain under a wide sky"
+        alt="A vehicle drives along a rocky plain under a wide sky"
         loading="lazy"
       />
       <div className="ic-wrap">
@@ -173,47 +166,42 @@ export function About() {
         <Reveal>
           <h2 className="ic-display">
             We are building
-            <br />a stronger Europe
+            <br />a stronger region
           </h2>
         </Reveal>
         <div className="ic-about__cols">
           <Reveal delay={0.1}>
             <p className="ic-body">
-              Europe is facing increasing threats. While we do not seek conflict, we must be prepared to respond when
-              necessary. With military forces experiencing personnel shortages and limited readiness for prolonged
-              operations, unmanned systems are essential in bridging gaps and maintaining the upper hand.
+              The Arab world is investing in sovereign capability at a historic pace. Armed forces need modern,
+              interoperable systems, and energy operators need technology that withstands extreme conditions and
+              rising demand. Getting that technology in place quickly, and keeping it running, is what decides
+              outcomes.
             </p>
           </Reveal>
           <Reveal delay={0.2}>
             <p className="ic-body">
-              True strategic advantage is realized through the seamless and effective operation of these unmanned
-              systems. We reduce integration and deployment times, compress operator training thanks to intuitive
-              tools, leverage smart functions that empower immediate action, and lay the foundation for coalition
-              readiness. Together, these capabilities serve to strengthen the forces protecting Europe.
+              Suhail Industries bridges global innovators and regional programs. We shorten procurement cycles, build
+              local skills and supply chains, transfer know-how to national partners, and stay accountable long after
+              delivery. Together, these commitments strengthen the nations and industries we serve.
             </p>
           </Reveal>
         </div>
-        <a href={links.about} className="ic-btn ic-btn--grey ic-mono ic-about__cta">
-          About us <Chevrons />
+        <a href={links.contact} className="ic-btn ic-btn--grey ic-mono ic-about__cta">
+          Talk to us <Chevrons />
         </a>
       </div>
     </section>
   );
 }
 
-function MarqueeRow({ logos, dur }: { logos: typeof logosRow1; dur: number }) {
-  const all = [...logos, ...logos];
+function CapabilityRow({ items, dur }: { items: string[]; dur: number }) {
+  const all = [...items, ...items];
   return (
     <div className="ic-marquee__track" style={{ "--dur": `${dur}ms` } as React.CSSProperties}>
-      {all.map((l, i) => (
-        <img
-          key={i}
-          src={l.file}
-          alt={i < logos.length ? l.alt : ""}
-          aria-hidden={i >= logos.length}
-          style={{ "--h": `${l.h}px` } as React.CSSProperties}
-          loading="lazy"
-        />
+      {all.map((t, i) => (
+        <span key={i} className="ic-marquee__item ic-mono" aria-hidden={i >= items.length}>
+          {t}
+        </span>
       ))}
     </div>
   );
@@ -221,23 +209,22 @@ function MarqueeRow({ logos, dur }: { logos: typeof logosRow1; dur: number }) {
 
 export function Partners() {
   return (
-    <section className="ic-partners" aria-label="Partners">
+    <section className="ic-partners" id="partners" aria-label="Partners">
       <div className="ic-partners__inner">
         <div className="ic-partners__left">
           <span className="ic-mono ic-label">Partners</span>
-          <h2>Trusted by Industry Leaders</h2>
+          <h2>Open to Industry Partners</h2>
           <p className="ic-body">
-            We work with unmanned system companies around the world to enhance their platforms, and provide a simple
-            solution for a unified landscape of systems to the armed forces.
+            We work with defense and energy technology manufacturers worldwide who want a trusted, long-term route into
+            the Arab world, and with the institutions that rely on their systems.
           </p>
           <a href={links.contact} className="ic-btn ic-btn--grey ic-mono">
             Partner with us <Chevrons />
           </a>
         </div>
         <div className="ic-marquee">
-          {/* Durations read from document.getAnimations() on the source. */}
-          <MarqueeRow logos={logosRow1} dur={38675} />
-          <MarqueeRow logos={logosRow2} dur={44150} />
+          <CapabilityRow items={capabilityRow1} dur={38675} />
+          <CapabilityRow items={capabilityRow2} dur={44150} />
         </div>
       </div>
     </section>

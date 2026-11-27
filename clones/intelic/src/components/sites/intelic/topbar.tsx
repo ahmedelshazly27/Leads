@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { A, links, missions } from "./data";
+import { links, sectors } from "./data";
+import { StarMark, Wordmark } from "./logo";
 import { Chevron, Chevrons } from "./motion";
 
 export function Topbar() {
@@ -29,16 +30,22 @@ export function Topbar() {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
+  const closeMenu = () => setMenu(false);
+
   return (
     <>
       <header className="ic-topbar">
         <div className="ic-topbar__inner">
-          <Link href="/" className="ic-topbar__logo" aria-label="Intelic home">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={`${A}/img/logo.svg`} alt="Intelic" />
+          <Link href="/" className="ic-topbar__logo" aria-label="Suhail Industries home">
+            <span className="ic-topbar__full">
+              <Wordmark />
+            </span>
+            <span className="ic-topbar__mark">
+              <StarMark size={28} />
+            </span>
           </Link>
           <nav className="ic-nav" aria-label="Main">
-            <a href={links.nexus}>Nexus</a>
+            <a href={links.capabilities}>Capabilities</a>
             <button
               type="button"
               className="ic-nav__apps"
@@ -49,12 +56,11 @@ export function Topbar() {
               onFocus={show}
               onClick={() => setOpen((v) => !v)}
             >
-              Applications <Chevron dir="down" size={10} />
+              Sectors <Chevron dir="down" size={10} />
             </button>
-            <a href={links.newsroom}>Newsroom</a>
-            <a href={links.careers}>Careers</a>
             <a href={links.about}>About us</a>
-            <a href={links.base}>Intelic BASE</a>
+            <a href={links.partners}>Partners</a>
+            <a href={links.careers}>Careers</a>
           </nav>
           <a href={links.contact} className="ic-contact ic-mono">
             <span className="ic-contact__icon">
@@ -89,12 +95,18 @@ export function Topbar() {
       >
         <div className="ic-dropdown__inner">
           <div className="ic-dropdown__intro">
-            <span className="ic-mono ic-label">Mission types</span>
-            <p>Explore how Nexus provides mission-first functionalities</p>
+            <span className="ic-mono ic-label">Sectors</span>
+            <p>Explore the defense and energy sectors we contract for</p>
           </div>
           <div className="ic-dropdown__cards">
-            {missions.map((m) => (
-              <a key={m.key} href={m.href} className="ic-dropdown__card" tabIndex={open ? 0 : -1}>
+            {sectors.map((m) => (
+              <a
+                key={m.key}
+                href={m.href}
+                className="ic-dropdown__card"
+                tabIndex={open ? 0 : -1}
+                onClick={() => setOpen(false)}
+              >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={m.nav} alt="" loading="lazy" />
                 <span>{m.label}</span>
@@ -105,17 +117,21 @@ export function Topbar() {
       </div>
 
       <nav className="ic-mobile-menu" data-open={menu} aria-label="Mobile">
-        <a href={links.nexus}>Nexus</a>
-        {missions.map((m) => (
-          <a key={m.key} href={m.href}>
-            {m.title}
-          </a>
-        ))}
-        <a href={links.newsroom}>Newsroom</a>
-        <a href={links.careers}>Careers</a>
-        <a href={links.about}>About us</a>
-        <a href={links.base}>Intelic BASE</a>
-        <a href={links.contact}>Contact us</a>
+        <a href={links.capabilities} onClick={closeMenu}>
+          Capabilities
+        </a>
+        <a href={links.sectors} onClick={closeMenu}>
+          Sectors
+        </a>
+        <a href={links.about} onClick={closeMenu}>
+          About us
+        </a>
+        <a href={links.partners} onClick={closeMenu}>
+          Partners
+        </a>
+        <a href={links.contact} onClick={closeMenu}>
+          Contact us
+        </a>
       </nav>
     </>
   );

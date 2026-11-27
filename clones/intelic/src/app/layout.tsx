@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Intelic - Building A Stronger Europe",
+  title: "Suhail Industries - Next-Gen Defense & Energy Technology",
   description:
-    "Autonomy software built for modern defense, Intelic connects air and ground umanned verhicles for military missions.",
+    "Suhail Industries contracts and delivers next-generation defense and energy technology across the Arab world.",
 };
 
 export default function RootLayout({

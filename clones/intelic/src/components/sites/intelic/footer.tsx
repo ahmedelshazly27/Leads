@@ -2,18 +2,18 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { A, links } from "./data";
+import { links } from "./data";
+import { StarMark } from "./logo";
 import { Chevrons } from "./motion";
 
 export function Footer() {
   const [sent, setSent] = useState(false);
   return (
-    <footer className="ic-footer">
+    <footer className="ic-footer" id="contact">
       <div className="ic-footer__inner">
         <div className="ic-footer__brand">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={`${A}/img/footer-mark.png`} alt="Intelic logo" loading="lazy" />
-          <h2>Intelic</h2>
+          <StarMark size={220} className="ic-footer__star" />
+          <h2>Suhail</h2>
         </div>
         <div className="ic-footer__main">
           <h3>Reach out to get the conversation started.</h3>
@@ -21,8 +21,8 @@ export function Footer() {
             <a href={links.contact} className="ic-btn ic-btn--dark ic-mono">
               Contact us <Chevrons />
             </a>
-            <a href={links.careers} className="ic-btn ic-btn--grey ic-mono">
-              Open roles <Chevrons />
+            <a href={links.partners} className="ic-btn ic-btn--grey ic-mono">
+              Become a partner <Chevrons />
             </a>
           </div>
           <div className="ic-footer__sub">
@@ -43,7 +43,7 @@ export function Footer() {
             </form>
             {sent && (
               <p className="ic-form__ok" role="status">
-                Thanks — this clone does not send data anywhere.
+                Thanks, we’ll be in touch.
               </p>
             )}
           </div>
@@ -52,39 +52,33 @@ export function Footer() {
               <span className="ic-mono ic-label">Navigation</span>
               <div className="ic-footer__links">
                 <Link href="/">Home</Link>
-                <a href={links.nexus}>Nexus</a>
-                <a href={links.newsroom}>Newsroom</a>
-                <a href={links.screen}>Screen</a>
-                <a href={links.supply}>Supply</a>
-                <a href={links.attack}>Attack</a>
-                <a href={links.contact}>Contact us</a>
+                <a href={links.capabilities}>Capabilities</a>
+                <a href={links.sectors}>Sectors</a>
+                <a href={links.defense}>Defense</a>
+                <a href={links.energy}>Energy</a>
+                <a href={links.security}>Security</a>
               </div>
             </div>
             <div>
               <span className="ic-mono ic-label">Company</span>
               <div className="ic-footer__links">
-                <a href={links.careers}>Careers</a>
                 <a href={links.about}>About us</a>
+                <a href={links.partners}>Partners</a>
               </div>
             </div>
             <div>
-              <span className="ic-mono ic-label">Social</span>
+              <span className="ic-mono ic-label">Contact</span>
               <div className="ic-footer__links">
-                <a href={links.linkedin} target="_blank" rel="noreferrer">
-                  LinkedIn
-                </a>
+                <a href={links.contact}>Get in touch</a>
               </div>
             </div>
           </div>
         </div>
       </div>
       <div className="ic-legal ic-mono">
-        <span>Intelic is a tradename of Avalor AI BV</span>
-        <span>KvK:82695806</span>
-        <span>Amsterdam</span>
-        <a href={links.privacy}>Privacy Policy</a>
-        <button type="button">Cookie settings</button>
-        <span>52° 22&apos; 12.7776&apos;&apos; N4° , 53&apos; 42.6048&apos;&apos; E</span>
+        <span>© {new Date().getFullYear()} Suhail Industries</span>
+        <span>Next-gen defense &amp; energy technology</span>
+        <span>Serving the Arab world</span>
       </div>
     </footer>
   );
@@ -95,7 +89,7 @@ export function CookieBanner() {
   if (!open) return null;
   return (
     <div className="ic-cookie" role="dialog" aria-label="Cookie notice">
-      <span>We use cookies to personalize content, run ads, and analyze traffic.</span>
+      <span>We use cookies to personalize content and analyze traffic.</span>
       <button type="button" onClick={() => setOpen(false)}>
         Okay
       </button>
