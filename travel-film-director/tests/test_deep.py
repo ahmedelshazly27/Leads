@@ -12,8 +12,22 @@ from tfd.analysis.filler import find_filler
 from tfd.analysis.graphics import detect_graphics
 from tfd.analysis.local_video import analyse_video
 
-FONT = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
-pytestmark = pytest.mark.skipif(not (shutil.which("ffmpeg") and Path(FONT).exists()), reason="ffmpeg + DejaVu font needed")
+_FONTS = ("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
+          "/System/Library/Fonts/Supplemental/Arial Bold.ttf",
+          "/Library/Fonts/Arial Unicode.ttf")
+FONT = next((f for f in _FONTS if Path(f).exists()), _FONTS[0])
+
+
+def _has_drawtext() -> bool:
+    if not shutil.which("ffmpeg"):
+        return False
+    out = subprocess.run(["ffmpeg", "-hide_banner", "-filters"], capture_output=True, text=True).stdout
+    return " drawtext " in out
+
+
+# Homebrew's default ffmpeg bottle is built without libfreetype, so drawtext may be missing.
+pytestmark = pytest.mark.skipif(not (_has_drawtext() and Path(FONT).exists()),
+                                reason="ffmpeg with drawtext + a bold TTF font needed")
 
 
 def _ff(*a):

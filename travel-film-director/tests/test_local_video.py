@@ -74,8 +74,7 @@ def test_attach_full_rate_to_profile(edit, tmp_path):
     path = tmp_path / "v" / "profile.json"
     path.write_text(prof.model_dump_json(), encoding="utf-8")
     Library(get_settings().db_path).add_profile(prof, path)
-    vid_file = sorted(__import__("glob").glob("/tmp/pytest-of-*/pytest-*/edit*/edit.mp4"))[-1]
-    summary = attach_full_rate(prof.video_id, vid_file)
+    summary = attach_full_rate(prof.video_id, edit["file"])
     assert summary["shots"] == 4
     merged = json.loads(path.read_text())
     assert merged["editing_characteristics"]["full_rate"]["transition_types"]["cross-dissolve"] == 1
