@@ -71,3 +71,13 @@ def test_plan_carries_playbook(footage_dir, tmp_path):
     assert all(b["borrowed_from"] for b in plan["bridges"])
     if body:  # the tiny fixture can be consumed entirely by the hook
         assert plan["bridges"]
+
+
+def test_ingest_with_transcription(footage_dir, tmp_path, monkeypatch):
+    """Regression: the `transcribe` keyword once shadowed the transcribe() function ("'bool' object is not callable")."""
+    import tfd.footage.ingest as ing
+    monkeypatch.setattr(ing, "_transcribe_clip", lambda p: [{"start": 0.0, "end": 1.0, "text": "hello"}])
+    rep = ingest_folder(footage_dir, tmp_path / "proj_tx", transcribe=True)
+    assert rep["summary"]["errors"] == 0
+    with_audio = [c for c in rep["clips"] if c["meta"]["has_audio"]]
+    assert all(c["transcript"] for c in with_audio)

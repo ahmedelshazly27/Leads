@@ -95,8 +95,10 @@ def _animation(cap, fps: float, t0: float, t1: float, box) -> str:
         H, W = img.shape[:2]
         b = text_bbox(img)
         x0, y0, x1, y1 = (int(box[0] * W), int(box[1] * H), int(box[2] * W), int(box[3] * H))
-        roi = cv2.cvtColor(img[y0:y1, x0:x1], cv2.COLOR_BGR2GRAY)
-        stats.append((b, float(roi.std()) if roi.size else 0.0))
+        crop = img[max(y0, 0):max(y1, 0), max(x0, 0):max(x1, 0)]
+        # A box on the frame edge can collapse to zero pixels; cvtColor rejects empty input.
+        contrast = float(cv2.cvtColor(crop, cv2.COLOR_BGR2GRAY).std()) if crop.size else 0.0
+        stats.append((b, contrast))
     if len(stats) < 3:
         return "unknown"
     contrast = np.array([s[1] for s in stats])

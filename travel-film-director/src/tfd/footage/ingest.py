@@ -206,6 +206,10 @@ def transcribe(path: Path, model_size: str | None = None) -> list[dict]:
     return [{"start": round(s.start, 2), "end": round(s.end, 2), "text": s.text.strip()} for s in segs]
 
 
+# Module-level alias: ingest_folder() has a `transcribe` keyword that shadows the function name.
+_transcribe_clip = transcribe
+
+
 def quality_score(frames, motion: dict, meta: dict) -> tuple[float, list[str]]:
     flags = []
     sharp = float(np.median([f.sharpness for f in frames])) if frames else 0
@@ -240,7 +244,8 @@ def ingest_folder(folder: Path, out_dir: Path, transcribe_speech: bool = False, 
     records, sigs = [], []
     for i, path in enumerate(clips):
         cid = f"c{i:04d}"
-        rec: dict = {"id": cid, "path": str(path), "name": path.name}
+        # resolve() so a folder of symlinks (e.g. a curated selection) still points editors at the originals
+        rec: dict = {"id": cid, "path": str(path.resolve()), "name": path.name}
         try:
             meta = probe(path)
             fr_paths = sample_frames(path, out_dir / "frames" / cid, meta["duration"])
@@ -250,7 +255,7 @@ def ingest_folder(folder: Path, out_dir: Path, transcribe_speech: bool = False, 
             shot, conf, ev = style.shot_type(frames)
             rec.update(meta=meta, frames=[f.model_dump() for f in frames], motion=motion, quality=q, flags=flags,
                        shot_type=shot, visual_tags=style.visual_tags(frames), cuts=scene_cuts(path),
-                       transcript=transcribe(path) if (transcribe_speech and meta["has_audio"]) else [])
+                       transcript=_transcribe_clip(path) if (transcribe_speech and meta["has_audio"]) else [])
             if "establishing" in shot and motion.get("shake_px", 9) < 1.0 and meta["height"] >= 1080 and \
                     "DJI" in meta["device"]:
                 rec["visual_tags"].append("possible drone/aerial")

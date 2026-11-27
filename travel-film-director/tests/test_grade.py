@@ -68,7 +68,15 @@ def test_ffmpeg_applies_lut_in_path_with_spaces(tmp_path):
     assert r > b + 3  # grey became warm
 
 
-@pytest.mark.skipif(not shutil.which("ffmpeg"), reason="ffmpeg required")
+def _has_zscale() -> bool:
+    if not shutil.which("ffmpeg"):
+        return False
+    out = subprocess.run(["ffmpeg", "-hide_banner", "-filters"], capture_output=True, text=True).stdout
+    return " zscale " in out
+
+
+# Homebrew's default ffmpeg bottle is built without libzimg, so zscale may be missing.
+@pytest.mark.skipif(not _has_zscale(), reason="ffmpeg with zscale (libzimg) required")
 def test_hdr_tonemap_chain_runs(tmp_path):
     src = tmp_path / "hlg.mp4"
     subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-f", "lavfi", "-i", "testsrc2=s=320x180:d=1", "-c:v", "libx264",
