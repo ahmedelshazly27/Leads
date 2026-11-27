@@ -30,7 +30,7 @@ export function Hero() {
             </div>
             <div className="ic-hero__panel">
               <div className="ic-hero__card">
-                <img src={`${A}/img/card-nexus.webp`} alt="An operator holds an unmanned aircraft overhead" />
+                <img src={`${A}/img/card-nexus.webp`} alt="A Gulf soldier launches a fixed-wing reconnaissance drone near a refinery" />
                 <div className="ic-hero__card-text">
                   <h2 className="ic-h-card">Defense programs</h2>
                   <p className="ic-body">
@@ -43,7 +43,7 @@ export function Hero() {
                 </div>
               </div>
               <div className="ic-hero__card ic-hero__card--rev">
-                <img src={`${A}/img/card-base.webp`} alt="A team preparing equipment in the field" />
+                <img src={`${A}/img/card-base.webp`} alt="An engineer checks a solar array beside battery storage in the desert" />
                 <div className="ic-hero__card-text">
                   <h2 className="ic-h-card">Energy &amp; infrastructure</h2>
                   <p className="ic-body">
@@ -69,7 +69,7 @@ export function Challenge() {
       <img
         className="ic-challenge__bg"
         src={`${A}/img/challenge-silhouettes.webp`}
-        alt="Two silhouetted figures stand against a dusk sky"
+        alt="Two soldiers silhouetted on a desert ridge at dusk"
         loading="lazy"
       />
       <div className="ic-wrap">
@@ -113,7 +113,7 @@ export function MeetNexus() {
           </div>
           <div className="ic-bento">
             <a href={links.sectors} className="ic-bento__card ic-bento__card--features ic-bento__a">
-              <img src={`${A}/img/bento-features.webp`} alt="Command software on three stacked screens" loading="lazy" />
+              <img src={`${A}/img/bento-features.webp`} alt="Command software on three rugged tablets" loading="lazy" />
               <h4>Explore capabilities</h4>
             </a>
             <div className="ic-bento__card ic-bento__b">
@@ -131,7 +131,7 @@ export function MeetNexus() {
               </p>
             </div>
             <a href={links.contact} className="ic-bento__card ic-bento__d">
-              <img src={`${A}/img/bento-partner.webp`} alt="Technician assembling an unmanned aircraft" loading="lazy" />
+              <img src={`${A}/img/bento-partner.webp`} alt="A technician assembles a fixed-wing drone from its field case" loading="lazy" />
               <h4>Partner with us</h4>
             </a>
           </div>
@@ -158,7 +158,7 @@ export function About() {
       <img
         className="ic-about__bg"
         src={`${A}/img/about-europe.webp`}
-        alt="A vehicle drives along a rocky plain under a wide sky"
+        alt="A patrol vehicle drives along the Gulf coast under a wide sky"
         loading="lazy"
       />
       <div className="ic-wrap">

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { featureDesc, features, sectors as missions } from "./data";
+import { MissionHud } from "./mission-hud";
 import { Chevron, SplitText, useInView } from "./motion";
 
 // Measured on the source: the active bar fills over ~10.5s, then the next tab takes over.
@@ -43,6 +44,7 @@ export function Missions() {
           loading="lazy"
         />
       ))}
+      <MissionHud key={m.key} kind={m.key} />
       <div className="ic-missions__inner">
         <div className="ic-tabs" role="tablist">
           {missions.map((x, i) => (
