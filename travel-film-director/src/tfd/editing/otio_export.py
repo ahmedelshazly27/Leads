@@ -83,4 +83,8 @@ def export_timeline(project: Path, plan: dict) -> dict:
         paths["fcpxml"] = fx
     except Exception as e:
         log.info("FCPXML not written (%s: %s)", type(e).__name__, str(e)[:200])
+    from .captions import caption_cues, load_transcripts, write_srt
+    cues = caption_cues(plan, load_transcripts(project))
+    if cues:  # Resolve: File > Import > Subtitle; Final Cut: File > Import > Captions
+        paths["srt"] = write_srt(cues, safe_output_path(out_dir / "director_cut.srt"))
     return paths

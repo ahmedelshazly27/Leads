@@ -45,6 +45,9 @@ def render_preview(project: Path, width: int = 1920, height: int = 1080, fps: in
           f"setsar=1,fps={fps},format=yuv420p")
     venc = video_encoder()
     log.info("video encoder: %s", venc[1])
+    from .captions import caption_cues, load_transcripts, overlays_for, render_text_png
+    cues = caption_cues(plan, load_transcripts(project)) if plan.get("burn_subtitles", True) else []
+    titles = plan.get("titles", [])
     with tempfile.TemporaryDirectory(dir=out_dir) as tmp:
         parts = []
         from .grade import ffmpeg_filters
@@ -55,22 +58,30 @@ def render_preview(project: Path, width: int = 1920, height: int = 1080, fps: in
             lut = (grade.get("luts") or {}).get(f"{item.get('grade_intensity', 0.8):.1f}")
             gf = ffmpeg_filters((grade.get("corrections") or {}).get(item["clip"], {}), Path(lut) if lut else None)
             vf_item = (gf + "," + vf) if gf else vf
+            # burned-in subtitles and title cards: transparent PNGs overlaid for their time window
+            events = overlays_for(item["record_in"], item["record_out"], cues, titles)
+            png_inputs, chain, last = [], "", "base"
+            for k, ev in enumerate(events):
+                png = render_text_png(ev["text"], Path(tmp) / f"t{i:04d}_{k:02d}.png", width, height, ev["kind"])
+                png_inputs += ["-i", str(png)]
+                chain += f";[{last}][{k + 2}:v]overlay=0:0:enable='between(t,{ev['a']},{ev['b']})'[o{k}]"
+                last = f"o{k}"
+            video = f"[0:v]{vf_item}[base]{chain}"
+            vmap = f"[{last}]"
             part = Path(tmp) / f"p{i:04d}.mp4"
             gain = "0" if item["audio"] == "sync" else str(plan["audio_rules"].get("ambient_db", -14))
-            args = ["-ss", f"{item['src_in']:.3f}", "-t", f"{dur:.3f}", "-i", c["path"],
-                    "-f", "lavfi", "-t", f"{dur:.3f}", "-i", "anullsrc=r=48000:cl=stereo",
-                    "-filter_complex",
-                    f"[0:v]{vf_item}[v];[0:a]aresample=48000,aformat=channel_layouts=stereo,volume={gain}dB[a0];"
+            inputs = ["-ss", f"{item['src_in']:.3f}", "-t", f"{dur:.3f}", "-i", c["path"],
+                      "-f", "lavfi", "-t", f"{dur:.3f}", "-i", "anullsrc=r=48000:cl=stereo", *png_inputs]
+            args = [*inputs, "-filter_complex",
+                    f"{video};[0:a]aresample=48000,aformat=channel_layouts=stereo,volume={gain}dB[a0];"
                     f"[a0][1:a]amix=inputs=2:duration=longest:normalize=0,atrim=0:{dur:.3f}[a]",
-                    "-map", "[v]", "-map", "[a]", *venc,
+                    "-map", vmap, "-map", "[a]", "-t", f"{dur:.3f}", *venc,
                     "-c:a", "aac", "-b:a", "192k", str(part)]
             try:
                 _ff(args)
             except RuntimeError:  # clip without audio stream
-                _ff(["-ss", f"{item['src_in']:.3f}", "-t", f"{dur:.3f}", "-i", c["path"],
-                     "-f", "lavfi", "-t", f"{dur:.3f}", "-i", "anullsrc=r=48000:cl=stereo",
-                     "-filter_complex", f"[0:v]{vf_item}[v]", "-map", "[v]", "-map", "1:a",
-                     *venc, "-c:a", "aac", "-shortest", str(part)])
+                _ff([*inputs, "-filter_complex", video, "-map", vmap, "-map", "1:a", "-t", f"{dur:.3f}",
+                     *venc, "-c:a", "aac", str(part)])
             parts.append(part)
         lst = Path(tmp) / "list.txt"
         lst.write_text("".join(f"file '{p.as_posix()}'\n" for p in parts), encoding="utf-8")

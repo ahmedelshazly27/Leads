@@ -81,3 +81,35 @@ def test_ingest_with_transcription(footage_dir, tmp_path, monkeypatch):
     assert rep["summary"]["errors"] == 0
     with_audio = [c for c in rep["clips"] if c["meta"]["has_audio"]]
     assert all(c["transcript"] for c in with_audio)
+
+
+def test_render_burns_in_titles_and_subtitles(footage_dir, tmp_path):
+    """Title cards and subtitles from real transcripts are overlaid in the preview and exported as SRT."""
+    import json
+    import subprocess
+    import numpy as np
+    proj = tmp_path / "proj_burn"
+    rep = ingest_folder(footage_dir, proj)
+    speaking = next(c for c in rep["clips"] if c["name"] == "DJI_0001.MP4")
+    speaking["transcript"] = [{"start": 0.0, "end": 3.0, "text": "We made it to the pass"}]
+    (proj / "footage.json").write_text(json.dumps(rep), encoding="utf-8")
+    plan = plan_project(proj, target_minutes=1)
+    first = plan["timeline"][0]
+    first.update(clip=speaking["id"], src_in=0.0, src_out=3.0, audio="sync")
+    plan["clips"].setdefault(speaking["id"], {"path": speaking["path"], "fps": 25, "duration": 4,
+                                               "width": 1280, "height": 720, "category": "x"})
+    plan["timeline"] = [first]
+    first["record_in"], first["record_out"] = 0.0, 3.0
+    plan["titles"] = [{"at": 0.0, "duration": 3.0, "text": "THE PASS"}]
+    (proj / "plan.json").write_text(json.dumps(plan), encoding="utf-8")
+    assert "srt" in export_timeline(proj, plan)
+    out = render_preview(proj)
+    frame = tmp_path / "f.png"
+    subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-ss", "1.5", "-i", str(out), "-frames:v", "1", str(frame)],
+                   check=True)
+    import cv2
+    img = cv2.imread(str(frame))
+    title_box = img[int(1080 * 0.06):int(1080 * 0.12), int(1920 * 0.04):int(1920 * 0.10)]
+    assert title_box.mean() < 60  # dark card behind the title
+    subtitle_band = img[int(1080 * 0.80):int(1080 * 0.90), :]
+    assert (subtitle_band > 240).all(axis=2).sum() > 500  # white subtitle text pixels
