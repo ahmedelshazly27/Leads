@@ -282,6 +282,9 @@ def build_profile(src: ReferenceSource, creator: str, out_dir: Path, notes: str 
     ]
     if src.transcript_kind == "auto":
         limitations.append("Transcript is YouTube auto-captions (no punctuation, occasional errors, speaker changes not marked).")
+    if src.transcript_kind == "auto-translated":
+        limitations.append(f"Transcript is YouTube's machine translation into English from {src.meta.get('language') or 'the original language'}; "
+                           "vocabulary metrics are approximate and wording is not the creator's own.")
     if src.transcript_kind == "none":
         limitations.append("No transcript available - speech/story metrics are empty.")
 

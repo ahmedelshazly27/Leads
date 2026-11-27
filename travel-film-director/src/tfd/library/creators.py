@@ -132,11 +132,23 @@ def compare(creators: list[dict]) -> dict:
 
 def comparison_markdown(cmp: dict, creators: list[dict]) -> str:
     names = cmp["creators"]
-    lines = ["# Creator comparison", "", "| Metric | " + " | ".join(names) + " |", "|---|" + "---|" * len(names)]
+    lines = ["# Creator comparison", "", "Mean across each creator's videos, with the per-video range in brackets.", "",
+             "| Metric | " + " | ".join(names) + " |", "|---|" + "---|" * len(names)]
     units = {k: u for k, _, u, _ in METRICS}
+    by_name = {c["creator"]: c for c in creators}
+
+    def cell(n, row):
+        if n not in row["values"]:
+            return "-"
+        u = units[row["metric"]]
+        m = by_name[n]["metrics"].get(row["metric"], {})
+        rng = f" [{_fmt(m['min'], u)}–{_fmt(m['max'], u)}]" if m.get("n", 1) > 1 else ""
+        return _fmt(row["values"][n], u) + rng
+
     for row in cmp["table"]:
-        cells = [(_fmt(row["values"][n], units[row["metric"]]) if n in row["values"] else "-") for n in names]
+        cells = [cell(n, row) for n in names]
         lines.append(f"| {row['label']} | " + " | ".join(cells) + " |")
+    lines += ["", "Videos analysed: " + ", ".join(f"{c['creator']} {len(c['videos'])}" for c in creators)]
     lines += ["", "## Key differences", ""] + [f"- {s}" for s in cmp["key_differences"]]
     lines += ["", "## Dominant storytelling mode", ""] + [f"- **{k}**: {v}" for k, v in cmp["dominant_mode"].items()]
     for c in creators:

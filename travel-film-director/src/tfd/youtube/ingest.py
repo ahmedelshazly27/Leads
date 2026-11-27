@@ -116,20 +116,26 @@ def parse_json3(data: dict) -> list[TranscriptSegment]:
 
 
 def _pick_track(info: dict) -> tuple[str, str, dict] | None:
-    """Prefer human subtitles, then auto captions in the original language, English first."""
-    lang_pref = [info.get("language") or "", "en", "en-US", "en-GB"]
+    """Prefer English (the storytelling vocabulary metrics are English), then the original language.
+
+    Order: human English subs -> English auto captions (speech recognition for English videos, YouTube's
+    machine translation for others) -> human original-language subs -> original-language auto captions.
+    """
+    orig = info.get("language") or ""
     manual = info.get("subtitles") or {}
     auto = info.get("automatic_captions") or {}
-    for kind, tracks, langs in (
-        ("manual", manual, lang_pref),
-        ("auto", auto, [f"{l}-orig" for l in lang_pref if l] + lang_pref),
-    ):
+    order = [("manual", manual, ["en", "en-US", "en-GB"]),
+             ("auto", auto, ["en-orig", "en", "en-US", "en-GB"]),
+             ("manual", manual, [orig] if orig else []),
+             ("auto", auto, [f"{orig}-orig", orig] if orig else [])]
+    for kind, tracks, langs in order:
         for lang in langs:
             if lang and lang in tracks:
                 for fmt in tracks[lang]:
                     if fmt.get("ext") == "json3":
+                        if kind == "auto" and lang.startswith("en") and orig and not orig.startswith("en"):
+                            kind = "auto-translated"
                         return kind, lang, fmt
-    # any original-language auto track
     for lang, fmts in auto.items():
         if lang.endswith("-orig"):
             for fmt in fmts:

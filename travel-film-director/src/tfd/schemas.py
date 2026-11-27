@@ -94,7 +94,7 @@ class NarrativeBeat(BaseModel):
 
 class SourceInfo(BaseModel):
     metadata: bool = False
-    transcript: Literal["manual", "auto", "whisper", "none"] = "none"
+    transcript: Literal["manual", "auto", "auto-translated", "whisper", "none"] = "none"
     transcript_language: str | None = None
     frames: str = "none"
     frame_interval_s: float | None = None

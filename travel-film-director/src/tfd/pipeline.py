@@ -35,8 +35,14 @@ def analyse_reference(url: str, creator: str, notes: str = "", *, use_claude: bo
     out = video_dir(settings, creator, vid)
     lib.mark_status(vid, creator, url, "running", notes=notes)
     try:
+        previous = None
+        if (out / "profile.json").is_file():  # keep qualitative notes / user notes across re-analysis
+            previous = VideoProfile.model_validate_json((out / "profile.json").read_text(encoding="utf-8"))
         src = ingest_reference(url, out, settings, transcript_file)
-        profile = build_profile(src, creator, out, notes)
+        profile = build_profile(src, creator, out, notes or (previous.user_notes if previous else ""))
+        if previous and previous.qualitative:
+            profile.qualitative = previous.qualitative
+            use_claude = False
         if use_claude is None:
             use_claude = settings.has_claude
         if use_claude:
@@ -47,7 +53,7 @@ def analyse_reference(url: str, creator: str, notes: str = "", *, use_claude: bo
             except Exception as e:  # never lose the local analysis because the optional API failed
                 log.warning("Claude qualitative analysis skipped: %s", e)
                 profile.limitations.append(f"Claude qualitative analysis not run: {e}")
-        else:
+        elif not profile.qualitative:
             profile.limitations.append("Claude qualitative analysis not run (no API key / disabled); "
                                        "run `tfd annotate` from Claude Code to add it.")
         path = out / "profile.json"
