@@ -52,7 +52,8 @@ def test_clip_correction(tmp_path):
     c = clip_correction([str(tmp_path / "b.jpg")], {"hdr": False})
     assert c["gains"][2] < 1.0 < c["gains"][0]  # pull blue down, red up
     d = clip_correction([str(tmp_path / "d.jpg")], {"hdr": True})
-    assert d["exposure_stops"] > 0 and d["hdr_tonemap"]
+    mid_in, mid_out = next((x, y) for x, y in d["tone"]["points"] if 0 < x < 1 and y > 0.05)
+    assert mid_out > mid_in and d["hdr_tonemap"]  # the tone curve lifts an underexposed clip
 
 
 @pytest.mark.skipif(not shutil.which("ffmpeg"), reason="ffmpeg required")
@@ -104,14 +105,12 @@ def test_detect_log_profile():
     assert log_profile_from_tags({"com.dji.camera.ColorGammaSxS": "Normal"}) is None
 
 
-def test_log_clip_gets_levels_and_saturation(tmp_path):
+def test_log_clip_gets_stronger_saturation(tmp_path):
     frames = [_flat_log_frame(tmp_path / f"{i}.jpg", i) for i in range(3)]
-    corr = clip_correction(frames, {"hdr": False, "log_profile": "D-Log2"})
-    lg = corr["log_to_709"]
-    assert 0.12 < lg["black"] < 0.2 and 0.55 < lg["white"] < 0.65 and lg["saturation"] > 1.3
-    assert corr["exposure_stops"] == 0.0  # levels already place exposure
+    log = clip_correction(frames, {"hdr": False, "log_profile": "D-Log2"})
     normal = clip_correction(frames, {"hdr": False})
-    assert "log_to_709" not in normal
+    assert log["tone"]["saturation"] > normal["tone"]["saturation"]
+    assert log["exposure_stops"] == 0.0  # the tone curve places exposure
 
 
 def test_log_stretch_is_bounded_for_dark_clips(tmp_path):
@@ -134,3 +133,31 @@ def test_log_chain_expands_contrast(tmp_path):
                     "-frames:v", "1", str(out)], check=True)
     a, b = cv2.imread(str(png)), cv2.imread(str(out))
     assert b.mean() > 40 and b.std() > a.std() * 1.5
+
+
+def test_tone_curve_targets_reference_levels():
+    """Per-clip tone curve: mids to ~0.36 (reference median 0.30-0.40), whites to 0.90 with a soft shoulder."""
+    from tfd.editing.grade import tone_curve_points
+    bright = np.concatenate([np.full(500, 0.1), np.linspace(0.3, 0.95, 4000), np.full(500, 1.0)])
+    pts = tone_curve_points(bright)
+    xs, ys = zip(*pts)
+    assert pts[0] == (0.0, 0.0) and pts[-1] == (1.0, 1.0)
+    assert all(b > a for a, b in zip(xs, xs[1:])) and all(b >= a for a, b in zip(ys, ys[1:]))
+    mid = dict(pts)[sorted(xs)[2]]
+    assert 0.30 <= mid <= 0.40
+    assert max(ys[:-1]) <= 0.92  # highlights land below clipping
+
+
+def test_tone_curve_keeps_night_dark():
+    from tfd.editing.grade import tone_curve_points
+    night = np.concatenate([np.full(3000, 0.06), np.linspace(0.06, 0.5, 2000)])
+    mid = tone_curve_points(night)[2][1]
+    assert mid <= 0.26  # a night scene is not pushed to daylight mids
+
+
+def test_correction_has_tone_for_every_clip(tmp_path):
+    frames = [_flat_log_frame(tmp_path / f"{i}.jpg", i) for i in range(2)]
+    for meta in ({"hdr": False, "log_profile": "D-Log2"}, {"hdr": False}):
+        corr = clip_correction(frames, meta)
+        assert corr["tone"]["points"] and corr["tone"]["saturation"] >= 1.0
+        assert "log_to_709" not in corr

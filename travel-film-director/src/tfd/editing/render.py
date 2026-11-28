@@ -37,57 +37,77 @@ def video_encoder() -> list[str]:
     return ["-c:v", "libx264", "-preset", "veryfast", "-crf", "20"]
 
 
-def render_preview(project: Path, width: int = 1920, height: int = 1080, fps: int = 25) -> Path:
+TITLE_FADE_S = 0.3   # place cards fade in/out; subtitles and hook words cut on the beat
+GRAIN = "noise=c0s=3:c0f=t"  # fine temporal luma grain: hides banding from stretched 8-bit log proxies
+
+
+def _overlay_chain(events: list[dict], i: int, tmp: Path, width: int, height: int) -> tuple[list[str], str, str]:
+    """FFmpeg inputs and filter chain overlaying each text event's PNG on [base] for its time window."""
+    from .captions import render_text_png
+    inputs, chain, last = [], "", "base"
+    for k, ev in enumerate(events):
+        png = render_text_png(ev["text"], tmp / f"t{i:04d}_{k:02d}.png", width, height, ev["kind"])
+        a, b = ev["a"], ev["b"]
+        inputs += ["-loop", "1", "-t", f"{b + 0.1:.3f}", "-i", str(png)]
+        src = f"[{k + 2}:v]"
+        if ev["kind"] == "title":
+            fd = min(TITLE_FADE_S, (b - a) / 3)
+            chain += (f";{src}format=rgba,fade=t=in:st={a}:d={fd:.3f}:alpha=1,"
+                      f"fade=t=out:st={b - fd:.3f}:d={fd:.3f}:alpha=1[f{k}]")
+            src = f"[f{k}]"
+        chain += f";[{last}]{src}overlay=0:0:enable='between(t,{a},{b})'[o{k}]"
+        last = f"o{k}"
+    return inputs, chain, last
+
+
+def _render_item(i: int, item: dict, plan: dict, cues: list, tmp: Path, vf: str, venc: list, width: int, height: int) -> Path:
+    from .captions import overlays_for
+    from .grade import ffmpeg_filters
+    c = plan["clips"][item["clip"]]
+    grade = plan.get("grade") or {}
+    dur = item["src_out"] - item["src_in"]
+    lut = (grade.get("luts") or {}).get(f"{item.get('grade_intensity', 0.8):.1f}")
+    gf = ffmpeg_filters((grade.get("corrections") or {}).get(item["clip"], {}), Path(lut) if lut else None)
+    vf_item = (gf + "," + vf) if gf else vf
+    events = overlays_for(item["record_in"], item["record_out"], cues, plan.get("titles", []))
+    png_inputs, chain, last = _overlay_chain(events, i, tmp, width, height)
+    video, vmap = f"[0:v]{vf_item}[base]{chain}", f"[{last}]"
+    part = tmp / f"p{i:04d}.mp4"
+    gain = "0" if item["audio"] == "sync" else str(plan["audio_rules"].get("ambient_db", -14))
+    inputs = ["-ss", f"{item['src_in']:.3f}", "-t", f"{dur:.3f}", "-i", c["path"],
+              "-f", "lavfi", "-t", f"{dur:.3f}", "-i", "anullsrc=r=48000:cl=stereo", *png_inputs]
+    try:
+        _ff([*inputs, "-filter_complex",
+             f"{video};[0:a]aresample=48000,aformat=channel_layouts=stereo,volume={gain}dB[a0];"
+             f"[a0][1:a]amix=inputs=2:duration=longest:normalize=0,atrim=0:{dur:.3f}[a]",
+             "-map", vmap, "-map", "[a]", "-t", f"{dur:.3f}", *venc, "-c:a", "aac", "-b:a", "192k", str(part)])
+    except RuntimeError:  # clip without audio stream
+        _ff([*inputs, "-filter_complex", video, "-map", vmap, "-map", "1:a", "-t", f"{dur:.3f}",
+             *venc, "-c:a", "aac", str(part)])
+    return part
+
+
+def render_preview(project: Path, width: int = 1920, height: int = 1080, fps: int = 25,
+                   until: float | None = None) -> Path:
+    """Render plan.json to renders/preview.mp4, or with `until` only the items starting before that many seconds
+    to renders/sample.mp4 (to judge the look, text and pacing before a full render)."""
     plan = read_json(project / "plan.json")
     out_dir = project / "renders"
     out_dir.mkdir(parents=True, exist_ok=True)
     vf = (f"scale={width}:{height}:force_original_aspect_ratio=decrease,pad={width}:{height}:(ow-iw)/2:(oh-ih)/2,"
-          f"setsar=1,fps={fps},format=yuv420p")
+          f"setsar=1,fps={fps},format=yuv420p,{GRAIN}")
     venc = video_encoder()
     log.info("video encoder: %s", venc[1])
-    from .captions import caption_cues, load_transcripts, overlays_for, render_text_png
+    from .captions import caption_cues, load_transcripts
     cues = caption_cues(plan, load_transcripts(project)) if plan.get("burn_subtitles", True) else []
-    titles = plan.get("titles", [])
+    items = [it for it in plan["timeline"] if until is None or it["record_in"] < until]
     with tempfile.TemporaryDirectory(dir=out_dir) as tmp:
-        parts = []
-        from .grade import ffmpeg_filters
-        grade = plan.get("grade") or {}
-        for i, item in enumerate(plan["timeline"]):
-            c = plan["clips"][item["clip"]]
-            dur = item["src_out"] - item["src_in"]
-            lut = (grade.get("luts") or {}).get(f"{item.get('grade_intensity', 0.8):.1f}")
-            gf = ffmpeg_filters((grade.get("corrections") or {}).get(item["clip"], {}), Path(lut) if lut else None)
-            vf_item = (gf + "," + vf) if gf else vf
-            # burned-in subtitles and title cards: transparent PNGs overlaid for their time window
-            events = overlays_for(item["record_in"], item["record_out"], cues, titles)
-            png_inputs, chain, last = [], "", "base"
-            for k, ev in enumerate(events):
-                png = render_text_png(ev["text"], Path(tmp) / f"t{i:04d}_{k:02d}.png", width, height, ev["kind"])
-                png_inputs += ["-i", str(png)]
-                chain += f";[{last}][{k + 2}:v]overlay=0:0:enable='between(t,{ev['a']},{ev['b']})'[o{k}]"
-                last = f"o{k}"
-            video = f"[0:v]{vf_item}[base]{chain}"
-            vmap = f"[{last}]"
-            part = Path(tmp) / f"p{i:04d}.mp4"
-            gain = "0" if item["audio"] == "sync" else str(plan["audio_rules"].get("ambient_db", -14))
-            inputs = ["-ss", f"{item['src_in']:.3f}", "-t", f"{dur:.3f}", "-i", c["path"],
-                      "-f", "lavfi", "-t", f"{dur:.3f}", "-i", "anullsrc=r=48000:cl=stereo", *png_inputs]
-            args = [*inputs, "-filter_complex",
-                    f"{video};[0:a]aresample=48000,aformat=channel_layouts=stereo,volume={gain}dB[a0];"
-                    f"[a0][1:a]amix=inputs=2:duration=longest:normalize=0,atrim=0:{dur:.3f}[a]",
-                    "-map", vmap, "-map", "[a]", "-t", f"{dur:.3f}", *venc,
-                    "-c:a", "aac", "-b:a", "192k", str(part)]
-            try:
-                _ff(args)
-            except RuntimeError:  # clip without audio stream
-                _ff([*inputs, "-filter_complex", video, "-map", vmap, "-map", "1:a", "-t", f"{dur:.3f}",
-                     *venc, "-c:a", "aac", str(part)])
-            parts.append(part)
+        parts = [_render_item(i, it, plan, cues, Path(tmp), vf, venc, width, height) for i, it in enumerate(items)]
         lst = Path(tmp) / "list.txt"
         lst.write_text("".join(f"file '{p.as_posix()}'\n" for p in parts), encoding="utf-8")
         joined = Path(tmp) / "joined.mp4"
         _ff(["-f", "concat", "-safe", "0", "-i", str(lst), "-c", "copy", str(joined)])
-        out = safe_output_path(out_dir / "preview.mp4")
+        out = safe_output_path(out_dir / ("sample.mp4" if until is not None else "preview.mp4"))
         if plan.get("music"):
             mdb = plan["audio_rules"]["music_alone_db"]
             _ff(["-i", str(joined), "-stream_loop", "-1", "-i", plan["music"][0], "-filter_complex",

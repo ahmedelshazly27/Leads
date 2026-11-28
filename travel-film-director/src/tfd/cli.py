@@ -171,7 +171,10 @@ def _direct(a):
 def _render(a):
     from .editing.render import render_preview
     from .editing.qa import run_qa
-    out = render_preview(Path(a.project))
+    out = render_preview(Path(a.project), until=a.until)
+    if a.until is not None:  # a sample is for judging look and text; QA runs on full renders
+        print(json.dumps({"sample": str(out)}))
+        return 0
     print(json.dumps({"render": str(out), "qa": run_qa(Path(a.project), out)}, indent=2, default=str))
     return 0
 
@@ -258,6 +261,7 @@ def main(argv=None) -> int:
     di.set_defaults(fn=_direct)
     re_ = sub.add_parser("render", help="render a preview MP4 from the plan and run QA")
     re_.add_argument("project")
+    re_.add_argument("--until", type=float, default=None, help="render only the first N seconds (sample.mp4)")
     re_.set_defaults(fn=_render)
 
     sk = sub.add_parser("stock", help="search free stock footage (Pexels/Pixabay) and download into a project")

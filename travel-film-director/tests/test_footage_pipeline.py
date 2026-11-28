@@ -109,8 +109,8 @@ def test_render_burns_in_titles_and_subtitles(footage_dir, tmp_path):
                    check=True)
     import cv2
     img = cv2.imread(str(frame))
-    card_padding = img[100:180, 92:110]  # left padding of the title card (text starts at x=115)
-    assert card_padding.mean() < 60  # dark card behind the title
+    card = img[80:220, 115:700]  # the place card: large condensed name, upper left (no box)
+    assert (card.min(axis=2) > 235).sum() > 2000  # white title type, fully faded in at 1.5 s
     subtitle_band = img[int(1080 * 0.80):int(1080 * 0.90), :]
     assert (subtitle_band > 240).all(axis=2).sum() > 500  # white subtitle text pixels
 
@@ -227,3 +227,16 @@ def test_plan_meets_target_when_everything_talks(footage_dir, tmp_path):
     plan = plan_project(proj, target_minutes=0.05)  # 3 s target, clips are 3-4 s each
     body = sum(i["src_out"] - i["src_in"] for i in plan["timeline"] if i["section"] != "hook")
     assert body <= 4.0  # the hook is kept whole; everything after it is cut down to the target
+
+
+def test_render_sample_until(footage_dir, tmp_path):
+    """`--until` renders only the opening of the cut (to judge look and text before a full render)."""
+    import subprocess
+    proj = tmp_path / "proj_until"
+    ingest_folder(footage_dir, proj)
+    plan_project(proj, target_minutes=1)
+    out = render_preview(proj, until=2.0)
+    assert out.name.startswith("sample") and out.is_file()
+    dur = float(subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", str(out)],
+                               capture_output=True, text=True).stdout)
+    assert dur < 9.0  # only the items that start in the first 2 s

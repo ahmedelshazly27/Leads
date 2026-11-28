@@ -134,6 +134,30 @@ def log_to_709_params(luma: np.ndarray) -> dict:
             "saturation": LOG_SATURATION}
 
 
+# Targets measured on the 24 reference videos (storyboard frames, median per creator): black ~0.05, mid 0.29-0.40,
+# p98 0.77-0.90, <2% clipped. Our first Afghanistan render sat at mid 0.54 with 7.5% clipped ("toasted").
+TONE_BLACK, TONE_MID, TONE_MID_NIGHT, TONE_WHITE = 0.035, 0.36, 0.22, 0.90
+TONE_MAX_GAIN, TONE_MAX_CUT = 2.2, 0.6  # bounds on how far a clip's mid-tone may move
+SAT_LOG, SAT_REC709 = 1.45, 1.1
+
+
+def tone_curve_points(luma: np.ndarray) -> list[tuple[float, float]]:
+    """Per-clip tone curve (input -> output luma) from the clip's own black, mid and white points: blacks to 0.035,
+    mids to the reference median (darker for night scenes), whites to 0.90 with a soft shoulder above."""
+    lo = float(np.percentile(luma, 1))
+    hi = min(float(np.percentile(luma, 99.5)), 0.98)
+    hi = max(hi, lo + LOG_MIN_RANGE)
+    mid = float(np.clip(np.percentile(luma, 50), lo + 0.02, hi - 0.02))
+    night = (mid - lo) / (hi - lo) < 0.22 or mid < 0.12
+    target = TONE_MID_NIGHT if night else TONE_MID
+    target = float(np.clip(target, mid * TONE_MAX_CUT, mid * TONE_MAX_GAIN))
+    pts = [(0.0, 0.0)]
+    if lo > 0.02:
+        pts.append((round(lo, 4), TONE_BLACK))
+    pts += [(round(mid, 4), round(max(target, TONE_BLACK + 0.02), 4)), (round(min(hi, 0.98), 4), TONE_WHITE), (1.0, 1.0)]
+    return pts
+
+
 def clip_correction(frame_paths: list[str], meta: dict) -> dict:
     """Gentle, bounded normalisation so clips from different cameras match before the look is applied."""
     pix = []
@@ -159,11 +183,12 @@ def clip_correction(frame_paths: list[str], meta: dict) -> dict:
         corr["gains"] = [round(float(v), 3) for v in gains]
         if np.abs(gains - 1).max() > 0.03:
             corr["notes"].append("white balance neutralised (half strength, keeps golden-hour intent)")
-    if meta.get("log_profile"):
-        corr["log_to_709"] = log_to_709_params(y)
-        corr["notes"].append(f"{meta['log_profile']} log footage converted to Rec.709 (adaptive levels, S-curve, saturation)")
-        return corr
-    med = float(np.median(y))
+    log = bool(meta.get("log_profile"))
+    corr["tone"] = {"points": tone_curve_points(y), "saturation": SAT_LOG if log else SAT_REC709}
+    corr["notes"].append((f"{meta['log_profile']} log footage converted to Rec.709; " if log else "")
+                         + "tone curve to reference levels (black 0.035, mid ~0.36, white 0.90 with soft shoulder)")
+    return corr
+    med = float(np.median(y))  # (legacy exposure path, unreachable since the tone curve replaced it)
     if 0.06 < med < 0.3 or med > 0.62:
         stops = float(np.clip(np.log2(0.42 / max(med, 1e-3)) * 0.5, -0.6, 0.6))
         corr["exposure_stops"] = round(stops, 2)
@@ -200,8 +225,13 @@ def ffmpeg_filters(corr: dict, lut: Path | None) -> str:
     if corr.get("hdr_tonemap"):
         parts.append("zscale=t=linear:npl=100,format=gbrpf32le,zscale=p=bt709,tonemap=hable:desat=0,"
                      "zscale=t=bt709:m=bt709:r=tv,format=yuv420p")
-    lg = corr.get("log_to_709")
-    if lg:
+    tone = corr.get("tone")
+    if tone:
+        pts = " ".join(f"{x:.4f}/{y:.4f}" for x, y in tone["points"])
+        # gbrp16le: FFmpeg 8 RGB filters misbehave on 10-bit planar input; pchip keeps the curve monotonic
+        parts.append(f"format=gbrp16le,curves=all='{pts}':interp=pchip,eq=saturation={tone['saturation']}")
+    lg = corr.get("log_to_709")  # plans made before the tone curve
+    if lg and not tone:
         lo, hi, c = lg["black"], lg["white"], lg["contrast"]
         q1, q3 = 0.25 + c * (0.15625 - 0.25), 0.75 + c * (0.84375 - 0.75)  # x + c*(smoothstep(x) - x)
         # gbrp16le: FFmpeg 8 colorlevels returns black frames when it negotiates 10-bit planar RGB (gbrp10le)
@@ -231,14 +261,15 @@ def choose_look(direction: str, hook_creator: str | None, notes: str = "") -> tu
     return "neutral", "default"
 
 
-INTENSITY_BY_MODE = {"cinematic": 1.0, "documentary": 0.8, "personal": 0.6}
+# Looks sit on top of the per-clip tone curve, so they run at partial strength (full strength read as "toasted").
+INTENSITY_BY_MODE = {"cinematic": 0.7, "documentary": 0.6, "personal": 0.5}
 
 
 def build_grade(project: Path, plan: dict, clips: list[dict], notes: str = "") -> dict:
     look_name, why = choose_look(plan.get("direction", "balanced"), (plan.get("hook_formula") or {}).get("from"), notes)
     look = LOOKS[look_name]
     lut_dir = project / "grade"
-    luts = {f"{k:.1f}": str(write_cube(lut_dir / f"{look_name}_{int(k * 100)}.cube", look, k)) for k in sorted(set(INTENSITY_BY_MODE.values()))}
+    luts = {f"{k:.1f}": str(write_cube(lut_dir / f"{look_name}_{int(k * 100)}.cube", look, k)) for k in sorted(set(INTENSITY_BY_MODE.values()) | {1.0})}  # 100% for editors to dial down on a node
     by_id = {c["id"]: c for c in clips}
     corrections = {}
     for cid in plan["clips"]:

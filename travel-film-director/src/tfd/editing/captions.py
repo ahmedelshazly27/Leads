@@ -8,20 +8,13 @@ from __future__ import annotations
 import re
 from pathlib import Path
 
-from PIL import Image, ImageDraw, ImageFont
+from .typography import render_text_png  # noqa: F401  (re-exported for callers)
 
 MAX_CHARS = 42
 MIN_CUE_S = 0.4
 _HALLUCINATIONS = re.compile(
     r"(thank(s| you) for watching|subtitles? by|amara\.org|please subscribe|like and subscribe|"
     r"transcribed by|translated by|www\.|\.com\b|اشتركوا في القناة|ترجمة نانسي)", re.I)
-_FONTS = {
-    "latin": ("/System/Library/Fonts/SFNS.ttf", "/System/Library/Fonts/Supplemental/Arial Bold.ttf",
-              "/Library/Fonts/Arial Unicode.ttf", "DejaVuSans-Bold.ttf"),
-    "arabic": ("/System/Library/Fonts/SFArabic.ttf", "/System/Library/Fonts/GeezaPro.ttc",
-               "/Library/Fonts/Arial Unicode.ttf", "DejaVuSans-Bold.ttf"),
-}
-_ARABIC = re.compile(r"[؀-ۿݐ-ݿ]")
 
 
 def is_hallucination(text: str) -> bool:
@@ -85,65 +78,6 @@ def write_srt(cues: list[dict], path: Path) -> Path:
               for i, c in enumerate(cues, 1)]
     path.write_text("\n".join(blocks) + ("\n" if blocks else ""), encoding="utf-8")
     return path
-
-
-def _font(text: str, size: int, weight: str = "Semibold") -> ImageFont.FreeTypeFont:
-    """System font for the script, at a named weight when the font is variable (SF Pro / SF Arabic)."""
-    for name in _FONTS["arabic" if _ARABIC.search(text) else "latin"]:
-        try:
-            f = ImageFont.truetype(name, size)
-        except OSError:
-            continue
-        try:
-            f.set_variation_by_name(weight)
-        except (OSError, ValueError, AttributeError):
-            pass  # static font: use as is
-        return f
-    return ImageFont.load_default(size)
-
-
-def render_text_png(text: str, out: Path, width: int, height: int, kind: str = "subtitle") -> Path:
-    """Full-frame transparent PNG: subtitles bottom-centre (white, black outline); titles as a bold
-    upper-left place/time card (clear of the subtitle zone) (the Daniel/Yusufa grammar, in a neutral design of your own)."""
-    img = Image.new("RGBA", (width, height), (0, 0, 0, 0))
-    d = ImageDraw.Draw(img)
-    rtl = bool(_ARABIC.search(text))
-    if kind == "title":
-        f = _font(text, int(height * 0.075), "Bold")
-        x0, y0, x1, y1 = d.textbbox((0, 0), text.upper() if not rtl else text, font=f)
-        pad, x, y = int(height * 0.025), int(width * 0.06), int(height * 0.08)
-        d.rectangle((x - pad, y - pad + y0, x + (x1 - x0) + pad, y + y1 + pad), fill=(0, 0, 0, 200))
-        d.text((x, y), text.upper() if not rtl else text, font=f, fill=(255, 255, 255, 255),
-               direction="rtl" if rtl else None)
-    elif kind == "word":
-        # one bold word, centred and large, with a soft drop shadow; sized to ~55% of the frame width
-        word = text if rtl else text.upper()
-        size = int(height * 0.22)
-        f = _font(word, size, "Heavy")
-        while size > 20 and d.textlength(word, font=f, direction="rtl" if rtl else None) > width * 0.55:
-            size = int(size * 0.92)
-            f = _font(word, size, "Heavy")
-        x0, y0, x1, y1 = d.textbbox((0, 0), word, font=f, direction="rtl" if rtl else None)
-        x, y = (width - (x1 - x0)) / 2 - x0, (height - (y1 - y0)) / 2 - y0
-        shadow = Image.new("RGBA", img.size, (0, 0, 0, 0))
-        ImageDraw.Draw(shadow).text((x + 6, y + 8), word, font=f, fill=(0, 0, 0, 170), direction="rtl" if rtl else None)
-        from PIL import ImageFilter
-        img.alpha_composite(shadow.filter(ImageFilter.GaussianBlur(10)))
-        d = ImageDraw.Draw(img)
-        d.text((x, y), word, font=f, fill=(255, 255, 255, 255), direction="rtl" if rtl else None)
-    else:
-        f = _font(text, int(height * 0.045))
-        lines = split_lines(text)
-        line_h = int(height * 0.058)
-        y = int(height * 0.90) - line_h * len(lines)
-        for line in lines:
-            w = d.textlength(line, font=f, direction="rtl" if rtl else None)
-            d.text(((width - w) / 2, y), line, font=f, fill=(255, 255, 255, 255), stroke_width=max(2, height // 270),
-                   stroke_fill=(0, 0, 0, 255), direction="rtl" if rtl else None)
-            y += line_h
-    out.parent.mkdir(parents=True, exist_ok=True)
-    img.save(out)
-    return out
 
 
 def load_transcripts(project: Path) -> dict[str, list[dict]]:
