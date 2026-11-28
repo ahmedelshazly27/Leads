@@ -202,3 +202,28 @@ def test_reexport_after_hand_edit(footage_dir, tmp_path):
     assert all("grade_intensity" in i for i in tl)
     assert plan2["planned_seconds"] == tl[-1]["record_out"]
     assert len(otio.adapters.read_from_file(str(paths["otio"])).video_tracks()[0]) == 2
+
+
+def test_best_window_respects_length_and_speech_boundaries():
+    """A long talking clip gives a window of ~the requested length that ends on a sentence, not its whole speech."""
+    from tfd.director.planner import _best_window
+    clip = {"meta": {"duration": 600.0}, "frames": [],
+            "transcript": [{"start": 10.0 + 5 * k, "end": 14.5 + 5 * k, "text": f"line {k}"} for k in range(100)]}
+    s, e = _best_window(clip, 20.0)
+    assert s == 10.0 and 18.0 <= e - s <= 25.0
+    assert any(abs(e - seg["end"]) < 1e-6 for seg in clip["transcript"])
+
+
+def test_plan_meets_target_when_everything_talks(footage_dir, tmp_path):
+    """Real trips have speech in almost every clip; the plan must still land near the target length."""
+    import json
+    proj = tmp_path / "proj_talk"
+    rep = ingest_folder(footage_dir, proj)
+    for c in rep["clips"]:
+        if "error" not in c:
+            d = c["meta"]["duration"]
+            c["transcript"] = [{"start": 0.1, "end": d - 0.1, "text": "we are talking the whole time here"}]
+    (proj / "footage.json").write_text(json.dumps(rep), encoding="utf-8")
+    plan = plan_project(proj, target_minutes=0.05)  # 3 s target, clips are 3-4 s each
+    body = sum(i["src_out"] - i["src_in"] for i in plan["timeline"] if i["section"] != "hook")
+    assert body <= 4.0  # the hook is kept whole; everything after it is cut down to the target

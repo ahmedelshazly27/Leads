@@ -94,9 +94,11 @@ def _sequences(clips: list[dict], gap_min: float = 45) -> list[list[dict]]:
 def _best_window(clip: dict, length: float) -> tuple[float, float]:
     d = clip["meta"]["duration"]
     if clip.get("transcript"):
-        s = clip["transcript"][0]["start"]
-        e = min(d, max(clip["transcript"][-1]["end"], s + length))
-        return round(s, 2), round(e, 2)
+        segs = clip["transcript"]
+        s = segs[0]["start"]
+        # end on the first sentence boundary at or after the requested length (not the clip's whole speech span)
+        e = next((seg["end"] for seg in segs if seg["end"] - s >= length), segs[-1]["end"])
+        return round(s, 2), round(min(d, e), 2)
     frames = clip.get("frames", [])
     if frames:
         best = max(frames, key=lambda f: f["sharpness"])
@@ -187,6 +189,12 @@ def plan_project(project: Path, target_minutes: float = 8.0, direction: str = "b
         items.remove(worst)
         total -= worst["src_out"] - worst["src_in"]
         decisions.append(f"Cut {worst['clip']} (lowest quality b-roll) to approach the {target_minutes:.0f} min target.")
+    # still over (trips where nearly every clip talks): drop the lowest-quality spoken body items too
+    while total > target and sum(1 for i in items if i["section"] != "hook") > 1:
+        worst = min((i for i in items if i["section"] != "hook"), key=lambda i: qual[i["clip"]])
+        items.remove(worst)
+        total -= worst["src_out"] - worst["src_in"]
+        decisions.append(f"Cut {worst['clip']} (lowest quality remaining shot) to approach the {target_minutes:.0f} min target.")
     # timeline positions + review markers
     rec = 0.0
     for i in items:
