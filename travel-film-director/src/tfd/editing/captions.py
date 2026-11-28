@@ -87,12 +87,18 @@ def write_srt(cues: list[dict], path: Path) -> Path:
     return path
 
 
-def _font(text: str, size: int) -> ImageFont.FreeTypeFont:
+def _font(text: str, size: int, weight: str = "Semibold") -> ImageFont.FreeTypeFont:
+    """System font for the script, at a named weight when the font is variable (SF Pro / SF Arabic)."""
     for name in _FONTS["arabic" if _ARABIC.search(text) else "latin"]:
         try:
-            return ImageFont.truetype(name, size)
+            f = ImageFont.truetype(name, size)
         except OSError:
             continue
+        try:
+            f.set_variation_by_name(weight)
+        except (OSError, ValueError, AttributeError):
+            pass  # static font: use as is
+        return f
     return ImageFont.load_default(size)
 
 
@@ -103,12 +109,28 @@ def render_text_png(text: str, out: Path, width: int, height: int, kind: str = "
     d = ImageDraw.Draw(img)
     rtl = bool(_ARABIC.search(text))
     if kind == "title":
-        f = _font(text, int(height * 0.075))
+        f = _font(text, int(height * 0.075), "Bold")
         x0, y0, x1, y1 = d.textbbox((0, 0), text.upper() if not rtl else text, font=f)
         pad, x, y = int(height * 0.025), int(width * 0.06), int(height * 0.08)
         d.rectangle((x - pad, y - pad + y0, x + (x1 - x0) + pad, y + y1 + pad), fill=(0, 0, 0, 200))
         d.text((x, y), text.upper() if not rtl else text, font=f, fill=(255, 255, 255, 255),
                direction="rtl" if rtl else None)
+    elif kind == "word":
+        # one bold word, centred and large, with a soft drop shadow; sized to ~55% of the frame width
+        word = text if rtl else text.upper()
+        size = int(height * 0.22)
+        f = _font(word, size, "Heavy")
+        while size > 20 and d.textlength(word, font=f, direction="rtl" if rtl else None) > width * 0.55:
+            size = int(size * 0.92)
+            f = _font(word, size, "Heavy")
+        x0, y0, x1, y1 = d.textbbox((0, 0), word, font=f, direction="rtl" if rtl else None)
+        x, y = (width - (x1 - x0)) / 2 - x0, (height - (y1 - y0)) / 2 - y0
+        shadow = Image.new("RGBA", img.size, (0, 0, 0, 0))
+        ImageDraw.Draw(shadow).text((x + 6, y + 8), word, font=f, fill=(0, 0, 0, 170), direction="rtl" if rtl else None)
+        from PIL import ImageFilter
+        img.alpha_composite(shadow.filter(ImageFilter.GaussianBlur(10)))
+        d = ImageDraw.Draw(img)
+        d.text((x, y), word, font=f, fill=(255, 255, 255, 255), direction="rtl" if rtl else None)
     else:
         f = _font(text, int(height * 0.045))
         lines = split_lines(text)
@@ -136,6 +158,7 @@ def load_transcripts(project: Path) -> dict[str, list[dict]]:
 def overlays_for(start: float, end: float, cues: list[dict], titles: list[dict]) -> list[dict]:
     """Text events (subtitles and title cards) visible in [start, end) of the record timeline, in local seconds."""
     events = [{"text": c["text"], "kind": "subtitle", "a": c["start"], "b": c["end"]} for c in cues]
-    events += [{"text": t["text"], "kind": "title", "a": t["at"], "b": t["at"] + t["duration"]} for t in titles]
+    events += [{"text": t["text"], "kind": t.get("style", "title"), "a": t["at"], "b": t["at"] + t["duration"]}
+               for t in titles]
     return [{**e, "a": round(max(e["a"], start) - start, 3), "b": round(min(e["b"], end) - start, 3)}
             for e in events if e["b"] > start and e["a"] < end and min(e["b"], end) - max(e["a"], start) >= 0.2]

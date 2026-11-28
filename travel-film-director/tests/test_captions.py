@@ -66,3 +66,13 @@ def test_overlays_for_window():
     ev = overlays_for(10.0, 15.0, cues, titles)
     assert ev == [{"text": "b", "kind": "subtitle", "a": 0.0, "b": 2.0},
                   {"text": "KABUL", "kind": "title", "a": 0.5, "b": 3.5}]
+
+
+def test_word_title_style(tmp_path):
+    """Kinetic one-word titles for the hook: big, centred, own design (not a creator's branded template)."""
+    from tfd.editing.captions import overlays_for
+    ev = overlays_for(0.0, 5.0, [], [{"at": 0.2, "duration": 0.6, "text": "AFGHANISTAN", "style": "word"}])
+    assert ev[0]["kind"] == "word"
+    out = render_text_png("AFGHANISTAN", tmp_path / "w.png", 1920, 1080, kind="word")
+    x0, y0, x1, y1 = Image.open(out).getbbox()
+    assert abs((x0 + x1) / 2 - 960) < 40 and abs((y0 + y1) / 2 - 540) < 80 and x1 - x0 > 900
