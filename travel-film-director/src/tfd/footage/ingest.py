@@ -22,7 +22,7 @@ from ..log import get_logger
 from ..util import write_json
 
 log = get_logger("footage")
-VIDEO_EXT = {".mp4", ".mov", ".m4v", ".mkv", ".avi", ".mts", ".m2ts", ".insv", ".lrv", ".mxf", ".webm"}
+VIDEO_EXT = {".mp4", ".mov", ".m4v", ".mkv", ".avi", ".mts", ".m2ts", ".insv", ".lrv", ".mxf", ".webm", ".lrf"}
 
 
 def _skip(path: Path, root: Path) -> bool:
@@ -75,6 +75,47 @@ def device_guess(fmt_tags: dict, vs: dict, name: str) -> str:
 
 
 PROXY_SUFFIXES = (".LRF", ".lrf")  # DJI low-resolution proxies, same stem, duration and audio as the original
+
+
+DRONE_HINTS = ("mavic", "air 2", "air 3", "mini 2", "mini 3", "mini 4", "avata", "inspire", "phantom", "fpv", "drone")
+
+
+def is_drone(device: str) -> bool:
+    """Handheld DJI cameras (Osmo Pocket/Action) are not aerial footage."""
+    d = device.lower()
+    return "dji" in d and "osmo" not in d and any(h in d for h in DRONE_HINTS)
+
+
+def _has_original(proxy: Path) -> bool:
+    """A .LRF is only a clip of its own when its original isn't next to it (e.g. originals still zipped/offline)."""
+    return any(proxy.with_suffix(ext).is_file() for ext in (".MP4", ".mp4", ".MOV", ".mov"))
+
+
+def relink_originals(project: Path, roots: list[Path]) -> int:
+    """Point a proxy-only project at its full-resolution originals, matched by file stem under `roots`.
+    Updates footage.json and plan.json; the OTIO/FCPXML export then references the originals."""
+    from ..util import read_json
+    index: dict[str, Path] = {}
+    for root in roots:
+        for p in Path(root).rglob("*"):
+            if p.suffix.lower() in (".mp4", ".mov") and p.is_file() and not p.name.startswith("."):
+                index.setdefault(p.stem, p.resolve())
+    footage = read_json(project / "footage.json")
+    found = {}
+    for c in footage["clips"]:
+        orig = index.get(Path(c["path"]).stem)
+        if orig and c.get("proxy_only"):
+            c["original_path"] = str(orig)
+            found[c["id"]] = str(orig)
+    write_json(project / "footage.json", footage)
+    if (project / "plan.json").is_file():
+        plan = read_json(project / "plan.json")
+        for cid, orig in found.items():
+            if cid in plan["clips"]:
+                plan["clips"][cid]["original_path"] = orig
+        write_json(project / "plan.json", plan)
+    log.info("relinked %d of %d proxy clips", len(found), sum(1 for c in footage["clips"] if c.get("proxy_only")))
+    return len(found)
 
 
 def analysis_source(path: Path) -> Path:
@@ -258,7 +299,8 @@ def ingest_folder(folder: Path, out_dir: Path, transcribe_speech: bool = False, 
     if out_dir == folder or folder in out_dir.parents:
         raise ValueError("Output directory must be outside the footage folder (originals are never written to).")
     out_dir.mkdir(parents=True, exist_ok=True)
-    clips = sorted(p for p in folder.rglob("*") if p.suffix.lower() in VIDEO_EXT and p.is_file() and not _skip(p, folder))
+    clips = sorted(p for p in folder.rglob("*") if p.suffix.lower() in VIDEO_EXT and p.is_file() and not _skip(p, folder)
+                   and not (p.suffix.lower() == ".lrf" and _has_original(p.resolve())))
     log.info("found %d clips in %s", len(clips), folder)
     records, sigs = [], []
     for i, path in enumerate(clips):
@@ -267,6 +309,8 @@ def ingest_folder(folder: Path, out_dir: Path, transcribe_speech: bool = False, 
         rec: dict = {"id": cid, "path": str(path.resolve()), "name": path.name}
         try:
             meta = probe(path)
+            if path.suffix.lower() == ".lrf":
+                rec["proxy_only"] = True  # original offline; run `tfd relink` to point the timeline at it
             src = analysis_source(path)
             if src != path:
                 rec["analysis_proxy"] = str(src)
@@ -279,7 +323,7 @@ def ingest_folder(folder: Path, out_dir: Path, transcribe_speech: bool = False, 
                        shot_type=shot, visual_tags=style.visual_tags(frames), cuts=scene_cuts(src),
                        transcript=_transcribe_clip(src) if (transcribe_speech and meta["has_audio"]) else [])
             if "establishing" in shot and motion.get("shake_px", 9) < 1.0 and meta["height"] >= 1080 and \
-                    "DJI" in meta["device"]:
+                    is_drone(meta["device"]):
                 rec["visual_tags"].append("possible drone/aerial")
             sigs.append((cid, np.mean([hist_signature(p) for _, p in fr_paths], axis=0) if fr_paths else None))
             log.info("[%d/%d] %s q=%.2f %s", i + 1, len(clips), path.name, q, ", ".join(flags))

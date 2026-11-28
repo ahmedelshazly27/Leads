@@ -236,7 +236,8 @@ def plan_project(project: Path, target_minutes: float = 8.0, direction: str = "b
     plan = {
         "project": str(project), "created": dt.datetime.now().isoformat(timespec="seconds"),
         "target_seconds": target, "planned_seconds": round(rec, 2), "direction": direction,
-        "clips": {c["id"]: {"path": c["path"], "fps": c["meta"]["fps"], "duration": c["meta"]["duration"],
+        "clips": {c["id"]: {"path": c["path"], **({"original_path": c["original_path"]} if c.get("original_path") else {}),
+                            "fps": c["meta"]["fps"], "duration": c["meta"]["duration"],
                             "width": c["meta"]["width"], "height": c["meta"]["height"], "category": c["category"]}
                   for c in clips},
         "hook_formula": {"from": hook_from, "recipe": hook_recipe}, "bridges": bridges,

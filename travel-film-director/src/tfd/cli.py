@@ -145,6 +145,13 @@ def _footage(a):
     return 0
 
 
+def _relink(a):
+    from .footage.ingest import relink_originals
+    n = relink_originals(Path(a.project), [Path(r) for r in a.roots])
+    print(json.dumps({"relinked": n}))
+    return 0
+
+
 def _direct(a):
     from .director.planner import plan_project
     from .editing.otio_export import export_timeline
@@ -230,6 +237,10 @@ def main(argv=None) -> int:
     fo.add_argument("--out")
     fo.add_argument("--transcribe", action="store_true", help="speech-to-text with faster-whisper (optional extra)")
     fo.set_defaults(fn=_footage)
+    rl = sub.add_parser("relink", help="point a proxy-only project at its full-resolution originals (matched by name)")
+    rl.add_argument("project")
+    rl.add_argument("roots", nargs="+", help="folders containing the originals (e.g. the camera card copy on your drive)")
+    rl.set_defaults(fn=_relink)
     di = sub.add_parser("direct", help="plan a story + export an editable OTIO/FCP XML timeline")
     di.add_argument("project")
     di.add_argument("--minutes", type=float, default=8.0)

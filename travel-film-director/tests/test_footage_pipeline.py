@@ -128,3 +128,43 @@ def test_dji_proxy_used_for_analysis(footage_dir, tmp_path, monkeypatch):
     assert rec["path"] == str(orig.resolve()) and rec["analysis_proxy"].endswith("DJI_0001.LRF")
     assert ".LRF" in seen
     assert not any(c["name"].endswith(".LRF") for c in rep["clips"])  # the proxy is not a clip of its own
+
+
+def test_proxy_only_folder_and_relink(footage_dir, tmp_path):
+    """Originals still zipped/offline: ingest the DJI .LRF proxies as clips, then relink the 4K originals by name."""
+    import json
+    import shutil
+    from tfd.footage.ingest import relink_originals
+    proxies = tmp_path / "proxies"
+    proxies.mkdir()
+    shutil.copy(footage_dir / "DJI_0001.MP4", proxies / "DJI_0001.LRF")
+    proj = tmp_path / "proj_lrf"
+    rep = ingest_folder(proxies, proj)
+    (rec,) = rep["clips"]
+    assert rec["name"] == "DJI_0001.LRF" and rec["proxy_only"] and "error" not in rec
+    originals = tmp_path / "T7" / "card A"
+    originals.mkdir(parents=True)
+    shutil.copy(footage_dir / "DJI_0001.MP4", originals / "DJI_0001.MP4")
+    plan = plan_project(proj, target_minutes=1)
+    n = relink_originals(proj, [tmp_path / "T7"])
+    assert n == 1
+    fj = json.loads((proj / "footage.json").read_text())
+    assert fj["clips"][0]["original_path"] == str((originals / "DJI_0001.MP4").resolve())
+    plan = json.loads((proj / "plan.json").read_text())
+    assert plan["clips"][rec["id"]]["original_path"].endswith("DJI_0001.MP4")
+    paths = export_timeline(proj, plan)
+    tl = otio.adapters.read_from_file(str(paths["otio"]))
+    assert tl.video_tracks()[0][0].media_reference.target_url.endswith("DJI_0001.MP4")
+
+
+def test_lrf_next_to_original_is_not_a_clip(footage_dir, tmp_path):
+    import shutil
+    shutil.copy(footage_dir / "DJI_0001.MP4", footage_dir / "DJI_0001.LRF")
+    rep = ingest_folder(footage_dir, tmp_path / "p2")
+    assert not any(c["name"].endswith(".LRF") for c in rep["clips"])
+
+
+def test_osmo_pocket_is_not_a_drone():
+    from tfd.footage.ingest import is_drone
+    assert not is_drone("DJI Osmo Pocket")
+    assert is_drone("DJI Mavic 3")

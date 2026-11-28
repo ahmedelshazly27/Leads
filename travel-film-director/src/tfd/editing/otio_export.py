@@ -24,8 +24,9 @@ def build_timeline(plan: dict, rate: float = 25.0) -> otio.schema.Timeline:
     for i, item in enumerate(plan["timeline"]):
         c = plan["clips"][item["clip"]]
         crate = c["fps"] or rate
+        media = c.get("original_path") or c["path"]  # full-res original when relinked; the preview renders from path
         ref = otio.schema.ExternalReference(
-            target_url=Path(c["path"]).resolve().as_uri(),
+            target_url=Path(media).resolve().as_uri(),
             available_range=otio.opentime.TimeRange(_rt(0, crate), _rt(c["duration"], crate)))
         rng = otio.opentime.TimeRange(_rt(item["src_in"], crate), _rt(item["src_out"] - item["src_in"], crate))
         meta = {"tfd": {k: item.get(k) for k in ("section", "mode", "reference", "audio", "reason", "sequence",
@@ -33,7 +34,7 @@ def build_timeline(plan: dict, rate: float = 25.0) -> otio.schema.Timeline:
         corr = ((plan.get("grade") or {}).get("corrections") or {}).get(item["clip"])
         if corr:
             meta["tfd"]["colour_correction"] = corr
-        clip = otio.schema.Clip(name=f"{i:03d} {Path(c['path']).name}", media_reference=ref, source_range=rng, metadata=meta)
+        clip = otio.schema.Clip(name=f"{i:03d} {Path(media).name}", media_reference=ref, source_range=rng, metadata=meta)
         clip.markers.append(otio.schema.Marker(name=item["reason"][:200], marked_range=otio.opentime.TimeRange(rng.start_time, _rt(0, crate)),
                                                color=otio.schema.MarkerColor.BLUE))
         v1.append(clip)
