@@ -36,6 +36,16 @@ Read README.md, ARCHITECTURE.md, STYLE_SYNTHESIS.md, GRAPHICS_AND_STOCK.md and R
   `timelines/`, preview in `renders/preview.mp4`. Every on-screen place name is cited in `trip_notes.md` (draft for
   the user to confirm). Open items: no music yet (user must supply a licensed track), the user should watch the
   preview and say what to change; the auto plan from before the hand edit is in `timelines/auto_plan/`.
+- 2026-11-28 later: user said colour looked "toasted" and text "cheap". Fixed by measuring against the references:
+  per-clip tone curve (mid ~0.36, white 0.90, soft shoulder), daniel-natural-warm look at 50-70%, new typography
+  (typography.py). User approved the 79 s sample ("looks good, do all").
+- Documentary layer (user asked for Joe/Omar-style filler): cutaways over talk (plan["cutaways"], V2 track),
+  animated route maps (maps.py, Natural Earth 110m in data/assets/), dated history cards (style "history").
+  History card facts are researched with sources in trip_notes.md and are PENDING the user's approval.
+  Archival/stock: a shortlist (Wikimedia Commons PD/CC, US Army PD, NASA) awaits the user's download approval;
+  CC BY/BY-SA items need an end-credits card. Music: the user approved "Atlas • Afghanistan" (Pixabay) but it is
+  NOT downloaded: curl to the Pixabay CDN was blocked by the sandbox and the in-app browser can't save files;
+  the user should download it and drop it in <project>/music/.
 - Reference deep pass (`tfd ref deep --all --download`) is running/ran in the background; check `data/deep_all.log`,
   then do step 5 below (graphics/filler sheet review, update GRAPHICS_AND_STOCK.md and style notes).
 

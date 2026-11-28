@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.8.0 (2026-11-28): documentary layer and a reference-matched look
+### Added
+- Cutaways (V2 track): picture covers the speaker while their sound and subtitles continue; exported to OTIO/FCPXML.
+- Animated route maps from Natural Earth outlines (country -> region camera, eased route, pins, Arabic labels).
+- Dated history cards (`history` style), generated clips (never graded), `tfd render --until N` samples.
+- Per-clip tone curve matched to the 24 references; editorial typography; mixed Arabic/English subtitle runs.
+
 ## 0.7.0 (2026-11-28): first real trip (Afghanistan, 140 clips) on macOS
 ### Added
 - Subtitles from the footage's own speech: `timelines/director_cut.srt` for Resolve/Final Cut, burned into the preview with Pillow PNG overlays (no libass/drawtext needed; Arabic shaped via raqm). Whisper stock phrases, loops and character runs are dropped; `"captions": false` on a timeline item turns them off where the transcript is unreliable.
