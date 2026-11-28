@@ -79,3 +79,10 @@ def test_word_title_style(tmp_path):
     out = render_text_png("AFGHANISTAN", tmp_path / "w.png", 1920, 1080, kind="word")
     x0, y0, x1, y1 = Image.open(out).getbbox()
     assert abs((x0 + x1) / 2 - 960) < 40 and abs((y0 + y1) / 2 - 540) < 80 and x1 - x0 > 900
+
+
+def test_item_can_switch_captions_off():
+    """Where the transcript is unreliable, the editor turns captions off per timeline item."""
+    plan = _plan()
+    plan["timeline"][0]["captions"] = False
+    assert [c["text"] for c in caption_cues(plan, TRANSCRIPTS)] == []  # item 2 only has the hallucination

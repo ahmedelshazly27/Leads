@@ -37,7 +37,7 @@ def caption_cues(plan: dict, transcripts: dict[str, list[dict]]) -> list[dict]:
     """Cues in record (timeline) seconds for every sync-sound item, clipped to its trim."""
     cues: list[dict] = []
     for item in plan["timeline"]:
-        if item.get("audio") != "sync":
+        if item.get("audio") != "sync" or item.get("captions") is False:
             continue
         s_in, s_out, r_in = item["src_in"], item["src_out"], item["record_in"]
         for seg in transcripts.get(item["clip"], []):
