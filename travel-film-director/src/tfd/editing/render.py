@@ -41,15 +41,16 @@ TITLE_FADE_S = 0.3   # place cards fade in/out; subtitles and hook words cut on 
 GRAIN = "noise=c0s=3:c0f=t"  # fine temporal luma grain: hides banding from stretched 8-bit log proxies
 
 
-def _overlay_chain(events: list[dict], i: int, tmp: Path, width: int, height: int) -> tuple[list[str], str, str]:
-    """FFmpeg inputs and filter chain overlaying each text event's PNG on [base] for its time window."""
+def _overlay_chain(events: list[dict], i: int, tmp: Path, width: int, height: int,
+                   first_input: int = 2, start: str = "base") -> tuple[list[str], str, str]:
+    """FFmpeg inputs and filter chain overlaying each text event's PNG on [start] for its time window."""
     from .captions import render_text_png
-    inputs, chain, last = [], "", "base"
+    inputs, chain, last = [], "", start
     for k, ev in enumerate(events):
         png = render_text_png(ev["text"], tmp / f"t{i:04d}_{k:02d}.png", width, height, ev["kind"])
         a, b = ev["a"], ev["b"]
         inputs += ["-loop", "1", "-t", f"{b + 0.1:.3f}", "-i", str(png)]
-        src = f"[{k + 2}:v]"
+        src = f"[{k + first_input}:v]"
         if ev["kind"] == "title":
             fd = min(TITLE_FADE_S, (b - a) / 3)
             chain += (f";{src}format=rgba,fade=t=in:st={a}:d={fd:.3f}:alpha=1,"
@@ -69,13 +70,16 @@ def _render_item(i: int, item: dict, plan: dict, cues: list, tmp: Path, vf: str,
     lut = (grade.get("luts") or {}).get(f"{item.get('grade_intensity', 0.8):.1f}")
     gf = ffmpeg_filters((grade.get("corrections") or {}).get(item["clip"], {}), Path(lut) if lut else None)
     vf_item = (gf + "," + vf) if gf else vf
+    from .cutaways import cutaway_chain, windows_for
+    cw_inputs, cw_chain, cw_last = cutaway_chain(windows_for(item, plan.get("cutaways", [])), plan, 2, vf)
     events = overlays_for(item["record_in"], item["record_out"], cues, plan.get("titles", []))
-    png_inputs, chain, last = _overlay_chain(events, i, tmp, width, height)
-    video, vmap = f"[0:v]{vf_item}[base]{chain}", f"[{last}]"
+    png_inputs, chain, last = _overlay_chain(events, i, tmp, width, height,
+                                             first_input=2 + len(cw_inputs) // 6, start=cw_last)
+    video, vmap = f"[0:v]{vf_item}[base]{cw_chain}{chain}", f"[{last}]"
     part = tmp / f"p{i:04d}.mp4"
     gain = "0" if item["audio"] == "sync" else str(plan["audio_rules"].get("ambient_db", -14))
     inputs = ["-ss", f"{item['src_in']:.3f}", "-t", f"{dur:.3f}", "-i", c["path"],
-              "-f", "lavfi", "-t", f"{dur:.3f}", "-i", "anullsrc=r=48000:cl=stereo", *png_inputs]
+              "-f", "lavfi", "-t", f"{dur:.3f}", "-i", "anullsrc=r=48000:cl=stereo", *cw_inputs, *png_inputs]
     try:
         _ff([*inputs, "-filter_complex",
              f"{video};[0:a]aresample=48000,aformat=channel_layouts=stereo,volume={gain}dB[a0];"

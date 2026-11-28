@@ -42,6 +42,23 @@ def build_timeline(plan: dict, rate: float = 25.0) -> otio.schema.Timeline:
                                  available_range=ref.available_range), source_range=rng, metadata=meta)
         a1.append(aclip)
     tl.tracks.extend([v1, a1])
+    if plan.get("cutaways"):  # V2: picture-only inserts over the main track (its sound continues)
+        v2 = otio.schema.Track(name="V2 cutaways", kind=otio.schema.TrackKind.Video)
+        pos = 0.0
+        for cw in sorted(plan["cutaways"], key=lambda c: c["record_in"]):
+            c = plan["clips"][cw["clip"]]
+            crate = c["fps"] or rate
+            if cw["record_in"] > pos + 1e-3:
+                v2.append(otio.schema.Gap(source_range=otio.opentime.TimeRange(_rt(0, rate), _rt(cw["record_in"] - pos, rate))))
+            media = c.get("original_path") or c["path"]
+            dur = cw["src_out"] - cw["src_in"]
+            v2.append(otio.schema.Clip(
+                name=f"cutaway {Path(media).name}", metadata={"tfd": {"reason": cw.get("reason", "")}},
+                media_reference=otio.schema.ExternalReference(target_url=Path(media).resolve().as_uri(),
+                    available_range=otio.opentime.TimeRange(_rt(0, crate), _rt(c["duration"], crate))),
+                source_range=otio.opentime.TimeRange(_rt(cw["src_in"], crate), _rt(dur, crate))))
+            pos = cw["record_in"] + dur
+        tl.tracks.insert(1, v2)
     if plan.get("music"):
         a2 = otio.schema.Track(name="A2 music", kind=otio.schema.TrackKind.Audio)
         for m in plan["music"][:1]:
@@ -102,11 +119,9 @@ def reexport(project: Path) -> dict:
     footage = {c["id"]: c for c in read_json(project / "footage.json")["clips"]}
     grade = plan.setdefault("grade", {})
     corrections = grade.setdefault("corrections", {})
-    rec = 0.0
-    for item in plan["timeline"]:
-        cid = item["clip"]
+    def register(cid: str) -> dict:
         if cid not in footage:
-            raise KeyError(f"timeline uses unknown clip {cid}")
+            raise KeyError(f"plan uses unknown clip {cid}")
         c = footage[cid]
         if cid not in plan["clips"]:
             plan["clips"][cid] = {"path": c["path"], **({"original_path": c["original_path"]} if c.get("original_path") else {}),
@@ -116,6 +131,16 @@ def reexport(project: Path) -> dict:
         if cid not in corrections:
             meta = c["meta"] if "log_profile" in c["meta"] else {**c["meta"], "log_profile": _probe_log(c["path"])}
             corrections[cid] = clip_correction([f["path"] for f in c.get("frames", [])], meta)
+        return c
+
+    for cw in plan.get("cutaways", []):
+        c = register(cw["clip"])
+        if cw["src_out"] <= cw["src_in"] or cw["src_out"] > c["meta"]["duration"] + 0.05:
+            raise ValueError(f"bad cutaway trim for {cw['clip']}: {cw['src_in']}-{cw['src_out']}")
+    rec = 0.0
+    for item in plan["timeline"]:
+        cid = item["clip"]
+        c = register(cid)
         dur = float(item["src_out"]) - float(item["src_in"])
         if dur <= 0 or item["src_out"] > c["meta"]["duration"] + 0.05:
             raise ValueError(f"bad trim for {cid}: {item['src_in']}-{item['src_out']} (clip {c['meta']['duration']:.2f}s)")
