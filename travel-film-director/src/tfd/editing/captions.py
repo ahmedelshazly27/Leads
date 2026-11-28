@@ -27,7 +27,7 @@ _ARABIC = re.compile(r"[؀-ۿݐ-ݿ]")
 def is_hallucination(text: str) -> bool:
     """Whisper invents stock phrases on silence/music and loops single words; drop those cues."""
     t = text.strip()
-    if not t or _HALLUCINATIONS.search(t):
+    if not re.search(r"\w", t) or _HALLUCINATIONS.search(t) or re.search(r"(\w)\1{9,}", t):
         return True
     words = re.findall(r"\w+", t.lower())
     return len(words) >= 4 and len(set(words)) <= max(1, len(words) // 4)

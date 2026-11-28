@@ -35,7 +35,10 @@ def test_hallucinations_filtered():
     assert is_hallucination("Thank you for watching!")
     assert is_hallucination("Subtitles by the Amara.org community")
     assert is_hallucination("you you you you you you")
+    assert is_hallucination("ف" + "ا" * 60)  # Whisper stretching a drawn-out vowel into a run
+    assert is_hallucination("...")
     assert not is_hallucination("Thank you so much, brother")
+    assert not is_hallucination("وااااو")  # a short stretched "wow" is real speech
 
 
 def test_split_lines():
