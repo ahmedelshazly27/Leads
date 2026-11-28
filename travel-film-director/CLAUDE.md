@@ -26,6 +26,19 @@ Read README.md, ARCHITECTURE.md, STYLE_SYNTHESIS.md, GRAPHICS_AND_STOCK.md and R
 - Storyboard-level dissolve/whip detection was removed after manual review showed false positives. Full-rate analysis replaces it.
 - Footage → plan → OTIO/FCPXML → preview render → QA works on synthetic clips. Not yet on the user's real footage.
 
+## Update 2026-11-28 (first Mac session)
+- Setup works on this Mac (Apple Silicon, Homebrew FFmpeg 8 without drawtext/zscale/libass: tests that need them skip).
+- **Afghanistan trip (2-7 Oct 2026) is edited**: `data/projects/Afghanistan Oct 2026/` (not committed).
+  140 Osmo Pocket clips ingested from the DJI .LRF proxies extracted from the zips in
+  `~/Desktop/Projects/AI Travel Film Director/Footage/Afghanistan Oct 2026/` (4K originals: same zips, and on the T7
+  drive; run `tfd relink` when T7 is plugged in). 81 clips are D-Log2, 59 Rec.709; the grade converts per clip.
+  Director's cut 14:57, 84 shots, cold open + 5 day chapters, joe-teal look, burned-in subtitles, SRT, OTIO/FCPXML in
+  `timelines/`, preview in `renders/preview.mp4`. Every on-screen place name is cited in `trip_notes.md` (draft for
+  the user to confirm). Open items: no music yet (user must supply a licensed track), the user should watch the
+  preview and say what to change; the auto plan from before the hand edit is in `timelines/auto_plan/`.
+- Reference deep pass (`tfd ref deep --all --download`) is running/ran in the background; check `data/deep_all.log`,
+  then do step 5 below (graphics/filler sheet review, update GRAPHICS_AND_STOCK.md and style notes).
+
 ## Priority: the user's own footage
 The user wants their footage edited as soon as possible. **At the start, ask which trip folder to use** (e.g. one day or
 one location first, 30-80 clips). Start the footage work while the reference deep pass runs in the background.
