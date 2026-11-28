@@ -116,10 +116,30 @@ def _word(img: Image.Image, text: str, width: int, height: int) -> None:
     _shadowed(img, draw, tight=(120, 3), soft=(140, max(10, height // 45)), dy=max(2, height // 180))
 
 
+HIST_Y, HIST_DATE, HIST_CAPTION = 0.56, 0.085, 0.034
+
+
+def _history(img: Image.Image, text: str, width: int, height: int) -> None:
+    """'MARCH 2001 · Taliban destroy the Buddhas' -> a large condensed date over a one-line caption, lower left,
+    above the subtitle zone (the dated history card of Joe Hattab's context sections, in our own design)."""
+    date, _, caption = text.partition(" · ")
+    x, y = int(width * CARD_X), int(height * HIST_Y)
+    df = font(date, int(height * HIST_DATE), "Compressed Black")
+    cf = font(caption, int(height * HIST_CAPTION), "Semibold")
+    cap_y = y + int(height * HIST_DATE * 1.12)
+    rtl = is_rtl(caption)
+
+    def draw(d, shadow, dy):
+        d.text((x, y + dy), date.upper(), font=df, fill=shadow or WHITE)
+        if caption:
+            d.text((x, cap_y + dy), caption, font=cf, fill=shadow or LABEL, direction="rtl" if rtl else None)
+    _shadowed(img, draw, tight=(170, 2), soft=(130, max(8, height // 60)), dy=max(1, height // 300))
+
+
 def render_text_png(text: str, out: Path, width: int, height: int, kind: str = "subtitle") -> Path:
-    """Full-frame transparent PNG for one text event: kind 'subtitle', 'title' (place/time card) or 'word'."""
+    """Full-frame transparent PNG for one text event: 'subtitle', 'title' (place/time card), 'word' or 'history'."""
     img = Image.new("RGBA", (width, height), (0, 0, 0, 0))
-    {"title": _card, "word": _word}.get(kind, _subtitle)(img, text, width, height)
+    {"title": _card, "word": _word, "history": _history}.get(kind, _subtitle)(img, text, width, height)
     out.parent.mkdir(parents=True, exist_ok=True)
     img.save(out)
     return out

@@ -86,3 +86,10 @@ def test_item_can_switch_captions_off():
     plan = _plan()
     plan["timeline"][0]["captions"] = False
     assert [c["text"] for c in caption_cues(plan, TRANSCRIPTS)] == []  # item 2 only has the hallucination
+
+
+def test_history_card_sits_above_subtitles(tmp_path):
+    """'DATE · caption' history cards: big date over a caption, lower left, clear of the subtitle zone."""
+    out = render_text_png("MARCH 2001 · Taliban destroy the Buddhas", tmp_path / "h.png", 1920, 1080, kind="history")
+    x0, y0, x1, y1 = Image.open(out).getbbox()
+    assert x0 < 200 and y1 < 1080 * 0.80 and y0 > 1080 * 0.45

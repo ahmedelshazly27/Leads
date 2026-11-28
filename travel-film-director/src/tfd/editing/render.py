@@ -51,7 +51,7 @@ def _overlay_chain(events: list[dict], i: int, tmp: Path, width: int, height: in
         a, b = ev["a"], ev["b"]
         inputs += ["-loop", "1", "-t", f"{b + 0.1:.3f}", "-i", str(png)]
         src = f"[{k + first_input}:v]"
-        if ev["kind"] == "title":
+        if ev["kind"] in ("title", "history"):
             fd = min(TITLE_FADE_S, (b - a) / 3)
             chain += (f";{src}format=rgba,fade=t=in:st={a}:d={fd:.3f}:alpha=1,"
                       f"fade=t=out:st={b - fd:.3f}:d={fd:.3f}:alpha=1[f{k}]")
@@ -68,7 +68,8 @@ def _render_item(i: int, item: dict, plan: dict, cues: list, tmp: Path, vf: str,
     grade = plan.get("grade") or {}
     dur = item["src_out"] - item["src_in"]
     lut = (grade.get("luts") or {}).get(f"{item.get('grade_intensity', 0.8):.1f}")
-    gf = ffmpeg_filters((grade.get("corrections") or {}).get(item["clip"], {}), Path(lut) if lut else None)
+    gf = "" if c.get("generated") else ffmpeg_filters((grade.get("corrections") or {}).get(item["clip"], {}),
+                                                     Path(lut) if lut else None)
     vf_item = (gf + "," + vf) if gf else vf
     from .cutaways import cutaway_chain, windows_for
     cw_inputs, cw_chain, cw_last = cutaway_chain(windows_for(item, plan.get("cutaways", [])), plan, 2, vf)

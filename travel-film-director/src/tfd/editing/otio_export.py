@@ -120,6 +120,12 @@ def reexport(project: Path) -> dict:
     grade = plan.setdefault("grade", {})
     corrections = grade.setdefault("corrections", {})
     def register(cid: str) -> dict:
+        gen = plan["clips"].get(cid, {})
+        if gen.get("generated"):  # maps/cards made by tfd: no footage record, never graded
+            if not Path(gen["path"]).is_file():
+                raise FileNotFoundError(f"generated clip {cid} missing: {gen['path']}")
+            corrections.pop(cid, None)
+            return {"meta": {"duration": gen["duration"]}}
         if cid not in footage:
             raise KeyError(f"plan uses unknown clip {cid}")
         c = footage[cid]

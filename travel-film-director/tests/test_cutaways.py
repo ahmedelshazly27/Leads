@@ -53,3 +53,24 @@ def test_cutaway_renders_and_exports(footage_dir, tmp_path):
     dur = float(subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", str(out)],
                                capture_output=True, text=True).stdout)
     assert abs(dur - 3.0) < 0.2  # cutaways never change the cut's length
+
+
+def test_generated_clip_as_cutaway_is_not_graded(footage_dir, tmp_path):
+    """Generated media (maps) register in the plan, export to V2, and skip the colour grade."""
+    from tfd.editing.grade import ffmpeg_filters  # noqa: F401
+    from tfd.editing.cutaways import add_generated_clip
+    proj = tmp_path / "proj_gen"
+    rep = ingest_folder(footage_dir, proj)
+    plan_project(proj, target_minutes=1)
+    plan = json.loads((proj / "plan.json").read_text())
+    main = next(c for c in rep["clips"] if c["name"] == "DJI_0001.MP4")
+    plan["timeline"] = [{"clip": main["id"], "src_in": 0.0, "src_out": 3.0, "section": "body", "audio": "sync",
+                         "mode": "personal", "reason": "talk"}]
+    plan["titles"] = []
+    gid = add_generated_clip(plan, footage_dir / "IMG_0002.MOV", "map: test")
+    plan["cutaways"] = [{"clip": gid, "src_in": 0.0, "src_out": 1.0, "record_in": 1.0, "reason": "map"}]
+    (proj / "plan.json").write_text(json.dumps(plan), encoding="utf-8")
+    reexport(proj)
+    plan2 = json.loads((proj / "plan.json").read_text())
+    assert plan2["clips"][gid]["generated"] and plan2["grade"]["corrections"].get(gid) in (None, {})
+    assert render_preview(proj).is_file()
