@@ -168,3 +168,16 @@ def test_osmo_pocket_is_not_a_drone():
     from tfd.footage.ingest import is_drone
     assert not is_drone("DJI Osmo Pocket")
     assert is_drone("DJI Mavic 3")
+
+
+def test_scene_cuts_keyframe_fast_path(tmp_path):
+    """Hard cut at 2 s between two different sources is found from keyframes alone (no full decode)."""
+    import subprocess
+    from tfd.footage.ingest import scene_cuts
+    out = tmp_path / "cut.mp4"
+    subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-f", "lavfi", "-i", "testsrc2=s=320x180:d=2:r=25",
+                    "-f", "lavfi", "-i", "color=c=0x202060:s=320x180:d=2:r=25", "-filter_complex",
+                    "[0:v][1:v]concat=n=2:v=1[v]", "-map", "[v]", "-c:v", "libx264", "-g", "25", "-pix_fmt", "yuv420p",
+                    str(out)], check=True)
+    cuts = scene_cuts(out)
+    assert len(cuts) == 1 and 1.0 <= cuts[0] <= 2.05

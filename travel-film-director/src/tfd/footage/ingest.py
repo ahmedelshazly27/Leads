@@ -218,13 +218,33 @@ def motion_stats(path: Path, duration: float, seconds: float = 4.0) -> dict:
             "camera_movement": mv}
 
 
+KEYFRAME_CUT_THRESHOLD = 28.0  # mean absolute difference (0-255) between consecutive keyframe thumbnails
+
+
 def scene_cuts(path: Path) -> list[float]:
-    try:
-        from scenedetect import ContentDetector, detect
-        return [round(s[0].get_seconds(), 2) for s in detect(str(path), ContentDetector())][1:]
-    except Exception as e:
-        log.debug("scenedetect failed on %s: %s", path.name, e)
+    """Hard cuts inside a clip, found from keyframes only (FFmpeg -skip_frame nokey on 64x36 grey thumbnails).
+
+    Raw camera clips are mostly single takes; decoding every frame of 4K/720p HEVC (PySceneDetect) cost more
+    than everything else in ingest. Precision is one GOP (~0.5-1 s), which is enough for raw footage."""
+    exe = shutil.which("ffmpeg")
+    if not exe:
         return []
+    w, h = 64, 36
+    r = subprocess.run([exe, "-hide_banner", "-skip_frame", "nokey", "-i", str(path), "-map", "0:v:0",
+                        "-vf", f"scale={w}:{h},format=gray,showinfo", "-fps_mode", "passthrough",
+                        "-f", "rawvideo", "-"], capture_output=True, timeout=600)
+    if r.returncode != 0:
+        log.debug("keyframe scan failed on %s: %s", path.name, r.stderr[-300:])
+        return []
+    import re
+    times = [float(t) for t in re.findall(rb"pts_time:\s*([\d.]+)", r.stderr)]
+    frames = np.frombuffer(r.stdout, dtype=np.uint8)
+    n = min(len(times), len(frames) // (w * h))
+    if n < 2:
+        return []
+    thumbs = frames[: n * w * h].reshape(n, h, w).astype(np.int16)
+    diffs = np.abs(np.diff(thumbs, axis=0)).mean(axis=(1, 2))
+    return [round(times[i + 1], 2) for i in np.nonzero(diffs > KEYFRAME_CUT_THRESHOLD)[0]]
 
 
 def _whisper_backend() -> str:
