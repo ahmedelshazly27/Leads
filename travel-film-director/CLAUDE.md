@@ -46,6 +46,13 @@ Read README.md, ARCHITECTURE.md, STYLE_SYNTHESIS.md, GRAPHICS_AND_STOCK.md and R
   CC BY/BY-SA items need an end-credits card. Music: the user approved "Atlas • Afghanistan" (Pixabay) but it is
   NOT downloaded: curl to the Pixabay CDN was blocked by the sandbox and the in-app browser can't save files;
   the user should download it and drop it in <project>/music/.
+- Later still: user wants it "like Joe Hattab", private study cut only (said explicitly: personal use, never shared).
+  Grade is now `joe-match` (match.py, measured from 3 Joe videos). Burned subtitles OFF (`burn_subtitles: false`).
+  Joe's own Afghanistan b-roll (cyV-b0YL1C4, STJEAlbIhNY in data/reference_footage/) is used as muted, credited
+  inserts ("Footage: Joe Hattab") where it matches; auto_cutaways took presenter screen share 52% -> 41%.
+  VO: vo_script.md has 2 lines for the user to record into <project>/vo/. Archival video shortlist (Commons/NARA/
+  DVIDS, PD/CC) awaits download approval. The doc layer is built by a script kept in the session scratchpad; the
+  reusable parts are in the package (cutaways, maps, stills, inserts, match, auto_cutaways).
 - Reference deep pass (`tfd ref deep --all --download`) is running/ran in the background; check `data/deep_all.log`,
   then do step 5 below (graphics/filler sheet review, update GRAPHICS_AND_STOCK.md and style notes).
 
