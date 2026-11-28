@@ -145,6 +145,13 @@ def _footage(a):
     return 0
 
 
+def _export(a):
+    from .editing.otio_export import reexport
+    paths = reexport(Path(a.project))
+    print(json.dumps({k: str(v) for k, v in paths.items()}, indent=2))
+    return 0
+
+
 def _relink(a):
     from .footage.ingest import relink_originals
     n = relink_originals(Path(a.project), [Path(r) for r in a.roots])
@@ -237,6 +244,9 @@ def main(argv=None) -> int:
     fo.add_argument("--out")
     fo.add_argument("--transcribe", action="store_true", help="speech-to-text with faster-whisper (optional extra)")
     fo.set_defaults(fn=_footage)
+    ex = sub.add_parser("export", help="re-export timelines from a hand-edited plan.json")
+    ex.add_argument("project")
+    ex.set_defaults(fn=_export)
     rl = sub.add_parser("relink", help="point a proxy-only project at its full-resolution originals (matched by name)")
     rl.add_argument("project")
     rl.add_argument("roots", nargs="+", help="folders containing the originals (e.g. the camera card copy on your drive)")

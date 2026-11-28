@@ -89,3 +89,41 @@ def export_timeline(project: Path, plan: dict) -> dict:
     if cues:  # Resolve: File > Import > Subtitle; Final Cut: File > Import > Captions
         paths["srt"] = write_srt(cues, safe_output_path(out_dir / "director_cut.srt"))
     return paths
+
+
+def reexport(project: Path) -> dict:
+    """Re-export a hand-edited plan.json (the CLAUDE.md flow: review and improve the plan, then export).
+
+    Recomputes record positions from the trims, adds any clip from footage.json the planner had skipped (with its
+    colour correction), fills grade intensities, and writes the OTIO/FCPXML/SRT timelines."""
+    from ..util import read_json, write_json
+    from .grade import INTENSITY_BY_MODE, _probe_log, clip_correction
+    plan = read_json(project / "plan.json")
+    footage = {c["id"]: c for c in read_json(project / "footage.json")["clips"]}
+    grade = plan.setdefault("grade", {})
+    corrections = grade.setdefault("corrections", {})
+    rec = 0.0
+    for item in plan["timeline"]:
+        cid = item["clip"]
+        if cid not in footage:
+            raise KeyError(f"timeline uses unknown clip {cid}")
+        c = footage[cid]
+        if cid not in plan["clips"]:
+            plan["clips"][cid] = {"path": c["path"], **({"original_path": c["original_path"]} if c.get("original_path") else {}),
+                                  "fps": c["meta"]["fps"], "duration": c["meta"]["duration"],
+                                  "width": c["meta"]["width"], "height": c["meta"]["height"],
+                                  "category": c.get("category", "hand-picked")}
+        if cid not in corrections:
+            meta = c["meta"] if "log_profile" in c["meta"] else {**c["meta"], "log_profile": _probe_log(c["path"])}
+            corrections[cid] = clip_correction([f["path"] for f in c.get("frames", [])], meta)
+        dur = float(item["src_out"]) - float(item["src_in"])
+        if dur <= 0 or item["src_out"] > c["meta"]["duration"] + 0.05:
+            raise ValueError(f"bad trim for {cid}: {item['src_in']}-{item['src_out']} (clip {c['meta']['duration']:.2f}s)")
+        item.setdefault("grade_intensity", INTENSITY_BY_MODE.get(item.get("mode"), 0.8))
+        item.setdefault("reason", "hand edit")
+        item["record_in"] = round(rec, 3)
+        rec += dur
+        item["record_out"] = round(rec, 3)
+    plan["planned_seconds"] = round(rec, 3)
+    write_json(project / "plan.json", plan)
+    return export_timeline(project, plan)

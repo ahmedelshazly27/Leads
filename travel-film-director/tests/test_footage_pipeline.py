@@ -181,3 +181,24 @@ def test_scene_cuts_keyframe_fast_path(tmp_path):
                     str(out)], check=True)
     cuts = scene_cuts(out)
     assert len(cuts) == 1 and 1.0 <= cuts[0] <= 2.05
+
+
+def test_reexport_after_hand_edit(footage_dir, tmp_path):
+    """plan.json edited by hand (reordered, trimmed, a clip the planner skipped added) re-exports consistently."""
+    import json
+    from tfd.editing.otio_export import reexport
+    proj = tmp_path / "proj_edit"
+    rep = ingest_folder(footage_dir, proj)
+    plan = plan_project(proj, target_minutes=1)
+    skipped = next(c for c in rep["clips"] if c["id"] not in plan["clips"] and "error" not in c)
+    plan["timeline"] = [{"clip": skipped["id"], "src_in": 0.5, "src_out": 1.5, "section": "hook", "audio": "sync",
+                         "mode": "personal", "reason": "hand edit"}] + plan["timeline"][:1]
+    (proj / "plan.json").write_text(json.dumps(plan), encoding="utf-8")
+    paths = reexport(proj)
+    plan2 = json.loads((proj / "plan.json").read_text())
+    assert skipped["id"] in plan2["clips"] and skipped["id"] in plan2["grade"]["corrections"]
+    tl = plan2["timeline"]
+    assert tl[0]["record_in"] == 0 and tl[0]["record_out"] == 1.0 and tl[1]["record_in"] == 1.0
+    assert all("grade_intensity" in i for i in tl)
+    assert plan2["planned_seconds"] == tl[-1]["record_out"]
+    assert len(otio.adapters.read_from_file(str(paths["otio"])).video_tracks()[0]) == 2
