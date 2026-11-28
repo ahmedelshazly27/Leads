@@ -4,7 +4,6 @@ from __future__ import annotations
 import re
 import shutil
 import subprocess
-from collections import Counter
 from pathlib import Path
 
 from ..util import read_json, write_json
@@ -24,6 +23,24 @@ def _ffmpeg_filter_log(video: Path, vf: str | None = None, af: str | None = None
     return subprocess.run(args, capture_output=True, text=True).stderr
 
 
+MIN_REPEAT_S = 0.5  # overlaps shorter than this are trim handles, not repeated footage
+
+
+def repeated_shots(timeline: list[dict]) -> list[dict]:
+    """The same source footage shown twice. Reusing a clip for a different moment (a flash-forward, a
+    conversation split into trims) is normal editing and not flagged."""
+    issues, seen = [], {}
+    for item in timeline:
+        a, b = float(item["src_in"]), float(item["src_out"])
+        for pa, pb in seen.get(item["clip"], []):
+            if min(b, pb) - max(a, pa) > MIN_REPEAT_S:
+                issues.append({"at": item["record_in"], "type": "shot repetition",
+                               "detail": f"{item['clip']} {pa:.1f}-{pb:.1f} overlaps {a:.1f}-{b:.1f} (same footage shown twice)"})
+                break
+        seen.setdefault(item["clip"], []).append((a, b))
+    return issues
+
+
 def run_qa(project: Path, video: Path) -> dict:
     plan = read_json(project / "plan.json")
     issues = []
@@ -39,11 +56,7 @@ def run_qa(project: Path, video: Path) -> dict:
         if s0 > -60 and s1 > -60 and abs(s1 - s0) > 12:
             issues.append({"at": t1, "type": "abrupt loudness change", "detail": f"{s0:.0f} -> {s1:.0f} LUFS (short-term)"})
     integrated = re.findall(r"I:\s*(-?[\d.]+) LUFS", ebu)
-    uses = Counter(i["clip"] for i in plan["timeline"])
-    for clip, n in uses.items():
-        if n > 1:
-            issues.append({"at": next(i["record_in"] for i in plan["timeline"] if i["clip"] == clip),
-                           "type": "shot repetition", "detail": f"{clip} used {n} times"})
+    issues += repeated_shots(plan["timeline"])
     lens = [i["record_out"] - i["record_in"] for i in plan["timeline"]]
     long_shots = [i for i in plan["timeline"] if i["audio"] != "sync" and i["record_out"] - i["record_in"] > 10]
     for i in long_shots:
