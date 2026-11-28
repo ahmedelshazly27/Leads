@@ -109,8 +109,8 @@ def test_render_burns_in_titles_and_subtitles(footage_dir, tmp_path):
                    check=True)
     import cv2
     img = cv2.imread(str(frame))
-    title_box = img[int(1080 * 0.06):int(1080 * 0.12), int(1920 * 0.04):int(1920 * 0.10)]
-    assert title_box.mean() < 60  # dark card behind the title
+    card_padding = img[100:180, 92:110]  # left padding of the title card (text starts at x=115)
+    assert card_padding.mean() < 60  # dark card behind the title
     subtitle_band = img[int(1080 * 0.80):int(1080 * 0.90), :]
     assert (subtitle_band > 240).all(axis=2).sum() > 500  # white subtitle text pixels
 
