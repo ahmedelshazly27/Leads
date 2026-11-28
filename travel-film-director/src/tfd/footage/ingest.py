@@ -269,7 +269,10 @@ def transcribe(path: Path, model_size: str | None = None) -> list[dict]:
         import mlx_whisper
         # a full Hugging Face repo id is used as-is (e.g. mlx-community/whisper-large-v3-turbo)
         repo = model_size if "/" in model_size else f"mlx-community/whisper-{model_size}-mlx"
-        res = mlx_whisper.transcribe(str(path), path_or_hf_repo=repo)
+        # Greedy decoding without temperature fallback or conditioning on previous text: 2.4x faster on long
+        # ambient-heavy travel clips (34 s vs 83 s for 259 s of Egyptian Arabic, same text) and no repetition loops.
+        res = mlx_whisper.transcribe(str(path), path_or_hf_repo=repo, temperature=0.0,
+                                     condition_on_previous_text=False)
         return [{"start": round(s["start"], 2), "end": round(s["end"], 2), "text": s["text"].strip()}
                 for s in res.get("segments", [])]
     try:
@@ -282,7 +285,7 @@ def transcribe(path: Path, model_size: str | None = None) -> list[dict]:
         _WHISPER
     except NameError:
         _WHISPER = WhisperModel(model_size, device="auto", compute_type="int8")  # macOS/Intel: CPU int8
-    segs, _info = _WHISPER.transcribe(str(path), vad_filter=True)
+    segs, _info = _WHISPER.transcribe(str(path), vad_filter=True, temperature=0.0, condition_on_previous_text=False)
     return [{"start": round(s.start, 2), "end": round(s.end, 2), "text": s.text.strip()} for s in segs]
 
 
