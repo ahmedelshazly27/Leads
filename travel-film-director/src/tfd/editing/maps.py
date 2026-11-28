@@ -158,7 +158,7 @@ def _frame(t: float, seconds: float, rings, others, bbox, stops, width: int, hei
             x += d.textlength(ch, font=nf) + 0.35 * nf.size
     # route draws after the zoom settles; stops pop as the line reaches them
     route = [pr((lon, lat)) for _, _, lon, lat in stops]
-    start, span = 0.5 * seconds, max(0.1, 0.4 * seconds)
+    start, span = 0.42 * seconds, max(0.1, 0.33 * seconds)  # route done by 75%, then hold
     drawn = partial_route(route, ease((t - start) / span))
     if len(drawn) > 1:
         rg = Image.new("RGBA", img.size, (0, 0, 0, 0))
@@ -168,7 +168,7 @@ def _frame(t: float, seconds: float, rings, others, bbox, stops, width: int, hei
         d.line(drawn, fill=ROUTE, width=max(3, width // 320), joint="curve")
     seg = [0.0] + [math.dist(a, b) for a, b in zip(route, route[1:])]
     total, reached, taken = sum(seg) or 1.0, 0.0, []
-    size_main, size_ar = int(height * 0.036), int(height * 0.028)
+    size_main, size_ar = int(height * 0.046), int(height * 0.034)
     lf, af = font("A", size_main, "Bold"), font("ا", size_ar, "Semibold")
     for k, (name, name_ar, lon, lat) in enumerate(stops):
         reached += seg[k]

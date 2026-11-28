@@ -47,6 +47,45 @@ def font(text: str, size: int, weight: str = "Semibold") -> ImageFont.FreeTypeFo
     return ImageFont.load_default(size)
 
 
+_ARABIC_LETTER = re.compile(r"[\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF]")
+_LATIN_LETTER = re.compile(r"[A-Za-z\u00C0-\u024F]")
+
+
+def script_runs(text: str) -> list[tuple[str, bool]]:
+    """Split a line into Arabic and Latin runs (neutral characters join the run they follow), in VISUAL
+    left-to-right order: reversed for a right-to-left line. No installed Arabic font carries Latin glyphs, so each
+    run is set in its own font."""
+    runs: list[list] = []
+    for ch in text:
+        kind = True if _ARABIC_LETTER.match(ch) else False if _LATIN_LETTER.match(ch) else None
+        if runs and (kind is None or kind == runs[-1][1]):
+            runs[-1][0] += ch
+        elif runs and runs[-1][1] is None:
+            runs[-1] = [runs[-1][0] + ch, kind]
+        else:
+            runs.append([ch, kind])
+    out = [(t, bool(k)) for t, k in runs]
+    return out[::-1] if is_rtl(text) else out
+
+
+def _mixed(d: ImageDraw.ImageDraw, text: str, size: int, weight: str):
+    """(width, draw(x, y, fill)) for a line that may mix Arabic and Latin."""
+    runs = [(t.strip(), ar) for t, ar in script_runs(text) if t.strip()]
+    if len(runs) <= 1:
+        f, rtl = font(text, size, weight), is_rtl(text)
+        w = d.textlength(text, font=f, direction="rtl" if rtl else None)
+        return w, lambda dd, x, y, fill: dd.text((x, y), text, font=f, fill=fill, direction="rtl" if rtl else None)
+    gap = d.textlength(" ", font=font("a", size, weight))
+    parts = [(t, font("ب" if ar else "a", size, weight), ar) for t, ar in runs]
+    widths = [d.textlength(t, font=f, direction="rtl" if ar else None) for t, f, ar in parts]
+
+    def draw(dd, x, y, fill):
+        for (t, f, ar), w in zip(parts, widths):
+            dd.text((x, y), t, font=f, fill=fill, direction="rtl" if ar else None)
+            x += w + gap
+    return sum(widths) + gap * (len(parts) - 1), draw
+
+
 def _shadowed(img: Image.Image, draw_fn, tight: tuple[int, int], soft: tuple[int, int], dy: int) -> None:
     """Draw text twice as shadow (a tight one for legibility on bright skies, a soft one for depth), then the text."""
     for alpha, blur in (tight, soft):
@@ -73,10 +112,12 @@ def _subtitle(img: Image.Image, text: str, width: int, height: int) -> None:
     top = int(height * SUB_BOTTOM) - line_h * len(lines)
     direction = "rtl" if rtl else None
 
+    size = int(height * SUB_SIZE)
+
     def draw(d, shadow, dy):
         for k, line in enumerate(lines):
-            w = d.textlength(line, font=f, direction=direction)
-            d.text(((width - w) / 2, top + k * line_h + dy), line, font=f, fill=shadow or WHITE, direction=direction)
+            w, paint = _mixed(d, line, size, "Semibold")
+            paint(d, (width - w) / 2, top + k * line_h + dy, shadow or WHITE)
     _shadowed(img, draw, tight=(230, 2), soft=(130, max(6, height // 90)), dy=max(1, height // 400))
 
 

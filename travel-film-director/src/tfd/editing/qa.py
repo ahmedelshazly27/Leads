@@ -56,7 +56,7 @@ def run_qa(project: Path, video: Path) -> dict:
         if s0 > -60 and s1 > -60 and abs(s1 - s0) > 12:
             issues.append({"at": t1, "type": "abrupt loudness change", "detail": f"{s0:.0f} -> {s1:.0f} LUFS (short-term)"})
     integrated = re.findall(r"I:\s*(-?[\d.]+) LUFS", ebu)
-    issues += repeated_shots(plan["timeline"])
+    issues += repeated_shots(sorted(plan["timeline"] + plan.get("cutaways", []), key=lambda i: i["record_in"]))
     lens = [i["record_out"] - i["record_in"] for i in plan["timeline"]]
     long_shots = [i for i in plan["timeline"] if i["audio"] != "sync" and i["record_out"] - i["record_in"] > 10]
     for i in long_shots:

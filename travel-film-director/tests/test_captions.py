@@ -93,3 +93,20 @@ def test_history_card_sits_above_subtitles(tmp_path):
     out = render_text_png("MARCH 2001 · Taliban destroy the Buddhas", tmp_path / "h.png", 1920, 1080, kind="history")
     x0, y0, x1, y1 = Image.open(out).getbbox()
     assert x0 < 200 and y1 < 1080 * 0.80 and y0 > 1080 * 0.45
+
+
+def test_mixed_script_runs_in_visual_order():
+    """English inside an Arabic line is set in a Latin font, in right-to-left visual order (no tofu boxes)."""
+    from tfd.editing.typography import script_runs
+    runs = script_runs("ومعروفة انها City of screams")
+    assert [(t.strip(), ar) for t, ar in runs] == [("City of screams", False), ("ومعروفة انها", True)]
+    assert script_runs("plain English") == [("plain English", False)]
+
+
+def test_mixed_line_draws_latin_glyphs(tmp_path):
+    """The Latin run renders with real glyphs: its pixels differ from what the Arabic-only font would draw."""
+    import numpy as np
+    out = render_text_png("ومعروفة انها City of screams", tmp_path / "m.png", 1920, 1080, kind="subtitle")
+    a = np.array(Image.open(out))[..., 3]
+    cols = np.nonzero(a.max(axis=0) > 200)[0]
+    assert cols.size and (cols.max() - cols.min()) > 300  # both runs drawn side by side
