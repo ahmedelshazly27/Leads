@@ -74,6 +74,21 @@ def device_guess(fmt_tags: dict, vs: dict, name: str) -> str:
     return "unknown"
 
 
+PROXY_SUFFIXES = (".LRF", ".lrf")  # DJI low-resolution proxies, same stem, duration and audio as the original
+
+
+def analysis_source(path: Path) -> Path:
+    """Analyse through the camera's own low-res proxy when one sits next to the original (DJI .LRF):
+    decoding 4K HEVC for scene detection and transcription is several times slower than real time.
+    Metadata, paths and the timeline always use the original."""
+    original = path.resolve()
+    for suf in PROXY_SUFFIXES:
+        proxy = original.with_suffix(suf)
+        if proxy.is_file():
+            return proxy
+    return path
+
+
 def probe(path: Path) -> dict:
     d = _ffprobe(path)
     vs = next((s for s in d["streams"] if s.get("codec_type") == "video"), None)
@@ -191,7 +206,9 @@ def transcribe(path: Path, model_size: str | None = None) -> list[dict]:
     model_size = model_size or os.environ.get("TFD_WHISPER_MODEL", "small")
     if _whisper_backend() == "mlx":
         import mlx_whisper
-        res = mlx_whisper.transcribe(str(path), path_or_hf_repo=f"mlx-community/whisper-{model_size}-mlx")
+        # a full Hugging Face repo id is used as-is (e.g. mlx-community/whisper-large-v3-turbo)
+        repo = model_size if "/" in model_size else f"mlx-community/whisper-{model_size}-mlx"
+        res = mlx_whisper.transcribe(str(path), path_or_hf_repo=repo)
         return [{"start": round(s["start"], 2), "end": round(s["end"], 2), "text": s["text"].strip()}
                 for s in res.get("segments", [])]
     try:
@@ -250,14 +267,17 @@ def ingest_folder(folder: Path, out_dir: Path, transcribe_speech: bool = False, 
         rec: dict = {"id": cid, "path": str(path.resolve()), "name": path.name}
         try:
             meta = probe(path)
-            fr_paths = sample_frames(path, out_dir / "frames" / cid, meta["duration"])
+            src = analysis_source(path)
+            if src != path:
+                rec["analysis_proxy"] = str(src)
+            fr_paths = sample_frames(src, out_dir / "frames" / cid, meta["duration"])
             frames = [analyse_frame(p, t) for t, p in fr_paths]
-            motion = motion_stats(path, meta["duration"])
+            motion = motion_stats(src, meta["duration"])
             q, flags = quality_score(frames, motion, meta)
             shot, conf, ev = style.shot_type(frames)
             rec.update(meta=meta, frames=[f.model_dump() for f in frames], motion=motion, quality=q, flags=flags,
-                       shot_type=shot, visual_tags=style.visual_tags(frames), cuts=scene_cuts(path),
-                       transcript=_transcribe_clip(path) if (transcribe_speech and meta["has_audio"]) else [])
+                       shot_type=shot, visual_tags=style.visual_tags(frames), cuts=scene_cuts(src),
+                       transcript=_transcribe_clip(src) if (transcribe_speech and meta["has_audio"]) else [])
             if "establishing" in shot and motion.get("shake_px", 9) < 1.0 and meta["height"] >= 1080 and \
                     "DJI" in meta["device"]:
                 rec["visual_tags"].append("possible drone/aerial")

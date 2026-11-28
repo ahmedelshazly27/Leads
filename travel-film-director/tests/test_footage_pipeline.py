@@ -113,3 +113,18 @@ def test_render_burns_in_titles_and_subtitles(footage_dir, tmp_path):
     assert title_box.mean() < 60  # dark card behind the title
     subtitle_band = img[int(1080 * 0.80):int(1080 * 0.90), :]
     assert (subtitle_band > 240).all(axis=2).sum() > 500  # white subtitle text pixels
+
+
+def test_dji_proxy_used_for_analysis(footage_dir, tmp_path, monkeypatch):
+    """A DJI .LRF next to the original is analysed (and transcribed) instead of the 4K file; the timeline keeps the original."""
+    import shutil
+    import tfd.footage.ingest as ing
+    orig = footage_dir / "DJI_0001.MP4"
+    shutil.copy(orig, footage_dir / "DJI_0001.LRF")
+    seen = []
+    monkeypatch.setattr(ing, "_transcribe_clip", lambda p: seen.append(p.suffix) or [])
+    rep = ingest_folder(footage_dir, tmp_path / "proj_proxy", transcribe=True)
+    rec = next(c for c in rep["clips"] if c["name"] == "DJI_0001.MP4")
+    assert rec["path"] == str(orig.resolve()) and rec["analysis_proxy"].endswith("DJI_0001.LRF")
+    assert ".LRF" in seen
+    assert not any(c["name"].endswith(".LRF") for c in rep["clips"])  # the proxy is not a clip of its own
