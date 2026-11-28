@@ -78,7 +78,9 @@ tfd stock search "almaty aerial drone" --project data/projects/raw --get 0 2   #
 
 tfd footage ~/Movies/Trips/Kyrgyzstan/raw --transcribe   # read-only analysis -> data/projects/raw
 tfd direct data/projects/raw --minutes 8 --direction balanced
-tfd render data/projects/raw                   # preview MP4 + qa_report.json
+tfd export data/projects/raw                   # re-export after editing plan.json by hand (OTIO/FCPXML/SRT)
+tfd render data/projects/raw                   # preview MP4 (graded, subtitles burned in) + qa_report.json
+tfd relink data/projects/raw /Volumes/T7/...   # proxy-only project: point the timeline at the 4K originals
 ```
 
 ### Asking Claude about the references

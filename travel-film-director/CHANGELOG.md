@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.7.0 (2026-11-28): first real trip (Afghanistan, 140 clips) on macOS
+### Added
+- Subtitles from the footage's own speech: `timelines/director_cut.srt` for Resolve/Final Cut, burned into the preview with Pillow PNG overlays (no libass/drawtext needed; Arabic shaped via raqm). Whisper stock phrases, loops and character runs are dropped; `"captions": false` on a timeline item turns them off where the transcript is unreliable.
+- Title styles: `title` (upper-left place/time card) and `word` (one big centred word per beat for the hook, a neutral design of our own).
+- Camera log footage: the DJI gamma tag (`com.dji.camera.ColorGammaSxS`, e.g. D-Log2) is read at ingest; such clips get an adaptive log->Rec.709 step (clip black/white points, S-curve, saturation) before the look.
+- DJI `.LRF` proxies: analysed instead of the 4K original when next to it; ingested as clips when the originals are offline/zipped (`proxy_only`), then `tfd relink <project> <dirs>` points the timeline at the originals.
+- `tfd export <project>` re-exports a hand-edited `plan.json` (recomputes positions, adds clips the planner skipped, with their correction).
+### Fixed
+- `--transcribe` crashed on every clip (keyword shadowed the function).
+- `opencv-python` 5.x (pulled in by scenedetect 0.7) replaced the 4.x cv2 and removed Haar cascades; both pinned below 5.
+- FFmpeg 8 `colorlevels` returned black frames on 10-bit input (forced 16-bit RGB).
+- Graphics deep pass crashed on text boxes at the frame edge.
+- The auto planner overshot on talk-heavy trips (194 min for a 15 min target): speech windows now respect the requested length and spoken items are trimmed too.
+- Osmo Pocket footage was tagged "possible drone/aerial".
+### Performance
+- Ingest ~6x faster on 4K HEVC: keyframe-only scene-cut scan, proxy analysis, greedy Whisper decoding (large-v3 on MLX: 34 s per 259 s of speech).
+
 ## 0.6.0 (2026-11-27): colour grading
 ### Added
 - `editing/grade.py`: per-clip white balance and exposure normalisation, HDR to SDR tone-mapping, and five looks (four inspired by the reference creators, plus neutral) exported as `.cube` LUTs. The director picks the look and its strength per mode; `trip_notes.md` can override it. The preview render applies it, and the timeline export carries the LUT and per-clip corrections.
